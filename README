@@ -126,7 +126,7 @@ Jeedom réalisé par Loïc Gevrey
             #######################################################################
 
     4)Configuration de jeedom
-        1°) Aller dans Admin puis Configuration et generer la clef api
+        1°) Aller dans Admin puis recuperer la clef api
         2°) Ajouter cette ligne à crontab :  "* * * * * * su --shell=/bin/bash - #JEEDOM USER# -c "/usr/bin/php #JEEDOM PATH#/core/php/jeeCron.php api=#CLEF API#" >> /dev/null 2>&1"
 
 
