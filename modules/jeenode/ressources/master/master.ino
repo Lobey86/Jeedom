@@ -12,7 +12,7 @@ static byte gwip[] = {
   192,168,0,254 };
 static byte dnsip[] = {
   192,168,0,254 };
-static char addrServer[] PROGMEM = "jeedom.darkserver.fr";
+static char addrServer[] PROGMEM = "TODO";
 static byte hisip[] = { 
   192,168,0,2 }; // remote webserver
 
@@ -95,7 +95,7 @@ static void sendToJeedom(){
   serialFlush();
 #endif
   byte sd = stash.create();
-  stash.print("api=ei05891slccg18m9e9s9&type=jeenode");
+  stash.print("api=TODO&type=jeenode");
   stash.print("&n=");
   stash.print(rf12_data[1]);
   stash.print("&p=");

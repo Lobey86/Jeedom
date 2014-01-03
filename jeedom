@@ -27,8 +27,8 @@
 # Description:       starts instance of jeedom using start-stop-daemon
 ### END INIT INFO
 
-PATH_TO_JEEDOM="/var/www/vhosts/darkserver.fr/jeedom.darkserver.fr"
-DAEMONUSER="jeedom.darkserver.fr" #utilisateur du programme
+PATH_TO_JEEDOM="/usr/share/nginx/www"
+DAEMONUSER="jeedom" #utilisateur du programme
 
 
 ####################NODE JS###################################
