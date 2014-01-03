@@ -1,0 +1,39 @@
+<select class="expressionAttr form-control input-sm" l1key="options" l2key="scenario_id" option_id="#id#"></select>
+<select class="expressionAttr form-control input-sm" l1key="options" l2key="action" option_id="#id#">
+    <option value="start">Start</option>
+    <option value="stop">Stop</option>
+    <option value="activate">Activer</option>
+    <option value="deactivate">Désactiver</option>
+</select>
+<script>
+    $(function() {
+        if ($('.expressionAttr[option_id=#id#][l1key=options][l2key=action] option[value=#action#]').html() != undefined) {
+            $('.expressionAttr[option_id=#id#][l1key=options][l2key=action]').value('#action#');
+        }
+        $.ajax({
+            type: "POST",
+            url: "core/ajax/scenario.ajax.php",
+            data: {
+                action: 'all',
+            },
+            dataType: 'json',
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) {
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                var options = '';
+                for (var i in data.result) {
+                    options += '<option value="' + data.result[i].id + '">' + data.result[i].name + '</option>';
+                }
+                $('.expressionAttr[option_id=#id#][l1key=options][l2key=scenario_id]').append(options);
+                if ($('.expressionAttr[option_id=#id#][l1key=options][l2key=scenario_id] option[value=#scenario_id#]').html() != undefined) {
+                    $('.expressionAttr[option_id=#id#][l1key=options][l2key=scenario_id]').value('#scenario_id#');
+                }
+            }
+        });
+    });
+</script>

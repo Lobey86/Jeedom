@@ -1,0 +1,25 @@
+<script type="text/javascript" src="3rdparty/jquery.farbtastic/farbtastic.js" ></script>
+<link rel="stylesheet" href="3rdparty/jquery.farbtastic/farbtastic.css" />
+
+<hr style="margin : 0px 0px 3px 0px;"/>
+
+<div class="action_colorpicker" cmd_id="#id#" l1key="color" ></div>
+<a class="btn btn-xs btn-danger action_colorpicker_off " cmd_id="#id#" style="margin-top : 3px;">Off</a>
+
+<script>
+    $('.action_colorpicker_off[cmd_id=#id#]').off();
+    var value = '#000000';
+    if ('#lastValue#' != '') {
+        value = '#lastValue#';
+    }
+    if ($('.action_colorpicker[cmd_id=#id#]').length > 0) {
+        colorPicker = $('.action_colorpicker[cmd_id=#id#]').farbtastic();
+        $.farbtastic($('.action_colorpicker[cmd_id=#id#]')).setColor(value);
+        $('.action_colorpicker_off[cmd_id=#id#]').on('click', function() {
+            execCmd('#id#', {color: '#000000'});
+        });
+        $('.action_colorpicker[cmd_id=#id#]').on('mouseup', function() {
+            execCmd('#id#', {color: $.farbtastic($(this)).color});
+        });
+    }
+</script>

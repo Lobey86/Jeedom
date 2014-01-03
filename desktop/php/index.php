@@ -1,0 +1,223 @@
+<?php
+require_once dirname(__FILE__) . "/../../core/php/core.inc.php";
+include_file('core', 'authentification', 'php');
+$startLoadTime = getmicrotime();
+include_file("core", "pageDescriptor", "config");
+global $PAGE_DESCRIPTOR_DESKTOP;
+if (isConnect() && init('p') == '') {
+    redirect('index.php?v=d&p=' . $_SESSION['user']->getOptions('homePage', 'dashboard'));
+}
+$page = 'Connection';
+if (isConnect() && init('p') != '') {
+    $page = init('p');
+}
+if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
+    $title = $PAGE_DESCRIPTOR_DESKTOP[$page]['title'];
+} else {
+    $title = $page;
+}
+$module = init('m');
+if ($module != '') {
+    $module = new module($module);
+    if (is_object($module)) {
+        $title = $module->getName();
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Jeedom - <?php echo $title; ?></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <META HTTP-EQUIV="Pragma" CONTENT="private">
+        <META HTTP-EQUIV="Cache-Control" CONTENT="private, max-age=5400, pre-check=5400">
+        <META HTTP-EQUIV="Expires" CONTENT="<?php echo date(DATE_RFC822, strtotime("1 day")); ?>">
+
+        <!-- Le styles -->
+        <?php
+        include_file('3rdparty', 'bootstrap/bootstrap.min', 'css');
+        ?>
+        <style type="text/css">
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+            .sidebar-nav {
+                padding: 9px 0;
+            }
+        </style>
+
+        <?php
+        include_file('3rdparty', 'font-awesome/css/font-awesome', 'css');
+        include_file('desktop', 'commun', 'css');
+        include_file('core', 'core', 'css');
+        include_file('3rdparty', 'jquery.gritter/jquery.gritter', 'css');
+        include_file('3rdparty', 'jquery.ui/jquery-ui-bootstrap/jquery-ui', 'css');
+        include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'css');
+        include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
+        include_file('3rdparty', 'jquery/jquery.min', 'js');
+        include_file('3rdparty', 'php.js/php.min', 'js');
+        ?>
+    </head>
+
+    <body>
+        <?php
+        if (!isConnect()) {
+            require_once dirname(__FILE__) . "/connection.php";
+        } else {
+            sendVarToJS('userProfils', $_SESSION['user']->getOptions());
+            sendVarToJS('user_id', $_SESSION['user']->getId());
+            sendVarToJS('user_login', $_SESSION['user']->getLogin());
+            if (config::byKey('enableNodeJs') == 1) {
+                sendVarToJS('nodeJsKey', config::byKey('nodeJsKey'));
+            } else {
+                sendVarToJS('nodeJsKey', '');
+            }
+            ?>
+            <header class="navbar navbar-fixed-top navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="index.php?v=d&p=<?php echo $_SESSION['user']->getOptions('homePage', 'plan'); ?>" style="font-size: 1.7em;">
+                            <img src="core/img/jeedom_ico.png" height="19" width="20"/>eedom
+                        </a>
+                        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <nav class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown cursor">
+                                <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-home"></i> Accueil <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.php?v=d&p=dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                                    <li><a href="index.php?v=d&p=view"><i class="fa fa-picture-o"></i> Vue</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="index.php?v=d&p=history"><i class="fa fa-bar-chart-o"></i> Historique</a></li>
+                            <li class="dropdown cursor">
+                                <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> Général <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> Administration</a></li>
+                                    <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> Interaction</a></li>
+                                    <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> Affichage</a></li>
+                                    <li><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> Cron</a></li>
+                                    <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> Objet</a></li>
+                                    <li><a href="index.php?v=d&p=module"><i class="fa fa-tags"></i> Modules</a></li>
+                                    <li><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> Log</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="index.php?v=d&p=scenario"><i class="fa fa-cogs"></i> Scénario</a></li>
+                            <li class="dropdown cursor">
+                                <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> Modules <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <?php
+                                    foreach (module::listModule() as $moduleList) {
+                                        if ($moduleList->isActive() == 1) {
+                                            echo '<li><a href="index.php?v=d&m=' . $moduleList->getId() . '&p=' . $moduleList->getIndex() . '"><i class="' . $moduleList->getIcon() . '"></i> ' . $moduleList->getName() . '</a></li>';
+                                        }
+                                    }
+                                    ?>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <?php $displayMessage = (message::nbMessage() > 0) ? '' : 'display : none;'; ?>
+                            <li><a href="index.php?v=d&p=message">
+                                    <span class="label label-danger" id="span_nbMessage" style="<?php echo $displayMessage; ?>">
+                                        <i class="fa fa-envelope"></i> <?php echo message::nbMessage(); ?> message(s)
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-clock-o"></i> <span id="horloge"><?php echo date('H:i:s'); ?></span>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-user"></i> <?php echo $_SESSION['user']->getLogin(); ?>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.php?v=d&p=profils"><i class="fa fa-briefcase"></i> Profile</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="core/php/authentification.php?logout"><i class="fa fa-signout"></i> Se déconnecter</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a id="bt_pageHelp">
+                                    <i class="fa fa-question-circle cursor"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav><!--/.nav-collapse -->
+                </div>
+            </header>
+        <main class="container-fluid" id="div_mainContainer">
+            <div style="display: none;width : 100%" id="div_alert"></div>
+            <?php
+            try {
+                if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
+                    include_file('desktop', $PAGE_DESCRIPTOR_DESKTOP[$page]['pageName'], 'php');
+                } else if (isset($module) && is_object($module)) {
+                    include_file('desktop', $page, 'php', $module->getId());
+                } else {
+                    echo '<div class="alert alert-danger div_alert">';
+                    echo '404 - Request page not found';
+                    echo '</div>';
+                }
+            } catch (Exception $e) {
+                echo '<div class="alert alert-danger div_alert">';
+                echo displayExeption($e);
+                echo '</div>';
+            }
+            ?>
+
+            <div id="md_pageHelp"></div>
+        </main>
+    <?php } ?>
+    <?php
+    include_file('core', 'core', 'js');
+    include_file('3rdparty', 'bootstrap/bootstrap.min', 'js');
+    include_file('3rdparty', 'jquery.ui/jquery-ui.min', 'js');
+    include_file('3rdparty', 'jquery.value/jquery.value', 'js');
+    include_file('3rdparty', 'jquery.tableUtils/jquery.tableUtils', 'js');
+    include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
+    include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
+    include_file('3rdparty', 'bootbox/bootbox.min', 'js');
+    include_file('3rdparty', 'highstock/highstock', 'js');
+    if (isConnect()) {
+        include_file('core', 'js.inc', 'php');
+        include_file('core', 'chatAdapter', 'js');
+        include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'js');
+        include_file('3rdparty', 'jquery.chatjs/jquery.autosize.min', 'js');
+        include_file('desktop', 'utils', 'js');
+        include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
+        include_file("desktop", "chat", "js");
+    }
+    ?>
+    <footer>
+        <hr>
+        <span class="pull-left">Node JS <span id="span_nodeJsState" class="binary red tooltips"></span> - </span>
+        <span class="pull-left">&copy; Jeedom 2013 - <?php echo VERSION ?>
+            <?php
+            $pageLoadTime = round(getmicrotime() - $startLoadTime, 3);
+            echo ' - Page générée en ' . $pageLoadTime . 's';
+            ?>
+        </span>
+
+    </footer>
+    <script>
+        var clientDatetime = new Date();
+        var clientServerDiffDatetime = (<?php echo strtotime(date('Y-m-d H:i:s')); ?> * 1000) - clientDatetime.getTime();
+    </script>
+</body>
+</html>
+

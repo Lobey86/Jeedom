@@ -1,0 +1,138 @@
+# This file is part of Jeedom.
+#
+# Jeedom is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Jeedom is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+
+Jeedom réalisé par Loïc Gevrey
+    1)PRE-REQUIS
+        - PHP 5.3
+        - MySQL
+        - PHP cURL
+        - nodeJS
+
+        apt-get install nodejs php5-cli php5-curl
+     Si vous avez besoin du LDAP : 
+        apt-get install php5-ldap
+
+    2)Installation
+        a) Configurer core/config/common.config.sample.php et le renommer en core/config/common.config.php
+            - Configurer l'acces à la BDD
+        b) Configurer le script d'init /jeedom
+            - le chemin d'acces à jeedom
+            - l'utilisateur
+        c) Copier /jeedom (script d'init) dans /etc/init.d
+        d) Rendez le executable
+        e) Lancez le /etc/init.d/jeedom start
+           Note  : pour demarrer automatiquement jeedom avec le pc faire "sudo update-rc.d jeedom defaults"
+        f) En CLI executer php install/install.php 
+       
+    3)Configuration nginx 
+        - Simple
+            #######################################################################
+            location / {
+                    try_files $uri $uri/ /index.html /index.php;
+            }
+
+            location /nodeJS/ {
+                    proxy_set_header X-NginX-Proxy true;
+                    proxy_pass http://127.0.0.1:8070/;
+                    proxy_http_version 1.1;
+                    proxy_set_header Upgrade $http_upgrade;
+                    proxy_set_header Connection "upgrade";
+                    proxy_set_header Host $host;
+                    proxy_redirect off;
+            }
+
+            location /socket.io/ {
+                    proxy_pass http://127.0.0.1:8070/socket.io/;
+                    proxy_http_version 1.1;
+                    proxy_set_header Upgrade $http_upgrade;
+                    proxy_set_header Connection "upgrade";
+                    proxy_set_header Host $host;
+                    proxy_redirect off;
+            }
+
+            location ~ \.php$ {
+                    try_files $uri =404;
+                    fastcgi_pass unix:/var/run/php5-fpm.sock;
+                    fastcgi_index index.php;
+                    include fastcgi_params;
+            }
+            #######################################################################
+
+        - Vhosts avec SSL
+            #######################################################################
+            server {
+                    listen       443;
+                    server_name mon.domain.fr;
+                    ssl          on;
+                    ssl_certificate      /etc/nginx/certs/jeedom.crt;
+                    ssl_certificate_key  /etc/nginx/certs/jeedom.key;
+
+                    client_max_body_size 20M;
+
+                    error_page  497  https://$host$request_uri;
+
+                    proxy_set_header   Host $http_host;
+                    proxy_set_header   X-Real-IP $remote_addr;
+                    proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header   X-Forwarded-Proto $scheme;
+
+                    location /nodeJS/ {
+                            proxy_set_header X-NginX-Proxy true;
+                            proxy_pass http://serverIP:NodeJsPort/;
+                            proxy_http_version 1.1;
+                            proxy_set_header Upgrade $http_upgrade;
+                            proxy_set_header Connection "upgrade";
+                            proxy_set_header Host $host;
+                            proxy_redirect off;
+                    }      
+
+                    location /socket.io/ {
+                            proxy_pass http://serverIP:NodeJsPort/socket.io/;
+                            proxy_http_version 1.1;
+                            proxy_set_header Upgrade $http_upgrade;
+                            proxy_set_header Connection "upgrade";
+                            proxy_set_header Host $host;
+                            proxy_redirect off;
+                    }      
+
+
+                    location ~ \.php$ {
+                            try_files $uri =404;
+                            fastcgi_pass unix:/var/run/php5-fpm.$host.sock;
+                            fastcgi_index index.php;
+                            include fastcgi_params;
+                    }
+
+            }
+
+            #Redirection des requetes http en https
+            server {
+               listen 80;
+               server_name mon.domain.fr www.mon.domain.fr;
+               rewrite     ^(.*)   https://$server_name$1 permanent;
+            }
+            #######################################################################
+
+    4)Configuration de jeedom
+        1°) Aller dans Admin puis Configuration et generer la clef api
+        2°) Ajouter cette ligne à crontab :  "* * * * * * su --shell=/bin/bash - #JEEDOM USER# -c "/usr/bin/php #JEEDOM PATH#/core/php/jeeCron.php api=#CLEF API#" >> /dev/null 2>&1"
+
+
+
+        
+
+        
+
+        

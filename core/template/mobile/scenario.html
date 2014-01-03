@@ -1,0 +1,53 @@
+<div class="scenario dashboard-widget autoWidth" scenario_id="#id#" style="margin-bottom : 10px;" version="mobile">
+    <a href="#tooltips#id#" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext"></a>
+    <span style="font-weight:bold;">#name#</span>
+    <span class="state pull-right binary" style="width : 15px;"></span>
+
+    <a class="ui-btn ui-btn-a changeScenarioState" state="start" scenario_id="#id#" style="display: none;">On</a>
+    <a class="ui-btn ui-btn-b changeScenarioState" state="stop" scenario_id="#id#" style="display: none;">Off</a>
+    <a class="ui-btn ui-btn-a changeScenarioState" state="activate" scenario_id="#id#" style="display: none;">Activer</a>
+    <a class="ui-btn ui-btn-b changeScenarioState" state="deactivate" scenario_id="#id#" style="display: none;">Desactiver</a>
+
+    <div data-role="popup" id="tooltips#id#" class="ui-content" data-theme="a" style="max-width:350px;">
+        Dernière éxécution : #lastUse#<br/>
+        Dernière vérification : #lastCheck#
+    </div>
+
+    <script>
+        $(function() {
+            $('.autoWidth').width($('.scenario').parent().width() - 30);
+        });
+        $(window).on("orientationchange", function(event) {
+            $('.autoWidth').width($('.scenario').parent().width() - 30);
+        });
+        $('.changeScenarioState[scenario_id=#id#]').on('click', function() {
+            changeScenarioState($(this).attr('scenario_id'), $(this).attr('state'));
+        });
+        
+      if ('#isActive#' == '1') {
+            if ('#state#' == 'on') {
+                $('.changeScenarioState[scenario_id=#id#][state=start]').show();
+                $('.changeScenarioState[scenario_id=#id#][state=deactivate]').show();
+                $('.scenario[scenario_id=#id#] .state').addClass('green');
+            }
+            if ('#state#' == 'in progress') {
+                $('.changeScenarioState[scenario_id=#id#][state=stop]').show();
+                $('.changeScenarioState[scenario_id=#id#][state=deactivate]').show();
+                $('.scenario[scenario_id=#id#] .state').addClass('blue');
+            }
+            if ('#state#' == 'error') {
+                $('.changeScenarioState[scenario_id=#id#][state=start]').show();
+                $('.changeScenarioState[scenario_id=#id#][state=deactivate]').show();
+                $('.scenario[scenario_id=#id#] .state').addClass('orange');
+            }
+            if ('#state#' == 'stop') {
+                $('.changeScenarioState[scenario_id=#id#][state=start]').show();
+                $('.changeScenarioState[scenario_id=#id#][state=deactivate]').show();
+                $('.scenario[scenario_id=#id#] .state').addClass('red');
+            }
+        } else {
+            $('.scenario[scenario_id=#id#] .state').addClass('grey');
+            $('.changeScenarioState[scenario_id=#id#][state=activate]').show();
+        }
+    </script>
+</div>

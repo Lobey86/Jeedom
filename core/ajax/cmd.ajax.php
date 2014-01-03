@@ -1,0 +1,160 @@
+<?php
+
+/* This file is part of Jeedom.
+*
+* Jeedom is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Jeedom is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+try {
+    require_once(dirname(__FILE__) . '/../../core/php/core.inc.php');
+    include_file('core', 'authentification', 'php');
+
+    if (!isConnect()) {
+        throw new Exception('401 Unauthorized');
+    }
+
+    if (init('action') == 'execCmd') {
+        $cmd = cmd::byId(init('id'));
+        if (!is_object($cmd)) {
+            throw new Exception('Cmd ID inconnu : ' . init('id'));
+        }
+        ajax::success($cmd->execCmd(init('value'), init('cache', 1)));
+    }
+
+    if (init('action') == 'getByObjectNameEqNameCmdName') {
+        $cmd = cmd::byObjectNameEqLogicNameCmdName(init('object_name'), init('eqLogic_name'), init('cmd_name'));
+        if (!is_object($cmd)) {
+            throw new Exception('Cmd inconnu : ' . init('object_name') . '/' . init('eqLogic_name') . '/' . init('cmd_name'));
+        }
+        ajax::success($cmd->getId());
+    }
+
+    if (init('action') == 'getByObjectNameCmdName') {
+        $cmd = cmd::byObjectNameCmdName(init('object_name'), init('cmd_name'));
+        if (!is_object($cmd)) {
+            throw new Exception('Cmd inconnu : ' . init('object_name') . '/' . init('cmd_name'), 9999);
+        }
+        ajax::success(utils::o2a($cmd));
+    }
+
+    if (init('action') == 'getById') {
+        $cmd = cmd::byId(init('id'));
+        if (!is_object($cmd)) {
+            throw new Exception('Cmd inconnu : ' . init('id'), 9999);
+        }
+        ajax::success(utils::o2a($cmd));
+    }
+
+    if (init('action') == 'getHumanCmdName') {
+        ajax::success(cmd::cmdToHumanReadable('#' . init('id') . '#'));
+    }
+
+    if (init('action') == 'byEqLogic') {
+        ajax::success(utils::o2a(cmd::byEqLogicId(init('eqLogic_id'))));
+    }
+
+    if (init('action') == 'getCmd') {
+        $cmd = cmd::byId(init('id'));
+        if (!is_object($cmd)) {
+            throw new Exception('Cmd ID inconnu : ' . init('id'));
+        }
+        $return = utils::o2a($cmd);
+        $eqLogic = $cmd->getEqLogic();
+        $return['eqLogic_name'] = $eqLogic->getName();
+        $return['eqType_name'] = $eqLogic->getEqType_name();
+        if ($eqLogic->getObject_id() > 0) {
+            $return['object_name'] = $eqLogic->getObject()->getName();
+        }
+        ajax::success($return);
+    }
+
+    if (init('action') == 'save') {
+        $cmd_ajax = json_decode(init('cmd'), true);
+        $cmd = cmd::byId($cmd_ajax['id']);
+        if (!is_object($cmd)) {
+            $cmd = new cmd();
+        }
+        utils::a2o($cmd, $cmd_ajax);
+        $cmd->save();
+        ajax::success();
+    }
+
+    if (init('action') == 'getHistory') {
+        $cmd = cmd::byId(init('id'));
+        if (!is_object($cmd)) {
+            throw new Exception('Cmd ID inconnu : ' . init('id'));
+        }
+
+        $dateStart = null;
+        $dateEnd = null;
+        if (init('dateRange') != '' && init('dateRange') != 'all') {
+            $dateStart = date('Y-m-d H:i:s');
+            $dateEnd = date('Y-m-d H:i:s', strtotime('- ' . init('dateRange') . ' ' . $dateStart));
+        }
+        if (init('dateStart') != '') {
+            $dateStart = init('dateStart');
+        }
+        if (init('dateEnd') != '') {
+            $dateEnd = init('dateEnd');
+        }
+
+        $return = array();
+        $data = array();
+        $return['maxValue'] = '';
+        $return['minValue'] = '';
+        foreach ($cmd->getHistory($dateStart, $dateEnd) as $history) {
+            if ($cmd->getSubType() != 'binary' && count($data) > 0) {
+                if (($data[count($data) - 1][0] + 7200000) < (floatval(strtotime($history->getDatetime() . " UTC")) * 1000)) {
+                    $info_history = array();
+                    $info_history[] = floatval($data[count($data) - 1][0] + 3600000);
+                    $info_history[] = null;
+                    $data[] = $info_history;
+                }
+            }
+            $info_history = array();
+            $info_history[] = floatval(strtotime($history->getDatetime() . " UTC")) * 1000;
+            $info_history[] = floatval($history->getValue());
+            if ($history->getValue() > $return['maxValue'] || $return['maxValue'] == '') {
+                $return['maxValue'] = $history->getValue();
+            }
+            if ($history->getValue() < $return['minValue'] || $return['minValue'] == '') {
+                $return['minValue'] = $history->getValue();
+            }
+            $data[] = $info_history;
+        }
+        $return['cmd_name'] = $cmd->getName();
+        $return['history_name'] = $cmd->getHumanName();
+        $return['unite'] = $cmd->getUnite();
+        $return['data'] = $data;
+        $return['cmd'] = utils::o2a($cmd);
+        $return['eqLogic'] = utils::o2a($cmd->getEqLogic());
+        ajax::success($return);
+    }
+
+    if (init('action') == 'emptyHistory') {
+        $cmd = cmd::byId(init('id'));
+        if (!is_object($cmd)) {
+            throw new Exception('Cmd ID inconnu : ' . init('id'));
+        }
+        $cmd->emptyHistory();
+        ajax::success();
+    }
+
+
+    throw new Exception('Aucune methode correspondante à : ' . init('action'));
+    /*     * *********Catch exeption*************** */
+} catch (Exception $e) {
+    ajax::error(displayExeption($e), $e->getCode());
+}
+?>

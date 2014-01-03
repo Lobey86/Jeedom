@@ -1,0 +1,23 @@
+<script type="text/javascript" src="3rdparty/jquery.farbtastic/farbtastic.js" ></script>
+<link rel="stylesheet" href="3rdparty/jquery.farbtastic/farbtastic.css" />
+<input class="expressionAttr form-control input-sm" l1key="options" l2key="color" value="#color#" uid="#uid#" />
+<div class="colorpicker" uid="#uid#" style="display : none"></div>
+<script>
+    $(function() {
+        var input = $('input[uid=#uid#]');
+        var div = $('div.colorpicker[uid=#uid#]');
+        div.farbtastic(input);
+
+        input.focus(function() {
+            if (!$(this).parent().find('.colorpicker').is(':visible')) {
+                $(this).parent().find('.colorpicker').show();
+            }
+        });
+
+        input.blur(function() {
+            if ($(this).parent().find('.colorpicker').is(':visible')) {
+                $(this).parent().find('.colorpicker').hide();
+            }
+        });
+    });
+</script>

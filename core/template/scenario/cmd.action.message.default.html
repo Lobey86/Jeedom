@@ -1,0 +1,12 @@
+<input class="title expressionAttr form-control input-sm" l1key="options" l2key="title" placeholder="Title" value="#title#" cmd_id="#id#" />
+<textarea class="message expressionAttr form-control" l1key="options" l2key="message" style="margin-top : 5px; resize:vertical" placeholder="Message" cmd_id="#id#" >#message#</textarea>
+<a class="btn btn-default form-control listEquipementInfo cursor" cmd_id="#id#" style="margin-top : 5px;"><i class="fa fa-list-alt"></i> Rechercher équipement</a>
+<script>
+    $('.listEquipementInfo').off();
+    $('.listEquipementInfo').on('click', function() {
+        var el = $(this);
+        cmd.getSelectModal({type: 'info'}, function(result) {
+            el.parent().find('.expressionAttr[l1key=options][l2key=message]').value(el.parent().find('.expressionAttr[l1key=options][l2key=message]').value() + ' ' + result.human);
+        });
+    });
+</script>

@@ -1,0 +1,14 @@
+<a cmd_id="#id#" class="action ui-btn" l1key="binary">#name#</a>
+
+<script>
+    $('.action[cmd_id=#id#]').click(function() {
+        execCmd('#id#', '');
+    });
+    var name = "#name#";
+    if (name.toLowerCase().indexOf('off') >= 0) {
+        $('.action[cmd_id=#id#]').addClass('ui-btn-b');
+    }
+    if (name.toLowerCase().indexOf('on') >= 0) {
+        $('.action[cmd_id=#id#]').addClass('ui-btn-a');
+    }
+</script>

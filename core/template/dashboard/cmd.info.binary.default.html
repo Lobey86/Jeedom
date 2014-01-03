@@ -1,0 +1,21 @@
+<span class="info" cmd_id="#id#" >
+    <span class="#class# tooltips" cmd_id="#id#" title="#collectDate#">
+        <center>
+            #name# : <span class="binary"  type="binary" ></span>
+            #unite#
+        </center>
+    </span>
+</span>
+
+<script>
+    if ('#state#' == '1' || '#state#' == '0') {
+        if ('#state#' == '1') {
+            $('span[cmd_id=#id#] span[type=binary]').addClass('green');
+        }
+        if ('#state#' == '0') {
+            $('span[cmd_id=#id#] span[type=binary]').addClass('red');
+        }
+    } else {
+        $('span[cmd_id=#id#] span[type=binary]').append('<span class="label label-danger">#state#</span>');
+    }
+</script>

@@ -1,0 +1,59 @@
+<div class="md_history" cmd_id="#id#" title="Historique">
+    <center><div id="div_historyChart#id#"></div></center>
+    <select class="pull-right sel_chartType form-control" cmd_id="#id#" style="size: 120px;">
+        <option value="area"> Area </option>
+        <option value="column"> Columns </option>
+        <option value="line"> Line </option>
+    </select>
+
+    <script>
+        $(function() {
+            $('.sel_chartType[cmd_id=#id#]').off();
+            $('.history[cmd_id=#id#]').off().unbind();
+
+            if ($(".md_history[cmd_id=#id#]").length > 1) {
+                modalHisotry = $(".md_history[cmd_id=#id#]");
+                while ($(".md_history[cmd_id=#id#]").length > 1) {
+                    $(".md_history[cmd_id=#id#]").eq(0).remove();
+                }
+            }
+
+            $(".md_history[cmd_id=#id#]").dialog({
+                autoOpen: false,
+                modal: true,
+                resizable: false,
+                height: 520,
+                width: 1100
+            });
+
+
+            $('.sel_chartType[cmd_id=#id#]').on('change', function() {
+                $('#div_historyChart#id#').empty();
+                $(".md_history[cmd_id=#id#]").dialog("open");
+                var container = $('#div_historyChart#id#').css('position', 'relative');
+                container.css({
+                    width: 1000
+                });
+                var option = {graphType: $('.sel_chartType[cmd_id=#id#]').value()};
+                delete CORE_chart['div_historyChart#id#'];
+                drawChart('#id#', 'div_historyChart#id#', 2, option);
+            });
+
+
+            $('.history[cmd_id=#id#]').on('click', function() {
+                $('#div_historyChart#id#').empty();
+                $(".md_history[cmd_id=#id#]").dialog("open");
+                var container = $('#div_historyChart#id#').css('position', 'relative');
+                container.css({
+                    width: 1000
+                });
+                var option = {graphType: $('.sel_chartType[cmd_id=#id#]').value()};
+                delete CORE_chart['div_historyChart#id#'];
+                drawChart('#id#', 'div_historyChart#id#', 2, option);
+            });
+        });
+    </script>
+</div>
+
+
+

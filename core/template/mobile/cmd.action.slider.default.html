@@ -1,0 +1,12 @@
+<div cmd_id="#id#" class="slider" style="width: 100%;text-align: right;">
+    <input  cmd_id="#id#" type="range" min="0" max="100" data-highlight="true" data-theme="a" l1key="slider" />
+</div>
+
+<script>
+    if ('#lastValue#' != '') {
+        $('.slider[cmd_id=#id#]').find('input[type=range]').attr('value', '#lastValue#');
+    }
+    $(".slider[cmd_id=#id#]").on("slidestop", function(event, ui) {
+        execCmd('#id#', {slider: $(this).find('input').value()});
+    });
+</script>

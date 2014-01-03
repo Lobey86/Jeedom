@@ -1,0 +1,31 @@
+<script type="text/javascript" src="3rdparty/justGage/justgage.1.0.1.min.js" ></script>
+<script type="text/javascript" src="3rdparty/justGage/raphael.2.1.0.min.js" ></script>
+
+<span class="info" cmd_id="#id#">
+    <span style="width:130px;height: 130px;display: inline-block;" class="#class# tooltips" cmd_id="#id#" title="#collectDate#" >
+        <div id="cmd#id#"></div>
+        <center>
+            <span style="#displayHistory#" class="label label-default">
+                <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
+            </span>
+        </center>
+    </span>
+</span>
+<script>
+    if (('#state#' != '' && is_numeric('#state#'))){
+    var value = '#state#';
+            new JustGage({
+    id: "cmd#id#",
+            value: value,
+            min: #minValue#,
+            max: #maxValue#,
+            title: "#name#",
+            label: "#unite#",
+            decimals : 1,
+            humanFriendly  : true,
+            startAnimationTime:1
+    });
+    } else{
+    $('#cmd#id#').append('<span class="label label-danger">#state#</span>');
+    }
+</script>

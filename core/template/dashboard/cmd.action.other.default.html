@@ -1,0 +1,14 @@
+<a class="btn btn-xs btn-default action" cmd_id="#id#" style="margin-right : 3px;" l1key="other">#name#</a>
+<script>
+    $('.action[cmd_id=#id#]').off();
+    $('.action[cmd_id=#id#]').on('click', function() {
+        execCmd('#id#', '');
+    });
+    var name = "#name#";
+    if (name.toLowerCase().indexOf('off') >= 0) {
+        $('.action[cmd_id=#id#]').addClass('btn-danger');
+    }
+    if (name.toLowerCase().indexOf('on') >= 0) {
+        $('.action[cmd_id=#id#]').addClass('btn-success');
+    }
+</script>
