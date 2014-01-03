@@ -1,18 +1,3 @@
-# This file is part of Jeedom.
-#
-# Jeedom is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Jeedom is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-
 Jeedom réalisé par Loïc Gevrey
     1)PRE-REQUIS
         - PHP 5.3
@@ -27,14 +12,11 @@ Jeedom réalisé par Loïc Gevrey
     2)Installation
         a) Configurer core/config/common.config.sample.php et le renommer en core/config/common.config.php
             - Configurer l'acces à la BDD
-        b) Configurer le script d'init /jeedom
-            - le chemin d'acces à jeedom
-            - l'utilisateur
-        c) Copier /jeedom (script d'init) dans /etc/init.d
-        d) Rendez le executable
+        b) Copier /jeedom (script d'init) dans /etc/init.d
+        c) Rendez le executable (chmod +x /etc/init.d/jeedom)
         e) Lancez le /etc/init.d/jeedom start
            Note  : pour demarrer automatiquement jeedom avec le pc faire "sudo update-rc.d jeedom defaults"
-        f) En CLI executer php install/install.php 
+        f) En ligne de commandes executer php install/install.php 
        
     3)Configuration nginx 
         - Simple
@@ -127,7 +109,7 @@ Jeedom réalisé par Loïc Gevrey
 
     4)Configuration de jeedom
         1°) Aller dans Admin puis recuperer la clef api
-        2°) Ajouter cette ligne à crontab :  "* * * * * * su --shell=/bin/bash - #JEEDOM USER# -c "/usr/bin/php #JEEDOM PATH#/core/php/jeeCron.php api=#CLEF API#" >> /dev/null 2>&1"
+        2°) Ajouter cette ligne à crontab :  "* * * * * * su --shell=/bin/bash - jeedom -c "/usr/bin/php #JEEDOM PATH#/core/php/jeeCron.php api=#CLEF API#" >> /dev/null 2>&1"
 
 
 
