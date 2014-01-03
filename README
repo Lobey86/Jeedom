@@ -1,5 +1,5 @@
 Jeedom réalisé par Loïc Gevrey
-    1)PRE-REQUIS
+    1) PRE-REQUIS
         - PHP 5.3
         - MySQL
         - PHP cURL
@@ -9,16 +9,12 @@ Jeedom réalisé par Loïc Gevrey
      Si vous avez besoin du LDAP : 
         apt-get install php5-ldap
 
-    2)Installation
+    2) Installation
         a) Configurer core/config/common.config.sample.php et le renommer en core/config/common.config.php
-            - Configurer l'acces à la BDD
-        b) Copier /jeedom (script d'init) dans /etc/init.d
-        c) Rendez le executable (chmod +x /etc/init.d/jeedom)
-        e) Lancez le /etc/init.d/jeedom start
-           Note  : pour demarrer automatiquement jeedom avec le pc faire "sudo update-rc.d jeedom defaults"
-        f) En ligne de commandes executer php install/install.php 
+            - Configurer l'accès à la BDD
+        b) En ligne de commandes exécuter php install/install.php 
        
-    3)Configuration nginx 
+    3) Configuration nginx 
         - Simple
             #######################################################################
             location / {
@@ -99,22 +95,14 @@ Jeedom réalisé par Loïc Gevrey
 
             }
 
-            #Redirection des requetes http en https
+            #Redirection des requêtes http en https
             server {
                listen 80;
-               server_name mon.domain.fr www.mon.domain.fr;
+               server_name mon.domaine.fr www.mon.domaine.fr;
                rewrite     ^(.*)   https://$server_name$1 permanent;
             }
             #######################################################################
 
-    4)Configuration de jeedom
-        1°) Aller dans Admin puis recuperer la clef api
-        2°) Ajouter cette ligne à crontab :  "* * * * * * su --shell=/bin/bash - jeedom -c "/usr/bin/php #JEEDOM PATH#/core/php/jeeCron.php api=#CLEF API#" >> /dev/null 2>&1"
-
-
-
-        
-
-        
-
-        
+    4) Configuration de jeedom
+        a) Aller dans Admin puis récupérer la clef api
+        b) Ajouter cette ligne à crontab :  "* * * * * * su --shell=/bin/bash - jeedom -c "/usr/bin/php #JEEDOM PATH#/core/php/jeeCron.php api=#CLEF API#" >> /dev/null 
