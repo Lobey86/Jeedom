@@ -40,6 +40,7 @@ internalServer.get('/', function(req, res) {
 
 io.configure('development', function(){
   io.set('transports', ['xhr-polling']);
+  io.set('log level', 0);
 });
 
 var clients = [];
