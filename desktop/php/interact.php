@@ -49,7 +49,7 @@ sendVarToJS('sel_subtype', $sel_subtype);
                 <tr>
                     <th style="width : 550px;">Filtre</th>
                     <th>Phrase</th>
-                    <th style="width : 350px;">Type</th>
+                    <th style="width : 360px;">Type</th>
                     <th style="width : 160px;">Personne</th>
                     <th style="width : 110px;">Action</th>
                 </tr>
