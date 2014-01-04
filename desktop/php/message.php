@@ -25,17 +25,10 @@ if ($selectModule != '') {
             ?>
         </select>
 
-        <table class="table table-condensed table-bordered" id="table_message" style="margin-top: 5px;">
+        <table class="table table-condensed table-bordered tablesorter" id="table_message" style="margin-top: 5px;">
             <thead>
                 <tr>
-                    <th></th><th>Date et heure</th><th>Module</th><th>Description</th><th>Action<i class="fa fa-filter pull-right showFilter"></i></th>
-                </tr>
-                <tr class="filter" style="display: none">
-                    <td></td>
-                    <td class="datetime"><input class="form-control" style="width: 100px;" class="filter" filterOn="datetime" /></td>
-                    <td class="module"><input class="form-control" style="width: 100px;" class="filter" filterOn="module" /></td>
-                    <td class="description"><input class="form-control" style="width: 300px;" class="filter" filterOn="description" /></td>
-                    <td class="action"><input class="form-control" style="width: 100px;" class="filter" filterOn="action" /></td>
+                    <th></th><th>Date et heure</th><th>Module</th><th>Description</th><th>Action</th>
                 </tr>
             </thead>
             <tbody>

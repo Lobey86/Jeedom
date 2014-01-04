@@ -12,7 +12,7 @@ if (!isConnect()) {
         <a class="btn btn-default pull-right" id="bt_addCron"><i class="fa fa-plus-circle"></i> Ajouter</a>
         <a class="btn btn-default pull-right" id="bt_refreshCron"><i class="fa fa-refresh"></i> Rafraichir</a>
         <br/><br/><br/>
-        <table id="table_cron" class="table table-bordered table-condensed" >
+        <table id="table_cron" class="table table-bordered table-condensed tablesorter" >
             <thead>
                 <tr>
                     <th class=""></th>
@@ -27,36 +27,7 @@ if (!isConnect()) {
                     <th class="lastRun">Dernier lancement</th>
                     <th class="duration">Durée</th>
                     <th class="state">Status</th>
-                    <th class="action"><i class="fa fa-filter pull-right showFilter"></i></th>
-                </tr>
-                <tr class="filter" style="display : none;">
-                    <td></td>
-                    <td>
-                        <input class="form-control" class="filter" style="width: 40px;" filterOn="server"/> 
-                    </td>
-                    <td></td>
-                    <td>
-                        <input class="form-control" class="filter" style="width: 40px;" filterOn="name"/> 
-                    </td>
-                    <td>
-                        <input class="form-control" class="filter" style="width: 150px;" filterOn="class"/>
-                    </td>
-                    <td>
-                        <input class="form-control" class="filter" style="width: 150px;" filterOn="function"/>
-                    </td>
-                    <td>
-                        <input class="form-control" class="filter" style="width: 200px;" filterOn="schedule"/>
-                    </td>
-                    <td>
-                        <input class="form-control" class="filter" style="width: 80px;" filterOn="lastRun"/>
-                    </td>
-                    <td>
-                        <input class="form-control" class="filter" style="width: 80px;" filterOn="duration"/>
-                    </td>
-                    <td>
-                        <input class="form-control" class="filter" style="width: 80px;" filterOn="state"/>
-                    </td>
-                    <td></td>
+                    <th class="action"></th>
                 </tr>
             </thead>
             <tbody> 

@@ -31,7 +31,6 @@ $(function() {
         $('#horloge').text(horloge);
     }, 1000);
 
-    $.initTableFilter();
     activateTooltips();
 
     // Ajax Loading Screen
@@ -43,7 +42,15 @@ $(function() {
     });
 
     /************************Help*************************/
-    //Display help
+    //Display about
+    $("#md_pageAbout").dialog({
+        autoOpen: false,
+        modal: true,
+        height: (jQuery(window).height() - 150),
+        width: 1000
+    });
+    
+     //Display help
     $("#md_pageHelp").dialog({
         autoOpen: false,
         modal: true,
@@ -53,6 +60,10 @@ $(function() {
 
     $('#bt_pageHelp').on('click', function() {
         showHelpModal(getUrlVars('p'), getUrlVars('m'));
+    });
+    
+     $('#bt_jeedomAbout').on('click', function() {
+        $('#md_pageAbout').load('index.php?v=d&modal=about').dialog('open');
     });
 });
 

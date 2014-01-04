@@ -85,15 +85,10 @@ if ($logfile == '') {
         </center>
 
 
-        <table class="table table-condensed table-bordered">
+        <table class="table table-condensed table-bordered tablesorter">
             <thead>
                 <tr>
-                    <th style="width: 150px;">Date et heure</th><th style="width: 70px;">Type</th><th>Message<i class="fa fa-filter pull-right showFilter"></i></th>
-                </tr>
-                <tr class="filter" style="display: none">
-                    <td class="datetime"><input class="form-control" style="width: 100px;" class="filter" filterOn="datetime" /></td>
-                    <td class="type"><input class="form-control" style="width: 100px;" class="filter" filterOn="type" /></td>
-                    <td class="message"><input class="form-control" style="width: 300px;" class="filter" filterOn="message" /></td>
+                    <th style="width: 150px;">Date et heure</th><th style="width: 70px;">Type</th><th>Message</th>
                 </tr>
             </thead>
             <tbody>

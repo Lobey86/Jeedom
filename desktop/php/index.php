@@ -181,6 +181,7 @@ if ($module != '') {
             ?>
 
             <div id="md_pageHelp"></div>
+            <div id="md_pageAbout"></div>
         </main>
     <?php } ?>
     <?php
@@ -188,7 +189,6 @@ if ($module != '') {
     include_file('3rdparty', 'bootstrap/bootstrap.min', 'js');
     include_file('3rdparty', 'jquery.ui/jquery-ui.min', 'js');
     include_file('3rdparty', 'jquery.value/jquery.value', 'js');
-    include_file('3rdparty', 'jquery.tableUtils/jquery.tableUtils', 'js');
     include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
     include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
     include_file('3rdparty', 'bootbox/bootbox.min', 'js');
@@ -206,7 +206,7 @@ if ($module != '') {
     <footer>
         <hr>
         <span class="pull-left">Node JS <span id="span_nodeJsState" class="binary red tooltips"></span> - </span>
-        <span class="pull-left">&copy; Jeedom 2013 - <?php echo VERSION ?>
+        <span class="pull-left">&copy; <a id="bt_jeedomAbout" class="cursor">Jeedom 2014</a> - <?php echo VERSION ?>
             <?php
             $pageLoadTime = round(getmicrotime() - $startLoadTime, 3);
             echo ' - Page générée en ' . $pageLoadTime . 's';
