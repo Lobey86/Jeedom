@@ -122,7 +122,7 @@ class weather extends eqLogic {
         $weatherCmd->save();
 
         $weatherCmd = new weatherCmd();
-        $weatherCmd->setName('Levé du soleil');
+        $weatherCmd->setName('Lever du soleil');
         $weatherCmd->setEqLogic_id($this->id);
         $weatherCmd->setConfiguration('day', '-1');
         $weatherCmd->setConfiguration('data', 'sunrise');
@@ -132,7 +132,7 @@ class weather extends eqLogic {
         $weatherCmd->save();
 
         $weatherCmd = new weatherCmd();
-        $weatherCmd->setName('Couché du soleil');
+        $weatherCmd->setName('Coucher du soleil');
         $weatherCmd->setEqLogic_id($this->id);
         $weatherCmd->setConfiguration('day', '-1');
         $weatherCmd->setConfiguration('data', 'sunset');
