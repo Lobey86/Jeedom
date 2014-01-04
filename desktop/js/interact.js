@@ -49,9 +49,7 @@ $(function() {
         });
     });
 
-
     $("#table_interactDef tbody").sortable();
-    $("#table_interactDef tbody").disableSelection(); //bug possible sur firefox
 });
 
 function saveSarahDef() {
@@ -176,5 +174,5 @@ function addSarahDefToTable(_interactDef) {
     tr += '</tr>';
     $('#table_interactDef tbody').append(tr);
     $('#table_interactDef tbody tr:last').setValues(_interactDef, '.interactDefAttr');
-    activateTooltips();
+    //activateTooltips();
 }

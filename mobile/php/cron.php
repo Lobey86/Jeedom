@@ -8,7 +8,7 @@ if (!isConnect()) {
 global $rightPanel;
 $rightPanel = '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
 $rightPanel .= '<li data-role="list-divider">Action</li>';
-$rightPanel .= '<li><a id="bt_refreshCron" href="#"><i class="fa fa-refresh"></i> Rafraichir</a></li>';
+$rightPanel .= '<li><a id="bt_refreshCron" href="#"><i class="fa fa-refresh"></i> Rafraîchir</a></li>';
 $rightPanel .= '</ul>';
 ?>
 
@@ -24,7 +24,7 @@ $rightPanel .= '</ul>';
             <th data-priority="1">Fonction</th>
             <th data-priority="3">Dernier lancement</th>
             <th data-priority="2">Durée</th>
-            <th data-priority="1">Satus</th>
+            <th data-priority="1">Satut</th>
         </tr>
     </thead>
     <tbody></tbody>
