@@ -57,6 +57,7 @@ jeedomChatAdapter.prototype = {
 
         _this.server = {
             sendMessage: function(userDestId, messageText) {
+             
                 $.ajax({// fonction permettant de faire de l'ajax
                     type: "POST", // methode de transmission des données au fichier php
                     url: "core/ajax/chat.ajax.php", // url du fichier php
@@ -76,12 +77,11 @@ jeedomChatAdapter.prototype = {
                             $('#div_alert').showAlert({message: data.result, level: 'danger'});
                             return;
                         }
-
                     }
                 });
             },
             sendTypingSignal: function(otherUserId, done) {
-
+                
             },
             getMessageHistory: function(otherUserId, done) {
                 $.ajax({// fonction permettant de faire de l'ajax

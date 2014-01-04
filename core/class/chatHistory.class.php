@@ -45,8 +45,8 @@ class chatHistory {
                 FROM (SELECT ' . DB::buildField(__CLASS__) . ' FROM chatHistory
                 WHERE (`to`=:user_id AND `from`=:otherUserId)
                 OR (`from`=:user_id AND `to`=:otherUserId)
-                ORDER BY `datetime` DESC
-                LIMIT 10) as hc ORDER BY `datetime` ASC';
+                    ORDER BY `datetime` DESC
+                    LIMIT 10) as hc ORDER BY `datetime` ASC';
         return DB::Prepare($sql, $value, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 

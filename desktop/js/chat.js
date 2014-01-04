@@ -17,7 +17,7 @@
 
 $(function() {
 
-    $('body').on('nodeJsConnect', function() {
+    $('body').off('nodeJsConnect').on('nodeJsConnect', function() {
         if (!chatAlreadyLoad) {
             chatAlreadyLoad = true;
             $.chat({
