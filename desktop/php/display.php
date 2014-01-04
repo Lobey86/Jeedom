@@ -2,6 +2,8 @@
 if (!isConnect()) {
     throw new Exception('Error 401 Unauthorized');
 }
+
+include_file('3rdparty', 'jquery.tree/themes/default/style.min', 'css');
 include_file('3rdparty', 'jquery.tree/jquery.tree', 'js');
 
 sendVarToJS('cmd_widgetDashboard', cmd::availableWidget('dashboard'));
