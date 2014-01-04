@@ -119,7 +119,7 @@ sendVarToJS('select_id', init('id', '-1'));
     <table id="table_addViewDataHidden" style="display: none;">
         <tbody></tbody>
     </table>
-    <table class="table table-condensed table-bordered table-striped" id="table_addViewData">
+    <table class="table table-condensed table-bordered table-striped tablesorter" id="table_addViewData">
         <thead>
             <tr>
                 <th style="width: 50px;">#</th>
@@ -127,19 +127,6 @@ sendVarToJS('select_id', init('id', '-1'));
                 <th style="width: 150px;">Objet</th>
                 <th style="width: 150px;">Nom</th>
                 <th>Affichage</th>
-            </tr>
-            <tr class="filter">
-                <td></td>
-                <td>
-                    <input class="form-control filter" filterOn="type" />
-                </td>
-                <td>
-                    <input class="form-control filter" filterOn="object_name" />
-                </td>
-                <td>
-                    <input class="form-control filter" filterOn="name" />
-                </td>
-                <td></td>
             </tr>
         </thead>
         <tbody>

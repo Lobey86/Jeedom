@@ -145,7 +145,6 @@ $(function() {
 
     $('#div_viewZones').delegate('.bt_addViewData', 'click', function() {
         $('#table_addViewData .filter').value('');
-        $('#table_addViewData').tableFilter();
         var viewZone = $(this).closest('.viewZone');
         $('#table_addViewData tbody tr .enable').prop('checked', false);
         var type = viewZone.find('.viewZoneAttr[l1key=type]').value();
