@@ -39,12 +39,11 @@ $(function() {
                 200: function() {
                     $("head").append("<script type='text/javascript' src='/nodeJS/socket.io/socket.io.js'></script>");
                     socket = io.connect();
-                    //console.log('Send connect command');
+                    
                     socket.on('error', function(reason) {
                         console.log('Unable to connect Socket.IO', reason);
                     });
                     socket.on('connect', function() {
-                        //console.log('Connected to server send authentification');
                         socket.emit('authentification', nodeJsKey, user_id);
                         $('#span_nodeJsState').removeClass('red').addClass('green');
                         $('body').trigger('nodeJsConnect');
