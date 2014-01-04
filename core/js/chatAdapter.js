@@ -69,7 +69,6 @@ jeedomChatAdapter.prototype = {
                     },
                     dataType: 'json',
                     global: false,
-                     async : false,
                     error: function(request, status, error) {
                         handleAjaxError(request, status, error);
                     },
