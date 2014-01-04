@@ -1,6 +1,7 @@
 apt-get install git git-core  git-man
 apt-get install nginx-common  nginx-full
 apt-get install mysql-client mysql-common mysql-server mysql-server-core
+apt-get install nodejs php5-common php5-fpm php5-cli php5-curl php5-json
 useradd jeedom
 mkdir -p /usr/share/nginx/www
 cd /usr/share/nginx/www
