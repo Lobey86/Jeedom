@@ -13,7 +13,7 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
         <tr>
             <th>Nom</th>
             <th>Valeur</th>
-            <th class="{sorter: false}">Action</th>
+            <th data-sorter="false">Action</th>
         </tr>
     </thead>
     <tbody>
