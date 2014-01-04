@@ -15,19 +15,19 @@ if (!isConnect()) {
         <table id="table_cron" class="table table-bordered table-condensed tablesorter" >
             <thead>
                 <tr>
-                    <th class=""></th>
-                    <th class="enable">Actif</th>
-                    <th class="server">Serveur</th>
-                    <th class="pid">PID</th>
-                    <th class="deamons">Démon</th>
+                    <th class="" style="width: 50px;"></th>
+                    <th class="enable" style="width: 80px;">Actif</th>
+                    <th class="server" style="width: 100px;">Serveur</th>
+                    <th class="pid" style="width: 100px;">PID</th>
+                    <th class="deamons" style="width: 80px;">Démon</th>
                     <th class="class">Classe</th>
                     <th class="function">Fonction</th>
                     <th class="schedule">Programation <i class="fa fa-question-circle cursor getHelpSchedule floatright" ></i></th>
-                    <th class="timeout">Timeout</th>
-                    <th class="lastRun">Dernier lancement</th>
-                    <th class="duration">Durée</th>
-                    <th class="state">Status</th>
-                    <th class="action"></th>
+                    <th class="timeout" style="width: 150px;">Timeout (min)</th>
+                    <th class="lastRun" style="width: 200px;">Dernier lancement</th>
+                    <th class="duration" style="width: 80px;">Durée</th>
+                    <th class="state" style="width: 80px;">Status</th>
+                    <th class="action" style="width: 50px;" class="{sorter: false}"></th>
                 </tr>
             </thead>
             <tbody> 

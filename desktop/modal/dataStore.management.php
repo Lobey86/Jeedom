@@ -2,9 +2,6 @@
 if (!isConnect()) {
     throw new Exception('401 Unauthorized');
 }
-include_file('3rdparty', 'jquery.tablesorter/theme.bootstrap', 'css');
-include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
-include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'js');
 
 sendVarToJS('dataStore_type', init('type'));
 sendVarToJS('dataStore_link_id', init('link_id', -1));
@@ -16,7 +13,7 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
         <tr>
             <th>Nom</th>
             <th>Valeur</th>
-            <th>Action</th>
+            <th class="{sorter: false}">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -26,15 +23,7 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
 
 <script>
     $(function() {
-        $(".tablesorter").tablesorter({
-            theme: "bootstrap",
-            widthFixed: true,
-            headerTemplate: '{content} {icon}',
-            widgets: ["uitheme", "filter", "zebra"],
-            widgetOptions: {
-                zebra: ["even", "odd"],
-            }
-        });
+        initTableSorter();
 
         refreshDataStoreMangementTable();
 

@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $(function() {
     printCron();
@@ -99,6 +99,7 @@ function printCron() {
             $('#span_loadAvg1').html(data.result.loadAvg[0]);
             $('#span_loadAvg5').html(data.result.loadAvg[1]);
             $('#span_loadAvg15').html(data.result.loadAvg[2]);
+            $("#table_cron").trigger("update");
         }
     });
 }
@@ -140,7 +141,7 @@ function addCron(_cron) {
     tr += '</td>';
     tr += '<td class="enable"><center>';
     tr += '<input class="cronAttr" l1key="id" hidden/>';
-    tr += '<input type="checkbox" class="cronAttr" l1key="enable" checked/>';
+    tr += '<input type="checkbox" class="cronAttr" l1key="enable" checked/><span class="cronAttr" l1key="enable" style="display : none;"></span>';
     tr += '</center></td>';
     tr += '<td>';
     tr += init(_cron.server);
@@ -149,12 +150,12 @@ function addCron(_cron) {
     tr += init(_cron.pid);
     tr += '</td>';
     tr += '<td class="deamons"><center>';
-    tr += '<input type="checkbox" class="cronAttr" l1key="deamon" />';
+    tr += '<input type="checkbox" class="cronAttr" l1key="deamon" /><span class="cronAttr" l1key="deamon" style="display : none;"></span>';
     tr += '</center></td>';
-    tr += '<td class="class"><input class="form-control cronAttr" l1key="class" /></td>';
-    tr += '<td class="function"><input class="form-control cronAttr" l1key="function" /></td>';
-    tr += '<td class="schedule"><input class="cronAttr form-control" l1key="schedule" /></td>';
-    tr += '<td class="function"><input class="form-control cronAttr" l1key="timeout" /></td>';
+    tr += '<td class="class"><span class="cronAttr" l1key="class" style="display : none;"></span><input class="form-control cronAttr" l1key="class" /></td>';
+    tr += '<td class="function"><span class="cronAttr" l1key="function" style="display : none;"></span><input class="form-control cronAttr" l1key="function" /></td>';
+    tr += '<td class="schedule"><span class="cronAttr" l1key="schedule" style="display : none;"></span><input class="cronAttr form-control" l1key="schedule" /></td>';
+    tr += '<td class="function"><span class="cronAttr" l1key="timeout" style="display : none;"></span><input class="form-control cronAttr" l1key="timeout" /></td>';
     tr += '<td class="lastRun">';
     tr += init(_cron.lastRun);
     tr += '</td>';

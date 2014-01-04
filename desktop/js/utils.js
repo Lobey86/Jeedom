@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $(function() {
     /*********************Gestion de l'heure********************************/
@@ -49,8 +49,8 @@ $(function() {
         height: (jQuery(window).height() - 150),
         width: 1000
     });
-    
-     //Display help
+
+    //Display help
     $("#md_pageHelp").dialog({
         autoOpen: false,
         modal: true,
@@ -61,11 +61,25 @@ $(function() {
     $('#bt_pageHelp').on('click', function() {
         showHelpModal(getUrlVars('p'), getUrlVars('m'));
     });
-    
-     $('#bt_jeedomAbout').on('click', function() {
+
+    $('#bt_jeedomAbout').on('click', function() {
         $('#md_pageAbout').load('index.php?v=d&modal=about').dialog('open');
     });
+    
+    initTableSorter();
 });
+
+function initTableSorter() {
+    $(".tablesorter").tablesorter({
+        theme: "bootstrap",
+        widthFixed: true,
+        headerTemplate: '{content} {icon}',
+        widgets: ["uitheme", "filter", "zebra"],
+        widgetOptions: {
+            zebra: ["even", "odd"],
+        }
+    });
+}
 
 function showHelpModal(_name, _module) {
     var module = '';
@@ -114,7 +128,7 @@ function notify(_title, _text, _class_name) {
 }
 
 
-jQuery.fn.findAtDepth = function (selector, maxDepth) {
+jQuery.fn.findAtDepth = function(selector, maxDepth) {
     var depths = [], i;
 
     if (maxDepth > 0) {

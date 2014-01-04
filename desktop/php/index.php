@@ -188,13 +188,16 @@ if ($module != '') {
     include_file('core', 'core', 'js');
     include_file('3rdparty', 'bootstrap/bootstrap.min', 'js');
     include_file('3rdparty', 'jquery.ui/jquery-ui.min', 'js');
-    include_file('3rdparty', 'jquery.value/jquery.value', 'js');
-    include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
-    include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
-    include_file('3rdparty', 'bootbox/bootbox.min', 'js');
-    include_file('3rdparty', 'highstock/highstock', 'js');
     if (isConnect()) {
         include_file('core', 'js.inc', 'php');
+        include_file('3rdparty', 'jquery.value/jquery.value', 'js');
+        include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
+        include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
+        include_file('3rdparty', 'bootbox/bootbox.min', 'js');
+        include_file('3rdparty', 'highstock/highstock', 'js');
+        include_file('3rdparty', 'jquery.tablesorter/theme.bootstrap', 'css');
+        include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
+        include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'js');
         include_file('core', 'chatAdapter', 'js');
         include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'js');
         include_file('3rdparty', 'jquery.chatjs/jquery.autosize.min', 'js');
