@@ -63,6 +63,6 @@ sendVarToJS('sel_subtype', $sel_subtype);
 
 <div id="md_help" title="Aide sur la configuration des interactions"></div>
 
-<div id="md_queries" title="Requete réel"></div>
+<div id="md_queries" title="Requête réelle"></div>
 
 <?php include_file('desktop', 'interact', 'js'); ?>
