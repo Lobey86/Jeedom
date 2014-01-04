@@ -77,7 +77,6 @@ jeedomChatAdapter.prototype = {
                             $('#div_alert').showAlert({message: data.result, level: 'danger'});
                             return;
                         }
-                        return;
                     }
                 });
             },
