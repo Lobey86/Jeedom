@@ -29,26 +29,33 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
 
         $('#table_dataStore').delegate('.bt_removeDataStore', 'click', function() {
             var tr = $(this).closest('tr');
-            $.ajax({
-                type: "POST",
-                url: "core/ajax/dataStore.ajax.php",
-                data: {
-                    action: "remove",
-                    id: tr.attr('dataStore_id'),
-                },
-                dataType: 'json',
-                error: function(request, status, error) {
-                    handleAjaxError(request, status, error, $('#div_dataStoreManagementAlert'));
-                },
-                success: function(data) {
-                    if (data.state != 'ok') {
-                        $('#div_dataStoreManagementAlert').showAlert({message: data.result, level: 'danger'});
-                        return;
-                    }
-                    $('#div_dataStoreManagementAlert').showAlert({message: 'Data store supprimé', level: 'success'});
-                    refreshDataStoreMangementTable();
+            bootbox.confirm('Etes-vous sûr de vouloir supprimer la variable <span style="font-weight: bold ;">' + tr.find('.key').value() + '</span> ?', function(result) {
+                if (result) {
+                    $.ajax({
+                        type: "POST",
+                        url: "core/ajax/dataStore.ajax.php",
+                        data: {
+                            action: "remove",
+                            id: tr.attr('dataStore_id'),
+                        },
+                        dataType: 'json',
+                        error: function(request, status, error) {
+                            handleAjaxError(request, status, error, $('#div_dataStoreManagementAlert'));
+                        },
+                        success: function(data) {
+                            if (data.state != 'ok') {
+                                $('#div_dataStoreManagementAlert').showAlert({message: data.result, level: 'danger'});
+                                return;
+                            }
+                            $('#div_dataStoreManagementAlert').showAlert({message: 'Data store supprimé', level: 'success'});
+                            refreshDataStoreMangementTable();
+                        }
+                    });
                 }
             });
+
+
+
         });
 
         $('#table_dataStore').delegate('.bt_saveDataStore', 'click', function() {

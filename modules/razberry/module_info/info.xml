@@ -2,7 +2,7 @@
 <info>
     <id>razberry</id>
     <name>Razberry</name>
-    <description>Module pour envoyer des ordre au Razberry (Z-Wave)</description>
+    <description>Module pour envoyer des ordres au Razberry (Z-Wave)</description>
     <icon>fa fa-rss</icon>
     <licence>AGPL</licence>
     <author>Loïc Gevrey</author>

@@ -14,9 +14,12 @@ sendVarToJS('select_id', init('id', '-1'));
             <?php
             foreach (module::listModule() as $module) {
                 echo '<li class="cursor li_module" modulePath="' . $module->getFilepath() . '" module_id="' . $module->getId() . '"><a >';
+
                 echo '<i class="' . $module->getIcon() . '"></i> ' . $module->getName();
                 if ($module->isActive() == 1) {
-                    echo '<i class="fa fa-ok pull-right"></i>';
+                    echo '<span class="binary green pull-right"></span> ';
+                } else {
+                    echo '<span class="binary red pull-right"></span> ';
                 }
                 echo '</a></li>';
             }

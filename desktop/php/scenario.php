@@ -223,7 +223,7 @@ sendVarToJS('select_id', init('id', '-1'));
 </div>
 
 <div id="md_logScenario" title="Log de la dernière exécution"></div>
-<div id="md_scenarioVariable" title="Variable interne des scénarios"></div>
+<div id="md_scenarioVariable" title="Variables internes aux scénarios"></div>
 
 <div class="modal fade" id="md_copyScenario">
     <div class="modal-dialog">

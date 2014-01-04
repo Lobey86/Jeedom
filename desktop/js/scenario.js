@@ -97,10 +97,13 @@ $(function() {
         modal: true,
         height: (jQuery(window).height() - 150),
         width: 700,
+        zIndex: 1039
     });
 
     $('#bt_displayScenarioVariable').on('click', function() {
+        $('#md_scenarioVariable').closest('.ui-dialog').css('z-index', '1030');
         $("#md_scenarioVariable").load('index.php?v=d&modal=dataStore.management&type=scenario').dialog('open');
+
     });
 
     /*******************Element***********************/
