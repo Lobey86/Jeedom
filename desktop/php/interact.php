@@ -47,10 +47,10 @@ sendVarToJS('sel_subtype', $sel_subtype);
         <table class="table table-bordered table-condensed table-striped" id="table_interactDef">
             <thead>
                 <tr>
-                    <th style="width : 550px;">Filtre</th>
+                    <th style="width : 350px;">Filtre</th>
                     <th>Phrase</th>
                     <th style="width : 360px;">Type</th>
-                    <th style="width : 160px;">Personne</th>
+                    <th style="width : 100px;">Personne</th>
                     <th style="width : 110px;">Action</th>
                 </tr>
             </thead>

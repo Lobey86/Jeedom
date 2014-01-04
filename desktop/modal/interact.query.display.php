@@ -14,7 +14,7 @@ if (count($interactQueries) == 0) {
 
 <div style="display: none;" id="md_displayInteractQueryAlert"></div>
 
-<table class="table table-bordered table-condensed table-striped" id="table_interactQuery">
+<table class="table table-bordered table-condensed" id="table_interactQuery">
     <thead>
         <tr>
             <th>Phrase</th>
