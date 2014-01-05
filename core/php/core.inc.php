@@ -53,11 +53,11 @@ function jeedomModuleAutoload($classname) {
                     $module = new module(substr($classname, 0, -3));
                 }
             }
-            if (is_object($module) && $module->getId() != '') {
-                if ($module->isActive() == 1) {
-                    $include = $module->getInclude();
-                    include_file('core', $include['file'], $include['type'], $module->getId());
-                }
+        }
+        if (is_object($module) && $module->getId() != '') {
+            if ($module->isActive() == 1) {
+                $include = $module->getInclude();
+                include_file('core', $include['file'], $include['type'], $module->getId());
             }
         }
     } catch (Exception $e) {
