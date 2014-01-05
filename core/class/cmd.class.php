@@ -300,12 +300,17 @@ class cmd {
         $text = $_input;
 
         preg_match_all("/#\[(.*?)\]\[(.*?)\]\[(.*?)\]#/", $text, $matches);
-        if (isset($matches[1]) && isset($matches[2]) && isset($matches[3]) && isset($matches[1][0]) && isset($matches[2][0]) && isset($matches[3][0])) {
-            $cmd = self::byObjectNameEqLogicNameCmdName($matches[1][0], $matches[2][0], $matches[3][0]);
-            if (is_object($cmd)) {
-                $text = str_replace($matches[0][0], '#' . $cmd->getId() . '#', $text);
+        if (count($matches) == 4) {
+            for ($i = 0; $i < count($matches[0]); $i++) {
+                if (isset($matches[1][$i]) && isset($matches[2][$i]) && isset($matches[3][$i])) {
+                    $cmd = self::byObjectNameEqLogicNameCmdName($matches[1][$i], $matches[2][$i], $matches[3][$i]);
+                    if (is_object($cmd)) {
+                        $text = str_replace($matches[0][$i], '#' . $cmd->getId() . '#', $text);
+                    }
+                }
             }
         }
+
         return $text;
     }
 
