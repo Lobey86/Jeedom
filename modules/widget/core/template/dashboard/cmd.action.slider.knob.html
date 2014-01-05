@@ -2,7 +2,7 @@
 
 <span class="action" cmd_id="#id#" style="margin-top : 3px;">
   <center>
-    <input type="text" class="dial" cmd_id="#id#">
+    <input type="text" cmd_id="#id#" class="knob">
   </center>  
 </span>
 
@@ -12,7 +12,7 @@ $(function() {
   	var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
   	var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
   
-    $("input[cmd_id=#id#]").val(value).knob({
+    $("input.knob[cmd_id=#id#]").val(value).knob({
       min:minValue,
       max:maxValue,
       width : 120,

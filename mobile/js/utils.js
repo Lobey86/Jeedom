@@ -56,7 +56,7 @@ function refreshMessageNumber() {
 }
 
 function notify(_title, _text) {
-    $('#div_alert').html("<center><b>" + _title + "</b></center>" + _text).popup("open");
+    $('#div_alert').html("<center><b>" + _title + "</b></center>" + _text).popup("open",{y : 0});
     setTimeout(function() {
         $('#div_alert').popup("close");
     }, 1000)
