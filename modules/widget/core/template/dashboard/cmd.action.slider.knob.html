@@ -1,0 +1,46 @@
+<script type="text/javascript" src="modules/widget/3rdparty/jquery.knob/jquery.knob.js" ></script>
+
+<span class="action" cmd_id="#id#" style="margin-top : 3px;">
+  <center>
+    <input type="text" class="dial" cmd_id="#id#">
+  </center>  
+</span>
+
+<script>
+$(function() {
+  	var value = ('#lastValue#' != '' && is_numeric(parseInt('#lastValue#'))) ? parseInt('#lastValue#') : 0;
+  	var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
+  	var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
+  
+    $("input[cmd_id=#id#]").val(value).knob({
+      min:minValue,
+      max:maxValue,
+      width : 120,
+      height : 120,
+      release : function (v) { execCmd('#id#', {slider: v}); }
+    });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
