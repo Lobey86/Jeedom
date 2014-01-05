@@ -136,16 +136,16 @@
     margin-bottom: 10px;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
     .bs-sidebar .nav > .active > ul {
         display: block;
     }
     .bs-sidebar.affix, .bs-sidebar.affix-bottom {
-        width: 213px;
+        width: 193px;
     }
     .bs-sidebar.affix {
         position: fixed;
-        top: 80px;
+        top: 60px;
     }
     .bs-sidebar.affix-bottom {
         position: absolute;
@@ -155,7 +155,7 @@
         margin-top: 0;
     }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1500px) {
     .bs-sidebar.affix-bottom, .bs-sidebar.affix {
         width: 263px;
     }
