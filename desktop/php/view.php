@@ -26,20 +26,22 @@ if (init('id') != '') {
 ?>
 
 <div class="row">
-    <div class="col-lg-2 bs-sidebar">
-        <ul id="ul_view" class="nav nav-list bs-sidenav">
-            <li class="nav-header">Liste des vues</li>
-            <li class="filter"><input class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
-            <?php
-            foreach (view::all() as $view_info) {
-                if ($view->getId() == $view_info->getId()) {
-                    echo '<li class="cursor li_view active"><a href="index.php?v=d&p=view&id=' . $view_info->getId() . '">' . $view_info->getName() . '</a></li>';
-                } else {
-                    echo '<li class="cursor li_view"><a href="index.php?v=d&p=view&id=' . $view_info->getId() . '">' . $view_info->getName() . '</a></li>';
+    <div class="col-lg-2">
+        <div class="bs-sidebar affix">
+            <ul id="ul_view" class="nav nav-list bs-sidenav">
+                <li class="nav-header">Liste des vues</li>
+                <li class="filter"><input class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <?php
+                foreach (view::all() as $view_info) {
+                    if ($view->getId() == $view_info->getId()) {
+                        echo '<li class="cursor li_view active"><a href="index.php?v=d&p=view&id=' . $view_info->getId() . '">' . $view_info->getName() . '</a></li>';
+                    } else {
+                        echo '<li class="cursor li_view"><a href="index.php?v=d&p=view&id=' . $view_info->getId() . '">' . $view_info->getName() . '</a></li>';
+                    }
                 }
-            }
-            ?>
-        </ul>
+                ?>
+            </ul>
+        </div>
     </div>
 
     <div class="col-lg-10" role="main">

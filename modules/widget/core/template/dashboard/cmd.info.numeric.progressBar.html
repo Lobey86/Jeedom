@@ -15,25 +15,25 @@
 
 <script>
     $(function() {
-    var value = ('#state#' != '' && is_numeric('#state#')) ? '#state#' : 0;
-    var maxValue = ('#maxValue#' != '' && is_numeric('#maxValue#')) ? '#maxValue#' : 0;
-    var minValue = ('#minValue#' != '' && is_numeric('#minValue#')) ? '#minValue#' : 0;
-    $('#cmd#id#').find('.progress-bar').attr('aria-valuenow', value);
-    var pourcentage = (value / (maxValue - minValue)) * 100;
-    $('#cmd#id#').find('.progress-bar').css('width', pourcentage + '%');
-    var progressBarClass = '';
-    if (pourcentage < 100) {
-        progressBarClass = 'progress-bar-danger';
-    }
-    if (pourcentage < 75) {
-        progressBarClass = 'progress-bar-warning';
-    }
-    if (pourcentage < 50) {
-        progressBarClass = 'progress-bar-info';
-    }
-    if (pourcentage < 25) {
-        progressBarClass = 'progress-bar-success';
-    }
-    $('#cmd#id#').find('.progress-bar').addClass(progressBarClass);
-    });
+       var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
+       var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
+       var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
+      $('#cmd#id#').find('.progress-bar').attr('aria-valuenow', value);
+      var pourcentage = (value / (maxValue - minValue)) * 100;
+      $('#cmd#id#').find('.progress-bar').css('width', pourcentage + '%');
+      var progressBarClass = '';
+      if (pourcentage < 100) {
+          progressBarClass = 'progress-bar-danger';
+      }
+      if (pourcentage < 75) {
+          progressBarClass = 'progress-bar-warning';
+      }
+      if (pourcentage < 50) {
+          progressBarClass = 'progress-bar-info';
+      }
+      if (pourcentage < 25) {
+          progressBarClass = 'progress-bar-success';
+      }
+      $('#cmd#id#').find('.progress-bar').addClass(progressBarClass);
+      });
 </script>

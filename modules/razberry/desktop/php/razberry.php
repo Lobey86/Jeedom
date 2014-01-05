@@ -7,23 +7,25 @@ sendVarToJS('eqType', 'razberry');
 ?>
 
 <div class="row">
-    <div class="col-lg-2 bs-sidebar">
-        <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
-            <li> 
-                <a class="btn btn-default tooltips" id="bt_syncEqLogic" title="Synchroniser équipement avec le Razberry" style="display: inline-block;"><i class="fa fa-refresh"></i></a>
-                <a class="btn btn-default tooltips changeIncludeState" title="Inclure prériphérique Z-wave" state="1" style="display: inline-block;"><i class="fa fa-sign-in fa-rotate-90"></i></a>
-                <a class="btn btn-default tooltips changeIncludeState" title="Exclure périphérique Z-wave" state="0" style="display: inline-block;"><i class="fa fa-sign-out fa-rotate-90"></i></a>
-            </li>
-            <li class="nav-header">Liste des équipements Z-wave
-                <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
-            </li>
-            <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
-            <?php
-            foreach (eqLogic::byType('razberry') as $eqLogic) {
-                echo '<li class="cursor li_eqLogic" eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
-}
-            ?>
-        </ul>
+    <div class="col-lg-2">
+        <div class="bs-sidebar affix">
+            <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
+                <li> 
+                    <a class="btn btn-default tooltips" id="bt_syncEqLogic" title="Synchroniser équipement avec le Razberry" style="display: inline-block;"><i class="fa fa-refresh"></i></a>
+                    <a class="btn btn-default tooltips changeIncludeState" title="Inclure prériphérique Z-wave" state="1" style="display: inline-block;"><i class="fa fa-sign-in fa-rotate-90"></i></a>
+                    <a class="btn btn-default tooltips changeIncludeState" title="Exclure périphérique Z-wave" state="0" style="display: inline-block;"><i class="fa fa-sign-out fa-rotate-90"></i></a>
+                </li>
+                <li class="nav-header">Liste des équipements Z-wave
+                    <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
+                </li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <?php
+                foreach (eqLogic::byType('razberry') as $eqLogic) {
+                    echo '<li class="cursor li_eqLogic" eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
+                }
+                ?>
+            </ul>
+        </div>
     </div>
     <div class="col-lg-10 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <div class="row">

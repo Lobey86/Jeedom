@@ -24,25 +24,27 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
 </style>
 
 <div class="row">
-    <div class="col-lg-2 bs-sidebar">
-        <ul id="ul_widget" class="nav nav-list bs-sidenav fixnav">
-            <li class="nav-header">Liste des widgets
-                <i class="fa fa-plus-circle pull-right cursor widgetAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
-            </li>
-            <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
-            <li class="nav-header">Dashboard</li>
-            <?php
-            foreach (widget::listWidget('dashboard') as $widget) {
-                echo '<li class="cursor li_widget" path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
-            }
-            ?>
-            <li class="nav-header">Mobile</li>
-            <?php
-            foreach (widget::listWidget('mobile') as $widget) {
-                echo '<li class="cursor li_widget" path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
-            }
-            ?>
-        </ul>
+    <div class="col-lg-2">
+        <div class="bs-sidebar affix">
+            <ul id="ul_widget" class="nav nav-list bs-sidenav fixnav">
+                <li class="nav-header">Liste des widgets
+                    <i class="fa fa-plus-circle pull-right cursor widgetAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
+                </li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="nav-header">Dashboard</li>
+                <?php
+                foreach (widget::listWidget('dashboard') as $widget) {
+                    echo '<li class="cursor li_widget" path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
+                }
+                ?>
+                <li class="nav-header">Mobile</li>
+                <?php
+                foreach (widget::listWidget('mobile') as $widget) {
+                    echo '<li class="cursor li_widget" path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
+                }
+                ?>
+            </ul>
+        </div>
     </div>
     <div class="col-lg-10 widget" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
 

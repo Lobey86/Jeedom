@@ -7,18 +7,20 @@ sendVarToJS('select_id', init('id', '-1'));
 ?>
 
 <div class="row">
-    <div class="col-lg-2 bs-sidebar">
-        <ul id="ul_jeenode" class="nav nav-list bs-sidenav fixnav">
-            <li class="nav-header">Liste des jeenodes
-                <i class="fa fa-plus-circle pull-right cursor" id="bt_addJeenode" style="font-size: 1.5em;margin-bottom: 5px;"></i>
-            </li>
-            <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
-            <?php
-            foreach (jeenodeReal::liste() as $jeenodeReal) {
-                echo '<li class="cursor li_jeenode" jeenodeReal_id="' . $jeenodeReal['id'] . '" type="' . $jeenodeReal['type'] . '" name="' . $jeenodeReal['name'] . '"><a>' . $jeenodeReal['name'] . ' (' . $jeenodeReal['type'] . ')</a></li>';
-            }
-            ?>
-        </ul>
+    <div class="col-lg-2">
+        <div class="bs-sidebar affix">
+            <ul id="ul_jeenode" class="nav nav-list bs-sidenav fixnav">
+                <li class="nav-header">Liste des jeenodes
+                    <i class="fa fa-plus-circle pull-right cursor" id="bt_addJeenode" style="font-size: 1.5em;margin-bottom: 5px;"></i>
+                </li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <?php
+                foreach (jeenodeReal::liste() as $jeenodeReal) {
+                    echo '<li class="cursor li_jeenode" jeenodeReal_id="' . $jeenodeReal['id'] . '" type="' . $jeenodeReal['type'] . '" name="' . $jeenodeReal['name'] . '"><a>' . $jeenodeReal['name'] . ' (' . $jeenodeReal['type'] . ')</a></li>';
+                }
+                ?>
+            </ul>
+        </div>
     </div>
     <div class="col-lg-10 eqReal" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;" id="div_conf">
         <div id="div_confCommun">

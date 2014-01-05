@@ -28,7 +28,7 @@ if ($selectModule != '') {
         <table class="table table-condensed table-bordered tablesorter" id="table_message" style="margin-top: 5px;">
             <thead>
                 <tr>
-                    <th></th><th>Date et heure</th><th>Module</th><th>Description</th><th>Action</th>
+                    <th data-sorter="false"></th><th>Date et heure</th><th>Module</th><th>Description</th><th data-sorter="false">Action</th>
                 </tr>
             </thead>
             <tbody>

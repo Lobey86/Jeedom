@@ -1,5 +1,5 @@
-<script type="text/javascript" src="3rdparty/jquery.mobile.tolito/tolito.js" ></script>
-<link rel="stylesheet" href="3rdparty/jquery.mobile.tolito/tolito.css" />
+<script type="text/javascript" src="modules/widget/3rdparty/jquery.mobile.tolito/tolito.js" ></script>
+<link rel="stylesheet" href="modules/widget/3rdparty/jquery.mobile.tolito/tolito.css" />
 
 <span class="info" cmd_id="#id#" style="width:140px;height: 140px;" >
     <div style="width:140px;display: inline-block;" class="#class#" cmd_id="#id#" >
@@ -15,11 +15,13 @@
 </span>
 
 <script>
-    var value = ('#state#' != '' && is_numeric('#state#')) ? parseInt('#state#') : 0;
+    var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
+    var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
+    var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
     TolitoProgressBar('cmd#id#')
             .setOuterTheme('b')
             .setInnerTheme('e')
-            .setMax(100)
+            .setMax(maxValue)
             .setStartFrom(value)
             .showCounter(true)
             .logOptions()

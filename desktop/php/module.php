@@ -7,24 +7,26 @@ sendVarToJS('select_id', init('id', '-1'));
 ?>
 
 <div class="row">
-    <div class="col-lg-2 bs-sidebar">
-        <ul id="ul_module" class="nav nav-list bs-sidenav fixnav">
-            <li class="nav-header">Liste module</li>
-            <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
-            <?php
-            foreach (module::listModule() as $module) {
-                echo '<li class="cursor li_module" modulePath="' . $module->getFilepath() . '" module_id="' . $module->getId() . '"><a >';
+    <div class="col-lg-2">
+        <div class="bs-sidebar affix">
+            <ul id="ul_module" class="nav nav-list bs-sidenav fixnav">
+                <li class="nav-header">Liste module</li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <?php
+                foreach (module::listModule() as $module) {
+                    echo '<li class="cursor li_module" modulePath="' . $module->getFilepath() . '" module_id="' . $module->getId() . '"><a >';
 
-                echo '<i class="' . $module->getIcon() . '"></i> ' . $module->getName();
-                if ($module->isActive() == 1) {
-                    echo '<span class="binary green pull-right"></span> ';
-                } else {
-                    echo '<span class="binary red pull-right"></span> ';
+                    echo '<i class="' . $module->getIcon() . '"></i> ' . $module->getName();
+                    if ($module->isActive() == 1) {
+                        echo '<span class="binary green pull-right"></span> ';
+                    } else {
+                        echo '<span class="binary red pull-right"></span> ';
+                    }
+                    echo '</a></li>';
                 }
-                echo '</a></li>';
-            }
-            ?>
-        </ul>
+                ?>
+            </ul>
+        </div>
     </div>
     <div class="col-lg-10" id="div_confModule" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <legend>

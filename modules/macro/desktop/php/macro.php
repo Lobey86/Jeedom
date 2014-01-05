@@ -19,18 +19,20 @@ sendVarToJS('sel_type', $sel_type);
 ?>
 
 <div class="row">
-    <div class="col-lg-2 bs-sidebar">
-        <ul id="ul_macro" class="nav nav-list bs-sidenav fixnav">
-            <li class="nav-header">Liste des equipements macro
-                <i class="fa fa-plus-circle pull-right cursor" id="bt_addMacro" style="font-size: 1.5em;margin-bottom: 5px;"></i>
-            </li>
-            <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
-            <?php
-            foreach (eqLogic::byType('macro') as $eqLogic) {
-                echo '<li class="cursor li_eqLogic" eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
-            }
-            ?>
-        </ul>
+    <div class="col-lg-2">
+        <div class="bs-sidebar affix">
+            <ul id="ul_macro" class="nav nav-list bs-sidenav fixnav">
+                <li class="nav-header">Liste des equipements macro
+                    <i class="fa fa-plus-circle pull-right cursor" id="bt_addMacro" style="font-size: 1.5em;margin-bottom: 5px;"></i>
+                </li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <?php
+                foreach (eqLogic::byType('macro') as $eqLogic) {
+                    echo '<li class="cursor li_eqLogic" eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
+                }
+                ?>
+            </ul>
+        </div>
     </div>
     <div class="col-lg-10" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;" id="div_conf">
         <form class="form-horizontal">

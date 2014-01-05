@@ -39,6 +39,8 @@ $(function() {
     $('#bt_showClass').on('click', function() {
         $('#md_showClass').load('index.php?v=d&module=razberry&modal=showClass&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
     });
+    
+    $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
 
     /**********************Node js requests *****************************/

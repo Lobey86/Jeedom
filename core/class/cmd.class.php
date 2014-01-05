@@ -24,6 +24,7 @@ class cmd {
 
     protected $id;
     protected $name;
+    protected $order;
     protected $type;
     protected $subType;
     protected $eqLogic_id;
@@ -111,7 +112,8 @@ class cmd {
         );
         $sql = 'SELECT id
                 FROM cmd
-                WHERE eqLogic_id=:eqLogic_id';
+                WHERE eqLogic_id=:eqLogic_id
+                ORDER BY `order`';
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
         foreach ($results as $result) {
@@ -560,14 +562,16 @@ class cmd {
                 foreach (module::listModule(true) as $module) {
                     try {
                         $template = getTemplate('core', $_version, $template_name, $module->getId());
-                        break;
                     } catch (Exception $e) {
                         
                     }
                 }
             }
         }
-        $template = str_replace("\n", "", $template);
+        if ($template == '') {
+            $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
+            $template = getTemplate('core', $_version, $template_name);
+        }
         $replace = array(
             '#id#' => $this->getId(),
             '#name#' => $this->getName(),
@@ -957,6 +961,14 @@ class cmd {
 
     public function setInternalEvent($_internalEvent) {
         $this->_internalEvent = $_internalEvent;
+    }
+
+    public function getOrder() {
+        return $this->order;
+    }
+
+    public function setOrder($order) {
+        $this->order = $order;
     }
 
 }
