@@ -112,7 +112,10 @@ function refreshMessageNumber() {
     });
 }
 
-function notify(_title, _text, _class_name) {
+function notify(_title, _text, _class_name,_cleanBefore) {
+    if(init(_cleanBefore,false)){
+        $.gritter.removeAll();
+    }
     if (isset(_class_name) != '') {
         $.gritter.add({
             title: _title,

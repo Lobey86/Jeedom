@@ -18,5 +18,5 @@
 
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 include_file('core', 'mail', 'class', 'mail');
-include_file('3rdparty', 'PHPMailer/PHPMailerAutoload', 'php');
+include_file('3rdparty', 'PHPMailer/PHPMailerAutoload', 'php','mail');
 ?>

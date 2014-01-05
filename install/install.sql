@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `chatHistory` (
 CREATE TABLE IF NOT EXISTS `cmd` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `eqLogic_id` int(11) NOT NULL,
+  `order` int(11) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `configuration` text,
   `template` text,
@@ -94,7 +95,8 @@ CREATE TABLE IF NOT EXISTS `cmd` (
   KEY `subtype` (`subType`),
   KEY `collect` (`collect`),
   KEY `eqLogic_id` (`eqLogic_id`),
-  KEY `value` (`value`)
+  KEY `value` (`value`),
+  KEY `order` (`order`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1156 ;
 
 -- --------------------------------------------------------

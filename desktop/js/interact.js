@@ -49,9 +49,7 @@ $(function() {
         });
     });
 
-
     $("#table_interactDef tbody").sortable();
-    $("#table_interactDef tbody").disableSelection(); //bug possible sur firefox
 });
 
 function saveSarahDef() {
@@ -142,7 +140,7 @@ function addSarahDefToTable(_interactDef) {
     tr += '<input class="interactDefAttr form-control input-sm" l1key="reply" placeholder="Réponse"/>';
     tr += '</div>';
     tr += '<div class="col-lg-6">';
-    tr += '<input class="interactDefAttr form-control input-sm tooltips" l1key="options" l2key="convertBinary" placeholder="Convertion binaire : faux|vrai" title="Convertir les commandes binaire" style="margin-top : 5px;" />';
+    tr += '<input class="interactDefAttr form-control input-sm tooltips" l1key="options" l2key="convertBinary" placeholder="Conversion binaire : faux|vrai" title="Convertir les commandes binaire" style="margin-top : 5px;" />';
     tr += '</div>';
     tr += '<div class="col-lg-6">';
     tr += '<input class="interactDefAttr form-control input-sm tooltips" l1key="options" l2key="synonymes" placeholder="Synonyne" title="Remplace les mots par leur synonyme lors de la generation des commandes" style="margin-top : 5px;" />';
@@ -176,5 +174,5 @@ function addSarahDefToTable(_interactDef) {
     tr += '</tr>';
     $('#table_interactDef tbody').append(tr);
     $('#table_interactDef tbody tr:last').setValues(_interactDef, '.interactDefAttr');
-    activateTooltips();
+    //activateTooltips();
 }

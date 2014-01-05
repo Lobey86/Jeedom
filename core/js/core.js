@@ -123,7 +123,7 @@ function execCmd(_id, _value, _cache) {
                 notify('Commande', data.result, 'gritter-red')
                 return;
             }
-            notify('Commande', 'La commande a été executée avec succès', 'gritter-green');
+            notify('Commande', 'La commande a été executée avec succès', 'gritter-green',true);
             retour = data.result;
         }
     });
@@ -151,7 +151,7 @@ function changeScenarioState(_id, _state) {
                 notify('Commande', data.result, 'gritter-red')
                 return;
             }
-            notify('Scénario', 'Mise à jour de l\état du scénario réussi', 'gritter-green');
+            notify('Scénario', 'Mise à jour de l\état du scénario réussi', 'gritter-green',true);
         }
     });
 }

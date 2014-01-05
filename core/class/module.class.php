@@ -42,12 +42,12 @@ class module {
         if (!file_exists($_id)) {
             $_id = self::getPathById($_id);
             if (!file_exists($_id)) {
-                return null;
+                throw new Exception('Module introuvable : ' . $_id);
             }
         }
         $module = @simplexml_load_file($_id);
         if (!is_object($module)) {
-            return null;
+            throw new Exception('Module introuvable : ' . $_id);
         }
         $this->id = (string) $module->id;
         $this->name = (string) $module->name;

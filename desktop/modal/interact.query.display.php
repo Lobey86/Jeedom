@@ -14,7 +14,7 @@ if (count($interactQueries) == 0) {
 
 <div style="display: none;" id="md_displayInteractQueryAlert"></div>
 
-<table class="table table-bordered table-condensed table-striped" id="table_interactQuery">
+<table class="table table-bordered table-condensed" id="table_interactQuery">
     <thead>
         <tr>
             <th>Phrase</th>
@@ -35,7 +35,7 @@ if (count($interactQueries) == 0) {
             echo '</td>';
             echo '<td>';
             if ($interactQuery->getEnable() == 1) {
-                echo '<a class="btn btn-danger btn-xs changeEnable" state="0" style="color : white;">Desactiver</a>';
+                echo '<a class="btn btn-danger btn-xs changeEnable" state="0" style="color : white;">Désactiver</a>';
             } else {
                 echo '<a class="btn btn-success btn-xs changeEnable" state="1" style="color : white;">Activer</a>';
             }

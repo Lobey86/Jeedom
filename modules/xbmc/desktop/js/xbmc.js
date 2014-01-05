@@ -44,6 +44,8 @@ $(function() {
         $('.version.' + $(this).value()).show();
         $('.required.' + $(this).value()).show();
     });
+    
+    $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 });
 
 function addCmdToTable(_cmd) {

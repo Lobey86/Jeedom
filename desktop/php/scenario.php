@@ -18,61 +18,63 @@ sendVarToJS('select_id', init('id', '-1'));
 ?>
 
 <div class="row">
-    <div class="col-lg-2 bs-sidebar">
-        <ul id="ul_scenario" class="nav nav-list bs-sidenav fixnav">
-            <li> 
-                <a class="btn btn-default tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
-            </li>
-            <li class="nav-header">Liste scénarios 
-                <i class="fa fa-plus-circle pull-right cursor" id="bt_addScenario" style="font-size: 1.5em;margin-bottom: 5px;"></i>
-            </li>
-            <li> 
-                <select style="width: 100%;margin-bottom: 5px;" id="sel_group" class="form-control">
-                    <option value=''>Tous</option>
-                    <?php
-                    foreach (scenario::listGroup() as $group) {
-                        if ($group['group'] != '') {
-                            if (init('group') == $group['group'] && init('group') != '') {
-                                echo '<option selected>' . $group['group'] . '</option>';
-                            } else {
-                                echo '<option>' . $group['group'] . '</option>';
+    <div class="col-lg-2">
+        <div class="bs-sidebar affix">
+            <ul id="ul_scenario" class="nav nav-list bs-sidenav fixnav">
+                <li> 
+                    <a class="btn btn-default tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
+                </li>
+                <li class="nav-header">Liste scénarios 
+                    <i class="fa fa-plus-circle pull-right cursor" id="bt_addScenario" style="font-size: 1.5em;margin-bottom: 5px;"></i>
+                </li>
+                <li> 
+                    <select style="width: 100%;margin-bottom: 5px;" id="sel_group" class="form-control">
+                        <option value=''>Tous</option>
+                        <?php
+                        foreach (scenario::listGroup() as $group) {
+                            if ($group['group'] != '') {
+                                if (init('group') == $group['group'] && init('group') != '') {
+                                    echo '<option selected>' . $group['group'] . '</option>';
+                                } else {
+                                    echo '<option>' . $group['group'] . '</option>';
+                                }
                             }
                         }
-                    }
-                    ?>            
-                </select></li>
-            <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control" placeholder="Rechercher"/></li>
+                        ?>            
+                    </select></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control" placeholder="Rechercher"/></li>
 
-            <?php
-            foreach (scenario::all(init('group')) as $scenario) {
-                $group = '';
-                if ($scenario->getGroup() != '') {
-                    $group = '[' . $scenario->getGroup() . '] ';
-                }
-                if ($scenario->getIsActive() == 1) {
-                    switch ($scenario->getState()) {
-                        case 'on':
-                            $state = 'green';
-                            break;
-                        case 'in progress':
-                            $state = 'blue';
-                            break;
-                        case 'error':
-                            $state = 'orange';
-                            break;
-                        default:
-                            $state = 'red';
-                            break;
+                <?php
+                foreach (scenario::all(init('group')) as $scenario) {
+                    $group = '';
+                    if ($scenario->getGroup() != '') {
+                        $group = '[' . $scenario->getGroup() . '] ';
                     }
-                } else {
-                    $state = 'grey';
+                    if ($scenario->getIsActive() == 1) {
+                        switch ($scenario->getState()) {
+                            case 'on':
+                                $state = 'green';
+                                break;
+                            case 'in progress':
+                                $state = 'blue';
+                                break;
+                            case 'error':
+                                $state = 'orange';
+                                break;
+                            default:
+                                $state = 'red';
+                                break;
+                        }
+                    } else {
+                        $state = 'grey';
+                    }
+                    echo '<li class="cursor li_scenario" id="scenario' . $scenario->getId() . '" scenario_id="' . $scenario->getId() . '">';
+                    echo '<a> <span class="binary ' . $state . ' pull-right binary" style="width : 15px;"></span>' . $group . $scenario->getName() . '</a>';
+                    echo '</li>';
                 }
-                echo '<li class="cursor li_scenario" id="scenario' . $scenario->getId() . '" scenario_id="' . $scenario->getId() . '">';
-                echo '<a> <span class="binary ' . $state . ' pull-right binary" style="width : 15px;"></span>' . $group . $scenario->getName() . '</a>';
-                echo '</li>';
-            }
-            ?>
-        </ul>
+                ?>
+            </ul>
+        </div>
     </div>
     <div class="col-lg-10" id="div_editScenario" style="display: none; border-left: solid 1px #EEE; padding-left: 25px;">
         <input class="scenarioAttr" l1key="id" hidden/>

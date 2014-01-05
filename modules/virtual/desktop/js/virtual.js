@@ -41,6 +41,8 @@ $(function() {
             calcul.value(calcul.value() + ' ' + result.human);
         });
     });
+    
+    $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 });
 
 function addCmdToTable(_cmd) {

@@ -6,18 +6,20 @@ sendVarToJS('select_id', init('id', '-1'));
 sendVarToJS('eqType', 'geoloc');
 ?>
 <div class="row">
-    <div class="col-lg-2 bs-sidebar">
-        <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
-            <li class="nav-header">Liste des équipements géoloc
-                <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
-            </li>
-            <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
-            <?php
-            foreach (eqLogic::byType('geoloc') as $eqLogic) {
-                echo '<li class="cursor li_eqLogic" eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
-            }
-            ?>
-        </ul>
+    <div class="col-lg-2">
+        <div class="bs-sidebar affix">
+            <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
+                <li class="nav-header">Liste des équipements géoloc
+                    <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
+                </li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <?php
+                foreach (eqLogic::byType('geoloc') as $eqLogic) {
+                    echo '<li class="cursor li_eqLogic" eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
+                }
+                ?>
+            </ul>
+        </div>
     </div>
     <div class="col-lg-10 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <div class="row">

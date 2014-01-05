@@ -92,7 +92,7 @@ class widget {
             throw new Exception('Vous n\'etez pas autoriser à écrire : ' . $this->generatePath());
         }
         if (!is_writable($this->generatePath())) {
-            throw new Exception('Fichier/dossier inaccessible en écriture : ' . $this->generatePath());
+            //throw new Exception('Fichier/dossier inaccessible en écriture : ' . $this->generatePath());
         }
         file_put_contents($this->generatePath(), $this->getContent());
         if (realpath($this->getPath()) != realpath($this->generatePath())) {

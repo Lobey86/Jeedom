@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 try {
     require_once(dirname(__FILE__) . '/../../core/php/core.inc.php');
@@ -44,8 +44,8 @@ try {
         }
         ajax::success($return);
     }
-    
-     if (init('action') == 'byId') {
+
+    if (init('action') == 'byId') {
         $eqLogic = eqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
             throw new Exception('EqLogic inconnu verifié l\'id');
@@ -140,11 +140,11 @@ try {
             if ($typeEqLogic == '' || !class_exists($typeEqLogic) || !class_exists($typeCmd)) {
                 throw new Exception('Type incorrect');
             }
-
+            $eqLogic = null;
             if (isset($eqLogicSave['id'])) {
                 $eqLogic = $typeEqLogic::byId($eqLogicSave['id']);
             }
-            if (!isset($eqLogic) || !is_object($eqLogic)) {
+            if (!is_object($eqLogic)) {
                 $eqLogic = new $typeEqLogic();
                 $eqLogic->setEqType_name(init('type'));
                 $imgPath = dirname(__FILE__) . '/../../modules/' . $typeEqLogic . '/core/img/default.png';
@@ -158,11 +158,20 @@ try {
             $dbList = $typeCmd::byEqLogicId($eqLogic->getId());
             $enableList = array();
             if (isset($eqLogicSave['cmd'])) {
+                $cmd_order = 0;
                 foreach ($eqLogicSave['cmd'] as $cmd_info) {
-                    $cmd = new $typeCmd();
+                    $cmd = null;
+                    if (isset($cmd_info['id'])) {
+                        $cmd = $typeCmd::byId($cmd_info['id']);
+                    }
+                    if (!is_object($cmd)) {
+                        $cmd = new $typeCmd();
+                    }
                     $cmd->setEqLogic_id($eqLogic->getId());
+                    $cmd->setOrder($cmd_order);
                     utils::a2o($cmd, $cmd_info);
                     $cmd->save();
+                    $cmd_order++;
                     $enableList[$cmd->getId()] = true;
                 }
             }
