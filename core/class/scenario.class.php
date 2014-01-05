@@ -314,7 +314,9 @@ class scenario {
             $lastCheck = new DateTime($this->getLastCheck());
             $prev = $c->getPreviousRunDate();
             if ($lastCheck < $prev) {
-                log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . ( $lastCheck->diff($c->getPreviousRunDate())->format('%R%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
+                    log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                }
                 return true;
             }
         } catch (Exception $exc) {
