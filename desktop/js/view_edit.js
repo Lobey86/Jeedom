@@ -191,6 +191,10 @@ $(function() {
                         viewData.name = '';
                         if (tr.find('.object_name').text() != '') {
                             viewData.name += '[' + tr.find('.object_name').text() + ']';
+                        }else{
+                            if (tr.find('.type').text() == 'Scénario') {
+                                viewData.name += '[Scénario]';
+                            }
                         }
                         viewData.name += '[' + tr.find('.name').text() + ']';
                         span += addServiceToviewZone(viewData);
@@ -335,11 +339,9 @@ function addEditviewZone(_viewZone) {
 }
 
 function addServiceToviewZone(_viewData) {
-    console.log(_viewData);
     if (!isset(_viewData.configuration) || _viewData.configuration == '') {
         _viewData.configuration = {};
     }
-    console.log(_viewData);
     var span = '<span class="label label-default viewData cursor" style="background-color : ' + init(_viewData.configuration.graphColor) + '; font-size : 1.1em;margin:4px;">';
     span += '<i class="fa fa-trash-o cursor bt_removeViewData"></i> ';
     span += init(_viewData.name);
