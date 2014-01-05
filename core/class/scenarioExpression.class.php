@@ -216,7 +216,7 @@ class scenarioExpression {
             }
         } catch (Exception $e) {
             $this->setLog($message . $e->getMessage());
-            throw $e;
+            //throw $e;
         }
     }
 
