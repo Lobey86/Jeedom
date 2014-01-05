@@ -178,7 +178,7 @@ class cron {
             $prev = $c->getPreviousRunDate();
             if ($lastCheck < $prev) {
                 if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
-                    log::add('cron', 'error', 'Retard ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%R%i min')) . ': ' . $this->getClass() . '::' . $this->getFunction() . '(). Rattrapage en cours...');
+                    log::add('cron', 'error', 'Retard ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getClass() . '::' . $this->getFunction() . '(). Rattrapage en cours...');
                 }
                 return true;
             }
