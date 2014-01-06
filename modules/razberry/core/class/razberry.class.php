@@ -340,6 +340,11 @@ class razberryCmd extends cmd {
         if (is_json($result)) {
             $result = json_decode($result, true);
             $value = self::handleResult($result);
+            if ($this->getType() == 'info' && $this->getSubType() == 'binary') {
+                if ($value >= 1) {
+                    $value = 1;
+                }
+            }
             if (isset($result['updateTime'])) {
                 $this->setCollectDate(date('Y-m-d H:i:s', $result['updateTime']));
             }
