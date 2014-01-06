@@ -532,7 +532,7 @@ class cmd {
                 cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
             }
         }
-        if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric($value) && $value >= 1) {
+        if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($value)) && intval($value) > 1) {
             $value = 1;
         }
         if ($this->getType() == 'action' && $options !== null) {
