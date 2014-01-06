@@ -46,6 +46,7 @@ try {
         log::add('scenario', 'info', 'Verification du scenario : ' . $scenario->getName() . ' avec le PID : ' . getmypid());
         $scenario->execute();
     } else {
+        $scenario->setLog('Impossible de lancer le scenario car deja en cours ou inactif');
         die('Impossible de lancer le scenario car deja en cours ou inactif');
     }
 } catch (Exception $e) {
