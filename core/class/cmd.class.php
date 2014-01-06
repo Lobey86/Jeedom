@@ -681,8 +681,8 @@ class cmd {
             }
             $message = 'Message venant de ' . $this->getHumanName() . ' : ' . $_value;
             log::add($eqLogic->getEqType_name(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
-            if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($value)) && intval($value) > 1) {
-                $value = 1;
+            if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
+                $_value = 1;
             }
             cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
             $this->setCollect(0);

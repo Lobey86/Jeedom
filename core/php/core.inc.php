@@ -40,6 +40,7 @@ function jeedomComAutoload($classname) {
 }
 
 function jeedomModuleAutoload($classname) {
+    $module  = null;
     try {
         try {
             $module = new module($classname);
