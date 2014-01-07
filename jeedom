@@ -27,7 +27,7 @@
 # Description:       starts instance of jeedom using start-stop-daemon
 ### END INIT INFO
 
-PATH_TO_JEEDOM="/usr/share/nginx/www"
+PATH_TO_JEEDOM="/usr/share/nginx/www/jeedom"
 DAEMONUSER="jeedom" #utilisateur du programme
 
 
