@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 try {
     require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
@@ -54,14 +54,36 @@ try {
     }
 
     if (init('action') == 'remove') {
-        if (file_exists(init('path'))) {
+        $widget = widget::byPath(init('path'));
+        if (!is_object($widget)) {
+            throw new Exception('Widget non trouvé : ' . init('path'));
+        }
+        $widget->remove();
+        ajax::success();
+    }
+
+    if (init('action') == 'applyWidget') {
+        if (init('path') != 'default') {
             $widget = widget::byPath(init('path'));
-            if (is_object($widget)) {
-                $widget->remove();
-                ajax::success();
+            if (!is_object($widget)) {
+                throw new Exception('Widget non trouvé : ' . init('path'));
             }
         }
-        throw new Exception('Widget non trouvé : ' . init('path'));
+        $cmds = json_decode(init('cmds'), true);
+        foreach ($cmds as $cmd_id) {
+            $cmd = cmd::byId($cmd_id);
+            if (!is_object($cmd)) {
+                throw new Exception('Commande introuvable : ' . $cmd_id);
+            }
+            if (init('path') != 'default') {
+                $cmd->setTemplate($widget->getVersion(), $widget->getName());
+            } else {
+                $cmd->setTemplate(init('version'), 'default');
+            }
+            $cmd->save();
+        }
+
+        ajax::success();
     }
 
     throw new Exception('Aucune methode correspondante à : ' . init('action'));

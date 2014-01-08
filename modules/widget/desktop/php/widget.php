@@ -101,7 +101,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
             </div>
 
             <div class="col-lg-6" >
-                <legend>Apercu</legend>
+                <legend>Apercu <a class="btn btn-xs btn-default pull-right" id="bt_applyWidget">Appliquer sur des commandes</a></legend>
                 <div class="col-lg-6" id='div_widgetResult'></div>
             </div>
         </div>
@@ -119,6 +119,8 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
 
     </div>
 </div>
+
+<div id="md_applyWidget" title="Appliquer widget"></div>
 
 <div class="modal fade" id="md_addWidget">
     <div class="modal-dialog">

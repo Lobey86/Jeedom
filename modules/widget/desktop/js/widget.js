@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $(function() {
     editor = null;
@@ -24,6 +24,14 @@ $(function() {
         $(this).addClass('active');
         printWidget($(this).attr('path'));
         return false;
+    });
+
+    //Display about
+    $("#md_applyWidget").dialog({
+        autoOpen: false,
+        modal: true,
+        height: (jQuery(window).height() - 150),
+        width: 1000
     });
 
     if (getUrlVars('saveSuccessFull') == 1) {
@@ -50,6 +58,10 @@ $(function() {
         $.hideAlert();
         $('#md_addWidget .widgetAttr').value('');
         $('#md_addWidget').modal('show');
+    });
+
+    $('#bt_applyWidget').on('click', function() {
+        $('#md_applyWidget').load('index.php?v=d&module=widget&modal=widget.apply&path=' + $('.widgetAttr[l1key=path]').value()).dialog('open');
     });
 
     $("#md_addWidget .widgetAction[action=newAdd]").on('click', function() {
@@ -106,7 +118,7 @@ function printWidget(_path) {
             }
             activateTooltips();
             $('#div_widgetResult').empty();
-            $('#div_widgetResult').append('<iframe src="index.php?v=d&module=widget&modal=widgetResult&path=' + data.result.path + '" frameBorder="0"></iframe>');
+            $('#div_widgetResult').append('<iframe src="index.php?v=d&module=widget&modal=widget.result&path=' + data.result.path + '" frameBorder="0"></iframe>');
         }
     });
 }
