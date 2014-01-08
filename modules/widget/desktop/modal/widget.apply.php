@@ -39,7 +39,7 @@ if (!is_object($widget)) {
 <table class="table table-bordered table-condensed tablesorter" id="table_applyWidget">
     <thead>
         <tr>
-            <th data-sorter="false"></th><th>Object</th><th>Equipement</th><th>Commande</th>
+            <th data-sorter="false"></th><th>Object</th><th>Equipement</th><th>Commande</th><th>Unité</th>
         </tr>
     </thead>
     <tbody>
@@ -66,6 +66,9 @@ if (!is_object($widget)) {
             echo '</td>';
             echo '<td>';
             echo $cmd->getName();
+            echo '</td>';
+            echo '<td>';
+            echo $cmd->getUnite();
             echo '</td>';
             echo '</tr>';
         }
