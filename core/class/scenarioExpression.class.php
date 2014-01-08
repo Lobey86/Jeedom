@@ -168,9 +168,13 @@ class scenarioExpression {
                     case 'var':
                         $value = self::setTags($this->getOptions('value'));
                         $message = 'Affectation de la variable ' . $this->getOptions('name') . ' à [' . $value . '] = ';
-                        $test = new evaluate();
-                        $result = $test->Evaluer($value);
-                        if (is_string($result)) { //Alors la valeur n'est pas un calcul
+                        try {
+                            $test = new evaluate();
+                            $result = $test->Evaluer($value);
+                            if (is_string($result)) { //Alors la valeur n'est pas un calcul
+                                $result = $value;
+                            }
+                        } catch (Exception $e) {
                             $result = $value;
                         }
                         $message .= $result;
