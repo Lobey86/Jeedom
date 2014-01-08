@@ -587,7 +587,7 @@ function addExpression(_expression) {
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="info"><i class="fa fa-list-alt"></i></a>';
             break;
         case 'element' :
-            retour += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : 9px;"></i>';
+            retour += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : 12px;margin-left : 4px;"></i>';
             retour += addElement(_expression.element, true);
             break;
         case 'action' :
@@ -737,7 +737,7 @@ function addElement(_element) {
     if (!isset(_element.type) || _element.type == '') {
         return '';
     }
-    var div = '<div class="element well well-sm" style="margin-top : 8px;">';
+    var div = '<div class="element well well-sm" style="margin-top : 8px;border : 2px solid black;">';
     div += '<input class="elementAttr" l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
     div += '<i class="fa fa-minus-circle pull-right bt_removeElement"></i>';
