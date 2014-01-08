@@ -572,6 +572,7 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                     yAxis: [{
                             format: '{value}',
                             showEmpty: false,
+                            showLastLabel: true,
                             labels: {
                                 align: 'right',
                                 x: -5
