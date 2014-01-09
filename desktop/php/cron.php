@@ -27,7 +27,7 @@ if (!isConnect()) {
                     <th class="lastRun" style="width: 200px;">Dernier lancement</th>
                     <th class="duration" style="width: 80px;">Durée</th>
                     <th class="state" style="width: 80px;">Statut</th>
-                    <th class="action" style="width: 50px;" data-sorter="false"></th>
+                    <th class="action" style="width: 50px;" data-sorter="false" data-filter="false"></th>
                 </tr>
             </thead>
             <tbody> 

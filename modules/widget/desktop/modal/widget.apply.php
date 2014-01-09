@@ -39,7 +39,7 @@ if (!is_object($widget)) {
 <table class="table table-bordered table-condensed tablesorter" id="table_applyWidget">
     <thead>
         <tr>
-            <th data-sorter="false"></th><th>Object</th><th>Equipement</th><th>Commande</th><th>Unité</th>
+            <th></th><th>Object</th><th>Equipement</th><th>Commande</th><th>Unité</th>
         </tr>
     </thead>
     <tbody>
