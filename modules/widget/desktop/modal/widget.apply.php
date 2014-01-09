@@ -30,9 +30,9 @@ if (!is_object($widget)) {
 
 <div style="display: none;" id="md_applyWidgetAlert"></div>
 
-<a class="btn btn-default" id="bt_applyWidgetToogle" state="0">Basculer</a>
-<a class="btn btn-success pull-right bt_applyWidgetToCmd" path="<?php echo $widget->getPath() ?>" style="color : white;" version="">Valider</a>
-<a class="btn btn-warning pull-right bt_applyWidgetToCmd" path="default" style="color : white;" version="<?php echo $widget->getVersion() ?>">Remise à défaut</a>
+<a class="btn btn-default" id="bt_applyWidgetToogle" state="0"><i class="fa fa-check-circle-o"></i> Basculer</a>
+<a class="btn btn-success pull-right bt_applyWidgetToCmd" path="<?php echo $widget->getPath() ?>" style="color : white;" version=""><i class="fa fa-check"></i> Valider</a>
+<a class="btn btn-warning pull-right bt_applyWidgetToCmd" path="default" style="color : white;" version="<?php echo $widget->getVersion() ?>"><i class="fa fa-times"></i> Remise à défaut</a>
 
 <br/><br/>
 
@@ -84,9 +84,11 @@ if (!is_object($widget)) {
         if ($(this).attr('state') == 0) {
             state = true;
             $(this).attr('state', 1);
+            $(this).find('i').removeClass('fa-check-circle-o').addClass('fa-circle-o');
         } else {
             state = false;
             $(this).attr('state', 0);
+            $(this).find('i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
         }
         $('#table_applyWidget tbody tr').each(function() {
             if ($(this).is(':visible')) {

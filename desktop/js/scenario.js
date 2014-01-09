@@ -642,9 +642,9 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
             if (isset(_subElement.options.runingScenario) && _subElement.options.runingScenario) {
-                retour += '<a class="btn btn-xs btn-success bt_conditionRuningScenario pull-right subElementAttr" value="1" l1key="options" l2key="runingScenario"><i class="fa fa-check"></i> Active scénario</a>';
+                retour += '<a class="btn btn-xs btn-success bt_conditionRuningScenario pull-right subElementAttr" value="1" l1key="options" l2key="runingScenario"><i class="fa fa-check"></i> Désactive le scénario</a>';
             } else {
-                retour += '<a class="btn btn-xs btn-danger bt_conditionRuningScenario pull-right subElementAttr" value="0" l1key="options" l2key="runingScenario"><i class="fa fa-times"></i> Désactive scénario</a>';
+                retour += '<a class="btn btn-xs btn-danger bt_conditionRuningScenario pull-right subElementAttr" value="0" l1key="options" l2key="runingScenario"><i class="fa fa-times"></i> Active le scénario</a>';
             }
             retour += '</legend>';
             retour += '<div class="expressions">';
@@ -661,9 +661,9 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
             if (isset(_subElement.options.runingScenario) && _subElement.options.runingScenario) {
-                retour += '<a class="btn btn-xs btn-success bt_conditionRuningScenario pull-right subElementAttr" value="1" l1key="options" l2key="runingScenario"><i class="fa fa-check"></i> Active scénario</a>';
+                retour += '<a class="btn btn-xs btn-success bt_conditionRuningScenario pull-right subElementAttr" value="1" l1key="options" l2key="runingScenario"><i class="fa fa-check"></i> Désactive le scénario</a>';
             } else {
-                retour += '<a class="btn btn-xs btn-danger bt_conditionRuningScenario pull-right subElementAttr" value="0" l1key="options" l2key="runingScenario"><i class="fa fa-times"></i> Désactive scénario</a>';
+                retour += '<a class="btn btn-xs btn-danger bt_conditionRuningScenario pull-right subElementAttr" value="0" l1key="options" l2key="runingScenario"><i class="fa fa-times"></i> Acttive le scénario</a>';
             }
             retour += '</legend>';
             retour += '<div class="expressions">';
@@ -692,9 +692,9 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
             if (isset(_subElement.options.runingScenario) && _subElement.options.runingScenario) {
-                retour += '<a class="btn btn-xs btn-success bt_conditionRuningScenario pull-right subElementAttr" value="1" l1key="options" l2key="runingScenario"><i class="fa fa-check"></i> Active scénario</a>';
+                retour += '<a class="btn btn-xs btn-success bt_conditionRuningScenario pull-right subElementAttr" value="1" l1key="options" l2key="runingScenario"><i class="fa fa-check"></i> Désactive le scénario</a>';
             } else {
-                retour += '<a class="btn btn-xs btn-danger bt_conditionRuningScenario pull-right subElementAttr" value="0" l1key="options" l2key="runingScenario"><i class="fa fa-times"></i> Désactive scénario</a>';
+                retour += '<a class="btn btn-xs btn-danger bt_conditionRuningScenario pull-right subElementAttr" value="0" l1key="options" l2key="runingScenario"><i class="fa fa-times"></i> Active le scénario</a>';
             }
             retour += '</legend>';
             retour += '<div class="expressions">';
@@ -709,9 +709,9 @@ function addSubElement(_subElement) {
             retour += '<input class="subElementAttr" l1key="subtype" style="display : none;" value="action"/>';
             retour += '<legend style="margin-top : 8px;">CODE';
             if (isset(_subElement.options.runingScenario) && _subElement.options.runingScenario) {
-                retour += '<a class="btn btn-xs btn-success bt_conditionRuningScenario pull-right subElementAttr" value="1" l1key="options" l2key="runingScenario"><i class="fa fa-check"></i> Active scénario</a>';
+                retour += '<a class="btn btn-xs btn-success bt_conditionRuningScenario pull-right subElementAttr" value="1" l1key="options" l2key="runingScenario"><i class="fa fa-check"></i> Désactive le scénario</a>';
             } else {
-                retour += '<a class="btn btn-xs btn-danger bt_conditionRuningScenario pull-right subElementAttr" value="0" l1key="options" l2key="runingScenario"><i class="fa fa-times"></i> Désactive scénario</a>';
+                retour += '<a class="btn btn-xs btn-danger bt_conditionRuningScenario pull-right subElementAttr" value="0" l1key="options" l2key="runingScenario"><i class="fa fa-times"></i> Active le scénario</a>';
             }
             retour += '</legend>';
             retour += '<div class="expressions">';
