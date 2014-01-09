@@ -93,7 +93,7 @@ if ($module != '') {
             </div><!-- /content -->
             <br/>
             <div data-role="footer" data-theme="a" style="padding-top: 8px;padding-bottom: 5px;">
-                <span style="margin-left: 0px;">&copy; Jeedom 2013 - Version <?php echo VERSION ?></span>
+                <span style="margin-left: 0px;">&copy; Jeedom (v<?php echo VERSION ?>) <?php echo date('Y') ?> </span>
                 <span style="float: right;">Node JS <span id="span_nodeJsState" class="binary red"></span></span>
             </div><!-- /footer -->
 
