@@ -21,7 +21,6 @@ $(function() {
         return false;
     });
 
-
     $('#bt_syncEqLogic').on('click', function() {
         syncEqLogicWithRazberry();
     });
@@ -29,15 +28,8 @@ $(function() {
         changeIncludeState($(this).attr('state'));
     });
 
-    $("#md_showClass").dialog({
-        autoOpen: false,
-        modal: true,
-        height: (jQuery(window).height() - 150),
-        width: 1000
-    });
-
     $('#bt_showClass').on('click', function() {
-        $('#md_showClass').load('index.php?v=d&module=razberry&modal=showClass&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
+        $('#md_modal').load('index.php?v=d&module=razberry&modal=showClass&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
     });
     
     $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});

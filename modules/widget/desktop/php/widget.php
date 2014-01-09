@@ -120,8 +120,6 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
     </div>
 </div>
 
-<div id="md_applyWidget" title="Appliquer widget"></div>
-
 <div class="modal fade" id="md_addWidget">
     <div class="modal-dialog">
         <div class="modal-content">

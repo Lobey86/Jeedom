@@ -181,9 +181,8 @@ if ($module != '') {
                         echo '</div>';
                     }
                     ?>
-
+                    <div id="md_modal"></div>
                     <div id="md_pageHelp"></div>
-                    <div id="md_pageAbout"></div>
                 </main>
             </div>
         <?php } ?>

@@ -190,8 +190,5 @@ sendVarToJS('eqType', 'razberry');
     </div>
 </div>
 
-
-<div id="md_showClass" title="Classes disponible sur l'équipement"></div>
-
 <?php include_file('desktop', 'razberry', 'js', 'razberry'); ?>
 <?php include_file('core', 'module.template', 'js'); ?>

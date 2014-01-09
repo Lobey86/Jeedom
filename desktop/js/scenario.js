@@ -92,17 +92,9 @@ $(function() {
         stopScenario($('.scenarioAttr[l1key=id]').value());
     });
 
-    $("#md_scenarioVariable").dialog({
-        autoOpen: false,
-        modal: true,
-        height: (jQuery(window).height() - 150),
-        width: 700,
-        zIndex: 1039
-    });
-
     $('#bt_displayScenarioVariable').on('click', function() {
         $('#md_scenarioVariable').closest('.ui-dialog').css('z-index', '1030');
-        $("#md_scenarioVariable").load('index.php?v=d&modal=dataStore.management&type=scenario').dialog('open');
+        $("#md_modal").load('index.php?v=d&modal=dataStore.management&type=scenario').dialog('open');
 
     });
 
@@ -227,15 +219,9 @@ $(function() {
     });
 
     /***********************LOG*****************************/
-    $("#md_logScenario").dialog({
-        autoOpen: false,
-        modal: true,
-        height: (jQuery(window).height() - 150),
-        width: 1200
-    });
 
     $('#bt_logScenario').on('click', function() {
-        $("#md_logScenario").load('index.php?v=d&modal=scenario.log.execution&scenario_id=' + $('.scenarioAttr[l1key=id]').value()).dialog('open');
+        $("#md_modal").load('index.php?v=d&modal=scenario.log.execution&scenario_id=' + $('.scenarioAttr[l1key=id]').value()).dialog('open');
     });
 
     /**************** Initialisation **********************/

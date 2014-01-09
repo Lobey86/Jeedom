@@ -42,16 +42,16 @@ $(function() {
     });
 
     /************************Help*************************/
-    //Display about
-    $("#md_pageAbout").dialog({
+
+    //Display help
+    $("#md_pageHelp").dialog({
         autoOpen: false,
         modal: true,
         height: (jQuery(window).height() - 150),
         width: 1000
     });
 
-    //Display help
-    $("#md_pageHelp").dialog({
+    $("#md_modal").dialog({
         autoOpen: false,
         modal: true,
         height: (jQuery(window).height() - 150),
@@ -63,9 +63,9 @@ $(function() {
     });
 
     $('#bt_jeedomAbout').on('click', function() {
-        $('#md_pageAbout').load('index.php?v=d&modal=about').dialog('open');
+        $('#md_modal').load('index.php?v=d&modal=about').dialog('open');
     });
-    
+
     initTableSorter();
 });
 
@@ -112,8 +112,8 @@ function refreshMessageNumber() {
     });
 }
 
-function notify(_title, _text, _class_name,_cleanBefore) {
-    if(init(_cleanBefore,false)){
+function notify(_title, _text, _class_name, _cleanBefore) {
+    if (init(_cleanBefore, false)) {
         $.gritter.removeAll();
     }
     if (isset(_class_name) != '') {

@@ -18,16 +18,9 @@
 $(function() {
     printSarahDef();
 
-    $("#md_queries").dialog({
-        autoOpen: false,
-        modal: true,
-        height: (jQuery(window).height() - 150),
-        width: 1000
-    });
-
     $('#table_interactDef tbody').delegate('.displayInteracQuery', 'click', function() {
         var tr = $(this).closest('tr');
-        $('#md_queries').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + tr.find('.interactDefAttr[l1key=id]').value()).dialog('open');
+        $('#md_modal').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + tr.find('.interactDefAttr[l1key=id]').value()).dialog('open');
     });
 
     $("#bt_addSarahDef").on('click', function() {

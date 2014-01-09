@@ -26,14 +26,6 @@ $(function() {
         return false;
     });
 
-    //Display about
-    $("#md_applyWidget").dialog({
-        autoOpen: false,
-        modal: true,
-        height: (jQuery(window).height() - 150),
-        width: 1000
-    });
-
     if (getUrlVars('saveSuccessFull') == 1) {
         $('#div_alert').showAlert({message: 'Sauvegarde effectué avec succès', level: 'success'});
     }
@@ -61,7 +53,7 @@ $(function() {
     });
 
     $('#bt_applyWidget').on('click', function() {
-        $('#md_applyWidget').load('index.php?v=d&module=widget&modal=widget.apply&path=' + $('.widgetAttr[l1key=path]').value()).dialog('open');
+        $('#md_modal').load('index.php?v=d&module=widget&modal=widget.apply&path=' + $('.widgetAttr[l1key=path]').value()).dialog('open');
     });
 
     $("#md_addWidget .widgetAction[action=newAdd]").on('click', function() {
