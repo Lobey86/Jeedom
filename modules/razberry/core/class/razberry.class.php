@@ -41,10 +41,16 @@ class razberry extends eqLogic {
                         nodejs::pushUpdate('razberry::' . $key, $result['value']);
                         break;
                     case 'controller.data.lastExcludedDevice' :
-                        nodejs::pushNotification('Razberry', 'Un périphérique Z-Wave vient d\'être exclu');
+                        if ($result['value'] != null) {
+                            nodejs::pushNotification('Razberry', 'Un périphérique Z-Wave vient d\'être exclu. Logical ID : ' . $result['value']);
+                            self::syncEqLogicWithRazberry();
+                        }
                         break;
                     case 'controller.data.lastIncludedDevice' :
-                        nodejs::pushNotification('Razberry', 'Un périphérique Z-Wave vient d\'être inclu');
+                        if ($result['value'] != null) {
+                            nodejs::pushNotification('Razberry', 'Un périphérique Z-Wave vient d\'être inclu. Logical ID : ' . $result['value']);
+                            self::syncEqLogicWithRazberry();
+                        }
                         break;
                     default:
                         $explodeKey = explode('.', $key);
