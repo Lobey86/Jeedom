@@ -15,7 +15,7 @@ if (!isConnect()) {
         <table id="table_cron" class="table table-bordered table-condensed tablesorter" >
             <thead>
                 <tr>
-                    <th class="" style="width: 50px;"></th>
+                    <th class="" style="width: 50px;" data-sorter="false" data-filter="false"></th>
                     <th class="enable" style="width: 80px;">Actif</th>
                     <th class="server" style="width: 100px;">Serveur</th>
                     <th class="pid" style="width: 100px;">PID</th>

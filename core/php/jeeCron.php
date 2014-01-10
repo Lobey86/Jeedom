@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 require_once dirname(__FILE__) . "/core.inc.php";
 $startTime = getmicrotime();
@@ -41,7 +41,7 @@ if (init('cron_id') != '') {
         log::add('cron', 'Error', 'Cron job non trouvé : ' . init('cron_id'));
         die();
     }
-    if ($cron->getPID() == '') {
+    if ($cron->getPID() != '' && $cron->getPID() != 0) {
         echo 'Le cron : ' . $cron->getClass() . '::' . $cron->getFunction() . '() est en cours';
         log::add('cron', 'Error', 'Le cron : ' . $cron->getClass() . '::' . $cron->getFunction() . '() est en cours');
         die();
@@ -156,7 +156,7 @@ if (init('cron_id') != '') {
                         break;
                     case 'starting':
                         $cmd = 'php ' . dirname(__FILE__) . '/jeeCron.php';
-                        $cmd.= ' api=' . config::byKey('api');
+                        $cmd.= ' api=' . init('api');
                         $cmd.= ' cron_id=' . $cron->getId();
                         if (exec('ps ax | grep "' . $cmd . '" | wc -l') < 3) {
                             shell_exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('cron') . ' 2>&1 &');
