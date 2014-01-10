@@ -127,14 +127,10 @@ class cron {
     public function refresh() {
         $this->updateFromObject(self::byId($this->getId()));
         if ($this->getPID() > 0 && !$this->running()) {
-            $this->updateFromObject(self::byId($this->getId()));
-            if ($this->getPID() > 0 && !$this->running()) {
-                $this->setState('stop');
-                $this->setDuration(-1);
-                $this->setPID();
-                $this->setServer('');
-                $this->save();
-            }
+            $this->setState('stop');
+            $this->setPID();
+            $this->setServer('');
+            $this->save();
         }
         return true;
     }
