@@ -41,7 +41,8 @@ if (init('cron_id') != '') {
         log::add('cron', 'Error', 'Cron job non trouvé : ' . init('cron_id'));
         die();
     }
-    if ($cron->getPID() != '' && $cron->getPID() != 0) {
+    $cron->refresh();
+    if ($cron->getState() == 'run') {
         echo 'Le cron : ' . $cron->getClass() . '::' . $cron->getFunction() . '() est en cours';
         log::add('cron', 'Error', 'Le cron : ' . $cron->getClass() . '::' . $cron->getFunction() . '() est en cours');
         die();
@@ -70,7 +71,7 @@ if (init('cron_id') != '') {
             }
         } else {
             $cron->setState('Not found');
-            $cron->setPID('');
+            $cron->setPID();
             $cron->setServer('');
             $cron->save();
             log::add('cron', 'error', '[Erreur] Non trouvée ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
@@ -92,7 +93,7 @@ if (init('cron_id') != '') {
             }
         } else {
             $cron->setState('Not found');
-            $cron->setPID('');
+            $cron->setPID();
             $cron->setServer('');
             $cron->save();
             log::add('cron', 'error', '[Erreur] Non trouvée ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
@@ -100,7 +101,7 @@ if (init('cron_id') != '') {
         }
     }
     $cron->setState('stop');
-    $cron->setPID('');
+    $cron->setPID();
     $cron->setServer('');
     $cron->setDuration(convertDuration(strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)));
     $cron->save();
@@ -174,13 +175,13 @@ if (init('cron_id') != '') {
                             if ($cron->running()) {
                                 $cron->setState('error');
                                 $cron->setServer('');
-                                $cron->setPID('');
+                                $cron->setPID();
                                 $cron->save();
                                 log::add('cron', 'error', '[Erreur] ' . $cron->getClass() . '::' . $cron->getFunction() . '() : Impossible d\'arreter la tache');
                             } else {
                                 $cron->setState('stop');
                                 $cron->setDuration(-1);
-                                $cron->setPID('');
+                                $cron->setPID();
                                 $cron->setServer('');
                                 $cron->save();
                             }

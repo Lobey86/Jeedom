@@ -117,7 +117,7 @@ class cron {
     }
 
     public function running() {
-        if ($this->getPID() > 0 && $this->getServer() == gethostname()) {
+        if ($this->getState() == 'run' && $this->getPID() > 0 && $this->getServer() == gethostname()) {
             exec('ps ' . $this->pid, $pState);
             return (count($pState) >= 2);
         }
@@ -126,7 +126,7 @@ class cron {
 
     public function refresh() {
         $this->updateFromObject(self::byId($this->getId()));
-        if ($this->getPID() > 0 && !$this->running()) {
+        if ($this->getState() == 'run' && !$this->running()) {
             $this->setState('stop');
             $this->setPID();
             $this->setServer('');
