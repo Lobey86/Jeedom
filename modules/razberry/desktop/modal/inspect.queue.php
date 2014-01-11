@@ -19,9 +19,11 @@ if (!isConnect()) {
     throw new Exception('401 Unauthorized');
 }
 ?>
+<div id='div_inspectQueueAlert' style="display: none;"></div>
 <table id="table_zwaveQueue" class="table table-bordered table-condensed tablesorter">
     <thead>
         <tr>
+            <th>Nombre d'envoi</th>
             <th>Timeout</th>
             <th>Logical ID</th>
             <th>Nom</th>
@@ -48,17 +50,20 @@ if (!isConnect()) {
             dataType: 'json',
             global: false,
             error: function(request, status, error) {
-                handleAjaxError(request, status, error, $('#div_configureDeviceAlert'));
+                handleAjaxError(request, status, error, $('#div_inspectQueueAlert'));
             },
             success: function(data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
-                    $('#div_configureDeviceAlert').showAlert({message: data.result, level: 'danger'});
+                    $('#div_inspectQueueAlert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
                 $('#table_zwaveQueue tbody').empty();
                 var tr = '';
                 for (var i in data.result) {
                     tr += '<tr>';
+                     tr += '<td>';
+                    tr += data.result[i].sendCount;
+                    tr += '</td>';
                     tr += '<td>';
                     tr += data.result[i].timeout;
                     tr += '</td>';

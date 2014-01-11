@@ -203,7 +203,14 @@ class razberry extends eqLogic {
             }
             $queue['description'] = $result[3];
             $queue['status'] = $result[4];
-
+            if ($queue['status'] == null) {
+                $queue['status'] = '';
+            }
+            $status = $result[1];
+            if ($status[1] == 1) {
+                $queue['status'] .= ' [Wait wakeup]';
+            }
+            $queue['sendCount'] = $status[0];
             $return[] = $queue;
         }
         return $return;
