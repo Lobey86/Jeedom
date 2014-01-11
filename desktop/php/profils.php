@@ -136,6 +136,28 @@ $homePage = array(
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-1 control-label">Objet par default(desktop)</label>
+                                    <div class="col-lg-3">
+                                        <select class="profilsKey form-control" key="defaultDashboardObject">
+                                            <?php
+                                            if ($_SESSION['user']->getOptions('defaultDashboardObject') == 'global') {
+                                                echo "<option value='global' selected>Global</option>";
+                                            } else {
+                                                echo "<option value='global'>Global</option>";
+                                            }
+                                            foreach (object::all() as $object) {
+                                                if ($_SESSION['user']->getOptions('defaultDashboardObject') == $object->getId()) {
+                                                    echo "<option value='" . $object->getId() . "' selected>" . $object->getName() . "</option>";
+                                                } else {
+                                                    echo "<option value='" . $object->getId() . "'>" . $object->getName() . "</option>";
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
                             </fieldset>
                         </form>
                     </div>

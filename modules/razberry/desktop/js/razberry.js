@@ -36,7 +36,7 @@ $(function() {
 
 
     /**********************Node js requests *****************************/
-    $('body').off('nodeJsConnect').on('nodeJsConnect', function() {
+    $('body').one('nodeJsConnect', function() {
         socket.on('razberry::controller.data.controllerState', function(_options) {
             if (_options == 1) {
                 $('.changeIncludeState[state=1]').removeClass('btn-default').addClass('btn-success');

@@ -37,6 +37,4 @@ if (init('chat_user_id') != '') {
 <label for="messageText"><strong>Message:</strong></label>
 <input id="messageText" />
 
-<?php include_file('mobile', 'chat', 'js'); ?>
-
 
