@@ -1,19 +1,22 @@
 <script type="text/javascript" src="3rdparty/justGage/justgage.1.0.1.min.js" ></script>
 <script type="text/javascript" src="3rdparty/justGage/raphael.2.1.0.min.js" ></script>
 
-<span class="info" cmd_id="#id#">
-    <span style="width:130px;height: 130px;display: inline-block;" class="#class# tooltips" cmd_id="#id#" title="#collectDate#" >
+<span class="info" cmd_id="#id#" style="display: inline-block;">
+    <span style="width:130px;height: 130px;display: inline-block;vertical-align: top;" class="#class# tooltips" cmd_id="#id#" title="#collectDate#" >
         <div id="cmd#id#"></div>
-        <center>
+    </span>
+    <center>
+        <span style="vertical-align: top; display : inline;line-height: 1;padding: 0.2em 0.6em 0.3em;" >
             <span style="#displayHistory#" class="label label-default">
                 <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
             </span>
-        </center>
-    </span>
+        </span>
+    </center>
 </span>
+
 <script>
-    if (('#state#' != '' && is_numeric('#state#'))){
-            new JustGage({
+            if (('#state#' != '' && is_numeric('#state#'))){
+    new JustGage({
     id: "cmd#id#",
             value: '#state#',
             min: #minValue#,
