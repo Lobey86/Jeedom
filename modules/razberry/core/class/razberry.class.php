@@ -187,6 +187,28 @@ class razberry extends eqLogic {
         }
     }
 
+    public static function inspectQueue() {
+        $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/InspectQueue');
+        $results = json_decode(self::handleError($http->exec()), true);
+        $return = array();
+        foreach ($results as $result) {
+            $queue = array();
+            $queue['timeout'] = $result[0];
+            $queue['id'] = $result[2];
+            $eqLogic = razberry::byLogicalId($queue['id'], 'razberry');
+            if (is_object($eqLogic[0])) {
+                $queue['name'] = $eqLogic[0]->getHumanName();
+            } else {
+                $queue['name'] = '';
+            }
+            $queue['description'] = $result[3];
+            $queue['status'] = $result[4];
+
+            $return[] = $queue;
+        }
+        return $return;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function getAvailableCommandClass() {

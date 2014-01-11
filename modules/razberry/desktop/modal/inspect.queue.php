@@ -1,0 +1,88 @@
+<?php
+/* This file is part of Jeedom.
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+if (!isConnect()) {
+    throw new Exception('401 Unauthorized');
+}
+?>
+<table id="table_zwaveQueue" class="table table-bordered table-condensed tablesorter">
+    <thead>
+        <tr>
+            <th>Timeout</th>
+            <th>Logical ID</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<script>
+    updateZwaveQueue();
+    initTableSorter();
+
+    function updateZwaveQueue() {
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "modules/razberry/core/ajax/razberry.ajax.php", // url du fichier php
+            data: {
+                action: "inspectQueue",
+            },
+            dataType: 'json',
+            global: false,
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error, $('#div_configureDeviceAlert'));
+            },
+            success: function(data) { // si l'appel a bien fonctionné
+                if (data.state != 'ok') {
+                    $('#div_configureDeviceAlert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                $('#table_zwaveQueue tbody').empty();
+                var tr = '';
+                for (var i in data.result) {
+                    tr += '<tr>';
+                    tr += '<td>';
+                    tr += data.result[i].timeout;
+                    tr += '</td>';
+                    tr += '<td>';
+                    tr += data.result[i].id;
+                    tr += '</td>';
+                    tr += '<td>';
+                    tr += data.result[i].name;
+                    tr += '</td>';
+                    tr += '<td>';
+                    tr += data.result[i].description;
+                    tr += '</td>';
+                     tr += '<td>';
+                    tr += data.result[i].status;
+                    tr += '</td>';
+                    tr += '</tr>';
+                }
+                $('#table_zwaveQueue tbody').append(tr);
+                $('#table_zwaveQueue').trigger('update');
+                if ($('#table_zwaveQueue').is(':visible')) {
+                    setTimeout(updateZwaveQueue, 1000);
+                }
+            }
+        });
+
+    }
+</script>

@@ -61,6 +61,10 @@ try {
         }
         ajax::success($eqLogic->setDeviceConfiguration(json_decode(init('configurations'),true)));
     }
+    
+     if (init('action') == 'inspectQueue') {
+        ajax::success(razberry::inspectQueue());
+    }
 
 
     throw new Exception('Aucune methode correspondante');

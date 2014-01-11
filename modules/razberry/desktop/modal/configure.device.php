@@ -78,8 +78,18 @@ sendVarToJS('configureDeviceId', init('id'));
                 }
                 echo '</div>';
                 echo '<div class="col-lg-2">';
-                echo '<span class="tooltips label label-default zwaveParameters" l1key="' . $id . '" l2key="size"></span> ';
-                echo '<span class="tooltips label label-default zwaveParameters" l1key="' . $id . '" l2key="datetime"></span>';
+                if (isset($parameter['unite'])) {
+                    echo '<span class="tooltips label label-primary tooltips" title="Unité">' . $parameter['unite'] . '</span> ';
+                }
+                if (isset($parameter['min']) || isset($parameter['max'])) {
+                    echo '<span class="tooltips label label-primary tooltips" title="[min-max]">[' . $parameter['min'] . '-' . $parameter['max'] . ']</span> ';
+                }
+
+                if (isset($parameter['default'])) {
+                    echo '<span class="tooltips label label-primary tooltips" title="Défaut">' . $parameter['default'] . '</span> ';
+                }
+                echo '<span class="tooltips label label-default zwaveParameters" l1key="' . $id . '" l2key="size" title="Taille en byte"></span> ';
+                echo '<span class="tooltips label label-info zwaveParameters" l1key="' . $id . '" l2key="datetime" title="Date"></span>';
                 echo '</div>';
                 echo '<div class="col-lg-3">';
                 echo '<span class="tooltips description"></span> ';
@@ -92,6 +102,8 @@ sendVarToJS('configureDeviceId', init('id'));
 </form>
 
 <script>
+    activateTooltips();
+    
     $('select.zwaveParameters').on('change', function() {
         $(this).closest('.form-group').find('.description').html($(this).find('option:selected').attr('description'));
     });

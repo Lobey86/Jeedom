@@ -32,7 +32,7 @@ include_file('core', 'classCommand', 'config', 'razberry');
 <div id='div_showClassAlert' style="display: none;"></div>
 <div class="row">
     <div class="col-lg-2">
-        <table id="table_class" class="table table-bordered table-condensed">
+        <table id="table_class" class="table table-bordered table-condensed tablesorter">
             <thead>
                 <tr>
                     <th>Classes</th>

@@ -35,6 +35,12 @@ $(function() {
     $('#bt_configureDevice').on('click', function() {
         $('#md_modal').load('index.php?v=d&module=razberry&modal=configure.device&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
     });
+    
+     $('#bt_inspectQueue').on('click', function() {
+        $('#md_modal').load('index.php?v=d&module=razberry&modal=inspect.queue').dialog('open');
+    });
+    
+    
 
     $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
