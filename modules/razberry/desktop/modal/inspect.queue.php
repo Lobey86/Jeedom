@@ -20,6 +20,7 @@ if (!isConnect()) {
 }
 ?>
 <div id='div_inspectQueueAlert' style="display: none;"></div>
+<legend>Queue Z-wave  <span id='span_inspectQueueRefreshTIme' class='label label-primary pull-right'></span></legend>
 <table id="table_zwaveQueue" class="table table-bordered table-condensed tablesorter">
     <thead>
         <tr>
@@ -61,7 +62,7 @@ if (!isConnect()) {
                 var tr = '';
                 for (var i in data.result) {
                     tr += '<tr>';
-                     tr += '<td>';
+                    tr += '<td>';
                     tr += data.result[i].sendCount;
                     tr += '</td>';
                     tr += '<td>';
@@ -76,13 +77,23 @@ if (!isConnect()) {
                     tr += '<td>';
                     tr += data.result[i].description;
                     tr += '</td>';
-                     tr += '<td>';
+                    tr += '<td>';
                     tr += data.result[i].status;
                     tr += '</td>';
                     tr += '</tr>';
                 }
                 $('#table_zwaveQueue tbody').append(tr);
                 $('#table_zwaveQueue').trigger('update');
+                var date = new Date();
+                var hour = date.getHours();
+                var minute = date.getMinutes();
+                var seconde = date.getSeconds();
+                var horloge = (hour < 10) ? '0' + hour : hour;
+                horloge += ':';
+                horloge += (minute < 10) ? '0' + minute : minute;
+                horloge += ':';
+                horloge += (seconde < 10) ? '0' + seconde : seconde;
+                $('#span_inspectQueueRefreshTIme').text(horloge);
                 if ($('#table_zwaveQueue').is(':visible')) {
                     setTimeout(updateZwaveQueue, 1000);
                 }
