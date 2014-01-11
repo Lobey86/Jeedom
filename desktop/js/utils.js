@@ -57,7 +57,7 @@ $(function() {
         height: (jQuery(window).height() - 150),
         width: 1000
     });
-    $("#md_modal").siblings('div.ui-dialog-titlebar').remove();
+    //$("#md_modal").siblings('div.ui-dialog-titlebar').remove();
 
     $('#bt_pageHelp').on('click', function() {
         showHelpModal(getUrlVars('p'), getUrlVars('m'));
