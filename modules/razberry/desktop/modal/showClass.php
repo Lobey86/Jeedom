@@ -27,7 +27,7 @@ if (!is_object($eqLogic)) {
     throw new Exception('EqLogic non trouvé');
 }
 global $listClassCommand;
-include_file('core', 'classCommand', 'config', 'razberry');
+include_file('core', 'class.command', 'config', 'razberry');
 ?>
 <div id='div_showClassAlert' style="display: none;"></div>
 <div class="row">

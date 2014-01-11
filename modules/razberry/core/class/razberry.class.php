@@ -128,7 +128,7 @@ class razberry extends eqLogic {
 
     public static function getCommandClassInfo($_class) {
         global $listClassCommand;
-        include_file('core', 'classCommand', 'config', 'razberry');
+        include_file('core', 'class.command', 'config', 'razberry');
         if (isset($listClassCommand[$_class])) {
             return $listClassCommand[$_class];
         }
