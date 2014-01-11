@@ -21,7 +21,7 @@ function cmd() {
 
 
 cmd.changeType = function(_el, _subType) {
-    var selSubType = '<select style="width : 100px;margin-top : 5px;" class="cmdAttr form-control" l1key="subType">';
+    var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control" l1key="subType">';
     var type = _el.value();
     switch (type) {
         case 'info' :
@@ -49,7 +49,7 @@ cmd.changeType = function(_el, _subType) {
 }
 
 cmd.availableType = function() {
-    var selType = '<select style="width : 100px; margin-bottom : 3px;" class="cmdAttr form-control" l1key="type">';
+    var selType = '<select style="width : 120px; margin-bottom : 3px;" class="cmdAttr form-control" l1key="type">';
     selType += '<option value="info">Info</option>';
     selType += '<option value="action">Action</option>';
     selType += '</select>';

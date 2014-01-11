@@ -190,7 +190,7 @@ class razberry extends eqLogic {
     /*     * *********************Methode d'instance************************* */
 
     public function getAvailableCommandClass() {
-        $http = new com_http(razberry::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses');
+        $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses');
         $results = json_decode(self::handleError($http->exec()), true);
         $return = array();
         foreach ($results as $class => $value) {
@@ -201,7 +201,7 @@ class razberry extends eqLogic {
 
     public function getInfo() {
         $return = array();
-        $http = new com_http(razberry::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . ']');
+        $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . ']');
         $results = json_decode(self::handleError($http->exec()), true);
         if (isset($results['instances'])) {
             if (isset($results['instances'][0])) {
@@ -237,6 +237,38 @@ class razberry extends eqLogic {
             }
         }
         return $return;
+    }
+
+    public function getDeviceConfiguration() {
+        global $listZwaveDevice;
+        include_file('core', 'devices', 'config', 'razberry');
+        if (!isset($listZwaveDevice[$this->getConfiguration('device')])) {
+            throw new Exception('Equipement inconnu : ' . $this->getConfiguration('device'));
+        } else {
+            $parameters = $listZwaveDevice[$this->getConfiguration('device')]['parameters'];
+        }
+        $return = array();
+        $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].data');
+        $data = json_decode(self::handleError($http->exec()), true);
+
+        foreach ($parameters as $id => $parameter) {
+            if (isset($data[$id])) {
+                $return[$id] = array();
+                $return[$id]['value'] = $data[$id]['val']['value'];
+                $return[$id]['datetime'] = date('Y-m-d H:i:s', $data[$id]['val']['updateTime']);
+                $return[$id]['size'] = $data[$id]['size']['value'];
+            }
+        }
+        return $return;
+    }
+
+    public function setDeviceConfiguration($_configurations) {
+        $url = self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].Set(';
+        foreach ($_configurations as $id => $configuration) {
+            $http = new com_http($url . $id . ',' . $configuration['value'] . ',' . $configuration['size'] . ')');
+            self::handleError($http->exec());
+        }
+        return true;
     }
 
     /*     * **********************Getteur Setteur*************************** */

@@ -39,11 +39,27 @@ try {
     }
 
     if (init('action') == 'getModuleInfo') {
-        $razberry = razberry::byId(init('id'));
-        if (!is_object($razberry)) {
+        $eqLogic = razberry::byId(init('id'));
+        if (!is_object($eqLogic)) {
             throw new Exception('Razberry module non trouvé : ' . init('id'));
         }
-        ajax::success($razberry->getInfo());
+        ajax::success($eqLogic->getInfo());
+    }
+    
+    if (init('action') == 'getDeviceConfiguration') {
+        $eqLogic = razberry::byId(init('id'));
+        if (!is_object($eqLogic)) {
+            throw new Exception('Razberry module non trouvé : ' . init('id'));
+        }
+        ajax::success($eqLogic->getDeviceConfiguration());
+    }
+    
+    if (init('action') == 'setDeviceConfiguration') {
+        $eqLogic = razberry::byId(init('id'));
+        if (!is_object($eqLogic)) {
+            throw new Exception('Razberry module non trouvé : ' . init('id'));
+        }
+        ajax::success($eqLogic->setDeviceConfiguration(json_decode(init('configurations'),true)));
     }
 
 

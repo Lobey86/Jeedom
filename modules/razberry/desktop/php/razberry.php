@@ -4,6 +4,9 @@ if (!isConnect()) {
 }
 sendVarToJS('select_id', init('id', '-1'));
 sendVarToJS('eqType', 'razberry');
+
+global $listZwaveDevice;
+include_file('core', 'devices', 'config', 'razberry');
 ?>
 
 <div class="row">
@@ -49,7 +52,7 @@ sendVarToJS('eqType', 'razberry');
                         <div class="form-group">
                             <label class="col-lg-4 control-label" >Objet parent</label>
                             <div class="col-lg-8">
-                                <select id="sel_object" class="eqLogicAttr form-control" l1key="object_id">
+                                <select class="eqLogicAttr form-control" l1key="object_id">
                                     <option value="">Aucun</option>
                                     <?php
                                     foreach (object::all() as $object) {
@@ -74,7 +77,7 @@ sendVarToJS('eqType', 'razberry');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Délai autorisé entre 2 messages (min)</label>
                             <div class="col-lg-4">
-                                <input class="eqLogicAttr form-control" l1key="timeout" checked/>
+                                <input class="eqLogicAttr form-control" l1key="timeout" />
                             </div>
                         </div>
                     </fieldset> 
@@ -84,6 +87,24 @@ sendVarToJS('eqType', 'razberry');
                 <form class="form-horizontal">
                     <fieldset>
                         <legend>Informations</legend>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Equipement</label>
+                            <div class="col-lg-5">
+                                <select class="eqLogicAttr form-control" l1key="configuration" l2key="device">
+                                    <option value="">Aucun</option>
+                                    <?php
+                                    foreach ($listZwaveDevice as $id => $info) {
+                                        echo '<option value="' . $id . '">' . $info['name'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <a class="btn btn-default" id="bt_configureDevice"><i class="fa fa-wrench"></i></a>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Batterie</label>
                             <div class="col-lg-5">
@@ -114,7 +135,7 @@ sendVarToJS('eqType', 'razberry');
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Classes</label>
                             <div class="col-lg-5">
-                                <a class="btn btn-default" id="bt_showClass">Voir/Ajouter commandes préconfigurées</a>
+                                <a class="btn btn-default" id="bt_showClass"><i class="fa fa-cogs"></i> Voir/Ajouter commandes préconfigurées</a>
                             </div>
                         </div>
                     </fieldset> 
@@ -128,7 +149,7 @@ sendVarToJS('eqType', 'razberry');
             <thead>
                 <tr>
                     <th style="width: 300px;">Nom</th>
-                    <th style="width: 120px;">Type</th>
+                    <th style="width: 130px;">Type</th>
                     <th style="width: 100px;">Instance ID</th>
                     <th style="width: 100px;">Class</th>
                     <th style="width: 200px;">Commande</th>

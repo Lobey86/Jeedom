@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $(function() {
     $(".li_eqLogic").on('click', function() {
@@ -31,7 +31,11 @@ $(function() {
     $('#bt_showClass').on('click', function() {
         $('#md_modal').load('index.php?v=d&module=razberry&modal=showClass&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
     });
-    
+
+    $('#bt_configureDevice').on('click', function() {
+        $('#md_modal').load('index.php?v=d&module=razberry&modal=configure.device&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
+    });
+
     $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
 
@@ -71,8 +75,8 @@ function printModuleInfo(_id) {
             $('.razberryInfo').value('');
             for (var i in data.result) {
                 var value = data.result[i]['value'];
-                if(isset(data.result[i]['unite'])){
-                    value += ' '+data.result[i]['unite'];
+                if (isset(data.result[i]['unite'])) {
+                    value += ' ' + data.result[i]['unite'];
                 }
                 $('.razberryInfo[l1key=' + i + ']').value(value);
                 $('.razberryInfo[l1key=' + i + ']').attr('title', data.result[i]['datetime']);
