@@ -136,7 +136,7 @@ sendVarToJS('configureDeviceId', init('id'));
                     $('#div_configureDeviceAlert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('#div_configureDeviceAlert').showAlert({message: 'Parrametres appliqués avec succes', level: 'success'});
+                $('#div_configureDeviceAlert').showAlert({message: 'Parrametres envoyés avec succes (la prise en compte peut prendre jsuqu\'à plusieurs minutes', level: 'success'});
             }
         });
     });

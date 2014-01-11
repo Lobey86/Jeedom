@@ -19,7 +19,265 @@
 global $listZwaveDevice;
 
 $listZwaveDevice = array(
-    'wall plug' => array(
+    'fibaro FGD-211' => array(
+        'name' => 'Fibaro FGD-211',
+        'vendor' => 'Fibar Group',
+        'parameters' => array(
+            '1' => array(
+                'name' => 'Commande ALL ON / ALL OFF',
+                'description' => '',
+                'default' => '255',
+                'type' => 'select',
+                'value' => array(
+                    '0' => array(
+                        'name' => 'Aucun',
+                        'description' => '',
+                    ),
+                    '1' => array(
+                        'name' => 'All ON',
+                        'description' => ''
+                    ),
+                    '2' => array(
+                        'name' => 'All OFF',
+                        'description' => '',
+                    ),
+                    '255' => array(
+                        'name' => 'ALL ON & ALL OFF activés',
+                        'description' => '',
+                    ),
+                )
+            ),
+            '6' => array(
+                'name' => 'Transmission des commandes locales au groupe',
+                'description' => '',
+                'default' => '0',
+                'type' => 'select',
+                'value' => array(
+                    '0' => array(
+                        'name' => '0',
+                        'description' => 'Transmet les commande Marche et Arrêt',
+                    ),
+                    '1' => array(
+                        'name' => '1',
+                        'description' => 'Ne transmet que la commande Arrêt. Un double appui transmet la commande Marche (dans le cas d’un variateur, celui-ci s’allume à son dernier niveau). Nécessite l’activation du paramètre 15'
+                    ),
+                    '2' => array(
+                        'name' => '2',
+                        'description' => 'Ne transmet que la commande Arrêt. Un double appui transmet la commande Marche (dans le cas d’un variateur, celui-ci s’allume à 100%). Nécessite l’activation du paramètre 15',
+                    ),
+                )
+            ),
+            '7' => array(
+                'name' => 'Vérifier l’état de l’équipement distant avant d’envoyer un ordre depuis le bouton 2',
+                'description' => '',
+                'default' => '1',
+                'type' => 'select',
+                'value' => array(
+                    '0' => array(
+                        'name' => 'Non',
+                        'description' => '',
+                    ),
+                    '1' => array(
+                        'name' => 'Oui',
+                        'description' => ''
+                    ),
+                )
+            ),
+            '8' => array(
+                'name' => 'Palier de variation automatique',
+                'description' => 'Pourcentage de variation à chaque palier de 1 à 99% (en commande automatique)',
+                'default' => '1',
+                'type' => 'input',
+                'unite' => '%',
+                'min' => '1',
+                'max' => '99',
+            ),
+            '9' => array(
+                'name' => 'Durée de variation manuelle',
+                'description' => 'Durée de la variation entre deux valeurs extrêmes (1% --> 100% ou 100% --> 1%) lors d’une commande manuelle. x 10ms (1 = 10ms / 255 = 2,55s)',
+                'default' => '5',
+                'type' => 'input',
+                'unite' => 's',
+                'min' => '1',
+                'max' => '255',
+            ),
+            '10' => array(
+                'name' => 'Durée de variation automatique',
+                'description' => 'Durée de la variation douce entre deux valeurs extrêmes (1% --> 100% ou 100% --> 1%) lors d’une commande automatique ou d’un allumage / extinction. x 10ms (1 = 10ms / 255 = 2,55s) - 0 pour désactiver',
+                'default' => '5',
+                'type' => 'input',
+                'unite' => 's',
+                'min' => '0',
+                'max' => '255',
+            ),
+            '11' => array(
+                'name' => 'Palier de variation manuelle',
+                'description' => 'Pourcentage de variation à chaque palier de 1 à 99% (en commande manuelle)',
+                'default' => '1',
+                'type' => 'input',
+                'unite' => '%',
+                'min' => '1',
+                'max' => '99',
+            ),
+            '12' => array(
+                'name' => 'Niveau maximum de luminosité',
+                'description' => 'Niveau maximum de luminosité autorisé (en %). Doit être supérieur au paramètre 13',
+                'default' => '99',
+                'type' => 'input',
+                'unite' => '%',
+                'min' => '2',
+                'max' => '99',
+            ),
+            '13' => array(
+                'name' => 'Niveau minimum de luminosité',
+                'description' => 'Niveau minimum de luminosité autorisé (en %). Doit être inférieur au paramètre 12',
+                'default' => '2',
+                'type' => 'input',
+                'unite' => '%',
+                'min' => '2',
+                'max' => '99',
+            ),
+            '14' => array(
+                'name' => 'Compatibilité commutateurs bi-stables',
+                'description' => '',
+                'default' => '0',
+                'type' => 'select',
+                'value' => array(
+                    '0' => array(
+                        'name' => 'Non',
+                        'description' => 'Bouton-poussoir impusionnel (mono-stable)',
+                    ),
+                    '1' => array(
+                        'name' => 'Oui',
+                        'description' => 'Commutateur Marche / Arrêt (bi-stable)'
+                    ),
+                )
+            ),
+            '15' => array(
+                'name' => 'Fonction double impulsion (double-clic)',
+                'description' => '',
+                'default' => '1',
+                'type' => 'select',
+                'value' => array(
+                    '0' => array(
+                        'name' => 'Inactif',
+                        'description' => '',
+                    ),
+                    '1' => array(
+                        'name' => 'Actif',
+                        'description' => 'Active (fixe la luminosité à 100% lors d’une double impulsion)'
+                    ),
+                )
+            ),
+            '16' => array(
+                'name' => 'Mémorisation de l’état',
+                'description' => '',
+                'default' => '1',
+                'type' => 'select',
+                'value' => array(
+                    '0' => array(
+                        'name' => 'Non',
+                        'description' => 'Reste éteint après une coupure de courant',
+                    ),
+                    '1' => array(
+                        'name' => 'Oui',
+                        'description' => 'Reprend l’état précédent la coupure de courant'
+                    ),
+                )
+            ),
+            '17' => array(
+                'name' => 'Fonction va et vient ou télérupteur',
+                'description' => '',
+                'default' => '0',
+                'type' => 'select',
+                'value' => array(
+                    '0' => array(
+                        'name' => 'Non',
+                        'description' => 'L’entrée bouton 2 commande le groupe 2. Il est possible de connecter plusieurs boutons poussoirs à impulsion (mono-stable) sur l’entrée 1 ou deux interrupteurs 3 pôles en mode va-et-vient.',
+                    ),
+                    '1' => array(
+                        'name' => 'Oui',
+                        'description' => 'Chaque entrée est reliée à un commutateur bi-stable à 2 pôles, l’ensemble fonctionne comme un « va-et-vient ».'
+                    ),
+                )
+            ),
+            '18' => array(
+                'name' => 'Synchronisation de la variation',
+                'description' => '',
+                'default' => '0',
+                'type' => 'select',
+                'value' => array(
+                    '0' => array(
+                        'name' => 'Non',
+                        'description' => 'Ne communique que la mise en marche et l’arrêt.',
+                    ),
+                    '1' => array(
+                        'name' => 'Oui',
+                        'description' => 'Communique aussi le niveau de variation aux autres variateurs du groupe.'
+                    ),
+                )
+            ),
+            '19' => array(
+                'name' => 'Mode de fonctionnement avec interrupteur bi-stable',
+                'description' => '',
+                'default' => '0',
+                'type' => 'select',
+                'value' => array(
+                    '0' => array(
+                        'name' => '0',
+                        'description' => 'Chaque changement de position de l’interrupteur bi-stable inverse l’état du variateur (Marche / Arrêt).',
+                    ),
+                    '1' => array(
+                        'name' => '1',
+                        'description' => 'Interrupteur bi-stable fermé (marche) --> lampe allumée. Interrupteur bi-stable ouvert (arrêt) --> lampe éteinte. Vérifier la bonne configuration du paramètre 14'
+                    ),
+                )
+            ),
+            '30' => array(
+                'name' => 'Alarme de tout type',
+                'description' => '',
+                'default' => '3',
+                'type' => 'select',
+                'value' => array(
+                    '0' => array(
+                        'name' => 'Pas de réponse',
+                        'description' => '',
+                    ),
+                    '1' => array(
+                        'name' => 'Marche',
+                        'description' => ''
+                    ),
+                    '2' => array(
+                        'name' => 'Arrêt',
+                        'description' => '',
+                    ),
+                    '3' => array(
+                        'name' => 'Clignotement pendant 10 minutes max.',
+                        'description' => '',
+                    ),
+                )
+            ),
+            '39' => array(
+                'name' => 'Durée de l’alarme',
+                'description' => 'Durée de l’activation en cas d’alarme (en ms)',
+                'default' => '600',
+                'type' => 'input',
+                'unite' => 'ms',
+                'min' => '1',
+                'max' => '65535',
+            ),
+            '20' => array(
+                'name' => 'Contrôle fin de la fréquence',
+                'description' => 'Permet d’optimiser le niveau minimum de variation des lampes LED compatibles variateur (vérifiez si votre modèle est concerné). Attention: Une mauvaise configuration peut empêcher le bon fonctionnement du variateur.',
+                'default' => '110',
+                'type' => 'input',
+                'unite' => '0.5 Hz',
+                'min' => '100',
+                'max' => '170',
+            ),
+        ),
+    ),
+    'fibaro FGWPE-101' => array(
         'name' => 'Fibaro Wall Plug',
         'vendor' => 'Fibar Group',
         'parameters' => array(
@@ -42,6 +300,7 @@ $listZwaveDevice = array(
             '16' => array(
                 'name' => 'Mémoire d’état',
                 'description' => '',
+                'default' => '1',
                 'type' => 'select',
                 'value' => array(
                     '0' => array(
@@ -58,10 +317,14 @@ $listZwaveDevice = array(
                 'name' => 'Réponse à une alarme',
                 'description' => 'Types d’alarmes (additionner les valeurs) 0 : Aucune,1 : Générale, + 2 : Fumée, + 4 : CO, + 8 : CO2, + 16 : Haute température,32 : Inondation',
                 'type' => 'input',
+                'default' => '63',
+                'min' => '0',
+                'max' => '63',
             ),
             '35' => array(
                 'name' => 'Always On Function',
                 'description' => '',
+                'default' => '0',
                 'type' => 'select',
                 'value' => array(
                     '0' => array(
@@ -86,41 +349,60 @@ $listZwaveDevice = array(
                 'name' => 'Durée de l’alarme',
                 'description' => 'Durée avant la fin de l’alarme (dans le cas où cette durée n’est pas imposée par l’équipement déclencheur de cette alarme)',
                 'type' => 'input',
-                'unite' => 's'
+                'unite' => 's',
+                'default' => '600',
+                'min' => '1',
+                'max' => '65536',
             ),
             '40' => array(
                 'name' => 'Transmission immédiate de la puissance si variation de',
                 'description' => 'Variation de puissance nécessaire à l’envoi immédiat de la valeur de consommation.Attention: une valeur trop basse risque de surcharger le réseau Z-Wave en cas de variations constantes de la consommation de l’appareil (téléviseur par exemple).Une valeur de 100(%) désactive la fonction',
                 'type' => 'input',
-                'unite' => '%'
+                'unite' => '%',
+                'default' => '80',
+                'min' => '1',
+                'max' => '100',
             ),
             '42' => array(
                 'name' => 'Transmission standard de la puissance si variation de',
                 'description' => 'Variation de puissance nécessaire à l’envoi de la valeur de consommation.Par défaut l’envoi standard se fait à une cadence de 5 fois toutes les 30 secondes.Attention: une valeur trop basse risque de surcharger le réseau Z-Wave en cas de variations constantes de la consommation de l’appareil (téléviseur par exemple).Une valeur de 100(%) désactive la fonction',
                 'type' => 'input',
-                'unite' => '%'
+                'unite' => '%',
+                'default' => '15',
+                'min' => '1',
+                'max' => '100',
             ),
             '43' => array(
                 'name' => 'Fréquence d’envoi de la puissance',
                 'description' => 'Durée pendant laquelle la prise peut envoyer un maximum de 5 relevés de consommation (si variation de plus de 15% / voir param. 42).Une valeur de 255 signifie que la prise n’envoie pas cette donnée de manière cyclique et se contente de répondre en cas d’interrogation.',
                 'type' => 'input',
-                'unite' => 's'
+                'unite' => 's',
+                'default' => '30',
+                'min' => '1',
+                'max' => '254',
             ),
             '45' => array(
                 'name' => 'Augmentation d’énergie consommée nécessaire au déclenchement d’une transmission',
                 'description' => 'Augmentation de consommation énergétique nécessaire à l’envoi de la valeur de consommation.Une valeur de 255 signifie que la prise n’envoie pas cette donnée de manière cyclique et se contente de répondre en cas d’interrogation',
                 'type' => 'input',
-                'unite' => '0,1kWh'
+                'unite' => '0,1kWh',
+                'default' => '10',
+                'min' => '1',
+                'max' => '254',
             ),
             '47' => array(
                 'name' => 'Fréquence d’envoi des consommations en dehors de variations',
                 'description' => 'Délai entre deux envois cycliques des données de consommations.Une valeur de 65534 signifie que la prise n’envoie des données qu’en cas de changement de consommation ou d’interrogation (param. 40, 42, 43, 45).',
                 'type' => 'input',
-                'unite' => 's'
+                'unite' => 's',
+                'default' => '3600',
+                'min' => '1',
+                'max' => '65534',
             ),
             '49' => array(
                 'name' => 'Inclure l’énergie consommée par le module prise',
                 'description' => '',
+                'default' => '0',
                 'type' => 'select',
                 'value' => array(
                     '0' => array(
@@ -137,17 +419,24 @@ $listZwaveDevice = array(
                 'name' => 'Groupe 2: Valeur basse',
                 'description' => 'Une puissance inférieure à cette valeur enverra une commande   (cf. param 52) aux modules associés au groupe 2.La valeur du paramètre 50 doit être inférieure à la valeur du paramètre 51.',
                 'type' => 'input',
-                'unite' => '0,1W'
+                'unite' => '0,1W',
+                'default' => '300',
+                'min' => '0',
+                'max' => '25000',
             ),
             '51' => array(
                 'name' => 'Groupe 2: Valeur haute',
                 'description' => 'Une puissance inférieure à cette valeur enverra une commande (cf. param 52) aux modules associés au groupe 2.La valeur du paramètre 51 doit être supérieure à la valeur du paramètre 50.',
                 'type' => 'input',
-                'unite' => '0,1W'
+                'unite' => '0,1W',
+                'default' => '300',
+                'min' => '0',
+                'max' => '25000',
             ),
             '52' => array(
                 'name' => 'Groupe 2: Action en cas de dépassement des valeurs 50 & 51',
                 'description' => '',
+                'default' => '6',
                 'type' => 'select',
                 'value' => array(
                     '0' => array(
@@ -184,11 +473,15 @@ $listZwaveDevice = array(
                 'name' => 'Puissance maximale pour la couleur violette',
                 'description' => 'Puissance nécessaire l’affichage de la couleur violette (puissance maximale, valable uniquement pour une valeur de param. 61 à 0 ou 1)',
                 'type' => 'input',
-                'unite' => '0,1W'
+                'unite' => '0,1W',
+                'default' => '25000',
+                'min' => '1000',
+                'max' => '32000',
             ),
             '61' => array(
                 'name' => 'Couleur si charge allumée',
                 'description' => '',
+                'default' => '1',
                 'type' => 'select',
                 'value' => array(
                     '0' => array(
@@ -236,6 +529,7 @@ $listZwaveDevice = array(
             '63' => array(
                 'name' => 'Couleur si alarme',
                 'description' => '',
+                'default' => '1',
                 'type' => 'select',
                 'value' => array(
                     '0' => array(
@@ -284,7 +578,10 @@ $listZwaveDevice = array(
                 'name' => 'Fonction sécurité de sur-puissanc',
                 'description' => 'Coupe la charge en cas de dépassement de la puissance paramétrée.Une valeur supérieure à 32000 (3200W) désactivé la sécurité.',
                 'type' => 'input',
-                'unite' => '0,1W'
+                'unite' => '0,1W',
+                'default' => '65535',
+                'min' => '10',
+                'max' => '31999',
             ),
         ),
     )
