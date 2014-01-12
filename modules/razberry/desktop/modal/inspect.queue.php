@@ -20,7 +20,7 @@ if (!isConnect()) {
 }
 ?>
 <div id='div_inspectQueueAlert' style="display: none;"></div>
-<legend>Queue Z-wave  <span id='span_inspectQueueRefreshTIme' class='label label-primary pull-right'></span></legend>
+<span class='pull-right'>Rafraichis à : <span id='span_inspectQueueRefreshTIme' class='label label-primary' style="font-size: 1.2em;"></span></span><br/><br/>
 <table id="table_zwaveQueue" class="table table-bordered table-condensed tablesorter">
     <thead>
         <tr>

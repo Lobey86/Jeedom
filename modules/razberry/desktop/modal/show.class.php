@@ -1,20 +1,19 @@
 <?php
-
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 if (!isConnect()) {
     throw new Exception('401 Unauthorized');
@@ -44,12 +43,12 @@ include_file('core', 'class.command', 'config', 'razberry');
                     echo '<tr commandClass="' . $commandClasses . '" class="cursor">';
                     echo '<td>';
                     echo $commandClasses;
-                    if(count($listClassCommand[$commandClasses]) > 0){
-                        echo '<span class="label label-success pull-right">'.count($listClassCommand[$commandClasses]).'<span>';
-                    }else{
-                        echo '<span class="label label-default pull-right">'.count($listClassCommand[$commandClasses]).'<span>';
+                    if (count($listClassCommand[$commandClasses]) > 0) {
+                        echo '<span class="label label-success pull-right">' . count($listClassCommand[$commandClasses]) . '<span>';
+                    } else {
+                        echo '<span class="label label-default pull-right">' . count($listClassCommand[$commandClasses]) . '<span>';
                     }
-                    
+
                     echo '</td>';
                     echo '</tr>';
                 }
@@ -111,7 +110,7 @@ include_file('core', 'class.command', 'config', 'razberry');
     });
 
     $('#cb_selectAllCommand').on('click', function() {
-        $('#table_classCommands tbody tr .classCommandAttr[l1key=enable]').prop('checked',$(this).prop('checked'));
+        $('#table_classCommands tbody tr .classCommandAttr[l1key=enable]').prop('checked', $(this).prop('checked'));
     });
 
     function syncEqLogicWithRazberry(_commandClass) {
@@ -156,7 +155,6 @@ include_file('core', 'class.command', 'config', 'razberry');
                     $('#table_classCommands tbody').append(tr);
                     $('#table_classCommands tbody tr:last').setValues(data.result.commands[i], '.classCommandAttr');
                 }
-
             }
         });
     }

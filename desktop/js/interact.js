@@ -20,6 +20,7 @@ $(function() {
 
     $('#table_interactDef tbody').delegate('.displayInteracQuery', 'click', function() {
         var tr = $(this).closest('tr');
+        $('#md_modal').dialog({title: "Liste des interactions"});
         $('#md_modal').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + tr.find('.interactDefAttr[l1key=id]').value()).dialog('open');
     });
 

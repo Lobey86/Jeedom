@@ -216,6 +216,28 @@ class razberry extends eqLogic {
         return $return;
     }
 
+    public static function getRoutingTable() {
+        $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Data/0');
+        $results = json_decode(self::handleError($http->exec()), true);
+        $return = array();
+        foreach ($results['devices'] as $id => $device) {
+            $return[$id] = $device;
+            if ($id == 1) {
+                $return[$id]['name'] = 'Razberry';
+            } else {
+                $eqLogic = razberry::byLogicalId($id, 'razberry');
+                if (is_object($eqLogic[0])) {
+                    $return[$id]['name'] = $eqLogic[0]->getHumanName();
+                } else {
+                    $return[$id]['name'] = '';
+                }
+            }
+            $return[$id]['data']['neighbours']['datetime'] = date('Y-m-d H:i:s',$return[$id]['data']['neighbours']['updateTime']);
+            
+        }
+        return $return;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function getAvailableCommandClass() {

@@ -29,18 +29,24 @@ $(function() {
     });
 
     $('#bt_showClass').on('click', function() {
-        $('#md_modal').load('index.php?v=d&module=razberry&modal=showClass&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
+        $('#md_modal').dialog({title: "Class du périphérique"});
+        $('#md_modal').load('index.php?v=d&module=razberry&modal=show.class&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
     });
 
     $('#bt_configureDevice').on('click', function() {
+        $('#md_modal').dialog({title: "Configuration du péréphérique"});
         $('#md_modal').load('index.php?v=d&module=razberry&modal=configure.device&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
     });
-    
-     $('#bt_inspectQueue').on('click', function() {
+
+    $('#bt_inspectQueue').on('click', function() {
+        $('#md_modal').dialog({title: "Queue Z-wave"});
         $('#md_modal').load('index.php?v=d&module=razberry&modal=inspect.queue').dialog('open');
     });
-    
-    
+
+    $('#bt_routingTable').on('click', function() {
+        $('#md_modal').dialog({title: "Table de routage"});
+        $('#md_modal').load('index.php?v=d&module=razberry&modal=routing.table').dialog('open');
+    });
 
     $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 

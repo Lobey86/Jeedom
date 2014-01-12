@@ -55,9 +55,14 @@ $(function() {
         autoOpen: false,
         modal: true,
         height: (jQuery(window).height() - 150),
-        width: 1000
+        width: 1500,
+        position: {my: 'center', at: 'center', of: window},
+        open: function() {
+            if ((jQuery(window).width() - 50) < 1500 ) {
+                $('#md_modal').dialog({width: jQuery(window).width() - 50});
+            }
+        }
     });
-    //$("#md_modal").siblings('div.ui-dialog-titlebar').remove();
 
     $('#bt_pageHelp').on('click', function() {
         showHelpModal(getUrlVars('p'), getUrlVars('m'));

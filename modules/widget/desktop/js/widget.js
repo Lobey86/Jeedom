@@ -53,6 +53,7 @@ $(function() {
     });
 
     $('#bt_applyWidget').on('click', function() {
+        $('#md_modal').dialog({title: "Appliquer widget"});
         $('#md_modal').load('index.php?v=d&module=widget&modal=widget.apply&path=' + $('.widgetAttr[l1key=path]').value()).dialog('open');
     });
 
