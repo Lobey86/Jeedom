@@ -106,7 +106,7 @@
 }
 
 /* All levels of nav */
-.bs-sidebar .nav > li > a {
+.bs-sidebar .nav > li > a:not(.btn) {
     display: block;
     color: #716b7a;
     padding: 5px 20px;

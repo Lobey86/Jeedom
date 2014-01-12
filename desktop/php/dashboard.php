@@ -3,7 +3,7 @@ if (!isConnect()) {
     throw new Exception('401 - Unauthorized access to page');
 }
 if (init('object_id') == '') {
-    $_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject');
+    $_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject','global');
 }
 $object = object::byId(init('object_id'));
 if (!is_object($object)) {

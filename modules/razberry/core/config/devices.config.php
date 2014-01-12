@@ -19,6 +19,83 @@
 global $listZwaveDevice;
 
 $listZwaveDevice = array(
+    'Everspring ST814' => array(
+        'name' => 'Everspring ST814',
+        'vendor' => 'Everspring',
+        'parameters' => array(
+            '1' => array(
+                'name' => 'Basic Level set',
+                'description' => 'Set basic set value to be on or off',
+                'default' => '99',
+                'type' => 'input',
+                'min' => '0',
+                'max' => '99',
+            ),
+            '2' => array(
+                'name' => 'Temperature trigger ON',
+                'description' => 'Temperature level when a ON command is sent out',
+                'default' => '99',
+                'type' => 'input',
+                'min' => '0',
+                'max' => '99',
+                'unite' => '°C',
+            ),
+            '3' => array(
+                'name' => 'Temperature trigger OFF',
+                'description' => 'Temperature level when a OFF command is sent out',
+                'default' => '99',
+                'type' => 'input',
+                'min' => '0',
+                'max' => '99',
+                'unite' => '°C',
+            ),
+            '4' => array(
+                'name' => 'Humidity trigger ON',
+                'description' => 'Humidity level when a ON command is sent out',
+                'default' => '99',
+                'type' => 'input',
+                'min' => '0',
+                'max' => '99',
+                'unite' => '%',
+            ),
+            '5' => array(
+                'name' => 'Humidity trigger OFF',
+                'description' => 'Temperture level when a OFF command is sent out',
+                'default' => '99',
+                'type' => 'input',
+                'min' => '0',
+                'max' => '99',
+                'unite' => '%',
+            ),
+            '6' => array(
+                'name' => 'Auto report time',
+                'description' => 'Sets the time interval when sensor report is sent',
+                'default' => '0',
+                'type' => 'input',
+                'min' => '0',
+                'max' => '1439',
+                'unite' => 'min'
+            ),
+            '7' => array(
+                'name' => 'Auto report Temperature',
+                'description' => 'Sets the temperature change causing a sensor report',
+                'default' => '0',
+                'type' => 'input',
+                'min' => '0',
+                'max' => '70',
+                'unite' => '°C',
+            ),
+            '8' => array(
+                'name' => 'Auto report Humidity',
+                'description' => 'Sets the humidity change causing a sensor report',
+                'default' => '0',
+                'type' => 'input',
+                'min' => '0',
+                'max' => '70',
+                'unite' => '%',
+            ),
+        )
+    ),
     'Fibaro FGRGB-101' => array(
         'name' => 'Fibaro FGRGB-101',
         'vendor' => 'Fibar Group',

@@ -216,6 +216,37 @@ class razberry extends eqLogic {
         return $return;
     }
 
+    public static function getRoutingTable() {
+        $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Data/0');
+        $results = json_decode(self::handleError($http->exec()), true);
+        $return = array();
+        foreach ($results['devices'] as $id => $device) {
+            $return[$id] = $device;
+            if ($id == 1) {
+                $return[$id]['name'] = 'Razberry';
+            } else {
+                $eqLogic = razberry::byLogicalId($id, 'razberry');
+                if (is_object($eqLogic[0])) {
+                    $return[$id]['name'] = $eqLogic[0]->getHumanName();
+                } else {
+                    $return[$id]['name'] = '';
+                }
+            }
+            $return[$id]['data']['neighbours']['datetime'] = date('Y-m-d H:i:s', $return[$id]['data']['neighbours']['updateTime']);
+        }
+        return $return;
+    }
+
+    public static function updateRoute() {
+        $url = self::makeBaseUrl() . '/ZWaveAPI/Run/';
+        $http = new com_http($url . 'controller.RequestNetworkUpdate()');
+        self::handleError($http->exec());
+        foreach (eqLogic::byType('razberry') as $eqLogic) {
+            $http = new com_http($url . 'devices[' . $eqLogic->getLogicalId() . '].RequestNodeNeighbourUpdate()');
+            self::handleError($http->exec());
+        }
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function getAvailableCommandClass() {
@@ -294,8 +325,10 @@ class razberry extends eqLogic {
     public function setDeviceConfiguration($_configurations) {
         $url = self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].Set(';
         foreach ($_configurations as $id => $configuration) {
-            $http = new com_http($url . $id . ',' . $configuration['value'] . ',' . $configuration['size'] . ')');
-            self::handleError($http->exec());
+            if (isset($configuration['size']) && isset($configuration['value']) && is_numeric($configuration['size']) && is_numeric($configuration['value'])) {
+                $http = new com_http($url . $id . ',' . $configuration['value'] . ',' . $configuration['size'] . ')');
+                self::handleError($http->exec());
+            }
         }
         return true;
     }

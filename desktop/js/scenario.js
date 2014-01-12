@@ -93,7 +93,8 @@ $(function() {
     });
 
     $('#bt_displayScenarioVariable').on('click', function() {
-        $('#md_scenarioVariable').closest('.ui-dialog').css('z-index', '1030');
+        $('#md_modal').closest('.ui-dialog').css('z-index', '1030');
+        $('#md_modal').dialog({title: "Variable des scénarios"});
         $("#md_modal").load('index.php?v=d&modal=dataStore.management&type=scenario').dialog('open');
 
     });
@@ -221,6 +222,7 @@ $(function() {
     /***********************LOG*****************************/
 
     $('#bt_logScenario').on('click', function() {
+        $('#md_modal').dialog({title: "Log d\'éxécution du scénario"});
         $("#md_modal").load('index.php?v=d&modal=scenario.log.execution&scenario_id=' + $('.scenarioAttr[l1key=id]').value()).dialog('open');
     });
 
