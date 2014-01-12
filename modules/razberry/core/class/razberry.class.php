@@ -232,10 +232,19 @@ class razberry extends eqLogic {
                     $return[$id]['name'] = '';
                 }
             }
-            $return[$id]['data']['neighbours']['datetime'] = date('Y-m-d H:i:s',$return[$id]['data']['neighbours']['updateTime']);
-            
+            $return[$id]['data']['neighbours']['datetime'] = date('Y-m-d H:i:s', $return[$id]['data']['neighbours']['updateTime']);
         }
         return $return;
+    }
+
+    public static function updateRoute() {
+        $url = self::makeBaseUrl() . '/ZWaveAPI/Run/';
+        $http = new com_http($url . 'controller.RequestNetworkUpdate()');
+        self::handleError($http->exec());
+        foreach (eqLogic::byType('razberry') as $eqLogic) {
+            $http = new com_http($url . 'devices[' . $eqLogic->getLogicalId() . '].RequestNodeNeighbourUpdate()');
+            self::handleError($http->exec());
+        }
     }
 
     /*     * *********************Methode d'instance************************* */

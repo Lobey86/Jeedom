@@ -65,11 +65,14 @@ try {
     if (init('action') == 'inspectQueue') {
         ajax::success(razberry::inspectQueue());
     }
-    
+
     if (init('action') == 'getRoutingTable') {
         ajax::success(razberry::getRoutingTable());
     }
-
+    
+    if (init('action') == 'updateRoute') {
+        ajax::success(razberry::updateRoute());
+    }
 
     throw new Exception('Aucune methode correspondante');
     /*     * *********Catch exeption*************** */

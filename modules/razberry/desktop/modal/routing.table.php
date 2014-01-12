@@ -19,6 +19,9 @@ if (!isConnect()) {
     throw new Exception('401 Unauthorized');
 }
 ?>
+<div id='div_routingTableAlert' style="display: none;"></div>
+<a class='btn btn-warning btn-xs pull-right' id='bt_routingTableForceUpdate' style='color : white;'>Forcer la mise à jour des routes</a><br/><br/>
+
 <div id="div_routingTable"></div>
 
 <table class="table table-bordered table-condensed" style="width: 400px;">
@@ -49,6 +52,29 @@ if (!isConnect()) {
 </table>
 <script>
     var devicesRouting = '';
+    
+    $('#bt_routingTableForceUpdate').on('click', function() {
+        $.ajax({
+            type: "POST",
+            url: "modules/razberry/core/ajax/razberry.ajax.php",
+            data: {
+                action: "updateRoute",
+            },
+            dataType: 'json',
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error, $('#div_routingTableAlert'));
+            },
+            success: function(data) {
+                if (data.state != 'ok') {
+                    $('#div_routingTableAlert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                $('#div_routingTableAlert').showAlert({message: 'Demande de mise à jour des routes envoyée (cela peut mettre jusqu\'a plusieurs minutes)', level: 'success'});
+            }
+        });
+    });
+
+
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "modules/razberry/core/ajax/razberry.ajax.php", // url du fichier php
@@ -57,11 +83,11 @@ if (!isConnect()) {
         },
         dataType: 'json',
         error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('#div_configureDeviceAlert'));
+            handleAjaxError(request, status, error, $('#div_routingTableAlert'));
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_configureDeviceAlert').showAlert({message: data.result, level: 'danger'});
+                $('#div_routingTableAlert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
             devicesRouting = data.result;
