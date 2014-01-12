@@ -294,8 +294,10 @@ class razberry extends eqLogic {
     public function setDeviceConfiguration($_configurations) {
         $url = self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].Set(';
         foreach ($_configurations as $id => $configuration) {
-            $http = new com_http($url . $id . ',' . $configuration['value'] . ',' . $configuration['size'] . ')');
-            self::handleError($http->exec());
+            if (isset($configuration['size']) && isset($configuration['value']) && is_numeric($configuration['size']) && is_numeric($configuration['value'])) {
+                $http = new com_http($url . $id . ',' . $configuration['value'] . ',' . $configuration['size'] . ')');
+                self::handleError($http->exec());
+            }
         }
         return true;
     }
