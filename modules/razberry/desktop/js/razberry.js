@@ -29,7 +29,7 @@ $(function() {
     });
 
     $('#bt_showClass').on('click', function() {
-        $('#md_modal').dialog({title: "Class du périphérique"});
+        $('#md_modal').dialog({title: "Classe du périphérique"});
         $('#md_modal').load('index.php?v=d&module=razberry&modal=show.class&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
     });
 
@@ -163,7 +163,7 @@ function addCmdToTable(_cmd) {
     tr += '<td>';
     tr += '<span><input type="checkbox" class="cmdAttr" l1key="isHistorized" /> Historiser<br/></span>';
     tr += '<span><input type="checkbox" class="cmdAttr" l1key="isVisible" checked/> Afficher<br/></span>';
-    tr += '<span><input type="checkbox" class="cmdAttr" l1key="eventOnly" /> Evenement<br/></span>';
+    tr += '<span><input type="checkbox" class="cmdAttr" l1key="eventOnly" /> Evénement<br/></span>';
     tr += '<input style="width : 150px;" class="tooltips cmdAttr form-control" l1key="cache" l2key="lifetime" placeholder="Lifetime cache" title="Lifetime cache">';
     tr += '</td>';
     tr += '<td>';

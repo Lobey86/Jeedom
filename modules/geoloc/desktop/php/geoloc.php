@@ -9,7 +9,7 @@ sendVarToJS('eqType', 'geoloc');
     <div class="col-lg-2">
         <div class="bs-sidebar affix">
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
-                <li class="nav-header">Liste des équipements géoloc
+                <li class="nav-header">Liste des équipements Géoloc
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
@@ -26,7 +26,7 @@ sendVarToJS('eqType', 'geoloc');
             <div class="col-lg-6">
                 <form class="form-horizontal">
                     <fieldset>
-                        <legend>Générale</legend>
+                        <legend>Général</legend>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement</label>
                             <div class="col-lg-8">
@@ -75,7 +75,7 @@ sendVarToJS('eqType', 'geoloc');
                     <th style="width: 200px;">Nom</th>
                     <th style="width: 200px;">Type</th>
                     <th>Options</th>
-                    <th style="width: 100px;">Parametres</th>
+                    <th style="width: 100px;">Paramètres</th>
                     <th style="width: 100px;"></th>
                 </tr>
             </thead>

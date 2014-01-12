@@ -40,7 +40,7 @@ sendVarToJS('configureDeviceId', init('id'));
 <div id='div_configureDeviceAlert' style="display: none;"></div>
 <form class="form-horizontal">
     <fieldset>
-        <legend>Information <a class="btn btn-success btn-xs pull-right" style="color : white;" id="bt_configureDeviceSend"><i class="fa fa-check"></i> Appliquer</a></legend>
+        <legend>Informations <a class="btn btn-success btn-xs pull-right" style="color : white;" id="bt_configureDeviceSend"><i class="fa fa-check"></i> Appliquer</a></legend>
 
         <div class="form-group">
             <label class="col-lg-3 control-label">Nom de l'équipement</label>

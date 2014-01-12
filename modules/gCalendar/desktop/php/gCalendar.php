@@ -26,7 +26,7 @@ sendVarToJS('eqType', 'gCalendar');
     <div class="col-lg-10 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <form class="form-horizontal">
             <fieldset>
-                <legend>Générale</legend>
+                <legend>Général</legend>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Nom de l'équipement</label>
                     <div class="col-lg-3">
@@ -44,7 +44,7 @@ sendVarToJS('eqType', 'gCalendar');
         </form>
 
         <legend>GCalendar</legend>
-        <div class="alert alert-info">L'URL de l'agenda google se trouve dans Paramètres>Agenda>[Agenda voulu]>Adresse privé XML</div>
+        <div class="alert alert-info">L'URL de l'agenda google se trouve dans Paramètres>Agenda>[Agenda voulu]>Adresse privée XML</div>
         <a class="btn btn-success btn-sm cmdAction" action="add"><i class="fa fa-plus-circle"></i> Ajouter une commande google agenda</a><br/><br/>
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>

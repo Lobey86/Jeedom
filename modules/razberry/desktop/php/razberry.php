@@ -37,7 +37,7 @@ include_file('core', 'devices', 'config', 'razberry');
             <div class="col-lg-6">
                 <form class="form-horizontal">
                     <fieldset>
-                        <legend>Générale</legend>
+                        <legend>Général</legend>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement</label>
                             <div class="col-lg-8">
@@ -114,7 +114,7 @@ include_file('core', 'devices', 'config', 'razberry');
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-2 control-label">Derniere communication</label>
+                            <label class="col-lg-2 control-label">Dernière communication</label>
                             <div class="col-lg-5">
                                 <span class="razberryInfo tooltips label label-default" l1key="lastReceived"></span>
                             </div>
@@ -155,7 +155,7 @@ include_file('core', 'devices', 'config', 'razberry');
                     <th style="width: 100px;">Instance ID</th>
                     <th style="width: 100px;">Class</th>
                     <th style="width: 200px;">Commande</th>
-                    <th >Parametres</th>
+                    <th >Paramètres</th>
                     <th style="width: 100px;">Options</th>
                     <th></th>
                 </tr>

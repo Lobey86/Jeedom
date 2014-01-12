@@ -30,11 +30,11 @@ if (!isConnect()) {
     </thead>
     <tbody>
         <tr>
-            <td colspan="2">Nombre de [route direct / avec 1 saut / 2 sauts / 3 sauts / 4 sauts]</td>
+            <td colspan="2">Nombre de [route directe / avec 1 saut / 2 sauts / 3 sauts / 4 sauts]</td>
         </tr>
         <tr>
             <td class="alert alert-success" style="width: 40px"></td>
-            <td>Communication direct</td>
+            <td>Communication directe</td>
         </tr>
         <tr>
             <td class="alert alert-info"></td>
@@ -46,7 +46,7 @@ if (!isConnect()) {
         </tr>
         <tr>
             <td class="alert alert-danger"></td>
-            <td>Toutes les routes on plus d'un saut</td>
+            <td>Toutes les routes ont plus d'un saut</td>
         </tr>
     </tbody>
 </table>

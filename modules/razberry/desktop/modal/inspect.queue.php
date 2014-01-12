@@ -24,12 +24,12 @@ if (!isConnect()) {
 <table id="table_zwaveQueue" class="table table-bordered table-condensed tablesorter">
     <thead>
         <tr>
-            <th>Nombre d'envoi</th>
+            <th>Nombre d'envoi(s)</th>
             <th>Timeout</th>
             <th>Logical ID</th>
             <th>Nom</th>
             <th>Description</th>
-            <th>Status</th>
+            <th>Statut</th>
         </tr>
     </thead>
     <tbody>

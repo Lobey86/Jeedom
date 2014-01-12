@@ -68,7 +68,7 @@ include_file('core', 'class.command', 'config', 'razberry');
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Descriptions</label>
+                    <label class="col-lg-2 control-label">Description</label>
                     <div class="col-lg-8">
                         <div class='showClassAttr label label-info' l1key='description'></div>
                     </div>
