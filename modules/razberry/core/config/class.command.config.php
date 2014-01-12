@@ -27,6 +27,9 @@ $listClassCommand = array(
             array('name' => 'Off', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
                 'configuration' => array('class' => '0x25', 'value' => 'Set(0)')
             ),
+             array('name' => 'Etat', 'type' => 'info', 'subtype' => 'binary', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'value' => 'data.level')
+            ),
         )
     ),
     '0x26' => array(
