@@ -334,15 +334,37 @@ class razberry extends eqLogic {
         $return = array();
         $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].data');
         $data = json_decode(self::handleError($http->exec()), true);
+        $needRefresh = false;
         foreach ($device['parameters'] as $id => $parameter) {
             if (isset($data[$id])) {
                 $return[$id] = array();
                 $return[$id]['value'] = $data[$id]['val']['value'];
                 $return[$id]['datetime'] = date('Y-m-d H:i:s', $data[$id]['val']['updateTime']);
                 $return[$id]['size'] = $data[$id]['size']['value'];
+            } else {
+                $needRefresh = true;
+                try {
+                    $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].Get(' . $id . ')');
+                    self::handleError($http->exec());
+                } catch (Exception $e) {
+                    
+                }
             }
         }
-       
+        if ($needRefresh) {
+            sleep(1);
+            $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].data');
+            $data = json_decode(self::handleError($http->exec()), true);
+            foreach ($device['parameters'] as $id => $parameter) {
+                if (isset($data[$id])) {
+                    $return[$id] = array();
+                    $return[$id]['value'] = $data[$id]['val']['value'];
+                    $return[$id]['datetime'] = date('Y-m-d H:i:s', $data[$id]['val']['updateTime']);
+                    $return[$id]['size'] = $data[$id]['size']['value'];
+                }
+            }
+        }
+
         return $return;
     }
 

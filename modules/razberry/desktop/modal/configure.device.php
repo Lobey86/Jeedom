@@ -53,6 +53,7 @@ sendVarToJS('configureDeviceId', init('id'));
         </div>
 
         <legend>Configuration</legend>
+        <div class="alert alert-info">Certaines valeur de configurations peuvent mettre plusieurs minutes à arriver lors de la premiere récuperation</div>
         <div id="div_configureDeviceParameters">
             <?php
             foreach ($device['parameters'] as $id => $parameter) {
