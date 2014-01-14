@@ -25,14 +25,10 @@ $eqLogic = eqLogic::byId(init('id'));
 if (!is_object($eqLogic)) {
     throw new Exception('EqLogic non trouvé');
 }
+$device = razberry::devicesParameters($eqLogic->getConfiguration('device'));
 
-global $listZwaveDevice;
-include_file('core', 'devices', 'config', 'razberry');
-
-if (!isset($listZwaveDevice[$eqLogic->getConfiguration('device')])) {
+if (!is_array($device) || count($device) == 0) {
     throw new Exception('Equipement inconnu : ' . $eqLogic->getConfiguration('device'));
-} else {
-    $device = $listZwaveDevice[$eqLogic->getConfiguration('device')];
 }
 
 sendVarToJS('configureDeviceId', init('id'));
@@ -103,7 +99,7 @@ sendVarToJS('configureDeviceId', init('id'));
 
 <script>
     activateTooltips();
-    
+
     $('select.zwaveParameters').on('change', function() {
         $(this).closest('.form-group').find('.description').html($(this).find('option:selected').attr('description'));
     });

@@ -4,9 +4,6 @@ if (!isConnect()) {
 }
 sendVarToJS('select_id', init('id', '-1'));
 sendVarToJS('eqType', 'razberry');
-
-global $listZwaveDevice;
-include_file('core', 'devices', 'config', 'razberry');
 ?>
 
 <div class="row">
@@ -96,7 +93,7 @@ include_file('core', 'devices', 'config', 'razberry');
                                 <select class="eqLogicAttr form-control" l1key="configuration" l2key="device">
                                     <option value="">Aucun</option>
                                     <?php
-                                    foreach ($listZwaveDevice as $id => $info) {
+                                    foreach (razberry::devicesParameters() as $id => $info) {
                                         echo '<option value="' . $id . '">' . $info['name'] . '</option>';
                                     }
                                     ?>

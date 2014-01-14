@@ -247,6 +247,32 @@ class razberry extends eqLogic {
         }
     }
 
+    public static function devicesParameters($_device = '') {
+        $path = dirname(__FILE__) . '/../config/devices';
+        if (isset($_device) && $_device != '') {
+            $files = ls($path, $_device . '.php', false, array('files', 'quiet'));
+            if (count($files) == 1) {
+                global $deviceConfiguration;
+                require_once($path . '/' . $files[0]);
+                return $deviceConfiguration[$_device];
+            }
+        }
+        $files = ls($path, '*.php', false, array('files', 'quiet'));
+        $return = array();
+        foreach ($files as $file) {
+            global $deviceConfiguration;
+            require_once($path . '/' . $file);
+            $return = array_merge($return, $deviceConfiguration);
+        }
+        if (isset($_device) && $_device != '') {
+            if (isset($return[$_device])) {
+                return $return[$_device];
+            }
+            return array();
+        }
+        return $return;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function getAvailableCommandClass() {
@@ -300,18 +326,15 @@ class razberry extends eqLogic {
     }
 
     public function getDeviceConfiguration() {
-        global $listZwaveDevice;
-        include_file('core', 'devices', 'config', 'razberry');
-        if (!isset($listZwaveDevice[$this->getConfiguration('device')])) {
+        $device = razberry::devicesParameters($this->getConfiguration('device'));
+        if (!is_array($device) || count($device) == 0) {
             throw new Exception('Equipement inconnu : ' . $this->getConfiguration('device'));
-        } else {
-            $parameters = $listZwaveDevice[$this->getConfiguration('device')]['parameters'];
         }
+
         $return = array();
         $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].data');
         $data = json_decode(self::handleError($http->exec()), true);
-
-        foreach ($parameters as $id => $parameter) {
+        foreach ($device['parameters'] as $id => $parameter) {
             if (isset($data[$id])) {
                 $return[$id] = array();
                 $return[$id]['value'] = $data[$id]['val']['value'];
@@ -319,6 +342,7 @@ class razberry extends eqLogic {
                 $return[$id]['size'] = $data[$id]['size']['value'];
             }
         }
+       
         return $return;
     }
 
