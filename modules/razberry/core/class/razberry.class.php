@@ -325,16 +325,24 @@ class razberry extends eqLogic {
         return $return;
     }
 
-    public function getDeviceConfiguration() {
+    public function getDeviceConfiguration($_forcedRefresh = false) {
         $device = razberry::devicesParameters($this->getConfiguration('device'));
         if (!is_array($device) || count($device) == 0) {
             throw new Exception('Equipement inconnu : ' . $this->getConfiguration('device'));
+        }
+        $needRefresh = false;
+        if ($_forcedRefresh) {
+            $needRefresh = true;
+            foreach ($device['parameters'] as $id => $parameter) {
+                $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].Get(' . $id . ')');
+                self::handleError($http->exec());
+            }
+            sleep(1);
         }
 
         $return = array();
         $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].data');
         $data = json_decode(self::handleError($http->exec()), true);
-        $needRefresh = false;
         foreach ($device['parameters'] as $id => $parameter) {
             if (isset($data[$id])) {
                 $return[$id] = array();
@@ -373,6 +381,8 @@ class razberry extends eqLogic {
         foreach ($_configurations as $id => $configuration) {
             if (isset($configuration['size']) && isset($configuration['value']) && is_numeric($configuration['size']) && is_numeric($configuration['value'])) {
                 $http = new com_http($url . $id . ',' . $configuration['value'] . ',' . $configuration['size'] . ')');
+                self::handleError($http->exec());
+                $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getLogicalId() . '].commandClasses[0x70].Get(' . $id . ')');
                 self::handleError($http->exec());
             }
         }
