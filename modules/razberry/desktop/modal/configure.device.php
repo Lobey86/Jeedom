@@ -53,7 +53,9 @@ sendVarToJS('configureDeviceId', init('id'));
         </div>
 
         <legend>Configuration</legend>
-        <div class="alert alert-info">Certaines valeur de configurations peuvent mettre plusieurs minutes à arriver lors de la premiere récuperation</div>
+        <div class="alert alert-info">Certaines valeur de configurations peuvent mettre plusieurs minutes à arriver lors de la premiere récuperation
+            <a class="btn btn-warning bt_forceRefresh pull-right btn-xs" style="color : white;"><i class="fa fa-refresh"></i> Forcer la mise à jour</a>
+        </div>
         <div id="div_configureDeviceParameters">
             <?php
             foreach ($device['parameters'] as $id => $parameter) {
@@ -100,30 +102,39 @@ sendVarToJS('configureDeviceId', init('id'));
 
 <script>
     activateTooltips();
+    configureDeviceLoad();
 
     $('select.zwaveParameters').on('change', function() {
         $(this).closest('.form-group').find('.description').html($(this).find('option:selected').attr('description'));
     });
 
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "modules/razberry/core/ajax/razberry.ajax.php", // url du fichier php
-        data: {
-            action: "getDeviceConfiguration",
-            id: configureDeviceId,
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('#div_configureDeviceAlert'));
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_configureDeviceAlert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_configureDeviceParameters').setValues(data.result, '.zwaveParameters');
-        }
+    $('.bt_forceRefresh').on('click', function() {
+        configureDeviceLoad(true);
     });
+
+    function configureDeviceLoad(_forceRefresh) {
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "modules/razberry/core/ajax/razberry.ajax.php", // url du fichier php
+            data: {
+                action: "getDeviceConfiguration",
+                id: configureDeviceId,
+                forceRefresh: init(_forceRefresh, false)
+            },
+            dataType: 'json',
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error, $('#div_configureDeviceAlert'));
+            },
+            success: function(data) { // si l'appel a bien fonctionné
+                if (data.state != 'ok') {
+                    $('#div_configureDeviceAlert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                $('#div_configureDeviceParameters').setValues(data.result, '.zwaveParameters');
+            }
+        });
+    }
+
 
 
     $('#bt_configureDeviceSend').on('click', function() {

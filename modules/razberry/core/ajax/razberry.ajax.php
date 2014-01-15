@@ -51,7 +51,7 @@ try {
         if (!is_object($eqLogic)) {
             throw new Exception('Razberry module non trouvé : ' . init('id'));
         }
-        ajax::success($eqLogic->getDeviceConfiguration());
+        ajax::success($eqLogic->getDeviceConfiguration(init('forceRefresh', false)));
     }
 
     if (init('action') == 'setDeviceConfiguration') {
@@ -69,7 +69,7 @@ try {
     if (init('action') == 'getRoutingTable') {
         ajax::success(razberry::getRoutingTable());
     }
-    
+
     if (init('action') == 'updateRoute') {
         ajax::success(razberry::updateRoute());
     }
