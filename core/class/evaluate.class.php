@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
@@ -49,6 +49,7 @@ class evaluate {
       --------------------------------------------------------------- */
 
     public function Evaluer($chaine) {
+
         //DECOMPOSITION DES PARAMETRES
         $lstParam = $this->Eval_Trouver_Liste_Param($chaine);
         //ERREUR SI UN OPERATEUR EST SITUE EN FIN DE CHAINE
@@ -61,8 +62,7 @@ class evaluate {
         for ($i = 0; $i < sizeof($lstParam); $i++) {
             //OPERATEUR SPECIAL
             if ($lstParam[$i]["operateur"] == "|") {
-                error_log("OPERATEUR | Inconnu");
-                return false;
+                throw new Exception("OPERATEUR | Inconnu");
             }
             //CAS DES ( et des {
             if (substr($lstParam[$i]["valeur"], 0, 1) == "(" && substr($lstParam[$i]["valeur"], -1, 1) == ")") {
@@ -181,13 +181,25 @@ class evaluate {
       --------------------------------------------------------------- */
 
     private function Eval_Comparer($valeur1, $valeur2, $operateur) {
+        log::add('debug', 'debug', $valeur1 . ' ' . $operateur . ' ' . $valeur2);
         switch ($operateur) {
             case "=":
-                if ($valeur1 == $valeur2) {
-                    $res = true;
+                if (is_string($valeur1) || is_string($valeur2)) {
+                    log::add('debug', 'debug', $valeur1 . ' = ' . $valeur2 . ' => ' . strcmp($valeur1, $valeur2));
+                    if (strcmp($valeur1, $valeur2) == 0) {
+
+                        $res = true;
+                    } else {
+                        $res = false;
+                    }
                 } else {
-                    $res = false;
+                    if ($valeur1 == $valeur2) {
+                        $res = true;
+                    } else {
+                        $res = false;
+                    }
                 }
+
                 break;
             case "<":
                 if ($valeur1 < $valeur2) {
