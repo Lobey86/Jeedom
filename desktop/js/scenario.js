@@ -710,6 +710,25 @@ function addSubElement(_subElement) {
             retour += addExpression(expression);
             retour += '</div>';
             break;
+        case 'action' :
+            retour += '<input class="subElementAttr" l1key="subtype" style="display : none;" value="action"/>';
+            retour += '<legend style="margin-top : 8px;">ACTION';
+            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
+            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
+            if (isset(_subElement.options.runingScenario) && _subElement.options.runingScenario) {
+                retour += '<a class="btn btn-xs btn-success bt_conditionRuningScenario pull-right subElementAttr" value="1" l1key="options" l2key="runingScenario"><i class="fa fa-check"></i> Active le scénario</a>';
+            } else {
+                retour += '<a class="btn btn-xs btn-danger bt_conditionRuningScenario pull-right subElementAttr" value="0" l1key="options" l2key="runingScenario"><i class="fa fa-times"></i> Désactive le scénario</a>';
+            }
+            retour += '</legend>';
+            retour += '<div class="expressions">';
+            if (isset(_subElement.expressions)) {
+                for (var k in _subElement.expressions) {
+                    retour += addExpression(_subElement.expressions[k]);
+                }
+            }
+            retour += '</div>';
+            break;
     }
 
 
@@ -728,7 +747,7 @@ function addElement(_element) {
     var div = '<div class="element well well-sm" style="margin-top : 8px;border : 2px solid black;">';
     div += '<input class="elementAttr" l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
-    div += '<i class="fa fa-minus-circle pull-right bt_removeElement"></i>';
+    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeElement"></i>';
     switch (_element.type) {
         case 'if' :
             if (isset(_element.subElements) && isset(_element.subElements)) {
@@ -758,6 +777,15 @@ function addElement(_element) {
                 }
             } else {
                 div += addSubElement({type: 'code'});
+            }
+            break;
+        case 'action' :
+            if (isset(_element.subElements) && isset(_element.subElements)) {
+                for (var j in _element.subElements) {
+                    div += addSubElement(_element.subElements[j]);
+                }
+            } else {
+                div += addSubElement({type: 'action'});
             }
             break;
     }

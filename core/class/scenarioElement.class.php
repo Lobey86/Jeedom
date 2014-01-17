@@ -148,6 +148,9 @@ class scenarioElement {
             case 'code':
                 $return = $this->getSubElement('code')->execute($_scenario, $_initialScenarioState);
                 break;
+            case 'action':
+                $return = $this->getSubElement('action')->execute($_scenario, $_initialScenarioState);
+                break;
         }
         return $return;
     }

@@ -257,6 +257,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <center>
                     <select id="in_addElementType" class="form-control">
                         <option value="if">Si/Alors/Sinon</option>
+                        <option value="action">Action</option>
                         <option value="for">Boucle</option>
                         <option value="code">Code</option>
                     </select>
