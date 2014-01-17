@@ -36,6 +36,7 @@ if ($widget->getVersion() == 'mobile') {
     include_file('3rdparty', 'php.js/php.min', 'js');
     include_file('3rdparty', 'jquery.mobile/jquery.mobile.min', 'js');
     include_file('3rdparty', 'highstock/highstock', 'js');
+    include_file('3rdparty', 'highstock/highcharts-more', 'js');
 } else {
     include_file('3rdparty', 'font-awesome/css/font-awesome', 'css');
     include_file('desktop', 'commun', 'css');
@@ -51,6 +52,7 @@ if ($widget->getVersion() == 'mobile') {
     include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
     include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
     include_file('3rdparty', 'highstock/highstock', 'js');
+    include_file('3rdparty', 'highstock/highcharts-more', 'js');
     include_file('core', 'js.inc', 'php');
 }
 echo '<center style="margin-top : 10px;">';

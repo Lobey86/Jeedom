@@ -197,6 +197,7 @@ if ($module != '') {
             include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
             include_file('3rdparty', 'bootbox/bootbox.min', 'js');
             include_file('3rdparty', 'highstock/highstock', 'js');
+            include_file('3rdparty', 'highstock/highcharts-more', 'js');
             include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
             include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'js');
             include_file('core', 'chatAdapter', 'js');
