@@ -29,7 +29,7 @@ $(function() {
         {val: 'semaine#'},
         {val: 'sjour#'},
         {val: 'minute#'},
-        {val: 'var[mavariable-defaut]'},
+        {val: 'var[mavariable-defaut]#'},
     ];
 
     autoCompleteAction = ['sleep', 'var', 'scenario'];
