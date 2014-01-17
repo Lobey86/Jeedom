@@ -15,6 +15,7 @@ if (!isConnect()) {
         </div>
         <div id="collapse_condition" class="panel-collapse collapse">
             <div class="panel-body">
+                <div class="alert alert-danger">Attention vous ne pouvez comparer 2 chaines de caractere contenant des " " (espace) remplacer les avec des "_" </div>
                 Vous pouvez utiliser n'importe lequel des symboles suivant pour les opérateurs : 
                 <pre>
 = : égal
