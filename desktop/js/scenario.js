@@ -571,6 +571,9 @@ function addExpression(_expression) {
     retour += '<input class="expressionAttr" l1key="type" style="display : none;" value="' + init(_expression.type) + '"/>';
     switch (_expression.type) {
         case 'condition' :
+            if (isset(_expression.expression)) {
+                _expression.expression = _expression.expression.replace(/"/g,'&quot;');
+            }
             retour += '<input class="expressionAttr form-control input-sm" l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #dff0d8;display : inline-block; width : 80%" />';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="info"><i class="fa fa-list-alt"></i></a>';
             break;

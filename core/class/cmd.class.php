@@ -314,7 +314,7 @@ class cmd {
         return $text;
     }
 
-    public static function cmdToValue($_input,$_stripSpace = false) {
+    public static function cmdToValue($_input) {
         if (is_object($_input)) {
             $reflections = array();
             $uuid = spl_object_hash($_input);
@@ -344,8 +344,8 @@ class cmd {
                 $cmd = self::byId($cmd_id);
                 if ($cmd->getType() == 'info') {
                     $cmd_value = $cmd->execCmd();
-                    if($_stripSpace){
-                        $cmd_value = str_replace(' ', '_', $cmd_value);
+                    if ($cmd->getSubtype() == "string") {
+                        $cmd_value = '"' . $cmd_value . '"';
                     }
                     $text = str_replace('#' . $cmd_id . '#', $cmd_value, $text);
                 }
