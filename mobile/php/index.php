@@ -41,6 +41,7 @@ if ($module != '') {
         include_file('3rdparty', 'php.js/php.min', 'js');
         include_file('3rdparty', 'jquery.mobile/jquery.mobile.min', 'js');
         include_file('3rdparty', 'highstock/highstock', 'js');
+        include_file('3rdparty', 'highstock/highcharts-more', 'js');
         include_file('core', 'core', 'js');
         ?>
 
