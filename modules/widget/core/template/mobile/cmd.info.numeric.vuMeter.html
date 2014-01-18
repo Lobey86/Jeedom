@@ -1,11 +1,15 @@
 <span class="info" cmd_id="#id#">
     <span style="width:120px;display: inline-block;" class="#class# tooltips" cmd_id="#id#" title="#collectDate#" >
         <div id="cmd#id#"></div>
-        <center>
-            <span style="#displayHistory#" class="label label-default">
-                <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
+        <span style="vertical-align: top; display : inline;white-space: nowrap;" >
+            <a href="#tooltipsCmd#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline" style="margin-right: 0em;"></a>
+            <span class="collectDate" style="font-size: 0.75em; #displayHistory#">
+                <span>#minHistoryValue#</span>|<span>#averageHistoryValue#</span>|<span>#maxHistoryValue#</span> <i class="#tendance#"></i>
             </span>
-        </center>
+        </span>
+        <div data-role="popup" id="tooltipsCmd#id#" class="ui-content" data-theme="a" style="max-width:350px;">
+            #collectDate#
+        </div>
     </span>
 </span>
 

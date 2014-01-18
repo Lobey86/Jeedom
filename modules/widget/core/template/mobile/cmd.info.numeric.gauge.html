@@ -1,11 +1,15 @@
 <span class="info" cmd_id="#id#">
     <span style="width:120px;display: inline-block;" class="#class# tooltips" cmd_id="#id#" title="#collectDate#" >
         <div id="cmd#id#"></div>
-        <center>
-            <span style="#displayHistory#" class="label label-default">
-                <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
+        <span style="vertical-align: top; display : inline;white-space: nowrap;" >
+            <a href="#tooltipsCmd#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline" style="margin-right: 0em;"></a>
+            <span class="collectDate" style="font-size: 0.75em; #displayHistory#">
+                <span>#minHistoryValue#</span>|<span>#averageHistoryValue#</span>|<span>#maxHistoryValue#</span> <i class="#tendance#"></i>
             </span>
-        </center>
+        </span>
+        <div data-role="popup" id="tooltipsCmd#id#" class="ui-content" data-theme="a" style="max-width:350px;">
+            #collectDate#
+        </div>
     </span>
 </span>
 
@@ -21,9 +25,10 @@
                 type: 'gauge',
                 plotBackgroundColor: null,
                 plotBackgroundImage: null,
+                backgroundColor: null,
                 plotBorderWidth: 0,
                 plotShadow: false,
-                height: 130
+                height: 120
             },
             credits: {
                 text: '',
@@ -43,7 +48,7 @@
             pane: {
                 startAngle: -150,
                 endAngle: 150,
-                size: 110,
+                size: 105,
                 background: [{
                         backgroundColor: {
                             linearGradient: {x1: 0, y1: 0, x2: 0, y2: 1},
@@ -97,14 +102,14 @@
                 },
                 plotBands: [{
                         from: minValue,
-                        to: minValue + ((maxValue - minValue) * (1/3)),
+                        to: minValue + ((maxValue - minValue) * (1 / 3)),
                         color: '#55BF3B' // green
                     }, {
-                        from:  minValue + ((maxValue - minValue) * (1/3)),
-                        to:  minValue + ((maxValue - minValue) * (2/3)),
+                        from: minValue + ((maxValue - minValue) * (1 / 3)),
+                        to: minValue + ((maxValue - minValue) * (2 / 3)),
                         color: '#DDDF0D' // yellow
                     }, {
-                        from: minValue + ((maxValue - minValue) * (2/3)),
+                        from: minValue + ((maxValue - minValue) * (2 / 3)),
                         to: maxValue,
                         color: '#DF5353' // red
                     }]
@@ -114,9 +119,5 @@
                 }]
 
         });
-
-
-
-
     });
 </script>
