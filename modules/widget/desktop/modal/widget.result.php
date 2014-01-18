@@ -59,7 +59,3 @@ echo '<center style="margin-top : 10px;">';
 echo $widget->displayExemple();
 echo '</center>';
 ?>
-
-<script>
-    $("#md_modal").trigger('loadComplete');
-</script>

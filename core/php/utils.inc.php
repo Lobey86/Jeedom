@@ -126,7 +126,7 @@ function getTemplate($_folder, $_version, $_filename, $_module = '') {
         $path .= 'modules/' . $_module . '/core/template/' . $_version . '/' . $_filename . '.html';
     }
     if (file_exists($path)) {
-        return removeCR(file_get_contents($path));
+        return file_get_contents($path);
     } else {
         throw new Exception("Fichier non trouvé : $_filename à $_folder / $_version (" . trim($_module) . ") : $path");
     }
