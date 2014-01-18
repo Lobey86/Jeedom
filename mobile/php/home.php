@@ -7,7 +7,7 @@ if (!isConnect()) {
 <div class="ui-grid-a">
     <div class="ui-block-a">
         <center>
-            <a href="#equipmentMenu" data-rel="popup" data-transition="slideup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
+            <a href="#equipmentMenu" data-rel="popup" data-transition="slideup" data-position-to="body" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
                 <i class="fa fa fa-tachometer" style="font-size: 6em;"></i><br/>Equipements
             </a>
             <div data-role="popup" id="equipmentMenu" data-theme="b">
@@ -42,7 +42,7 @@ if (!isConnect()) {
 
     <div class="ui-block-b">
         <center>
-            <a href="#vueMenu" data-rel="popup" data-transition="slideup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
+            <a href="#vueMenu" data-rel="popup" data-transition="slideup" data-position-to="body" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
                 <i class="fa fa-picture-o" style="font-size: 6em;"></i><br/>Vues
             </a>
             <div data-role="popup" id="vueMenu" data-theme="b">
