@@ -20,20 +20,23 @@ global $deviceConfiguration;
 
 $deviceConfiguration = array(
     'fibaro.fgd211' => array(
-        'name' => 'Fibaro FGD-211',
+        'name' => 'Fibaro FGD-211 [Dimmer]',
         'vendor' => 'Fibar Group',
         'manufacturerId' => 271,
         'manufacturerProductType' => 256,
-        'manufacturerProductId' => -1,
+        'manufacturerProductId' => 4106,
         'commands' => array(
+            array('name' => 'Intensité', 'type' => 'action', 'subtype' => 'slider', 'isVisible' => 1, 'value' => 'Etat',
+                'configuration' => array('class' => '0x26', 'value' => 'Set(#slider#)')
+            ),
             array('name' => 'On', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
                 'configuration' => array('class' => '0x25', 'value' => 'Set(255)')
             ),
             array('name' => 'Off', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
                 'configuration' => array('class' => '0x25', 'value' => 'Set(0)')
             ),
-            array('name' => 'Etat', 'type' => 'info', 'subtype' => 'binary', 'isVisible' => 1,
-                'configuration' => array('class' => '0x25', 'value' => 'data.level')
+            array('name' => 'Etat', 'type' => 'info', 'subtype' => 'numeric', 'unite' => '%', 'isVisible' => 0, 'eventOnly' => 1,
+                'configuration' => array('class' => '0x26', 'value' => 'data.level')
             ),
         ),
         'parameters' => array(

@@ -115,13 +115,33 @@ class razberry extends eqLogic {
                             $eqLogic->setConfiguration('device', $device_id);
                             $eqLogic->save();
                             $cmd_order = 0;
+                            $link_cmds = array();
                             foreach ($device['commands'] as $command) {
                                 $cmd = new cmd();
                                 utils::a2o($cmd, $command);
+                                if (isset($command['value'])) {
+                                    $cmd->setValue(0);
+                                }
                                 $cmd->setEqLogic_id($eqLogic->getId());
                                 $cmd->setOrder($cmd_order);
                                 $cmd->save();
+                                if (isset($command['value'])) {
+                                    $link_cmds[$cmd->getId()] = $command['value'];
+                                }
                                 $cmd_order++;
+                            }
+                            if (count($link_cmds) > 0) {
+                                foreach ($eqLogic->getCmd() as $eqLogic_cmd) {
+                                    foreach ($link_cmds as $cmd_id => $link_cmd) {
+                                        if ($link_cmd == $eqLogic_cmd->getName()) {
+                                            $cmd = cmd::byId($cmd_id);
+                                            if (is_object($cmd)) {
+                                                $cmd->setValue($eqLogic_cmd->getId());
+                                                $cmd->save();
+                                            }
+                                        }
+                                    }
+                                }
                             }
                             break;
                         }
