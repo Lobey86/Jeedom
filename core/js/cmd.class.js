@@ -118,6 +118,8 @@ cmd.getSelectModal = function(_options, callback) {
             height: 250,
             width: 800
         });
+
+        $('#mod_insertCmdValue').load('index.php?v=d&modal=cmd.human.insert&cmd_type=' + init(_options.type, 'all'));
     }
     if (!isset(_options)) {
         _options = {};
@@ -135,5 +137,6 @@ cmd.getSelectModal = function(_options, callback) {
             $(this).dialog('close');
         }
     });
-    $('#mod_insertCmdValue').load('index.php?v=d&modal=cmd.human.insert&cmd_type=' + init(_options.type, 'all')).dialog('open');
+    $('#mod_insertCmdValue').dialog('open');
+
 }
