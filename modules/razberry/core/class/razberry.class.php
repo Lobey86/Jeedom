@@ -100,6 +100,7 @@ class razberry extends eqLogic {
         $results = json_decode(self::handleError($http->exec()), true);
         foreach ($results['devices'] as $nodeId => $result) {
             if ($nodeId != 1) {
+                $data = $result['data'];
                 if (count(self::byLogicalId($nodeId, 'razberry')) == 0) {
                     $eqLogic = new eqLogic();
                     $eqLogic->setEqType_name('razberry');
@@ -108,6 +109,23 @@ class razberry extends eqLogic {
                     $eqLogic->setLogicalId($nodeId);
                     $eqLogic->setIsVisible(0);
                     $eqLogic->save();
+                    $devices = self::devicesParameters();
+                    foreach (self::devicesParameters() as $device_id => $device) {
+                        if ($device['manufacturerId'] == $data['manufacturerId']['value'] && $device['manufacturerProductType'] == $data['manufacturerProductType']['value'] && $device['manufacturerProductId'] == $data['manufacturerProductId']['value']) {
+                            $eqLogic->setConfiguration('device', $device_id);
+                            $eqLogic->save();
+                            $cmd_order = 0;
+                            foreach ($device['commands'] as $command) {
+                                $cmd = new cmd();
+                                utils::a2o($cmd, $command);
+                                $cmd->setEqLogic_id($eqLogic->getId());
+                                $cmd->setOrder($cmd_order);
+                                $cmd->save();
+                                $cmd_order++;
+                            }
+                            break;
+                        }
+                    }
                 }
             }
         }

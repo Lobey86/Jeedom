@@ -22,6 +22,14 @@ $deviceConfiguration = array(
     'fibaro.fgrgb101' => array(
         'name' => 'Fibaro FGRGB-101',
         'vendor' => 'Fibar Group',
+        'manufacturerId' => 271,
+        'manufacturerProductType' => 2304,
+        'manufacturerProductId' => 4096,
+        'commands' => array(
+            array('name' => 'Couleur', 'type' => 'action', 'subtype' => 'color', 'isVisible' => 1,
+                'configuration' => array('class' => '0x26', 'value' => '#color#')
+            ),
+        ),
         'parameters' => array(
             '1' => array(
                 'name' => 'Commande ALL ON / ALL OFF',

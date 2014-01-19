@@ -22,6 +22,26 @@ $deviceConfiguration = array(
     'fibaro.fgwpe101' => array(
         'name' => 'Fibaro Wall Plug',
         'vendor' => 'Fibar Group',
+        'manufacturerId' => 271,
+        'manufacturerProductType' => 1536,
+        'manufacturerProductId' => 4096,
+        'commands' => array(
+            array('name' => 'Puissance', 'type' => 'info', 'subtype' => 'numeric', 'isVisible' => 1, 'isHistorized' => 1, 'unite' => 'W', 'eventOnly' => 1,
+                'configuration' => array('class' => '0x31', 'value' => 'data[4].val', 'maxValue' => 2500, 'minValue' => 0)
+            ),
+            array('name' => 'Consommation', 'type' => 'info', 'subtype' => 'numeric', 'isVisible' => 1, 'isHistorized' => 0, 'unite' => 'kWh', 'eventOnly' => 1,
+                'configuration' => array('class' => '0x32', 'value' => 'data[0].val')
+            ),
+            array('name' => 'On', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'value' => 'Set(255)')
+            ),
+            array('name' => 'Off', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'value' => 'Set(0)')
+            ),
+            array('name' => 'Reset', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 0, 'isHistorized' => 0, 'unite' => '',
+                'configuration' => array('class' => '0x32', 'value' => 'Reset()')
+            ),
+        ),
         'parameters' => array(
             '1' => array(
                 'name' => 'Toujours allumé',

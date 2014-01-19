@@ -22,6 +22,26 @@ $deviceConfiguration = array(
     'aeon.multisensor' => array(
         'name' => 'Aeon Multi-Sensor',
         'vendor' => 'Aeon Labs',
+        'manufacturerId' => 134,
+        'manufacturerProductType' => 2,
+        'manufacturerProductId' => 5,
+        'commands' => array(
+            array('name' => 'Présence', 'type' => 'info', 'subtype' => 'binary', 'isVisible' => 1, 'isHistorized' => 1, 'eventOnly' => 1,
+                'configuration' => array('class' => '0x30', 'value' => 'data[1].level')
+            ),
+            array('name' => 'Température', 'type' => 'info', 'subtype' => 'numeric', 'isVisible' => 1, 'isHistorized' => 1, 'unite' => '°C', 'eventOnly' => 1,
+                'configuration' => array('class' => '0x31', 'value' => 'data[1].val')
+            ),
+            array('name' => 'Luminosité', 'type' => 'info', 'subtype' => 'numeric', 'isVisible' => 1, 'isHistorized' => 1, 'unite' => 'Lux', 'eventOnly' => 1,
+                'configuration' => array('class' => '0x31', 'value' => 'data[3].val', 'maxValue' => 1000, 'minValue' => 0)
+            ),
+            array('name' => 'Humidité', 'type' => 'info', 'subtype' => 'numeric', 'isVisible' => 1, 'isHistorized' => 1, 'unite' => '%', 'eventOnly' => 1,
+                'configuration' => array('class' => '0x31', 'value' => 'data[5].val')
+            ),
+            array('name' => 'Batterie', 'type' => 'info', 'subtype' => 'numeric', 'isVisible' => 0, 'isHistorized' => 0, 'unite' => '%',
+                'configuration' => array('class' => '0x80', 'value' => 'data.last')
+            ),
+        ),
         'parameters' => array(
             '2' => array(
                 'name' => 'Reveille de 10 min à l\'insertion des piles',

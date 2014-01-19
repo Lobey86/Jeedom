@@ -22,6 +22,20 @@ $deviceConfiguration = array(
     'fibaro.fgd211' => array(
         'name' => 'Fibaro FGD-211',
         'vendor' => 'Fibar Group',
+        'manufacturerId' => 271,
+        'manufacturerProductType' => 256,
+        'manufacturerProductId' => -1,
+        'commands' => array(
+            array('name' => 'On', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'value' => 'Set(255)')
+            ),
+            array('name' => 'Off', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'value' => 'Set(0)')
+            ),
+            array('name' => 'Etat', 'type' => 'info', 'subtype' => 'binary', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'value' => 'data.level')
+            ),
+        ),
         'parameters' => array(
             '1' => array(
                 'name' => 'Commande ALL ON / ALL OFF',

@@ -22,6 +22,17 @@ $deviceConfiguration = array(
     'everspring.st814' => array(
         'name' => 'Everspring ST814',
         'vendor' => 'Everspring',
+        'manufacturerId' => 96,
+        'manufacturerProductType' => 6,
+        'manufacturerProductId' => 1,
+        'commands' => array(
+            array('name' => 'Température', 'type' => 'info', 'subtype' => 'numeric', 'isVisible' => 1, 'isHistorized' => 1, 'unite' => '°C', 'eventOnly' => 1,
+                'configuration' => array('class' => '0x31', 'value' => 'data[1].val')
+            ),
+            array('name' => 'Humidité', 'type' => 'info', 'subtype' => 'numeric', 'isVisible' => 1, 'isHistorized' => 1, 'unite' => '%', 'eventOnly' => 1,
+                'configuration' => array('class' => '0x31', 'value' => 'data[5].val')
+            ),
+        ),
         'parameters' => array(
             '1' => array(
                 'name' => 'Basic Level set',

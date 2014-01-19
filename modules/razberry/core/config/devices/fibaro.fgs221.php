@@ -22,6 +22,29 @@ $deviceConfiguration = array(
     'fibaro.fgs221' => array(
         'name' => 'Fibaro FGS-221 Double charge',
         'vendor' => 'Fibar Group',
+        'manufacturerId' => 271,
+        'manufacturerProductType' => -1,
+        'manufacturerProductId' => -1,
+        'commands' => array(
+            array('name' => 'On 1', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'instanceId' => 0, 'value' => 'Set(255)')
+            ),
+            array('name' => 'Off 1', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'instanceId' => 0, 'value' => 'Set(0)')
+            ),
+            array('name' => 'Etat 1', 'type' => 'info', 'subtype' => 'binary', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'instanceId' => 0, 'value' => 'data.level')
+            ),
+            array('name' => 'On 2 ', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'instanceId' => 1, 'value' => 'Set(255)')
+            ),
+            array('name' => 'Off 2 ', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'instanceId' => 1, 'value' => 'Set(0)')
+            ),
+            array('name' => 'Etat 2', 'type' => 'info', 'subtype' => 'binary', 'isVisible' => 1,
+                'configuration' => array('class' => '0x25', 'instanceId' => 1, 'value' => 'data.level')
+            ),
+        ),
         'parameters' => array(
             '1' => array(
                 'name' => 'Commande ALL ON / ALL OFF',
