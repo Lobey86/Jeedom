@@ -101,15 +101,14 @@ class razberry extends eqLogic {
         foreach ($results['devices'] as $nodeId => $result) {
             if ($nodeId != 1) {
                 $data = $result['data'];
-                if (count(self::byLogicalId($nodeId, 'razberry')) == 0) {
+                if (count(self::byLogicalId($nodeId, 'razberry')) == 0 || $nodeId == 2) {
                     $eqLogic = new eqLogic();
                     $eqLogic->setEqType_name('razberry');
-                    $eqLogic->setIsEnable(0);
+                    $eqLogic->setIsEnable(1);
                     $eqLogic->setName('Device ' . $nodeId);
                     $eqLogic->setLogicalId($nodeId);
-                    $eqLogic->setIsVisible(0);
+                    $eqLogic->setIsVisible(1);
                     $eqLogic->save();
-                    $devices = self::devicesParameters();
                     foreach (self::devicesParameters() as $device_id => $device) {
                         if ($device['manufacturerId'] == $data['manufacturerId']['value'] && $device['manufacturerProductType'] == $data['manufacturerProductType']['value'] && $device['manufacturerProductId'] == $data['manufacturerProductId']['value']) {
                             $eqLogic->setConfiguration('device', $device_id);
