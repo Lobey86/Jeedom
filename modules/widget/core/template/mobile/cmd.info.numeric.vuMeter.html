@@ -15,64 +15,68 @@
 
 <script>
     $(function() {
-        var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
-        var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
-        var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
-        $('#cmd#id#').highcharts({
-            chart: {
-                type: 'gauge',
-                plotBackgroundImage: null,
-                backgroundColor: null,
-                height: 130
-            },
-            credits: {
-                text: '',
-                href: '',
-            },
-            title: {
-                text: ''
-            },
-            navigation: {
-                buttonOptions: {
-                    enabled: false
-                }
-            },
-            tooltip: {
-                enabled: false
-            },
-            pane: [{
-                    startAngle: -45,
-                    endAngle: 45,
-                    background: null,
-                    center: ['55%', '100%'],
-                    size: 130
-                }],
-            yAxis: [{
-                    min: minValue,
-                    max: maxValue,
-                    minorTickPosition: 'outside',
-                    tickPosition: 'outside',
-                    labels: {
-                        rotation: 'auto',
-                        distance: -10
-                    },
-                    pane: 0,
-                    title: {
-                        text: '<span style="font-size:8px">Channel A</span>',
+        if (('#state#' != '' && is_numeric('#state#'))) {
+            var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
+            var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
+            var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
+            $('#cmd#id#').highcharts({
+                chart: {
+                    type: 'gauge',
+                    plotBackgroundImage: null,
+                    backgroundColor: null,
+                    height: 130
+                },
+                credits: {
+                    text: '',
+                    href: '',
+                },
+                title: {
+                    text: ''
+                },
+                navigation: {
+                    buttonOptions: {
+                        enabled: false
                     }
-                }],
-            plotOptions: {
-                gauge: {
-                    dataLabels: {
-                        y: -95,
-                        borderWidth: 0
-                    },
-                }
-            },
-            series: [{
-                    data: [value]
-                }]
+                },
+                tooltip: {
+                    enabled: false
+                },
+                pane: [{
+                        startAngle: -45,
+                        endAngle: 45,
+                        background: null,
+                        center: ['55%', '100%'],
+                        size: 130
+                    }],
+                yAxis: [{
+                        min: minValue,
+                        max: maxValue,
+                        minorTickPosition: 'outside',
+                        tickPosition: 'outside',
+                        labels: {
+                            rotation: 'auto',
+                            distance: -10
+                        },
+                        pane: 0,
+                        title: {
+                            text: '<span style="font-size:8px">Channel A</span>',
+                        }
+                    }],
+                plotOptions: {
+                    gauge: {
+                        dataLabels: {
+                            y: -95,
+                            borderWidth: 0
+                        },
+                    }
+                },
+                series: [{
+                        data: [value]
+                    }]
 
-        });
+            });
+        } else {
+            $('#cmd#id#').append('<span class="label label-danger">#state#</span>');
+        }
     });
 </script>

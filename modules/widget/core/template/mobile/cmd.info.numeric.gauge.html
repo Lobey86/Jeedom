@@ -15,109 +15,113 @@
 
 <script>
     $(function() {
-        var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
-        var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
-        var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
+        if (('#state#' != '' && is_numeric('#state#'))) {
+            var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
+            var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
+            var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
 
 
-        $('#cmd#id#').highcharts({
-            chart: {
-                type: 'gauge',
-                plotBackgroundColor: null,
-                plotBackgroundImage: null,
-                backgroundColor: null,
-                plotBorderWidth: 0,
-                plotShadow: false,
-                height: 120
-            },
-            credits: {
-                text: '',
-                href: '',
-            },
-            title: {
-                text: ''
-            },
-            navigation: {
-                buttonOptions: {
-                    enabled: false
-                }
-            },
-            tooltip: {
-                enabled: false
-            },
-            pane: {
-                startAngle: -150,
-                endAngle: 150,
-                size: 105,
-                background: [{
-                        backgroundColor: {
-                            linearGradient: {x1: 0, y1: 0, x2: 0, y2: 1},
-                            stops: [
-                                [0, '#FFF'],
-                                [1, '#333']
-                            ]
-                        },
-                        borderWidth: 0,
-                        outerRadius: '109%'
-                    }, {
-                        backgroundColor: {
-                            linearGradient: {x1: 0, y1: 0, x2: 0, y2: 1},
-                            stops: [
-                                [0, '#333'],
-                                [1, '#FFF']
-                            ]
-                        },
-                        borderWidth: 1,
-                        outerRadius: '107%'
-                    }, {
-                        // default background
-                    }, {
-                        backgroundColor: '#DDD',
-                        borderWidth: 0,
-                        outerRadius: '105%',
-                        innerRadius: '103%'
-                    }]
-            },
-            // the value axis
-            yAxis: {
-                min: minValue,
-                max: maxValue,
-                minorTickInterval: 'auto',
-                minorTickWidth: 1,
-                minorTickLength: 10,
-                minorTickPosition: 'inside',
-                minorTickColor: '#666',
-                tickPixelInterval: 30,
-                tickWidth: 2,
-                tickPosition: 'inside',
-                tickLength: 10,
-                tickColor: '#666',
-                labels: {
-                    step: 3,
-                    rotation: 'auto'
+            $('#cmd#id#').highcharts({
+                chart: {
+                    type: 'gauge',
+                    plotBackgroundColor: null,
+                    plotBackgroundImage: null,
+                    backgroundColor: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false,
+                    height: 120
+                },
+                credits: {
+                    text: '',
+                    href: '',
                 },
                 title: {
-                    text: '#unite#',
-                    y: 16
+                    text: ''
                 },
-                plotBands: [{
-                        from: minValue,
-                        to: minValue + ((maxValue - minValue) * (1 / 3)),
-                        color: '#55BF3B' // green
-                    }, {
-                        from: minValue + ((maxValue - minValue) * (1 / 3)),
-                        to: minValue + ((maxValue - minValue) * (2 / 3)),
-                        color: '#DDDF0D' // yellow
-                    }, {
-                        from: minValue + ((maxValue - minValue) * (2 / 3)),
-                        to: maxValue,
-                        color: '#DF5353' // red
+                navigation: {
+                    buttonOptions: {
+                        enabled: false
+                    }
+                },
+                tooltip: {
+                    enabled: false
+                },
+                pane: {
+                    startAngle: -150,
+                    endAngle: 150,
+                    size: 105,
+                    background: [{
+                            backgroundColor: {
+                                linearGradient: {x1: 0, y1: 0, x2: 0, y2: 1},
+                                stops: [
+                                    [0, '#FFF'],
+                                    [1, '#333']
+                                ]
+                            },
+                            borderWidth: 0,
+                            outerRadius: '109%'
+                        }, {
+                            backgroundColor: {
+                                linearGradient: {x1: 0, y1: 0, x2: 0, y2: 1},
+                                stops: [
+                                    [0, '#333'],
+                                    [1, '#FFF']
+                                ]
+                            },
+                            borderWidth: 1,
+                            outerRadius: '107%'
+                        }, {
+                            // default background
+                        }, {
+                            backgroundColor: '#DDD',
+                            borderWidth: 0,
+                            outerRadius: '105%',
+                            innerRadius: '103%'
+                        }]
+                },
+                // the value axis
+                yAxis: {
+                    min: minValue,
+                    max: maxValue,
+                    minorTickInterval: 'auto',
+                    minorTickWidth: 1,
+                    minorTickLength: 10,
+                    minorTickPosition: 'inside',
+                    minorTickColor: '#666',
+                    tickPixelInterval: 30,
+                    tickWidth: 2,
+                    tickPosition: 'inside',
+                    tickLength: 10,
+                    tickColor: '#666',
+                    labels: {
+                        step: 3,
+                        rotation: 'auto'
+                    },
+                    title: {
+                        text: '#unite#',
+                        y: 16
+                    },
+                    plotBands: [{
+                            from: minValue,
+                            to: minValue + ((maxValue - minValue) * (1 / 3)),
+                            color: '#55BF3B' // green
+                        }, {
+                            from: minValue + ((maxValue - minValue) * (1 / 3)),
+                            to: minValue + ((maxValue - minValue) * (2 / 3)),
+                            color: '#DDDF0D' // yellow
+                        }, {
+                            from: minValue + ((maxValue - minValue) * (2 / 3)),
+                            to: maxValue,
+                            color: '#DF5353' // red
+                        }]
+                },
+                series: [{
+                        data: [value]
                     }]
-            },
-            series: [{
-                    data: [value]
-                }]
 
-        });
+            });
+        } else {
+            $('#cmd#id#').append('<span class="label label-danger">#state#</span>');
+        }
     });
 </script>
