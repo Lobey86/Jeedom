@@ -122,6 +122,22 @@ class cmd {
         return $return;
     }
 
+    public static function byValue($_value) {
+        $values = array(
+            'value' => $_value
+        );
+        $sql = 'SELECT id
+                FROM cmd
+                WHERE value=:value
+                ORDER BY `order`';
+        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
+        $return = array();
+        foreach ($results as $result) {
+            $return[] = self::byId($result['id']);
+        }
+        return $return;
+    }
+
     public static function byTypeEqLogicNameCmdName($_type, $_eqLogic_name, $_cmd_name) {
         $values = array(
             'type' => $_type,
@@ -206,27 +222,19 @@ class cmd {
                     AND eventOnly=0
                 ORDER BY eqLogic_id';
         $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
-        $eqLogic_id = '';
         $cmd = null;
         foreach ($results as $result) {
             $cmd = self::byId($result['id']);
             if (is_object($cmd)) {
                 if ($cmd->getEqLogic()->getIsEnable() == 1) {
                     $cmd->execCmd(null, 1, false);
-                    log::add('collect', 'info', 'la commande : ' . $cmd->getId() . ' / ' . $cmd->getName() . ' est collectée');
-                    if ($eqLogic_id == '') {
-                        $eqLogic_id = $cmd->getEqLogic_id();
-                    } else {
-                        if ($eqLogic_id != $cmd->getEqLogic_id()) {
-                            nodejs::pushUpdate('eventeqLogic', $eqLogic_id);
-                            $eqLogic_id = $cmd->getEqLogic_id();
-                        }
+                    log::add('collect', 'info', 'la commande : ' . $cmd->getHumanName() . ' est collectée');
+                    nodejs::pushUpdate('eventCmd', $cmd->getId());
+                    foreach (self::byValue($cmd->getId()) as $cmd_link) {
+                        nodejs::pushUpdate('eventCmd', $cmd_link->getId());
                     }
                 }
             }
-        }
-        if (is_object($cmd)) {
-            nodejs::pushUpdate('eventeqLogic', $cmd->getEqLogic_id());
         }
     }
 
@@ -483,7 +491,7 @@ class cmd {
                     if ($mc->hasExpired()) {
                         $this->setCollect(1);
                         $this->save();
-                        log::add('collect', 'info', 'la commande : ' . $this->getId() . ' / ' . $this->getName() . ' est marquée à collecter');
+                        log::add('collect', 'info', 'la commande : ' . $this->getHumanName() . ' est marquée à collecter');
                     }
                     return $mc->getValue();
                 }
@@ -555,7 +563,10 @@ class cmd {
             $this->setCollect(0);
             $this->save();
             if ($_sendNodeJsEvent) {
-                nodejs::pushUpdate('eventeqLogic', $this->getEqLogic_id());
+                nodejs::pushUpdate('eventCmd', $this->getId());
+                foreach (self::byValue($this->getId()) as $cmd) {
+                    nodejs::pushUpdate('eventCmd', $cmd->getId());
+                }
             }
         }
         return $value;
@@ -632,10 +643,10 @@ class cmd {
                     
                 }
                 if ($this->getIsHistorized() == 1) {
-                    $replace['#class#'] = 'history cursor';
+                    $replace['#history#'] = 'history cursor';
                     $html .= template_replace($replace, getTemplate('core', $_version, 'cmd.info.history.default'));
                 } else {
-                    $replace['#class#'] = '';
+                    $replace['#history#'] = '';
                 }
                 $html .= template_replace($replace, $template);
                 break;
@@ -690,7 +701,10 @@ class cmd {
             cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
             $this->setCollect(0);
             $this->save();
-            nodejs::pushUpdate('eventeqLogic', $eqLogic->getId());
+            nodejs::pushUpdate('eventCmd', $this->getId());
+            foreach (self::byValue($this->getId()) as $cmd) {
+                nodejs::pushUpdate('eventCmd', $cmd->getId());
+            }
             $internalEvent = new internalEvent();
             $internalEvent->setEvent('event::cmd');
             $internalEvent->setOptions('id', $this->getId());

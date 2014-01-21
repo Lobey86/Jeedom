@@ -1,14 +1,16 @@
-<a cmd_id="#id#" class="action ui-btn" l1key="other">#name#</a>
+<span class="cmd" type="action" subtype="color" cmd_id="#id#" style="display: inline-block;">
+    <a class="action ui-btn">#name#</a>
 
-<script>
-    $('.action[cmd_id=#id#]').click(function() {
-        execCmd('#id#', '');
-    });
-    var name = "#name#";
-    if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
-        $('.action[cmd_id=#id#]').addClass('ui-btn-b');
-    }
-    if (name.toLowerCase().indexOf('on') >= 0) {
-        $('.action[cmd_id=#id#]').addClass('ui-btn-a');
-    }
-</script>
+    <script>
+        $('.cmd[cmd_id=#id#] .action').click(function() {
+            execCmd('#id#', '');
+        });
+        var name = "#name#";
+        if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
+            $('.cmd[cmd_id=#id#] .action').addClass('ui-btn-b');
+        }
+        if (name.toLowerCase().indexOf('on') >= 0) {
+            $('.cmd[cmd_id=#id#] .action').addClass('ui-btn-a');
+        }
+    </script>
+</span>

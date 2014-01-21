@@ -1,5 +1,5 @@
-<span class="info" cmd_id="#id#">
-    <span style="width:120px;display: inline-block;" class="#class# tooltips" cmd_id="#id#" title="#collectDate#" >
+<span class="cmd #history# tooltips" type="info" subtype="numeric" cmd_id="#id#" title="#collectDate#">
+    <span style="width:120px;display: inline-block;">
         <div class="progress" id="cmd#id#">
             <div class="progress-bar" role="progressbar" aria-valuenow="#state#" aria-valuemin="#minValue#" aria-valuemax="#maxValue#" >
                 <span class="sr-only">60% Complete</span>
@@ -11,29 +11,30 @@
             </span>
         </center>
     </span>
-</span>
 
-<script>
-    $(function() {
-       var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
-       var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
-       var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
-      $('#cmd#id#').find('.progress-bar').attr('aria-valuenow', value);
-      var pourcentage = (value / (maxValue - minValue)) * 100;
-      $('#cmd#id#').find('.progress-bar').css('width', pourcentage + '%');
-      var progressBarClass = '';
-      if (pourcentage < 100) {
-          progressBarClass = 'progress-bar-danger';
-      }
-      if (pourcentage < 75) {
-          progressBarClass = 'progress-bar-warning';
-      }
-      if (pourcentage < 50) {
-          progressBarClass = 'progress-bar-info';
-      }
-      if (pourcentage < 25) {
-          progressBarClass = 'progress-bar-success';
-      }
-      $('#cmd#id#').find('.progress-bar').addClass(progressBarClass);
-      });
-</script>
+
+    <script>
+        $(function() {
+            var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
+            var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
+            var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
+            $('#cmd#id#').find('.progress-bar').attr('aria-valuenow', value);
+            var pourcentage = (value / (maxValue - minValue)) * 100;
+            $('#cmd#id#').find('.progress-bar').css('width', pourcentage + '%');
+            var progressBarClass = '';
+            if (pourcentage < 100) {
+                progressBarClass = 'progress-bar-danger';
+            }
+            if (pourcentage < 75) {
+                progressBarClass = 'progress-bar-warning';
+            }
+            if (pourcentage < 50) {
+                progressBarClass = 'progress-bar-info';
+            }
+            if (pourcentage < 25) {
+                progressBarClass = 'progress-bar-success';
+            }
+            $('#cmd#id#').find('.progress-bar').addClass(progressBarClass);
+        });
+    </script>
+</span>

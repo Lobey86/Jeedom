@@ -42,7 +42,7 @@ sendVarToJS('eqType', 'mail');
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">Nom expediteur</label>
+                            <label class="col-lg-4 control-label">Nom expéditeur</label>
                             <div class="col-lg-6">
                                 <input class="eqLogicAttr form-control" l1key='configuration' l2key='fromName' />
                             </div>

@@ -1,25 +1,27 @@
-<script type="text/javascript" src="3rdparty/jquery.farbtastic/farbtastic.js" ></script>
-<link rel="stylesheet" href="3rdparty/jquery.farbtastic/farbtastic.css" />
+<span class="cmd" type="action" subtype="color" cmd_id="#id#" style="display: inline-block;">
+    <script type="text/javascript" src="3rdparty/jquery.farbtastic/farbtastic.js" ></script>
+    <link rel="stylesheet" href="3rdparty/jquery.farbtastic/farbtastic.css" />
 
-<hr style="margin : 0px 0px 3px 0px;"/>
+    <hr style="margin : 0px 0px 3px 0px;"/>
 
-<div class="action_colorpicker" cmd_id="#id#" l1key="color" ></div>
-<a class="btn btn-xs btn-danger action_colorpicker_off " cmd_id="#id#" style="margin-top : 3px;">Off</a>
+    <div class="action_colorpicker"></div>
+    <a class="btn btn-xs btn-danger action_colorpicker_off" style="margin-top : 3px;">Off</a>
 
-<script>
-    $('.action_colorpicker_off[cmd_id=#id#]').off();
-    var value = '#000000';
-    if ('#lastValue#' != '') {
-        value = '#lastValue#';
-    }
-    if ($('.action_colorpicker[cmd_id=#id#]').length > 0) {
-        colorPicker = $('.action_colorpicker[cmd_id=#id#]').farbtastic();
-        $.farbtastic($('.action_colorpicker[cmd_id=#id#]')).setColor(value);
-        $('.action_colorpicker_off[cmd_id=#id#]').on('click', function() {
-            execCmd('#id#', {color: '#000000'});
-        });
-        $('.action_colorpicker[cmd_id=#id#]').on('mouseup', function() {
-            execCmd('#id#', {color: $.farbtastic($(this)).color});
-        });
-    }
-</script>
+    <script>
+        $('.cmd[cmd_id=#id#] .action_colorpicker').off();
+        var value = '#000000';
+        if ('#lastValue#' != '') {
+            value = '#lastValue#';
+        }
+        if ($('.cmd[cmd_id=#id#] .action_colorpicker').length > 0) {
+            $('.cmd[cmd_id=#id#] .action_colorpicker').farbtastic();
+            $.farbtastic($('.cmd[cmd_id=#id#] .action_colorpicker')).setColor(value);
+            $('.cmd[cmd_id=#id#] .action_colorpicker_off').on('click', function() {
+                execCmd('#id#', {color: '#000000'});
+            });
+            $('.cmd[cmd_id=#id#] .action_colorpicker').on('mouseup', function() {
+                execCmd('#id#', {color: $.farbtastic($(this)).color});
+            });
+        }
+    </script>
+</span>

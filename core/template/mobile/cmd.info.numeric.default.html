@@ -1,8 +1,7 @@
-<script type="text/javascript" src="3rdparty/justGage/justgage.1.0.1.min.js" ></script>
-<script type="text/javascript" src="3rdparty/justGage/raphael.2.1.0.min.js" ></script>
+<div style="width:160px; height:175px;display: inline-block;" class="#history# cmd" type="info" subtype="numeric" cmd_id="#id#" >
+    <script type="text/javascript" src="3rdparty/justGage/justgage.1.0.1.min.js" ></script>
+    <script type="text/javascript" src="3rdparty/justGage/raphael.2.1.0.min.js" ></script>
 
-
-<div style="width:160px; height:175px;display: inline-block;" class="#class#" cmd_id="#id#" >
     <span style="width:140px;height:140px;display: inline-block;vertical-align: top;">
         <div id="cmd#id#"></div>
     </span>
@@ -15,25 +14,26 @@
     <div data-role="popup" id="tooltipsCmd#id#" class="ui-content" data-theme="a" style="max-width:350px;">
         #collectDate#
     </div>
-</div>
 
-<script>
-            $(document).ready(function () {
-    if (('#state#' != '' && is_numeric('#state#'))){
-    var value = '#state#';
-            new JustGage({
-            id: "cmd#id#",
-                    value: value,
-                    min: #minValue#,
-                    max: #maxValue#,
-                    title: "#name#",
-                    label: "#unite#",
-                    decimals : 1,
-                    humanFriendly  : true,
-                    startAnimationTime:1
-            });
-    } else{
-    $('#cmd#id#').append('<span class="label label-danger">#state#</span>');
-    }
-    });
-</script>
+
+    <script>
+        $(document).ready(function () {
+        if (('#state#' != '' && is_numeric('#state#'))){
+        var value = '#state#';
+                new JustGage({
+        id: "cmd#id#",
+                value: value,
+                min: #minValue#,
+                max: #maxValue#,
+                title: "#name#",
+                label: "#unite#",
+                decimals : 1,
+                humanFriendly  : true,
+                startAnimationTime:1
+        });
+        } else{
+        $('#cmd#id#').append('<span class="label label-danger">#state#</span>');
+        }
+        });
+    </script>
+</div>

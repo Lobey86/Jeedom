@@ -1,24 +1,22 @@
-<span class="action" cmd_id="#id#">
-    <div class="slider" cmd_id="#id#" l1key="slider" style="margin : 5px 10px 8px 10px;" >
-</span>
+<span class="cmd" type="action" subtype="slider" cmd_id="#id#">
+    <div class="slider" style="margin : 5px 10px 8px 10px;" ></div>
 
-<script>
-    $(function() {
-        $(".slider[cmd_id=#id#]").off();
-        var value = 0;
-        if ('#lastValue#' != '') {
-            value = '#lastValue#';
-        }
-        $(".slider[cmd_id=#id#]").slider({
-            range: "min",
-            min: 0,
-            max: 100,
-            value: value,
-            change: function(event, ui) {
-                execCmd('#id#', {slider: ui.value});
+    <script>
+        $(function() {
+            $(".cmd[cmd_id=#id#] .slider").off();
+            var value = 0;
+            if ('#lastValue#' != '') {
+                value = '#lastValue#';
             }
+            $(".cmd[cmd_id=#id#] .slider").slider({
+                range: "min",
+                min: 0,
+                max: 100,
+                value: value,
+                change: function(event, ui) {
+                    execCmd('#id#', {slider: ui.value});
+                }
+            });
         });
-    });
-</script>
-
-</div>
+    </script>
+</span>

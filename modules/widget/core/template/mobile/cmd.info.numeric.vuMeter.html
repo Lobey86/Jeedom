@@ -1,82 +1,80 @@
-<span class="info" cmd_id="#id#">
-    <span style="width:120px;display: inline-block;" class="#class# tooltips" cmd_id="#id#" title="#collectDate#" >
-        <div id="cmd#id#"></div>
-        <span style="vertical-align: top; display : inline;white-space: nowrap;" >
-            <a href="#tooltipsCmd#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline" style="margin-right: 0em;"></a>
-            <span class="collectDate" style="font-size: 0.75em; #displayHistory#">
-                <span>#minHistoryValue#</span>|<span>#averageHistoryValue#</span>|<span>#maxHistoryValue#</span> <i class="#tendance#"></i>
-            </span>
+<span class="cmd #history# tooltips" type="info" subtype="numeric" cmd_id="#id#" title="#collectDate#" style="width:120px;display: inline-block;">
+    <div class="vuMeter"></div>
+    <span style="vertical-align: top; display : inline;white-space: nowrap;" >
+        <a href="#tooltipsCmd#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline" style="margin-right: 0em;"></a>
+        <span class="collectDate" style="font-size: 0.75em; #displayHistory#">
+            <span>#minHistoryValue#</span>|<span>#averageHistoryValue#</span>|<span>#maxHistoryValue#</span> <i class="#tendance#"></i>
         </span>
-        <div data-role="popup" id="tooltipsCmd#id#" class="ui-content" data-theme="a" style="max-width:350px;">
-            #collectDate#
-        </div>
     </span>
-</span>
+    <div data-role="popup" id="tooltipsCmd#id#" class="ui-content" data-theme="a" style="max-width:350px;">
+        #collectDate#
+    </div>
 
-<script>
-    $(function() {
-        if (('#state#' != '' && is_numeric('#state#'))) {
-            var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
-            var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
-            var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
-            $('#cmd#id#').highcharts({
-                chart: {
-                    type: 'gauge',
-                    plotBackgroundImage: null,
-                    backgroundColor: null,
-                    height: 130
-                },
-                credits: {
-                    text: '',
-                    href: '',
-                },
-                title: {
-                    text: ''
-                },
-                navigation: {
-                    buttonOptions: {
-                        enabled: false
-                    }
-                },
-                tooltip: {
-                    enabled: false
-                },
-                pane: [{
-                        startAngle: -45,
-                        endAngle: 45,
-                        background: null,
-                        center: ['55%', '100%'],
-                        size: 130
-                    }],
-                yAxis: [{
-                        min: minValue,
-                        max: maxValue,
-                        minorTickPosition: 'outside',
-                        tickPosition: 'outside',
-                        labels: {
-                            rotation: 'auto',
-                            distance: -10
-                        },
-                        pane: 0,
-                        title: {
-                            text: '<span style="font-size:8px">Channel A</span>',
+    <script>
+        $(function() {
+            if (('#state#' != '' && is_numeric('#state#'))) {
+                var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
+                var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
+                var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
+                $('.cmd[cmd_id=#id#] .vuMeter').highcharts({
+                    chart: {
+                        type: 'gauge',
+                        plotBackgroundImage: null,
+                        backgroundColor: null,
+                        height: 130
+                    },
+                    credits: {
+                        text: '',
+                        href: '',
+                    },
+                    title: {
+                        text: ''
+                    },
+                    navigation: {
+                        buttonOptions: {
+                            enabled: false
                         }
-                    }],
-                plotOptions: {
-                    gauge: {
-                        dataLabels: {
-                            y: -95,
-                            borderWidth: 0
-                        },
-                    }
-                },
-                series: [{
-                        data: [value]
-                    }]
+                    },
+                    tooltip: {
+                        enabled: false
+                    },
+                    pane: [{
+                            startAngle: -45,
+                            endAngle: 45,
+                            background: null,
+                            center: ['55%', '100%'],
+                            size: 130
+                        }],
+                    yAxis: [{
+                            min: minValue,
+                            max: maxValue,
+                            minorTickPosition: 'outside',
+                            tickPosition: 'outside',
+                            labels: {
+                                rotation: 'auto',
+                                distance: -10
+                            },
+                            pane: 0,
+                            title: {
+                                text: '<span style="font-size:8px">Channel A</span>',
+                            }
+                        }],
+                    plotOptions: {
+                        gauge: {
+                            dataLabels: {
+                                y: -95,
+                                borderWidth: 0
+                            },
+                        }
+                    },
+                    series: [{
+                            data: [value]
+                        }]
 
-            });
-        } else {
-            $('#cmd#id#').append('<span class="label label-danger">#state#</span>');
-        }
-    });
-</script>
+                });
+            } else {
+                $('.cmd[cmd_id=#id#] .vuMeter').append('<span class="label label-danger" style="vertical-align : top;">#state#</span>');
+            }
+        });
+    </script>
+</span>

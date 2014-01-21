@@ -23,6 +23,17 @@ try {
     if (!isConnect()) {
         throw new Exception('401 Unauthorized');
     }
+    
+     if (init('action') == 'toHtml') {
+        $cmd = cmd::byId(init('id'));
+        if (!is_object($cmd)) {
+            throw new Exception('Cmd inconnu verifié l\'id');
+        }
+        $info_cmd = array();
+        $info_cmd['id'] = $cmd->getId();
+        $info_cmd['html'] = $cmd->toHtml(init('version'));
+        ajax::success($info_cmd);
+    }
 
     if (init('action') == 'execCmd') {
         $cmd = cmd::byId(init('id'));

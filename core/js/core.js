@@ -39,7 +39,7 @@ $(function() {
                 200: function() {
                     $("head").append("<script type='text/javascript' src='/nodeJS/socket.io/socket.io.js'></script>");
                     socket = io.connect();
-                    
+
                     socket.on('error', function(reason) {
                         console.log('Unable to connect Socket.IO', reason);
                     });
@@ -52,8 +52,8 @@ $(function() {
                         notify('Node JS erreur', 'Erreur d\'authentification sur node JS, clef invalide', 'gritter-red');
                         $('#span_nodeJsState').removeClass('green').addClass('red');
                     });
-                    socket.on('eventeqLogic', function(eqLogic_id) {
-                        refreshEqLogicValue(eqLogic_id);
+                    socket.on('eventCmd', function(cmd_id) {
+                        refreshCmdValue(cmd_id);
                     });
                     socket.on('eventScenario', function(scenario_id) {
                         refreshScenarioValue(scenario_id);
@@ -123,7 +123,7 @@ function execCmd(_id, _value, _cache) {
                 notify('Commande', data.result, 'gritter-red')
                 return;
             }
-            notify('Commande', 'La commande a été executée avec succès', 'gritter-green',true);
+            notify('Commande', 'La commande a été executée avec succès', 'gritter-green', true);
             retour = data.result;
         }
     });
@@ -151,7 +151,7 @@ function changeScenarioState(_id, _state) {
                 notify('Commande', data.result, 'gritter-red')
                 return;
             }
-            notify('Scénario', 'Mise à jour de l\état du scénario réussi', 'gritter-green',true);
+            notify('Scénario', 'Mise à jour de l\état du scénario réussi', 'gritter-green', true);
         }
     });
 }
@@ -310,17 +310,16 @@ function refreshScenarioValue(_scenario_id) {
     }
 }
 
-function refreshEqLogicValue(_eqLogic_id) {
-    if ($('.eqLogic[eqLogic_id=' + _eqLogic_id + ']').html() != undefined) {
-        var version = $('.eqLogic[eqLogic_id=' + _eqLogic_id + ']').attr('version');
+function refreshCmdValue(_cmd_id) {
+    if ($('.cmd[cmd_id=' + _cmd_id + ']').html() != undefined) {
+        var version = $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('version');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/eqLogic.ajax.php", // url du fichier php
+            url: "core/ajax/cmd.ajax.php", // url du fichier php
             data: {
                 action: "toHtml",
-                id: _eqLogic_id,
+                id: _cmd_id,
                 version: version,
-                object_id: $('#sel_object').value()
             },
             dataType: 'json',
             cache: true,
@@ -338,7 +337,7 @@ function refreshEqLogicValue(_eqLogic_id) {
                         options.cache = true;
                     }
                 });
-                $('.eqLogic[eqLogic_id=' + _eqLogic_id + ']').replaceWith(data.result.html);
+                $('.cmd[cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
                 $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
                     if (options.dataType == 'script' || originalOptions.dataType == 'script') {
                         options.cache = false;
@@ -346,7 +345,7 @@ function refreshEqLogicValue(_eqLogic_id) {
                 });
                 activateTooltips();
                 if ($.mobile) {
-                    $('.eqLogic[eqLogic_id=' + _eqLogic_id + ']').trigger("create");
+                    $('.cmd[cmd_id=' + _cmd_id + ']').trigger("create");
                 }
             }
         });

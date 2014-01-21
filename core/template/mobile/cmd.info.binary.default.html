@@ -1,8 +1,8 @@
-<span class="info" cmd_id="#id#" >
-    <span class="#class# tooltips" cmd_id="#id#" title="#collectDate#">
+<span class="cmd" type="info" subtype="binary" cmd_id="#id#" >
+    <span class="#history# tooltips" cmd_id="#id#" title="#collectDate#">
         <center>
             <a href="#tooltipsCmd#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline"></a>
-            #name# : <span class="binary"  type="binary" ></span>
+            #name# : <span class="binary"></span>
             #unite#
         </center>
 
@@ -15,12 +15,12 @@
 <script>
     if ('#state#' == '1' || '#state#' == '0') {
         if ('#state#' == '1') {
-            $('span[cmd_id=#id#] span[type=binary]').addClass('green');
+            $('cmd[cmd_id=#id#] .binary').addClass('green');
         }
         if ('#state#' == '0') {
-            $('span[cmd_id=#id#] span[type=binary]').addClass('red');
+            $('cmd[cmd_id=#id#] .binary').addClass('red');
         }
     } else {
-        $('span[cmd_id=#id#] span[type=binary]').append('<span class="label label-danger">#state#</span>');
+        $('cmd[cmd_id=#id#] .binary').append('<span class="label label-danger">#state#</span>');
     }
 </script>
