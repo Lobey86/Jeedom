@@ -29,17 +29,17 @@ cmd.changeType = function(_cmd, _subType) {
             selSubType += '<option value="binary">Binaire</option>';
             selSubType += '<option value="string">Autre</option>';
             _cmd.find('.cmdAttr[l1key=eventOnly]').show();
-            _cmd.find('.cmdAttr[l1key=unite]').parent().show();
             _cmd.find('.cmdAttr[l1key=isHistorized]').parent().show();
+            _cmd.find('.cmdAttr[l1key=cache][l2key=enable]').parent().show();
             break;
         case 'action' :
             selSubType += '<option value="other">Défaut</option>';
             selSubType += '<option value="slider">Slider</option>';
             selSubType += '<option value="message">Message</option>';
             selSubType += '<option value="color">Couleur</option>';
-            _cmd.find('.cmdAttr[l1key=unite]').hide();
             _cmd.find('.cmdAttr[l1key=eventOnly]').parent().hide();
             _cmd.find('.cmdAttr[l1key=isHistorized]').parent().hide();
+            _cmd.find('.cmdAttr[l1key=cache][l2key=enable]').parent().hide();
             break;
     }
     selSubType += '</select>';
@@ -48,6 +48,7 @@ cmd.changeType = function(_cmd, _subType) {
     if (isset(_subType)) {
         _cmd.find('.cmdAttr[l1key=subType]').value(_subType);
     }
+    _cmd.find('.cmdAttr[l1key=subType]').trigger('change');
 }
 
 cmd.changeSubType = function(_cmd) {
@@ -60,16 +61,19 @@ cmd.changeSubType = function(_cmd) {
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').show();
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').show();
                     _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').show();
+                    _cmd.find('.cmdAttr[l1key=unite]').show();
                     break;
                 case 'binary' :
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').hide();
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').hide();
                     _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').show();
+                    _cmd.find('.cmdAttr[l1key=unite]').hide();
                     break;
                 case 'string' :
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').hide();
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').hide();
                     _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').show();
+                    _cmd.find('.cmdAttr[l1key=unite]').show();
                     break;
             }
             break;
@@ -79,21 +83,25 @@ cmd.changeSubType = function(_cmd) {
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').hide();
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').hide();
                     _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').hide();
+                    _cmd.find('.cmdAttr[l1key=unite]').hide();
                     break;
                 case 'slider' :
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').show();
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').show();
                     _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').hide();
+                    _cmd.find('.cmdAttr[l1key=unite]').hide();
                     break;
                 case 'message' :
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').hide();
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').hide();
                     _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').hide();
+                    _cmd.find('.cmdAttr[l1key=unite]').hide();
                     break;
                 case 'color' :
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').hide();
                     _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').hide();
                     _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').hide();
+                    _cmd.find('.cmdAttr[l1key=unite]').hide();
                     break;
             }
             break;

@@ -37,7 +37,7 @@ sendVarToJS('sel_type', $sel_type);
     <div class="col-lg-10" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;" id="div_conf">
         <form class="form-horizontal">
             <fieldset>
-                <legend>Générale</legend>
+                <legend>Général</legend>
                 <div class="form-group">
                     <label class="col-lg-4 control-label">Nom de la macro</label>
                     <div class="col-lg-3">

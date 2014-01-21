@@ -27,7 +27,7 @@ sendVarToJS('eqType', 'mail');
             <div class="col-lg-6">
                 <form class="form-horizontal">
                     <fieldset>
-                        <legend>Générale</legend>
+                        <legend>Général</legend>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement mail</label>
                             <div class="col-lg-6">
@@ -48,7 +48,7 @@ sendVarToJS('eqType', 'mail');
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">Mail expediteur</label>
+                            <label class="col-lg-4 control-label">Mail expéditeur</label>
                             <div class="col-lg-6">
                                 <input class="eqLogicAttr form-control" l1key='configuration' l2key='fromMail' />
                             </div>

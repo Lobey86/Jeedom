@@ -50,7 +50,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
 
         <div class="row">
             <div class="col-lg-6">
-                <legend>Générale</legend>
+                <legend>Général</legend>
                 <form class="form-horizontal">
                     <fieldset>
 

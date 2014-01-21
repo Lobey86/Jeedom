@@ -320,12 +320,11 @@ function addCmdToTable(_cmd) {
     tr += '<td>';
     tr += '<input class="cmdAttr form-control tooltips" l1key="unite"  style="width : 100px;" placeholder="Unité" title="Unité">';
     tr += '<input style="width : 100px;" class="tooltips cmdAttr form-control" l1key="cache" l2key="lifetime" placeholder="Lifetime cache" title="Lifetime cache">';
-    tr += '<input class="tooltips cmdAttr form-control" l1key="display" l2key="minValue" placeholder="Min" title="Min"> ';
-    tr += '<input class="tooltips cmdAttr form-control" l1key="display" l2key="maxValue" placeholder="Max" title="Max">';
+    tr += '<input class="tooltips cmdAttr form-control" l1key="configuration" l2key="minValue" placeholder="Min" title="Min"> ';
+    tr += '<input class="tooltips cmdAttr form-control" l1key="configuration" l2key="maxValue" placeholder="Max" title="Max">';
     tr += '</td>';
     tr += '<td>';
     tr += '<span><input type="checkbox" class="cmdAttr" l1key="isHistorized" /> Historiser<br/></span>';
-    tr += '<span><input type="checkbox" class="cmdAttr" l1key="eventOnly" /> Evenement seulement<br/></span>';
     tr += '<span><input type="checkbox" class="cmdAttr" l1key="cache" l2key="enable" checked /> Autoriser memcache</span>';
     tr += '</td>';
     tr += '<td>';
