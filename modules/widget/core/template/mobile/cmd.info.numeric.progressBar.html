@@ -14,14 +14,11 @@
     </div>
 
     <script>
-        var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
-        var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
-        var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
         TolitoProgressBar('cmd#id#')
                 .setOuterTheme('b')
                 .setInnerTheme('e')
-                .setMax(maxValue)
-                .setStartFrom(value)
+                .setMax(('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100)
+                .setStartFrom(('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0)
                 .showCounter(true)
                 .logOptions()
                 .build();

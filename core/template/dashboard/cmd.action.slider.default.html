@@ -4,15 +4,11 @@
     <script>
         $(function() {
             $(".cmd[cmd_id=#id#] .slider").off();
-            var value = 0;
-            if ('#lastValue#' != '') {
-                value = '#lastValue#';
-            }
             $(".cmd[cmd_id=#id#] .slider").slider({
                 range: "min",
-                min: 0,
-                max: 100,
-                value: value,
+                min: ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0,
+                max: ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100,
+                value: ('#lastValue#' != '' && is_numeric(parseInt('#lastValue#'))) ? parseInt('#lastValue#') : 0,
                 change: function(event, ui) {
                     execCmd('#id#', {slider: ui.value});
                 }
