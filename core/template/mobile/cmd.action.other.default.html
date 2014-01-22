@@ -2,15 +2,17 @@
     <a class="action ui-btn">#name#</a>
 
     <script>
-        $('.cmd[cmd_id=#id#] .action').click(function() {
-            execCmd('#id#', '');
+        $(function() {
+            $('.cmd[cmd_id=#id#] .action').click(function() {
+                execCmd('#id#', '');
+            });
+            var name = "#name#";
+            if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
+                $('.cmd[cmd_id=#id#] .action').addClass('ui-btn-b');
+            }
+            if (name.toLowerCase().indexOf('on') >= 0) {
+                $('.cmd[cmd_id=#id#] .action').addClass('ui-btn-a');
+            }
         });
-        var name = "#name#";
-        if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
-            $('.cmd[cmd_id=#id#] .action').addClass('ui-btn-b');
-        }
-        if (name.toLowerCase().indexOf('on') >= 0) {
-            $('.cmd[cmd_id=#id#] .action').addClass('ui-btn-a');
-        }
     </script>
 </span>

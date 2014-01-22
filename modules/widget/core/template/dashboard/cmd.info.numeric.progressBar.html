@@ -15,11 +15,9 @@
 
     <script>
         $(function() {
-            var value = ('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0;
-            var maxValue = ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100;
-            var minValue = ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0;
+            var value = (is_numeric('#state#')) ? parseInt('#state#') : 0;
             $('#cmd#id#').find('.progress-bar').attr('aria-valuenow', value);
-            var pourcentage = (value / (maxValue - minValue)) * 100;
+            var pourcentage = (value / ('#maxValue#' - '#minValue#')) * 100;
             $('#cmd#id#').find('.progress-bar').css('width', pourcentage + '%');
             var progressBarClass = '';
             if (pourcentage < 100) {

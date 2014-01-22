@@ -12,7 +12,7 @@
 
     <script>
         $(function() {
-            if (('#state#' != '' && is_numeric('#state#'))) {
+            if (is_numeric(parseInt('#state#'))) {
                 $('.cmd[cmd_id=#id#] .vuMeter').highcharts({
                     chart: {
                         type: 'gauge',
@@ -32,6 +32,11 @@
                             enabled: false
                         }
                     },
+                    plotOptions: {
+                        series: {
+                            animation: false
+                        }
+                    },
                     tooltip: {
                         enabled: false
                     },
@@ -43,8 +48,8 @@
                             size: 130
                         }],
                     yAxis: [{
-                            min: ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0,
-                            max: ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100,
+                            min: #minValue#,
+                            max: #maxValue#,
                             minorTickPosition: 'outside',
                             tickPosition: 'outside',
                             labels: {
@@ -65,7 +70,7 @@
                         }
                     },
                     series: [{
-                            data: [('#state#' != '' && is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0]
+                            data: [parseInt('#state#')]
                         }]
 
                 });

@@ -1,14 +1,14 @@
 <span class="cmd" type="action" subtype="slider" cmd_id="#id#">
     <div class="slider" style="width: 100%;text-align: right;">
-        <input type="range" min="0" max="100" data-highlight="true" data-theme="a" />
+        <input type="range" min="#minValue#" max="#maxValue#" data-highlight="true" data-theme="a" />
     </div>
 
     <script>
-        $('.cmd[cmd_id=#id#] .slider input').attr('value', ('#lastValue#' != '' && is_numeric(parseInt('#lastValue#'))) ? parseInt('#lastValue#') : 0);
-        $('.cmd[cmd_id=#id#] .slider input').attr('min', ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0);
-        $('.cmd[cmd_id=#id#] .slider input').attr('max', ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100);
-        $('.cmd[cmd_id=#id#] .slider').on("slidestop", function(event, ui) {
-            execCmd('#id#', {slider: $(this).find('input').value()});
+        $(function() {
+            $('.cmd[cmd_id=#id#] .slider input').attr('value', (is_numeric('#state#')) ? '#state#' : 0);
+            $('.cmd[cmd_id=#id#] .slider').on("slidestop", function(event, ui) {
+                execCmd('#id#', {slider: $(this).find('input').value()});
+            });
         });
     </script>
 </span>

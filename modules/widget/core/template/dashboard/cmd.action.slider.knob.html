@@ -7,9 +7,9 @@
 
     <script>
         $(function() {
-            $(".cmd[cmd_id=#id#] .knob").val(('#lastValue#' != '' && is_numeric(parseInt('#lastValue#'))) ? parseInt('#lastValue#') : 0).knob({
-                min: ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0,
-                max: ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100,
+            $(".cmd[cmd_id=#id#] .knob").val((is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0).knob({
+                min: '#minValue#',
+                max: '#maxValue#',
                 width: 120,
                 height: 120,
                 release: function(v) {

@@ -1,16 +1,18 @@
 <span class="cmd" type="action" subtype="other" cmd_id="#id#">
     <a class="btn btn-xs btn-default action" style="margin-top : 3px;">#name#</a>
     <script>
-        $('.cmd[cmd_id=#id#] .action').off();
-        $('.cmd[cmd_id=#id#] .action').on('click', function() {
-            execCmd('#id#', '');
+        $(function() {
+            $('.cmd[cmd_id=#id#] .action').off();
+            $('.cmd[cmd_id=#id#] .action').on('click', function() {
+                execCmd('#id#', '');
+            });
+            var name = "#name#";
+            if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
+                $('.cmd[cmd_id=#id#] .action').addClass('btn-danger');
+            }
+            if (name.toLowerCase().indexOf('on') >= 0) {
+                $('.cmd[cmd_id=#id#] .action').addClass('btn-success');
+            }
         });
-        var name = "#name#";
-        if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
-            $('.cmd[cmd_id=#id#] .action').addClass('btn-danger');
-        }
-        if (name.toLowerCase().indexOf('on') >= 0) {
-            $('.cmd[cmd_id=#id#] .action').addClass('btn-success');
-        }
     </script>
 </span>

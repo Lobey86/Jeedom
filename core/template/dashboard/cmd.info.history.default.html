@@ -12,7 +12,6 @@
             $('.history[cmd_id=#id#]').off().unbind();
 
             if ($(".md_history[cmd_id=#id#]").length > 1) {
-                modalHisotry = $(".md_history[cmd_id=#id#]");
                 while ($(".md_history[cmd_id=#id#]").length > 1) {
                     $(".md_history[cmd_id=#id#]").eq(0).remove();
                 }

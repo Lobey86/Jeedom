@@ -6,9 +6,9 @@
             $(".cmd[cmd_id=#id#] .slider").off();
             $(".cmd[cmd_id=#id#] .slider").slider({
                 range: "min",
-                min: ('#minValue#' != '' && is_numeric(parseInt('#minValue#'))) ? parseInt('#minValue#') : 0,
-                max: ('#maxValue#' != '' && is_numeric(parseInt('#maxValue#'))) ? parseInt('#maxValue#') : 100,
-                value: ('#lastValue#' != '' && is_numeric(parseInt('#lastValue#'))) ? parseInt('#lastValue#') : 0,
+                min: '#minValue#',
+                max: '#maxValue#',
+                value: (is_numeric('#state#')) ? '#state#' : 0,
                 change: function(event, ui) {
                     execCmd('#id#', {slider: ui.value});
                 }

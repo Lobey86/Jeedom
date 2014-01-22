@@ -653,12 +653,12 @@ class cmd {
             case "action":
                 $cmdValue = $this->getCmdValue();
                 if (is_object($cmdValue)) {
-                    $replace['#lastValue#'] = $cmdValue->execCmd(null, 2);
+                    $replace['#state#'] = $cmdValue->execCmd(null, 2);
                 } else {
                     if ($this->getLastValue() != null) {
-                        $replace['#lastValue#'] = $this->getLastValue();
+                        $replace['#state#'] = $this->getLastValue();
                     } else {
-                        $replace['#lastValue#'] = '';
+                        $replace['#state#'] = '';
                     }
                 }
                 $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
