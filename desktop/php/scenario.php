@@ -100,12 +100,6 @@ sendVarToJS('select_id', init('id', '-1'));
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-6 control-label" >Doit être répété</label>
-                            <div class="col-lg-6">
-                                <input type="checkbox" class="form-control scenarioAttr" l1key="isRepeat">
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="col-lg-6 control-label">Actif</label>
                             <div class="col-lg-6">
                                 <input type="checkbox" class="form-control scenarioAttr" l1key="isActive">

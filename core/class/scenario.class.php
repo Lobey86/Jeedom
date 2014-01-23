@@ -25,7 +25,6 @@ class scenario {
     private $id;
     private $name;
     private $lastUse = null;
-    private $isRepeat = 0;
     private $isActive = 1;
     private $group = '';
     private $state = 'stop';
@@ -310,7 +309,6 @@ class scenario {
             if ($c->isDue()) {
                 return true;
             }
-
             $lastCheck = new DateTime($this->getLastCheck());
             $prev = $c->getPreviousRunDate();
             if ($lastCheck < $prev) {
@@ -377,10 +375,6 @@ class scenario {
         return $this->name;
     }
 
-    public function getIsRepeat() {
-        return $this->isRepeat;
-    }
-
     public function getLastUse() {
         return $this->lastUse;
     }
@@ -411,10 +405,6 @@ class scenario {
 
     public function setLastUse($lastUse) {
         $this->lastUse = $lastUse;
-    }
-
-    public function setIsRepeat($isRepeat) {
-        $this->isRepeat = $isRepeat;
     }
 
     public function setIsActive($isActive) {

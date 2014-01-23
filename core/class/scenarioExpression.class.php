@@ -116,14 +116,14 @@ class scenarioExpression {
 
     /*     * *********************Methode d'instance************************* */
 
-    public function execute(&$scenario, $_initialScenarioState, $_doCmd = true) {
+    public function execute(&$scenario) {
         $message = '';
         try {
             if ($this->getType() == 'element') {
                 $element = scenarioElement::byId($this->getExpression());
                 if (is_object($element)) {
                     $this->setLog('Exécution d\'un bloc élément : ' . $this->getExpression());
-                    return $element->execute($scenario, $_initialScenarioState);
+                    return $element->execute($scenario);
                 }
             }
             $options = $this->getOptions();
@@ -183,16 +183,12 @@ class scenarioExpression {
                         return;
                         break;
                     default:
-                        if ($_doCmd) {
-                            $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
-                            if (is_object($cmd)) {
-                                $this->setLog('Exécution de la commande ' . $cmd->getHumanName());
-                                return $cmd->execCmd($options);
-                            }
-                            $this->setLog('[Erreur] Aucune commande trouvée pour ' . $this->getExpression());
-                        } else {
-                            $this->setLog('Commande non exécutée sur demande (scénario non répété)');
+                        $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
+                        if (is_object($cmd)) {
+                            $this->setLog('Exécution de la commande ' . $cmd->getHumanName());
+                            return $cmd->execCmd($options);
                         }
+                        $this->setLog('[Erreur] Aucune commande trouvée pour ' . $this->getExpression());
                         return;
                         break;
                 }
