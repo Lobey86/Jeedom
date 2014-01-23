@@ -178,15 +178,17 @@ $(function() {
 
     $('.scenarioAttr[l1key=mode]').on('change', function() {
         if ($(this).value() == 'schedule' || $(this).value() == 'all') {
-            $('.scheduleMode').show();
+            $('.scheduleDisplay').show();
+            $('#bt_addSchedule').show();
         } else {
-            $('.scheduleMode').hide();
+            $('.scheduleDisplay').hide();
+            $('#bt_addSchedule').hide();
         }
         if ($(this).value() == 'provoke' || $(this).value() == 'all') {
-            $('.provokeMode').show();
+            $('.provokeDisplay').show();
             $('#bt_addTrigger').show();
         } else {
-            $('.provokeMode').hide();
+            $('.provokeDisplay').hide();
             $('#bt_addTrigger').hide();
         }
     });
@@ -195,12 +197,20 @@ $(function() {
         addTrigger('');
     });
 
-    $(".getHelpSchedule").on('click', function() {
+    $('#bt_addSchedule').on('click', function() {
+        addSchedule('');
+    });
+
+    $('body').delegate(".getHelpSchedule", 'click', function() {
         showHelpModal("cronSyntaxe");
     });
 
     $('body').delegate('.bt_removeTrigger', 'click', function(event) {
         $(this).closest('.trigger').remove();
+    });
+
+    $('body').delegate('.bt_removeSchedule', 'click', function(event) {
+        $(this).closest('.schedule').remove();
     });
 
     $('body').delegate('.bt_selectTrigger', 'click', function(event) {
@@ -263,11 +273,7 @@ function setAutocomplete() {
         }
         if ($(this).find('.expressionAttr[l1key=type]').value() == 'action') {
             $(this).find('.expressionAttr[l1key=expression]').autocomplete({
-                source: autoCompleteAction,
-                /*select: function(event, ui) {
-                 $(this).val(ui.item.value);
-                 $(this).closest('.expression').find('.expressionOptions').html(displayActionOption(ui.item.value, ''));
-                 }*/
+                source: autoCompleteAction
             });
         }
     });
@@ -410,7 +416,7 @@ function printScenario(_id) {
             $('#div_scenarioElement').empty();
             $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> Ajouter Elément</a>');
             $('.provokeMode').empty();
-            $('#div_schedules').empty();
+            $('.scheduleMode').empty();
             $('.scenarioAttr[l1key=mode]').trigger('change');
             for (var i in data.result.schedules) {
                 $('#div_schedules').schedule.display(data.result.schedules[i]);
@@ -446,6 +452,16 @@ function printScenario(_id) {
                 addTrigger(data.result.trigger[i]);
             }
 
+            if ($.isArray(data.result.schedule)) {
+                for (var i in data.result.schedule) {
+                    addSchedule(data.result.schedule[i]);
+                }
+            } else {
+                if (data.result.schedule != '') {
+                    addSchedule(data.result.schedule);
+                }
+            }
+
             for (var i in data.result.elements) {
                 $('#div_scenarioElement').append(addElement(data.result.elements[i]));
             }
@@ -465,7 +481,10 @@ function saveScenario() {
     $('.scenarioAttr[l1key="trigger"]').each(function() {
         scenario.trigger.push($(this).value());
     });
-
+    scenario.schedule = []
+    $('.scenarioAttr[l1key="schedule"]').each(function() {
+        scenario.schedule.push($(this).value());
+    });
     var elements = [];
     $('#div_scenarioElement').children('.element').each(function() {
         elements.push(getElement($(this)));
@@ -561,6 +580,22 @@ function addTrigger(_trigger) {
     $('.provokeMode').append(div);
 }
 
+function addSchedule(_schedule) {
+    var div = '<div class="form-group schedule">';
+    div += '<label class="col-lg-3 control-label">Programmation</label>';
+    div += '<div class="col-lg-7">';
+    div += '<input class="scenarioAttr form-control" l1key="schedule" value="' + _schedule + '">';
+    div += '</div>';
+    div += '<div class="col-lg-1">';
+    div += '<i class="fa fa-question-circle cursor getHelpSchedule floatright" ></i>';
+    div += '</div>';
+    div += '<div class="col-lg-1">';
+    div += '<i class="fa fa-minus-circle bt_removeSchedule cursor"></i>';
+    div += '</div>';
+    div += '</div>';
+    $('.scheduleMode').append(div);
+}
+
 function addExpression(_expression) {
     if (!isset(_expression.type) || _expression.type == '') {
         return '';
@@ -572,7 +607,7 @@ function addExpression(_expression) {
     switch (_expression.type) {
         case 'condition' :
             if (isset(_expression.expression)) {
-                _expression.expression = _expression.expression.replace(/"/g,'&quot;');
+                _expression.expression = _expression.expression.replace(/"/g, '&quot;');
             }
             retour += '<input class="expressionAttr form-control input-sm" l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #dff0d8;display : inline-block; width : 80%" />';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="info"><i class="fa fa-list-alt"></i></a>';

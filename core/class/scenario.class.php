@@ -281,10 +281,9 @@ class scenario {
 
     public function calculateScheduleDate() {
         $calculatedDate = array('prevDate' => '', 'nextDate' => '');
-        if (is_json($this->getSchedule())) {
-            $schedules = json_decode($this->getSchedule(), true);
+        if (is_array($this->getSchedule())) {
             $calculatedDate_tmp = array('prevDate' => '', 'nextDate' => '');
-            foreach ($schedules as $schedule) {
+            foreach ($this->getSchedule() as $schedule) {
                 try {
                     $c = new Cron\CronExpression($schedule, new Cron\FieldFactory);
                     $calculatedDate_tmp['prevDate'] = $c->getPreviousRunDate();
@@ -322,9 +321,8 @@ class scenario {
             return false;
         }
 
-        if (is_json($this->getSchedule())) {
-            $schedules = json_decode($this->getSchedule(), true);
-            foreach ($schedules as $schedule) {
+        if (is_array($this->getSchedule())) {
+            foreach ($this->getSchedule() as $schedule) {
                 try {
                     $c = new Cron\CronExpression($schedule, new Cron\FieldFactory);
                     if ($c->isDue()) {
@@ -479,10 +477,16 @@ class scenario {
     }
 
     public function getSchedule() {
+        if (is_json($this->schedule)) {
+            return json_decode($this->schedule, true);
+        }
         return $this->schedule;
     }
 
     public function setSchedule($schedule) {
+        if (is_array($schedule)) {
+            $schedule = json_encode($schedule);
+        }
         $this->schedule = $schedule;
     }
 

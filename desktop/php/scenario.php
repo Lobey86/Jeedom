@@ -118,39 +118,30 @@ sendVarToJS('select_id', init('id', '-1'));
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label class="col-lg-3 control-label" >Mode du scénario</label>
-                        <div class="col-lg-5">
+                        <div class="col-lg-3">
                             <select class="form-control scenarioAttr" l1key="mode">
                                 <option value="provoke">Provoqué</option>
                                 <option value="schedule">Programmé</option>
                                 <option value="all">Les deux</option>
                             </select>
                         </div>
-                        <div class="col-lg-4">
-                            <a class="btn btn-default" id="bt_addTrigger">Ajouter évènement</a>
+                        <div class="col-lg-6">
+                            <a class="btn btn-default" id="bt_addTrigger"><i class="fa fa-plus-square"></i> Evènement</a>
+                            <a class="btn btn-default" id="bt_addSchedule"><i class="fa fa-plus-square"></i> Programmation</a>
                         </div>
                     </div>
-                    <div class="scheduleMode" style="display: none;">
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label" >Progammation</label>
-                            <div class="col-lg-5">
-                                <input class="scenarioAttr form-control" l1key="schedule" />
-                            </div>
-                            <div class="col-lg-1">
-                                <i class="fa fa-question-circle cursor getHelpSchedule floatright" ></i>
-                            </div>
-                        </div>
-
+                    <div class="scheduleDisplay" style="display: none;">
                         <div class="form-group">
                             <label class="col-lg-3 control-label" >Précédent</label>
                             <div class="col-lg-3" ><span class="scenarioAttr label label-primary" l1key="forecast" l2key="prevDate" l3key="date"></span></div>
                             <label class="col-lg-3 control-label" >Prochain</label>
                             <div class="col-lg-3"><span class="scenarioAttr label label-success" l1key="forecast" l2key="nextDate" l3key="date"></span></div> 
                         </div>
+                        <div class="scheduleMode"></div>
                     </div>
-                    <div class="provokeMode" style="display: none;">
+                    <div class="provokeMode provokeDisplay" style="display: none;">
 
                     </div>
-
                 </form>
             </div>
             <div class="col-lg-3">
