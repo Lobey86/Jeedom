@@ -281,6 +281,25 @@ class scenario {
 
     public function calculateScheduleDate() {
         $calculatedDate = array('prevDate' => '', 'nextDate' => '');
+        if (is_json($this->getSchedule())) {
+            $schedules = json_decode($this->getSchedule(), true);
+            $calculatedDate_tmp = array('prevDate' => '', 'nextDate' => '');
+            foreach ($schedules as $schedule) {
+                try {
+                    $c = new Cron\CronExpression($schedule, new Cron\FieldFactory);
+                    $calculatedDate_tmp['prevDate'] = $c->getPreviousRunDate();
+                    $calculatedDate_tmp['nextDate'] = $c->getNextRunDate();
+                } catch (Exception $exc) {
+                    //echo $exc->getTraceAsString();
+                }
+                if ($calculatedDate['prevDate'] == '' || $calculatedDate['prevDate'] < $calculatedDate_tmp['prevDate']) {
+                    $calculatedDate['prevDate'] = $calculatedDate_tmp['prevDate'];
+                }
+                if ($calculatedDate['nextDate'] == '' || $calculatedDate['nextDate'] > $calculatedDate_tmp['nextDate']) {
+                    $calculatedDate['nextDate'] = $calculatedDate_tmp['nextDate'];
+                }
+            }
+        }
         try {
             $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
             $calculatedDate['prevDate'] = $c->getPreviousRunDate();
@@ -292,11 +311,9 @@ class scenario {
     }
 
     public function isDue() {
-        //if never sent
         if ($this->getLastCheck() == '') {
             return true;
         }
-        //check if already sent on that minute 
         $last = strtotime($this->getLastCheck());
         $now = time();
         $now = ($now - $now % 60);
@@ -304,23 +321,49 @@ class scenario {
         if ($now == $last) {
             return false;
         }
-        try {
-            $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
-            if ($c->isDue()) {
-                return true;
-            }
-            $lastCheck = new DateTime($this->getLastCheck());
-            $prev = $c->getPreviousRunDate();
-            if ($lastCheck < $prev) {
-                if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
-                    log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+
+        if (is_json($this->getSchedule())) {
+            $schedules = json_decode($this->getSchedule(), true);
+            foreach ($schedules as $schedule) {
+                try {
+                    $c = new Cron\CronExpression($schedule, new Cron\FieldFactory);
+                    if ($c->isDue()) {
+                        return true;
+                    }
+                    $lastCheck = new DateTime($this->getLastCheck());
+                    $prev = $c->getPreviousRunDate();
+                    if ($lastCheck < $prev) {
+                        if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
+                            log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                        }
+                        return true;
+                    }
+                } catch (Exception $exc) {
+                    log::add('scenario', 'error', 'Expression cron non valide : ' . $schedule);
+                    return false;
                 }
-                return true;
             }
-        } catch (Exception $exc) {
-            log::add('scenario', 'error', 'Expression cron non valide : ' . $this->getSchedule());
-            return false;
+        } else {
+            try {
+                $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
+                if ($c->isDue()) {
+                    return true;
+                }
+                $lastCheck = new DateTime($this->getLastCheck());
+                $prev = $c->getPreviousRunDate();
+                if ($lastCheck < $prev) {
+                    if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
+                        log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                    }
+                    return true;
+                }
+            } catch (Exception $exc) {
+                log::add('scenario', 'error', 'Expression cron non valide : ' . $this->getSchedule());
+                return false;
+            }
         }
+
+
         return false;
     }
 
