@@ -137,18 +137,6 @@ $(function() {
         $(this).closest('.expression').remove();
     });
 
-    $('body').delegate('.bt_conditionRuningScenario', 'click', function(event) {
-        if ($(this).attr('value') == 1) {
-            $(this).attr('value', 0);
-            $(this).removeClass('btn-success').addClass('btn-danger');
-            $(this).html('<i class="fa fa-times"></i> Désactive scénario');
-        } else {
-            $(this).attr('value', 1);
-            $(this).removeClass('btn-danger').addClass('btn-success');
-            $(this).html('<i class="fa fa-check"></i> Active scénario');
-        }
-    });
-
     $('body').delegate('.bt_selectCmdExpression', 'click', function(event) {
         var expression = $(this).closest('.expression');
         var type = 'info';
@@ -743,8 +731,6 @@ function addSubElement(_subElement) {
             retour += '</div>';
             break;
     }
-
-
     retour += '</div>';
     return retour;
 }
