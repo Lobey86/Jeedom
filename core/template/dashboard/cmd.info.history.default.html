@@ -35,7 +35,7 @@
                 });
                 var option = {graphType: $('.sel_chartType[cmd_id=#id#]').value()};
                 delete CORE_chart['div_historyChart#id#'];
-                drawChart('#id#', 'div_historyChart#id#', 2, option);
+                drawChart('#id#', 'div_historyChart#id#', 'all', option);
             });
 
 
@@ -48,7 +48,7 @@
                 });
                 var option = {graphType: $('.sel_chartType[cmd_id=#id#]').value()};
                 delete CORE_chart['div_historyChart#id#'];
-                drawChart('#id#', 'div_historyChart#id#', 2, option);
+                drawChart('#id#', 'div_historyChart#id#', 'all', option);
             });
         });
     </script>

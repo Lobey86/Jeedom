@@ -165,10 +165,10 @@ class history {
                     FROM history
                     WHERE cmd_id=:cmd_id ';
         if ($_startTime != null) {
-            $sql .= ' AND datetime<=:startTime';
+            $sql .= ' AND datetime>=:startTime';
         }
         if ($_endTime != null) {
-            $sql .= ' AND datetime>=:endTime';
+            $sql .= ' AND datetime<=:endTime';
         }
         $sql .= ' UNION ALL
                     SELECT ' . DB::buildField(__CLASS__) . '
