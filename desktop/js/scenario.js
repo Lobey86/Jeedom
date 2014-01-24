@@ -396,10 +396,8 @@ function printScenario(_id) {
             $('#table_trigger tbody').empty();
             $('body').setValues(data.result, '.scenarioAttr');
             $('#span_type').text(data.result.type);
-            data.result.lastUse = (data.result.lastUse == null) ? 'Jamais' : data.result.lastUse;
-            $('#span_lastUse').text(data.result.lastUse);
-            data.result.lastCheck = (data.result.lastCheck == null) ? 'Jamais' : data.result.lastCheck;
-            $('#span_lastCheck').text(data.result.lastCheck);
+            data.result.lastLaunch = (data.result.lastLaunch == null) ? 'Jamais' : data.result.lastLaunch;
+            $('#span_lastLaunch').text(data.result.lastLaunch);
 
             $('#div_scenarioElement').empty();
             $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> Ajouter Elément</a>');

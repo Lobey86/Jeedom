@@ -24,11 +24,10 @@ class scenario {
 
     private $id;
     private $name;
-    private $lastUse = null;
     private $isActive = 1;
     private $group = '';
     private $state = 'stop';
-    private $lastCheck = null;
+    private $lastLaunch = null;
     private $mode;
     private $schedule;
     private $pid;
@@ -159,7 +158,7 @@ class scenario {
         $initialState = $this->getState();
         $this->setLog('Début exécution du scénario : ' . $this->getName());
         $this->setState('in progress');
-        $this->setLastCheck(date('Y-m-d H:i:s'));
+        $this->setLastLaunch(date('Y-m-d H:i:s'));
         $this->save();
         foreach ($this->getElement() as $element) {
             $element->execute($this, $initialState);
@@ -199,8 +198,7 @@ class scenario {
             '#state#' => $this->getState(),
             '#isActive#' => $this->getIsActive(),
             '#name#' => $group . $this->getName(),
-            '#lastUse#' => $this->getLastUse(),
-            '#lastCheck#' => $this->getLastCheck(),
+            '#lastLaunch#' => $this->getLastLaunch(),
             '#scenarioLink#' => $this->getLinkToConfiguration(),
         );
         $html = template_replace($replace, getTemplate('core', $_version, 'scenario'));
@@ -224,9 +222,9 @@ class scenario {
         if (($this->getMode() == 'schedule' || $this->getMode() == 'all') && $this->getSchedule() == '') {
             throw new Exception('Le scénario est de type programmé mais la programmation est vide');
         }
-        if ($this->getLastCheck() == '' && ($this->getMode() == 'schedule' || $this->getMode() == 'all')) {
-            $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
-            $this->setLastCheck($c->getPreviousRunDate()->format('Y-m-d H:i:s'));
+        if ($this->getLastLaunch() == '' && ($this->getMode() == 'schedule' || $this->getMode() == 'all')) {
+            $calculateScheduleDate = $this->calculateScheduleDate();
+            $this->setLastLaunch($calculateScheduleDate['prevDate']);
         }
         DB::save($this);
         @nodejs::pushUpdate('eventScenario', $this->getId());
@@ -310,10 +308,10 @@ class scenario {
     }
 
     public function isDue() {
-        if ($this->getLastCheck() == '') {
+        if ($this->getLastLaunch() == '') {
             return true;
         }
-        $last = strtotime($this->getLastCheck());
+        $last = strtotime($this->getLastLaunch());
         $now = time();
         $now = ($now - $now % 60);
         $last = ($last - $last % 60);
@@ -328,7 +326,7 @@ class scenario {
                     if ($c->isDue()) {
                         return true;
                     }
-                    $lastCheck = new DateTime($this->getLastCheck());
+                    $lastCheck = new DateTime($this->getLastLaunch());
                     $prev = $c->getPreviousRunDate();
                     if ($lastCheck < $prev) {
                         if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
@@ -347,7 +345,7 @@ class scenario {
                 if ($c->isDue()) {
                     return true;
                 }
-                $lastCheck = new DateTime($this->getLastCheck());
+                $lastCheck = new DateTime($this->getLastLaunch());
                 $prev = $c->getPreviousRunDate();
                 if ($lastCheck < $prev) {
                     if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
@@ -416,10 +414,6 @@ class scenario {
         return $this->name;
     }
 
-    public function getLastUse() {
-        return $this->lastUse;
-    }
-
     public function getState() {
         return $this->state;
     }
@@ -432,8 +426,8 @@ class scenario {
         return $this->group;
     }
 
-    public function getLastCheck() {
-        return $this->lastCheck;
+    public function getLastLaunch() {
+        return $this->lastLaunch;
     }
 
     public function setId($id) {
@@ -442,10 +436,6 @@ class scenario {
 
     public function setName($name) {
         $this->name = $name;
-    }
-
-    public function setLastUse($lastUse) {
-        $this->lastUse = $lastUse;
     }
 
     public function setIsActive($isActive) {
@@ -460,8 +450,8 @@ class scenario {
         $this->state = $state;
     }
 
-    public function setLastCheck($lastCheck) {
-        $this->lastCheck = $lastCheck;
+    public function setLastLaunch($lastLaunch) {
+        $this->lastLaunch = $lastLaunch;
     }
 
     public function getType() {

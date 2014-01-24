@@ -147,15 +147,9 @@ sendVarToJS('select_id', init('id', '-1'));
             <div class="col-lg-3">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-lg-6 control-label" for="span_lastUse">Dernière exécution</label>
+                        <label class="col-lg-6 control-label" for="span_lastCheck">Dernièr lancement</label>
                         <div class="col-lg-6">
-                            <div><span id="span_lastUse" class="label label-info" style="position: relative; top: 4px;"></span></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-6 control-label" for="span_lastCheck">Dernière vérification</label>
-                        <div class="col-lg-6">
-                            <div><span id="span_lastCheck" class="label label-info" style="position: relative; top: 4px;"></span></div>
+                            <div><span id="span_lastLaunch" class="label label-info" style="position: relative; top: 4px;"></span></div>
                         </div>
                     </div>
                     <div class="form-group">

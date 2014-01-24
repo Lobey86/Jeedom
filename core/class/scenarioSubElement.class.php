@@ -72,7 +72,6 @@ class scenarioSubElement {
         }
         if ($this->getSubtype() == 'action') {
             if ($this->getOptions('runingScenario') == 1) {
-                $_scenario->setLastUse(date('Y-m-d H:i:s'));
                 $_scenario->setState('on');
             } else {
                 $_scenario->setState('stop');
