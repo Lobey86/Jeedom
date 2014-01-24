@@ -17,5 +17,5 @@
 */
 
 
-define('VERSION', '1.27.0');
+define('VERSION', '1.28.0');
 
