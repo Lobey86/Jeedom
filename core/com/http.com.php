@@ -57,7 +57,7 @@ class com_http {
             }
             curl_close($ch);
         }
-        log::add('http.com', 'Debug', 'Url : ' . $this->url . ' / Reponse : ' . $response);
+        log::add('http.com', 'Debug', 'Url : ' . $this->url . "\nReponse : " . $response);
         return $response;
     }
 

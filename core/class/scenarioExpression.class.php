@@ -185,7 +185,7 @@ class scenarioExpression {
                     default:
                         $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
                         if (is_object($cmd)) {
-                            $this->setLog('Exécution de la commande ' . $cmd->getHumanName());
+                            $this->setLog('Exécution de la commande ' . $cmd->getHumanName() . ' avec comme option(s) ' . print_r($options, true));
                             return $cmd->execCmd($options);
                         }
                         $this->setLog('[Erreur] Aucune commande trouvée pour ' . $this->getExpression());

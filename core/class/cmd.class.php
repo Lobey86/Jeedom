@@ -385,7 +385,7 @@ class cmd {
         if (isset($colors[$_color])) {
             return $colors[$_color];
         }
-        throw new Exception('Impossible de traduire la couleur en code hexadecimal');
+        throw new Exception('Impossible de traduire la couleur en code hexadecimal : ' . $_color);
     }
 
     public static function availableWidget($_version) {
@@ -511,6 +511,9 @@ class cmd {
                 }
             } else {
                 $options = null;
+            }
+            if (isset($options['color'])) {
+                $options['color'] = str_replace('"', '', $options['color']);
             }
             if ($this->getSubType() == 'color' && isset($options['color']) && substr($options['color'], 0, 1) != '#') {
                 $options['color'] = cmd::convertColor($options['color']);

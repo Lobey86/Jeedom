@@ -117,6 +117,9 @@ cmd.availableType = function() {
 }
 
 cmd.getSelectModal = function(_options, callback) {
+    if (!isset(_options)) {
+        _options = {};
+    }
     if ($("#mod_insertCmdValue").length == 0) {
         $('body').append('<div id="mod_insertCmdValue" title="Sélectionner la commande" ></div>');
 
@@ -126,19 +129,18 @@ cmd.getSelectModal = function(_options, callback) {
             height: 250,
             width: 800
         });
-
-        $('#mod_insertCmdValue').load('index.php?v=d&modal=cmd.human.insert&cmd_type=' + init(_options.type, 'all'));
+        jQuery.ajaxSetup({async:false});
+        $('#mod_insertCmdValue').load('index.php?v=d&modal=cmd.human.insert');
+        jQuery.ajaxSetup({async:true});
     }
-    if (!isset(_options)) {
-        _options = {};
-    }
+    mod_insertCmd.setTypeCmd(init(_options.type, 'all'));
     $("#mod_insertCmdValue").dialog('option', 'buttons', {
         "Annuler": function() {
             $(this).dialog("close");
         },
         "Valider": function() {
             var retour = {};
-            retour.human = mod_insertCmdValue_getValue();
+            retour.human = mod_insertCmd.getValue();
             if ($.trim(retour) != '') {
                 callback(retour);
             }

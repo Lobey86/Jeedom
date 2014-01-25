@@ -12,8 +12,6 @@ include_file('3rdparty', 'codemirror/mode/htmlmixed/htmlmixed', 'js');
 include_file('3rdparty', 'codemirror/mode/clike/clike', 'js');
 include_file('3rdparty', 'codemirror/mode/php/php', 'js');
 
-
-
 sendVarToJS('select_id', init('id', '-1'));
 ?>
 
@@ -22,7 +20,7 @@ sendVarToJS('select_id', init('id', '-1'));
         <div class="bs-sidebar affix">
             <ul id="ul_scenario" class="nav nav-list bs-sidenav fixnav">
                 <li> 
-                    <a class="btn btn-default tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
+                    <a class="btn btn-default btn-xs tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
                 </li>
                 <li class="nav-header">Liste scénarios 
                     <i class="fa fa-plus-circle pull-right cursor" id="bt_addScenario" style="font-size: 1.5em;margin-bottom: 5px;"></i>
