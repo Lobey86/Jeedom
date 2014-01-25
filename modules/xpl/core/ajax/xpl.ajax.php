@@ -24,14 +24,16 @@ try {
         throw new Exception('401 Unauthorized');
     }
 
-    include_file("modules/xpl/class", "xpl", "class");
+    include_file('core', 'xpl', 'class', 'xpl');
+    include_file('core', 'xpl', 'config','xpl');
 
     if (init('action') == 'getxPLbody') {
         global $XPL_BODY;
+        $return = '';
         if (isset($XPL_BODY[init('xPLschema')][init('xPLtypeCmd')])) {
             $body = explode("\n", $XPL_BODY[init('xPLschema')][init('xPLtypeCmd')]);
             foreach ($body as $body_line) {
-                $return = trim($body_line) . "\n";
+                $return .= trim($body_line) . "\n";
             }
             ajax::success($return);
         } else {

@@ -6,10 +6,6 @@ if (!isConnect()) {
 include_file('core', 'xpl', 'config', 'xpl');
 include_file('core', 'xpl', 'class', 'xpl');
 
-if (config::byKey('enablexPLDeamon', 'xpl') != '1') {
-    echo '<div class="alert alert-danger">Attention vous n\'avez pas activé le démon xPL!!! Aller dans générale->module->xPL </div>';
-}
-
 sendVarToJS('select_id', init('id', '-1'));
 sendVarToJS('eqType', 'xpl');
 ?>
@@ -32,6 +28,12 @@ sendVarToJS('eqType', 'xpl');
     </div>
 
     <div class="col-lg-10 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
+        <?php
+        $cron = cron::byId(config::byKey('xPLDeamonCronId', 'xPL'));
+        if (is_object($cron) && $cron->getState() != 'run') {
+            echo '<div class="alert alert-danger" >Attention le démon xPL n\'est pas en marche. Vérifier pourquoi </div>';
+        }
+        ?>
         <form class="form-horizontal">
             <fieldset>
                 <legend>Général</legend>
