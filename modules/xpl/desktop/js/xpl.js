@@ -70,8 +70,7 @@ function addCmdToTable(_cmd) {
     tr += '</tr>';
     $('#table_cmd tbody').append(tr);
     $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
-    changexPLTypeCmd($('#table_cmd tbody tr:last cmdAttr[l1key=configuration][l2key=xPLtypeCmd]'), init(_cmd.configuration.xPLbody));
-    cmd.changeType($('#table_cmd tbody tr:last .cmdAttr[l1key=type]'), init(_cmd.subType));
+    $('#table_cmd tbody tr:last .cmdAttr[l1key=configuration][l2key=xPLschema]').trigger('change');
 }
 
 function changexPLTypeCmd(_el, _xPLbody) {
