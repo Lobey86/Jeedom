@@ -1,17 +1,18 @@
 <span class="cmd" type="action" subtype="slider" cmd_id="#id#" style="margin-top : 3px;">
     <script type="text/javascript" src="modules/widget/3rdparty/jquery.knob/jquery.knob.js" ></script>
 
-    <center>
-        <input type="text" class="knob">
-    </center>  
+    <div>
+        <input type="text" class="knob" value="#state#" />
+    </div>
 
     <script>
         $(function() {
-            $(".cmd[cmd_id=#id#] .knob").val((is_numeric(parseInt('#state#'))) ? parseInt('#state#') : 0).knob({
+            $(".cmd[cmd_id=#id#] .knob").knob({
                 min: '#minValue#',
                 max: '#maxValue#',
                 width: 120,
                 height: 120,
+                scroll : false,
                 release: function(v) {
                     execCmd('#id#', {slider: v});
                 }
