@@ -311,7 +311,7 @@ function refreshScenarioValue(_scenario_id) {
 }
 
 function refreshCmdValue(_cmd_id) {
-    if ($('.cmd[cmd_id=' + _cmd_id + ']').html() != undefined) {
+    if ($('.cmd[cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('version') != undefined) {
         var version = $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('version');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
