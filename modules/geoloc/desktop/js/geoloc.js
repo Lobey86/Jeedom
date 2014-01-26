@@ -60,7 +60,6 @@ function addCmdToTable(_cmd) {
     tr += '<input class="cmdAttr form-control" l1key="id" style="display : none;">';
     tr += '<input class="cmdAttr form-control" l1key="type" value="info" style="display : none;">';
     tr += '<input class="cmdAttr form-control" l1key="subtype" value="string" style="display : none;">';
-    tr += '<input class="cmdAttr form-control" l1key="eventOnly" value="0" style="display : none;">';
     tr += '<input class="cmdAttr form-control" l1key="name" >';
     tr += '</td>';
     tr += '<td>';
