@@ -183,7 +183,6 @@ class scenarioElement {
 
     public function getConsolidateLog() {
         $return = '';
-        $return .= "-----------------------\n";
         $log = $this->getLog();
         if (trim($log) != '') {
             $return .= $log . "\n";
@@ -191,19 +190,28 @@ class scenarioElement {
         foreach ($this->getSubElement() as $subElement) {
             $log = $subElement->getLog();
             if (trim($log) != '') {
-                $return .= $log . "\n";
+                $logs = explode("\n", trim($log));
+                foreach ($logs as $log) {
+                    $return .= "\t" . $log . "\n";
+                }
             }
             foreach ($subElement->getExpression() as $expression) {
                 $log = $expression->getLog();
                 if (trim($log) != '') {
-                    $return .= $log . "\n";
+                    $logs = explode("\n", trim($log));
+                    foreach ($logs as $log) {
+                        $return .= "\t\t" . $log . "\n";
+                    }
                 }
                 if ($expression->getType() == 'element') {
                     $element = self::byId($expression->getExpression());
                     if (is_object($element)) {
                         $log = $element->getConsolidateLog();
                         if (trim($log) != '') {
-                            $return .= $log . "\n";
+                            $logs = explode("\n", trim($log));
+                            foreach ($logs as $log) {
+                                $return .= "\t\t" . $log . "\n";
+                            }
                         }
                     }
                 }
