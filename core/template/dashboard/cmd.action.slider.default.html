@@ -1,14 +1,13 @@
 <span class="cmd" type="action" subtype="slider" cmd_id="#id#">
-    <div class="slider" style="margin : 5px 10px 8px 10px;" ></div>
+    <div class="slider" style="margin : 5px 10px 8px 10px;" value="#state#"></div>
 
     <script>
         $(function() {
-            $(".cmd[cmd_id=#id#] .slider").off();
             $(".cmd[cmd_id=#id#] .slider").slider({
                 range: "min",
                 min: '#minValue#',
                 max: '#maxValue#',
-                value: (is_numeric('#state#')) ? '#state#' : 0,
+                value: #state#,
                 change: function(event, ui) {
                     execCmd('#id#', {slider: ui.value});
                 }
