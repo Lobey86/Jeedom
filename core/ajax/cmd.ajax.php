@@ -119,7 +119,8 @@ try {
         if (init('dateEnd') != '') {
             $dateEnd = init('dateEnd');
         }
-
+        $return['dateStart'] = $dateStart;
+        $return['dateEnd'] = $dateEnd;
         $return = array();
         $data = array();
         $return['maxValue'] = '';
