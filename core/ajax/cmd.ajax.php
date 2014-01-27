@@ -120,9 +120,6 @@ try {
         if (init('dateEnd') != '') {
             $dateEnd = init('dateEnd');
         }
-        $return['dateStart'] = $dateStart;
-        $return['dateEnd'] = $dateEnd;
-
         $return['maxValue'] = '';
         $return['minValue'] = '';
         foreach ($cmd->getHistory($dateStart, $dateEnd) as $history) {
