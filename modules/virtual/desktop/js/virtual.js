@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $(function() {
     $("#bt_addVirtualInfo").on('click', function(event) {
@@ -41,7 +41,7 @@ $(function() {
             calcul.value(calcul.value() + ' ' + result.human);
         });
     });
-    
+
     $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 });
 
@@ -57,7 +57,9 @@ function addCmdToTable(_cmd) {
         var disabled = (init(_cmd.configuration.virtualAction) == '1') ? 'disabled' : '';
         var tr = '<tr class="cmd" cmd_id="' + init(_cmd.id) + '" virtualAction="' + init(_cmd.configuration.virtualAction) + '">';
         tr += '<td>';
-        tr += '<input class="cmdAttr form-control" l1key="id" style="display : none;">';
+        tr += '<span class="cmdAttr" l1key="id"></span>';
+        tr += '</td>';
+        tr += '<td>';
         tr += '<input class="cmdAttr form-control" l1key="name" style="width : 140px;" placeholder="Nom"></td>';
         tr += '<td>';
         tr += '<input class="cmdAttr form-control type" l1key="type" value="info" disabled style="margin-bottom : 5px;" />';
@@ -85,7 +87,9 @@ function addCmdToTable(_cmd) {
     if (init(_cmd.type) == 'action') {
         var tr = '<tr class="cmd" cmd_id="' + init(_cmd.id) + '">';
         tr += '<td>';
-        tr += '<input class="cmdAttr form-control" l1key="id" style="display : none;">';
+        tr += '<span class="cmdAttr" l1key="id"></span>';
+        tr += '</td>';
+        tr += '<td>';
         tr += '<input class="cmdAttr form-control" l1key="name" style="width : 140px;" placeholder="Nom"></td>';
         tr += '<td>';
         tr += '<input class="cmdAttr form-control type" l1key="type" value="action" disabled style="margin-bottom : 5px;" />';

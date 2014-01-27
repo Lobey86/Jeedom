@@ -68,6 +68,7 @@ sendVarToJS('eqType', 'virtual');
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>
+                    <th style="width: 50px;">#</th>
                     <th style="width: 150px;">Nom</th>
                     <th style="width: 110px;">Sous-Type</th>
                     <th>Value</th>

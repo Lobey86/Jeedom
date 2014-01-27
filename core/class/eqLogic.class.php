@@ -472,7 +472,6 @@ class eqLogic {
 
     public function getStatus($_key = '', $_default = '') {
         $status = cache::byKey('core::eqLogic' . $this->getId() . '::' . $_key);
-        print_r($status);
         return $status->getValue($_default);
     }
 

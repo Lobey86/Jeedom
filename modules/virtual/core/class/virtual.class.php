@@ -87,6 +87,8 @@ class virtualCmd extends cmd {
             $actionInfo->save();
 
             $this->setConfiguration('infoId', $actionInfo->getId());
+        } else {
+            $this->setConfiguration('calcul', cmd::humanReadableToCmd($this->getConfiguration('calcul')));
         }
     }
 
@@ -98,6 +100,13 @@ class virtualCmd extends cmd {
                     $calcul = str_replace('#value#', $this->getConfiguration('value'), $calcul);
                     $test = new evaluate();
                     $result = $test->Evaluer($calcul);
+                    if ($this->getSubType() == 'binary') {
+                        if ($result) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    }
                     if (is_numeric($result)) {
                         return number_format($result, 2);
                     } else {

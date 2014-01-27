@@ -539,6 +539,9 @@ class cmd {
             $eqLogic->setStatus('numberTryWithoutSuccess', 0);
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
         }
+        if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($value)) && intval($value) > 1) {
+            $value = 1;
+        }
         if ($this->getType() == 'info' && $value !== false) {
             if ($this->getCollectDate() == '') {
                 cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime());
@@ -546,9 +549,7 @@ class cmd {
                 cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
             }
         }
-        if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($value)) && intval($value) > 1) {
-            $value = 1;
-        }
+
         if ($this->getType() == 'action' && $options !== null) {
             if (isset($options['slider'])) {
                 $this->setConfiguration('lastCmdValue', $options['slider']);
@@ -861,7 +862,7 @@ class cmd {
         }
         if (is_json($this->cache)) {
             if ($_name == '') {
-                return json_decode($this->cache);
+                return json_decode($this->cache, true);
             }
             $cache = json_decode($this->cache, true);
             return (isset($cache[$_name]) && $cache[$_name] !== '') ? $cache[$_name] : $_default;
@@ -885,7 +886,7 @@ class cmd {
         }
         if (is_json($this->template)) {
             if ($_name == '') {
-                return json_decode($this->template);
+                return json_decode($this->template, true);
             }
             $template = json_decode($this->template, true);
             return (isset($template[$_name]) && $template[$_name] !== '') ? $template[$_name] : $_default;
@@ -909,7 +910,7 @@ class cmd {
         }
         if (is_json($this->configuration)) {
             if ($_name == '') {
-                return json_decode($this->configuration);
+                return json_decode($this->configuration, true);
             }
             $configuration = json_decode($this->configuration, true);
             return (isset($configuration[$_name]) && $configuration[$_name] !== '') ? $configuration[$_name] : $_default;
@@ -933,7 +934,7 @@ class cmd {
         }
         if (is_json($this->display)) {
             if ($_key == '') {
-                return json_decode($this->display);
+                return json_decode($this->display, true);
             }
             $display = json_decode($this->display, true);
             return (isset($display[$_key])) ? $display[$_key] : $_default;
