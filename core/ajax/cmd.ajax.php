@@ -111,7 +111,7 @@ try {
         $dateEnd = null;
         if (init('dateRange') != '' && init('dateRange') != 'all') {
             $dateEnd = date('Y-m-d H:i:s');
-            $dateStart = date('Y-m-d H:i:s', strtotime('- ' . init('dateRange') . ' day ' . $dateEnd));
+            $dateStart = date('Y-m-d H:i:s', strtotime('- ' . init('dateRange') . ' ' . $dateEnd));
         }
         if (init('dateStart') != '') {
             $dateStart = init('dateStart');
