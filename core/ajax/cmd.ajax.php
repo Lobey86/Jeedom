@@ -106,7 +106,8 @@ try {
         if (!is_object($cmd)) {
             throw new Exception('Cmd ID inconnu : ' . init('id'));
         }
-
+        $return = array();
+        $data = array();
         $dateStart = null;
         $dateEnd = null;
         if (init('dateRange') != '' && init('dateRange') != 'all') {
@@ -121,8 +122,7 @@ try {
         }
         $return['dateStart'] = $dateStart;
         $return['dateEnd'] = $dateEnd;
-        $return = array();
-        $data = array();
+
         $return['maxValue'] = '';
         $return['minValue'] = '';
         foreach ($cmd->getHistory($dateStart, $dateEnd) as $history) {
