@@ -44,7 +44,7 @@ try {
     }
 
     if ($update) {
-        if ($_GET['v'] != '') {
+        if (!isset($_GET['v']) || $_GET['v'] != '') {
             echo "Voulez-vous que Jeedom vérifier les mises à jour ? Pour cela tout les tâches/scénarios vont etre coupés. Voulez-vous continer ? [o/N] ";
             if (trim(fgets(STDIN)) === 'o') {
                 /*                 * **********Arret des crons********************* */
