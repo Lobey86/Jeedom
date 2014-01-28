@@ -44,52 +44,28 @@ try {
     }
 
     if ($update) {
-        if (!isset($_GET['v']) || $_GET['v'] != '') {
-            echo "Voulez-vous que Jeedom verifier les mises a jour ? Pour cela tout les taches/scenarios vont etre coupes. Voulez-vous continer ? [o/N] ";
-            if (trim(fgets(STDIN)) === 'o') {
-                /*                 * **********Arret des crons********************* */
-                echo "Desactivation de toutes les taches : ";
-                config::save('enableCron', 0);
-                foreach (cron::all() as $cron) {
-                    if ($cron->running()) {
-                        $cron->halt();
-                    }
-                }
-                echo "OK\n";
-                echo "Attente de l\'arret du cron master ";
-                while (cron::jeeCronRun()) {
-                    echo '.';
-                    sleep(2);
-                }
-                echo " OK\n";
-                /*                 * *********Arret des scénarios**************** */
-                echo "Desactivation de tout les scenarios : ";
-                config::save('enableScenario', 0);
-                foreach (scenario::all() as $scenario) {
-                    $scenario->stop();
-                }
-                echo "OK\n";
-                echo "Verification des mises a jour (git pull)\n";
-                echo shell_exec("git pull");
-                /*                 * *********Réactivation des scénarios**************** */
-                echo "Recuperation des mises a jour OK\n";
-                echo "Reactivation des scenarios : ";
-                config::save('enableScenario', 1);
-                echo "OK\n";
-                /*                 * *********Réactivation des tâches**************** */
-                echo "Reactivation des taches : ";
-                config::save('enableCron', 1);
-                echo "OK\n";
-            }
+        echo "Pour effectuer une mise a jour Jeedom va devoir couper toute les taches et scenario. Voulez-vous continuer ? [o/N] ";
+        if (trim(fgets(STDIN)) !== 'o') {
+            echo "Mise a jour forcee de Jeedom est annulee\n";
+            exit(0);
+        }
+
+        stopActivities();
+
+        if (!isset($_GET['v'])) {
+            echo "Verification des mises a jour (git pull)\n";
+            echo shell_exec("git pull");
         }
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
             echo "Jeedom est installe et en derniere version : " . VERSION . "\n";
+            startActivities();
             exit();
         }
         if (isset($_GET['v'])) {
             echo "La mise à jour " . $_GET['v'] . " va etre reapliquee. Voulez vous continuer  ? [o/N] ";
             if (trim(fgets(STDIN)) !== 'o') {
                 echo "Mise a jour forcee de Jeedom est annulee\n";
+                startActivities();
                 exit(0);
             }
             $updateSql = dirname(__FILE__) . '/update/' . $_GET['v'] . '.sql';
@@ -106,11 +82,6 @@ try {
                 echo "OK\n";
             }
         } else {
-            echo "Jeedom va etre mis a jour voulez vous continuer ? [o/N] ";
-            if (trim(fgets(STDIN)) !== 'o') {
-                echo "Mise a jour de Jeedom est annulee\n";
-                exit(0);
-            }
             while (version_compare(VERSION, $curentVersion, '>')) {
                 $nextVersion = incrementVersion($curentVersion);
                 $updateSql = dirname(__FILE__) . '/update/' . $nextVersion . '.sql';
@@ -130,6 +101,7 @@ try {
             }
             echo "Fin de la mise à jour de Jeedom\n";
         }
+        startActivities();
     } else {
         echo "Jeedom va etre installe voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
@@ -214,4 +186,41 @@ function incrementVersion($_version) {
         $returnVersion .= $version[$j] . '.';
     }
     return trim($returnVersion, '.');
+}
+
+function stopActivities() {
+    /*     * **********Arret des crons********************* */
+    echo "Desactivation de toutes les taches : ";
+    config::save('enableCron', 0);
+    foreach (cron::all() as $cron) {
+        if ($cron->running()) {
+            $cron->halt();
+        }
+    }
+    echo "OK\n";
+    echo "Attente de l\'arret du cron master ";
+    while (cron::jeeCronRun()) {
+        echo '.';
+        sleep(2);
+    }
+    echo " OK\n";
+    /*     * *********Arret des scénarios**************** */
+    echo "Desactivation de tout les scenarios : ";
+    config::save('enableScenario', 0);
+    foreach (scenario::all() as $scenario) {
+        $scenario->stop();
+    }
+    echo "OK\n";
+}
+
+function startActivities() {
+    /*     * *********Réactivation des scénarios**************** */
+    echo "Recuperation des mises a jour OK\n";
+    echo "Reactivation des scenarios : ";
+    config::save('enableScenario', 1);
+    echo "OK\n";
+    /*     * *********Réactivation des tâches**************** */
+    echo "Reactivation des taches : ";
+    config::save('enableCron', 1);
+    echo "OK\n";
 }
