@@ -45,10 +45,10 @@ try {
 
     if ($update) {
         if (!isset($_GET['v']) || $_GET['v'] != '') {
-            echo "Voulez-vous que Jeedom vérifier les mises à jour ? Pour cela tout les tâches/scénarios vont etre coupés. Voulez-vous continer ? [o/N] ";
+            echo "Voulez-vous que Jeedom verifier les mises a jour ? Pour cela tout les taches/scenarios vont etre coupés. Voulez-vous continer ? [o/N] ";
             if (trim(fgets(STDIN)) === 'o') {
                 /*                 * **********Arret des crons********************* */
-                echo "Désactivation de toutes les taches : ";
+                echo "Desactivation de toutes les taches : ";
                 config::save('enableCron', 0);
                 foreach (cron::all() as $cron) {
                     if ($cron->running()) {
@@ -63,52 +63,52 @@ try {
                 }
                 echo " OK\n";
                 /*                 * *********Arret des scénarios**************** */
-                echo "Désactivation de tout les scénarios : ";
+                echo "Desactivation de tout les scenarios : ";
                 config::save('enableScenario', 0);
                 foreach (scenario::all() as $scenario) {
                     $scenario->stop();
                 }
                 echo "OK\n";
-                echo "Vérification des mises à jour (git pull)\n";
+                echo "Verification des mises a jour (git pull)\n";
                 echo shell_exec("git pull");
                 /*                 * *********Réactivation des scénarios**************** */
-                echo "Récupération des mises à jour OK\n";
-                echo "Réactivation des scénarios : ";
+                echo "Recuperation des mises a jour OK\n";
+                echo "Reactivation des scenarios : ";
                 config::save('enableScenario', 1);
                 echo "OK\n";
                 /*                 * *********Réactivation des tâches**************** */
-                echo "Réactivation des tâches : ";
+                echo "Reactivation des taches : ";
                 config::save('enableCron', 1);
                 echo "OK\n";
             }
         }
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
-            echo "Jeedom est installé et en derniere version : " . VERSION . "\n";
+            echo "Jeedom est installe et en derniere version : " . VERSION . "\n";
             exit();
         }
         if (isset($_GET['v'])) {
-            echo "La mise à jour " . $_GET['v'] . " va etre réapliquée. Voulez vous continuer  ? [o/N] ";
+            echo "La mise à jour " . $_GET['v'] . " va etre reapliquee. Voulez vous continuer  ? [o/N] ";
             if (trim(fgets(STDIN)) !== 'o') {
-                echo "Mise à jour forcée de Jeedom est annulée\n";
+                echo "Mise a jour forcee de Jeedom est annulee\n";
                 exit(0);
             }
             $updateSql = dirname(__FILE__) . '/update/' . $_GET['v'] . '.sql';
             if (file_exists($updateSql)) {
-                echo "Mise à jour BDD en version : " . $_GET['v'] . "\n";
+                echo "Mise a jour BDD en version : " . $_GET['v'] . "\n";
                 $sql = file_get_contents($updateSql);
                 DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
                 echo "OK\n";
             }
             $updateScript = dirname(__FILE__) . '/update/' . $_GET['v'] . '.php';
             if (file_exists($updateScript)) {
-                echo "Mise à jour systeme en version : " . $_GET['v'] . "\n";
+                echo "Mise a jour systeme en version : " . $_GET['v'] . "\n";
                 require_once $updateScript;
                 echo "OK\n";
             }
         } else {
-            echo "Jeedom va etre mis à jour voulez vous continuer ? [o/N] ";
+            echo "Jeedom va etre mis a jour voulez vous continuer ? [o/N] ";
             if (trim(fgets(STDIN)) !== 'o') {
-                echo "Mise à jour de Jeedom est annulée\n";
+                echo "Mise a jour de Jeedom est annulee\n";
                 exit(0);
             }
             while (version_compare(VERSION, $curentVersion, '>')) {
@@ -131,7 +131,7 @@ try {
             echo "Fin de la mise à jour de Jeedom\n";
         }
     } else {
-        echo "Jeedom va etre installé voulez vous continuer ? [o/N] ";
+        echo "Jeedom va etre installe voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
             exit(0);
         }
