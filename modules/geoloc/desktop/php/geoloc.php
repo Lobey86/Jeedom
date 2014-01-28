@@ -72,6 +72,7 @@ sendVarToJS('eqType', 'geoloc');
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>
+                    <th style="width: 50px;">#</th>
                     <th style="width: 200px;">Nom</th>
                     <th style="width: 200px;">Type</th>
                     <th>Options</th>
