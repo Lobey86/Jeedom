@@ -54,7 +54,7 @@ try {
 
         if (!isset($_GET['v'])) {
             echo "Verification des mises a jour (git pull)\n";
-            echo shell_exec("git pull");
+            echo shell_exec("cd " . dirname(__FILE__) . " && git pull");
         }
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
             echo "Jeedom est installe et en derniere version : " . VERSION . "\n";
