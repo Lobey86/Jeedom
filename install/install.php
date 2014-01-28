@@ -42,7 +42,46 @@ try {
     if ($curentVersion != '') {
         $update = true;
     }
+
     if ($update) {
+        if ($_GET['v'] != '') {
+            echo "Voulez-vous que Jeedom vérifier les mises à jour ? Pour cela tout les tâches/scénarios vont etre coupés. Voulez-vous continer ? [o/N] ";
+            if (trim(fgets(STDIN)) === 'o') {
+                /*                 * **********Arret des crons********************* */
+                echo "Désactivation de toutes les taches : ";
+                config::save('enableCron', 0);
+                foreach (cron::all() as $cron) {
+                    if ($cron->running()) {
+                        $cron->halt();
+                    }
+                }
+                echo "OK\n";
+                echo "Attente de l\'arret du cron master ";
+                while (cron::jeeCronRun()) {
+                    echo '.';
+                    sleep(2);
+                }
+                echo " OK\n";
+                /*                 * *********Arret des scénarios**************** */
+                echo "Désactivation de tout les scénarios : ";
+                config::save('enableScenario', 0);
+                foreach (scenario::all() as $scenario) {
+                    $scenario->stop();
+                }
+                echo "OK\n";
+                echo "Vérification des mises à jour (git pull)\n";
+                echo shell_exec("git pull");
+                /*                 * *********Réactivation des scénarios**************** */
+                echo "Récupération des mises à jour OK\n";
+                echo "Réactivation des scénarios : ";
+                config::save('enableScenario', 1);
+                echo "OK\n";
+                /*                 * *********Réactivation des tâches**************** */
+                echo "Réactivation des tâches : ";
+                config::save('enableCron', 1);
+                echo "OK\n";
+            }
+        }
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
             echo "Jeedom est installé et en derniere version : " . VERSION . "\n";
             exit();

@@ -33,6 +33,10 @@ if (config::byKey('api') != init('api')) {
     die();
 }
 
+if (config::byKey('enableCron') == 0) {
+    die('Tous les crons sont actuellement désactivés');
+}
+
 if (init('cron_id') != '') {
     $datetime = date('Y-m-d H:i:s');
     $cron = cron::byId(init('cron_id'));
@@ -156,36 +160,10 @@ if (init('cron_id') != '') {
                         }
                         break;
                     case 'starting':
-                        $cmd = 'php ' . dirname(__FILE__) . '/jeeCron.php';
-                        $cmd.= ' api=' . init('api');
-                        $cmd.= ' cron_id=' . $cron->getId();
-                        if (exec('ps ax | grep "' . $cmd . '" | wc -l') < 3) {
-                            shell_exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('cron') . ' 2>&1 &');
-                        }
+                        $cron->run();
                         break;
                     case 'stoping':
-                        if ($cron->getServer() == gethostname()) {
-                            log::add('cron', 'info', 'Arret de ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
-                            exec('kill ' . $cron->getPID());
-                            sleep(3);
-                            if ($cron->running()) {
-                                exec('kill -9 ' . $cron->getPID());
-                                sleep(5);
-                            }
-                            if ($cron->running()) {
-                                $cron->setState('error');
-                                $cron->setServer('');
-                                $cron->setPID();
-                                $cron->save();
-                                log::add('cron', 'error', '[Erreur] ' . $cron->getClass() . '::' . $cron->getFunction() . '() : Impossible d\'arreter la tache');
-                            } else {
-                                $cron->setState('stop');
-                                $cron->setDuration(-1);
-                                $cron->setPID();
-                                $cron->setServer('');
-                                $cron->save();
-                            }
-                        }
+                        $cron->halt();
                         break;
                 }
             } catch (Exception $e) {

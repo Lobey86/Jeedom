@@ -30,6 +30,29 @@ $(function() {
         saveCron();
     });
 
+    $("#bt_changeCronState").on('click', function() {
+        var value = {enableCron : $(this).attr('state')};
+        $.ajax({
+            type: 'POST',
+            url: 'core/ajax/config.ajax.php',
+            data: {
+                action: 'addKey',
+                value: json_encode(value)
+            },
+            dataType: 'json',
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) {
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                window.location.reload();
+            }
+        });
+    });
+
     $("#table_cron").delegate(".remove", 'click', function() {
         $(this).closest('tr').remove();
     });

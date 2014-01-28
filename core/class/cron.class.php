@@ -116,6 +116,15 @@ class cron {
         }
     }
 
+    public function run() {
+        $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
+        $cmd.= ' api=' . init('api');
+        $cmd.= ' cron_id=' . $this->getId();
+        if (exec('ps ax | grep "' . $cmd . '" | wc -l') < 3) {
+            shell_exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('cron') . ' 2>&1 &');
+        }
+    }
+
     public function running() {
         if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && $this->getPID() > 0 && $this->getServer() == gethostname()) {
             exec('ps ' . $this->pid, $pState);
@@ -139,6 +148,31 @@ class cron {
         if ($this->running()) {
             $this->setState('stoping');
             $this->save();
+        }
+    }
+
+    public function halt() {
+        if ($this->getServer() == gethostname()) {
+            log::add('cron', 'info', 'Arret de ' . $this->getClass() . '::' . $this->getFunction() . '()');
+            exec('kill ' . $this->getPID());
+            sleep(3);
+            if ($this->running()) {
+                exec('kill -9 ' . $this->getPID());
+                sleep(5);
+            }
+            if ($this->running()) {
+                $this->setState('error');
+                $this->setServer('');
+                $this->setPID();
+                $this->save();
+                throw new Exception($this->getClass() . '::' . $this->getFunction() . '() : Impossible d\'arreter la tache');
+            } else {
+                $this->setState('stop');
+                $this->setDuration(-1);
+                $this->setPID();
+                $this->setServer('');
+                $this->save();
+            }
         }
     }
 

@@ -144,13 +144,16 @@ class scenario {
     /*     * *********************Methode d'instance************************* */
 
     public function launch($_force = false) {
-        $cmd = 'nohup php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
-        $cmd.= ' api=' . config::byKey('api');
-        $cmd.= ' scenario_id=' . $this->getId();
-        $cmd.= ' force=' . $_force;
-        $cmd.= ' >> ' . log::getPathToLog('scenario') . ' 2>&1 &';
-        shell_exec($cmd);
-        return true;
+        if (config::byKey('enableScenario') == 1) {
+            $cmd = 'nohup php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
+            $cmd.= ' api=' . config::byKey('api');
+            $cmd.= ' scenario_id=' . $this->getId();
+            $cmd.= ' force=' . $_force;
+            $cmd.= ' >> ' . log::getPathToLog('scenario') . ' 2>&1 &';
+            shell_exec($cmd);
+            return true;
+        }
+        return false;
     }
 
     public function execute() {

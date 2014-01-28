@@ -11,6 +11,13 @@ if (!isConnect()) {
         <a class="btn btn-success pull-right" id="bt_save"><i class="fa fa-check-circle"></i> Enregistrer</a>
         <a class="btn btn-default pull-right" id="bt_addCron"><i class="fa fa-plus-circle"></i> Ajouter</a>
         <a class="btn btn-default pull-right" id="bt_refreshCron"><i class="fa fa-refresh"></i> Rafraîchir</a>
+        <?php
+        if (config::byKey('enableCron') == 0) {
+            echo '<a class="btn btn-default btn-success pull-right" id="bt_changeCronState" state="1"><i class="fa fa-check"></i> Activer cron système</a>';
+        } else {
+            echo '<a class="btn btn-default btn-danger pull-right" id="bt_changeCronState" state="0"><i class="fa fa-times"></i> Désactiver cron système</a>';
+        }
+        ?>
         <br/><br/><br/>
         <table id="table_cron" class="table table-bordered table-condensed tablesorter" >
             <thead>
