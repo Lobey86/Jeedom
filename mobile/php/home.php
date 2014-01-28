@@ -58,13 +58,13 @@ if (!isConnect()) {
             </div>
         </center>
     </div>
-
-    <div class="ui-block-a">
-        <center>
-            <a href="index.php?v=m&p=chat" data-rel="dialog" data-ajax="false" data-role="button" data-theme="a" style="margin: 5px;">
-                <i class="fa fa-comment-o" style="font-size: 6em;"></i><br/> Chat
-            </a>
-        </center>
-    </div>
-
+    <?php if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) { ?>
+        <div class="ui-block-a">
+            <center>
+                <a href="index.php?v=m&p=chat" data-rel="dialog" data-ajax="false" data-role="button" data-theme="a" style="margin: 5px;">
+                    <i class="fa fa-comment-o" style="font-size: 6em;"></i><br/> Chat
+                </a>
+            </center>
+        </div>
+    <?php } ?>
 </div>

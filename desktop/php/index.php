@@ -56,7 +56,9 @@ if ($module != '') {
         include_file('core', 'core', 'css');
         include_file('3rdparty', 'jquery.gritter/jquery.gritter', 'css');
         include_file('3rdparty', 'jquery.ui/jquery-ui-bootstrap/jquery-ui', 'css');
-        include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'css');
+        if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
+            include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'css');
+        }
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
         include_file('3rdparty', 'jquery.tablesorter/theme.bootstrap', 'css');
         include_file('3rdparty', 'jquery/jquery.min', 'js');
@@ -200,12 +202,14 @@ if ($module != '') {
             include_file('3rdparty', 'highstock/highcharts-more', 'js');
             include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
             include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'js');
-            include_file('core', 'chatAdapter', 'js');
-            include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'js');
-            include_file('3rdparty', 'jquery.chatjs/jquery.autosize.min', 'js');
             include_file('desktop', 'utils', 'js');
             include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
-            include_file("desktop", "chat", "js");
+            if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
+                include_file('core', 'chatAdapter', 'js');
+                include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'js');
+                include_file('3rdparty', 'jquery.chatjs/jquery.autosize.min', 'js');
+                include_file("desktop", "chat", "js");
+            }
         }
         ?>
         <footer>

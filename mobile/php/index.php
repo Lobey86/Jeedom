@@ -105,7 +105,9 @@ if ($module != '') {
                     <li><a href="index.php?v=m&p=equipment" data-ajax="false" data-theme="a"><i class="fa fa fa-tachometer" ></i> Equipements </a></li>
                     <li><a href="index.php?v=m&p=scenario" data-ajax="false" data-theme="a"><i class="fa fa-cogs"></i> Scénario</a></li>
                     <li><a href="index.php?v=m&p=view" data-ajax="false" data-theme="a"><i class="fa fa-picture-o"></i> Vues</a></li>
-                    <li><a href="index.php?v=m&p=chat" data-ajax="false" data-theme="a"><i class="fa fa-comment-o"></i> Chat</a></li>
+                    <?php if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) { ?>
+                        <li><a href="index.php?v=m&p=chat" data-ajax="false" data-theme="a"><i class="fa fa-comment-o"></i> Chat</a></li>
+                    <?php } ?>
                     <li><a href="index.php?v=m&p=message" data-ajax="false" data-theme="a"><i class="fa fa-envelope"></i> <span id="span_nbMessage"><?php echo message::nbMessage(); ?></span> Message(s)</a></li>
                     <li><a href="index.php?v=m&p=log" data-ajax="false" data-theme="a"><i class="fa fa-file-o"></i> Log</a></li>
                     <li><a href="index.php?v=m&p=cron" data-ajax="false" data-theme="a"><i class="fa fa-tasks"></i> Cron</a></li>
@@ -127,9 +129,12 @@ if ($module != '') {
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
         if (isConnect()) {
-            include_file('mobile', 'chat', 'js');
+
             include_file('mobile', 'utils', 'js');
-            include_file('core', 'chatAdapter', 'js');
+            if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
+                include_file('mobile', 'chat', 'js');
+                include_file('core', 'chatAdapter', 'js');
+            }
         }
         ?>
         <script>

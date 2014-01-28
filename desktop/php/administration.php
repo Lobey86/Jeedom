@@ -275,55 +275,49 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Activer l'authentificaiton LDAP</label>
                                             <div class="col-lg-1">
-                                                <?php
-                                                if (config::byKey('ldap::enable') == '1') {
-                                                    echo '<input type="checkbox" class="configKey form-control" l1key="ldap::enable" checked/>';
-                                                } else {
-                                                    echo '<input type="checkbox" class="configKey form-control" l1key="ldap::enable"/>';
-                                                }
-                                                ?>
+                                                <input type="checkbox" class="configKey form-control" l1key="ldap::enable"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Hôte</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" l1key="ldap:host" value="<?php echo config::byKey('ldap:host') ?>" />
+                                                <input type="text"  class="configKey form-control" l1key="ldap:host" />
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Port</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" l1key="ldap:port" value="<?php echo config::byKey('ldap:port') ?>" />
+                                                <input type="text"  class="configKey form-control" l1key="ldap:port" />
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Domaine</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" l1key="ldap:domain" value="<?php echo config::byKey('ldap:domain') ?>" />
+                                                <input type="text"  class="configKey form-control" l1key="ldap:domain" />
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Base DN</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" l1key="ldap:basedn" value="<?php echo config::byKey('ldap:basedn') ?>" />
+                                                <input type="text"  class="configKey form-control" l1key="ldap:basedn" />
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Nom d'utilisateur</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" l1key="ldap:username" value="<?php echo config::byKey('ldap:username') ?>" />
+                                                <input type="text"  class="configKey form-control" l1key="ldap:username" />
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Mot de passe</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" l1key="ldap:password" value="<?php echo config::byKey('ldap:password') ?>" />
+                                                <input type="text"  class="configKey form-control" l1key="ldap:password" />
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Filtre (optionnel)</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" l1key="ldap:filter" value="<?php echo config::byKey('ldap:filter') ?>" />
+                                                <input type="text"  class="configKey form-control" l1key="ldap:filter" />
                                             </div>
                                         </div>
                                     </fieldset>
@@ -382,7 +376,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Nombre d'échec avant desactivation de l'équipement</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" l1key="numberOfTryBeforeEqLogicDisable" value="<?php echo config::byKey('numberOfTryBeforeEqLogicDisable') ?>" />
+                                                <input type="text"  class="configKey form-control" l1key="numberOfTryBeforeEqLogicDisable" />
                                             </div>
                                         </div>
                                         </div>
@@ -407,19 +401,19 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Activer nodeJS</label>
                                             <div class="col-lg-1">
-                                                <?php
-                                                if (config::byKey('enableNodeJs') == '1') {
-                                                    echo '<input type="checkbox" class="configKey form-control" l1key="enableNodeJs" checked/>';
-                                                } else {
-                                                    echo '<input type="checkbox" class="configKey form-control" l1key="enableNodeJs"/>';
-                                                }
-                                                ?>
+                                                <input type="checkbox" class="configKey form-control" l1key="enableNodeJs"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Port interne NodeJS</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" l1key="nodeJsInternalPort" value="<?php echo config::byKey('nodeJsInternalPort') ?>" />
+                                                <input type="text"  class="configKey form-control" l1key="nodeJsInternalPort" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label">Activer le chat</label>
+                                            <div class="col-lg-1">
+                                                <input type="checkbox" class="configKey form-control" l1key="enableChat"/>
                                             </div>
                                         </div>
                                     </fieldset>
