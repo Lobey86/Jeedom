@@ -7,7 +7,7 @@ global $PAGE_DESCRIPTOR_DESKTOP;
 if (isConnect() && init('p') == '') {
     redirect('index.php?v=d&p=' . $_SESSION['user']->getOptions('homePage', 'dashboard'));
 }
-$page = 'Connection';
+$page = 'Connexion';
 if (isConnect() && init('p') != '') {
     $page = init('p');
 }

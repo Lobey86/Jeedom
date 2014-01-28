@@ -21,7 +21,7 @@ if (!isConnect()) {
 }
 ?>
 
-Les tags suivants seront automatiquement remplacer lors de la generation du widget : 
+Les tags suivants seront automatiquement remplacés lors de la génération du widget : 
 <br/><br/>
 
 <legend>Info</legend>
@@ -31,26 +31,26 @@ Les tags suivants seront automatiquement remplacer lors de la generation du widg
 #unite# => Unité de la commande
 #collectDate# => Date exacte ou de la valeur de la commande
 #state# => Valeur de la commande 
-    Si la commande est binaire l'état peut etre "green" ou "red"
-#displayHistory# => Si la commande est historisé alors la valeur est de '' sinon 'display : none;'
-#averageHistoryValue# => Valeur moyenne sur les x dernieres heures de la commande
-#minHistoryValue# => Minimum sur les x dernieres heures de la commande
-#maxHistoryValue# => Maximum moyenne sur les x dernieres heures de la commande
+    Si la commande est binaire l'état peut être "green" ou "red"
+#displayHistory# => Si la commande est historisée alors la valeur est de '' sinon 'display : none;'
+#averageHistoryValue# => Valeur moyenne sur les x dernières heures de la commande
+#minHistoryValue# => Minimum sur les x dernières heures de la commande
+#maxHistoryValue# => Maximum moyenne sur les x dernières heures de la commande
 #tendance# => Tendance soit 'fa fa-minus', 'fa fa-arrow-up' ou 'fa fa-arrow-down'
 #minValue# => Valeur minimum que peut prendre la commande
 #maxValue# => Valeur maximum que peut prendre la commande
-#class# => si la commande est historisé class vaudra : 'history cursor' et le widget 'cmd.info.history.default' sera ajouter (pour permettre d'afficher l'historique)
+#history# => si la commande est historisée historize vaudra : 'history cursor' et le widget 'cmd.info.history.default' sera ajouté (pour permettre d'afficher l'historique)
 </pre>
 
 <legend>Action</legend>
 <pre>
 #id# => ID de la commande
 #name# => Nom de la commande
-#lastValue# => Derniere valeur de la commande (peut etre vide)
+#lastValue# => Dernière valeur de la commande (peut être vide)
 #minValue# => Valeur minimum que peut prendre la commande
 #maxValue# => Valeur maximum que peut prendre la commande
 
-Pour que l'action soit executer il faut appeler la fonction : execCmd(ID,options) avec
+Pour que l'action soit executée il faut appeler la fonction : execCmd(ID,options) avec
     ID => ID de la commande
     options => object contenant les options de la commande
 
