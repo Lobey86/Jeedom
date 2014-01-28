@@ -390,7 +390,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_nodeJS">
-                                    NodeJS
+                                    NodeJS / Chat
                                 </a>
                             </h3>
                         </div>
