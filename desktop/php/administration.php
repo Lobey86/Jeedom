@@ -36,7 +36,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">Branche</label>
                                 <div class="col-lg-2">
-                                    <select class="configKey form-control" l1key="git::remote">
+                                    <select class="configKey form-control" l1key="git::branch">
                                         <?php
                                         foreach ($repo->list_remote_branches() as $branch) {
                                             echo '<option>' . $branch . '</option>';
