@@ -57,7 +57,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             </form>
                         </div>
                         <div class="col-lg-6">
-                            <a class="btn btn-default" id="bt_refreshUpdateLog">Rafraîchir</a><br/><br/>
                             <pre id="pre_updateInfo">
 
                             </pre>

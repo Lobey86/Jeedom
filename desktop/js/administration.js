@@ -175,7 +175,9 @@ function getUpdateLog(_autoUpdate) {
             }
             $('#pre_updateInfo').text(log);
             if (init(_autoUpdate, 0) > 0) {
-                setTimeout(getUpdateLog(_autoUpdate), 1000);
+                setTimeout(function() {
+                    getUpdateLog(_autoUpdate)
+                }, 1000);
             }
         }
     });
