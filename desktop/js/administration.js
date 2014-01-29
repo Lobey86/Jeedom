@@ -157,7 +157,7 @@ function getUpdateLog() {
                 return;
             }
             var log = '';
-            for (var i in data.result) {
+            for (var i in data.result.reverse()) {
                 log += data.result[i][2];
             }
             $('#pre_updateInfo').append(log);
