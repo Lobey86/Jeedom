@@ -31,13 +31,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <fieldset>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Mise à jour</label>
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-4">
                                             <a class="btn btn-warning" id="bt_updateJeedom">Mettre à jour</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Adresse git</label>
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-4">
                                             <input type="text" class="configKey form-control" l1key="git::remote" />
                                         </div>
                                     </div>

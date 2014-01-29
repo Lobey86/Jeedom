@@ -60,25 +60,32 @@ $(function() {
     });
 
     $("#bt_updateJeedom").on('click', function(event) {
-        $.ajax({
-            type: 'POST',
-            url: 'core/ajax/git.ajax.php',
-            data: {
-                action: 'update',
-            },
-            dataType: 'json',
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) {
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                $('#div_alert').showAlert({message: 'Mise à jour en cours...', level: 'success'});
-                getUpdateLog();
+        bootbox.confirm('Etez-vous sûr de vouloir mettre à jour Jeedom ?', function(result) {
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'core/ajax/git.ajax.php',
+                    data: {
+                        action: 'update',
+                    },
+                    dataType: 'json',
+                    error: function(request, status, error) {
+                        handleAjaxError(request, status, error);
+                    },
+                    success: function(data) {
+                        if (data.state != 'ok') {
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        $('#div_alert').showAlert({message: 'Mise à jour en cours...', level: 'success'});
+                        getUpdateLog(true);
+                    }
+                });
             }
         });
+
+
+
     });
 
     $("#bt_refreshUpdateLog").on('click', function(event) {
@@ -140,7 +147,7 @@ $(function() {
     loadGeneraleConfig();
 });
 /********************Log************************/
-function getUpdateLog() {
+function getUpdateLog(_autoUpdate) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/git.ajax.php',
@@ -148,6 +155,7 @@ function getUpdateLog() {
             action: 'getUpdateLog',
         },
         dataType: 'json',
+        general: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -160,7 +168,16 @@ function getUpdateLog() {
             for (var i in data.result.reverse()) {
                 log += data.result[i][2];
             }
+            if (_autoUpdate != 0 && log == $('#pre_updateInfo').text()) {
+                _autoUpdate++;
+            }
+            if (_autoUpdate > 30) {
+                _autoUpdate = 0;
+            }
             $('#pre_updateInfo').append(log);
+            if (init(_autoUpdate, 0) != 0) {
+                setTimeout(getUpdateLog(_autoUpdate), 1000);
+            }
         }
     });
 }
