@@ -158,6 +158,7 @@ try {
 
     config::save('version', VERSION);
 } catch (Exception $e) {
+    startActivities();
     echo 'Erreur durant l\'installation : ' . $e->getMessage();
     echo 'Detail : ' . print_r($e->getTrace());
 }
