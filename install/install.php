@@ -44,17 +44,12 @@ try {
     }
 
     if ($update) {
-        echo "Pour effectuer une mise a jour Jeedom va devoir couper toute les taches et scenario. Voulez-vous continuer ? [o/N] ";
-        if (trim(fgets(STDIN)) !== 'o') {
-            echo "Mise a jour forcee de Jeedom est annulee\n";
-            exit(0);
-        }
-
         stopActivities();
 
         if (!isset($_GET['v'])) {
             echo "Verification des mises a jour (git pull)\n";
-            echo shell_exec("cd " . dirname(__FILE__) . " && git pull");
+            $repo = Git::open(dirname(__FILE__) . '/..');
+            echo $repo->pull();
         }
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
             echo "Jeedom est installe et en derniere version : " . VERSION . "\n";

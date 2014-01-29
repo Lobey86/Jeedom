@@ -71,6 +71,9 @@ function jeedom3rdPartyAutoload($classname) {
         if ($classname == 'Cron\CronExpression') {
             include_file('3rdparty', 'cron-expression/cron.inc', 'php');
         }
+        if ($classname == 'Git') {
+            include_file('3rdparty', 'git.php/git.class', 'php');
+        }
     } catch (Exception $e) {
         
     }
