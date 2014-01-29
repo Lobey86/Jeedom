@@ -121,7 +121,7 @@ class cron {
         $cmd.= ' api=' . init('api');
         $cmd.= ' cron_id=' . $this->getId();
         if (exec('ps ax | grep "' . $cmd . '" | wc -l') < 3) {
-            shell_exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('cron') . ' 2>&1 &');
+            shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
         }
     }
 
