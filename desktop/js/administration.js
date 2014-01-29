@@ -60,15 +60,16 @@ $(function() {
     });
 
     $(".bt_updateJeedom").on('click', function(event) {
-        var mode = $(this).attr('mode');
+        var el = $(this);
         bootbox.confirm('Etez-vous sûr de vouloir mettre à jour Jeedom ?', function(result) {
+            el.find('.fa-refresh').show();
             if (result) {
                 $.ajax({
                     type: 'POST',
                     url: 'core/ajax/git.ajax.php',
                     data: {
                         action: 'update',
-                        mode: mode
+                        mode: el.attr('mode')
                     },
                     dataType: 'json',
                     error: function(request, status, error) {
@@ -180,6 +181,8 @@ function getUpdateLog(_autoUpdate) {
                 setTimeout(function() {
                     getUpdateLog(_autoUpdate)
                 }, 1000);
+            }else{
+                $(".bt_updateJeedom").find('.fa-refresh').hide();
             }
         }
     });
