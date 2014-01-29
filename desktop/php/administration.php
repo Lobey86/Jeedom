@@ -20,13 +20,14 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
 
             <!--********************Onglet mise à jour********************************-->
             <div class="tab-pane" id="update">
-                <legend>Mise à jour :</legend>
+                
                 <?php
                 try {
                     $repo = getGitRepo();
                     ?>
                     <div class="row">
                         <div class="col-lg-6">
+                            <legend>Mise à jour :</legend>
                             <form class="form-horizontal">
                                 <fieldset>
                                     <div class="form-group">
@@ -58,6 +59,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             </form>
                         </div>
                         <div class="col-lg-6">
+                            <legend>Informations :</legend>
                             <pre id="pre_updateInfo">
                                 <?php
                                 try {
