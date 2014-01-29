@@ -31,7 +31,7 @@ $(function() {
     });
 
     $("#bt_changeCronState").on('click', function() {
-        var value = {enableCron : $(this).attr('state')};
+        var value = {enableCron: $(this).attr('state')};
         $.ajax({
             type: 'POST',
             url: 'core/ajax/config.ajax.php',
@@ -69,6 +69,14 @@ $(function() {
 
     $("#table_cron").delegate('.getHelpSchedule', 'click', function() {
         showHelpModal("cronSyntaxe");
+    });
+
+    $('#table_cron').delegate('.cronAttr[l1key=deamon]', 'change', function() {
+        if ($(this).value() == 1) {
+            $(this).closest('tr').find('.cronAttr[l1key=deamonSleepTime]').show();
+        } else {
+            $(this).closest('tr').find('.cronAttr[l1key=deamonSleepTime]').hide();
+        }
     });
 });
 
@@ -172,9 +180,10 @@ function addCron(_cron) {
     tr += '<td>';
     tr += init(_cron.pid);
     tr += '</td>';
-    tr += '<td class="deamons"><center>';
-    tr += '<input type="checkbox" class="cronAttr" l1key="deamon" /><span class="cronAttr" l1key="deamon" style="display : none;"></span>';
-    tr += '</center></td>';
+    tr += '<td class="deamons">';
+    tr += '<input type="checkbox" class="cronAttr" l1key="deamon" /><span class="cronAttr" l1key="deamon" style="display : none;"></span> ';
+    tr += '<input class="cronAttr form-control" l1key="deamonSleepTime" style="width : 50px; display : inline-block;"/>';
+    tr += '</td>';
     tr += '<td class="class"><span class="cronAttr" l1key="class" style="display : none;"></span><input class="form-control cronAttr" l1key="class" /></td>';
     tr += '<td class="function"><span class="cronAttr" l1key="function" style="display : none;"></span><input class="form-control cronAttr" l1key="function" /></td>';
     tr += '<td class="schedule"><span class="cronAttr" l1key="schedule" style="display : none;"></span><input class="cronAttr form-control" l1key="schedule" /></td>';

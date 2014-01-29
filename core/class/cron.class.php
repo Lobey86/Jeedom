@@ -34,6 +34,7 @@ class cron {
     private $schedule = '';
     private $timeout;
     private $deamon = 0;
+    private $deamonSleepTime;
 
     /*     * ***********************Methode static*************************** */
 
@@ -334,13 +335,25 @@ class cron {
     public function getTimeout() {
         $timeout = $this->timeout;
         if ($timeout == 0) {
-            $timeout = config::byKey('maxExecTimeCrontask', 'core', 60);
+            $timeout = config::byKey('maxExecTimeCrontask');
         }
         return $timeout;
     }
 
     public function setTimeout($timeout) {
         $this->timeout = $timeout;
+    }
+
+    public function getDeamonSleepTime() {
+        $deamonSleepTime = $this->deamonSleepTime;
+        if ($deamonSleepTime == 0) {
+            $deamonSleepTime = config::byKey('deamonsSleepTime');
+        }
+        return $deamonSleepTime;
+    }
+
+    public function setDeamonSleepTime($deamonSleepTime) {
+        $this->deamonSleepTime = $deamonSleepTime;
     }
 
 }

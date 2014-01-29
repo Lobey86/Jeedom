@@ -67,7 +67,7 @@ if (init('cron_id') != '') {
             } else {
                 while (true) {
                     $class::$function();
-                    sleep(config::byKey('deamonsSleepTime'));
+                    sleep($cron->getDeamonSleepTime());
                     if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
                         die();
                     }
@@ -89,7 +89,7 @@ if (init('cron_id') != '') {
             } else {
                 while (true) {
                     $function();
-                    sleep(config::byKey('deamonsSleepTime'));
+                    sleep($cron->getDeamonSleepTime());
                     if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
                         die();
                     }
