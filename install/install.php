@@ -36,7 +36,7 @@ if (isset($argv)) {
 
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
-    echo "***************Installation/Mise a jour de Jeedom " . VERSION . "***************\n";
+    echo "***************Installation/Mise à jour de Jeedom " . VERSION . "***************\n";
     $update = false;
     $curentVersion = config::byKey('version');
     if ($curentVersion != '') {
@@ -56,14 +56,14 @@ try {
             echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
         }
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
-            echo "Jeedom est installe et en derniere version : " . VERSION . "\n";
+            echo "Jeedom est installé et en dernière version : " . VERSION . "\n";
             startActivities();
             exit();
         }
         if (isset($_GET['v'])) {
-            echo "La mise à jour " . $_GET['v'] . " va etre reapliquee. Voulez vous continuer  ? [o/N] ";
+            echo "La mise à jour " . $_GET['v'] . " va être reapliquée. Voulez vous continuer  ? [o/N] ";
             if (trim(fgets(STDIN)) !== 'o') {
-                echo "Mise a jour forcee de Jeedom est annulee\n";
+                echo "Mise à jour forcee de Jeedom est annulée\n";
                 startActivities();
                 exit(0);
             }
@@ -76,7 +76,7 @@ try {
             }
             $updateScript = dirname(__FILE__) . '/update/' . $_GET['v'] . '.php';
             if (file_exists($updateScript)) {
-                echo "Mise a jour systeme en version : " . $_GET['v'] . "\n";
+                echo "Mise à jour systeme en version : " . $_GET['v'] . "\n";
                 require_once $updateScript;
                 echo "OK\n";
             }
@@ -102,7 +102,7 @@ try {
         }
         startActivities();
     } else {
-        echo "Jeedom va etre installe voulez vous continuer ? [o/N] ";
+        echo "Jeedom va être installe voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
             exit(0);
         }
@@ -164,7 +164,7 @@ try {
 } catch (Exception $e) {
     startActivities();
     echo 'Erreur durant l\'installation : ' . $e->getMessage();
-    echo 'Detail : ' . print_r($e->getTrace());
+    echo 'Détails : ' . print_r($e->getTrace());
 }
 
 function incrementVersion($_version) {
@@ -190,7 +190,7 @@ function incrementVersion($_version) {
 
 function stopActivities() {
     /*     * **********Arret des crons********************* */
-    echo "Desactivation de toutes les taches";
+    echo "Désactivation de toutes les tâches";
     config::save('enableCron', 0);
     foreach (cron::all() as $cron) {
         if ($cron->running()) {
@@ -199,7 +199,7 @@ function stopActivities() {
         }
     }
     echo " OK\n";
-    echo "Attente de l'arret du cron master ";
+    echo "Attente de l'arrêt du cron master ";
     while (cron::jeeCronRun()) {
         echo '.';
         sleep(2);
@@ -217,12 +217,12 @@ function stopActivities() {
 
 function startActivities() {
     /*     * *********Réactivation des scénarios**************** */
-    echo "Recuperation des mises a jour OK\n";
-    echo "Reactivation des scenarios : ";
+    echo "Récupération des mises à jour OK\n";
+    echo "Réactivation des scenarios : ";
     config::save('enableScenario', 1);
     echo "OK\n";
     /*     * *********Réactivation des tâches**************** */
-    echo "Reactivation des taches : ";
+    echo "Réactivation des tâches : ";
     config::save('enableCron', 1);
     echo "OK\n";
 }

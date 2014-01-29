@@ -32,7 +32,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Mise à jour</label>
                                         <div class="col-lg-4">
-                                            <a class="btn btn-warning bt_updateJeedom" mode="normal">Mettre à jour</a>
+                                            <a class="btn btn-default bt_updateJeedom" mode="normal">Mettre à jour</a>
                                             <a class="btn btn-warning bt_updateJeedom" mode="force">Forcer la mise à jour</a>
                                         </div>
                                     </div>
