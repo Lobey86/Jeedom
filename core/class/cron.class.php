@@ -155,10 +155,29 @@ class cron {
         if ($this->getServer() == gethostname()) {
             log::add('cron', 'info', 'Arret de ' . $this->getClass() . '::' . $this->getFunction() . '()');
             exec('kill ' . $this->getPID());
-            sleep(3);
+            $check = $this->running();
+            $retry = 0;
+            while ($check) {
+                $check = $this->running();
+                $retry++;
+                if ($retry > config::byKey('deamonsSleepTime') + 5) {
+                    $check = false;
+                } else {
+                    sleep(1);
+                }
+            }
             if ($this->running()) {
                 exec('kill -9 ' . $this->getPID());
-                sleep(5);
+                $check = $this->running();
+                while ($check) {
+                    $check = $this->running();
+                    $retry++;
+                    if ($retry > 10) {
+                        $check = false;
+                    } else {
+                        sleep(1);
+                    }
+                }
             }
             if ($this->running()) {
                 $this->setState('error');
