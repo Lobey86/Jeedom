@@ -26,7 +26,7 @@ try {
 
     if (init('action') == 'update') {
         log::clear('update');
-        $cmd = 'nohup php ' . dirname(__FILE__) . '/../../install/install.php ';
+        $cmd = 'nohup php ' . dirname(__FILE__) . '/../../install/install.php';
         $cmd.= ' >> ' . log::getPathToLog('update') . ' 2>&1 &';
         shell_exec($cmd);
         ajax::success();
