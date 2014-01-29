@@ -576,7 +576,7 @@ class GitRepo {
     }
 
     public function get_status() {
-        return run("status");
+        return $this->run("status");
     }
 
     /**
