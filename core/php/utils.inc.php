@@ -394,3 +394,11 @@ function removeCR($_string) {
     $_string = str_replace("\n\r", '', $_string);
     return trim($_string);
 }
+
+function getVersion($_name) {
+    global $VERSION;
+    if (isset($VERSION[$_name])) {
+        return $VERSION[$_name];
+    }
+    return false;
+}

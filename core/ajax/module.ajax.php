@@ -39,7 +39,7 @@ try {
         $return['filepath'] = $module->getFilepath();
         $return['activate'] = $module->isActive();
         $return['configurationPath'] = $module->getPathToConfigurationById();
-        $return['checkVersion'] = version_compare(VERSION, $module->getRequire());
+        $return['checkVersion'] = version_compare(getVersion('jeedom'), $module->getRequire());
         ajax::success($return);
     }
 

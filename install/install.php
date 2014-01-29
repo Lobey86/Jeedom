@@ -36,7 +36,7 @@ if (isset($argv)) {
 
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
-    echo "***************Installation/Mise à jour de Jeedom " . VERSION . "***************\n";
+    echo "***************Installation/Mise à jour de Jeedom " . getVersion('jeedom') . "***************\n";
     $update = false;
     $curentVersion = config::byKey('version');
     if ($curentVersion != '') {
@@ -55,12 +55,11 @@ try {
             }
             echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
         }
-        include dirname(__FILE__) . '/../core/config/version.config.php';
+        @include dirname(__FILE__) . '/../core/config/version.config.php';
 
-        if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
-            echo "Jeedom est installé et en dernière version : " . VERSION . "\n";
+        if (version_compare(getVersion('jeedom'), $curentVersion, '=') && !isset($_GET['v'])) {
             startActivities();
-            echo "***************Jeedom est à jour***************\n";
+            echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
             exit();
         }
         if (isset($_GET['v'])) {
@@ -84,7 +83,7 @@ try {
                 echo "OK\n";
             }
         } else {
-            while (version_compare(VERSION, $curentVersion, '>')) {
+            while (version_compare(getVersion('jeedom'), $curentVersion, '>')) {
                 $nextVersion = incrementVersion($curentVersion);
                 $updateSql = dirname(__FILE__) . '/update/' . $nextVersion . '.sql';
                 if (file_exists($updateSql)) {
@@ -103,13 +102,13 @@ try {
             }
         }
         startActivities();
-        echo "***************Jeedom est à jour***************\n";
+        echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
     } else {
-        echo "Jeedom va être installe voulez vous continuer ? [o/N] ";
+        echo "Jeedom va être installé voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
             exit(0);
         }
-        echo "\nInstallation de Jeedom " . VERSION . "\n";
+        echo "\nInstallation de Jeedom " . getVersion('jeedom') . "\n";
         $sql = file_get_contents(dirname(__FILE__) . '/install.sql');
         echo "Installation de la base de données...";
         DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
@@ -163,7 +162,7 @@ try {
         echo "OK\n";
     }
 
-    config::save('version', VERSION);
+    config::save('version', getVersion('jeedom'));
 } catch (Exception $e) {
     startActivities();
     echo 'Erreur durant l\'installation : ' . $e->getMessage();

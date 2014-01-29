@@ -16,6 +16,8 @@
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-define('VERSION', '1.29.0');
+global $VERSION;
+$VERSION = array(
+    'jeedom' => '1.31.0'
+);
 

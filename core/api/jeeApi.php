@@ -78,7 +78,7 @@ if (init('api') != '' && init('type') != '') {
 
             /*             * ***********************Version********************************* */
             if ($jsonrpc->getMethod() == 'version') {
-                $jsonrpc->makeSuccess(VERSION);
+                $jsonrpc->makeSuccess(getVersion('jeedom'));
             }
 
             /*             * ************************Executer une commande*************************** */

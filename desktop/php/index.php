@@ -214,7 +214,7 @@ if ($module != '') {
         ?>
         <footer>
             <span class="pull-left">Node JS <span id="span_nodeJsState" class="binary red tooltips"></span> - </span>
-            <span class="pull-left">&copy; <a id="bt_jeedomAbout" class="cursor">Jeedom</a> (v<?php echo VERSION ?>) <?php echo date('Y') ?>
+            <span class="pull-left">&copy; <a id="bt_jeedomAbout" class="cursor">Jeedom</a> (v<?php echo getVersion('jeedom') ?>) <?php echo date('Y') ?>
                 <?php
                 $pageLoadTime = round(getmicrotime() - $startLoadTime, 3);
                 echo ' - Page générée en ' . $pageLoadTime . 's';
