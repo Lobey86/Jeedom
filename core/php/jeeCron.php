@@ -37,12 +37,6 @@ if (config::byKey('enableCron') == 0) {
     die('Tous les crons sont actuellement désactivés');
 }
 
-
-//Signal handler
-@pcntl_signal(SIGTERM, "signal_handler");
-@pcntl_signal(SIGINT, "signal_handler");
-$ALLOW_DEAMONS = true;
-
 if (init('cron_id') != '') {
     $datetime = date('Y-m-d H:i:s');
     $cron = cron::byId(init('cron_id'));
@@ -71,7 +65,7 @@ if (init('cron_id') != '') {
             if ($cron->getDeamon() == 0) {
                 $class::$function();
             } else {
-                while ($ALLOW_DEAMONS) {
+                while (true) {
                     $class::$function();
                     sleep(config::byKey('deamonsSleepTime'));
                     if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
@@ -93,7 +87,7 @@ if (init('cron_id') != '') {
             if ($cron->getDeamon() == 0) {
                 $function();
             } else {
-                while ($ALLOW_DEAMONS) {
+                while (true) {
                     $function();
                     sleep(config::byKey('deamonsSleepTime'));
                     if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
@@ -136,7 +130,7 @@ if (init('cron_id') != '') {
 
     set_time_limit(59);
     cron::setPidFile();
-    while ($ALLOW_DEAMONS) {
+    while (true) {
         foreach (cron::all() as $cron) {
             $cron->refresh();
             $datetime = date('Y-m-d H:i:s');
@@ -191,18 +185,4 @@ if (init('cron_id') != '') {
         }
     }
 }
-
-function signal_handler($signal) {
-    switch ($signal) {
-        case SIGTERM:
-            log::add('cron', 'info', 'Réception d\'un SIGTERM pour le PID : ' . getmypid());
-            print "Caught SIGTERM\n";
-            $ALLOW_DEAMONS = false;
-        case SIGINT:
-            log::add('cron', 'info', 'Réception d\'un SIGINT pour le PID : ' . getmypid());
-            print "Caught SIGINT\n";
-            $ALLOW_DEAMONS = false;
-    }
-}
-
 ?>

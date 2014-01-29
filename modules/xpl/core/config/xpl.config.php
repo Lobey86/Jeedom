@@ -22,8 +22,8 @@ define('DEFAULT_HBEAT_INTERVAL', 5);
 define('XPL_PORT', 3865);
 define('XPL_VENDOR', 'xpl');
 define('XPL_DEVICE', 'jeedom');
-define('XPL_INSTANCE', $_SERVER['SERVER_NAME']);
-define('XPL_IP', $_SERVER['SERVER_ADDR']);
+define('XPL_INSTANCE', gethostname());
+define('XPL_IP', gethostbyname(gethostname()));
 define('XPL_MAX_RETRY_CONNEXION_TO_HUB', '30');
 
 
