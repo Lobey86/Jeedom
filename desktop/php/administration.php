@@ -58,7 +58,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         </div>
                         <div class="col-lg-6">
                             <pre id="pre_updateInfo">
-
                             </pre>
                         </div>
                     </div>
