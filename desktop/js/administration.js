@@ -155,7 +155,7 @@ function getUpdateLog(_autoUpdate) {
             action: 'getUpdateLog',
         },
         dataType: 'json',
-        general: false,
+        global: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -170,11 +170,12 @@ function getUpdateLog(_autoUpdate) {
             }
             if (_autoUpdate != 0 && log == $('#pre_updateInfo').text()) {
                 _autoUpdate++;
+                alert('no change');
             }
             if (_autoUpdate > 30) {
                 _autoUpdate = 0;
             }
-            $('#pre_updateInfo').append(log);
+            $('#pre_updateInfo').text(log);
             if (init(_autoUpdate, 0) != 0) {
                 setTimeout(getUpdateLog(_autoUpdate), 1000);
             }
