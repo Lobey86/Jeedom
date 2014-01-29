@@ -34,6 +34,7 @@ class cron {
     private $schedule = '';
     private $timeout;
     private $deamon = 0;
+    private $deamonSleepTime;
 
     /*     * ***********************Methode static*************************** */
 
@@ -121,7 +122,7 @@ class cron {
         $cmd.= ' api=' . init('api');
         $cmd.= ' cron_id=' . $this->getId();
         if (exec('ps ax | grep "' . $cmd . '" | wc -l') < 3) {
-            shell_exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('cron') . ' 2>&1 &');
+            shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
         }
     }
 
@@ -155,10 +156,29 @@ class cron {
         if ($this->getServer() == gethostname()) {
             log::add('cron', 'info', 'Arret de ' . $this->getClass() . '::' . $this->getFunction() . '()');
             exec('kill ' . $this->getPID());
-            sleep(3);
+            $check = $this->running();
+            $retry = 0;
+            while ($check) {
+                $check = $this->running();
+                $retry++;
+                if ($retry > config::byKey('deamonsSleepTime') + 5) {
+                    $check = false;
+                } else {
+                    sleep(1);
+                }
+            }
             if ($this->running()) {
                 exec('kill -9 ' . $this->getPID());
-                sleep(5);
+                $check = $this->running();
+                while ($check) {
+                    $check = $this->running();
+                    $retry++;
+                    if ($retry > 10) {
+                        $check = false;
+                    } else {
+                        sleep(1);
+                    }
+                }
             }
             if ($this->running()) {
                 $this->setState('error');
@@ -315,13 +335,25 @@ class cron {
     public function getTimeout() {
         $timeout = $this->timeout;
         if ($timeout == 0) {
-            $timeout = config::byKey('maxExecTimeCrontask', 'core', 60);
+            $timeout = config::byKey('maxExecTimeCrontask');
         }
         return $timeout;
     }
 
     public function setTimeout($timeout) {
         $this->timeout = $timeout;
+    }
+
+    public function getDeamonSleepTime() {
+        $deamonSleepTime = $this->deamonSleepTime;
+        if ($deamonSleepTime == 0) {
+            $deamonSleepTime = config::byKey('deamonsSleepTime');
+        }
+        return $deamonSleepTime;
+    }
+
+    public function setDeamonSleepTime($deamonSleepTime) {
+        $this->deamonSleepTime = $deamonSleepTime;
     }
 
 }

@@ -29,11 +29,6 @@ class razberry extends eqLogic {
         $cache = cache::byKey('razberry::lastUpdate');
         $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Data/' . $cache->getValue(0));
         $results = json_decode(self::handleError($http->exec()), true);
-        if (isset($results['updateTime']) && is_numeric($results['updateTime']) && $results['updateTime'] > $cache->getValue(0)) {
-            cache::set('razberry::lastUpdate', $results['updateTime'], 0);
-        } else {
-            cache::set('razberry::lastUpdate', strtotime('- 2 seconds ' . date('Y-m-d H:i:s')), 0);
-        }
         if (is_array($results)) {
             foreach ($results as $key => $result) {
                 switch ($key) {
@@ -92,6 +87,11 @@ class razberry extends eqLogic {
                         break;
                 }
             }
+        }
+        if (isset($results['updateTime']) && is_numeric($results['updateTime']) && $results['updateTime'] > $cache->getValue(0)) {
+            cache::set('razberry::lastUpdate', $results['updateTime'], 0);
+        } else {
+            cache::set('razberry::lastUpdate', strtotime('- 2 seconds ' . date('Y-m-d H:i:s')), 0);
         }
     }
 

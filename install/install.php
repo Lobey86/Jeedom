@@ -55,6 +55,8 @@ try {
             }
             echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
         }
+        include dirname(__FILE__) . '/../core/config/version.config.php';
+
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
             echo "Jeedom est installé et en dernière version : " . VERSION . "\n";
             startActivities();
