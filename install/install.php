@@ -194,7 +194,7 @@ function stopActivities() {
         }
     }
     echo " OK\n";
-    echo "Attente de l\'arret du cron master ";
+    echo "Attente de l'arret du cron master ";
     while (cron::jeeCronRun()) {
         echo '.';
         sleep(2);

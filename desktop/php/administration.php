@@ -30,7 +30,8 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <form class="form-horizontal">
                                 <fieldset>
                                     <div class="form-group">
-                                        <div class="col-lg-5">
+                                        <label class="col-lg-2 control-label">Mise à jour</label>
+                                        <div class="col-lg-3">
                                             <a class="btn btn-warning" id="bt_updateJeedom">Mettre à jour</a>
                                         </div>
                                     </div>
@@ -56,7 +57,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             </form>
                         </div>
                         <div class="col-lg-6">
-                            <a class="btn btn-warning" id="bt_refreshUpdateLog">Rafraîchir</a>
+                            <a class="btn btn-default" id="bt_refreshUpdateLog">Rafraîchir</a><br/><br/>
                             <pre id="pre_updateInfo">
 
                             </pre>
