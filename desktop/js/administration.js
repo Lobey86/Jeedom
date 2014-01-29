@@ -170,7 +170,6 @@ function getUpdateLog(_autoUpdate) {
             }
             if (_autoUpdate != 0 && log == $('#pre_updateInfo').text()) {
                 _autoUpdate++;
-                alert('no change');
             }
             if (_autoUpdate > 30) {
                 _autoUpdate = 0;
