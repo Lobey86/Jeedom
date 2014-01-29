@@ -77,8 +77,7 @@ $(function() {
                             $('#div_alert').showAlert({message: data.result, level: 'danger'});
                             return;
                         }
-                        $('#div_alert').showAlert({message: 'Mise à jour en cours...', level: 'success'});
-                        getUpdateLog(true);
+                        getUpdateLog(1);
                     }
                 });
             }
@@ -168,14 +167,14 @@ function getUpdateLog(_autoUpdate) {
             for (var i in data.result.reverse()) {
                 log += data.result[i][2];
             }
-            if (_autoUpdate != 0 && log == $('#pre_updateInfo').text()) {
+            if (_autoUpdate > 0 && log == $('#pre_updateInfo').text()) {
                 _autoUpdate++;
             }
-            if (_autoUpdate > 30) {
+            if (_autoUpdate > 120) {
                 _autoUpdate = 0;
             }
             $('#pre_updateInfo').text(log);
-            if (init(_autoUpdate, 0) != 0) {
+            if (init(_autoUpdate, 0) > 0) {
                 setTimeout(getUpdateLog(_autoUpdate), 1000);
             }
         }
