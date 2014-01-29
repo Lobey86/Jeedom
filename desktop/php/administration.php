@@ -60,7 +60,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <pre id="pre_updateInfo">
                                 <?php
                                 try {
-                                    $repo->git_fetch();
+                                    $repo->fetch();
                                     echo $repo->get_status();
                                 } catch (Exception $e) {
                                     echo 'Impossible d\'afficher les mises à jour (Problème de droit sur le dépot git?)';
