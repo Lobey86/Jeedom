@@ -182,7 +182,7 @@ function getUpdateLog(_autoUpdate) {
                     getUpdateLog(_autoUpdate)
                 }, 1000);
             }else{
-                $(".bt_updateJeedom").find('.fa-refresh').hide();
+                $(".bt_updateJeedom .fa-refresh").hide();
             }
         }
     });
