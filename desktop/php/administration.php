@@ -59,6 +59,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         <div class="col-lg-6">
                             <pre id="pre_updateInfo">
                                 <?php
+                                $repo->git_fetch();
                                 echo $repo->get_status();
                                 ?>
                             </pre>
