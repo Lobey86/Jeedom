@@ -11,7 +11,7 @@ sendVarToJS('eqType', 'virtual');
     <div class="col-lg-2">
         <div class="bs-sidebar affix">
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
-                <li class="nav-header">Liste des equipements virtuel
+                <li class="nav-header">Liste des équipements virtuel
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
@@ -63,16 +63,16 @@ sendVarToJS('eqType', 'virtual');
         </form>
 
         <legend>Virtuel</legend>
-        <a class="btn btn-default btn-sm" id="bt_addVirtualInfo"><i class="fa fa-plus-circle"></i> Ajouter une info virtuel</a>
-        <a class="btn btn-default btn-sm" id="bt_addVirtualAction"><i class="fa fa-plus-circle"></i> Ajouter une commande virtuel</a><br/><br/>
+        <a class="btn btn-default btn-sm" id="bt_addVirtualInfo"><i class="fa fa-plus-circle"></i> Ajouter une info virtuelle</a>
+        <a class="btn btn-default btn-sm" id="bt_addVirtualAction"><i class="fa fa-plus-circle"></i> Ajouter une commande virtuelle</a><br/><br/>
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>
                     <th style="width: 50px;">#</th>
                     <th style="width: 150px;">Nom</th>
                     <th style="width: 110px;">Sous-Type</th>
-                    <th>Value</th>
-                    <th style="width: 100px;">Unite</th>
+                    <th>Valeur</th>
+                    <th style="width: 100px;">Unité</th>
                     <th style="width: 200px;">Paramètres</th>
                     <th style="width: 100px;"></th>
                 </tr>
