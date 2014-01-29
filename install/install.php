@@ -55,9 +55,7 @@ try {
             }
             echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
         }
-        echo getVersion('jeedom') . "\n";
         @include dirname(__FILE__) . '/../core/config/version.config.php';
-        echo getVersion('jeedom') . "\n";
 
         if (version_compare(getVersion('jeedom'), $curentVersion, '=') && !isset($_GET['v'])) {
             echo "Jeedom est installé et en dernière version : " . getVersion('jeedom') . "\n";
@@ -105,7 +103,7 @@ try {
             }
         }
         startActivities();
-        echo "***************Jeedom est à jour***************\n";
+        echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
     } else {
         echo "Jeedom va être installé voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
