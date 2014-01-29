@@ -29,13 +29,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         <fieldset>
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">Adresse git</label>
-                                <div class="col-lg-3">
+                                <div class="col-lg-2">
                                     <input type="text" class="configKey form-control" l1key="git::remote" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">Branche</label>
-                                <div class="col-lg-1">
+                                <div class="col-lg-2">
                                     <select class="configKey form-control" l1key="git::remote">
                                         <?php
                                         foreach ($repo->list_remote_branches() as $branch) {

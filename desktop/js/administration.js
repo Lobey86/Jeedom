@@ -311,7 +311,7 @@ function flushMemcache() {
 function saveGeneraleConfig() {
     saveConvertColor();
     try {
-        var configuration = $('#config').getValues('.configKey');
+        var configuration = $('#div_administration').getValues('.configKey');
         configuration = configuration[0];
     } catch (e) {
         $('#div_alert').showAlert({message: e, level: 'danger'});
