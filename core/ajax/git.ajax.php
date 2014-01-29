@@ -33,7 +33,7 @@ try {
     }
 
     if (init('action') == 'getUpdateLog') {
-        ajax::success(log::get('update'));
+        ajax::success(log::get('update'), 0, 3000);
     }
 
     throw new Exception('Aucune methode correspondante à : ' . init('action'));
