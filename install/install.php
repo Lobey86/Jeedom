@@ -58,6 +58,7 @@ try {
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
             echo "Jeedom est installé et en dernière version : " . VERSION . "\n";
             startActivities();
+            echo "***************Jeedom est à jour***************\n";
             exit();
         }
         if (isset($_GET['v'])) {
@@ -100,7 +101,7 @@ try {
             }
         }
         startActivities();
-         echo "***************Jeedom est à jour***************\n";
+        echo "***************Jeedom est à jour***************\n";
     } else {
         echo "Jeedom va être installe voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
