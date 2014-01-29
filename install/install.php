@@ -58,9 +58,8 @@ try {
         @include dirname(__FILE__) . '/../core/config/version.config.php';
 
         if (version_compare(getVersion('jeedom'), $curentVersion, '=') && !isset($_GET['v'])) {
-            echo "Jeedom est installé et en dernière version : " . getVersion('jeedom') . "\n";
             startActivities();
-            echo "***************Jeedom est à jour***************\n";
+            echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
             exit();
         }
         if (isset($_GET['v'])) {
