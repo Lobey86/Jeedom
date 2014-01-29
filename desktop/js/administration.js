@@ -339,7 +339,7 @@ function saveGeneraleConfig() {
 }
 
 function loadGeneraleConfig() {
-    var configuration = $('#config').getValues('.configKey');
+    var configuration = $('#div_administration').getValues('.configKey');
     configuration = configuration[0];
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -358,7 +358,7 @@ function loadGeneraleConfig() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#config').setValues(data.result, '.configKey');
+            $('#div_administration').setValues(data.result, '.configKey');
         }
     });
 }

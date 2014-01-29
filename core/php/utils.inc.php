@@ -363,7 +363,8 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
                 if ($pattern !== '*') {
                     if (in_array($this_folder, $matching_folders))
                         array_push($all, $this_folder);
-                } else
+                }
+                else
                     array_push($all, $this_folder);
             }
 
@@ -380,6 +381,10 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
     if ($folder)
         chdir($current_folder);
     return $all;
+}
+
+function getGitRepo() {
+    return Git::open(dirname(__FILE__) . '/../..');
 }
 
 function removeCR($_string) {

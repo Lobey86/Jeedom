@@ -48,8 +48,8 @@ try {
 
         if (!isset($_GET['v'])) {
             echo "Verification des mises a jour (git pull)\n";
-            $repo = Git::open(dirname(__FILE__) . '/..');
-            echo $repo->pull(config::byKey('git::remote'),config::byKey('git::branch'));
+            $repo = getGitRepo();
+            echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
         }
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
             echo "Jeedom est installe et en derniere version : " . VERSION . "\n";

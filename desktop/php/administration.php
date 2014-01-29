@@ -7,15 +7,54 @@ include_file('3rdparty', 'jquery.farbtastic/farbtastic', 'css');
 sendVarToJS('tab', init('tab'));
 sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
 ?>
-<div class="row">
+<div class="row" id="div_administration">
     <div class="col-lg-12">
         <ul class="nav nav-tabs" id="admin_tab">
             <li class="active"><a href="#config">Configuration</a></li>
             <li><a href="#user">Utilisateurs</a></li>
+            <li><a href="#update">Mise à jour</a></li>
         </ul>
 
 
         <div class="tab-content">
+
+            <!--********************Onglet mise à jour********************************-->
+            <div class="tab-pane" id="update">
+                <legend>Mise à jour :</legend>
+                <?php
+                try {
+                    $repo = getGitRepo();
+                    ?>
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Adresse git</label>
+                                <div class="col-lg-3">
+                                    <input type="text" class="configKey form-control" l1key="git::remote" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Branche</label>
+                                <div class="col-lg-1">
+                                    <select class="configKey form-control" l1key="git::remote">
+                                        <?php
+                                        foreach ($repo->list_remote_branches() as $branch) {
+                                            echo '<option>' . $branch . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <?php
+                } catch (Exception $e) {
+                    echo '<div class="alert alert-danger">';
+                    echo 'Aucun dépôt git trouvé';
+                    echo '</div>';
+                }
+                ?>
+            </div>
 
             <!--********************Onglet utilisateur********************************-->
             <div class="tab-pane" id="user">
