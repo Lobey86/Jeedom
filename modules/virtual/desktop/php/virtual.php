@@ -26,7 +26,7 @@ sendVarToJS('eqType', 'virtual');
     <div class="col-lg-10 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <form class="form-horizontal">
             <fieldset>
-                <legend>Générale</legend>
+                <legend>Général</legend>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Nom de l'équipement virtual</label>
                     <div class="col-lg-3">
@@ -68,6 +68,7 @@ sendVarToJS('eqType', 'virtual');
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>
+                    <th style="width: 50px;">#</th>
                     <th style="width: 150px;">Nom</th>
                     <th style="width: 110px;">Sous-Type</th>
                     <th>Value</th>

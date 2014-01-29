@@ -12,8 +12,6 @@ include_file('3rdparty', 'codemirror/mode/htmlmixed/htmlmixed', 'js');
 include_file('3rdparty', 'codemirror/mode/clike/clike', 'js');
 include_file('3rdparty', 'codemirror/mode/php/php', 'js');
 
-
-
 sendVarToJS('select_id', init('id', '-1'));
 ?>
 
@@ -22,7 +20,7 @@ sendVarToJS('select_id', init('id', '-1'));
         <div class="bs-sidebar affix">
             <ul id="ul_scenario" class="nav nav-list bs-sidenav fixnav">
                 <li> 
-                    <a class="btn btn-default tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
+                    <a class="btn btn-default btn-xs tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
                 </li>
                 <li class="nav-header">Liste scénarios 
                     <i class="fa fa-plus-circle pull-right cursor" id="bt_addScenario" style="font-size: 1.5em;margin-bottom: 5px;"></i>
@@ -100,12 +98,6 @@ sendVarToJS('select_id', init('id', '-1'));
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-6 control-label" >Doit être répété</label>
-                            <div class="col-lg-6">
-                                <input type="checkbox" class="form-control scenarioAttr" l1key="isRepeat">
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="col-lg-6 control-label">Actif</label>
                             <div class="col-lg-6">
                                 <input type="checkbox" class="form-control scenarioAttr" l1key="isActive">
@@ -124,53 +116,38 @@ sendVarToJS('select_id', init('id', '-1'));
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label class="col-lg-3 control-label" >Mode du scénario</label>
-                        <div class="col-lg-5">
+                        <div class="col-lg-3">
                             <select class="form-control scenarioAttr" l1key="mode">
                                 <option value="provoke">Provoqué</option>
                                 <option value="schedule">Programmé</option>
                                 <option value="all">Les deux</option>
                             </select>
                         </div>
-                        <div class="col-lg-4">
-                            <a class="btn btn-default" id="bt_addTrigger">Ajouter évènement</a>
+                        <div class="col-lg-6">
+                            <a class="btn btn-default" id="bt_addTrigger"><i class="fa fa-plus-square"></i> Evènement</a>
+                            <a class="btn btn-default" id="bt_addSchedule"><i class="fa fa-plus-square"></i> Programmation</a>
                         </div>
                     </div>
-                    <div class="scheduleMode" style="display: none;">
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label" >Progammation</label>
-                            <div class="col-lg-5">
-                                <input class="scenarioAttr form-control" l1key="schedule" />
-                            </div>
-                            <div class="col-lg-1">
-                                <i class="fa fa-question-circle cursor getHelpSchedule floatright" ></i>
-                            </div>
-                        </div>
-
+                    <div class="scheduleDisplay" style="display: none;">
                         <div class="form-group">
                             <label class="col-lg-3 control-label" >Précédent</label>
                             <div class="col-lg-3" ><span class="scenarioAttr label label-primary" l1key="forecast" l2key="prevDate" l3key="date"></span></div>
                             <label class="col-lg-3 control-label" >Prochain</label>
                             <div class="col-lg-3"><span class="scenarioAttr label label-success" l1key="forecast" l2key="nextDate" l3key="date"></span></div> 
                         </div>
+                        <div class="scheduleMode"></div>
                     </div>
-                    <div class="provokeMode" style="display: none;">
+                    <div class="provokeMode provokeDisplay" style="display: none;">
 
                     </div>
-
                 </form>
             </div>
             <div class="col-lg-3">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-lg-6 control-label" for="span_lastUse">Dernière exécution</label>
+                        <label class="col-lg-6 control-label" for="span_lastCheck">Dernièr lancement</label>
                         <div class="col-lg-6">
-                            <div><span id="span_lastUse" class="label label-info" style="position: relative; top: 4px;"></span></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-6 control-label" for="span_lastCheck">Dernière vérification</label>
-                        <div class="col-lg-6">
-                            <div><span id="span_lastCheck" class="label label-info" style="position: relative; top: 4px;"></span></div>
+                            <div><span id="span_lastLaunch" class="label label-info" style="position: relative; top: 4px;"></span></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -224,9 +201,6 @@ sendVarToJS('select_id', init('id', '-1'));
     </div>
 </div>
 
-<div id="md_logScenario" title="Log de la dernière exécution"></div>
-<div id="md_scenarioVariable" title="Variables internes aux scénarios"></div>
-
 <div class="modal fade" id="md_copyScenario">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -260,6 +234,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <center>
                     <select id="in_addElementType" class="form-control">
                         <option value="if">Si/Alors/Sinon</option>
+                        <option value="action">Action</option>
                         <option value="for">Boucle</option>
                         <option value="code">Code</option>
                     </select>

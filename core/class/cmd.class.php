@@ -122,6 +122,22 @@ class cmd {
         return $return;
     }
 
+    public static function byValue($_value) {
+        $values = array(
+            'value' => $_value
+        );
+        $sql = 'SELECT id
+                FROM cmd
+                WHERE value=:value
+                ORDER BY `order`';
+        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
+        $return = array();
+        foreach ($results as $result) {
+            $return[] = self::byId($result['id']);
+        }
+        return $return;
+    }
+
     public static function byTypeEqLogicNameCmdName($_type, $_eqLogic_name, $_cmd_name) {
         $values = array(
             'type' => $_type,
@@ -206,27 +222,19 @@ class cmd {
                     AND eventOnly=0
                 ORDER BY eqLogic_id';
         $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
-        $eqLogic_id = '';
         $cmd = null;
         foreach ($results as $result) {
             $cmd = self::byId($result['id']);
             if (is_object($cmd)) {
                 if ($cmd->getEqLogic()->getIsEnable() == 1) {
                     $cmd->execCmd(null, 1, false);
-                    log::add('collect', 'info', 'la commande : ' . $cmd->getId() . ' / ' . $cmd->getName() . ' est collectée');
-                    if ($eqLogic_id == '') {
-                        $eqLogic_id = $cmd->getEqLogic_id();
-                    } else {
-                        if ($eqLogic_id != $cmd->getEqLogic_id()) {
-                            nodejs::pushUpdate('eventeqLogic', $eqLogic_id);
-                            $eqLogic_id = $cmd->getEqLogic_id();
-                        }
+                    log::add('collect', 'info', 'la commande : ' . $cmd->getHumanName() . ' est collectée');
+                    nodejs::pushUpdate('eventCmd', $cmd->getId());
+                    foreach (self::byValue($cmd->getId()) as $cmd_link) {
+                        nodejs::pushUpdate('eventCmd', $cmd_link->getId());
                     }
                 }
             }
-        }
-        if (is_object($cmd)) {
-            nodejs::pushUpdate('eventeqLogic', $cmd->getEqLogic_id());
         }
     }
 
@@ -344,6 +352,9 @@ class cmd {
                 $cmd = self::byId($cmd_id);
                 if ($cmd->getType() == 'info') {
                     $cmd_value = $cmd->execCmd();
+                    if ($cmd->getSubtype() == "string") {
+                        $cmd_value = '"' . $cmd_value . '"';
+                    }
                     $text = str_replace('#' . $cmd_id . '#', $cmd_value, $text);
                 }
             }
@@ -374,7 +385,7 @@ class cmd {
         if (isset($colors[$_color])) {
             return $colors[$_color];
         }
-        throw new Exception('Impossible de traduire la couleur en code hexadecimal');
+        throw new Exception('Impossible de traduire la couleur en code hexadecimal : ' . $_color);
     }
 
     public static function availableWidget($_version) {
@@ -480,7 +491,7 @@ class cmd {
                     if ($mc->hasExpired()) {
                         $this->setCollect(1);
                         $this->save();
-                        log::add('collect', 'info', 'la commande : ' . $this->getId() . ' / ' . $this->getName() . ' est marquée à collecter');
+                        log::add('collect', 'info', 'la commande : ' . $this->getHumanName() . ' est marquée à collecter');
                     }
                     return $mc->getValue();
                 }
@@ -500,6 +511,9 @@ class cmd {
                 }
             } else {
                 $options = null;
+            }
+            if (isset($options['color'])) {
+                $options['color'] = str_replace('"', '', $options['color']);
             }
             if ($this->getSubType() == 'color' && isset($options['color']) && substr($options['color'], 0, 1) != '#') {
                 $options['color'] = cmd::convertColor($options['color']);
@@ -525,6 +539,9 @@ class cmd {
             $eqLogic->setStatus('numberTryWithoutSuccess', 0);
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
         }
+        if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($value)) && intval($value) > 1) {
+            $value = 1;
+        }
         if ($this->getType() == 'info' && $value !== false) {
             if ($this->getCollectDate() == '') {
                 cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime());
@@ -532,6 +549,7 @@ class cmd {
                 cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
             }
         }
+
         if ($this->getType() == 'action' && $options !== null) {
             if (isset($options['slider'])) {
                 $this->setConfiguration('lastCmdValue', $options['slider']);
@@ -549,7 +567,10 @@ class cmd {
             $this->setCollect(0);
             $this->save();
             if ($_sendNodeJsEvent) {
-                nodejs::pushUpdate('eventeqLogic', $this->getEqLogic_id());
+                nodejs::pushUpdate('eventCmd', $this->getId());
+                foreach (self::byValue($this->getId()) as $cmd) {
+                    nodejs::pushUpdate('eventCmd', $cmd->getId());
+                }
             }
         }
         return $value;
@@ -626,22 +647,22 @@ class cmd {
                     
                 }
                 if ($this->getIsHistorized() == 1) {
-                    $replace['#class#'] = 'history cursor';
+                    $replace['#history#'] = 'history cursor';
                     $html .= template_replace($replace, getTemplate('core', $_version, 'cmd.info.history.default'));
                 } else {
-                    $replace['#class#'] = '';
+                    $replace['#history#'] = '';
                 }
                 $html .= template_replace($replace, $template);
                 break;
             case "action":
                 $cmdValue = $this->getCmdValue();
                 if (is_object($cmdValue)) {
-                    $replace['#lastValue#'] = $cmdValue->execCmd(null, 2);
+                    $replace['#state#'] = $cmdValue->execCmd(null, 2);
                 } else {
                     if ($this->getLastValue() != null) {
-                        $replace['#lastValue#'] = $this->getLastValue();
+                        $replace['#state#'] = $this->getLastValue();
                     } else {
-                        $replace['#lastValue#'] = '';
+                        $replace['#state#'] = '';
                     }
                 }
                 $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
@@ -678,10 +699,16 @@ class cmd {
             }
             $message = 'Message venant de ' . $this->getHumanName() . ' : ' . $_value;
             log::add($eqLogic->getEqType_name(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
+            if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
+                $_value = 1;
+            }
             cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
             $this->setCollect(0);
             $this->save();
-            nodejs::pushUpdate('eventeqLogic', $eqLogic->getId());
+            nodejs::pushUpdate('eventCmd', $this->getId());
+            foreach (self::byValue($this->getId()) as $cmd) {
+                nodejs::pushUpdate('eventCmd', $cmd->getId());
+            }
             $internalEvent = new internalEvent();
             $internalEvent->setEvent('event::cmd');
             $internalEvent->setOptions('id', $this->getId());
@@ -835,7 +862,7 @@ class cmd {
         }
         if (is_json($this->cache)) {
             if ($_name == '') {
-                return json_decode($this->cache);
+                return json_decode($this->cache, true);
             }
             $cache = json_decode($this->cache, true);
             return (isset($cache[$_name]) && $cache[$_name] !== '') ? $cache[$_name] : $_default;
@@ -859,7 +886,7 @@ class cmd {
         }
         if (is_json($this->template)) {
             if ($_name == '') {
-                return json_decode($this->template);
+                return json_decode($this->template, true);
             }
             $template = json_decode($this->template, true);
             return (isset($template[$_name]) && $template[$_name] !== '') ? $template[$_name] : $_default;
@@ -883,7 +910,7 @@ class cmd {
         }
         if (is_json($this->configuration)) {
             if ($_name == '') {
-                return json_decode($this->configuration);
+                return json_decode($this->configuration, true);
             }
             $configuration = json_decode($this->configuration, true);
             return (isset($configuration[$_name]) && $configuration[$_name] !== '') ? $configuration[$_name] : $_default;
@@ -907,7 +934,7 @@ class cmd {
         }
         if (is_json($this->display)) {
             if ($_key == '') {
-                return json_decode($this->display);
+                return json_decode($this->display, true);
             }
             $display = json_decode($this->display, true);
             return (isset($display[$_key])) ? $display[$_key] : $_default;

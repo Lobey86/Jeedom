@@ -24,12 +24,10 @@ class scenario {
 
     private $id;
     private $name;
-    private $lastUse = null;
-    private $isRepeat = 0;
     private $isActive = 1;
     private $group = '';
     private $state = 'stop';
-    private $lastCheck = null;
+    private $lastLaunch = null;
     private $mode;
     private $schedule;
     private $pid;
@@ -146,13 +144,16 @@ class scenario {
     /*     * *********************Methode d'instance************************* */
 
     public function launch($_force = false) {
-        $cmd = 'nohup php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
-        $cmd.= ' api=' . config::byKey('api');
-        $cmd.= ' scenario_id=' . $this->getId();
-        $cmd.= ' force=' . $_force;
-        $cmd.= ' >> ' . log::getPathToLog('scenario') . ' 2>&1 &';
-        shell_exec($cmd);
-        return true;
+        if (config::byKey('enableScenario') == 1) {
+            $cmd = 'nohup php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
+            $cmd.= ' api=' . config::byKey('api');
+            $cmd.= ' scenario_id=' . $this->getId();
+            $cmd.= ' force=' . $_force;
+            $cmd.= ' >> ' . log::getPathToLog('scenario') . ' 2>&1 &';
+            shell_exec($cmd);
+            return true;
+        }
+        return false;
     }
 
     public function execute() {
@@ -160,7 +161,7 @@ class scenario {
         $initialState = $this->getState();
         $this->setLog('Début exécution du scénario : ' . $this->getName());
         $this->setState('in progress');
-        $this->setLastCheck(date('Y-m-d H:i:s'));
+        $this->setLastLaunch(date('Y-m-d H:i:s'));
         $this->save();
         foreach ($this->getElement() as $element) {
             $element->execute($this, $initialState);
@@ -200,8 +201,7 @@ class scenario {
             '#state#' => $this->getState(),
             '#isActive#' => $this->getIsActive(),
             '#name#' => $group . $this->getName(),
-            '#lastUse#' => $this->getLastUse(),
-            '#lastCheck#' => $this->getLastCheck(),
+            '#lastLaunch#' => $this->getLastLaunch(),
             '#scenarioLink#' => $this->getLinkToConfiguration(),
         );
         $html = template_replace($replace, getTemplate('core', $_version, 'scenario'));
@@ -225,9 +225,9 @@ class scenario {
         if (($this->getMode() == 'schedule' || $this->getMode() == 'all') && $this->getSchedule() == '') {
             throw new Exception('Le scénario est de type programmé mais la programmation est vide');
         }
-        if ($this->getLastCheck() == '' && ($this->getMode() == 'schedule' || $this->getMode() == 'all')) {
-            $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
-            $this->setLastCheck($c->getPreviousRunDate()->format('Y-m-d H:i:s'));
+        if ($this->getLastLaunch() == '' && ($this->getMode() == 'schedule' || $this->getMode() == 'all')) {
+            $calculateScheduleDate = $this->calculateScheduleDate();
+            $this->setLastLaunch($calculateScheduleDate['prevDate']);
         }
         DB::save($this);
         @nodejs::pushUpdate('eventScenario', $this->getId());
@@ -282,6 +282,24 @@ class scenario {
 
     public function calculateScheduleDate() {
         $calculatedDate = array('prevDate' => '', 'nextDate' => '');
+        if (is_array($this->getSchedule())) {
+            $calculatedDate_tmp = array('prevDate' => '', 'nextDate' => '');
+            foreach ($this->getSchedule() as $schedule) {
+                try {
+                    $c = new Cron\CronExpression($schedule, new Cron\FieldFactory);
+                    $calculatedDate_tmp['prevDate'] = $c->getPreviousRunDate();
+                    $calculatedDate_tmp['nextDate'] = $c->getNextRunDate();
+                } catch (Exception $exc) {
+                    //echo $exc->getTraceAsString();
+                }
+                if ($calculatedDate['prevDate'] == '' || $calculatedDate['prevDate'] < $calculatedDate_tmp['prevDate']) {
+                    $calculatedDate['prevDate'] = $calculatedDate_tmp['prevDate'];
+                }
+                if ($calculatedDate['nextDate'] == '' || $calculatedDate['nextDate'] > $calculatedDate_tmp['nextDate']) {
+                    $calculatedDate['nextDate'] = $calculatedDate_tmp['nextDate'];
+                }
+            }
+        }
         try {
             $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
             $calculatedDate['prevDate'] = $c->getPreviousRunDate();
@@ -293,36 +311,58 @@ class scenario {
     }
 
     public function isDue() {
-        //if never sent
-        if ($this->getLastCheck() == '') {
+        if ($this->getLastLaunch() == '') {
             return true;
         }
-        //check if already sent on that minute 
-        $last = strtotime($this->getLastCheck());
+        $last = strtotime($this->getLastLaunch());
         $now = time();
         $now = ($now - $now % 60);
         $last = ($last - $last % 60);
         if ($now == $last) {
             return false;
         }
-        try {
-            $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
-            if ($c->isDue()) {
-                return true;
-            }
 
-            $lastCheck = new DateTime($this->getLastCheck());
-            $prev = $c->getPreviousRunDate();
-            if ($lastCheck < $prev) {
-                if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
-                    log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+        if (is_array($this->getSchedule())) {
+            foreach ($this->getSchedule() as $schedule) {
+                try {
+                    $c = new Cron\CronExpression($schedule, new Cron\FieldFactory);
+                    if ($c->isDue()) {
+                        return true;
+                    }
+                    $lastCheck = new DateTime($this->getLastLaunch());
+                    $prev = $c->getPreviousRunDate();
+                    if ($lastCheck < $prev) {
+                        if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
+                            log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                        }
+                        return true;
+                    }
+                } catch (Exception $exc) {
+                    log::add('scenario', 'error', 'Expression cron non valide : ' . $schedule);
+                    return false;
                 }
-                return true;
             }
-        } catch (Exception $exc) {
-            log::add('scenario', 'error', 'Expression cron non valide : ' . $this->getSchedule());
-            return false;
+        } else {
+            try {
+                $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
+                if ($c->isDue()) {
+                    return true;
+                }
+                $lastCheck = new DateTime($this->getLastLaunch());
+                $prev = $c->getPreviousRunDate();
+                if ($lastCheck < $prev) {
+                    if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
+                        log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                    }
+                    return true;
+                }
+            } catch (Exception $exc) {
+                log::add('scenario', 'error', 'Expression cron non valide : ' . $this->getSchedule());
+                return false;
+            }
         }
+
+
         return false;
     }
 
@@ -377,14 +417,6 @@ class scenario {
         return $this->name;
     }
 
-    public function getIsRepeat() {
-        return $this->isRepeat;
-    }
-
-    public function getLastUse() {
-        return $this->lastUse;
-    }
-
     public function getState() {
         return $this->state;
     }
@@ -397,8 +429,8 @@ class scenario {
         return $this->group;
     }
 
-    public function getLastCheck() {
-        return $this->lastCheck;
+    public function getLastLaunch() {
+        return $this->lastLaunch;
     }
 
     public function setId($id) {
@@ -407,14 +439,6 @@ class scenario {
 
     public function setName($name) {
         $this->name = $name;
-    }
-
-    public function setLastUse($lastUse) {
-        $this->lastUse = $lastUse;
-    }
-
-    public function setIsRepeat($isRepeat) {
-        $this->isRepeat = $isRepeat;
     }
 
     public function setIsActive($isActive) {
@@ -429,8 +453,8 @@ class scenario {
         $this->state = $state;
     }
 
-    public function setLastCheck($lastCheck) {
-        $this->lastCheck = $lastCheck;
+    public function setLastLaunch($lastLaunch) {
+        $this->lastLaunch = $lastLaunch;
     }
 
     public function getType() {
@@ -446,10 +470,16 @@ class scenario {
     }
 
     public function getSchedule() {
+        if (is_json($this->schedule)) {
+            return json_decode($this->schedule, true);
+        }
         return $this->schedule;
     }
 
     public function setSchedule($schedule) {
+        if (is_array($schedule)) {
+            $schedule = json_encode($schedule);
+        }
         $this->schedule = $schedule;
     }
 

@@ -15,6 +15,7 @@ if (!isConnect()) {
         </div>
         <div id="collapse_condition" class="panel-collapse collapse">
             <div class="panel-body">
+                <div class="alert alert-danger">Attention à bien mettre des ' ou " (quote ou double quote) lors de l'utilisation de chaine de caractère</div>
                 Vous pouvez utiliser n'importe lequel des symboles suivant pour les opérateurs : 
                 <pre>
 = : égal
@@ -169,14 +170,6 @@ scenario : permet le controle des scénarios
                                 <pre>
 <h5 style='display: inline;'>$scenario->getName();</h5>
     Retourne le nom du scénario courant
-                                </pre>  
-                                <pre>
-<h5 style='display: inline;'>$scenario->getIsRepeat();</h5>
-    Retourne 1 si le scénario doit être répété 0 sinon
-                                </pre> 
-                                <pre>
-<h5 style='display: inline;'>$scenario->getLastUse();</h5>
-    Retourne la date et l'heure du dernier lancement (exécution) du scénario
                                 </pre> 
                                 <pre>
 <h5 style='display: inline;'>$scenario->getGroup();</h5>
@@ -185,17 +178,7 @@ scenario : permet le controle des scénarios
                                 <pre>
 <h5 style='display: inline;'>$scenario->getIsActive();</h5>
     Retourne l'état du scénario
-                                </pre> 
-                                <pre>
-<h5 style='display: inline;'>$scenario->setLastUse($datetime);</h5>
-    Affecte la date de dernier lancement du scénario
-    $datetime => datetime sous la forme Y-m-d H:m:i
-                                </pre> 
-                                <pre>
-<h5 style='display: inline;'>$scenario->setIsRepeat($repeat);</h5>
-    Permet de changer la répétition ou non du scénario
-    $repeat => 1 répéter , 0 non répéter
-                                </pre> 
+                                </pre>
                                 <pre>
 <h5 style='display: inline;'>$scenario->setIsActive($active);</h5>
     Permet d'activer ou non du scénario

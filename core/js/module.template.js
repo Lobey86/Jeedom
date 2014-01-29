@@ -73,10 +73,15 @@ $(function() {
     /**************************CMD*********************************************/
     $('.cmdAction[action=add]').on('click', function() {
         addCmdToTable();
+        $('.cmd .cmdAttr[l1key=type]').trigger('change');
     });
 
     $('body').delegate('.cmd .cmdAttr[l1key=type]', 'change', function() {
-        cmd.changeType($(this));
+        cmd.changeType($(this).closest('.cmd'));
+    });
+    
+    $('body').delegate('.cmd .cmdAttr[l1key=subType]', 'change', function() {
+        cmd.changeSubType($(this).closest('.cmd'));
     });
 
     $('body').delegate('.cmd .cmdAction[action=remove]', 'click', function() {

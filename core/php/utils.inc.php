@@ -126,7 +126,7 @@ function getTemplate($_folder, $_version, $_filename, $_module = '') {
         $path .= 'modules/' . $_module . '/core/template/' . $_version . '/' . $_filename . '.html';
     }
     if (file_exists($path)) {
-        return removeCR(file_get_contents($path));
+        return file_get_contents($path);
     } else {
         throw new Exception("Fichier non trouvé : $_filename à $_folder / $_version (" . trim($_module) . ") : $path");
     }
@@ -363,7 +363,8 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
                 if ($pattern !== '*') {
                     if (in_array($this_folder, $matching_folders))
                         array_push($all, $this_folder);
-                } else
+                }
+                else
                     array_push($all, $this_folder);
             }
 
@@ -380,6 +381,10 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
     if ($folder)
         chdir($current_folder);
     return $all;
+}
+
+function getGitRepo() {
+    return Git::open(dirname(__FILE__) . '/../..');
 }
 
 function removeCR($_string) {

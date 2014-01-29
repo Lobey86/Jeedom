@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $(function() {
     $("#admin_tab").delegate("a", 'click', function(event) {
@@ -32,37 +32,66 @@ $(function() {
         $('#in_newUserLogin').value('');
         $('#in_newUserMdp').value('');
         $('#md_newUser').modal('show');
-        return false;
     });
 
     $("#bt_newUserSave").on('click', function(event) {
         $.hideAlert();
         saveUser('');
-        return false;
     });
 
     $("#bt_genKeyAPI").on('click', function(event) {
         $.hideAlert();
         genKeyAPI();
-        return false;
     });
 
     $("#bt_nodeJsKey").on('click', function(event) {
         $.hideAlert();
         genNodeJsKey();
-        return false;
     });
 
     $("#bt_flushMemcache").on('click', function(event) {
         $.hideAlert();
         flushMemcache();
-        return false;
     });
 
     $("#bt_saveGeneraleConfig").on('click', function(event) {
         $.hideAlert();
         saveGeneraleConfig();
-        return false;
+    });
+
+    $(".bt_updateJeedom").on('click', function(event) {
+        var el = $(this);
+        bootbox.confirm('Etez-vous sûr de vouloir mettre à jour Jeedom ?', function(result) {
+            el.find('.fa-refresh').show();
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'core/ajax/git.ajax.php',
+                    data: {
+                        action: 'update',
+                        mode: el.attr('mode')
+                    },
+                    dataType: 'json',
+                    error: function(request, status, error) {
+                        handleAjaxError(request, status, error);
+                    },
+                    success: function(data) {
+                        if (data.state != 'ok') {
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        getUpdateLog(1);
+                    }
+                });
+            }
+        });
+
+
+
+    });
+
+    $("#bt_refreshUpdateLog").on('click', function(event) {
+        getUpdateLog();
     });
 
     $("#bt_testLdapConnection").on('click', function(event) {
@@ -119,6 +148,46 @@ $(function() {
 
     loadGeneraleConfig();
 });
+/********************Log************************/
+function getUpdateLog(_autoUpdate) {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/git.ajax.php',
+        data: {
+            action: 'getUpdateLog',
+        },
+        dataType: 'json',
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            var log = '';
+            for (var i in data.result.reverse()) {
+                log += data.result[i][2];
+            }
+            if (_autoUpdate > 0 && log == $('#pre_updateInfo').text()) {
+                _autoUpdate++;
+            }
+            if (_autoUpdate > 30) {
+                _autoUpdate = 0;
+            }
+            $('#pre_updateInfo').text(log);
+            if (init(_autoUpdate, 0) > 0) {
+                setTimeout(function() {
+                    getUpdateLog(_autoUpdate)
+                }, 1000);
+            }else{
+                $(".bt_updateJeedom .fa-refresh").hide();
+            }
+        }
+    });
+}
+
 
 /********************Utilisateurs************************/
 
@@ -311,7 +380,7 @@ function flushMemcache() {
 function saveGeneraleConfig() {
     saveConvertColor();
     try {
-        var configuration = $('#config').getValues('.configKey');
+        var configuration = $('#div_administration').getValues('.configKey');
         configuration = configuration[0];
     } catch (e) {
         $('#div_alert').showAlert({message: e, level: 'danger'});
@@ -339,7 +408,7 @@ function saveGeneraleConfig() {
 }
 
 function loadGeneraleConfig() {
-    var configuration = $('#config').getValues('.configKey');
+    var configuration = $('#div_administration').getValues('.configKey');
     configuration = configuration[0];
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -358,7 +427,7 @@ function loadGeneraleConfig() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#config').setValues(data.result, '.configKey');
+            $('#div_administration').setValues(data.result, '.configKey');
         }
     });
 }

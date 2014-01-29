@@ -28,7 +28,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <div class="col-lg-6">
                     <form class="form-horizontal">
                         <fieldset>
-                            <legend>Générale</legend>
+                            <legend>Général</legend>
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Nom du jeenode</label>
                                 <div class="col-lg-3">

@@ -57,9 +57,9 @@ function addCmdToTable(_cmd) {
     tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span>';
     tr += '</td>';
     tr += '<td>';
-    tr += '<span><input type="checkbox" class="cmdAttr form-control" l1key="isHistorized" /> Historiser<br/></span>';
-    tr += '<span><input type="checkbox" class="cmdAttr form-control" l1key="eventOnly" /> Evenement seulement<br/></span>';
-    tr += '<span><input type="checkbox" class="cmdAttr form-control" l1key="cache" l2key="enable" checked /> Autoriser memcache</span>';
+    tr += '<span><input type="checkbox" class="cmdAttr" l1key="isHistorized" /> Historiser<br/></span>';
+    tr += '<span><input type="checkbox" class="cmdAttr" l1key="eventOnly" /> Evenement seulement<br/></span>';
+    tr += '<span><input type="checkbox" class="cmdAttr" l1key="cache" l2key="enable" checked /> Autoriser memcache</span>';
     tr += '</td>';
     tr += '<td><input class="cmdAttr  form-control" l1key="unite" style="width : 100px;"></td>';
     tr += '<td>';
@@ -70,8 +70,7 @@ function addCmdToTable(_cmd) {
     tr += '</tr>';
     $('#table_cmd tbody').append(tr);
     $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
-    changexPLTypeCmd($('#table_cmd tbody tr:last cmdAttr[l1key=configuration][l2key=xPLtypeCmd]'), init(_cmd.configuration.xPLbody));
-    cmd.changeType($('#table_cmd tbody tr:last .cmdAttr[l1key=type]'), init(_cmd.subType));
+    $('#table_cmd tbody tr:last .cmdAttr[l1key=configuration][l2key=xPLschema]').trigger('change');
 }
 
 function changexPLTypeCmd(_el, _xPLbody) {

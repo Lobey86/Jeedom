@@ -284,7 +284,6 @@ class eqLogic {
             '#eqLink#' => $this->getLinkToConfiguration(),
             '#action#' => (isset($action)) ? $action : '',
             '#object_name#' => (is_object($object)) ? $object->getName() . ' - ' : '',
-            '#collectInProgress#' => ($this->collectInProgress()) ? 'fa fa-spinner fa-spin' : ''
         );
 
         $html = template_replace($replace, getTemplate('core', $_version, 'eqLogic'));
@@ -473,7 +472,6 @@ class eqLogic {
 
     public function getStatus($_key = '', $_default = '') {
         $status = cache::byKey('core::eqLogic' . $this->getId() . '::' . $_key);
-        print_r($status);
         return $status->getValue($_default);
     }
 

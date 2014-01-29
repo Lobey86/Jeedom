@@ -42,13 +42,6 @@ $(function() {
     });
 
     /************************Help*************************/
-    //Display about
-    $("#md_pageAbout").dialog({
-        autoOpen: false,
-        modal: true,
-        height: (jQuery(window).height() - 150),
-        width: 1000
-    });
 
     //Display help
     $("#md_pageHelp").dialog({
@@ -58,14 +51,27 @@ $(function() {
         width: 1000
     });
 
+    $("#md_modal").dialog({
+        autoOpen: false,
+        modal: true,
+        height: (jQuery(window).height() - 150),
+        width: 1500,
+        position: {my: 'center', at: 'center', of: window},
+        open: function() {
+            if ((jQuery(window).width() - 50) < 1500 ) {
+                $('#md_modal').dialog({width: jQuery(window).width() - 50});
+            }
+        }
+    });
+
     $('#bt_pageHelp').on('click', function() {
         showHelpModal(getUrlVars('p'), getUrlVars('m'));
     });
 
     $('#bt_jeedomAbout').on('click', function() {
-        $('#md_pageAbout').load('index.php?v=d&modal=about').dialog('open');
+        $('#md_modal').load('index.php?v=d&modal=about').dialog('open');
     });
-    
+
     initTableSorter();
 });
 
@@ -112,8 +118,8 @@ function refreshMessageNumber() {
     });
 }
 
-function notify(_title, _text, _class_name,_cleanBefore) {
-    if(init(_cleanBefore,false)){
+function notify(_title, _text, _class_name, _cleanBefore) {
+    if (init(_cleanBefore, false)) {
         $.gritter.removeAll();
     }
     if (isset(_class_name) != '') {

@@ -11,9 +11,11 @@ sendVarToJS('eqType', 'razberry');
         <div class="bs-sidebar affix">
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
                 <li> 
-                    <a class="btn btn-default tooltips" id="bt_syncEqLogic" title="Synchroniser équipement avec le Razberry" style="display: inline-block;"><i class="fa fa-refresh"></i></a>
-                    <a class="btn btn-default tooltips changeIncludeState" title="Inclure prériphérique Z-wave" state="1" style="display: inline-block;"><i class="fa fa-sign-in fa-rotate-90"></i></a>
-                    <a class="btn btn-default tooltips changeIncludeState" title="Exclure périphérique Z-wave" state="0" style="display: inline-block;"><i class="fa fa-sign-out fa-rotate-90"></i></a>
+                    <a class="btn btn-default btn-xs tooltips" id="bt_syncEqLogic" title="Synchroniser équipement avec le Razberry" style="display: inline-block;"><i class="fa fa-refresh"></i></a>
+                    <a class="btn btn-default btn-xs tooltips changeIncludeState" title="Inclure prériphérique Z-wave" state="1" style="display: inline-block;"><i class="fa fa-sign-in fa-rotate-90"></i></a>
+                    <a class="btn btn-default btn-xs tooltips changeIncludeState" title="Exclure périphérique Z-wave" state="0" style="display: inline-block;"><i class="fa fa-sign-out fa-rotate-90"></i></a>
+                    <a class="btn btn-default btn-xs tooltips" id="bt_inspectQueue" title="Inspecter la queue Z-wave" state="0" style="display: inline-block;"><i class="fa fa-exchange fa-rotate-90"></i></a>
+                    <a class="btn btn-default btn-xs tooltips" id="bt_routingTable" title="Afficher la table de routage" state="0" style="display: inline-block;"><i class="fa fa-sitemap"></i></a>
                 </li>
                 <li class="nav-header">Liste des équipements Z-wave
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
@@ -32,7 +34,7 @@ sendVarToJS('eqType', 'razberry');
             <div class="col-lg-6">
                 <form class="form-horizontal">
                     <fieldset>
-                        <legend>Générale</legend>
+                        <legend>Général</legend>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement</label>
                             <div class="col-lg-8">
@@ -49,7 +51,7 @@ sendVarToJS('eqType', 'razberry');
                         <div class="form-group">
                             <label class="col-lg-4 control-label" >Objet parent</label>
                             <div class="col-lg-8">
-                                <select id="sel_object" class="eqLogicAttr form-control" l1key="object_id">
+                                <select class="eqLogicAttr form-control" l1key="object_id">
                                     <option value="">Aucun</option>
                                     <?php
                                     foreach (object::all() as $object) {
@@ -74,7 +76,7 @@ sendVarToJS('eqType', 'razberry');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Délai autorisé entre 2 messages (min)</label>
                             <div class="col-lg-4">
-                                <input class="eqLogicAttr form-control" l1key="timeout" checked/>
+                                <input class="eqLogicAttr form-control" l1key="timeout" />
                             </div>
                         </div>
                     </fieldset> 
@@ -84,6 +86,24 @@ sendVarToJS('eqType', 'razberry');
                 <form class="form-horizontal">
                     <fieldset>
                         <legend>Informations</legend>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Equipement</label>
+                            <div class="col-lg-5">
+                                <select class="eqLogicAttr form-control" l1key="configuration" l2key="device">
+                                    <option value="">Aucun</option>
+                                    <?php
+                                    foreach (razberry::devicesParameters() as $id => $info) {
+                                        echo '<option value="' . $id . '">' . $info['name'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <a class="btn btn-default" id="bt_configureDevice"><i class="fa fa-wrench"></i></a>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Batterie</label>
                             <div class="col-lg-5">
@@ -91,7 +111,7 @@ sendVarToJS('eqType', 'razberry');
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-2 control-label">Derniere communication</label>
+                            <label class="col-lg-2 control-label">Dernière communication</label>
                             <div class="col-lg-5">
                                 <span class="razberryInfo tooltips label label-default" l1key="lastReceived"></span>
                             </div>
@@ -114,7 +134,7 @@ sendVarToJS('eqType', 'razberry');
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Classes</label>
                             <div class="col-lg-5">
-                                <a class="btn btn-default" id="bt_showClass">Voir/Ajouter commandes préconfigurées</a>
+                                <a class="btn btn-default" id="bt_showClass"><i class="fa fa-cogs"></i> Voir/Ajouter commandes préconfigurées</a>
                             </div>
                         </div>
                     </fieldset> 
@@ -128,11 +148,11 @@ sendVarToJS('eqType', 'razberry');
             <thead>
                 <tr>
                     <th style="width: 300px;">Nom</th>
-                    <th style="width: 120px;">Type</th>
+                    <th style="width: 130px;">Type</th>
                     <th style="width: 100px;">Instance ID</th>
                     <th style="width: 100px;">Class</th>
                     <th style="width: 200px;">Commande</th>
-                    <th >Parametres</th>
+                    <th >Paramètres</th>
                     <th style="width: 100px;">Options</th>
                     <th></th>
                 </tr>
@@ -189,9 +209,6 @@ sendVarToJS('eqType', 'razberry');
         </div>
     </div>
 </div>
-
-
-<div id="md_showClass" title="Classes disponible sur l'équipement"></div>
 
 <?php include_file('desktop', 'razberry', 'js', 'razberry'); ?>
 <?php include_file('core', 'module.template', 'js'); ?>

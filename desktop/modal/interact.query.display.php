@@ -14,7 +14,7 @@ if (count($interactQueries) == 0) {
 
 <div style="display: none;" id="md_displayInteractQueryAlert"></div>
 
-<table class="table table-bordered table-condensed" id="table_interactQuery">
+<table class="table table-bordered table-condensed tablesorter" id="table_interactQuery">
     <thead>
         <tr>
             <th>Phrase</th>
@@ -47,6 +47,8 @@ if (count($interactQueries) == 0) {
 </table>
 
 <script>
+    initTableSorter();
+    
     $('#table_interactQuery .changeEnable').on('click', function() {
         var tr = $(this).closest('tr');
         var btn = $(this);

@@ -12,7 +12,6 @@
             $('.history[cmd_id=#id#]').off().unbind();
 
             if ($(".md_history[cmd_id=#id#]").length > 1) {
-                modalHisotry = $(".md_history[cmd_id=#id#]");
                 while ($(".md_history[cmd_id=#id#]").length > 1) {
                     $(".md_history[cmd_id=#id#]").eq(0).remove();
                 }
@@ -36,7 +35,7 @@
                 });
                 var option = {graphType: $('.sel_chartType[cmd_id=#id#]').value()};
                 delete CORE_chart['div_historyChart#id#'];
-                drawChart('#id#', 'div_historyChart#id#', 2, option);
+                drawChart('#id#', 'div_historyChart#id#', 'all', option);
             });
 
 
@@ -49,7 +48,7 @@
                 });
                 var option = {graphType: $('.sel_chartType[cmd_id=#id#]').value()};
                 delete CORE_chart['div_historyChart#id#'];
-                drawChart('#id#', 'div_historyChart#id#', 2, option);
+                drawChart('#id#', 'div_historyChart#id#', 'all', option);
             });
         });
     </script>

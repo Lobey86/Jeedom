@@ -26,7 +26,7 @@ sendVarToJS('dontRemoveCmd', '1');
     <div class="col-lg-10 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <form class="form-horizontal">
             <fieldset>
-                <legend>Générale</legend>
+                <legend>Général</legend>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Nom de l'équipement météo</label>
                     <div class="col-lg-3">

@@ -106,7 +106,7 @@
 }
 
 /* All levels of nav */
-.bs-sidebar .nav > li > a {
+.bs-sidebar .nav > li > a:not(.btn) {
     display: block;
     color: #716b7a;
     padding: 5px 20px;
@@ -160,3 +160,20 @@
         width: 263px;
     }
 }
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto 15px;
+  /* Pad bottom by footer height */
+  padding: 0 0 40px;
+}
+

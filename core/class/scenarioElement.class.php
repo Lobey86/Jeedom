@@ -122,15 +122,15 @@ class scenarioElement {
         DB::remove($this);
     }
 
-    public function execute(&$_scenario, $_initialScenarioState) {
+    public function execute(&$_scenario) {
         $return = false;
         $this->setLog('Exécution de l\'élément : ' . $this->getType());
         switch ($this->getType()) {
             case 'if':
-                if ($this->getSubElement('if')->execute($_scenario, $_initialScenarioState)) {
-                    $return = $this->getSubElement('then')->execute($_scenario, $_initialScenarioState);
+                if ($this->getSubElement('if')->execute($_scenario)) {
+                    $return = $this->getSubElement('then')->execute($_scenario);
                 } else {
-                    $return = $this->getSubElement('else')->execute($_scenario, $_initialScenarioState);
+                    $return = $this->getSubElement('else')->execute($_scenario);
                 }
                 break;
             case 'for':
@@ -142,11 +142,14 @@ class scenarioElement {
                     throw new Exception('La condition pour une boucle doit être un numérique : ' . $limits);
                 }
                 for ($i = 1; $i <= $limits; $i++) {
-                    $return = $this->getSubElement('do')->execute($_scenario, $_initialScenarioState);
+                    $return = $this->getSubElement('do')->execute($_scenario);
                 }
                 break;
             case 'code':
-                $return = $this->getSubElement('code')->execute($_scenario, $_initialScenarioState);
+                $return = $this->getSubElement('code')->execute($_scenario);
+                break;
+            case 'action':
+                $return = $this->getSubElement('action')->execute($_scenario);
                 break;
         }
         return $return;
@@ -180,7 +183,6 @@ class scenarioElement {
 
     public function getConsolidateLog() {
         $return = '';
-        $return .= "-----------------------\n";
         $log = $this->getLog();
         if (trim($log) != '') {
             $return .= $log . "\n";
@@ -188,19 +190,28 @@ class scenarioElement {
         foreach ($this->getSubElement() as $subElement) {
             $log = $subElement->getLog();
             if (trim($log) != '') {
-                $return .= $log . "\n";
+                $logs = explode("\n", trim($log));
+                foreach ($logs as $log) {
+                    $return .= "\t" . $log . "\n";
+                }
             }
             foreach ($subElement->getExpression() as $expression) {
                 $log = $expression->getLog();
                 if (trim($log) != '') {
-                    $return .= $log . "\n";
+                    $logs = explode("\n", trim($log));
+                    foreach ($logs as $log) {
+                        $return .= "\t\t" . $log . "\n";
+                    }
                 }
                 if ($expression->getType() == 'element') {
                     $element = self::byId($expression->getExpression());
                     if (is_object($element)) {
                         $log = $element->getConsolidateLog();
                         if (trim($log) != '') {
-                            $return .= $log . "\n";
+                            $logs = explode("\n", trim($log));
+                            foreach ($logs as $log) {
+                                $return .= "\t\t" . $log . "\n";
+                            }
                         }
                     }
                 }

@@ -38,7 +38,6 @@ $sel_subtype .= '</select>';
 sendVarToJS('sel_subtype', $sel_subtype);
 ?>
 
-
 <div class="row">
     <div class="col-lg-12">
         <a class="btn btn-success pull-right" id="bt_save"><i class="fa fa-check-circle"></i> Enregistrer</a>
@@ -60,9 +59,5 @@ sendVarToJS('sel_subtype', $sel_subtype);
         </table>
     </div>
 </div>
-
-<div id="md_help" title="Aide sur la configuration des interactions"></div>
-
-<div id="md_queries" title="Requête réelle"></div>
 
 <?php include_file('desktop', 'interact', 'js'); ?>

@@ -37,7 +37,7 @@ $(function() {
         }
     });
 
-    $('body').off('nodeJsConnect').on('nodeJsConnect', function() {
+    $('body').one('nodeJsConnect', function() {
         chatAdapter = new jeedomChatAdapter();
         chatAdapter.init(chat, chatInitFinish);
         socket.on('refreshUserList', function(_connectUserList) {

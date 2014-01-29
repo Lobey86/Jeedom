@@ -26,8 +26,8 @@ object.getEqLogic = function(_object_id, _cmd_eqTypeName) {
     if (!isset(object.cache.getEqLogic)) {
         object.cache.getEqLogic = Array();
     }
-    if (isset(object.cache.getEqLogic[_object_id])) {
-        return object.cache.getEqLogic[_object_id];
+    if (isset(object.cache.getEqLogic[_object_id + _cmd_eqTypeName])) {
+        return object.cache.getEqLogic[_object_id + _cmd_eqTypeName];
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -51,7 +51,7 @@ object.getEqLogic = function(_object_id, _cmd_eqTypeName) {
             result = data.result;
         }
     });
-    object.cache.getEqLogic[_object_id] = result;
+    object.cache.getEqLogic[_object_id + _cmd_eqTypeName] = result;
     return result;
 }
 

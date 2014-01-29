@@ -47,6 +47,7 @@ if (!isConnect()) {
             <li><a class="cursor" href="http://justgage.com/" style="color:blue;" target="_blank">justGage</a></li>
             <li><a class="cursor" href="http://phpjs.org/" style="color:blue;" target="_blank">php.js</a></li>
             <li><a class="cursor" href="https://github.com/PHPMailer/PHPMailer" style="color:blue;" target="_blank">PHPMailer</a></li>
+            <li><a class="cursor" href="https://github.com/kbjr/Git.php" style="color:blue;" target="_blank">Git.php</a></li>
         </lu>
     </div>
 </div>

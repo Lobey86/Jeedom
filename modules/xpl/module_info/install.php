@@ -30,7 +30,6 @@ function install() {
     $cron->setSchedule('* * * * *');
     $cron->save();
     config::save('xPLDeamonCronId', $cron->getId(), 'xPL');
-    config::save('enablexPLDeamon', '1', 'razberry');
 }
 
 function remove() {
@@ -38,7 +37,6 @@ function remove() {
     if (is_object($cron)) {
         $cron->remove();
     }
-    config::save('enablexPLDeamon', '0', 'razberry');
 }
 
 ?>

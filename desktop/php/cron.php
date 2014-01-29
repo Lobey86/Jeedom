@@ -11,11 +11,18 @@ if (!isConnect()) {
         <a class="btn btn-success pull-right" id="bt_save"><i class="fa fa-check-circle"></i> Enregistrer</a>
         <a class="btn btn-default pull-right" id="bt_addCron"><i class="fa fa-plus-circle"></i> Ajouter</a>
         <a class="btn btn-default pull-right" id="bt_refreshCron"><i class="fa fa-refresh"></i> Rafraîchir</a>
+        <?php
+        if (config::byKey('enableCron') == 0) {
+            echo '<a class="btn btn-default btn-success pull-right" id="bt_changeCronState" state="1"><i class="fa fa-check"></i> Activer cron système</a>';
+        } else {
+            echo '<a class="btn btn-default btn-danger pull-right" id="bt_changeCronState" state="0"><i class="fa fa-times"></i> Désactiver cron système</a>';
+        }
+        ?>
         <br/><br/><br/>
         <table id="table_cron" class="table table-bordered table-condensed tablesorter" >
             <thead>
                 <tr>
-                    <th class="" style="width: 50px;"></th>
+                    <th class="" style="width: 50px;" data-sorter="false" data-filter="false"></th>
                     <th class="enable" style="width: 80px;">Actif</th>
                     <th class="server" style="width: 100px;">Serveur</th>
                     <th class="pid" style="width: 100px;">PID</th>
@@ -27,7 +34,7 @@ if (!isConnect()) {
                     <th class="lastRun" style="width: 200px;">Dernier lancement</th>
                     <th class="duration" style="width: 80px;">Durée</th>
                     <th class="state" style="width: 80px;">Statut</th>
-                    <th class="action" style="width: 50px;" data-sorter="false"></th>
+                    <th class="action" style="width: 50px;" data-sorter="false" data-filter="false"></th>
                 </tr>
             </thead>
             <tbody> 

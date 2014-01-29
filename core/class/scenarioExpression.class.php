@@ -82,7 +82,7 @@ class scenarioExpression {
     }
 
     public static function setTags($_expression) {
-        $_expression = cmd::cmdToValue($_expression);
+        $_expression = cmd::cmdToValue($_expression, true);
         $replace = array(
             '#heure#' => date('H'),
             '#minute#' => date('i'),
@@ -116,14 +116,14 @@ class scenarioExpression {
 
     /*     * *********************Methode d'instance************************* */
 
-    public function execute(&$scenario, $_initialScenarioState, $_doCmd = true) {
+    public function execute(&$scenario) {
         $message = '';
         try {
             if ($this->getType() == 'element') {
                 $element = scenarioElement::byId($this->getExpression());
                 if (is_object($element)) {
                     $this->setLog('Exécution d\'un bloc élément : ' . $this->getExpression());
-                    return $element->execute($scenario, $_initialScenarioState);
+                    return $element->execute($scenario);
                 }
             }
             $options = $this->getOptions();
@@ -168,9 +168,13 @@ class scenarioExpression {
                     case 'var':
                         $value = self::setTags($this->getOptions('value'));
                         $message = 'Affectation de la variable ' . $this->getOptions('name') . ' à [' . $value . '] = ';
-                        $test = new evaluate();
-                        $result = $test->Evaluer($value);
-                        if (is_string($result)) { //Alors la valeur n'est pas un calcul
+                        try {
+                            $test = new evaluate();
+                            $result = $test->Evaluer($value);
+                            if (is_string($result)) { //Alors la valeur n'est pas un calcul
+                                $result = $value;
+                            }
+                        } catch (Exception $e) {
                             $result = $value;
                         }
                         $message .= $result;
@@ -179,16 +183,16 @@ class scenarioExpression {
                         return;
                         break;
                     default:
-                        if ($_doCmd) {
-                            $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
-                            if (is_object($cmd)) {
+                        $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
+                        if (is_object($cmd)) {
+                            if (count($options) != 0) {
+                                $this->setLog('Exécution de la commande ' . $cmd->getHumanName() . " avec comme option(s) : \n" . print_r($options, true));
+                            } else {
                                 $this->setLog('Exécution de la commande ' . $cmd->getHumanName());
-                                return $cmd->execCmd($options);
                             }
-                            $this->setLog('[Erreur] Aucune commande trouvée pour ' . $this->getExpression());
-                        } else {
-                            $this->setLog('Commande non exécutée sur demande (scénario non répété)');
+                            return $cmd->execCmd($options);
                         }
+                        $this->setLog('[Erreur] Aucune commande trouvée pour ' . $this->getExpression());
                         return;
                         break;
                 }

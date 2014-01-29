@@ -42,20 +42,35 @@ try {
     if ($curentVersion != '') {
         $update = true;
     }
+
     if ($update) {
+        stopActivities();
+
+        if (!isset($_GET['v'])) {
+            echo "Verification des mises à jour (git pull)\n";
+            $repo = getGitRepo();
+            if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
+                echo "Reset du dépot git (mise à jour forcée)\n";
+                echo $repo->run('reset --hard HEAD');
+            }
+            echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
+        }
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
-            echo "Jeedom est installé et en derniere version : " . VERSION . "\n";
+            echo "Jeedom est installé et en dernière version : " . VERSION . "\n";
+            startActivities();
+            echo "***************Jeedom est à jour***************\n";
             exit();
         }
         if (isset($_GET['v'])) {
-            echo "La mise à jour " . $_GET['v'] . " va etre réapliquée. Voulez vous continuer  ? [o/N] ";
+            echo "La mise à jour " . $_GET['v'] . " va être reapliquée. Voulez vous continuer  ? [o/N] ";
             if (trim(fgets(STDIN)) !== 'o') {
-                echo "Mise à jour forcée de Jeedom est annulée\n";
+                echo "Mise à jour forcee de Jeedom est annulée\n";
+                startActivities();
                 exit(0);
             }
             $updateSql = dirname(__FILE__) . '/update/' . $_GET['v'] . '.sql';
             if (file_exists($updateSql)) {
-                echo "Mise à jour BDD en version : " . $_GET['v'] . "\n";
+                echo "Mise a jour BDD en version : " . $_GET['v'] . "\n";
                 $sql = file_get_contents($updateSql);
                 DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
                 echo "OK\n";
@@ -67,11 +82,6 @@ try {
                 echo "OK\n";
             }
         } else {
-            echo "Jeedom va etre mis à jour voulez vous continuer ? [o/N] ";
-            if (trim(fgets(STDIN)) !== 'o') {
-                echo "Mise à jour de Jeedom est annulée\n";
-                exit(0);
-            }
             while (version_compare(VERSION, $curentVersion, '>')) {
                 $nextVersion = incrementVersion($curentVersion);
                 $updateSql = dirname(__FILE__) . '/update/' . $nextVersion . '.sql';
@@ -89,10 +99,11 @@ try {
                 }
                 $curentVersion = $nextVersion;
             }
-            echo "Fin de la mise à jour de Jeedom\n";
         }
+        startActivities();
+        echo "***************Jeedom est à jour***************\n";
     } else {
-        echo "Jeedom va etre installé voulez vous continuer ? [o/N] ";
+        echo "Jeedom va être installe voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
             exit(0);
         }
@@ -152,8 +163,9 @@ try {
 
     config::save('version', VERSION);
 } catch (Exception $e) {
+    startActivities();
     echo 'Erreur durant l\'installation : ' . $e->getMessage();
-    echo 'Detail : ' . print_r($e->getTrace());
+    echo 'Détails : ' . print_r($e->getTrace());
 }
 
 function incrementVersion($_version) {
@@ -175,4 +187,43 @@ function incrementVersion($_version) {
         $returnVersion .= $version[$j] . '.';
     }
     return trim($returnVersion, '.');
+}
+
+function stopActivities() {
+    /*     * **********Arret des crons********************* */
+    echo "Désactivation de toutes les tâches";
+    config::save('enableCron', 0);
+    foreach (cron::all() as $cron) {
+        if ($cron->running()) {
+            $cron->halt();
+            echo '.';
+        }
+    }
+    echo " OK\n";
+    echo "Attente de l'arrêt du cron master ";
+    while (cron::jeeCronRun()) {
+        echo '.';
+        sleep(2);
+    }
+    echo " OK\n";
+    /*     * *********Arret des scénarios**************** */
+    echo "Desactivation de tout les scenarios";
+    config::save('enableScenario', 0);
+    foreach (scenario::all() as $scenario) {
+        $scenario->stop();
+        echo '.';
+    }
+    echo " OK\n";
+}
+
+function startActivities() {
+    /*     * *********Réactivation des scénarios**************** */
+    echo "Récupération des mises à jour OK\n";
+    echo "Réactivation des scenarios : ";
+    config::save('enableScenario', 1);
+    echo "OK\n";
+    /*     * *********Réactivation des tâches**************** */
+    echo "Réactivation des tâches : ";
+    config::save('enableCron', 1);
+    echo "OK\n";
 }

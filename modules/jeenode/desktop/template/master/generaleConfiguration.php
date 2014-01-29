@@ -19,31 +19,31 @@ if (!isConnect()) {
         <div class="form-group">
             <label class="col-lg-2 control-label">Adresse IP</label>
             <div class="col-lg-2">
-                <input type="text" class="configuration form-control" l1key="IP" placeholder="Adresse ip du master"/>
+                <input type="text" class="eqRealAttr form-control" l1key="configuration" l2key="IP" placeholder="Adresse ip du master"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-lg-2 control-label">Gateway</label>
             <div class="col-lg-2">
-                <input type="text" class="configuration form-control" l1key="gateway" placeholder="Passerelle pour le master" value="192.168.1.1"/>
+                <input type="text" class="eqRealAttr form-control" l1key="configuration" l2key="gateway" placeholder="Passerelle pour le master" value="192.168.1.1"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-lg-2 control-label">DNS</label>
             <div class="col-lg-2">
-                <input type="text" class="configuration form-control" l1key="dns" placeholder="DNS pour le master" value="192.168.1.1"/>
+                <input type="text" class="eqRealAttr form-control" l1key="configuration" l2key="dns" placeholder="DNS pour le master" value="192.168.1.1"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-lg-2 control-label">Adresse de Jeedom</label>
             <div class="col-lg-2">
-                <input type="text" class="configuration form-control" l1key="addrJeedom" placeholder="Adresse de Jeedom" value=""/>
+                <input type="text" class="eqRealAttr form-control" l1key="configuration" l2key="addrJeedom" placeholder="Adresse de Jeedom" value=""/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-lg-2 control-label">Timeout</label>
             <div class="col-lg-2">
-                <input type="text" class="configuration form-control" l1key="timeout" placeholder="Timeout" value="1500"/>
+                <input type="text" class="eqRealAttr form-control" l1key="configuration" l2key="timeout" placeholder="Timeout" value="1500"/>
             </div>
         </div>
     </fieldset>
