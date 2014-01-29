@@ -98,9 +98,9 @@ try {
                 }
                 $curentVersion = $nextVersion;
             }
-            echo "Fin de la mise à jour de Jeedom\n";
         }
         startActivities();
+         echo "***************Jeedom est à jour***************\n";
     } else {
         echo "Jeedom va être installe voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
