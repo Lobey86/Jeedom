@@ -575,10 +575,6 @@ class GitRepo {
         return file_get_contents($this->repo_path . "/.git/description");
     }
 
-    public function get_status() {
-        return $this->run("status");
-    }
-
     /**
      * Sets custom environment options for calling Git
      *

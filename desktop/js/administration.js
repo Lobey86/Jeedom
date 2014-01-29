@@ -59,7 +59,8 @@ $(function() {
         saveGeneraleConfig();
     });
 
-    $("#bt_updateJeedom").on('click', function(event) {
+    $(".bt_updateJeedom").on('click', function(event) {
+        var mode = $(this).attr('mode');
         bootbox.confirm('Etez-vous sûr de vouloir mettre à jour Jeedom ?', function(result) {
             if (result) {
                 $.ajax({
@@ -67,6 +68,7 @@ $(function() {
                     url: 'core/ajax/git.ajax.php',
                     data: {
                         action: 'update',
+                        mode: mode
                     },
                     dataType: 'json',
                     error: function(request, status, error) {

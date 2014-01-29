@@ -32,7 +32,8 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Mise à jour</label>
                                         <div class="col-lg-4">
-                                            <a class="btn btn-warning" id="bt_updateJeedom">Mettre à jour</a>
+                                            <a class="btn btn-warning bt_updateJeedom" mode="normal">Mettre à jour</a>
+                                            <a class="btn btn-warning bt_updateJeedom" mode="force">Forcer la mise à jour</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -61,7 +62,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <?php
                                 try {
                                     $repo->fetch();
-                                    echo $repo->get_status();
+                                    echo $repo->run("status");
                                 } catch (Exception $e) {
                                     echo 'Impossible d\'afficher les mises à jour (Problème de droit sur le dépot git?)';
                                 }

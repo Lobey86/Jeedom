@@ -47,8 +47,12 @@ try {
         stopActivities();
 
         if (!isset($_GET['v'])) {
-            echo "Verification des mises a jour (git pull)\n";
+            echo "Verification des mises à jour (git pull)\n";
             $repo = getGitRepo();
+            if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
+                echo "Reset du dépot git (mise à jour forcée)\n";
+                echo $repo->run('reset --hard HEAD');
+            }
             echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
         }
         if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
