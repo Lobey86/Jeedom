@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $(function() {
     $("#admin_tab").delegate("a", 'click', function(event) {
@@ -32,37 +32,57 @@ $(function() {
         $('#in_newUserLogin').value('');
         $('#in_newUserMdp').value('');
         $('#md_newUser').modal('show');
-        return false;
     });
 
     $("#bt_newUserSave").on('click', function(event) {
         $.hideAlert();
         saveUser('');
-        return false;
     });
 
     $("#bt_genKeyAPI").on('click', function(event) {
         $.hideAlert();
         genKeyAPI();
-        return false;
     });
 
     $("#bt_nodeJsKey").on('click', function(event) {
         $.hideAlert();
         genNodeJsKey();
-        return false;
     });
 
     $("#bt_flushMemcache").on('click', function(event) {
         $.hideAlert();
         flushMemcache();
-        return false;
     });
 
     $("#bt_saveGeneraleConfig").on('click', function(event) {
         $.hideAlert();
         saveGeneraleConfig();
-        return false;
+    });
+
+    $("#bt_updateJeedom").on('click', function(event) {
+        $.ajax({
+            type: 'POST',
+            url: 'core/ajax/git.ajax.php',
+            data: {
+                action: 'update',
+            },
+            dataType: 'json',
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) {
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                $('#div_alert').showAlert({message: 'Mise à jour en cours...', level: 'success'});
+                getUpdateLog();
+            }
+        });
+    });
+
+    $("#bt_refreshUpdateLog").on('click', function(event) {
+        getUpdateLog();
     });
 
     $("#bt_testLdapConnection").on('click', function(event) {
@@ -119,6 +139,32 @@ $(function() {
 
     loadGeneraleConfig();
 });
+/********************Log************************/
+function getUpdateLog() {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/git.ajax.php',
+        data: {
+            action: 'getUpdateLog',
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            var log = '';
+            for (var i in data.result) {
+                log += data.result[i];
+            }
+            $('#pre_updateInfo').append(log);
+        }
+    });
+}
+
 
 /********************Utilisateurs************************/
 

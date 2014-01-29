@@ -185,14 +185,15 @@ function incrementVersion($_version) {
 
 function stopActivities() {
     /*     * **********Arret des crons********************* */
-    echo "Desactivation de toutes les taches : ";
+    echo "Desactivation de toutes les taches";
     config::save('enableCron', 0);
     foreach (cron::all() as $cron) {
         if ($cron->running()) {
             $cron->halt();
+            echo '.';
         }
     }
-    echo "OK\n";
+    echo " OK\n";
     echo "Attente de l\'arret du cron master ";
     while (cron::jeeCronRun()) {
         echo '.';
@@ -200,12 +201,13 @@ function stopActivities() {
     }
     echo " OK\n";
     /*     * *********Arret des scénarios**************** */
-    echo "Desactivation de tout les scenarios : ";
+    echo "Desactivation de tout les scenarios";
     config::save('enableScenario', 0);
     foreach (scenario::all() as $scenario) {
         $scenario->stop();
+        echo '.';
     }
-    echo "OK\n";
+    echo " OK\n";
 }
 
 function startActivities() {

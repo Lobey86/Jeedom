@@ -25,28 +25,43 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                 try {
                     $repo = getGitRepo();
                     ?>
-                    <form class="form-horizontal">
-                        <fieldset>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">Adresse git</label>
-                                <div class="col-lg-2">
-                                    <input type="text" class="configKey form-control" l1key="git::remote" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">Branche</label>
-                                <div class="col-lg-2">
-                                    <select class="configKey form-control" l1key="git::branch">
-                                        <?php
-                                        foreach ($repo->list_remote_branches() as $branch) {
-                                            echo '<option value="' . str_replace('origin/', '', $branch) . '">' . $branch . '</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form class="form-horizontal">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <div class="col-lg-5">
+                                            <a class="btn btn-warning" id="bt_updateJeedom">Mettre à jour</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Adresse git</label>
+                                        <div class="col-lg-3">
+                                            <input type="text" class="configKey form-control" l1key="git::remote" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Branche</label>
+                                        <div class="col-lg-3">
+                                            <select class="configKey form-control" l1key="git::branch">
+                                                <?php
+                                                foreach ($repo->list_remote_branches() as $branch) {
+                                                    echo '<option value="' . str_replace('origin/', '', $branch) . '">' . $branch . '</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="col-lg-6">
+                            <a class="btn btn-warning" id="bt_refreshUpdateLog">Rafraîchir</a>
+                            <pre id="pre_updateInfo">
+
+                            </pre>
+                        </div>
+                    </div>
                     <?php
                 } catch (Exception $e) {
                     echo '<div class="alert alert-danger">';
