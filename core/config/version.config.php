@@ -20,5 +20,4 @@ global $VERSION;
 $VERSION = array(
     'jeedom' => '1.30.0'
 );
-define('VERSION', '1.30.0');
 

@@ -133,7 +133,7 @@ class module {
     }
 
     public function setIsEnable($_state) {
-        if (version_compare(VERSION, $this->require) == -1 && $_state == 1) {
+        if (version_compare(getVersion('jeedom'), $this->require) == -1 && $_state == 1) {
             throw new Exception('Votre version de jeedom n\'est pas assez récente pour activer ce module');
         }
         config::save('active', $_state, $this->id);

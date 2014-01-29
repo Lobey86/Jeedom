@@ -107,7 +107,7 @@ try {
         startActivities();
         echo "***************Jeedom est à jour***************\n";
     } else {
-        echo "Jeedom va être installe voulez vous continuer ? [o/N] ";
+        echo "Jeedom va être installé voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
             exit(0);
         }
