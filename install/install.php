@@ -36,7 +36,7 @@ if (isset($argv)) {
 
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
-    echo "***************Installation/Mise à jour de Jeedom " . VERSION . "***************\n";
+    echo "***************Installation/Mise à jour de Jeedom " . $VERSION . "***************\n";
     $update = false;
     $curentVersion = config::byKey('version');
     if ($curentVersion != '') {
@@ -55,12 +55,12 @@ try {
             }
             echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
         }
-        echo VERSION . "\n";
+        echo $VERSION . "\n";
         @include dirname(__FILE__) . '/../core/config/version.config.php';
-        echo VERSION . "\n";
+        echo $VERSION . "\n";
 
-        if (version_compare(VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
-            echo "Jeedom est installé et en dernière version : " . VERSION . "\n";
+        if (version_compare($VERSION, $curentVersion, '=') && !isset($_GET['v'])) {
+            echo "Jeedom est installé et en dernière version : " . $VERSION . "\n";
             startActivities();
             echo "***************Jeedom est à jour***************\n";
             exit();
@@ -86,7 +86,7 @@ try {
                 echo "OK\n";
             }
         } else {
-            while (version_compare(VERSION, $curentVersion, '>')) {
+            while (version_compare($VERSION, $curentVersion, '>')) {
                 $nextVersion = incrementVersion($curentVersion);
                 $updateSql = dirname(__FILE__) . '/update/' . $nextVersion . '.sql';
                 if (file_exists($updateSql)) {
@@ -111,7 +111,7 @@ try {
         if (trim(fgets(STDIN)) !== 'o') {
             exit(0);
         }
-        echo "\nInstallation de Jeedom " . VERSION . "\n";
+        echo "\nInstallation de Jeedom " . $VERSION . "\n";
         $sql = file_get_contents(dirname(__FILE__) . '/install.sql');
         echo "Installation de la base de données...";
         DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
@@ -165,7 +165,7 @@ try {
         echo "OK\n";
     }
 
-    config::save('version', VERSION);
+    config::save('version', $VERSION);
 } catch (Exception $e) {
     startActivities();
     echo 'Erreur durant l\'installation : ' . $e->getMessage();
