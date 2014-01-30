@@ -203,13 +203,15 @@ function stopActivities() {
         }
     }
     echo " OK\n";
-    echo "Arret du cron master ";
-    exec('kill ' . cron::getPidFile());
-    while (cron::jeeCronRun()) {
-        echo '.';
-        sleep(2);
+    if (cron::jeeCronRun()) {
+        echo "Arret du cron master ";
+        exec('kill ' . cron::getPidFile());
+        while (cron::jeeCronRun()) {
+            echo '.';
+            sleep(2);
+        }
+        echo " OK\n";
     }
-    echo " OK\n";
     /*     * *********Arret des scénarios**************** */
     echo "Desactivation de tout les scenarios";
     config::save('enableScenario', 0);
