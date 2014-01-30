@@ -58,7 +58,7 @@ $(function() {
         width: 1500,
         position: {my: 'center', at: 'center', of: window},
         open: function() {
-            if ((jQuery(window).width() - 50) < 1500 ) {
+            if ((jQuery(window).width() - 50) < 1500) {
                 $('#md_modal').dialog({width: jQuery(window).width() - 50});
             }
         }
@@ -72,8 +72,51 @@ $(function() {
         $('#md_modal').load('index.php?v=d&modal=about').dialog('open');
     });
 
+    /******************Gestion mode expert**********************/
+
+    $('#bt_expertMode').on('click', function() {
+        if ($(this).attr('state') == 1) {
+            var value = [{key: 'expertMode', value: 0}];
+            $(this).attr('state', 0);
+            $(this).find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
+            $('.expertModeDisable').attr('disabled', true);
+            $('.expertModeHidden').show();
+        } else {
+            var value = [{key: 'expertMode', value: 1}];
+            $(this).attr('state', 1);
+            $(this).find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
+            $('.expertModeDisable').attr('disabled', false);
+            $('.expertModeHidden').hide();
+        }
+
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "core/ajax/user.ajax.php", // url du fichier php
+            data: {
+                action: "saveProfil",
+                value: json_encode(value)
+            },
+            dataType: 'json',
+            global: false,
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) { // si l'appel a bien fonctionné
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+            }
+        });
+    });
+
     initTableSorter();
 });
+
+function initExpertMode() {
+    $('.expertModeDisable').attr('disabled', true);
+    $('.expertModeHidden').show();
+}
 
 function initTableSorter() {
     $(".tablesorter").tablesorter({

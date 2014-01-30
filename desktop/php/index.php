@@ -155,6 +155,13 @@ if ($module != '') {
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="index.php?v=d&p=profils"><i class="fa fa-briefcase"></i> Profile</a></li>
+                                        <?php
+                                        if ($_SESSION['user']->getOptions('expertMode') == 1) {
+                                            echo '<li class="cursor"><a id="bt_expertMode" expert="0"><i class="fa fa-check-square-o"></i> Mode expert</a></li>';
+                                        } else {
+                                            echo '<li class="cursor"><a id="bt_expertMode" expert="1"><i class="fa fa-square-o"></i> Mode simple</a></li>';
+                                        }
+                                        ?>
                                         <li class="divider"></li>
                                         <li><a href="core/php/authentification.php?logout"><i class="fa fa-signout"></i> Se déconnecter</a></li>
                                     </ul>
