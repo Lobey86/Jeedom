@@ -104,31 +104,35 @@ if ($module != '') {
                                     </ul>
                                 </li>
                                 <li><a href="index.php?v=d&p=history"><i class="fa fa-bar-chart-o"></i> Historique</a></li>
-                                <li class="dropdown cursor">
-                                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> Général <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> Administration</a></li>
-                                        <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> Interaction</a></li>
-                                        <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> Affichage</a></li>
-                                        <li><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> Cron</a></li>
-                                        <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> Objet</a></li>
-                                        <li><a href="index.php?v=d&p=module"><i class="fa fa-tags"></i> Modules</a></li>
-                                        <li><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> Log</a></li>
-                                    </ul>
-                                </li>
+                                <?php if (isConnect('admin')) { ?>
+                                    <li class="dropdown cursor">
+                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> Général <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> Administration</a></li>
+                                            <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> Interaction</a></li>
+                                            <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> Affichage</a></li>
+                                            <li><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> Cron</a></li>
+                                            <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> Objet</a></li>
+                                            <li><a href="index.php?v=d&p=module"><i class="fa fa-tags"></i> Modules</a></li>
+                                            <li><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> Log</a></li>
+                                        </ul>
+                                    </li>
+                                <?php } ?>
                                 <li><a href="index.php?v=d&p=scenario"><i class="fa fa-cogs"></i> Scénario</a></li>
-                                <li class="dropdown cursor">
-                                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> Modules <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <?php
-                                        foreach (module::listModule() as $moduleList) {
-                                            if ($moduleList->isActive() == 1) {
-                                                echo '<li><a href="index.php?v=d&m=' . $moduleList->getId() . '&p=' . $moduleList->getIndex() . '"><i class="' . $moduleList->getIcon() . '"></i> ' . $moduleList->getName() . '</a></li>';
+                                <?php if (isConnect('admin')) { ?>
+                                    <li class="dropdown cursor">
+                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> Modules <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <?php
+                                            foreach (module::listModule() as $moduleList) {
+                                                if ($moduleList->isActive() == 1) {
+                                                    echo '<li><a href="index.php?v=d&m=' . $moduleList->getId() . '&p=' . $moduleList->getIndex() . '"><i class="' . $moduleList->getIcon() . '"></i> ' . $moduleList->getName() . '</a></li>';
+                                                }
                                             }
-                                        }
-                                        ?>
-                                    </ul>
-                                </li>
+                                            ?>
+                                        </ul>
+                                    </li>
+                                <?php } ?>
                             </ul>
 
                             <ul class="nav navbar-nav navbar-right">

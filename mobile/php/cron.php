@@ -1,6 +1,6 @@
 <?php
 
-if (!isConnect()) {
+if (!isConnect('admin')) {
     include_file('mobile', '401', 'php');
     die();
 }

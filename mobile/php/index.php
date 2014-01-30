@@ -110,7 +110,9 @@ if ($module != '') {
                     <?php } ?>
                     <li><a href="index.php?v=m&p=message" data-ajax="false" data-theme="a"><i class="fa fa-envelope"></i> <span id="span_nbMessage"><?php echo message::nbMessage(); ?></span> Message(s)</a></li>
                     <li><a href="index.php?v=m&p=log" data-ajax="false" data-theme="a"><i class="fa fa-file-o"></i> Log</a></li>
-                    <li><a href="index.php?v=m&p=cron" data-ajax="false" data-theme="a"><i class="fa fa-tasks"></i> Cron</a></li>
+                    <?php if (isConnect('admin')) { ?>
+                        <li><a href="index.php?v=m&p=cron" data-ajax="false" data-theme="a"><i class="fa fa-tasks"></i> Cron</a></li>
+                    <?php } ?>
                     <li><a href="/core/php/authentification.php?logout=1" data-rel="dialog" data-ajax="false" data-theme="a"><i class="fa fa-sign-out"></i> Se deconnecter</a></li>
                 </ul>
             </div>

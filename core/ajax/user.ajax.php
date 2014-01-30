@@ -25,10 +25,16 @@ try {
     }
 
     if (init('action') == 'all') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         ajax::success(utils::o2a(user::all()));
     }
 
     if (init('action') == 'editUser') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         if (config::byKey('ldap::enable') == '1') {
             throw new Exception('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur');
         }
@@ -43,11 +49,17 @@ try {
     }
 
     if (init('action') == 'save') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         utils::processJsonObject('user', init('users'));
         ajax::success();
     }
 
     if (init('action') == 'delUser') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         if (config::byKey('ldap::enable') == '1') {
             throw new Exception('Vous devez desactiver l\'authentification LDAP pour pouvoir supprimer un utilisateur');
         }
@@ -69,6 +81,9 @@ try {
     }
 
     if (init('action') == 'testLdapConneciton') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         $connection = user::connectToLDAP();
         if ($connection === false) {
             throw new Exception();

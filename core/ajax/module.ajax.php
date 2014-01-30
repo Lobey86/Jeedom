@@ -25,6 +25,9 @@ try {
     }
 
     if (init('action') == 'getModuleConf') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         $module = new module(init('modulePath'));
         $return = array();
         $return['id'] = $module->getId();
@@ -44,6 +47,9 @@ try {
     }
 
     if (init('action') == 'toggleModule') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         $module = new module(init('id'));
         if (!is_object($module)) {
             throw new Exception('Module introuvable : ' . init('id'));

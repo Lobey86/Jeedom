@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 require_once dirname(__FILE__) . '/core.inc.php';
 
@@ -82,9 +82,17 @@ function logout() {
     return;
 }
 
-function isConnect() {
+function isConnect($_right = '') {
     if (isset($_SESSION['user']) && is_object($_SESSION['user'])) {
-        return $_SESSION['user']->is_Connected();
+        if ($_SESSION['user']->is_Connected()) {
+            if ($_right != '') {
+                return ($_SESSION['user']->getRights($_right) == 1) ? true : false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     } else {
         return false;
     }
@@ -100,11 +108,12 @@ function isAdmin() {
 
 function getUserHash() {
     $hash = getClientIp() . $_SERVER["HTTP_USER_AGENT"];
-    if(isConnect()){
+    if (isConnect()) {
         $hash .= $_SESSION['user']->getLogin();
         $hash .= $_SESSION['user']->getId();
         $hash .= $_SESSION['user']->getHash();
     }
     return sha1($hash);
 }
+
 ?>

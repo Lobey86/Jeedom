@@ -94,6 +94,9 @@ try {
     }
 
     if (init('action') == 'setIsEnable') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         $eqLogic = eqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
             throw new Exception('Objet inconnu verifié l\'id');
@@ -106,6 +109,9 @@ try {
     /*     * **************************Gloabl Method******************************** */
 
     if (init('action') == 'remove') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         $eqLogic = eqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
             throw new Exception('EqLogic inconnu verifié l\'id');
@@ -129,6 +135,9 @@ try {
     }
 
     if (init('action') == 'save') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         $eqLogicsSave = json_decode(init('eqLogic'), true);
 
         foreach ($eqLogicsSave as $eqLogicSave) {
