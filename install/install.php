@@ -151,6 +151,7 @@ try {
         $user = new user();
         $user->setLogin('admin');
         $user->setPassword(sha1('admin'));
+        $user->setRights('admin', 1);
         $user->save();
         echo "Jeedom est-il installé sur un Rasberry PI ? [o/N] ";
         if (trim(fgets(STDIN)) === 'o') {
