@@ -1,5 +1,5 @@
 <?php
-if (!isConnect()) {
+if (!isConnect('admin')) {
     throw new Exception('401 Unauthorized');
 }
 if (init('interactDef_id') == '') {
