@@ -84,7 +84,7 @@ if ($module != '') {
                 <header class="navbar navbar-fixed-top navbar-default">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <a class="navbar-brand" href="index.php?v=d&p=<?php echo $_SESSION['user']->getOptions('homePage', 'plan'); ?>" style="font-size: 1.7em;">
+                            <a class="navbar-brand" href="index.php?v=d&p=<?php echo $_SESSION['user']->getOptions('homePage', 'dashboard'); ?>" style="font-size: 1.7em;">
                                 <img src="core/img/jeedom_ico.png" height="19" width="20"/>eedom
                             </a>
                             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
