@@ -106,6 +106,7 @@ try {
     } else {
         echo "Jeedom va être installé voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
+            echo "Installation de Jeedom est annulée\n";
             exit(0);
         }
         echo "\nInstallation de Jeedom " . getVersion('jeedom') . "\n";
@@ -201,7 +202,8 @@ function stopActivities() {
         }
     }
     echo " OK\n";
-    echo "Attente de l'arrêt du cron master ";
+    echo "Arret du cron master ";
+    exec('kill ' . cron::getPidFile());
     while (cron::jeeCronRun()) {
         echo '.';
         sleep(2);
@@ -219,7 +221,6 @@ function stopActivities() {
 
 function startActivities() {
     /*     * *********Réactivation des scénarios**************** */
-    echo "Récupération des mises à jour OK\n";
     echo "Réactivation des scenarios : ";
     config::save('enableScenario', 1);
     echo "OK\n";
