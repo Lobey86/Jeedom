@@ -1,3 +1,8 @@
+<?php
+if (!isConnect()) {
+    throw new Exception('401 Unauthorized');
+}
+?>
 <h3><span class="mw-headline" id="Examples">Exemples / Proggrammation prédefinie</span></h3>
 
 <table class="table">

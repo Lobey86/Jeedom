@@ -20,7 +20,7 @@ try {
     require_once(dirname(__FILE__) . '/../php/core.inc.php');
     include_file('core', 'authentification', 'php');
 
-    if (!isConnect(true)) {
+    if (!isConnect('admin')) {
         throw new Exception('401 Unauthorized');
     }
 

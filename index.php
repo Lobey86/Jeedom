@@ -38,7 +38,7 @@ if (!isset($_GET['v'])) {
             require_once dirname(__FILE__) . "/core/php/core.inc.php";
             include_file('core', 'authentification', 'php');
             try {
-                if (!isConnect(true)) {
+                if (!isConnect()) {
                     throw new Exception('401 - Unauthorized access to page');
                 }
                 include_file('desktop', init('modal'), 'modal', init('module'));

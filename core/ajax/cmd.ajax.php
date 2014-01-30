@@ -91,6 +91,9 @@ try {
     }
 
     if (init('action') == 'save') {
+        if (!isConnect('admin')) {
+            throw new Exception('401 Unauthorized');
+        }
         $cmd_ajax = json_decode(init('cmd'), true);
         $cmd = cmd::byId($cmd_ajax['id']);
         if (!is_object($cmd)) {

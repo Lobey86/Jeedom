@@ -1,5 +1,5 @@
 <?php
-if (!isConnect()) {
+if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
 include_file('3rdparty', 'jquery.farbtastic/farbtastic', 'js');
@@ -20,7 +20,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
 
             <!--********************Onglet mise à jour********************************-->
             <div class="tab-pane" id="update">
-                
+
                 <?php
                 try {
                     $repo = getGitRepo();
@@ -72,9 +72,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             </pre>
                         </div>
                     </div>
+                    <div class="form-actions" style="height: 20px;">
+                        <a class="btn btn-success" id="bt_saveUpdate"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+                    </div>
                     <?php
                 } catch (Exception $e) {
-                    echo '<div class="alert alert-danger">';
+                    echo '<br/><div class="alert alert-danger">';
                     echo 'Aucun dépôt git trouvé';
                     echo '</div>';
                 }
@@ -88,9 +91,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                     <a class="btn btn-success pull-right" id="bt_addUser"><i class="fa fa-plus-circle" style="position:relative;left:-5px;top:1px"></i>Ajouter un utilisateur</a><br/><br/>
                 <?php } ?>
                 <table class="table table-condensed table-bordered" id="table_user">
-                    <thead><th>Nom d'utilisateur</th><th>Actions</th></thead>
+                    <thead><th>Nom d'utilisateur</th><th>Actions</th><th>Droits</th></thead>
                     <tbody></tbody>
                 </table>
+                <div class="form-actions" style="height: 20px;">
+                    <a class="btn btn-success" id="bt_saveUser"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+                </div>
             </div>
 
             <!--********************Onglet configuration********************************-->
@@ -485,10 +491,9 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-actions" style="height: 20px;">
-                    <a class="btn btn-success" id="bt_saveGeneraleConfig"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+                    <div class="form-actions" style="height: 20px;">
+                        <a class="btn btn-success" id="bt_saveGeneraleConfig"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+                    </div>
                 </div>
             </div>
         </div>

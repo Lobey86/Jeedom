@@ -16,7 +16,7 @@
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
 
-if (!isConnect()) {
+if (!isConnect('admin')) {
     throw new Exception('401 Unauthorized');
 }
 ?>

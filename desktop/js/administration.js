@@ -36,7 +36,7 @@ $(function() {
 
     $("#bt_newUserSave").on('click', function(event) {
         $.hideAlert();
-        saveUser('');
+        addEditUser('');
     });
 
     $("#bt_genKeyAPI").on('click', function(event) {
@@ -56,7 +56,16 @@ $(function() {
 
     $("#bt_saveGeneraleConfig").on('click', function(event) {
         $.hideAlert();
-        saveGeneraleConfig();
+        saveConfiguration($('#config'));
+    });
+
+    $("#bt_saveUpdate").on('click', function(event) {
+        $.hideAlert();
+        saveConfiguration($('#update'));
+    });
+
+    $("#bt_saveUser").on('click', function(event) {
+        saveUser();
     });
 
     $(".bt_updateJeedom").on('click', function(event) {
@@ -132,7 +141,7 @@ $(function() {
         var id = $(this).attr('id');
         $('#bt_mdpUserSave').undelegate();
         $("#div_mainContainer").delegate("#bt_mdpUserSave", 'click', function(event) {
-            saveUser(id);
+            addEditUser(id);
             return false;
         });
         $('#md_mdpUser').modal('show');
@@ -146,7 +155,8 @@ $(function() {
 
     printConvertColor();
 
-    loadGeneraleConfig();
+    loadConfiguration($('#update'));
+    loadConfiguration($('#config'));
 });
 /********************Log************************/
 function getUpdateLog(_autoUpdate) {
@@ -173,7 +183,7 @@ function getUpdateLog(_autoUpdate) {
             if (_autoUpdate > 0 && log == $('#pre_updateInfo').text()) {
                 _autoUpdate++;
             }
-            if (_autoUpdate > 30) {
+            if (_autoUpdate > 20) {
                 _autoUpdate = 0;
             }
             $('#pre_updateInfo').text(log);
@@ -181,7 +191,7 @@ function getUpdateLog(_autoUpdate) {
                 setTimeout(function() {
                     getUpdateLog(_autoUpdate)
                 }, 1000);
-            }else{
+            } else {
                 $(".bt_updateJeedom .fa-refresh").hide();
             }
         }
@@ -208,19 +218,24 @@ function printUsers() {
                 return;
             }
             $('#table_user tbody').empty();
-            $.each(data.result, function(i) {
+            for (var i in data.result) {
                 var ligne = '<tr><td class="login">';
+                ligne += '<span class="userAttr" l1key="id" style="display : none;"/>';
                 ligne += data.result[i].login;
                 ligne += '</td>';
                 ligne += '<td>';
                 if (ldapEnable != '1') {
-                    ligne += '<a class="btn btn-danger pull-right sup_user" id="' + data.result[i].id + '"><i class="fa fa-trash-o" style="position:relative;left:-5px;top:1px"></i>Supprimer</a>'
-                    ligne += '<a class="btn btn-warning pull-right change_mdp_user" id="' + data.result[i].id + '"><i class="fa fa-pencil" style="position:relative;left:-5px;top:1px"></i>Changer le mot de passe</a>'
+                    ligne += '<a class="btn btn-danger pull-right sup_user" id="' + data.result[i].id + '"><i class="fa fa-trash-o" style="position:relative;left:-5px;top:1px"></i>Supprimer</a>';
+                    ligne += '<a class="btn btn-warning pull-right change_mdp_user" id="' + data.result[i].id + '"><i class="fa fa-pencil" style="position:relative;left:-5px;top:1px"></i>Changer le mot de passe</a>';
                 }
+                ligne += '</td>';
+                ligne += '<td>';
+                ligne += '<input type="checkbox" class="userAttr" l1key="rights" l2key="admin"/> Admin';
                 ligne += '</td>';
                 ligne += '</tr>';
                 $('#table_user tbody').append(ligne);
-            });
+                $('#table_user tbody tr:last').setValues(data.result[i], '.userAttr');
+            }
         }
     });
 }
@@ -245,12 +260,36 @@ function delUser(_id) {
                 return;
             }
             $('#div_alert').showAlert({message: 'L\'utilisateur a bien été supprimé', level: 'success'});
+            printUsers();
+        }
+    });
+}
+
+function saveUser() {
+    var users = $('#table_user tbody tr').getValues('.userAttr');
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
+        data: {
+            action: "save",
+            users: json_encode(users)
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            $('#div_alert').showAlert({message: 'Sauvegarde effetuée', level: 'success'});
         }
     });
 }
 
 
-function saveUser(_id) {
+function addEditUser(_id) {
     try {
         if (_id == '') {
             var login = $('#in_newUserLogin').value();
@@ -259,18 +298,8 @@ function saveUser(_id) {
             var password = $('#in_mdpUserNewMdp').value();
             var login = '';
         }
-
-        if (_id == '') {
-            if (login == '') {
-                throw('Le nom d\'utilisateur ne peut être vide');
-            }
-            if (password == '') {
-                throw('Le mot de passe ne peut être vide');
-            }
-        } else {
-            if (password == '') {
-                throw('Le mot de passe ne peut être vide');
-            }
+        if (password == '') {
+            throw('Le mot de passe ne peut être vide');
         }
     } catch (e) {
         $('#div_newUserAlert').showAlert({message: e, level: 'danger'});
@@ -301,13 +330,8 @@ function saveUser(_id) {
                 }
                 return;
             }
-            if (_id != '') {
-                $('#div_alert').showAlert({message: 'L\'utilisateur ' + login + ' a bien été mise à jour', level: 'success'});
-                $('#md_mdpUser').modal('hide');
-            } else {
-                $('#div_alert').showAlert({message: 'L\'utilisateur ' + login + ' a bien été crée', level: 'success'});
-                $('#md_newUser').modal('hide');
-            }
+            $('#div_alert').showAlert({message: 'L\'utilisateur ' + login + ' a bien été mise à jour / crée', level: 'success'});
+            $('#md_mdpUser').modal('hide');
         }
     });
 }
@@ -377,10 +401,10 @@ function flushMemcache() {
     });
 }
 
-function saveGeneraleConfig() {
+function saveConfiguration(_el) {
     saveConvertColor();
     try {
-        var configuration = $('#div_administration').getValues('.configKey');
+        var configuration = _el.getValues('.configKey');
         configuration = configuration[0];
     } catch (e) {
         $('#div_alert').showAlert({message: e, level: 'danger'});
@@ -403,12 +427,13 @@ function saveGeneraleConfig() {
                 return;
             }
             $('#div_alert').showAlert({message: 'Sauvegarde effetuée', level: 'success'});
+            loadConfiguration(_el)
         }
     });
 }
 
-function loadGeneraleConfig() {
-    var configuration = $('#div_administration').getValues('.configKey');
+function loadConfiguration(_el) {
+    var configuration = _el.getValues('.configKey');
     configuration = configuration[0];
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -427,7 +452,7 @@ function loadGeneraleConfig() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_administration').setValues(data.result, '.configKey');
+            _el.setValues(data.result, '.configKey');
         }
     });
 }

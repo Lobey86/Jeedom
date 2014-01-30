@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
@@ -27,6 +27,7 @@ class user {
     private $password;
     private $options;
     private $hash;
+    private $rights;
 
     /*     * ***********************Methode static*************************** */
 
@@ -136,6 +137,12 @@ class user {
 
     /*     * *********************Methode d'instance************************* */
 
+    public function presave() {
+        if ($this->getLogin() == '') {
+            throw new Exception('Le nom d\'utilisateur ne peut être vide');
+        }
+    }
+
     /**
      *
      * @param int $_id id de l'utilisateur à editer
@@ -215,6 +222,30 @@ class user {
             $options = json_decode($this->options, true);
             $options[$_key] = $_value;
             $this->options = json_encode($options);
+        }
+    }
+
+    public function getRights($_key = '', $_default = '') {
+        if ($this->rights == '') {
+            return $_default;
+        }
+        if (is_json($this->rights)) {
+            if ($_key == '') {
+                return json_decode($this->rights, true);
+            }
+            $rights = json_decode($this->rights, true);
+            return (isset($rights[$_key])) ? $rights[$_key] : $_default;
+        }
+        return $_default;
+    }
+
+    public function setRights($_key, $_value) {
+        if ($this->rights == '' || !is_json($this->rights)) {
+            $this->rights = json_encode(array($_key => $_value));
+        } else {
+            $rights = json_decode($this->rights, true);
+            $rights[$_key] = $_value;
+            $this->rights = json_encode($rights);
         }
     }
 
