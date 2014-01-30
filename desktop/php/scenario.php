@@ -18,10 +18,15 @@ sendVarToJS('select_id', init('id', '-1'));
 <div class="row">
     <div class="col-lg-2">
         <div class="bs-sidebar affix">
-            <ul id="ul_scenario" class="nav nav-list bs-sidenav fixnav">
-                <li> 
-                    <a class="btn btn-default btn-xs tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
-                </li>
+            <ul id="ul_scenario" class="nav nav-list bs-sidenav fixnav">                  
+                <?php
+                if (config::byKey('enableScenario') == 0) {
+                    echo '<a class="btn btn-sm btn-success" id="bt_changeAllScenarioState" state="1" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-check"></i></a>';
+                } else {
+                    echo '<a class="btn btn-sm btn-danger" id="bt_changeAllScenarioState" state="0" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-times"></i> </a>';
+                }
+                ?>
+                <a class="btn btn-default btn-sm tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
                 <li class="nav-header">Liste scénarios 
                     <i class="fa fa-plus-circle pull-right cursor" id="bt_addScenario" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>

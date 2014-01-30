@@ -10,13 +10,13 @@ sendVarToJS('eqType', 'razberry');
     <div class="col-lg-2">
         <div class="bs-sidebar affix">
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
-                <li> 
-                    <a class="btn btn-default btn-xs tooltips" id="bt_syncEqLogic" title="Synchroniser équipement avec le Razberry" style="display: inline-block;"><i class="fa fa-refresh"></i></a>
-                    <a class="btn btn-default btn-xs tooltips changeIncludeState" title="Inclure prériphérique Z-wave" state="1" style="display: inline-block;"><i class="fa fa-sign-in fa-rotate-90"></i></a>
-                    <a class="btn btn-default btn-xs tooltips changeIncludeState" title="Exclure périphérique Z-wave" state="0" style="display: inline-block;"><i class="fa fa-sign-out fa-rotate-90"></i></a>
-                    <a class="btn btn-default btn-xs tooltips" id="bt_inspectQueue" title="Inspecter la queue Z-wave" state="0" style="display: inline-block;"><i class="fa fa-exchange fa-rotate-90"></i></a>
-                    <a class="btn btn-default btn-xs tooltips" id="bt_routingTable" title="Afficher la table de routage" state="0" style="display: inline-block;"><i class="fa fa-sitemap"></i></a>
-                </li>
+
+                <a class="btn btn-default btn-sm tooltips" id="bt_syncEqLogic" title="Synchroniser équipement avec le Razberry" style="display: inline-block;"><i class="fa fa-refresh"></i></a>
+                <a class="btn btn-default btn-sm tooltips changeIncludeState" title="Inclure prériphérique Z-wave" state="1" style="display: inline-block;"><i class="fa fa-sign-in fa-rotate-90"></i></a>
+                <a class="btn btn-default btn-sm tooltips changeIncludeState" title="Exclure périphérique Z-wave" state="0" style="display: inline-block;"><i class="fa fa-sign-out fa-rotate-90"></i></a>
+                <a class="btn btn-default btn-sm tooltips" id="bt_inspectQueue" title="Inspecter la queue Z-wave" state="0" style="display: inline-block;"><i class="fa fa-exchange fa-rotate-90"></i></a>
+                <a class="btn btn-default btn-sm tooltips" id="bt_routingTable" title="Afficher la table de routage" state="0" style="display: inline-block;"><i class="fa fa-sitemap"></i></a>
+
                 <li class="nav-header">Liste des équipements Z-wave
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>

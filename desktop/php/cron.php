@@ -13,9 +13,9 @@ if (!isConnect('admin')) {
         <a class="btn btn-default pull-right" id="bt_refreshCron"><i class="fa fa-refresh"></i> Rafraîchir</a>
         <?php
         if (config::byKey('enableCron') == 0) {
-            echo '<a class="btn btn-default btn-success pull-right" id="bt_changeCronState" state="1"><i class="fa fa-check"></i> Activer cron système</a>';
+            echo '<a class="btn btn-success pull-right" id="bt_changeCronState" state="1"><i class="fa fa-check"></i> Activer cron système</a>';
         } else {
-            echo '<a class="btn btn-default btn-danger pull-right" id="bt_changeCronState" state="0"><i class="fa fa-times"></i> Désactiver cron système</a>';
+            echo '<a class="btn btn-danger pull-right" id="bt_changeCronState" state="0"><i class="fa fa-times"></i> Désactiver cron système</a>';
         }
         ?>
         <br/><br/><br/>
