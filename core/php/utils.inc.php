@@ -402,3 +402,37 @@ function getVersion($_name) {
     }
     return false;
 }
+
+function rcopy($src, $dst, $_emptyDest = true, $_exclude = array()) {
+    if ($_emptyDest && file_exists($dst)) {
+        rrmdir($dst);
+    }
+    if (is_dir($src)) {
+        if (!file_exists($dst)) {
+            mkdir($dst);
+        }
+        $files = scandir($src);
+        foreach ($files as $file) {
+            if ($file != "." && $file != ".." && !in_array($file, $_exclude)) {
+                rcopy("$src/$file", "$dst/$file", $_exclude);
+            }
+        }
+    } else if (file_exists($src)) {
+        copy($src, $dst);
+    }
+}
+
+// removes files and non-empty directories
+function rrmdir($dir) {
+    if (is_dir($dir)) {
+        $files = scandir($dir);
+        foreach ($files as $file) {
+            if ($file != "." && $file != "..") {
+                rrmdir("$dir/$file");
+            }
+        }
+        rmdir($dir);
+    } else if (file_exists($dir)) {
+        unlink($dir);
+    }
+}

@@ -34,20 +34,32 @@ if (isset($argv)) {
     }
 }
 
+$update = false;
+$backup_ok = false;
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
     echo "***************Installation/Mise à jour de Jeedom " . getVersion('jeedom') . "***************\n";
-    $update = false;
+
     $curentVersion = config::byKey('version');
     if ($curentVersion != '') {
         $update = true;
     }
 
     if ($update) {
+        try {
+            jeedom::backup();
+        } catch (Exception $e) {
+            if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                throw $e;
+            } else {
+                echo '***ERREUR*** ' . $e->getMessage();
+            }
+        }
+        $backup_ok = true;
         if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
             echo "/!\ Mise à jour en mode forcée /!\ \n";
         }
-        stopActivities();
+        jeedom::stop();
         if (!isset($_GET['v'])) {
             try {
                 echo "Verification des mises à jour (git pull)\n";
@@ -60,13 +72,15 @@ try {
             } catch (Exception $e) {
                 if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                     throw $e;
+                } else {
+                    echo '***ERREUR*** ' . $e->getMessage();
                 }
             }
         }
         @include dirname(__FILE__) . '/../core/config/version.config.php';
 
         if (version_compare(getVersion('jeedom'), $curentVersion, '=') && !isset($_GET['v'])) {
-            startActivities();
+            jeedom::start();
             echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
             exit();
         }
@@ -74,7 +88,7 @@ try {
             echo "La mise à jour " . $_GET['v'] . " va être reapliquée. Voulez vous continuer  ? [o/N] ";
             if (trim(fgets(STDIN)) !== 'o') {
                 echo "Mise à jour forcee de Jeedom est annulée\n";
-                startActivities();
+                jeedom::start();
                 exit(0);
             }
             $updateSql = dirname(__FILE__) . '/update/' . $_GET['v'] . '.sql';
@@ -87,6 +101,8 @@ try {
                 } catch (Exception $e) {
                     if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                         throw $e;
+                    } else {
+                        echo '***ERREUR*** ' . $e->getMessage();
                     }
                 }
             }
@@ -99,6 +115,8 @@ try {
                 } catch (Exception $e) {
                     if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                         throw $e;
+                    } else {
+                        echo '***ERREUR*** ' . $e->getMessage();
                     }
                 }
             }
@@ -115,6 +133,8 @@ try {
                     } catch (Exception $e) {
                         if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                             throw $e;
+                        } else {
+                            echo '***ERREUR*** ' . $e->getMessage();
                         }
                     }
                 }
@@ -127,13 +147,15 @@ try {
                     } catch (Exception $e) {
                         if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                             throw $e;
+                        } else {
+                            echo '***ERREUR*** ' . $e->getMessage();
                         }
                     }
                 }
                 $curentVersion = $nextVersion;
             }
         }
-        startActivities();
+        jeedom::start();
         echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
     } else {
         echo "Jeedom va être installé voulez vous continuer ? [o/N] ";
@@ -198,7 +220,12 @@ try {
 
     config::save('version', getVersion('jeedom'));
 } catch (Exception $e) {
-    startActivities();
+    if ($update) {
+        if ($backup_ok) {
+            jeedom::restore();
+        }
+        jeedom::start();
+    }
     echo 'Erreur durant l\'installation : ' . $e->getMessage();
     echo 'Détails : ' . print_r($e->getTrace());
 }
@@ -222,72 +249,4 @@ function incrementVersion($_version) {
         $returnVersion .= $version[$j] . '.';
     }
     return trim($returnVersion, '.');
-}
-
-function stopActivities() {
-    try {
-        echo "Désactivation de toutes les tâches";
-        config::save('enableCron', 0);
-        foreach (cron::all() as $cron) {
-            if ($cron->running()) {
-                $cron->halt();
-                echo '.';
-            }
-        }
-        echo " OK\n";
-    } catch (Exception $e) {
-        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
-            throw $e;
-        }
-    }
-    /*     * **********Arret des crons********************* */
-
-    try {
-        if (cron::jeeCronRun()) {
-            echo "Arret du cron master ";
-            exec('kill ' . cron::getPidFile());
-            while (cron::jeeCronRun()) {
-                echo '.';
-                sleep(2);
-            }
-            echo " OK\n";
-        }
-    } catch (Exception $e) {
-        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
-            throw $e;
-        }
-    }
-
-
-    /*     * *********Arret des scénarios**************** */
-    try {
-        echo "Desactivation de tout les scenarios";
-        config::save('enableScenario', 0);
-        foreach (scenario::all() as $scenario) {
-            $scenario->stop();
-            echo '.';
-        }
-        echo " OK\n";
-    } catch (Exception $e) {
-        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
-            throw $e;
-        }
-    }
-}
-
-function startActivities() {
-    try {
-        /*         * *********Réactivation des scénarios**************** */
-        echo "Réactivation des scenarios : ";
-        config::save('enableScenario', 1);
-        echo "OK\n";
-        /*         * *********Réactivation des tâches**************** */
-        echo "Réactivation des tâches : ";
-        config::save('enableCron', 1);
-        echo "OK\n";
-    } catch (Exception $e) {
-        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
-            throw $e;
-        }
-    }
 }

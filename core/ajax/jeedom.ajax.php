@@ -25,15 +25,30 @@ try {
     }
 
     if (init('action') == 'update') {
-        log::clear('update');
-        $cmd = 'nohup php ' . dirname(__FILE__) . '/../../install/install.php mode=' . init('mode');
-        $cmd.= ' >> ' . log::getPathToLog('update') . ' 2>&1 &';
-        shell_exec($cmd);
+        jeedom::update();
+        ajax::success();
+    }
+
+    if (init('action') == 'backup') {
+        jeedom::backup();
+        ajax::success();
+    }
+
+    if (init('action') == 'restore') {
+        jeedom::restore(init('backup'));
         ajax::success();
     }
 
     if (init('action') == 'getUpdateLog') {
         ajax::success(log::get('update', 0, 3000));
+    }
+
+    if (init('action') == 'getBackupLog') {
+        ajax::success(log::get('backup', 0, 3000));
+    }
+
+    if (init('action') == 'getRestoreLog') {
+        ajax::success(log::get('restore', 0, 3000));
     }
 
     throw new Exception('Aucune methode correspondante à : ' . init('action'));

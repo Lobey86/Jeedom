@@ -75,7 +75,7 @@ $(function() {
                 el.find('.fa-refresh').show();
                 $.ajax({
                     type: 'POST',
-                    url: 'core/ajax/git.ajax.php',
+                    url: 'core/ajax/jeedom.ajax.php',
                     data: {
                         action: 'update',
                         mode: el.attr('mode')

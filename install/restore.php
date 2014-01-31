@@ -36,35 +36,52 @@ if (isset($argv)) {
 
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
-    echo "***************Lancement du backup de Jeedom***************\n";
+    echo "***************Lancement de la restauration de Jeedom***************\n";
     global $CONFIG;
+    global $BACKUP_FILE;
+    if (isset($BACKUP_FILE)) {
+        $_GET['backup'] = $BACKUP_FILE;
+    }
+    if (!isset($_GET['backup']) || $_GET['backup'] == '') {
+        $backup_dir = dirname(__FILE__) . '/../backup';
+        if (!file_exists($backup_dir)) {
+            mkdir($backup_dir, 0770, true);
+        }
+        $backup = scandir($backup_dir, SCANDIR_SORT_DESCENDING);
+        $backup = $backup_dir . '/' . $backup[0];
+        echo "Restauration de  : " . $backup . "\n";
+    } else {
+        $backup = $_GET['backup'];
+    }
+    if (substr($backup, 0, 1) != '/') {
+        $backup = dirname(__FILE__) . '/../' . $backup;
+    }
+
+    if (!file_exists($backup)) {
+        throw new Exception('Backup non trouvé : ' . $backup);
+    }
     $tmp = dirname(__FILE__) . '/../tmp/backup';
+    rrmdir($tmp);
     if (!file_exists($tmp)) {
         mkdir($tmp, 0770, true);
     }
-    $backup = dirname(__FILE__) . '/../backup';
-    if (!file_exists($backup)) {
-        mkdir($backup, 0770, true);
-    }
-
-    echo 'Backup des fichiers : ';
-    rcopy(dirname(__FILE__) . '/..', $tmp, true, array('tmp', 'backup'));
+    echo "Décompression du backup : ";
+    system('cd ' . $tmp . '; tar xfz ' . $backup . ' ');
     echo "OK\n";
 
-    echo 'Backup de la base de données : ';
-    system("mysqldump --host=" . $CONFIG['db']['host'] . " --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'] . "  > " . $tmp . "/DB_backup.sql");
+    jeedom::stop();
+    echo "Reastauration de la base de données : ";
+    system("mysql --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'] . "  < " . $tmp . "/DB_backup.sql");
     echo "OK\n";
 
-    echo 'Création de l\'archive : ';
-    system('cd ' . $tmp . '; tar cfz ' . $backup . '/backup-' . date("d-m-Y-H\hi") . '.tar.gz * > /dev/null 2>&1');
+    echo "Reastauration des fichiers : ";
+    rcopy($tmp, dirname(__FILE__) . '/..', false);
     echo "OK\n";
 
-    echo 'Nettoyage des anciens backup : ';
-    system('find ' . $backup . ' -mtime +' . config::byKey('backup::keepDays') . ' -print | xargs -r rm');
-    echo "OK\n";
-
-    echo "***************Fin du backup de Jeedom***************\n";
+    jeedom::start();
+    echo "***************Fin de la restoration de Jeedom***************\n";
 } catch (Exception $e) {
+    startActivities();
     echo 'Erreur durant le backup : ' . $e->getMessage();
     echo 'Détails : ' . print_r($e->getTrace());
     throw $e;
