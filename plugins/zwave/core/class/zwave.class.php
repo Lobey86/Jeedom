@@ -103,7 +103,7 @@ class zwave extends eqLogic {
                 $data = $result['data'];
                 if (count(self::byLogicalId($nodeId, 'zwave')) == 0 || $nodeId == 2) {
                     $eqLogic = new eqLogic();
-                    $eqLogic->setType('zwave');
+                    $eqLogic->setEqType_name('zwave');
                     $eqLogic->setIsEnable(1);
                     $eqLogic->setName('Device ' . $nodeId);
                     $eqLogic->setLogicalId($nodeId);
