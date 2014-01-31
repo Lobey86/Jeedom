@@ -44,16 +44,24 @@ try {
     }
 
     if ($update) {
+        if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
+            echo "/!\ Mise à jour en mode forcée /!\ \n";
+        }
         stopActivities();
-
         if (!isset($_GET['v'])) {
-            echo "Verification des mises à jour (git pull)\n";
-            $repo = getGitRepo();
-            if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
-                echo "Reset du dépot git (mise à jour forcée)\n";
-                echo $repo->run('reset --hard HEAD');
+            try {
+                echo "Verification des mises à jour (git pull)\n";
+                $repo = getGitRepo();
+                if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
+                    echo "Reset du dépot git (mise à jour forcée)\n";
+                    echo $repo->run('reset --hard HEAD');
+                }
+                echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
+            } catch (Exception $e) {
+                if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                    throw $e;
+                }
             }
-            echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
         }
         @include dirname(__FILE__) . '/../core/config/version.config.php';
 
@@ -71,32 +79,56 @@ try {
             }
             $updateSql = dirname(__FILE__) . '/update/' . $_GET['v'] . '.sql';
             if (file_exists($updateSql)) {
-                echo "Mise a jour BDD en version : " . $_GET['v'] . "\n";
-                $sql = file_get_contents($updateSql);
-                DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
-                echo "OK\n";
+                try {
+                    echo "Mise a jour BDD en version : " . $_GET['v'] . "\n";
+                    $sql = file_get_contents($updateSql);
+                    DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
+                    echo "OK\n";
+                } catch (Exception $e) {
+                    if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                        throw $e;
+                    }
+                }
             }
             $updateScript = dirname(__FILE__) . '/update/' . $_GET['v'] . '.php';
             if (file_exists($updateScript)) {
-                echo "Mise à jour systeme en version : " . $_GET['v'] . "\n";
-                require_once $updateScript;
-                echo "OK\n";
+                try {
+                    echo "Mise à jour systeme en version : " . $_GET['v'] . "\n";
+                    require_once $updateScript;
+                    echo "OK\n";
+                } catch (Exception $e) {
+                    if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                        throw $e;
+                    }
+                }
             }
         } else {
             while (version_compare(getVersion('jeedom'), $curentVersion, '>')) {
                 $nextVersion = incrementVersion($curentVersion);
                 $updateSql = dirname(__FILE__) . '/update/' . $nextVersion . '.sql';
                 if (file_exists($updateSql)) {
-                    echo "Mise à jour BDD en version : " . $nextVersion . "\n";
-                    $sql = file_get_contents($updateSql);
-                    DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
-                    echo "OK\n";
+                    try {
+                        echo "Mise à jour BDD en version : " . $nextVersion . "\n";
+                        $sql = file_get_contents($updateSql);
+                        DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
+                        echo "OK\n";
+                    } catch (Exception $e) {
+                        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                            throw $e;
+                        }
+                    }
                 }
                 $updateScript = dirname(__FILE__) . '/update/' . $nextVersion . '.php';
                 if (file_exists($updateScript)) {
-                    echo "Mise à jour systeme en version : " . $nextVersion . "\n";
-                    require_once $updateScript;
-                    echo "OK\n";
+                    try {
+                        echo "Mise à jour systeme en version : " . $nextVersion . "\n";
+                        require_once $updateScript;
+                        echo "OK\n";
+                    } catch (Exception $e) {
+                        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                            throw $e;
+                        }
+                    }
                 }
                 $curentVersion = $nextVersion;
             }
@@ -193,42 +225,69 @@ function incrementVersion($_version) {
 }
 
 function stopActivities() {
-    /*     * **********Arret des crons********************* */
-    echo "Désactivation de toutes les tâches";
-    config::save('enableCron', 0);
-    foreach (cron::all() as $cron) {
-        if ($cron->running()) {
-            $cron->halt();
-            echo '.';
-        }
-    }
-    echo " OK\n";
-    if (cron::jeeCronRun()) {
-        echo "Arret du cron master ";
-        exec('kill ' . cron::getPidFile());
-        while (cron::jeeCronRun()) {
-            echo '.';
-            sleep(2);
+    try {
+        echo "Désactivation de toutes les tâches";
+        config::save('enableCron', 0);
+        foreach (cron::all() as $cron) {
+            if ($cron->running()) {
+                $cron->halt();
+                echo '.';
+            }
         }
         echo " OK\n";
+    } catch (Exception $e) {
+        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+            throw $e;
+        }
     }
+    /*     * **********Arret des crons********************* */
+
+    try {
+        if (cron::jeeCronRun()) {
+            echo "Arret du cron master ";
+            exec('kill ' . cron::getPidFile());
+            while (cron::jeeCronRun()) {
+                echo '.';
+                sleep(2);
+            }
+            echo " OK\n";
+        }
+    } catch (Exception $e) {
+        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+            throw $e;
+        }
+    }
+
+
     /*     * *********Arret des scénarios**************** */
-    echo "Desactivation de tout les scenarios";
-    config::save('enableScenario', 0);
-    foreach (scenario::all() as $scenario) {
-        $scenario->stop();
-        echo '.';
+    try {
+        echo "Desactivation de tout les scenarios";
+        config::save('enableScenario', 0);
+        foreach (scenario::all() as $scenario) {
+            $scenario->stop();
+            echo '.';
+        }
+        echo " OK\n";
+    } catch (Exception $e) {
+        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+            throw $e;
+        }
     }
-    echo " OK\n";
 }
 
 function startActivities() {
-    /*     * *********Réactivation des scénarios**************** */
-    echo "Réactivation des scenarios : ";
-    config::save('enableScenario', 1);
-    echo "OK\n";
-    /*     * *********Réactivation des tâches**************** */
-    echo "Réactivation des tâches : ";
-    config::save('enableCron', 1);
-    echo "OK\n";
+    try {
+        /*         * *********Réactivation des scénarios**************** */
+        echo "Réactivation des scenarios : ";
+        config::save('enableScenario', 1);
+        echo "OK\n";
+        /*         * *********Réactivation des tâches**************** */
+        echo "Réactivation des tâches : ";
+        config::save('enableCron', 1);
+        echo "OK\n";
+    } catch (Exception $e) {
+        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+            throw $e;
+        }
+    }
 }
