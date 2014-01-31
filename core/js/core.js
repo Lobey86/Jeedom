@@ -332,17 +332,7 @@ function refreshCmdValue(_cmd_id) {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-                    if (options.dataType == 'script' || originalOptions.dataType == 'script') {
-                        options.cache = true;
-                    }
-                });
                 $('.cmd[cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
-                $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-                    if (options.dataType == 'script' || originalOptions.dataType == 'script') {
-                        options.cache = false;
-                    }
-                });
                 activateTooltips();
                 if ($.mobile) {
                     $('.cmd[cmd_id=' + _cmd_id + ']').trigger("create");
