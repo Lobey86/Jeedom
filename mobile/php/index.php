@@ -131,7 +131,7 @@ if ($module != '') {
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
         if (isConnect()) {
-
+            include_file('3rdparty', 'jquery.include/jquery.include', 'js');
             include_file('mobile', 'utils', 'js');
             if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
                 include_file('mobile', 'chat', 'js');

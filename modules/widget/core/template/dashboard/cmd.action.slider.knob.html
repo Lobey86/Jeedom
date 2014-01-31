@@ -7,15 +7,17 @@
 
     <script>
         $(function() {
-            $(".cmd[cmd_id=#id#] .knob").knob({
-                min: '#minValue#',
-                max: '#maxValue#',
-                width: 120,
-                height: 120,
-                scroll : false,
-                release: function(v) {
-                    execCmd('#id#', {slider: v});
-                }
+            $.include(['modules/widget/3rdparty/jquery.knob/jquery.knob.js'], function() {
+                $(".cmd[cmd_id=#id#] .knob").knob({
+                    min: '#minValue#',
+                    max: '#maxValue#',
+                    width: 120,
+                    height: 120,
+                    scroll: false,
+                    release: function(v) {
+                        execCmd('#id#', {slider: v});
+                    }
+                });
             });
         });
     </script>

@@ -208,6 +208,7 @@ if ($module != '') {
             include_file('3rdparty', 'jquery.value/jquery.value', 'js');
             include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
             include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
+            include_file('3rdparty', 'jquery.include/jquery.include', 'js');
             include_file('3rdparty', 'bootbox/bootbox.min', 'js');
             include_file('3rdparty', 'highstock/highstock', 'js');
             include_file('3rdparty', 'highstock/highcharts-more', 'js');
