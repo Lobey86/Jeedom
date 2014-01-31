@@ -15,11 +15,11 @@ if (isset($PAGE_DESCRIPTOR_MOBILE[$page])) {
 } else {
     $title = $page;
 }
-$module = init('m');
-if ($module != '') {
-    $module = new module($module);
-    if (is_object($module)) {
-        $title = $module->getName();
+$plugin = init('m');
+if ($plugin != '') {
+    $plugin = new plugin($plugin);
+    if (is_object($plugin)) {
+        $title = $plugin->getName();
     }
 }
 ?>
@@ -73,8 +73,8 @@ if ($module != '') {
                     try {
                         if (isset($PAGE_DESCRIPTOR_MOBILE[$page])) {
                             include_file('mobile', $PAGE_DESCRIPTOR_MOBILE[$page]['pageName'], 'php');
-                        } else if (isset($module) && is_object($module)) {
-                            include_file('modules', $page, 'php');
+                        } else if (isset($plugin) && is_object($plugin)) {
+                            include_file('plugins', $page, 'php');
                         } else {
                             echo '<div class="alert alert-danger div_alert">';
                             echo '404 - Request page not found';

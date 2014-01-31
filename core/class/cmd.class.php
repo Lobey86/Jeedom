@@ -50,12 +50,12 @@ class cmd {
         $values = array(
             'id' => $_id
         );
-        $sql = 'SELECT el.eqType_name
+        $sql = 'SELECT el.plugin
                 FROM cmd c
                     INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                 WHERE c.id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        $eqTyme_name = $result['eqType_name'];
+        $eqTyme_name = $result['plugin'];
         if (class_exists($eqTyme_name)) {
             if (method_exists($eqTyme_name, 'getClassCmd')) {
                 return $eqTyme_name::getClassCmd();
@@ -149,7 +149,7 @@ class cmd {
                     INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                 WHERE c.name=:cmd_name
                     AND el.name=:eqLogic_name
-                    AND el.eqType_name=:type';
+                    AND el.plugin=:type';
         $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         return self::byId($id['id']);
     }
@@ -402,8 +402,8 @@ class cmd {
             }
             $return[$informations[1]][$informations[2]][] = array('name' => $informations[3]);
         }
-        foreach (module::listModule(true) as $module) {
-            $path = dirname(__FILE__) . '/../../modules/' . $module->getId() . '/core/template/' . $_version;
+        foreach (plugin::listPlugin(true) as $plugin) {
+            $path = dirname(__FILE__) . '/../../plugins/' . $plugin->getId() . '/core/template/' . $_version;
             $files = ls($path, 'cmd.*', false, array('files', 'quiet'));
             foreach ($files as $file) {
                 $informations = explode('.', $file);
@@ -502,7 +502,7 @@ class cmd {
         }
 
         $eqLogic = $this->getEqLogic();
-        $type = $eqLogic->getEqType_name();
+        $type = $eqLogic->getPlugin();
         try {
             if ($_options !== null && $_options !== '') {
                 $options = self::cmdToValue($_options);
@@ -585,9 +585,9 @@ class cmd {
             $template = getTemplate('core', $_version, $template_name);
         } catch (Exception $e) {
             if ($template == '') {
-                foreach (module::listModule(true) as $module) {
+                foreach (plugin::listPlugin(true) as $plugin) {
                     try {
-                        $template = getTemplate('core', $_version, $template_name, $module->getId());
+                        $template = getTemplate('core', $_version, $template_name, $plugin->getId());
                     } catch (Exception $e) {
                         
                     }
@@ -698,7 +698,7 @@ class cmd {
                 $this->addHistoryValue($_value);
             }
             $message = 'Message venant de ' . $this->getHumanName() . ' : ' . $_value;
-            log::add($eqLogic->getEqType_name(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
+            log::add($eqLogic->getPlugin(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
             if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
                 $_value = 1;
             }
@@ -788,8 +788,8 @@ class cmd {
         return $this->subType;
     }
 
-    public function getEqType_name() {
-        return eqLogic::byId($this->eqLogic_id)->getEqType_name();
+    public function getPlugin() {
+        return eqLogic::byId($this->eqLogic_id)->getPlugin();
     }
 
     public function getEqLogic_id() {

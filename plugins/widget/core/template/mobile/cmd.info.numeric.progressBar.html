@@ -1,0 +1,28 @@
+<span class="cmd" type="info" subtype="numeric" cmd_id="#id#" style="width:140px;height: 140px;" >
+    <div style="width:140px;display: inline-block;" class="#history#" cmd_id="#id#" >
+        <div id="cmd#id#"></div>
+        <span class="collectDate" style="width:140px;font-size: 0.85em; #displayHistory#">
+            <i class="#collectInProgress#"></i>
+            <span>#minHistoryValue#</span>|<span>#averageHistoryValue#</span>|<span>#maxHistoryValue#</span> <i class="#tendance#"></i>
+        </span><br/>
+        <span class="collectDate" style="width:140px;font-size: 0.85em;">
+            #collectDate#
+        </span>
+    </div>
+
+    <script>
+        $(function() {
+            $.include(['plugins/widget/3rdparty/jquery.mobile.tolito/tolito.js', 'plugins/widget/3rdparty/jquery.mobile.tolito/tolito.css'], function() {
+                TolitoProgressBar('cmd#id#')
+                        .setOuterTheme('b')
+                        .setInnerTheme('e')
+                        .setMax(#maxValue#)
+                        .setStartFrom((is_numeric(#state#)) ? parseInt('#state#') : 0)
+                        .showCounter(true)
+                        .logOptions()
+                        .build();
+            });
+        });
+    </script>
+
+</span>

@@ -32,12 +32,12 @@ class log {
      * @param string $_type type du message à mettre dans les log
      * @param string $_message message à mettre dans les logs
      */
-    public static function add($_module, $_type, $_message) {
+    public static function add($_plugin, $_type, $_message) {
         $_type = strtolower($_type);
         if (self::isTypeLog($_type)) {
             $_message = str_replace("\n", '<br/>', $_message);
             $_message = str_replace(";", ',', $_message);
-            $path = self::getPathToLog($_module);
+            $path = self::getPathToLog($_plugin);
             $message = date("d-m-Y H:i:s") . ' | ' . $_type . ' | ' . $_message . "\r\n";
             $log = fopen($path, "a+");
             fputs($log, $message);
@@ -54,20 +54,20 @@ class log {
             @chgrp($path, 'www-data');
             @chmod($path, 0777);
             if (config::byKey('addMessageForErrorLog') == 1 && $_type == 'error') {
-                @message::add($_module, $_message);
+                @message::add($_plugin, $_message);
             }
         }
     }
 
-    public static function getPathToLog($_module = 'core') {
-        return dirname(__FILE__) . '/../../log/' . $_module;
+    public static function getPathToLog($_plugin = 'core') {
+        return dirname(__FILE__) . '/../../log/' . $_plugin;
     }
 
     /**
      * Vide le fichier de log 
      */
-    public static function clear($_module) {
-        $path = self::getPathToLog($_module);
+    public static function clear($_plugin) {
+        $path = self::getPathToLog($_plugin);
         $log = fopen($path, "w");
         ftruncate($log, 0);
         fclose($log);
@@ -77,8 +77,8 @@ class log {
     /**
      * Vide le fichier de log 
      */
-    public static function remove($_module) {
-        $path = self::getPathToLog($_module);
+    public static function remove($_plugin) {
+        $path = self::getPathToLog($_plugin);
         unlink($path);
         return true;
     }
@@ -88,9 +88,9 @@ class log {
      * @param int $_maxLigne nombre de ligne voulu
      * @return string Ligne du fichier de log
      */
-    public static function get($_module = 'core', $_begin, $_nbLines) {
+    public static function get($_plugin = 'core', $_begin, $_nbLines) {
         $page = array();
-        $path = self::getPathToLog($_module);
+        $path = self::getPathToLog($_plugin);
         if (!file_exists($path)) {
             return false;
         }
@@ -116,8 +116,8 @@ class log {
         return $page;
     }
 
-    public static function nbLine($_module = 'core') {
-        $path = self::getPathToLog($_module);
+    public static function nbLine($_plugin = 'core') {
+        $path = self::getPathToLog($_plugin);
         $log_file = file($path);
         return count($log_file);
     }

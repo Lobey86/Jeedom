@@ -6,7 +6,7 @@ $(function() {
             url: "core/ajax/message.ajax.php", // url du fichier php
             data: {
                 action: "clearMessage",
-                module: module
+                plugin: plugin
             },
             dataType: 'json',
             error: function(request, status, error) {

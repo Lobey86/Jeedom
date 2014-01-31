@@ -83,7 +83,7 @@ try {
         $return = utils::o2a($cmd);
         $eqLogic = $cmd->getEqLogic();
         $return['eqLogic_name'] = $eqLogic->getName();
-        $return['eqType_name'] = $eqLogic->getEqType_name();
+        $return['plugin'] = $eqLogic->getPlugin();
         if ($eqLogic->getObject_id() > 0) {
             $return['object_name'] = $eqLogic->getObject()->getName();
         }

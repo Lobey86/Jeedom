@@ -1,0 +1,186 @@
+
+/* This file is part of Jeedom.
+*
+* Jeedom is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Jeedom is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+$(function() {
+    $(".li_plugin").on('click', function(event) {
+        $.hideAlert();
+        $('.li_plugin').removeClass('active');
+        $(this).addClass('active');
+        printPlugin($(this).attr('id'), $(this).attr('pluginPath'));
+        return false;
+    });
+
+    $("#span_plugin_toggleState").delegate(".togglePlugin", 'click', function(event) {
+        togglePlugin($(this).attr('plugin_id'), $(this).attr('state'));
+    });
+
+    if (select_id != -1) {
+        $('#ul_plugin .li_plugin[plugin_id=' + select_id + ']').click();
+    } else {
+        $('#ul_plugin .li_plugin:first').click();
+    }
+
+    $("#bt_savePluginConfig").on('click', function(event) {
+        savePluginConfig();
+        return false;
+    });
+});
+
+function togglePlugin(_id, _state) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/plugin.ajax.php", // url du fichier php
+        data: {
+            action: "togglePlugin",
+            id: _id,
+            state: _state
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            window.location.replace('index.php?v=d&p=plugin&id=' + _id);
+        }
+    });
+}
+
+function savePluginConfig() {
+    try {
+        var configuration = $('#div_plugin_configuration').getValues('.configKey');
+        configuration = configuration[0];
+    } catch (e) {
+        $('#div_alert').showAlert({message: e, level: 'danger'});
+        return false;
+    }
+
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/config.ajax.php", // url du fichier php
+        data: {
+            action: "addKey",
+            value: json_encode(configuration),
+            plugin: $('.li_plugin.active').attr('plugin_id')
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            $('#div_alert').showAlert({message: 'Sauvegarde effetuée', level: 'success'});
+        }
+    });
+}
+
+function loadPluginConfig() {
+    try {
+        var configuration = $('#div_plugin_configuration').getValues('.configKey');
+        configuration = configuration[0];
+    } catch (e) {
+        $('#div_alert').showAlert({message: e, level: 'danger'});
+        return false;
+    }
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/config.ajax.php", // url du fichier php
+        data: {
+            action: "getKey",
+            key: json_encode(configuration),
+            plugin: $('.li_plugin.active').attr('plugin_id')
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            $('#div_plugin_configuration').setValues(data.result, '.configKey');
+        }
+    });
+}
+
+function printPlugin(_id, _pluginPath) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/plugin.ajax.php", // url du fichier php
+        data: {
+            action: "getPluginConf",
+            id: _id,
+            pluginPath: _pluginPath
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+
+            $('#span_plugin_id').html(data.result.id);
+            $('#span_plugin_name').html(data.result.name);
+            $('#span_plugin_author').html(data.result.author);
+            $('#span_plugin_description').html(data.result.description);
+            $('#span_plugin_licence').html(data.result.licence);
+            $('#span_plugin_installation').html(data.result.installation);
+            if (data.result.checkVersion != -1) {
+                $('#span_plugin_require').html('<span>' + data.result.require + '</span>');
+            } else {
+                $('#span_plugin_require').html('<span class="label label-danger">' + data.result.require + '</span>');
+            }
+            $('#span_plugin_version').html(data.result.version);
+
+            $('#span_plugin_toggleState').empty();
+            if (data.result.checkVersion != -1) {
+                if (data.result.activate == 1) {
+                    var btn = '<a class="btn btn-danger btn-xs togglePlugin" state="0" plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-times"></i> Désactiver</a>';
+                } else {
+                    var btn = '<a class="btn btn-success btn-xs togglePlugin" state="1" plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-check"></i> Activer</a>';
+                }
+                $('#span_plugin_toggleState').html(btn);
+            }
+
+            $('#div_plugin_configuration').empty();
+            if (data.result.checkVersion != -1) {
+                if (data.result.configurationPath != '' && data.result.activate == 1) {
+                    $('#div_plugin_configuration').load(data.result.configurationPath, function() {
+                        loadPluginConfig();
+                        $('#div_plugin_configuration').parent().show();
+                    });
+                } else {
+                    $('#div_plugin_configuration').parent().hide();
+                }
+            } else {
+                $('#div_plugin_configuration').parent().hide();
+            }
+            $('#div_confPlugin').show();
+        }
+    });
+}
+

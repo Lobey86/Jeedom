@@ -440,7 +440,7 @@ function loadConfiguration(_el) {
         url: "core/ajax/config.ajax.php", // url du fichier php
         data: {
             action: "getKey",
-            module: 'core',
+            plugin: 'core',
             key: json_encode(configuration)
         },
         dataType: 'json',

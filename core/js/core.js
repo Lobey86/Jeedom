@@ -211,7 +211,7 @@ function getTemplate(_folder, _version, _filename, _replace) {
     if (_folder == 'core') {
         var path = _folder + '/template/' + _version + '/' + _filename;
     } else {
-        var path = 'modules/' + _folder + '/desktop/template/' + _version + '/' + _filename;
+        var path = 'plugins/' + _folder + '/desktop/template/' + _version + '/' + _filename;
     }
     var template = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -474,6 +474,8 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
             } else {
                 var legend = {};
             }
+            
+          var maxDatetime = new Date().getTime();
 
             if (!isset(CORE_chart[_el])) {
                 CORE_chart[_el] = {};
@@ -581,6 +583,7 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                     xAxis: {
                         type: 'datetime',
                         ordinal: false,
+                        max: maxDatetime,
                         plotBands: generatePlotBand(data.result.data[0][0], data.result.data[data.result.data.length - 1][0])
                     },
                     scrollbar: {

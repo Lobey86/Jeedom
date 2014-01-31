@@ -16,8 +16,8 @@
 */
 
 $(function() {
-    $("#sel_module").on('change', function() {
-        window.location = 'index.php?v=d&p=message&module=' + $('#sel_module').value();
+    $("#sel_plugin").on('change', function() {
+        window.location = 'index.php?v=d&p=message&plugin=' + $('#sel_plugin').value();
     });
 
     $("#bt_clearMessage").on('click', function(event) {
@@ -26,7 +26,7 @@ $(function() {
             url: "core/ajax/message.ajax.php", // url du fichier php
             data: {
                 action: "clearMessage",
-                module: $('#sel_module').value()
+                plugin: $('#sel_plugin').value()
             },
             dataType: 'json',
             error: function(request, status, error) {

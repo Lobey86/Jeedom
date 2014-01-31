@@ -106,10 +106,10 @@ CREATE TABLE IF NOT EXISTS `cmd` (
 --
 
 CREATE TABLE IF NOT EXISTS `config` (
-  `module` varchar(255) NOT NULL DEFAULT 'core',
+  `plugin` varchar(255) NOT NULL DEFAULT 'core',
   `key` varchar(255) NOT NULL,
   `value` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`key`,`module`)
+  PRIMARY KEY (`key`,`plugin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `eqLogic` (
   `name` varchar(127) NOT NULL,
   `logicalId` varchar(127) DEFAULT NULL,
   `object_id` int(11) DEFAULT NULL,
-  `eqType_name` varchar(127) NOT NULL,
+  `plugin` varchar(127) NOT NULL,
   `specificCapatibilities` text,
   `configuration` text,
   `isVisible` tinyint(1) DEFAULT NULL,
@@ -174,10 +174,10 @@ CREATE TABLE IF NOT EXISTS `eqLogic` (
   `timeout` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique` (`name`,`object_id`),
-  KEY `eqTypeName` (`eqType_name`),
+  KEY `eqTypeName` (`plugin`),
   KEY `name` (`name`),
   KEY `logical_id` (`logicalId`),
-  KEY `logica_id_eqTypeName` (`logicalId`,`eqType_name`),
+  KEY `logica_id_eqTypeName` (`logicalId`,`plugin`),
   KEY `object_id` (`object_id`),
   KEY `eqReal_id` (`eqReal_id`),
   KEY `timeout` (`timeout`)
@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
   `logicalId` varchar(127) DEFAULT NULL,
-  `module` varchar(127) NOT NULL,
+  `plugin` varchar(127) NOT NULL,
   `message` text,
   `action` text,
   PRIMARY KEY (`id`)

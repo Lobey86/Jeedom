@@ -26,7 +26,7 @@ class eqLogic {
     protected $name;
     protected $logicalId = '';
     protected $object_id = null;
-    protected $eqType_name;
+    protected $plugin;
     protected $eqReal_id = null;
     protected $isVisible = 0;
     protected $isEnable = 0;
@@ -44,11 +44,11 @@ class eqLogic {
         $values = array(
             'id' => $_id
         );
-        $sql = 'SELECT eqType_name
+        $sql = 'SELECT plugin
                 FROM eqLogic
                 WHERE id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        $eqTyme_name = $result['eqType_name'];
+        $eqTyme_name = $result['plugin'];
         if (class_exists($eqTyme_name)) {
             return $eqTyme_name;
         }
@@ -125,15 +125,15 @@ class eqLogic {
         return $return;
     }
 
-    public static function byLogicalId($_logicalId, $_eqType_name) {
+    public static function byLogicalId($_logicalId, $_plugin) {
         $values = array(
             'logicalId' => $_logicalId,
-            'eqType_name' => $_eqType_name
+            'plugin' => $_plugin
         );
         $sql = 'SELECT id
                 FROM eqLogic
                 WHERE logicalId=:logicalId
-                    AND eqType_name=:eqType_name';
+                    AND plugin=:plugin';
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
         foreach ($results as $result) {
@@ -144,11 +144,11 @@ class eqLogic {
 
     public static function byType($_type) {
         $values = array(
-            'eqType_name' => $_type
+            'plugin' => $_type
         );
         $sql = 'SELECT id
                 FROM eqLogic
-                WHERE eqType_name=:eqType_name
+                WHERE plugin=:plugin
                 ORDER BY name';
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
@@ -161,26 +161,26 @@ class eqLogic {
     public static function listByTypeAndCmdType($_type, $_typeCmd, $subTypeCmd = '') {
         if ($subTypeCmd == '') {
             $values = array(
-                'eqType_name' => $_type,
+                'plugin' => $_type,
                 'typeCmd' => $_typeCmd
             );
             $sql = 'SELECT DISTINCT(el.id),el.name
                     FROM eqLogic el
                         INNER JOIN cmd c ON c.eqLogic_id=el.id
-                    WHERE eqType_name=:eqType_name
+                    WHERE plugin=:plugin
                         AND c.type=:typeCmd
                     ORDER BY name';
             return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         } else {
             $values = array(
-                'eqType_name' => $_type,
+                'plugin' => $_type,
                 'typeCmd' => $_typeCmd,
                 'subTypeCmd' => $subTypeCmd
             );
             $sql = 'SELECT DISTINCT(el.id),el.name
                     FROM eqLogic el
                         INNER JOIN cmd c ON c.eqLogic_id=el.id
-                    WHERE eqType_name=:eqType_name
+                    WHERE plugin=:plugin
                         AND c.type=:typeCmd
                         AND c.subType=:subTypeCmd
                     ORDER BY name';
@@ -213,7 +213,7 @@ class eqLogic {
     }
 
     public static function allType() {
-        $sql = 'SELECT distinct(eqType_name) as type
+        $sql = 'SELECT distinct(plugin) as type
                 FROM eqLogic';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
     }
@@ -231,7 +231,7 @@ class eqLogic {
                 $logicalId = 'noMessage' . $eqLogic->getId();
                 if ($sendReport) {
                     $noReponseTimeLimit = $eqLogic->getTimeout();
-                    if (count(message::byModuleLogicalId('core', $logicalId)) == 0) {
+                    if (count(message::byPluginLogicalId('core', $logicalId)) == 0) {
                         if ($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')) < date('Y-m-d H:i:s', strtotime('-' . $noReponseTimeLimit . ' minutes' . date('Y-m-d H:i:s')))) {
                             $message = 'Attention <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getHumanName();
                             $message .= '</a> n\'a pas envoyé de message depuis plus de ' . $noReponseTimeLimit . ' min (vérifier les piles)';
@@ -244,7 +244,7 @@ class eqLogic {
                         }
                     } else {
                         if ($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')) > date('Y-m-d H:i:s', strtotime('-' . $noReponseTimeLimit . ' minutes' . date('Y-m-d H:i:s')))) {
-                            foreach (message::byModuleLogicalId('core', $logicalId) as $message) {
+                            foreach (message::byPluginLogicalId('core', $logicalId) as $message) {
                                 $message->remove();
                             }
                         }
@@ -332,7 +332,7 @@ class eqLogic {
     }
 
     public function getLinkToConfiguration() {
-        return 'index.php?v=d&p=' . $this->getEqType_name() . '&m=' . $this->getEqType_name() . '&id=' . $this->getId();
+        return 'index.php?v=d&p=' . $this->getPlugin() . '&m=' . $this->getPlugin() . '&id=' . $this->getId();
     }
 
     public function collectInProgress() {
@@ -385,8 +385,8 @@ class eqLogic {
         return object::byId($this->object_id);
     }
 
-    public function getEqType_name() {
-        return $this->eqType_name;
+    public function getPlugin() {
+        return $this->plugin;
     }
 
     public function getIsVisible() {
@@ -429,9 +429,9 @@ class eqLogic {
         $this->object_id = (!is_numeric($object_id)) ? null : $object_id;
     }
 
-    public function setEqType_name($eqType_name) {
+    public function setPlugin($plugin) {
         $this->setInternalEvent(1);
-        $this->eqType_name = $eqType_name;
+        $this->plugin = $plugin;
     }
 
     public function setEqReal_id($eqReal_id) {

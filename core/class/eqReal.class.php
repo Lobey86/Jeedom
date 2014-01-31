@@ -43,11 +43,11 @@ class eqReal {
         $values = array(
             'id' => $_id
         );
-        $sql = 'SELECT eqType_name
+        $sql = 'SELECT plugin
                 FROM eqLogic
                 WHERE eqReal_id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        $eqTyme_name = $result['eqType_name'];
+        $eqTyme_name = $result['plugin'];
         if ($eqTyme_name != '' && class_exists($eqTyme_name . 'Real')) {
             return $eqTyme_name . 'Real';
         }

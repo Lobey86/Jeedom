@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <id>widget</id>
+    <name>Widget</name>
+    <description>Plugin pour appliquer/modifier widget</description>
+    <icon>fa fa-square</icon>
+    <licence>AGPL</licence>
+    <author>Loïc Gevrey</author>
+    <installation>Aucune</installation>
+    <require>1.20</require>
+    <version>1.0</version>
+    <category></category>
+</info>
+

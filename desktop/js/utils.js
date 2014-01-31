@@ -136,12 +136,12 @@ function initTableSorter() {
     });
 }
 
-function showHelpModal(_name, _module) {
-    var module = '';
-    if (init(_module) != false) {
-        module = init(_module);
+function showHelpModal(_name, _plugin) {
+    var plugin = '';
+    if (init(_plugin) != false) {
+        plugin = init(_plugin);
     }
-    $('#md_pageHelp').load('index.php?v=d&module=' + module + '&modal=help.' + init(_name)).dialog('open');
+    $('#md_pageHelp').load('index.php?v=d&plugin=' + plugin + '&modal=help.' + init(_name)).dialog('open');
 }
 
 function refreshMessageNumber() {

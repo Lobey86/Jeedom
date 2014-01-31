@@ -23,12 +23,12 @@ define('CLASSJS', 'class.js');
 define('AJAX', 'ajax');
 define('COM', 'com');
 define('CONFIG', 'config');
-define('MODULES', 'modules');
+define('PLUGINS', 'plugins');
 define('CORE', 'core');
 define('MODAL', 'modal');
 define('API', 'api');
 
-function include_file($_folder, $_fn, $_type, $_module = '') {
+function include_file($_folder, $_fn, $_type, $_plugin = '') {
     $found = false;
     if ($_folder == '3rdparty') {
         $found = true;
@@ -102,8 +102,8 @@ function include_file($_folder, $_fn, $_type, $_module = '') {
             $_fn = $_fn . '.api.php';
         }
     }
-    if ($_module != '') {
-        $_folder = 'modules/' . $_module . '/' . $_folder;
+    if ($_plugin != '') {
+        $_folder = 'plugins/' . $_plugin . '/' . $_folder;
     }
     $path = dirname(__FILE__) . "/../../$_folder/$_fn";
     if (file_exists($path)) {
@@ -118,17 +118,17 @@ function include_file($_folder, $_fn, $_type, $_module = '') {
     }
 }
 
-function getTemplate($_folder, $_version, $_filename, $_module = '') {
+function getTemplate($_folder, $_version, $_filename, $_plugin = '') {
     $path = dirname(__FILE__) . '/../../';
-    if (trim($_module) == '') {
+    if (trim($_plugin) == '') {
         $path .= $_folder . '/template/' . $_version . '/' . $_filename . '.html';
     } else {
-        $path .= 'modules/' . $_module . '/core/template/' . $_version . '/' . $_filename . '.html';
+        $path .= 'plugins/' . $_plugin . '/core/template/' . $_version . '/' . $_filename . '.html';
     }
     if (file_exists($path)) {
         return file_get_contents($path);
     } else {
-        throw new Exception("Fichier non trouvé : $_filename à $_folder / $_version (" . trim($_module) . ") : $path");
+        throw new Exception("Fichier non trouvé : $_filename à $_folder / $_version (" . trim($_plugin) . ") : $path");
     }
 }
 
@@ -267,11 +267,11 @@ function mySqlIsHere() {
     return is_object(DB::getConnection());
 }
 
-function cronModule() {
-    foreach (module::listModule(true) as $module) {
-        $module_id = $module->getId();
-        if (method_exists($module_id, 'cron')) {
-            $module_id::cron();
+function cronPlugin() {
+    foreach (plugin::listPlugin(true) as $plugin) {
+        $plugin_id = $plugin->getId();
+        if (method_exists($plugin_id, 'cron')) {
+            $plugin_id::cron();
         }
     }
 }

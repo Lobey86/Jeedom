@@ -16,11 +16,11 @@ if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
 } else {
     $title = $page;
 }
-$module = init('m');
-if ($module != '') {
-    $module = new module($module);
-    if (is_object($module)) {
-        $title = $module->getName();
+$plugin = init('m');
+if ($plugin != '') {
+    $plugin = new plugin($plugin);
+    if (is_object($plugin)) {
+        $title = $plugin->getName();
     }
 }
 ?>
@@ -113,7 +113,7 @@ if ($module != '') {
                                             <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> Affichage</a></li>
                                             <li><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> Cron</a></li>
                                             <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> Objet</a></li>
-                                            <li><a href="index.php?v=d&p=module"><i class="fa fa-tags"></i> Modules</a></li>
+                                            <li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> Plugins</a></li>
                                             <li><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> Log</a></li>
                                         </ul>
                                     </li>
@@ -121,12 +121,12 @@ if ($module != '') {
                                 <li><a href="index.php?v=d&p=scenario"><i class="fa fa-cogs"></i> Scénario</a></li>
                                 <?php if (isConnect('admin')) { ?>
                                     <li class="dropdown cursor">
-                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> Modules <b class="caret"></b></a>
+                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> Plugins <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <?php
-                                            foreach (module::listModule() as $moduleList) {
-                                                if ($moduleList->isActive() == 1) {
-                                                    echo '<li><a href="index.php?v=d&m=' . $moduleList->getId() . '&p=' . $moduleList->getIndex() . '"><i class="' . $moduleList->getIcon() . '"></i> ' . $moduleList->getName() . '</a></li>';
+                                            foreach (plugin::listPlugin() as $pluginList) {
+                                                if ($pluginList->isActive() == 1) {
+                                                    echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
                                                 }
                                             }
                                             ?>
@@ -181,8 +181,8 @@ if ($module != '') {
                     try {
                         if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
                             include_file('desktop', $PAGE_DESCRIPTOR_DESKTOP[$page]['pageName'], 'php');
-                        } else if (isset($module) && is_object($module)) {
-                            include_file('desktop', $page, 'php', $module->getId());
+                        } else if (isset($plugin) && is_object($plugin)) {
+                            include_file('desktop', $page, 'php', $plugin->getId());
                         } else {
                             echo '<div class="alert alert-danger div_alert">';
                             echo '404 - Request page not found';

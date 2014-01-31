@@ -3,7 +3,7 @@ if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
 
-$sel_eqType = '<select class=\'interactDefAttr tooltips form-control input-sm\' title=\'Limiter aux équipement de type\' l1key=\'filtres\' l2key=\'eqType_name\' style=\'margin-top : 5px;\'>';
+$sel_eqType = '<select class=\'interactDefAttr tooltips form-control input-sm\' title=\'Limiter aux équipement de type\' l1key=\'filtres\' l2key=\'plugin\' style=\'margin-top : 5px;\'>';
 $sel_eqType .= '<option value=\'all\' >Tous</option>';
 foreach (eqLogic::allType() as $type) {
     $sel_eqType .= '<option value=\'' . $type['type'] . '\' >' . $type['type'] . '</option>';

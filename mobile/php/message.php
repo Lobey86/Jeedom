@@ -2,14 +2,14 @@
 if (!isConnect()) {
     throw new Exception('Error 401 Unauthorized');
 }
-$module = init('module');
+$plugin = init('plugin');
 
-if ($module != '') {
-    $listMessage = message::byModule($module);
+if ($plugin != '') {
+    $listMessage = message::byPlugin($plugin);
 } else {
     $listMessage = message::all();
 }
-sendVarToJS('module', $module);
+sendVarToJS('plugin', $plugin);
 global $rightPanel;
 $rightPanel = '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
 $rightPanel .= '<li data-role="list-divider">Action</li>';
@@ -20,14 +20,14 @@ $rightPanel .= '<ul data-role="listview" data-theme="a" data-dividertheme="a" cl
 $rightPanel .= '<li data-role="list-divider">Logfile</li>';
 $rightPanel .= '<li><a href="index.php?v=m&p=message" data-ajax="false">Tout</a></li>';
 
-foreach (message::listModule() as $module) {
-    $rightPanel .= '<li><a href="index.php?v=m&p=message&module=' . $module['module'] . '" data-ajax="false">' . $module['module'] . '</a></li>';
+foreach (message::listPlugin() as $plugin) {
+    $rightPanel .= '<li><a href="index.php?v=m&p=message&plugin=' . $plugin['plugin'] . '" data-ajax="false">' . $plugin['plugin'] . '</a></li>';
 }
 $rightPanel .= '</ul>';
 ?>
 
 <h2 style="position: relative; top : -10px;margin-top: 0px;margin-bottom: 0px;text-align: center;">
-    <?php echo init('module', 'Tous'); ?>
+    <?php echo init('plugin', 'Tous'); ?>
 </h2>
 
 
@@ -36,7 +36,7 @@ $rightPanel .= '</ul>';
         <tr>
             <th data-priority="1"></th>
             <th data-priority="2">Date</th>
-            <th data-priority="3">Module</th>
+            <th data-priority="3">Plugin</th>
             <th data-priority="1">Description</th>
         </tr>
     </thead>
@@ -46,7 +46,7 @@ $rightPanel .= '</ul>';
             echo '<tr message_id="' . $message->getId() . '">';
             echo '<td><center><i class="fa fa-trash-o cursor removeMessage"></i></center></td>';
             echo '<td class="datetime">' . $message->getDate() . '</td>';
-            echo '<td class="module">' . $message->getModule() . '</td>';
+            echo '<td class="plugin">' . $message->getPlugin() . '</td>';
             echo '<td class="message">' . $message->getMessage() . '</td>';
             echo '</tr>';
         }

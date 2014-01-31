@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <id>razberry</id>
+    <name>Razberry</name>
+    <description>Plugin pour envoyer des ordres au Razberry (Z-Wave)</description>
+    <icon>fa fa-rss</icon>
+    <licence>AGPL</licence>
+    <author>Loïc Gevrey</author>
+    <installation>Aucune</installation>
+    <require>1.10</require>
+    <version>1.0</version>
+    <category></category>
+</info>
+

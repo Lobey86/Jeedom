@@ -25,7 +25,7 @@ class message {
     private $id;
     private $date;
     private $logicalId;
-    private $module;
+    private $plugin;
     private $message;
     private $action;
 
@@ -33,7 +33,7 @@ class message {
 
     public static function add($_type, $_message, $_action = '', $_logicalId = '') {
         $message = new message();
-        $message->setModule($_type);
+        $message->setPlugin($_type);
         $message->setMessage($_message);
         $message->setAction($_action);
         $message->setDate(date('Y-m-d H:i:m'));
@@ -42,12 +42,12 @@ class message {
         @nodejs::pushNotification('Message de ' . $_type, $_message, 'message');
     }
 
-    public static function removeAll($_module = '') {
+    public static function removeAll($_plugin = '') {
         $values = array();
-        if ($_module != '') {
-            $values['module'] = $_module;
+        if ($_plugin != '') {
+            $values['plugin'] = $_plugin;
             $sql = 'DELETE FROM message
-                    WHERE module=:module';
+                    WHERE plugin=:plugin';
         } else {
             $sql = 'DELETE FROM message';
         }
@@ -71,31 +71,31 @@ class message {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function byModuleLogicalId($_module,$_logicalId) {
+    public static function byPluginLogicalId($_plugin,$_logicalId) {
         $values = array(
             'logicalId' => $_logicalId,
-            'module' => $_module
+            'plugin' => $_plugin
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM message
                 WHERE logicalId=:logicalId
-                    AND module=:module';
+                    AND plugin=:plugin';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function byModule($_module) {
+    public static function byPlugin($_plugin) {
         $values = array(
-            'module' => $_module
+            'plugin' => $_plugin
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM message
-                WHERE module=:module
+                WHERE plugin=:plugin
                 ORDER BY date DESC';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function listModule() {
-        $sql = 'SELECT DISTINCT(module)
+    public static function listPlugin() {
+        $sql = 'SELECT DISTINCT(plugin)
                 FROM message';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
     }
@@ -127,8 +127,8 @@ class message {
         return $this->date;
     }
 
-    public function getModule() {
-        return $this->module;
+    public function getPlugin() {
+        return $this->plugin;
     }
 
     public function getMessage() {
@@ -147,8 +147,8 @@ class message {
         $this->date = $date;
     }
 
-    public function setModule($module) {
-        $this->module = $module;
+    public function setPlugin($plugin) {
+        $this->plugin = $plugin;
     }
 
     public function setMessage($message) {

@@ -166,7 +166,7 @@ try {
         $cron->setSchedule('* * * * * *');
         $cron->save();
         $cron = new cron();
-        $cron->setFunction('cronModule');
+        $cron->setFunction('cronPlugin');
         $cron->setSchedule('* * * * * *');
         $cron->save();
         $cron = new cron();
