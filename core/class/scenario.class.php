@@ -34,7 +34,7 @@ class scenario {
     private $scenarioElement;
     private $trigger;
     private $log;
-    private $timeout = 60;
+    private $timeout = 0;
 
     /*     * ***********************Methode static*************************** */
 
