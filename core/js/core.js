@@ -332,7 +332,9 @@ function refreshCmdValue(_cmd_id) {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
+              
                 $('.cmd[cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
+               
                 activateTooltips();
                 if ($.mobile) {
                     $('.cmd[cmd_id=' + _cmd_id + ']').trigger("create");

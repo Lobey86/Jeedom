@@ -19,18 +19,30 @@
 (function($) {
     var scriptsCache = [];
     $.include = function(_path, _callback) {
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+            if (options.dataType == 'script' || originalOptions.dataType == 'script') {
+                options.cache = true;
+            }
+        });
         for (var i in _path) {
             if (jQuery.inArray(_path[i], scriptsCache) == -1) {
                 var extension = _path[i].substr(_path[i].length - 3);
+
                 if (extension == 'css') {
                     $('<link rel="stylesheet" href="' + _path[i] + '" type="text/css" />').appendTo('head');
                 }
                 if (extension == '.js') {
                     $('<script type="text/javascript" src="' + _path[i] + '"></script>').appendTo('head');
                 }
+
                 scriptsCache.push(_path[i]);
             }
         }
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+            if (options.dataType == 'script' || originalOptions.dataType == 'script') {
+                options.cache = false;
+            }
+        });
         _callback();
         return;
     };
