@@ -57,7 +57,7 @@ sendVarToJS('select_id', init('id', '-1'));
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Frequence</label>
+                                <label class="col-lg-3 control-label">Fréquence</label>
                                 <div class="col-lg-3">
                                     <select  class="eqRealAttr form-control" l1key="configuration" l2key="frequence">
                                         <option value='RF12_433MHZ'>433 MHZ</option>

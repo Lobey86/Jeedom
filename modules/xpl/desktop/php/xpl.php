@@ -14,7 +14,7 @@ sendVarToJS('eqType', 'xpl');
     <div class="col-lg-2">
         <div class="bs-sidebar affix">
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
-                <li class="nav-header">Liste des equipements xPL 
+                <li class="nav-header">Liste des équipements xPL 
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
@@ -31,7 +31,7 @@ sendVarToJS('eqType', 'xpl');
         <?php
         $cron = cron::byId(config::byKey('xPLDeamonCronId', 'xPL'));
         if (is_object($cron) && $cron->getState() != 'run') {
-            echo '<div class="alert alert-danger" >Attention le démon xPL n\'est pas en marche. Vérifier pourquoi </div>';
+            echo '<div class="alert alert-danger" >Attention le démon xPL n\'est pas en marche. Vérifiez pourquoi. </div>';
         }
         ?>
         <form class="form-horizontal">
@@ -81,19 +81,19 @@ sendVarToJS('eqType', 'xpl');
         <a class="btn btn-success btn-sm cmdAction" action="add"><i class="fa fa-plus-circle"></i> Ajouter une commande xPL</a><br/><br/>
         <div class="alert alert-info">
             Sous type : <br/>
-            - Slider : mettre #slider# pour recupérer la valeur<br/>
-            - Color : mettre #color# pour recupérer la valeur<br/>
+            - Slider : mettre #slider# pour récupérer la valeur<br/>
+            - Color : mettre #color# pour récupérer la valeur<br/>
             - Message : mettre #title# et #message#
         </div>
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>
                     <th style="width: 150px;">Nom</th>
-                    <th style="width: 150px;">Schema</th>
+                    <th style="width: 150px;">Schéma</th>
                     <th>Body</th>
                     <th style="width: 110px;">Type</th>
-                    <th style="width: 200px;">Parameters</th>
-                    <th style="width: 100px;">Unite</th>
+                    <th style="width: 200px;">Paramètres</th>
+                    <th style="width: 100px;">Unité</th>
                     <th style="width: 100px;"></th>
                 </tr>
             </thead>

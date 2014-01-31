@@ -13,7 +13,7 @@ if (!isConnect()) {
 
 <form class="form-horizontal">
     <fieldset>
-        <legend>Globale</legend>
+        <legend>Global</legend>
         <div class="form-group">
             <label class="col-lg-2 control-label" for="in_jeenodeMasterId">Node ID master</label>
             <div class="col-lg-2">

@@ -58,8 +58,8 @@ function addCmdToTable(_cmd) {
     tr += '</td>';
     tr += '<td>';
     tr += '<span><input type="checkbox" class="cmdAttr" l1key="isHistorized" /> Historiser<br/></span>';
-    tr += '<span><input type="checkbox" class="cmdAttr" l1key="eventOnly" /> Evenement seulement<br/></span>';
-    tr += '<span><input type="checkbox" class="cmdAttr" l1key="cache" l2key="enable" checked /> Autoriser memcache</span>';
+    tr += '<span><input type="checkbox" class="cmdAttr" l1key="eventOnly" /> Evénement seulement<br/></span>';
+    tr += '<span><input type="checkbox" class="cmdAttr" l1key="cache" l2key="enable" checked /> Autoriser cache</span>';
     tr += '</td>';
     tr += '<td><input class="cmdAttr  form-control" l1key="unite" style="width : 100px;"></td>';
     tr += '<td>';
