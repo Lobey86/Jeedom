@@ -50,12 +50,12 @@ class cmd {
         $values = array(
             'id' => $_id
         );
-        $sql = 'SELECT el.plugin
+        $sql = 'SELECT el.eqType_name
                 FROM cmd c
                     INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                 WHERE c.id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        $eqTyme_name = $result['plugin'];
+        $eqTyme_name = $result['eqType_name'];
         if (class_exists($eqTyme_name)) {
             if (method_exists($eqTyme_name, 'getClassCmd')) {
                 return $eqTyme_name::getClassCmd();
@@ -138,9 +138,9 @@ class cmd {
         return $return;
     }
 
-    public static function byTypeEqLogicNameCmdName($_type, $_eqLogic_name, $_cmd_name) {
+    public static function byTypeEqLogicNameCmdName($_eqType_name, $_eqLogic_name, $_cmd_name) {
         $values = array(
-            'type' => $_type,
+            'eqType_name' => $_eqType_name,
             'eqLogic_name' => $_eqLogic_name,
             'cmd_name' => $_cmd_name,
         );
@@ -149,7 +149,7 @@ class cmd {
                     INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                 WHERE c.name=:cmd_name
                     AND el.name=:eqLogic_name
-                    AND el.plugin=:type';
+                    AND el.eqType_name=:eqType_name';
         $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         return self::byId($id['id']);
     }
@@ -502,7 +502,7 @@ class cmd {
         }
 
         $eqLogic = $this->getEqLogic();
-        $type = $eqLogic->getPlugin();
+        $type = $eqLogic->getEqType_name();
         try {
             if ($_options !== null && $_options !== '') {
                 $options = self::cmdToValue($_options);
@@ -698,7 +698,7 @@ class cmd {
                 $this->addHistoryValue($_value);
             }
             $message = 'Message venant de ' . $this->getHumanName() . ' : ' . $_value;
-            log::add($eqLogic->getPlugin(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
+            log::add($eqLogic->getEqType_name(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
             if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
                 $_value = 1;
             }
@@ -788,8 +788,8 @@ class cmd {
         return $this->subType;
     }
 
-    public function getPlugin() {
-        return eqLogic::byId($this->eqLogic_id)->getPlugin();
+    public function getEqType_name() {
+        return eqLogic::byId($this->eqLogic_id)->getEqType_name();
     }
 
     public function getEqLogic_id() {

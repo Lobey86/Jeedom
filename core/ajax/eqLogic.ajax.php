@@ -36,7 +36,7 @@ try {
             if ($eqLogic->getIsVisible() == '1') {
                 $info_eqLogic = array();
                 $info_eqLogic['id'] = $eqLogic->getId();
-                $info_eqLogic['type'] = $eqLogic->getPlugin();
+                $info_eqLogic['type'] = $eqLogic->getEqType_name();
                 $info_eqLogic['object_id'] = $eqLogic->getObject_id();
                 $info_eqLogic['html'] = $eqLogic->toHtml(init('version'));
                 $return['eqLogic'][] = $info_eqLogic;
@@ -60,7 +60,7 @@ try {
         }
         $info_eqLogic = array();
         $info_eqLogic['id'] = $eqLogic->getId();
-        $info_eqLogic['type'] = $eqLogic->getPlugin();
+        $info_eqLogic['type'] = $eqLogic->getEqType_name();
         $info_eqLogic['object_id'] = $eqLogic->getObject_id();
         $info_eqLogic['html'] = $eqLogic->toHtml(init('version'));
         ajax::success($info_eqLogic);
@@ -155,7 +155,7 @@ try {
             }
             if (!is_object($eqLogic)) {
                 $eqLogic = new $typeEqLogic();
-                $eqLogic->setPlugin(init('type'));
+                $eqLogic->setEqType_name(init('type'));
                 $imgPath = dirname(__FILE__) . '/../../plugins/' . $typeEqLogic . '/core/img/default.png';
                 if (file_exists($imgPath)) {
                     eqLogic::saveImage($eqLogic->getId(), file_get_contents($imgPath));

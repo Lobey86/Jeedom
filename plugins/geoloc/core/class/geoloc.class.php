@@ -30,7 +30,7 @@ class geoloc extends eqLogic {
         if (!is_object($cmd)) {
             throw new Exception('Commande ID geoloc inconnu : ' . init('id'));
         }
-        if ($cmd->getEqLogic()->getPlugin() != 'geoloc') {
+        if ($cmd->getEqLogic()->getType() != 'geoloc') {
             throw new Exception('Cette commande n\'est pas de type geoloc : ' . init('id'));
         }
         if ($cmd->getConfiguration('mode') != 'dynamic') {

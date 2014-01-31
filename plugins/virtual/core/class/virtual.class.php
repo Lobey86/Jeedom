@@ -33,7 +33,7 @@ class virtual extends eqLogic {
         $value = init('value');
         $virtualCmd = virtualCmd::byId($cmd->getConfiguration('infoId'));
         if (is_object($virtualCmd)) {
-            if ($virtualCmd->getEqLogic()->getPlugin() != 'virtual') {
+            if ($virtualCmd->getEqLogic()->getType() != 'virtual') {
                 throw new Exception('La cible de la commande virtuel n\'est pas un équipement de type virtuel');
             }
             if ($this->getSubType() != 'slider' && $this->getSubType() != 'color') {
@@ -122,7 +122,7 @@ class virtualCmd extends cmd {
                 if (!is_object($virtualCmd)) {
                     throw new Exception('Virtual info commande non trouvé, verifier ID');
                 }
-                if ($virtualCmd->getEqLogic()->getPlugin() != 'virtual') {
+                if ($virtualCmd->getEqLogic()->getType() != 'virtual') {
                     throw new Exception('La cible de la commande virtuel n\'est pas un équipement de type virtuel');
                 }
                 if ($this->getSubType() == 'slider') {

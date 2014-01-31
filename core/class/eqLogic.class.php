@@ -26,7 +26,7 @@ class eqLogic {
     protected $name;
     protected $logicalId = '';
     protected $object_id = null;
-    protected $plugin;
+    protected $eqType_name;
     protected $eqReal_id = null;
     protected $isVisible = 0;
     protected $isEnable = 0;
@@ -44,11 +44,11 @@ class eqLogic {
         $values = array(
             'id' => $_id
         );
-        $sql = 'SELECT plugin
+        $sql = 'SELECT eqType_name
                 FROM eqLogic
                 WHERE id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        $eqTyme_name = $result['plugin'];
+        $eqTyme_name = $result['eqType_name'];
         if (class_exists($eqTyme_name)) {
             return $eqTyme_name;
         }
@@ -125,15 +125,15 @@ class eqLogic {
         return $return;
     }
 
-    public static function byLogicalId($_logicalId, $_plugin) {
+    public static function byLogicalId($_logicalId, $_eqType_name) {
         $values = array(
             'logicalId' => $_logicalId,
-            'plugin' => $_plugin
+            'eqType_name' => $_eqType_name
         );
         $sql = 'SELECT id
                 FROM eqLogic
                 WHERE logicalId=:logicalId
-                    AND plugin=:plugin';
+                    AND eqType_name=:eqType_name';
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
         foreach ($results as $result) {
@@ -142,13 +142,13 @@ class eqLogic {
         return $return;
     }
 
-    public static function byType($_type) {
+    public static function byType($_eqType_name) {
         $values = array(
-            'plugin' => $_type
+            'eqType_name' => $_eqType_name
         );
         $sql = 'SELECT id
                 FROM eqLogic
-                WHERE plugin=:plugin
+                WHERE eqType_name=:eqType_name
                 ORDER BY name';
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
@@ -158,29 +158,29 @@ class eqLogic {
         return $return;
     }
 
-    public static function listByTypeAndCmdType($_type, $_typeCmd, $subTypeCmd = '') {
+    public static function listByTypeAndCmdType($_eqType_name, $_typeCmd, $subTypeCmd = '') {
         if ($subTypeCmd == '') {
             $values = array(
-                'plugin' => $_type,
+                'eqType_name' => $_eqType_name,
                 'typeCmd' => $_typeCmd
             );
             $sql = 'SELECT DISTINCT(el.id),el.name
                     FROM eqLogic el
                         INNER JOIN cmd c ON c.eqLogic_id=el.id
-                    WHERE plugin=:plugin
+                    WHERE eqType_name=:eqType_name
                         AND c.type=:typeCmd
                     ORDER BY name';
             return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         } else {
             $values = array(
-                'plugin' => $_type,
+                'eqType_name' => $_eqType_name,
                 'typeCmd' => $_typeCmd,
                 'subTypeCmd' => $subTypeCmd
             );
             $sql = 'SELECT DISTINCT(el.id),el.name
                     FROM eqLogic el
                         INNER JOIN cmd c ON c.eqLogic_id=el.id
-                    WHERE plugin=:plugin
+                    WHERE eqType_name=:eqType_name
                         AND c.type=:typeCmd
                         AND c.subType=:subTypeCmd
                     ORDER BY name';
@@ -213,7 +213,7 @@ class eqLogic {
     }
 
     public static function allType() {
-        $sql = 'SELECT distinct(plugin) as type
+        $sql = 'SELECT distinct(eqType_name) as eqType_name
                 FROM eqLogic';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
     }
@@ -332,7 +332,7 @@ class eqLogic {
     }
 
     public function getLinkToConfiguration() {
-        return 'index.php?v=d&p=' . $this->getPlugin() . '&m=' . $this->getPlugin() . '&id=' . $this->getId();
+        return 'index.php?v=d&p=' . $this->getEqType_name() . '&m=' . $this->getEqType_name() . '&id=' . $this->getId();
     }
 
     public function collectInProgress() {
@@ -385,8 +385,8 @@ class eqLogic {
         return object::byId($this->object_id);
     }
 
-    public function getPlugin() {
-        return $this->plugin;
+    public function getEqType_name() {
+        return $this->eqType_name;
     }
 
     public function getIsVisible() {
@@ -429,9 +429,9 @@ class eqLogic {
         $this->object_id = (!is_numeric($object_id)) ? null : $object_id;
     }
 
-    public function setPlugin($plugin) {
+    public function setEqType_name($eqType_name) {
         $this->setInternalEvent(1);
-        $this->plugin = $plugin;
+        $this->eqType_name = $eqType_name;
     }
 
     public function setEqReal_id($eqReal_id) {

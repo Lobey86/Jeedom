@@ -103,7 +103,7 @@ class razberry extends eqLogic {
                 $data = $result['data'];
                 if (count(self::byLogicalId($nodeId, 'razberry')) == 0 || $nodeId == 2) {
                     $eqLogic = new eqLogic();
-                    $eqLogic->setPlugin('razberry');
+                    $eqLogic->setType('razberry');
                     $eqLogic->setIsEnable(1);
                     $eqLogic->setName('Device ' . $nodeId);
                     $eqLogic->setLogicalId($nodeId);
