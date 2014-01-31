@@ -108,8 +108,8 @@ sendVarToJS('select_id', init('id', '-1'));
                                 <input type="checkbox" class="form-control scenarioAttr" l1key="isActive">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-lg-6 control-label">Timeout (secondes)</label>
+                        <div class="form-group expertModeHidden">
+                            <label class="col-lg-6 control-label">Timeout secondes (0 = illimité)</label>
                             <div class="col-lg-6">
                                 <input class="form-control scenarioAttr" l1key="timeout">
                             </div>

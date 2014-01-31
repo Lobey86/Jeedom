@@ -79,14 +79,14 @@ $(function() {
             var value = [{key: 'expertMode', value: 0}];
             $(this).attr('state', 0);
             $(this).find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
-            $('.expertModeDisable').attr('disabled', true);
-            $('.expertModeHidden').show();
+            $('.expertModeDisable').attr('disabled', false);
+            $('.expertModeHidden').hide();
         } else {
             var value = [{key: 'expertMode', value: 1}];
             $(this).attr('state', 1);
             $(this).find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
-            $('.expertModeDisable').attr('disabled', false);
-            $('.expertModeHidden').hide();
+            $('.expertModeDisable').attr('disabled', true);
+            $('.expertModeHidden').show();
         }
 
         $.ajax({// fonction permettant de faire de l'ajax
@@ -111,11 +111,17 @@ $(function() {
     });
 
     initTableSorter();
+    initExpertMode();
 });
 
 function initExpertMode() {
-    $('.expertModeDisable').attr('disabled', true);
-    $('.expertModeHidden').show();
+    if ($('#bt_expertMode').attr('state') == 1) {
+        $('.expertModeDisable').attr('disabled', true);
+        $('.expertModeHidden').show();
+    } else {
+        $('.expertModeDisable').attr('disabled', false);
+        $('.expertModeHidden').hide();
+    }
 }
 
 function initTableSorter() {

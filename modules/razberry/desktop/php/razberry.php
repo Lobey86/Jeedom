@@ -14,8 +14,8 @@ sendVarToJS('eqType', 'razberry');
                 <a class="btn btn-default btn-sm tooltips" id="bt_syncEqLogic" title="Synchroniser équipement avec le Razberry" style="display: inline-block;"><i class="fa fa-refresh"></i></a>
                 <a class="btn btn-default btn-sm tooltips changeIncludeState" title="Inclure prériphérique Z-wave" state="1" style="display: inline-block;"><i class="fa fa-sign-in fa-rotate-90"></i></a>
                 <a class="btn btn-default btn-sm tooltips changeIncludeState" title="Exclure périphérique Z-wave" state="0" style="display: inline-block;"><i class="fa fa-sign-out fa-rotate-90"></i></a>
-                <a class="btn btn-default btn-sm tooltips" id="bt_inspectQueue" title="Inspecter la queue Z-wave" state="0" style="display: inline-block;"><i class="fa fa-exchange fa-rotate-90"></i></a>
-                <a class="btn btn-default btn-sm tooltips" id="bt_routingTable" title="Afficher la table de routage" state="0" style="display: inline-block;"><i class="fa fa-sitemap"></i></a>
+                <a class="btn btn-default btn-sm tooltips expertModeHidden" id="bt_inspectQueue" title="Inspecter la queue Z-wave" state="0" style="display: inline-block;"><i class="fa fa-exchange fa-rotate-90"></i></a>
+                <a class="btn btn-default btn-sm tooltips expertModeHidden" id="bt_routingTable" title="Afficher la table de routage" state="0" style="display: inline-block;"><i class="fa fa-sitemap"></i></a>
 
                 <li class="nav-header">Liste des équipements Z-wave
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
@@ -73,7 +73,7 @@ sendVarToJS('eqType', 'razberry');
                                 <input type="checkbox" class="eqLogicAttr form-control" l1key="isVisible" checked/>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group expertModeHidden">
                             <label class="col-lg-4 control-label">Délai autorisé entre 2 messages (min)</label>
                             <div class="col-lg-4">
                                 <input class="eqLogicAttr form-control" l1key="timeout" />
@@ -143,15 +143,15 @@ sendVarToJS('eqType', 'razberry');
         </div>
 
         <legend>Commandes</legend>
-        <a class="btn btn-success btn-sm cmdAction" action="add"><i class="fa fa-plus-circle"></i> Commandes</a><br/><br/>
+        <a class="btn btn-success btn-sm cmdAction expertModeHidden" action="add"><i class="fa fa-plus-circle"></i> Commandes</a><br/><br/>
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>
                     <th style="width: 300px;">Nom</th>
-                    <th style="width: 130px;">Type</th>
-                    <th style="width: 100px;">Instance ID</th>
-                    <th style="width: 100px;">Class</th>
-                    <th style="width: 200px;">Commande</th>
+                    <th style="width: 130px;" class="expertModeHidden">Type</th>
+                    <th style="width: 100px;" class="expertModeHidden">Instance ID</th>
+                    <th style="width: 100px;" class="expertModeHidden">Class</th>
+                    <th style="width: 200px;" class="expertModeHidden">Commande</th>
                     <th >Paramètres</th>
                     <th style="width: 100px;">Options</th>
                     <th></th>
