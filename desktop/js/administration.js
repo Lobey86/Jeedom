@@ -71,8 +71,8 @@ $(function() {
     $(".bt_updateJeedom").on('click', function(event) {
         var el = $(this);
         bootbox.confirm('Etez-vous sûr de vouloir mettre à jour Jeedom ?', function(result) {
-            el.find('.fa-refresh').show();
             if (result) {
+                el.find('.fa-refresh').show();
                 $.ajax({
                     type: 'POST',
                     url: 'core/ajax/git.ajax.php',
