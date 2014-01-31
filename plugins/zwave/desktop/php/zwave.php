@@ -3,7 +3,7 @@ if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
 sendVarToJS('select_id', init('id', '-1'));
-sendVarToJS('eqType', 'razberry');
+sendVarToJS('eqType', 'zwave');
 ?>
 
 <div class="row">
@@ -22,7 +22,7 @@ sendVarToJS('eqType', 'razberry');
                 </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
-                foreach (eqLogic::byType('razberry') as $eqLogic) {
+                foreach (eqLogic::byType('zwave') as $eqLogic) {
                     echo '<li class="cursor li_eqLogic" eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
                 }
                 ?>
@@ -93,7 +93,7 @@ sendVarToJS('eqType', 'razberry');
                                 <select class="eqLogicAttr form-control" l1key="configuration" l2key="device">
                                     <option value="">Aucun</option>
                                     <?php
-                                    foreach (razberry::devicesParameters() as $id => $info) {
+                                    foreach (zwave::devicesParameters() as $id => $info) {
                                         echo '<option value="' . $id . '">' . $info['name'] . '</option>';
                                     }
                                     ?>
@@ -107,25 +107,25 @@ sendVarToJS('eqType', 'razberry');
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Batterie</label>
                             <div class="col-lg-5">
-                                <span class="razberryInfo tooltips label label-default" l1key="battery"></span>
+                                <span class="zwaveInfo tooltips label label-default" l1key="battery"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Dernière communication</label>
                             <div class="col-lg-5">
-                                <span class="razberryInfo tooltips label label-default" l1key="lastReceived"></span>
+                                <span class="zwaveInfo tooltips label label-default" l1key="lastReceived"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Etat</label>
                             <div class="col-lg-5">
-                                <span class="razberryInfo tooltips label label-default" l1key="state"></span>
+                                <span class="zwaveInfo tooltips label label-default" l1key="state"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Marque</label>
                             <div class="col-lg-5">
-                                <span class="razberryInfo tooltips label label-default" l1key="brand"></span>
+                                <span class="zwaveInfo tooltips label label-default" l1key="brand"></span>
                             </div>
                         </div>
 
@@ -210,5 +210,5 @@ sendVarToJS('eqType', 'razberry');
     </div>
 </div>
 
-<?php include_file('desktop', 'razberry', 'js', 'razberry'); ?>
+<?php include_file('desktop', 'zwave', 'js', 'zwave'); ?>
 <?php include_file('core', 'plugin.template', 'js'); ?>

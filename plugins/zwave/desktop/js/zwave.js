@@ -30,22 +30,22 @@ $(function() {
 
     $('#bt_showClass').on('click', function() {
         $('#md_modal').dialog({title: "Classe du périphérique"});
-        $('#md_modal').load('index.php?v=d&plugin=razberry&modal=show.class&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
+        $('#md_modal').load('index.php?v=d&plugin=zwave&modal=show.class&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
     });
 
     $('#bt_configureDevice').on('click', function() {
         $('#md_modal').dialog({title: "Configuration du péréphérique"});
-        $('#md_modal').load('index.php?v=d&plugin=razberry&modal=configure.device&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
+        $('#md_modal').load('index.php?v=d&plugin=zwave&modal=configure.device&id=' + $('.eqLogicAttr[l1key=id]').value()).dialog('open');
     });
 
     $('#bt_inspectQueue').on('click', function() {
         $('#md_modal').dialog({title: "Queue Z-wave"});
-        $('#md_modal').load('index.php?v=d&plugin=razberry&modal=inspect.queue').dialog('open');
+        $('#md_modal').load('index.php?v=d&plugin=zwave&modal=inspect.queue').dialog('open');
     });
 
     $('#bt_routingTable').on('click', function() {
         $('#md_modal').dialog({title: "Table de routage"});
-        $('#md_modal').load('index.php?v=d&plugin=razberry&modal=routing.table').dialog('open');
+        $('#md_modal').load('index.php?v=d&plugin=zwave&modal=routing.table').dialog('open');
     });
 
     $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
@@ -53,7 +53,7 @@ $(function() {
 
     /**********************Node js requests *****************************/
     $('body').one('nodeJsConnect', function() {
-        socket.on('razberry::controller.data.controllerState', function(_options) {
+        socket.on('zwave::controller.data.controllerState', function(_options) {
             if (_options == 1) {
                 $('.changeIncludeState[state=1]').removeClass('btn-default').addClass('btn-success');
             }
@@ -70,7 +70,7 @@ $(function() {
 function printPluginInfo(_id) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "plugins/razberry/core/ajax/razberry.ajax.php", // url du fichier php
+        url: "plugins/zwave/core/ajax/zwave.ajax.php", // url du fichier php
         data: {
             action: "getPluginInfo",
             id: _id,
@@ -84,14 +84,14 @@ function printPluginInfo(_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('.razberryInfo').value('');
+            $('.zwaveInfo').value('');
             for (var i in data.result) {
                 var value = data.result[i]['value'];
                 if (isset(data.result[i]['unite'])) {
                     value += ' ' + data.result[i]['unite'];
                 }
-                $('.razberryInfo[l1key=' + i + ']').value(value);
-                $('.razberryInfo[l1key=' + i + ']').attr('title', data.result[i]['datetime']);
+                $('.zwaveInfo[l1key=' + i + ']').value(value);
+                $('.zwaveInfo[l1key=' + i + ']').attr('title', data.result[i]['datetime']);
             }
         }
     });
@@ -101,7 +101,7 @@ function printPluginInfo(_id) {
 function syncEqLogicWithRazberry() {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "plugins/razberry/core/ajax/razberry.ajax.php", // url du fichier php
+        url: "plugins/zwave/core/ajax/zwave.ajax.php", // url du fichier php
         data: {
             action: "syncEqLogicWithRazberry",
         },
@@ -122,7 +122,7 @@ function syncEqLogicWithRazberry() {
 function changeIncludeState(_state) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "plugins/razberry/core/ajax/razberry.ajax.php", // url du fichier php
+        url: "plugins/zwave/core/ajax/zwave.ajax.php", // url du fichier php
         data: {
             action: "changeIncludeState",
             state: _state,

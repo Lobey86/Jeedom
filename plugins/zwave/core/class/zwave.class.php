@@ -19,21 +19,21 @@
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
-class razberry extends eqLogic {
+class zwave extends eqLogic {
     /*     * *************************Attributs****************************** */
 
 
     /*     * ***********************Methode static*************************** */
 
     public static function pullUpdate() {
-        $cache = cache::byKey('razberry::lastUpdate');
+        $cache = cache::byKey('zwave::lastUpdate');
         $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Data/' . $cache->getValue(0));
         $results = json_decode(self::handleError($http->exec()), true);
         if (is_array($results)) {
             foreach ($results as $key => $result) {
                 switch ($key) {
                     case 'controller.data.controllerState':
-                        nodejs::pushUpdate('razberry::' . $key, $result['value']);
+                        nodejs::pushUpdate('zwave::' . $key, $result['value']);
                         break;
                     case 'controller.data.lastExcludedDevice' :
                         if ($result['value'] != null) {
@@ -58,7 +58,7 @@ class razberry extends eqLogic {
                             }
                             $attribut = implode('.', $explodeKey);
 
-                            foreach (self::byLogicalId($nodeId, 'razberry') as $eqLogic) {
+                            foreach (self::byLogicalId($nodeId, 'zwave') as $eqLogic) {
                                 foreach ($eqLogic->getCmd() as $cmd) {
                                     if ($cmd->getConfiguration('instanceId') == $instanceId && $cmd->getConfiguration('class') == '0x' . dechex($class)) {
                                         $configurationValue = $cmd->getConfiguration('value');
@@ -68,14 +68,14 @@ class razberry extends eqLogic {
                                         }
                                         if (strpos($configurationValue, $attribut) !== false) {
                                             if (isset($result['val'])) {
-                                                $value = razberryCmd::handleResult($result['val']);
+                                                $value = zwaveCmd::handleResult($result['val']);
                                             } else if (isset($result['level'])) {
-                                                $value = razberryCmd::handleResult($result['level']);
+                                                $value = zwaveCmd::handleResult($result['level']);
                                             } else {
-                                                $value = razberryCmd::handleResult($result);
+                                                $value = zwaveCmd::handleResult($result);
                                             }
                                             if ($value === '') {
-                                                log::add('razberry', 'info', 'Event sur ' . $cmd->getId() . ' / ' . $cmd->getName() . ' mais aucun valeur trouvée. Event result :' . print_r($result, true));
+                                                log::add('zwave', 'info', 'Event sur ' . $cmd->getId() . ' / ' . $cmd->getName() . ' mais aucun valeur trouvée. Event result :' . print_r($result, true));
                                                 $value = $cmd->execute();
                                             }
                                             $cmd->event($value);
@@ -89,9 +89,9 @@ class razberry extends eqLogic {
             }
         }
         if (isset($results['updateTime']) && is_numeric($results['updateTime']) && $results['updateTime'] > $cache->getValue(0)) {
-            cache::set('razberry::lastUpdate', $results['updateTime'], 0);
+            cache::set('zwave::lastUpdate', $results['updateTime'], 0);
         } else {
-            cache::set('razberry::lastUpdate', strtotime('- 2 seconds ' . date('Y-m-d H:i:s')), 0);
+            cache::set('zwave::lastUpdate', strtotime('- 2 seconds ' . date('Y-m-d H:i:s')), 0);
         }
     }
 
@@ -101,9 +101,9 @@ class razberry extends eqLogic {
         foreach ($results['devices'] as $nodeId => $result) {
             if ($nodeId != 1) {
                 $data = $result['data'];
-                if (count(self::byLogicalId($nodeId, 'razberry')) == 0 || $nodeId == 2) {
+                if (count(self::byLogicalId($nodeId, 'zwave')) == 0 || $nodeId == 2) {
                     $eqLogic = new eqLogic();
-                    $eqLogic->setType('razberry');
+                    $eqLogic->setType('zwave');
                     $eqLogic->setIsEnable(1);
                     $eqLogic->setName('Device ' . $nodeId);
                     $eqLogic->setLogicalId($nodeId);
@@ -160,12 +160,12 @@ class razberry extends eqLogic {
     }
 
     public static function makeBaseUrl() {
-        return 'http://' . config::byKey('razberryAddr', 'razberry') . ':8083';
+        return 'http://' . config::byKey('zwaveAddr', 'zwave') . ':8083';
     }
 
     public static function getCommandClassInfo($_class) {
         global $listClassCommand;
-        include_file('core', 'class.command', 'config', 'razberry');
+        include_file('core', 'class.command', 'config', 'zwave');
         if (isset($listClassCommand[$_class])) {
             return $listClassCommand[$_class];
         }
@@ -182,42 +182,42 @@ class razberry extends eqLogic {
     public static function cron() {
         //Verification des piles une fois par jour
         if (date('H:i') == '00:00') {
-            foreach (razberry::byType('razberry') as $eqLogic) {
+            foreach (zwave::byType('zwave') as $eqLogic) {
                 $info = $eqLogic->getInfo();
                 if (isset($info['battery'])) {
                     if ($info['battery']['value'] >= 20) {
-                        foreach (message::byPluginLogicalId('razberry', 'lowBattery' . $eqLogic->getId()) as $message) {
+                        foreach (message::byPluginLogicalId('zwave', 'lowBattery' . $eqLogic->getId()) as $message) {
                             $message->remove();
                         }
-                        foreach (message::byPluginLogicalId('razberry', 'noBattery' . $eqLogic->getId()) as $message) {
+                        foreach (message::byPluginLogicalId('zwave', 'noBattery' . $eqLogic->getId()) as $message) {
                             $message->remove();
                         }
                     }
                     if ($info['battery']['value'] < 20 && $info['battery']['value'] > 0) {
                         $logicalId = 'lowBattery' . $eqLogic->getId();
-                        if (count(message::byPluginLogicalId('razberry', $logicalId)) == 0) {
-                            $message = 'Le plugin razberry ';
+                        if (count(message::byPluginLogicalId('zwave', $logicalId)) == 0) {
+                            $message = 'Le plugin zwave ';
                             $object = $eqLogic->getObject();
                             if (is_object($object)) {
                                 $message .= '[' . $object->getName() . ']';
                             }
                             $message .= $eqLogic->getName() . ' à moins de 20% de batterie';
-                            message::add('razberry', $message, '', $logicalId);
+                            message::add('zwave', $message, '', $logicalId);
                         }
                     }
                     if ($info['battery']['value'] <= 0) {
-                        foreach (message::byPluginLogicalId('razberry', 'lowBattery' . $eqLogic->getId()) as $message) {
+                        foreach (message::byPluginLogicalId('zwave', 'lowBattery' . $eqLogic->getId()) as $message) {
                             $message->remove();
                         }
                         $logicalId = 'noBattery' . $eqLogic->getId();
-                        $message = 'Le plugin razberry ';
+                        $message = 'Le plugin zwave ';
                         $object = $eqLogic->getObject();
                         if (is_object($object)) {
                             $message .= '[' . $object->getName() . ']';
                         }
                         $message .= $eqLogic->getName() . ' a été désactivé car il n\'a plus de batterie';
                         $action = '<a class="bt_changeIsEnable cursor" eqLogic_id="' . $eqLogic->getId() . '" isEnable="1">Ré-activer</a>';
-                        message::add('razberry', $message, $action, $logicalId);
+                        message::add('zwave', $message, $action, $logicalId);
                     }
                 }
             }
@@ -232,7 +232,7 @@ class razberry extends eqLogic {
             $queue = array();
             $queue['timeout'] = $result[0];
             $queue['id'] = $result[2];
-            $eqLogic = razberry::byLogicalId($queue['id'], 'razberry');
+            $eqLogic = zwave::byLogicalId($queue['id'], 'zwave');
             if (is_object($eqLogic[0])) {
                 $queue['name'] = $eqLogic[0]->getHumanName();
             } else {
@@ -262,7 +262,7 @@ class razberry extends eqLogic {
             if ($id == 1) {
                 $return[$id]['name'] = 'Razberry';
             } else {
-                $eqLogic = razberry::byLogicalId($id, 'razberry');
+                $eqLogic = zwave::byLogicalId($id, 'zwave');
                 if (is_object($eqLogic[0])) {
                     $return[$id]['name'] = $eqLogic[0]->getHumanName();
                 } else {
@@ -278,7 +278,7 @@ class razberry extends eqLogic {
         $url = self::makeBaseUrl() . '/ZWaveAPI/Run/';
         $http = new com_http($url . 'controller.RequestNetworkUpdate()');
         self::handleError($http->exec());
-        foreach (eqLogic::byType('razberry') as $eqLogic) {
+        foreach (eqLogic::byType('zwave') as $eqLogic) {
             $http = new com_http($url . 'devices[' . $eqLogic->getLogicalId() . '].RequestNodeNeighbourUpdate()');
             self::handleError($http->exec());
         }
@@ -363,7 +363,7 @@ class razberry extends eqLogic {
     }
 
     public function getDeviceConfiguration($_forcedRefresh = false) {
-        $device = razberry::devicesParameters($this->getConfiguration('device'));
+        $device = zwave::devicesParameters($this->getConfiguration('device'));
         if (!is_array($device) || count($device) == 0) {
             throw new Exception('Equipement inconnu : ' . $this->getConfiguration('device'));
         }
@@ -429,7 +429,7 @@ class razberry extends eqLogic {
     /*     * **********************Getteur Setteur*************************** */
 }
 
-class razberryCmd extends cmd {
+class zwaveCmd extends cmd {
     /*     * *************************Attributs****************************** */
 
 
@@ -469,7 +469,7 @@ class razberryCmd extends cmd {
         if ($_color == '') {
             throw new Exception('Couleur non défini');
         }
-        $request = razberry::makeBaseUrl() . '/ZWaveAPI/Run/';
+        $request = zwave::makeBaseUrl() . '/ZWaveAPI/Run/';
         $request .= 'devices[' . $this->getEqLogic()->getLogicalId() . ']';
 
         $hex = str_replace("#", "", $_color);
@@ -490,15 +490,15 @@ class razberryCmd extends cmd {
 
         /* Set RED color */
         $http = new com_http($request . '.instances[2].commandClasses[0x26].Set(' . $r . ')');
-        razberry::handleError($http->exec());
+        zwave::handleError($http->exec());
 
         /* Set GREEN color */
         $http = new com_http($request . '.instances[3].commandClasses[0x26].Set(' . $g . ')');
-        razberry::handleError($http->exec());
+        zwave::handleError($http->exec());
 
         /* Set BLUE color */
         $http = new com_http($request . '.instances[4].commandClasses[0x26].Set(' . $b . ')');
-        razberry::handleError($http->exec());
+        zwave::handleError($http->exec());
 
         return true;
     }
@@ -521,7 +521,7 @@ class razberryCmd extends cmd {
                     break;
             }
         }
-        $request = razberry::makeBaseUrl() . '/ZWaveAPI/Run/';
+        $request = zwave::makeBaseUrl() . '/ZWaveAPI/Run/';
         $request .= 'devices[' . $this->getEqLogic()->getLogicalId() . ']';
         if ($this->getConfiguration('instanceId') != '') {
             $request .= '.instances[' . $this->getConfiguration('instanceId') . ']';
@@ -529,7 +529,7 @@ class razberryCmd extends cmd {
         $request .= '.commandClasses[' . $this->getConfiguration('class') . ']';
         $request .= '.' . $value;
         $http = new com_http($request);
-        $result = razberry::handleError($http->exec(1, 3, true));
+        $result = zwave::handleError($http->exec(1, 3, true));
         if (is_json($result)) {
             $result = json_decode($result, true);
             $value = self::handleResult($result);

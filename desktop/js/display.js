@@ -312,7 +312,7 @@ function displayEqLogic(_eqLogic_id) {
             div += '<div class="form-group">';
             div += '<label class="col-lg-4 control-label">Type</label>';
             div += '<div class="col-lg-4">';
-            div += '<span class="eqLogicAttr label label-primary" l1key="plugin"></span>';
+            div += '<span class="eqLogicAttr label label-primary" l1key="eqType_name"></span>';
             div += '</div>';
             div += '</div>';
 

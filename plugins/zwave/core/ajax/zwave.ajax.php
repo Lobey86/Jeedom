@@ -25,21 +25,21 @@ try {
     }
 
     if (init('action') == 'syncEqLogicWithRazberry') {
-        razberry::syncEqLogicWithRazberry();
+        zwave::syncEqLogicWithRazberry();
         ajax::success();
     }
 
     if (init('action') == 'changeIncludeState') {
-        razberry::changeIncludeState(init('state'));
+        zwave::changeIncludeState(init('state'));
         ajax::success();
     }
 
     if (init('action') == 'getCommandClassInfo') {
-        ajax::success(razberry::getCommandClassInfo(init('class')));
+        ajax::success(zwave::getCommandClassInfo(init('class')));
     }
 
     if (init('action') == 'getPluginInfo') {
-        $eqLogic = razberry::byId(init('id'));
+        $eqLogic = zwave::byId(init('id'));
         if (!is_object($eqLogic)) {
             throw new Exception('Razberry plugin non trouvé : ' . init('id'));
         }
@@ -47,7 +47,7 @@ try {
     }
 
     if (init('action') == 'getDeviceConfiguration') {
-        $eqLogic = razberry::byId(init('id'));
+        $eqLogic = zwave::byId(init('id'));
         if (!is_object($eqLogic)) {
             throw new Exception('Razberry plugin non trouvé : ' . init('id'));
         }
@@ -55,7 +55,7 @@ try {
     }
 
     if (init('action') == 'setDeviceConfiguration') {
-        $eqLogic = razberry::byId(init('id'));
+        $eqLogic = zwave::byId(init('id'));
         if (!is_object($eqLogic)) {
             throw new Exception('Razberry plugin non trouvé : ' . init('id'));
         }
@@ -63,15 +63,15 @@ try {
     }
 
     if (init('action') == 'inspectQueue') {
-        ajax::success(razberry::inspectQueue());
+        ajax::success(zwave::inspectQueue());
     }
 
     if (init('action') == 'getRoutingTable') {
-        ajax::success(razberry::getRoutingTable());
+        ajax::success(zwave::getRoutingTable());
     }
 
     if (init('action') == 'updateRoute') {
-        ajax::success(razberry::updateRoute());
+        ajax::success(zwave::updateRoute());
     }
 
     throw new Exception('Aucune methode correspondante');

@@ -26,7 +26,7 @@ if (!is_object($eqLogic)) {
     throw new Exception('EqLogic non trouvé');
 }
 global $listClassCommand;
-include_file('core', 'class.command', 'config', 'razberry');
+include_file('core', 'class.command', 'config', 'zwave');
 ?>
 <div id='div_showClassAlert' style="display: none;"></div>
 <div class="row">
@@ -116,7 +116,7 @@ include_file('core', 'class.command', 'config', 'razberry');
     function syncEqLogicWithRazberry(_commandClass) {
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
-            url: "plugins/razberry/core/ajax/razberry.ajax.php", // url du fichier php
+            url: "plugins/zwave/core/ajax/zwave.ajax.php", // url du fichier php
             data: {
                 action: "getCommandClassInfo",
                 class: _commandClass

@@ -25,7 +25,7 @@ $eqLogic = eqLogic::byId(init('id'));
 if (!is_object($eqLogic)) {
     throw new Exception('EqLogic non trouvé');
 }
-$device = razberry::devicesParameters($eqLogic->getConfiguration('device'));
+$device = zwave::devicesParameters($eqLogic->getConfiguration('device'));
 
 if (!is_array($device) || count($device) == 0) {
     throw new Exception('Equipement inconnu : ' . $eqLogic->getConfiguration('device'));
@@ -115,7 +115,7 @@ sendVarToJS('configureDeviceId', init('id'));
     function configureDeviceLoad(_forceRefresh) {
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
-            url: "plugins/razberry/core/ajax/razberry.ajax.php", // url du fichier php
+            url: "plugins/zwave/core/ajax/zwave.ajax.php", // url du fichier php
             data: {
                 action: "getDeviceConfiguration",
                 id: configureDeviceId,
@@ -141,7 +141,7 @@ sendVarToJS('configureDeviceId', init('id'));
         var configurations = $('#div_configureDeviceParameters').getValues('.zwaveParameters');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
-            url: "plugins/razberry/core/ajax/razberry.ajax.php", // url du fichier php
+            url: "plugins/zwave/core/ajax/zwave.ajax.php", // url du fichier php
             data: {
                 action: "setDeviceConfiguration",
                 id: configureDeviceId,

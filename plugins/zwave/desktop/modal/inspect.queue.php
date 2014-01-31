@@ -44,7 +44,7 @@ if (!isConnect('admin')) {
     function updateZwaveQueue() {
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
-            url: "plugins/razberry/core/ajax/razberry.ajax.php", // url du fichier php
+            url: "plugins/zwave/core/ajax/zwave.ajax.php", // url du fichier php
             data: {
                 action: "inspectQueue",
             },

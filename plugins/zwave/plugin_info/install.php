@@ -23,17 +23,17 @@ if (!isConnect()) {
 
 function install() {
     $cron = new cron();
-    $cron->setClass('razberry');
+    $cron->setClass('zwave');
     $cron->setFunction('pullRazberryUpdate');
     $cron->setEnable(1);
     $cron->setDeamon(1);
     $cron->setSchedule('* * * * *');
     $cron->save();
-    config::save('razberryDeamonCronId', $cron->getId(), 'razberry');
+    config::save('zwaveDeamonCronId', $cron->getId(), 'zwave');
 }
 
 function remove() {
-    $cron = cron::byId(config::byKey('razberryDeamonCronId', 'razberry'));
+    $cron = cron::byId(config::byKey('zwaveDeamonCronId', 'zwave'));
     if (is_object($cron)) {
         $cron->remove();
     }
