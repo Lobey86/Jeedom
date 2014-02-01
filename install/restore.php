@@ -24,7 +24,7 @@ if (php_sapi_name() != 'cli' || isset($_SERVER['REQUEST_METHOD']) || !isset($_SE
     echo "The page that you have requested could not be found.";
     exit();
 }
-echo "[START]\n";
+echo "[START RESTORE]\n";
 if (isset($argv)) {
     foreach ($argv as $arg) {
         $argList = explode('=', $arg);
@@ -94,5 +94,5 @@ try {
     throw $e;
 }
 
-echo "\n[END]";
+echo "\n[END RESTORE]";
 ?>

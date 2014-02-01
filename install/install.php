@@ -24,7 +24,7 @@ if (php_sapi_name() != 'cli' || isset($_SERVER['REQUEST_METHOD']) || !isset($_SE
     echo "The page that you have requested could not be found.";
     exit();
 }
-echo "[START]\n";
+echo "[START INSTALL]\n";
 if (isset($argv)) {
     foreach ($argv as $arg) {
         $argList = explode('=', $arg);
@@ -82,7 +82,7 @@ try {
         if (version_compare(getVersion('jeedom'), $curentVersion, '=') && !isset($_GET['v'])) {
             jeedom::start();
             echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
-            echo "\n[END]";
+            echo "\n[END INSTALL]";
             exit();
         }
         if (isset($_GET['v'])) {
@@ -90,7 +90,7 @@ try {
             if (trim(fgets(STDIN)) !== 'o') {
                 echo "Mise à jour forcee de Jeedom est annulée\n";
                 jeedom::start();
-                echo "\n[END]";
+                echo "\n[END INSTALL]";
                 exit(0);
             }
             $updateSql = dirname(__FILE__) . '/update/' . $_GET['v'] . '.sql';
@@ -163,7 +163,7 @@ try {
         echo "Jeedom va être installé voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
             echo "Installation de Jeedom est annulée\n";
-            echo "\n[END]";
+            echo "\n[END INSTALL]";
             exit(0);
         }
         echo "\nInstallation de Jeedom " . getVersion('jeedom') . "\n";
@@ -232,7 +232,7 @@ try {
     echo 'Erreur durant l\'installation : ' . $e->getMessage();
     echo 'Détails : ' . print_r($e->getTrace());
 }
-echo "\n[END]";
+echo "\n[END INSTALL]";
 
 function incrementVersion($_version) {
     $version = explode('.', $_version);

@@ -262,7 +262,7 @@ function getUpdateLog(_autoUpdate) {
             var log = '';
             for (var i in data.result.reverse()) {
                 log += data.result[i][2];
-                if ($.trim(data.result[i][2]) == '[END]') {
+                if ($.trim(data.result[i][2]) == '[END INSTALL]') {
                     _autoUpdate = 0;
                 }
             }
@@ -299,7 +299,7 @@ function getBackupLog(_autoUpdate) {
             var log = '';
             for (var i in data.result.reverse()) {
                 log += data.result[i][2];
-                if ($.trim(data.result[i][2]) == '[END]') {
+                if ($.trim(data.result[i][2]) == '[END BACKUP]') {
                     updateListBackup();
                     _autoUpdate = 0;
                 }
@@ -336,7 +336,7 @@ function getRestoreLog(_autoUpdate) {
             var log = '';
             for (var i in data.result.reverse()) {
                 log += data.result[i][2];
-                if ($.trim(data.result[i][2]) == '[END]') {
+                if ($.trim(data.result[i][2]) == '[END RESTORE]') {
                     _autoUpdate = 0;
                 }
             }
