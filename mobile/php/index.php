@@ -99,7 +99,7 @@ if ($plugin != '') {
             </div><!-- /footer -->
 
 
-            <div data-role="panel" id="leftpanel" data-position="left" data-display="push" data-theme="b" class="ui-icon-alt">
+            <div data-role="panel" id="leftpanel" data-position="left" data-display="push" data-theme="b" data-position-fixed="true" data-animate="false" class="ui-icon-alt">
                 <ul data-role="listview">
                     <li><a href="index.php?v=m" data-icon="home" data-ajax="false"><i class="fa fa-home"></i> Accueil</a></li>
                     <li><a href="index.php?v=m&p=equipment" data-ajax="false" data-theme="a"><i class="fa fa fa-tachometer" ></i> Equipements </a></li>
@@ -118,7 +118,7 @@ if ($plugin != '') {
             </div>
 
             <?php if (isset($rightPanel)) { ?>
-                <div data-role="panel" id="rightpanel" data-position="right" data-display="push" data-theme="a" class="ui-icon-alt">
+                <div data-role="panel" id="rightpanel" data-position="right" data-display="push" data-dismissible="false" data-animate="false" data-position-fixed="true" data-theme="a" class="ui-icon-alt" >
                     <?php echo $rightPanel; ?>
                 </div>
             <?php } ?>
