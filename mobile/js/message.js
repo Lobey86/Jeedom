@@ -14,7 +14,7 @@ $(function() {
             },
             success: function(data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message:  data.result,level: 'danger'});
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
                 window.location.reload();
@@ -24,29 +24,30 @@ $(function() {
 
 
     $("#table_message").delegate(".removeMessage", 'click', function(event) {
-        removeMessage($(this).closest('tr').attr('message_id'))
+        var tr = $(this).closest('tr');
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "core/ajax/message.ajax.php", // url du fichier php
+            data: {
+                action: "removeMessage",
+                id: tr.attr('message_id'),
+            },
+            dataType: 'json',
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) { // si l'appel a bien fonctionné
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                tr.remove();
+            }
+        });
     });
 });
 
 
 function removeMessage(_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/message.ajax.php", // url du fichier php
-        data: {
-            action: "removeMessage",
-            id: _id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message:  data.result,level: 'danger'});
-                return;
-            }
-            window.location.reload();
-        }
-    });
+
 }

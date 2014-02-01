@@ -1,18 +1,11 @@
 
-<div class="eqLogic dashboard-widget autoWidth" eqLogic_id="#id#" style="margin : 0 0 15 0;" version="mobile">
+<div class="eqLogic dashboard-widget" eqLogic_id="#id#" style="margin : 0 0 15 0;" version="mobile">
     <center>
         <span style="font-weight:bold;">#object_name##name#</span><br/>
         #info#
         #action#
     </center>
 
-    <script>
-        $(function() {
-            $('.autoWidth').width($('.eqLogic').parent().width() - 30);
-        });
-        $(window).on("orientationchange", function(event) {
-            $('.autoWidth').width($('.eqLogic').parent().width() - 30);
-        });
-    </script>
+   
 </div>
 
