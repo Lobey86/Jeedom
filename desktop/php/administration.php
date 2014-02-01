@@ -101,7 +101,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <fieldset>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Mise à jour</label>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-5">
                                             <a class="btn btn-default bt_updateJeedom" mode="normal"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-github"></i> Mettre à jour</a>
                                             <a class="btn btn-warning bt_updateJeedom" mode="force"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-github"></i> Forcer la mise à jour</a>
                                         </div>

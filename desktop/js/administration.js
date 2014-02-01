@@ -266,14 +266,8 @@ function getUpdateLog(_autoUpdate) {
                     _autoUpdate = 0;
                 }
             }
-            if (_autoUpdate > 0 && log == $('#pre_updateInfo').text()) {
-                _autoUpdate++;
-            }
-            if (_autoUpdate > 60) {
-                _autoUpdate = 0;
-            }
             $('#pre_updateInfo').text(log);
-            if (init(_autoUpdate, 0) > 0) {
+            if (init(_autoUpdate, 0) == 1) {
                 setTimeout(function() {
                     getUpdateLog(_autoUpdate)
                 }, 1000);
@@ -310,15 +304,8 @@ function getBackupLog(_autoUpdate) {
                     _autoUpdate = 0;
                 }
             }
-            if (_autoUpdate > 0 && log == $('#pre_backupInfo').text()) {
-                _autoUpdate++;
-            }
-            if (_autoUpdate > 60) {
-                updateListBackup();
-                _autoUpdate = 0;
-            }
             $('#pre_backupInfo').text(log);
-            if (init(_autoUpdate, 0) > 0) {
+            if (init(_autoUpdate, 0) == 1) {
                 setTimeout(function() {
                     getBackupLog(_autoUpdate)
                 }, 1000);
@@ -353,14 +340,8 @@ function getRestoreLog(_autoUpdate) {
                     _autoUpdate = 0;
                 }
             }
-            if (_autoUpdate > 0 && log == $('#pre_restoreInfo').text()) {
-                _autoUpdate++;
-            }
-            if (_autoUpdate > 60) {
-                _autoUpdate = 0;
-            }
             $('#pre_restoreInfo').text(log);
-            if (init(_autoUpdate, 0) > 0) {
+            if (init(_autoUpdate, 0) == 1) {
                 setTimeout(function() {
                     getRestoreLog(_autoUpdate)
                 }, 1000);
