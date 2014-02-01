@@ -94,5 +94,5 @@ try {
     throw $e;
 }
 
-echo "\n[END RESTORE]";
+echo "[END RESTORE]\n";
 ?>

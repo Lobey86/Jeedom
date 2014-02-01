@@ -74,5 +74,5 @@ try {
     throw $e;
 }
 
-echo "\n[END BACKUP]";
+echo "[END BACKUP]\n";
 ?>
