@@ -24,7 +24,7 @@ if (php_sapi_name() != 'cli' || isset($_SERVER['REQUEST_METHOD']) || !isset($_SE
     echo "The page that you have requested could not be found.";
     exit();
 }
-
+echo "[START]\n";
 if (isset($argv)) {
     foreach ($argv as $arg) {
         $argList = explode('=', $arg);
@@ -43,13 +43,16 @@ try {
         $_GET['backup'] = $BACKUP_FILE;
     }
     if (!isset($_GET['backup']) || $_GET['backup'] == '') {
-        $backup_dir = dirname(__FILE__) . '/../backup';
+        if (substr(config::byKey('backup::path'), 0, 1) != '/') {
+            $backup_dir = dirname(__FILE__) . '/../' . config::byKey('backup::path');
+        } else {
+            $backup_dir = config::byKey('backup::path');
+        }
         if (!file_exists($backup_dir)) {
             mkdir($backup_dir, 0770, true);
         }
         $backup = scandir($backup_dir, SCANDIR_SORT_DESCENDING);
         $backup = $backup_dir . '/' . $backup[0];
-        echo "Restauration de  : " . $backup . "\n";
     } else {
         $backup = $_GET['backup'];
     }
@@ -60,6 +63,10 @@ try {
     if (!file_exists($backup)) {
         throw new Exception('Backup non trouvé : ' . $backup);
     }
+
+    echo "Restauration de Jeedom avec le fichier : " . $backup . "\n";
+
+
     $tmp = dirname(__FILE__) . '/../tmp/backup';
     rrmdir($tmp);
     if (!file_exists($tmp)) {
@@ -86,4 +93,6 @@ try {
     echo 'Détails : ' . print_r($e->getTrace());
     throw $e;
 }
+
+echo "\n[END]";
 ?>

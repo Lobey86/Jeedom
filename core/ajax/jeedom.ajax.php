@@ -30,12 +30,12 @@ try {
     }
 
     if (init('action') == 'backup') {
-        jeedom::backup();
+        jeedom::backup(true);
         ajax::success();
     }
 
     if (init('action') == 'restore') {
-        jeedom::restore(init('backup'));
+        jeedom::restore(init('backup'), true);
         ajax::success();
     }
 
@@ -49,6 +49,15 @@ try {
 
     if (init('action') == 'getRestoreLog') {
         ajax::success(log::get('restore', 0, 3000));
+    }
+
+    if (init('action') == 'removeBackup') {
+        jeedom::removeBackup(init('backup'));
+        ajax::success();
+    }
+    
+     if (init('action') == 'listBackup') {
+        ajax::success(jeedom::listBackup());
     }
 
     throw new Exception('Aucune methode correspondante à : ' . init('action'));

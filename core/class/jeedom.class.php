@@ -111,6 +111,28 @@ class jeedom {
         }
     }
 
+    public static function listBackup() {
+        if (substr(config::byKey('backup::path'), 0, 1) != '/') {
+            $backup_dir = dirname(__FILE__) . '/../../' . config::byKey('backup::path');
+        } else {
+            $backup_dir = config::byKey('backup::path');
+        }
+        $backups = ls($backup_dir, 'backup-*', false, array('files', 'quiet', 'datetime_asc'));
+        $return = array();
+        foreach ($backups as $backup) {
+            $return[$backup_dir . '/' . $backup] = $backup;
+        }
+        return $return;
+    }
+
+    public static function removeBackup($_backup) {
+        if (file_exists($_backup)) {
+            unlink($_backup);
+        } else {
+            throw new Exception('Impossible de trouver le fichier : ' . $_backup);
+        }
+    }
+
     public static function restore($_backup = '', $_background = false) {
         if ($_background) {
             log::clear('restore');

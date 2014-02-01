@@ -56,6 +56,7 @@ $(function() {
 
     $("#bt_saveGeneraleConfig").on('click', function(event) {
         $.hideAlert();
+        saveConvertColor();
         saveConfiguration($('#config'));
     });
 
@@ -64,13 +65,18 @@ $(function() {
         saveConfiguration($('#update'));
     });
 
+    $("#bt_saveBackup").on('click', function(event) {
+        $.hideAlert();
+        saveConfiguration($('#backup'));
+    });
+
     $("#bt_saveUser").on('click', function(event) {
         saveUser();
     });
 
     $(".bt_updateJeedom").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('Etez-vous sûr de vouloir mettre à jour Jeedom ?', function(result) {
+        bootbox.confirm('Etez-vous sûr de vouloir mettre à jour Jeedom ? Une fois lancée cette opération ne peut etre annulée', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -94,13 +100,90 @@ $(function() {
                 });
             }
         });
-
-
-
     });
 
-    $("#bt_refreshUpdateLog").on('click', function(event) {
-        getUpdateLog();
+    $("#bt_backupJeedom").on('click', function(event) {
+        var el = $(this);
+        bootbox.confirm('Etez-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut etre annulée', function(result) {
+            if (result) {
+                el.find('.fa-refresh').show();
+                $.ajax({
+                    type: 'POST',
+                    url: 'core/ajax/jeedom.ajax.php',
+                    data: {
+                        action: 'backup',
+                    },
+                    dataType: 'json',
+                    error: function(request, status, error) {
+                        handleAjaxError(request, status, error);
+                    },
+                    success: function(data) {
+                        if (data.state != 'ok') {
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        getBackupLog(1);
+                    }
+                });
+            }
+        });
+    });
+
+    $("#bt_restoreJeedom").on('click', function(event) {
+        var el = $(this);
+        bootbox.confirm('Etez-vous sûr de vouloir restaurer Jeedom avec <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ? Une fois lancée cette opération ne peut etre annulée', function(result) {
+            if (result) {
+                el.find('.fa-refresh').show();
+                $.ajax({
+                    type: 'POST',
+                    url: 'core/ajax/jeedom.ajax.php',
+                    data: {
+                        action: 'restore',
+                        backup: $('#sel_restoreBackup').value(),
+                    },
+                    dataType: 'json',
+                    error: function(request, status, error) {
+                        handleAjaxError(request, status, error);
+                    },
+                    success: function(data) {
+                        if (data.state != 'ok') {
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        getRestoreLog(1);
+                    }
+                });
+            }
+        });
+    });
+
+    $("#bt_removeBackup").on('click', function(event) {
+        var el = $(this);
+        bootbox.confirm('Etez-vous sûr de vouloir supprimer la sauvegarde <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ?', function(result) {
+            if (result) {
+                el.find('.fa-refresh').show();
+                $.ajax({
+                    type: 'POST',
+                    url: 'core/ajax/jeedom.ajax.php',
+                    data: {
+                        action: 'removeBackup',
+                        backup: $('#sel_restoreBackup').value(),
+                    },
+                    dataType: 'json',
+                    error: function(request, status, error) {
+                        handleAjaxError(request, status, error);
+                    },
+                    success: function(data) {
+                        if (data.state != 'ok') {
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        updateListBackup();
+                        $('#div_alert').showAlert({message: 'Sauvegarde supprimé avec succès', level: 'success'});
+                    }
+                });
+            }
+        });
     });
 
     $("#bt_testLdapConnection").on('click', function(event) {
@@ -155,8 +238,8 @@ $(function() {
 
     printConvertColor();
 
-    loadConfiguration($('#update'));
-    loadConfiguration($('#config'));
+    loadConfiguration($('body'));
+    updateListBackup();
 });
 /********************Log************************/
 function getUpdateLog(_autoUpdate) {
@@ -179,11 +262,14 @@ function getUpdateLog(_autoUpdate) {
             var log = '';
             for (var i in data.result.reverse()) {
                 log += data.result[i][2];
+                if ($.trim(data.result[i][2]) == '[END]') {
+                    _autoUpdate = 0;
+                }
             }
             if (_autoUpdate > 0 && log == $('#pre_updateInfo').text()) {
                 _autoUpdate++;
             }
-            if (_autoUpdate > 20) {
+            if (_autoUpdate > 60) {
                 _autoUpdate = 0;
             }
             $('#pre_updateInfo').text(log);
@@ -194,6 +280,119 @@ function getUpdateLog(_autoUpdate) {
             } else {
                 $(".bt_updateJeedom .fa-refresh").hide();
             }
+        }
+    });
+}
+
+function getBackupLog(_autoUpdate) {
+
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/jeedom.ajax.php',
+        data: {
+            action: 'getBackupLog',
+        },
+        dataType: 'json',
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            var log = '';
+            for (var i in data.result.reverse()) {
+                log += data.result[i][2];
+                if ($.trim(data.result[i][2]) == '[END]') {
+                    updateListBackup();
+                    _autoUpdate = 0;
+                }
+            }
+            if (_autoUpdate > 0 && log == $('#pre_backupInfo').text()) {
+                _autoUpdate++;
+            }
+            if (_autoUpdate > 60) {
+                updateListBackup();
+                _autoUpdate = 0;
+            }
+            $('#pre_backupInfo').text(log);
+            if (init(_autoUpdate, 0) > 0) {
+                setTimeout(function() {
+                    getBackupLog(_autoUpdate)
+                }, 1000);
+            } else {
+                $("#bt_backupJeedom .fa-refresh").hide();
+            }
+        }
+    });
+}
+
+function getRestoreLog(_autoUpdate) {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/jeedom.ajax.php',
+        data: {
+            action: 'getRestoreLog',
+        },
+        dataType: 'json',
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            var log = '';
+            for (var i in data.result.reverse()) {
+                log += data.result[i][2];
+                if ($.trim(data.result[i][2]) == '[END]') {
+                    _autoUpdate = 0;
+                }
+            }
+            if (_autoUpdate > 0 && log == $('#pre_restoreInfo').text()) {
+                _autoUpdate++;
+            }
+            if (_autoUpdate > 60) {
+                _autoUpdate = 0;
+            }
+            $('#pre_restoreInfo').text(log);
+            if (init(_autoUpdate, 0) > 0) {
+                setTimeout(function() {
+                    getRestoreLog(_autoUpdate)
+                }, 1000);
+            } else {
+                $("#bt_restoreJeedom .fa-refresh").hide();
+            }
+        }
+    });
+}
+
+function updateListBackup() {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/jeedom.ajax.php',
+        data: {
+            action: 'listBackup',
+        },
+        dataType: 'json',
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            var options = '';
+            for (var i in data.result) {
+                options += '<option value="' + i + '">' + data.result[i] + '</option>';
+            }
+            $('#sel_restoreBackup').html(options);
         }
     });
 }
@@ -402,7 +601,6 @@ function flushMemcache() {
 }
 
 function saveConfiguration(_el) {
-    saveConvertColor();
     try {
         var configuration = _el.getValues('.configKey');
         configuration = configuration[0];

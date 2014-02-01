@@ -37,6 +37,7 @@ function remove() {
     if (is_object($cron)) {
         $cron->remove();
     }
+    config::remove('xPLDeamonCronId', 'xPL');
 }
 
 ?>

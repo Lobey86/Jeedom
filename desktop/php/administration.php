@@ -13,14 +13,83 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
             <li class="active"><a href="#config">Configuration</a></li>
             <li><a href="#user">Utilisateurs</a></li>
             <li><a href="#update">Mise à jour</a></li>
+            <li><a href="#backup">Sauvegardes</a></li>
         </ul>
 
 
         <div class="tab-content">
+            <!--********************Onglet mise à jour********************************-->
+            <div class="tab-pane" id="backup">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <legend>Sauvegardes</legend>
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Sauvegarde</label>
+                                    <div class="col-lg-4">
+                                        <a class="btn btn-default" id="bt_backupJeedom"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-floppy-o"></i> Sauvegarder</a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Emplacement des sauvegardes</label>
+                                    <div class="col-lg-4">
+                                        <input type="text" class="configKey form-control" l1key="backup::path" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Nombre de jour de sauvegardes</label>
+                                    <div class="col-lg-4">
+                                        <input type="text" class="configKey form-control" l1key="backup::keepDays" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <legend>Sauvegardes</legend>
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Sauvegardes disponible</label>
+                                    <div class="col-lg-4">
+                                        <select class="form-control" id="sel_restoreBackup">
+                                          
+                                        </select>
+                                    </div>
 
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Restaurer la sauvegarde</label>
+                                    <div class="col-lg-4">
+                                        <a class="btn btn-warning" id="bt_restoreJeedom"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-file"></i> Restaurer</a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Supprimer la sauvegarde</label>
+                                    <div class="col-lg-4">
+                                        <a class="btn btn-danger" id="bt_removeBackup"><i class="fa fa-trash-o"></i> Supprimer</a>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <legend>Informations sauvegardes</legend>
+                        <pre id="pre_backupInfo"></pre>
+                        <legend>Informations restaurations</legend>
+                        <pre id="pre_restoreInfo">
+
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="form-actions" style="height: 20px;">
+                    <a class="btn btn-success" id="bt_saveBackup"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+                </div>
+
+            </div>
             <!--********************Onglet mise à jour********************************-->
             <div class="tab-pane" id="update">
-
                 <?php
                 try {
                     $repo = getGitRepo();
@@ -33,8 +102,8 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Mise à jour</label>
                                         <div class="col-lg-4">
-                                            <a class="btn btn-default bt_updateJeedom" mode="normal"><i class="fa fa-refresh fa-spin" style="display : none;"></i> Mettre à jour</a>
-                                            <a class="btn btn-warning bt_updateJeedom" mode="force"><i class="fa fa-refresh fa-spin" style="display : none;"></i> Forcer la mise à jour</a>
+                                            <a class="btn btn-default bt_updateJeedom" mode="normal"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-github"></i> Mettre à jour</a>
+                                            <a class="btn btn-warning bt_updateJeedom" mode="force"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-github"></i> Forcer la mise à jour</a>
                                         </div>
                                     </div>
                                     <div class="form-group">

@@ -47,7 +47,6 @@ function jeedomPluginAutoload($classname) {
         } catch (Exception $e) {
             if (!is_object($plugin) || $plugin->getId() == '') {
                 if (strpos($classname, 'Real') !== false) {
-                    error_log(substr($classname, 0, -4));
                     $plugin = new plugin(substr($classname, 0, -4));
                 }
                 if (strpos($classname, 'Cmd') !== false) {

@@ -24,7 +24,7 @@ if (php_sapi_name() != 'cli' || isset($_SERVER['REQUEST_METHOD']) || !isset($_SE
     echo "The page that you have requested could not be found.";
     exit();
 }
-
+echo "[START]\n";
 if (isset($argv)) {
     foreach ($argv as $arg) {
         $argList = explode('=', $arg);
@@ -42,13 +42,17 @@ try {
     if (!file_exists($tmp)) {
         mkdir($tmp, 0770, true);
     }
-    $backup = dirname(__FILE__) . '/../backup';
-    if (!file_exists($backup)) {
-        mkdir($backup, 0770, true);
+    if (substr(config::byKey('backup::path'), 0, 1) != '/') {
+        $backup_dir = dirname(__FILE__) . '/../' . config::byKey('backup::path');
+    } else {
+        $backup_dir = config::byKey('backup::path');
+    }
+    if (!file_exists($backup_dir)) {
+        mkdir($backup_dir, 0770, true);
     }
 
     echo 'Backup des fichiers : ';
-    rcopy(dirname(__FILE__) . '/..', $tmp, true, array('tmp', 'backup'));
+    rcopy(dirname(__FILE__) . '/..', $tmp, true, array('tmp', 'backup', 'log'));
     echo "OK\n";
 
     echo 'Backup de la base de données : ';
@@ -56,11 +60,11 @@ try {
     echo "OK\n";
 
     echo 'Création de l\'archive : ';
-    system('cd ' . $tmp . '; tar cfz ' . $backup . '/backup-' . date("d-m-Y-H\hi") . '.tar.gz * > /dev/null 2>&1');
+    system('cd ' . $tmp . '; tar cfz ' . $backup_dir . '/backup-' . date("d-m-Y-H\hi") . '.tar.gz * > /dev/null 2>&1');
     echo "OK\n";
 
     echo 'Nettoyage des anciens backup : ';
-    system('find ' . $backup . ' -mtime +' . config::byKey('backup::keepDays') . ' -print | xargs -r rm');
+    system('find ' . $backup_dir . ' -mtime +' . config::byKey('backup::keepDays') . ' -print | xargs -r rm');
     echo "OK\n";
 
     echo "***************Fin du backup de Jeedom***************\n";
@@ -69,4 +73,6 @@ try {
     echo 'Détails : ' . print_r($e->getTrace());
     throw $e;
 }
+
+echo "\n[END]";
 ?>
