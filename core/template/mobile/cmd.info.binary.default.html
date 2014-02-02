@@ -1,21 +1,22 @@
-<span class="cmd" data-type="info" data-subtype="binary" data-cmd_id="#id#" >
-    <a href="#tooltipsCmd#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline"></a>
+<div class="cmd" data-type="info" data-subtype="binary" data-cmd_id="#id#" >
+    <center><a href="#tooltipsCmd#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline"></a>
     #name# : <span class="binary"></span>
-    #unite#
+    #unite#</center>
 
     <div data-role="popup" id="tooltipsCmd#id#" class="ui-content" data-theme="a" style="max-width:350px;">
         #collectDate#
     </div>
-</span>
 
-<script>
-    $(function() {
-        if ('#state#' == '1') {
-            $('.cmd[data-cmd_id=#id#] .binary').addClass('green');
-        } else if ('#state#' == '0') {
-            $('.cmd[data-cmd_id=#id#] .binary').addClass('red');
-        } else {
-            $('.cmd[data-cmd_id=#id#] .binary').append('<span class="label label-danger">#state#</span>');
-        }
-    });
-</script>
+    <script>
+        $(function() {
+            if ('#state#' == '1') {
+                $('.cmd[data-cmd_id=#id#] .binary').addClass('green');
+            } else if ('#state#' == '0') {
+                $('.cmd[data-cmd_id=#id#] .binary').addClass('red');
+            } else {
+                $('.cmd[data-cmd_id=#id#] .binary').append('<span class="label label-danger">#state#</span>');
+            }
+        });
+    </script>
+
+</div>
