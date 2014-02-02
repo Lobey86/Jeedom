@@ -154,7 +154,7 @@ if ($plugin != '') {
                                         <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="index.php?v=d&p=profils"><i class="fa fa-briefcase"></i> Profile</a></li>
+                                        <li><a href="index.php?v=d&p=profils"><i class="fa fa-briefcase"></i> Profil</a></li>
                                         <?php
                                         if ($_SESSION['user']->getOptions('expertMode') == 1) {
                                             echo '<li class="cursor"><a id="bt_expertMode" state="1"><i class="fa fa-check-square-o"></i> Mode expert</a></li>';

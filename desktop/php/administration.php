@@ -25,7 +25,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                     <form class="form-horizontal">
                         <fieldset>
                             <div class="form-group">
-                                <label class="col-lg-4 control-label">Sauvegarde</label>
+                                <label class="col-lg-4 control-label">Sauvegardes</label>
                                 <div class="col-lg-4">
                                     <a class="btn btn-default" id="bt_backupJeedom"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-floppy-o"></i> Sauvegarder</a>
                                 </div>
@@ -37,7 +37,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-4 control-label">Nombre de jour de sauvegardes</label>
+                                <label class="col-lg-4 control-label">Nombre de jour(s) de mémorisation des sauvegardes</label>
                                 <div class="col-lg-4">
                                     <input type="text" class="configKey form-control" data-l1key="backup::keepDays" />
                                 </div>
@@ -48,7 +48,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                     <form class="form-horizontal">
                         <fieldset>
                             <div class="form-group">
-                                <label class="col-lg-4 control-label">Sauvegardes disponible</label>
+                                <label class="col-lg-4 control-label">Sauvegardes disponibles</label>
                                 <div class="col-lg-4">
                                     <select class="form-control" id="sel_restoreBackup">
 
