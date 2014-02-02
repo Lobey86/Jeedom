@@ -57,14 +57,14 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom du widget</label>
                             <div class="col-lg-6">
-                                <input type="text" class="widgetAttr form-control" l1key="path" style="display : none;" />
-                                <input type="text" class="widgetAttr form-control" l1key="name" placeholder="Nom du widget"/>
+                                <input type="text" class="widgetAttr form-control" data-l1key="path" style="display : none;" />
+                                <input type="text" class="widgetAttr form-control" data-l1key="name" placeholder="Nom du widget"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Version</label>
                             <div class="col-lg-6">
-                                <select class="widgetAttr form-control" l1key='version'>
+                                <select class="widgetAttr form-control" data-l1key='version'>
                                     <option value='dashboard'>Dashboard</option>
                                     <option value='mobile'>Mobile</option>
                                 </select>
@@ -73,7 +73,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Type</label>
                             <div class="col-lg-6">
-                                <select class="widgetAttr form-control" l1key='type'>
+                                <select class="widgetAttr form-control" data-l1key='type'>
                                     <option value='none'>Aucun</option>
                                     <?php
                                     foreach (cmd::allType() as $type) {
@@ -86,7 +86,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Sous-type</label>
                             <div class="col-lg-6">
-                                <select class="widgetAttr form-control" l1key='subtype'>
+                                <select class="widgetAttr form-control" data-l1key='subtype'>
                                     <option value='none'>Aucun</option>
                                     <?php
                                     foreach (cmd::allSubType() as $subtype) {
@@ -106,7 +106,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
             </div>
         </div>
 
-        <textarea class='form-control widgetAttr' l1key='content' id='ta_widgetContent' style='height: 500px;'></textarea>
+        <textarea class='form-control widgetAttr' data-l1key='content' id='ta_widgetContent' style='height: 500px;'></textarea>
 
         <form class="form-horizontal">
             <fieldset>
@@ -134,7 +134,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom du widget</label>
                             <div class="col-lg-8">
-                                <input class="form-control widgetAttr" l1key="name" type="text" placeholder="Nom du widget"/>
+                                <input class="form-control widgetAttr" data-l1key="name" type="text" placeholder="Nom du widget"/>
                             </div>
                         </div>
                     </fieldset>

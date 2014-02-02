@@ -1,12 +1,12 @@
-<input class="expressionAttr form-control input-sm" l1key="options" l2key="name" placeholder="Nom" value="#name#" cmd_id="#id#" />
-<input class="expressionAttr form-control input-sm autoCompleteCondition" l1key="options" l2key="value" placeholder="Valeur" value="#value#" cmd_id="#id#" />
+<input class="expressionAttr form-control input-sm" data-l1key="options" data-l2key="name" placeholder="Nom" value="#name#" cmd_id="#id#" />
+<input class="expressionAttr form-control input-sm autoCompleteCondition" data-l1key="options" data-l2key="value" placeholder="Valeur" value="#value#" cmd_id="#id#" />
 <a class="btn btn-default form-control listEquipementInfo cursor" cmd_id="#id#" style="margin-top : 5px;"><i class="fa fa-list-alt"></i> Rechercher équipement</a>
 <script>
     $('.listEquipementInfo').off();
     $('.listEquipementInfo').on('click', function() {
         var el = $(this);
         cmd.getSelectModal({type: 'info'}, function(result) {
-            el.parent().find('.expressionAttr[l1key=options][l2key=value]').value(el.parent().find('.expressionAttr[l1key=options][l2key=value]').value() + ' ' + result.human);
+            el.parent().find('.expressionAttr[data-l1key=options][data-l2key=value]').value(el.parent().find('.expressionAttr[data-l1key=options][data-l2key=value]').value() + ' ' + result.human);
         });
     });
 </script>

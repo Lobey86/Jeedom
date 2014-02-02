@@ -30,14 +30,14 @@ sendVarToJS('dontRemoveCmd', '1');
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Nom de l'équipement S.A.R.A.H</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr form-control" l1key="id" style="display : none;" />
-                        <input type="text" class="eqLogicAttr form-control" l1key="name" placeholder="Nom de l'équipement S.A.R.A.H"/>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement S.A.R.A.H"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label" >Objet parent</label>
                     <div class="col-lg-3">
-                        <select id="sel_object" class="eqLogicAttr form-control" l1key="object_id">
+                        <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                             <option value="">Aucun</option>
                             <?php
                             foreach (object::all() as $object) {
@@ -50,20 +50,20 @@ sendVarToJS('dontRemoveCmd', '1');
                 <div class="form-group">
                     <label class="col-lg-2 control-label" >Activer</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="isEnable" size="16" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isEnable" size="16" checked/>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Adresse du nodeJS</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr configuration form-control" l1key="configuration" l2key="addrSrv" placeholder="xxx.xxx.xxx.xxx:8080"/>
+                        <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="addrSrv" placeholder="xxx.xxx.xxx.xxx:8080"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Adresse du TTS</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr configuration form-control" l1key="configuration" l2key="addrSrvTts" placeholder="xxx.xxx.xxx.xxx:8888"/>
+                        <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="addrSrvTts" placeholder="xxx.xxx.xxx.xxx:8888"/>
                     </div>
                 </div>
             </fieldset> 
@@ -96,7 +96,7 @@ sendVarToJS('dontRemoveCmd', '1');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement S.A.R.A.H</label>
                             <div class="col-lg-8">
-                                <input class="form-control eqLogicAttr" l1key="name" type="text" placeholder="Nom de l'équipement S.A.R.A.H"/>
+                                <input class="form-control eqLogicAttr" data-l1key="name" type="text" placeholder="Nom de l'équipement S.A.R.A.H"/>
                             </div>
                         </div>
                     </fieldset>

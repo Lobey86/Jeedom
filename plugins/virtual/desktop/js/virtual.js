@@ -37,7 +37,7 @@ $(function() {
     $("#table_cmd").delegate(".listEquipementInfo", 'click', function() {
         var el = $(this);
         cmd.getSelectModal({type: 'info'}, function(result) {
-            var calcul = el.closest('tr').find('.cmdAttr[l1key=configuration][l2key=calcul]');
+            var calcul = el.closest('tr').find('.cmdAttr[data-l1key=configuration][data-l2key=calcul]');
             calcul.value(calcul.value() + ' ' + result.human);
         });
     });
@@ -57,22 +57,22 @@ function addCmdToTable(_cmd) {
         var disabled = (init(_cmd.configuration.virtualAction) == '1') ? 'disabled' : '';
         var tr = '<tr class="cmd" cmd_id="' + init(_cmd.id) + '" virtualAction="' + init(_cmd.configuration.virtualAction) + '">';
         tr += '<td>';
-        tr += '<span class="cmdAttr" l1key="id"></span>';
+        tr += '<span class="cmdAttr" data-l1key="id"></span>';
         tr += '</td>';
         tr += '<td>';
-        tr += '<input class="cmdAttr form-control" l1key="name" style="width : 140px;" placeholder="Nom"></td>';
+        tr += '<input class="cmdAttr form-control" data-l1key="name" style="width : 140px;" placeholder="Nom"></td>';
         tr += '<td>';
-        tr += '<input class="cmdAttr form-control type" l1key="type" value="info" disabled style="margin-bottom : 5px;" />';
+        tr += '<input class="cmdAttr form-control type" data-l1key="type" value="info" disabled style="margin-bottom : 5px;" />';
         tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span>';
         tr += '</td>';
-        tr += '<td><textarea class="cmdAttr form-control" l1key="configuration" l2key="calcul" style="height : 33px;" ' + disabled + ' placeholder="Calcul"></textarea>';
+        tr += '<td><textarea class="cmdAttr form-control" data-l1key="configuration" data-l2key="calcul" style="height : 33px;" ' + disabled + ' placeholder="Calcul"></textarea>';
         tr += '<a class="form-control btn btn-default cursor listEquipementInfo" style="margin-top : 5px;"><i class="fa fa-list-alt "></i> Rechercher équipement</a></td>';
-        tr += '<td><input class="cmdAttr form-control" l1key="unite" style="width : 90px;" placeholder="Unite"></td>';
+        tr += '<td><input class="cmdAttr form-control" data-l1key="unite" style="width : 90px;" placeholder="Unite"></td>';
         tr += '<td>';
-        tr += '<span><input type="checkbox" class="cmdAttr" l1key="isHistorized"/> Historiser<br/></span>';
-        tr += '<span><input type="checkbox" class="cmdAttr" l1key="isVisible" checked/> Afficher<br/></span>';
-        tr += '<span><input type="checkbox" class="cmdAttr" l1key="eventOnly"' + disabled + '/> Evénement seulement<br/></span>';
-        tr += '<input style="width : 150px;" class="tooltips cmdAttr form-control" l1key="cache" l2key="lifetime" placeholder="Lifetime cache" title="Lifetime cache">';
+        tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isHistorized"/> Historiser<br/></span>';
+        tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/> Afficher<br/></span>';
+        tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="eventOnly"' + disabled + '/> Evénement seulement<br/></span>';
+        tr += '<input style="width : 150px;" class="tooltips cmdAttr form-control" data-l1key="cache" data-l2key="lifetime" placeholder="Lifetime cache" title="Lifetime cache">';
         tr += '</td>';
         tr += '<td>';
         if (is_numeric(_cmd.id)) {
@@ -87,20 +87,20 @@ function addCmdToTable(_cmd) {
     if (init(_cmd.type) == 'action') {
         var tr = '<tr class="cmd" cmd_id="' + init(_cmd.id) + '">';
         tr += '<td>';
-        tr += '<span class="cmdAttr" l1key="id"></span>';
+        tr += '<span class="cmdAttr" data-l1key="id"></span>';
         tr += '</td>';
         tr += '<td>';
-        tr += '<input class="cmdAttr form-control" l1key="name" style="width : 140px;" placeholder="Nom"></td>';
+        tr += '<input class="cmdAttr form-control" data-l1key="name" style="width : 140px;" placeholder="Nom"></td>';
         tr += '<td>';
-        tr += '<input class="cmdAttr form-control type" l1key="type" value="action" disabled style="margin-bottom : 5px;" />';
+        tr += '<input class="cmdAttr form-control type" data-l1key="type" value="action" disabled style="margin-bottom : 5px;" />';
         tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span>';
-        tr += '<input class="cmdAttr" l1key="configuration" l2key="virtualAction" value="1" style="display:none;" >';
+        tr += '<input class="cmdAttr" data-l1key="configuration" data-l2key="virtualAction" value="1" style="display:none;" >';
         tr += '</td>';
-        tr += '<td><input class="cmdAttr form-control" l1key="configuration" l2key="infoName" placeholder="Nom information" style="margin-bottom : 5px;">';
-        tr += '<input class="cmdAttr form-control" l1key="configuration" l2key="value"placeholder="Valeur"></td>';
+        tr += '<td><input class="cmdAttr form-control" data-l1key="configuration" data-l2key="infoName" placeholder="Nom information" style="margin-bottom : 5px;">';
+        tr += '<input class="cmdAttr form-control" data-l1key="configuration" data-l2key="value"placeholder="Valeur"></td>';
         tr += '<td></td>';
         tr += '<td>';
-        tr += '<span><input type="checkbox" class="cmdAttr" l1key="isVisible" checked/> Afficher<br/></span>';
+        tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/> Afficher<br/></span>';
         tr += '</td>';
         tr += '<td>';
         if (is_numeric(_cmd.id)) {

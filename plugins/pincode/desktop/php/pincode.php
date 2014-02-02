@@ -30,14 +30,14 @@ sendVarToJS('eqType', 'pincode');
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Nom de l'équipement Pincode</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr form-control" l1key="id" style="display : none;" />
-                        <input type="text" class="eqLogicAttr form-control" l1key="name" placeholder="Nom de l'équipement pincode"/>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement pincode"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label" >Objet parent</label>
                     <div class="col-lg-3">
-                        <select id="sel_object" class="eqLogicAttr form-control" l1key="object_id">
+                        <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                             <option value="">Aucun</option>
                             <?php
                             foreach (object::all() as $object) {
@@ -50,31 +50,31 @@ sendVarToJS('eqType', 'pincode');
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Activer</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="isEnable" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isEnable" checked/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Visible</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="isVisible" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isVisible" checked/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Code</label>
                     <div class="col-lg-1">
-                        <input type="password" class="eqLogicAttr form-control" l1key="configuration" l2key="code" checked/>
+                        <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="code" checked/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Nom de la commande info</label>
                     <div class="col-lg-3">
-                        <input class="eqLogicAttr form-control" l1key="configuration" l2key="cmd_name" />
+                        <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_name" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Sous-type de la commande</label>
                     <div class="col-lg-3">
-                        <select class="eqLogicAttr form-control" l1key="configuration" l2key="cmd_subtype" >
+                        <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_subtype" >
                             <option value="numeric">Numérique</option>
                             <option value="binary">Binaire</option>
                             <option value="string">Autre</option>
@@ -84,13 +84,13 @@ sendVarToJS('eqType', 'pincode');
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Unité de la commande info</label>
                     <div class="col-lg-3">
-                        <input class="eqLogicAttr form-control" l1key="configuration" l2key="cmd_unite" />
+                        <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_unite" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Afficher la commande info</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="configuration" l2key="cmd_isVisible" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_isVisible" checked/>
                     </div>
                 </div>
             </fieldset> 
@@ -138,7 +138,7 @@ sendVarToJS('eqType', 'pincode');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement pincode</label>
                             <div class="col-lg-8">
-                                <input class="form-control eqLogicAttr" l1key="name" type="text" placeholder="Nom de l'équipement pincode"/>
+                                <input class="form-control eqLogicAttr" data-l1key="name" type="text" placeholder="Nom de l'équipement pincode"/>
                             </div>
                         </div>
                     </fieldset>

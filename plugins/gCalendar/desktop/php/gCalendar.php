@@ -30,14 +30,14 @@ sendVarToJS('eqType', 'gCalendar');
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Nom de l'équipement</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr form-control" l1key="id" style="display : none;" />
-                        <input type="text" class="eqLogicAttr form-control" l1key="name" placeholder="Nom de l'équipement gCalendar"/>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement gCalendar"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Activer</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="isEnable" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isEnable" checked/>
                     </div>
                 </div>
             </fieldset> 
@@ -83,7 +83,7 @@ sendVarToJS('eqType', 'gCalendar');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement gCalandar</label>
                             <div class="col-lg-8">
-                                <input class="form-control eqLogicAttr" l1key="name" type="text" placeholder="Nom de l'équipement gCalandar"/>
+                                <input class="form-control eqLogicAttr" data-l1key="name" type="text" placeholder="Nom de l'équipement gCalandar"/>
                             </div>
                         </div>
                     </fieldset>

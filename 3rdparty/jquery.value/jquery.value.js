@@ -120,15 +120,15 @@
                     } catch (e) {
                         var elValue = $(this).value();
                     }
-                    if ($(this).attr('l1key') != undefined && $(this).attr('l1key') != '') {
-                        var l1key = $(this).attr('l1key');
-                        if ($(this).attr('l2key') !== undefined) {
-                            var l2key = $(this).attr('l2key');
+                    if ($(this).attr('data-l1key') != undefined && $(this).attr('data-l1key') != '') {
+                        var l1key = $(this).attr('data-l1key');
+                        if ($(this).attr('data-l2key') !== undefined) {
+                            var l2key = $(this).attr('data-l2key');
                             if (!isset(value[l1key])) {
                                 value[l1key] = {};
                             }
-                            if ($(this).attr('l3key') !== undefined) {
-                                var l3key = $(this).attr('l3key');
+                            if ($(this).attr('data-l3key') !== undefined) {
+                                var l3key = $(this).attr('data-l3key');
                                 if (!isset(value[l1key][l2key])) {
                                     value[l1key][l2key] = {};
                                 }
@@ -147,20 +147,20 @@
         if ($(this).length == 1) {
             var value = {};
             $(this).findAtDepth(_attr, init(_depth, 0)).each(function() {
-                if ($(this).attr('l1key') != undefined && $(this).attr('1lkey') != '') {
+                if ($(this).attr('data-l1key') != undefined && $(this).attr('data-l1key') != '') {
                     try {
                         var elValue = JSON.parse($(this).value());
                     } catch (e) {
                         var elValue = $(this).value();
                     }
-                    var l1key = $(this).attr('l1key');
-                    if ($(this).attr('l2key') !== undefined) {
-                        var l2key = $(this).attr('l2key');
+                    var l1key = $(this).attr('data-l1key');
+                    if ($(this).attr('data-l2key') !== undefined) {
+                        var l2key = $(this).attr('data-l2key');
                         if (!isset(value[l1key])) {
                             value[l1key] = {};
                         }
-                        if ($(this).attr('l3key') !== undefined) {
-                            var l3key = $(this).attr('l3key');
+                        if ($(this).attr('data-l3key') !== undefined) {
+                            var l3key = $(this).attr('data-l3key');
                             if (!isset(value[l1key][l2key])) {
                                 value[l1key][l2key] = {};
                             }
@@ -181,16 +181,16 @@
     $.fn.setValues = function(_object, _attr) {
         for (var i in _object) {
             if (!is_array(_object[i]) && !is_object(_object[i])) {
-                $(this).find(_attr + '[l1key="' + i + '"]').value(_object[i]);
+                $(this).find(_attr + '[data-l1key="' + i + '"]').value(_object[i]);
             }
             if (is_array(_object[i])) {
                 for (var j in _object[i]) {
                     if (is_array(_object[i][j])) {
                         for (var k in _object[i][j]) {
-                            $(this).find(_attr + '[l1key="' + i + '"][l2key="' + j + '"][l3key="' + k + '"]').value(_object[i][j][k]);
+                            $(this).find(_attr + '[data-l1key="' + i + '"][data-l2key="' + j + '"][data-l3key="' + k + '"]').value(_object[i][j][k]);
                         }
                     } else {
-                        $(this).find(_attr + '[l1key="' + i + '"][l2key="' + j + '"]').value(_object[i][j]);
+                        $(this).find(_attr + '[data-l1key="' + i + '"][data-l2key="' + j + '"]').value(_object[i][j]);
                     }
                 }
             }

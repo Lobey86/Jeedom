@@ -83,8 +83,8 @@ $(function() {
 });
 
 function printJeenode(_name, _type, _jeenodeRealId) {
-    $('.eqRealAttr[l1key=name]').value(_name);
-    $('.eqRealAttr[l1key=type]').value(_type);
+    $('.eqRealAttr[data-l1key=name]').value(_name);
+    $('.eqRealAttr[data-l1key=type]').value(_type);
     getJeenodeConf(_type, _jeenodeRealId);
 }
 
@@ -112,7 +112,7 @@ function getJeenodeConf(_type, _jeenodeRealId) {
             $('#label_uptime').closest('.form-group').hide();
             $('#label_lastCommunication').closest('.form-group').show();
             $('#label_lastCommunication').text((data.result.configuration.lastCommunication != null && data.result.configuration.lastCommunication != '') ? data.result.configuration.lastCommunication : '');
-            $('.eqRealAttr[l1key=nodeID]').value((data.result.logicalId != null && data.result.logicalId != '') ? data.result.logicalId : '');
+            $('.eqRealAttr[data-l1key=nodeID]').value((data.result.logicalId != null && data.result.logicalId != '') ? data.result.logicalId : '');
 
             if (data.result.type == 'master') {
                 $('#label_uptime').closest('.form-group').show();

@@ -33,13 +33,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <div class="form-group">
                                 <label class="col-lg-4 control-label">Emplacement des sauvegardes</label>
                                 <div class="col-lg-4">
-                                    <input type="text" class="configKey form-control" l1key="backup::path" />
+                                    <input type="text" class="configKey form-control" data-l1key="backup::path" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-4 control-label">Nombre de jour de sauvegardes</label>
                                 <div class="col-lg-4">
-                                    <input type="text" class="configKey form-control" l1key="backup::keepDays" />
+                                    <input type="text" class="configKey form-control" data-l1key="backup::keepDays" />
                                 </div>
                             </div>
                         </fieldset>
@@ -108,13 +108,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">Adresse git</label>
                                     <div class="col-lg-4">
-                                        <input type="text" class="configKey form-control" l1key="git::remote" />
+                                        <input type="text" class="configKey form-control" data-l1key="git::remote" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">Branche</label>
                                     <div class="col-lg-3">
-                                        <select class="configKey form-control" l1key="git::branch">
+                                        <select class="configKey form-control" data-l1key="git::branch">
                                             <?php
                                             foreach ($repo->list_remote_branches() as $branch) {
                                                 echo '<option value="' . str_replace('origin/', '', $branch) . '">' . $branch . '</option>';
@@ -207,7 +207,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Email admin</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="emailAdmin" />
+                                            <input type="text"  class="configKey form-control" data-l1key="emailAdmin" />
                                         </div>
                                     </div>
                                 </fieldset>
@@ -231,7 +231,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Durée de vie memcache (secondes)</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="lifetimeMemCache" />
+                                            <input type="text"  class="configKey form-control" data-l1key="lifetimeMemCache" />
                                         </div>
                                     </div>
 
@@ -262,36 +262,36 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Période de calcul pour min, max, moyenne (en heure)</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="historyCalculPeriod" />
+                                            <input type="text"  class="configKey form-control" data-l1key="historyCalculPeriod" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Période de calcul pour la tendance (en heure)</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="historyCalculTendance" />
+                                            <input type="text"  class="configKey form-control" data-l1key="historyCalculTendance" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Délai avant archivage (heure)</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="historyArchiveTime" />
+                                            <input type="text"  class="configKey form-control" data-l1key="historyArchiveTime" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Archiver par paquet de (heure)</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="historyArchivePackage" />
+                                            <input type="text"  class="configKey form-control" data-l1key="historyArchivePackage" />
                                         </div>
                                     </div>
                                     <div class="form-group alert alert-danger">
                                         <label class="col-lg-2 control-label">Seuil de calcul de tendance </label>
                                         <label class="col-lg-1 control-label">Min</label>
                                         <div class="col-lg-1">
-                                            <input type="text"  class="configKey form-control" l1key="historyCalculTendanceThresholddMin" />
+                                            <input type="text"  class="configKey form-control" data-l1key="historyCalculTendanceThresholddMin" />
                                         </div>
                                         <label class="col-lg-1 control-label">Max</label>
                                         <div class="col-lg-1">
-                                            <input type="text"  class="configKey form-control" l1key="historyCalculTendanceThresholddMax" />
+                                            <input type="text"  class="configKey form-control" data-l1key="historyCalculTendanceThresholddMax" />
                                         </div>
                                     </div>
                                 </fieldset>
@@ -316,25 +316,25 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Crontask : temps execution max (min)</label>
                                         <div class="col-lg-3">
-                                            <input type="text" class="configKey form-control" l1key="maxExecTimeCrontask"/>
+                                            <input type="text" class="configKey form-control" data-l1key="maxExecTimeCrontask"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Script : temps execution max (min)</label>
                                         <div class="col-lg-3">
-                                            <input type="text" class="configKey form-control" l1key="maxExecTimeScript"/>
+                                            <input type="text" class="configKey form-control" data-l1key="maxExecTimeScript"/>
                                         </div>
                                     </div>
                                     <div class="form-group alert alert-danger">
                                         <label class="col-lg-2 control-label">Jeecron sleep time</label>
                                         <div class="col-lg-3">
-                                            <input type="text" class="configKey form-control" l1key="cronSleepTime"/>
+                                            <input type="text" class="configKey form-control" data-l1key="cronSleepTime"/>
                                         </div>
                                     </div>
                                     <div class="form-group alert alert-danger">
                                         <label class="col-lg-2 control-label">Deamons sleep time</label>
                                         <div class="col-lg-3">
-                                            <input type="text" class="configKey form-control" l1key="deamonsSleepTime"/>
+                                            <input type="text" class="configKey form-control" data-l1key="deamonsSleepTime"/>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -358,13 +358,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Ajouter un message à chaque erreur dans les logs </label>
                                         <div class="col-lg-1">
-                                            <input type="checkbox" class="configKey form-control" l1key="addMessageForErrorLog" checked/>
+                                            <input type="checkbox" class="configKey form-control" data-l1key="addMessageForErrorLog" checked/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Nombre de lignes maximum dans un fichier de log</label>
                                         <div class="col-lg-3">
-                                            <input type="text" class="configKey form-control" l1key="maxLineLog"/>
+                                            <input type="text" class="configKey form-control" data-l1key="maxLineLog"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -372,22 +372,22 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <div class="col-lg-2">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="configKey" l1key="logLevel" l2key="debug" checked /> Debug
+                                                    <input type="checkbox" class="configKey" data-l1key="logLevel" data-l2key="debug" checked /> Debug
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="configKey" l1key="logLevel" l2key="info" checked /> Info
+                                                    <input type="checkbox" class="configKey" data-l1key="logLevel" data-l2key="info" checked /> Info
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="configKey" l1key="logLevel" l2key="event" checked /> Event
+                                                    <input type="checkbox" class="configKey" data-l1key="logLevel" data-l2key="event" checked /> Event
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="configKey" l1key="logLevel" l2key="error" checked /> Error
+                                                    <input type="checkbox" class="configKey" data-l1key="logLevel" data-l2key="error" checked /> Error
                                                 </label>
                                             </div>
                                         </div>
@@ -413,49 +413,49 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Activer l'authentificaiton LDAP</label>
                                         <div class="col-lg-1">
-                                            <input type="checkbox" class="configKey form-control" l1key="ldap::enable"/>
+                                            <input type="checkbox" class="configKey form-control" data-l1key="ldap::enable"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Hôte</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="ldap:host" />
+                                            <input type="text"  class="configKey form-control" data-l1key="ldap:host" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Port</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="ldap:port" />
+                                            <input type="text"  class="configKey form-control" data-l1key="ldap:port" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Domaine</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="ldap:domain" />
+                                            <input type="text"  class="configKey form-control" data-l1key="ldap:domain" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Base DN</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="ldap:basedn" />
+                                            <input type="text"  class="configKey form-control" data-l1key="ldap:basedn" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Nom d'utilisateur</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="ldap:username" />
+                                            <input type="text"  class="configKey form-control" data-l1key="ldap:username" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Mot de passe</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="ldap:password" />
+                                            <input type="text"  class="configKey form-control" data-l1key="ldap:password" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Filtre (optionnel)</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="ldap:filter" />
+                                            <input type="text"  class="configKey form-control" data-l1key="ldap:filter" />
                                         </div>
                                     </div>
                                 </fieldset>
@@ -514,7 +514,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Nombre d'échec avant desactivation de l'équipement</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="numberOfTryBeforeEqLogicDisable" />
+                                            <input type="text"  class="configKey form-control" data-l1key="numberOfTryBeforeEqLogicDisable" />
                                         </div>
                                     </div>
                                     </div>
@@ -539,19 +539,19 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Activer nodeJS</label>
                                         <div class="col-lg-1">
-                                            <input type="checkbox" class="configKey form-control" l1key="enableNodeJs"/>
+                                            <input type="checkbox" class="configKey form-control" data-l1key="enableNodeJs"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Port interne NodeJS</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" l1key="nodeJsInternalPort" />
+                                            <input type="text"  class="configKey form-control" data-l1key="nodeJsInternalPort" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Activer le chat</label>
                                         <div class="col-lg-1">
-                                            <input type="checkbox" class="configKey form-control" l1key="enableChat"/>
+                                            <input type="checkbox" class="configKey form-control" data-l1key="enableChat"/>
                                         </div>
                                     </div>
                                 </fieldset>

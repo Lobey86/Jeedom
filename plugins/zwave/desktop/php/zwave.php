@@ -38,20 +38,20 @@ sendVarToJS('eqType', 'zwave');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement</label>
                             <div class="col-lg-8">
-                                <input type="text" class="eqLogicAttr form-control" l1key="id" style="display : none;" />
-                                <input type="text" class="eqLogicAttr form-control" l1key="name" placeholder="Nom de l'équipement"/>
+                                <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+                                <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Node ID</label>
                             <div class="col-lg-8">
-                                <input type="text" class="eqLogicAttr form-control" l1key="logicalId" />
+                                <input type="text" class="eqLogicAttr form-control" data-l1key="logicalId" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-4 control-label" >Objet parent</label>
                             <div class="col-lg-8">
-                                <select class="eqLogicAttr form-control" l1key="object_id">
+                                <select class="eqLogicAttr form-control" data-l1key="object_id">
                                     <option value="">Aucun</option>
                                     <?php
                                     foreach (object::all() as $object) {
@@ -64,19 +64,19 @@ sendVarToJS('eqType', 'zwave');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Activer</label>
                             <div class="col-lg-1">
-                                <input type="checkbox" class="eqLogicAttr form-control" l1key="isEnable" checked/>
+                                <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isEnable" checked/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Visible</label>
                             <div class="col-lg-1">
-                                <input type="checkbox" class="eqLogicAttr form-control" l1key="isVisible" checked/>
+                                <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isVisible" checked/>
                             </div>
                         </div>
                         <div class="form-group expertModeHidden">
                             <label class="col-lg-4 control-label">Délai autorisé entre 2 messages (min)</label>
                             <div class="col-lg-4">
-                                <input class="eqLogicAttr form-control" l1key="timeout" />
+                                <input class="eqLogicAttr form-control" data-l1key="timeout" />
                             </div>
                         </div>
                     </fieldset> 
@@ -90,7 +90,7 @@ sendVarToJS('eqType', 'zwave');
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Equipement</label>
                             <div class="col-lg-5">
-                                <select class="eqLogicAttr form-control" l1key="configuration" l2key="device">
+                                <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="device">
                                     <option value="">Aucun</option>
                                     <?php
                                     foreach (zwave::devicesParameters() as $id => $info) {
@@ -107,25 +107,25 @@ sendVarToJS('eqType', 'zwave');
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Batterie</label>
                             <div class="col-lg-5">
-                                <span class="zwaveInfo tooltips label label-default" l1key="battery"></span>
+                                <span class="zwaveInfo tooltips label label-default" data-l1key="battery"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Dernière communication</label>
                             <div class="col-lg-5">
-                                <span class="zwaveInfo tooltips label label-default" l1key="lastReceived"></span>
+                                <span class="zwaveInfo tooltips label label-default" data-l1key="lastReceived"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Etat</label>
                             <div class="col-lg-5">
-                                <span class="zwaveInfo tooltips label label-default" l1key="state"></span>
+                                <span class="zwaveInfo tooltips label label-default" data-l1key="state"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Marque</label>
                             <div class="col-lg-5">
-                                <span class="zwaveInfo tooltips label label-default" l1key="brand"></span>
+                                <span class="zwaveInfo tooltips label label-default" data-l1key="brand"></span>
                             </div>
                         </div>
 
@@ -190,13 +190,13 @@ sendVarToJS('eqType', 'zwave');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement Z-wave</label>
                             <div class="col-lg-8">
-                                <input class="form-control eqLogicAttr" l1key="name" type="text" placeholder="Nom de l'équipement Z-wave"/>
+                                <input class="form-control eqLogicAttr" data-l1key="name" type="text" placeholder="Nom de l'équipement Z-wave"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Node ID</label>
                             <div class="col-lg-8">
-                                <input class="form-control eqLogicAttr" l1key="logicalId" type="text" />
+                                <input class="form-control eqLogicAttr" data-l1key="logicalId" type="text" />
                             </div>
                         </div>
                     </fieldset>

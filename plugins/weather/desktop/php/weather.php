@@ -30,14 +30,14 @@ sendVarToJS('dontRemoveCmd', '1');
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Nom de l'équipement météo</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr form-control" l1key="id" style="display : none;" />
-                        <input type="text" class="eqLogicAttr form-control" l1key="name" placeholder="Nom de l'équipement météo"/>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement météo"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label" >Objet parent</label>
                     <div class="col-lg-3">
-                        <select id="sel_object" class="eqLogicAttr form-control" l1key="object_id">
+                        <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                             <option value="">Aucun</option>
                             <?php
                             foreach (object::all() as $object) {
@@ -50,19 +50,19 @@ sendVarToJS('dontRemoveCmd', '1');
                 <div class="form-group">
                     <label class="col-lg-2 control-label" >Activer</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="isEnable" size="16" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isEnable" size="16" checked/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label" >Visible</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="isVisible" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isVisible" checked/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">WOEID</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr configuration form-control" l1key="configuration" l2key="city" placeholder="WOEID"/>
+                        <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="city" placeholder="WOEID"/>
                     </div>
                     <div class="col-lg-3">
                         <a class="btn btn-default" href="http://isithackday.com/geoplanet-explorer/" target=_blank>Obtenir le code WOEID</a>
@@ -109,7 +109,7 @@ sendVarToJS('dontRemoveCmd', '1');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement météo</label>
                             <div class="col-lg-8">
-                                <input class="form-control eqLogicAttr" l1key="name" type="text" placeholder="Nom de l'équipement météo"/>
+                                <input class="form-control eqLogicAttr" data-l1key="name" type="text" placeholder="Nom de l'équipement météo"/>
                             </div>
                         </div>
                     </fieldset>

@@ -17,7 +17,7 @@ if (!isConnect()) {
         <div class="form-group">
             <label class="col-lg-2 control-label" for="in_jeenodeMasterId">Node ID master</label>
             <div class="col-lg-2">
-                <input type="text" class="eqRealAttr form-control" l1key="configuration" l2key="masterId" placeholder="ID du master"/>
+                <input type="text" class="eqRealAttr form-control" data-l1key="configuration" data-l2key="masterId" placeholder="ID du master"/>
             </div>
         </div>
     </fieldset>
@@ -97,10 +97,10 @@ if (!isConnect()) {
             for (var key in generaleConfData.port[k]) {
                 if (is_object(generaleConfData.port[k][key]) || is_array(generaleConfData.port[k][key])) {
                     for (var subkey in generaleConfData.port[k][key]) {
-                        port.find('.eqLogicAttr[l1key="' + key + '"][l2key="' + subkey + '"]').value(generaleConfData.port[k][key][subkey]);
+                        port.find('.eqLogicAttr[data-l1key="' + key + '"][data-l2key="' + subkey + '"]').value(generaleConfData.port[k][key][subkey]);
                     }
                 } else {
-                    port.find('.eqLogicAttr[l1key="' + key + '"]').value(generaleConfData.port[k][key]);
+                    port.find('.eqLogicAttr[data-l1key="' + key + '"]').value(generaleConfData.port[k][key]);
                 }
             }
 
@@ -145,7 +145,7 @@ if (!isConnect()) {
 
     function configurationPort(_select, _cmd) {
         var portType = _select.find('option:selected').attr('cmdName');
-        var jeenodeType = $('.eqRealAttr[l1key=type]').value();
+        var jeenodeType = $('.eqRealAttr[data-l1key=type]').value();
         if (portType == undefined || portType == '' || jeenodeType == '') {
             $('#div_alert').showAlert({message: 'Veuillez selectionner un type de port', level: 'warning'});
             return;
@@ -180,10 +180,10 @@ if (!isConnect()) {
                         for (var key in _cmd[i]) {
                             if (is_array(_cmd[i][key]) || is_object(_cmd[i][key])) {
                                 for (var subkey in _cmd[i][key]) {
-                                    cmd.find('.cmdAttr[l1key="' + key + '"][l2key="' + subkey + '"]').value(_cmd[i][key][subkey]);
+                                    cmd.find('.cmdAttr[data-l1key="' + key + '"][data-l2key="' + subkey + '"]').value(_cmd[i][key][subkey]);
                                 }
                             } else {
-                                cmd.find('.cmdAttr[l1key="' + key + '"]').value(_cmd[i][key]);
+                                cmd.find('.cmdAttr[data-l1key="' + key + '"]').value(_cmd[i][key]);
                             }
                         }
                     }

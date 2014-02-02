@@ -34,7 +34,7 @@ $(function() {
             folderEvent: 'click'
         }, function(file) {
             $("#md_browseScriptFile").dialog('close');
-            tr.find('.cmdAttr[l1key=configuration][l2key=request]').text(file);
+            tr.find('.cmdAttr[data-l1key=configuration][data-l2key=request]').text(file);
         });
     });
 
@@ -48,7 +48,7 @@ $(function() {
     $("#table_cmd tbody").delegate(".editScriptFile", 'click', function(event) {
         var tr = $(this).closest('tr');
         $('#ta_editScriptFile').text('');
-        var path = tr.find('.cmdAttr[l1key=configuration][l2key=request]').val();
+        var path = tr.find('.cmdAttr[data-l1key=configuration][data-l2key=request]').val();
         if (path.indexOf(' ') > 0) {
             path = path.substr(0, path.indexOf(' '));
         }
@@ -90,7 +90,7 @@ $(function() {
         $("#bt_addUserNewScript").on('click', function(event) {
             var path = addUserScript($('#in_newUserScriptName').value());
             if (path !== false) {
-                tr.find('.cmdAttr[l1key=configuration][l2key=request]').val(path);
+                tr.find('.cmdAttr[data-l1key=configuration][data-l2key=request]').val(path);
                 $('#md_newUserScript').modal('hide');
                 tr.find('.editScriptFile').click();
             }
@@ -99,7 +99,7 @@ $(function() {
 
     $("#table_cmd tbody").delegate(".removeScriptFile", 'click', function(event) {
         var tr = $(this).closest('tr');
-        var path = tr.find('.cmdAttr[l1key=configuration][l2key=request]').val();
+        var path = tr.find('.cmdAttr[data-l1key=configuration][data-l2key=request]').val();
         if (path.indexOf(' ') > 0) {
             path = path.substr(0, path.indexOf(' '));
         }
@@ -107,7 +107,7 @@ $(function() {
         $.hideAlert();
         bootbox.confirm('Etes-vous sûr de vouloir supprimer le script : <span style="font-weight: bold ;">' + path + '</span> ?', function(result) {
             if (result) {
-                tr.find('.cmdAttr[l1key=configuration][l2key=request]').val('');
+                tr.find('.cmdAttr[data-l1key=configuration][data-l2key=request]').val('');
             }
         });
     });
@@ -126,9 +126,9 @@ $(function() {
         $('#bt_addPreConfigSave').undelegate().unbind();
         var tr = $(this).closest('tr');
         $("#bt_addPreConfigSave").on('click', function(event) {
-            tr.find('.cmdAttr[l1key=configuration][l2key=request]').value($('#sel_addPreConfigScript option:selected').attr('path') + $('#sel_addPreConfigScript option:selected').attr('argv'));
-            tr.find('.cmdAttr[l1key=type]').value($('#sel_addPreConfigScript option:selected').attr('type'));
-            tr.find('.cmdAttr[l1key=configuration][l2key=requestType]').value($('#sel_addPreConfigScript option:selected').attr('requestType'));
+            tr.find('.cmdAttr[data-l1key=configuration][data-l2key=request]').value($('#sel_addPreConfigScript option:selected').attr('path') + $('#sel_addPreConfigScript option:selected').attr('argv'));
+            tr.find('.cmdAttr[data-l1key=type]').value($('#sel_addPreConfigScript option:selected').attr('type'));
+            tr.find('.cmdAttr[data-l1key=configuration][data-l2key=requestType]').value($('#sel_addPreConfigScript option:selected').attr('requestType'));
             cmd.changeType(tr.find('.type select'), $('#sel_addPreConfigScript option:selected').attr('subType'));
             $('#md_addPreConfigScript').modal('hide');
         });
@@ -284,20 +284,20 @@ function addCmdToTable(_cmd) {
         _cmd.configuration = {};
     }
 
-    var selRequestType = '<select style="width : 90px;" class="cmdAttr form-control" l1key="configuration" l2key="requestType">';
+    var selRequestType = '<select style="width : 90px;" class="cmdAttr form-control" data-l1key="configuration" data-l2key="requestType">';
     selRequestType += '<option value="script">Script</option>';
     selRequestType += '<option value="http">Http</option>';
     selRequestType += '</select>';
 
     var tr = '<tr class="cmd" cmd_id="' + init(_cmd.id) + '">';
-    tr += '<td><input class="cmdAttr form-control" l1key="name" style="width : 140px;">';
-    tr += '<input class="cmdAttr form-control" l1key="id"  style="display : none;"></td>';
+    tr += '<td><input class="cmdAttr form-control" data-l1key="name" style="width : 140px;">';
+    tr += '<input class="cmdAttr form-control" data-l1key="id"  style="display : none;"></td>';
     tr += '<td class="requestType" type="' + init(_cmd.configuration.requestType) + '" >' + selRequestType + '</td>';
     tr += '<td>';
     tr += '<span class="type" type="' + init(_cmd.type) + '">' + cmd.availableType() + '</span>';
     tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span>';
     tr += '</td>';
-    tr += '<td><textarea style="height : 95px;" class="cmdAttr form-control" l1key="configuration" l2key="request"></textarea>';
+    tr += '<td><textarea style="height : 95px;" class="cmdAttr form-control" data-l1key="configuration" data-l2key="request"></textarea>';
 
     tr += '<div class="form-group">';
     tr += '<div class="col-lg-3">';
@@ -318,14 +318,14 @@ function addCmdToTable(_cmd) {
     tr += '</div>';
     tr += '</td>';
     tr += '<td>';
-    tr += '<input class="cmdAttr form-control tooltips" l1key="unite"  style="width : 100px;" placeholder="Unité" title="Unité">';
-    tr += '<input style="width : 100px;" class="tooltips cmdAttr form-control" l1key="cache" l2key="lifetime" placeholder="Lifetime cache" title="Lifetime cache">';
-    tr += '<input class="tooltips cmdAttr form-control" l1key="configuration" l2key="minValue" placeholder="Min" title="Min"> ';
-    tr += '<input class="tooltips cmdAttr form-control" l1key="configuration" l2key="maxValue" placeholder="Max" title="Max">';
+    tr += '<input class="cmdAttr form-control tooltips" data-l1key="unite"  style="width : 100px;" placeholder="Unité" title="Unité">';
+    tr += '<input style="width : 100px;" class="tooltips cmdAttr form-control" data-l1key="cache" data-l2key="lifetime" placeholder="Lifetime cache" title="Lifetime cache">';
+    tr += '<input class="tooltips cmdAttr form-control" data-l1key="configuration" data-l2key="minValue" placeholder="Min" title="Min"> ';
+    tr += '<input class="tooltips cmdAttr form-control" data-l1key="configuration" data-l2key="maxValue" placeholder="Max" title="Max">';
     tr += '</td>';
     tr += '<td>';
-    tr += '<span><input type="checkbox" class="cmdAttr" l1key="isHistorized" /> Historiser<br/></span>';
-    tr += '<span><input type="checkbox" class="cmdAttr" l1key="cache" l2key="enable" checked /> Autoriser memcache</span>';
+    tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isHistorized" /> Historiser<br/></span>';
+    tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="cache" data-l2key="enable" checked /> Autoriser memcache</span>';
     tr += '</td>';
     tr += '<td>';
     if (is_numeric(_cmd.id)) {
@@ -338,12 +338,12 @@ function addCmdToTable(_cmd) {
     $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
 
     if (isset(_cmd.configuration.requestType)) {
-        $('#table_cmd tbody tr:last .cmdAttr[l1key=configuration][l2key=requestType]').value(init(_cmd.configuration.requestType));
+        $('#table_cmd tbody tr:last .cmdAttr[data-l1key=configuration][data-l2key=requestType]').value(init(_cmd.configuration.requestType));
     }
 
     if (isset(_cmd.type)) {
-        $('#table_cmd tbody tr:last .cmdAttr[l1key=type]').value(init(_cmd.type));
+        $('#table_cmd tbody tr:last .cmdAttr[data-l1key=type]').value(init(_cmd.type));
     }
-    cmd.changeType($('#table_cmd tbody tr:last .cmdAttr[l1key=type]'), init(_cmd.subType));
+    cmd.changeType($('#table_cmd tbody tr:last .cmdAttr[data-l1key=type]'), init(_cmd.subType));
     activateTooltips();
 }

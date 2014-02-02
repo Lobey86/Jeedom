@@ -21,7 +21,7 @@ $(function() {
     $('#table_interactDef tbody').delegate('.displayInteracQuery', 'click', function() {
         var tr = $(this).closest('tr');
         $('#md_modal').dialog({title: "Liste des interactions"});
-        $('#md_modal').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + tr.find('.interactDefAttr[l1key=id]').value()).dialog('open');
+        $('#md_modal').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + tr.find('.interactDefAttr[data-l1key=id]').value()).dialog('open');
     });
 
     $("#bt_addSarahDef").on('click', function() {
@@ -39,7 +39,7 @@ $(function() {
     $("#table_interactDef").delegate(".listEquipementInfo", 'click', function() {
         var el = $(this);
         cmd.getSelectModal({type: 'all'}, function(result) {
-            el.closest('tr').find('.interactDefAttr[l1key=link_id]').value(result.human);
+            el.closest('tr').find('.interactDefAttr[data-l1key=link_id]').value(result.human);
         });
     });
 
@@ -103,10 +103,10 @@ function addSarahDefToTable(_interactDef) {
     }
     var tr = '<tr>';
     tr += '<td>';
-    tr += '<input class="interactDefAttr" l1key="id" style="display : none;"/>';
+    tr += '<input class="interactDefAttr" data-l1key="id" style="display : none;"/>';
     tr += '<div class="form-group">';
     tr += '<div class="col-lg-4">';
-    tr += '<select class="interactDefAttr tooltips form-control input-sm" l1key="filtres" l2key="cmd_type" title="Limiter aux commande de type">';
+    tr += '<select class="interactDefAttr tooltips form-control input-sm" data-l1key="filtres" data-l2key="cmd_type" title="Limiter aux commande de type">';
     tr += '<option value="info">Info</option>';
     tr += '<option value="action">Action</option>';
     tr += '</select>';
@@ -128,40 +128,40 @@ function addSarahDefToTable(_interactDef) {
     tr += '<td>';
     tr += '<div class="form-group">';
     tr += '<div class="col-lg-6 has-warning">';
-    tr += '<input class="interactDefAttr form-control input-sm" l1key="query" placeholder="Demande" />';
+    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="query" placeholder="Demande" />';
     tr += '</div>';
     tr += '<div class="col-lg-6 has-success">';
-    tr += '<input class="interactDefAttr form-control input-sm" l1key="reply" placeholder="Réponse"/>';
+    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="reply" placeholder="Réponse"/>';
     tr += '</div>';
     tr += '<div class="col-lg-6">';
-    tr += '<input class="interactDefAttr form-control input-sm tooltips" l1key="options" l2key="convertBinary" placeholder="Conversion binaire : faux|vrai" title="Convertir les commandes binaire" style="margin-top : 5px;" />';
+    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="convertBinary" placeholder="Conversion binaire : faux|vrai" title="Convertir les commandes binaire" style="margin-top : 5px;" />';
     tr += '</div>';
     tr += '<div class="col-lg-6">';
-    tr += '<input class="interactDefAttr form-control input-sm tooltips" l1key="options" l2key="synonymes" placeholder="Synonyne" title="Remplace les mots par leur synonyme lors de la generation des commandes" style="margin-top : 5px;" />';
+    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="synonymes" placeholder="Synonyne" title="Remplace les mots par leur synonyme lors de la generation des commandes" style="margin-top : 5px;" />';
     tr += '</div>';
     tr += '</div>';
     tr += '</td>';
     tr += '<td>';
     tr += '<div class="form-group">';
     tr += '<div class="col-lg-12">';
-    tr += '<select class="interactDefAttr form-control input-sm" l1key="link_type">';
+    tr += '<select class="interactDefAttr form-control input-sm" data-l1key="link_type">';
     tr += '<option value="cmd">Commande</option>';
     tr += '</select>';
     tr += '</div>';
     tr += '<div class="col-lg-9">';
-    tr += '<input class="interactDefAttr form-control input-sm" l1key="link_id" style="margin-top : 5px;"/>';
+    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;"/>';
     tr += '</div>';
     tr += '<div class="col-lg-3">';
     tr += '<a class="form-control btn btn-default cursor listEquipementInfo input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt "></i></a></td>';
     tr += '</div>';
     tr += '</td>';
     tr += '<td>';
-    tr += '<input class="interactDefAttr form-control input-sm" l1key="person"/>';
+    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="person"/>';
     tr += '</td>';
     tr += '<td>';
     tr += '<span class="displayInteracQuery cursor">';
-    tr += '<span class="label label-success interactDefAttr tooltips" l1key="nbEnableInteractQuery" title="Nombre de requetes active"></span> / ';
-    tr += '<span class="label label-default interactDefAttr tooltips" l1key="nbInteractQuery" title="Nombre de requetes générées"></span>';
+    tr += '<span class="label label-success interactDefAttr tooltips" data-l1key="nbEnableInteractQuery" title="Nombre de requetes active"></span> / ';
+    tr += '<span class="label label-default interactDefAttr tooltips" data-l1key="nbInteractQuery" title="Nombre de requetes générées"></span>';
     tr += '</span>';
     tr += '<i class="fa fa-minus-circle remove pull-right cursor"></i>';
     tr += '</td>';

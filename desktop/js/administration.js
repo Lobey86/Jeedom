@@ -335,7 +335,7 @@ function printUsers() {
             $('#table_user tbody').empty();
             for (var i in data.result) {
                 var ligne = '<tr><td class="login">';
-                ligne += '<span class="userAttr" l1key="id" style="display : none;"/>';
+                ligne += '<span class="userAttr" data-l1key="id" style="display : none;"/>';
                 ligne += data.result[i].login;
                 ligne += '</td>';
                 ligne += '<td>';
@@ -345,7 +345,7 @@ function printUsers() {
                 }
                 ligne += '</td>';
                 ligne += '<td>';
-                ligne += '<input type="checkbox" class="userAttr" l1key="rights" l2key="admin"/> Admin';
+                ligne += '<input type="checkbox" class="userAttr" data-l1key="rights" data-l2key="admin"/> Admin';
                 ligne += '</td>';
                 ligne += '</tr>';
                 $('#table_user tbody').append(ligne);

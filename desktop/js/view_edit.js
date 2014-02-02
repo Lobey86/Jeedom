@@ -31,7 +31,7 @@ $(function() {
         return false;
     });
 
-    $('.viewDataOption[l1key=configuration][l2key=graphColor]').on('change', function() {
+    $('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').on('change', function() {
         setColorSelect($(this).closest('select'));
     });
 
@@ -86,25 +86,25 @@ $(function() {
         var selectTr = $(this).closest('tr');
         if ($(this).value() == 1) {
             selectTr.find('div.option').show();
-            if (selectTr.find('.viewDataOption[l1key=configuration][l2key=graphColor]').length) {
-                var color = selectTr.find('.viewDataOption[l1key=configuration][l2key=graphColor]').value();
+            if (selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').length) {
+                var color = selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').value();
                 var colorChange = true;
                 var colorNumberChange = 0;
                 while (colorChange) {
                     colorChange = false;
                     $('#table_addViewData tbody tr').each(function() {
-                        if ($(this).find('.enable').value() == 1 && color == $(this).closest('tr').find('.viewDataOption[l1key=configuration][l2key=graphColor]').value()) {
-                            color = selectTr.find('.viewDataOption[l1key=configuration][l2key=graphColor] option[value=' + color + ']').next().value();
+                        if ($(this).find('.enable').value() == 1 && color == $(this).closest('tr').find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').value()) {
+                            color = selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor] option[value=' + color + ']').next().value();
                             colorChange = true;
                             colorNumberChange++;
                         }
                     });
-                    if (colorNumberChange > selectTr.find('.viewDataOption[l1key=configuration][l2key=graphColor] option').length) {
+                    if (colorNumberChange > selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor] option').length) {
                         return;
                     }
                 }
-                selectTr.find('.viewDataOption[l1key=configuration][l2key=graphColor] option[value=' + color + ']').prop('selected', true);
-                setColorSelect(selectTr.find('.viewDataOption[l1key=configuration][l2key=graphColor]'));
+                selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor] option[value=' + color + ']').prop('selected', true);
+                setColorSelect(selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]'));
             }
         } else {
             selectTr.find('div.option').hide();
@@ -135,8 +135,8 @@ $(function() {
 
     $('#div_viewZones').delegate('.bt_editviewZone', 'click', function() {
         $('#md_addEditviewZone').modal('show');
-        $('#in_addEditviewZoneName').val($(this).closest('.viewZone').find('.viewZoneAttr[l1key=name]').text());
-        $('#sel_addEditviewZoneType').val($(this).closest('.viewZone').find('.viewZoneAttr[l1key=type]').val());
+        $('#in_addEditviewZoneName').val($(this).closest('.viewZone').find('.viewZoneAttr[data-l1key=name]').text());
+        $('#sel_addEditviewZoneType').val($(this).closest('.viewZone').find('.viewZoneAttr[data-l1key=type]').val());
         $('#sel_addEditviewZoneType').prop('disabled', true);
         $('#in_addEditviewZoneEmplacement').val($(this).closest('.viewZone').attr('id'));
     });
@@ -147,7 +147,7 @@ $(function() {
         $('#table_addViewData .filter').value('');
         var viewZone = $(this).closest('.viewZone');
         $('#table_addViewData tbody tr .enable').prop('checked', false);
-        var type = viewZone.find('.viewZoneAttr[l1key=type]').value();
+        var type = viewZone.find('.viewZoneAttr[data-l1key=type]').value();
         if (type == 'graph') {
             $('#table_addViewDataHidden tbody').append($('#table_addViewData tr[type=widget]'));
             $('#table_addViewData tbody').append($('#table_addViewDataHidden tr[type=graph]'));
@@ -164,14 +164,14 @@ $(function() {
             viewDatas.push($(this));
         });
         for (var i = (viewDatas.length - 1); i >= 0; i--) {
-            var viewData = $('#table_addViewData tbody tr[viewDataType=' + viewDatas[i].find('.viewDataAttr[l1key=type]').value() + '][link_id=' + viewDatas[i].find('.viewDataAttr[l1key=link_id]').value() + ']');
+            var viewData = $('#table_addViewData tbody tr[viewDataType=' + viewDatas[i].find('.viewDataAttr[data-l1key=type]').value() + '][link_id=' + viewDatas[i].find('.viewDataAttr[data-l1key=link_id]').value() + ']');
             if (viewData != null) {
                 viewData.find('.enable').value(1);
                 viewData.find('.option').show();
                 viewDatas[i].find('.viewDataAttr').each(function() {
-                    viewData.find('.viewDataOption[l1key=' + $(this).attr('l1key') + '][l2key=' + $(this).attr('l2key') + ']').value($(this).value());
+                    viewData.find('.viewDataOption[data-l1key=' + $(this).attr('data-l1key') + '][data-l2key=' + $(this).attr('data-l2key') + ']').value($(this).value());
                 });
-                setColorSelect(viewData.find('.viewDataOption[l1key=configuration][l2key=graphColor]'));
+                setColorSelect(viewData.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]'));
                 $('#table_addViewData tbody').prepend(viewData);
             }
         }
@@ -287,13 +287,13 @@ function addEditviewZone(_viewZone) {
     if (init(_viewZone.emplacement) == '') {
         var id = $('#div_viewZones .viewZone').length;
         var div = '<div id="viewZone' + id + '" class="viewZone" data-toggle="tab">';
-        div += '<legend style="height: 35px;"><span class="viewZoneAttr" l1key="name">' + init(_viewZone.name) + '</span>';
+        div += '<legend style="height: 35px;"><span class="viewZoneAttr" data-l1key="name">' + init(_viewZone.name) + '</span>';
         div += '<a class="btn btn-danger btn-xs pull-right bt_removeviewZone"><i class="fa fa-trash-o"></i> Supprimer</a>';
         div += ' <a class="btn btn-warning btn-xs pull-right bt_editviewZone"><i class="fa fa-pencil"></i> Editer</a>';
         div += '<a class="btn btn-primary btn-xs pull-right bt_addViewData"><i class="fa fa-plus-circle"></i> Ajouter/Editer ' + init(_viewZone.type, 'widget') + '</a>';
 
         if (init(_viewZone.type, 'widget') == 'graph') {
-            div += '<select class="pull-right viewZoneAttr form-control input-sm" l1key="configuration" l2key="dateRange" style="width : 200px;">';
+            div += '<select class="pull-right viewZoneAttr form-control input-sm" data-l1key="configuration" data-l2key="dateRange" style="width : 200px;">';
             if (init(_viewZone.configuration.dateRange) == "30 min") {
                 div += '<option value="30 min" selected>30min</option>';
             } else {
@@ -328,13 +328,13 @@ function addEditviewZone(_viewZone) {
         }
 
         div += '</legend>';
-        div += '<input style="display : none;" class="viewZoneAttr" l1key="type" value="' + init(_viewZone.type) + '">';
+        div += '<input style="display : none;" class="viewZoneAttr" data-l1key="type" value="' + init(_viewZone.type) + '">';
         div += '<div class="div_viewData"></div>';
         div += '</div>';
         $('#div_viewZones').append(div);
         $('#viewZone' + id + ' .div_viewData').sortable({axis: "x", cursor: "move",placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
     } else {
-        $('#' + _viewZone.emplacement).find('.viewZoneAttr[l1key=name]').text(_viewZone.name);
+        $('#' + _viewZone.emplacement).find('.viewZoneAttr[data-l1key=name]').text(_viewZone.name);
     }
 }
 
@@ -345,10 +345,10 @@ function addServiceToviewZone(_viewData) {
     var span = '<span class="label label-default viewData cursor" style="background-color : ' + init(_viewData.configuration.graphColor) + '; font-size : 1.1em;margin:4px;">';
     span += '<i class="fa fa-trash-o cursor bt_removeViewData"></i> ';
     span += init(_viewData.name);
-    span += '<input class="viewDataAttr" l1key="link_id" value="' + init(_viewData.link_id) + '" style="display  : none;"/>';
-    span += '<input class="viewDataAttr" l1key="type" value="' + init(_viewData.type) + '" style="display  : none;"/>';
+    span += '<input class="viewDataAttr" data-l1key="link_id" value="' + init(_viewData.link_id) + '" style="display  : none;"/>';
+    span += '<input class="viewDataAttr" data-l1key="type" value="' + init(_viewData.type) + '" style="display  : none;"/>';
     for (var i in _viewData.configuration) {
-        span += '<input class="viewDataAttr" l1key="configuration" l2key="' + i + '" value="' + init(_viewData.configuration[i]) + '" style="display  : none;"/>';
+        span += '<input class="viewDataAttr" data-l1key="configuration" data-l2key="' + i + '" value="' + init(_viewData.configuration[i]) + '" style="display  : none;"/>';
     }
     span += '</span>';
     return span;

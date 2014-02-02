@@ -76,8 +76,8 @@ function addCron(_cron) {
     }
     tr += '</td>';
     tr += '<td class="enable"><center>';
-    tr += '<input class="cronAttr" l1key="id" hidden/>';
-    tr += '<input type="checkbox" class="cronAttr" l1key="enable" checked disabled/>';
+    tr += '<input class="cronAttr" data-l1key="id" hidden/>';
+    tr += '<input type="checkbox" class="cronAttr" data-l1key="enable" checked disabled/>';
     tr += '</center></td>';
     tr += '<td>';
     tr += init(_cron.server);
@@ -86,10 +86,10 @@ function addCron(_cron) {
     tr += init(_cron.pid);
     tr += '</td>';
     tr += '<td class="deamons"><center>';
-    tr += '<input type="checkbox" class="cronAttr" l1key="deamon" checked disabled/>';
+    tr += '<input type="checkbox" class="cronAttr" data-l1key="deamon" checked disabled/>';
     tr += '</center></td>';
-    tr += '<td class="class"><span class="form-control cronAttr" l1key="class" ></span></td>';
-    tr += '<td class="function"><span class="form-control cronAttr" l1key="function" /></span></td>';
+    tr += '<td class="class"><span class="form-control cronAttr" data-l1key="class" ></span></td>';
+    tr += '<td class="function"><span class="form-control cronAttr" data-l1key="function" /></span></td>';
     tr += '<td class="lastRun">';
     tr += init(_cron.lastRun);
     tr += '</td>';

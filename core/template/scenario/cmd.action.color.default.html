@@ -1,6 +1,6 @@
 <script type="text/javascript" src="3rdparty/jquery.farbtastic/farbtastic.js" ></script>
 <link rel="stylesheet" href="3rdparty/jquery.farbtastic/farbtastic.css" />
-<input class="expressionAttr form-control input-sm" l1key="options" l2key="color" value="#color#" uid="#uid#" />
+<input class="expressionAttr form-control input-sm" data-l1key="options" data-l2key="color" value="#color#" uid="#uid#" />
 <a class="btn btn-default form-control listEquipementInfo cursor" cmd_id="#id#" uid="#uid#" style="margin-top : 5px;"><i class="fa fa-list-alt"></i> Rechercher équipement</a>
 <div class="colorpicker" uid="#uid#" style="display : none"></div>
 <script>
@@ -24,7 +24,7 @@
     $('.listEquipementInfo[uid=#uid#]').on('click', function() {
         var el = $(this);
         cmd.getSelectModal({type: 'info'}, function(result) {
-            el.parent().find('.expressionAttr[l1key=options][l2key=color]').value(result.human);
+            el.parent().find('.expressionAttr[data-l1key=options][data-l2key=color]').value(result.human);
         });
     });
 </script>

@@ -40,20 +40,20 @@ sendVarToJS('eqType', 'xpl');
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Nom de l'équipement xPL</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr form-control" l1key="id" style="display : none;" />
-                        <input type="text" class="eqLogicAttr form-control" l1key="name" placeholder="Nom de l'équipement xPL"/>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement xPL"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Nom logique de l'équipement xPL</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr form-control" l1key="logicalId"/>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="logicalId"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label" >Objet parent</label>
                     <div class="col-lg-3">
-                        <select id="sel_object" class="eqLogicAttr form-control" l1key="object_id">
+                        <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                             <?php
                             foreach (object::all() as $object) {
                                 echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
@@ -65,13 +65,13 @@ sendVarToJS('eqType', 'xpl');
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Visible</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="isVisible" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isVisible" checked/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Activer</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="isEnable" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isEnable" checked/>
                     </div>
                 </div>
             </fieldset> 
@@ -128,7 +128,7 @@ sendVarToJS('eqType', 'xpl');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement xPL</label>
                             <div class="col-lg-8">
-                                <input class="form-control eqLogicAttr" l1key="name" type="text" placeholder="Nom de l'équipement xPL"/>
+                                <input class="form-control eqLogicAttr" data-l1key="name" type="text" placeholder="Nom de l'équipement xPL"/>
                             </div>
                         </div>
                     </fieldset>

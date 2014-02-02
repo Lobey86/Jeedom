@@ -33,10 +33,10 @@ if (!isConnect()) {
 <div class="form-group">
     <label class="col-lg-2 control-label" >Nom du port</label>
     <div class="col-lg-2">
-        <input type="text" class="eqLogicAttr form-control" l1key="id" style="display: none;"/>
-        <input type="text" class="eqLogicAttr form-control" l1key="timeout" value="30" style="display: none;"/>
-        <input type="text" class="eqLogicAttr form-control" l1key="logicalId" value="#portNumber#" style="display: none;"/>
-        <input type="text" class="eqLogicAttr form-control" l1key="name" placeholder="Nom du port" disabled/>
+        <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display: none;"/>
+        <input type="text" class="eqLogicAttr form-control" data-l1key="timeout" value="30" style="display: none;"/>
+        <input type="text" class="eqLogicAttr form-control" data-l1key="logicalId" value="#portNumber#" style="display: none;"/>
+        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom du port" disabled/>
     </div>
 </div>
 
@@ -44,7 +44,7 @@ if (!isConnect()) {
     <label class="col-lg-2 control-label" >Objet parent</label>
     <div class="col-lg-2">
         <?php
-        echo '<select class="eqLogicAttr form-control" l1key="object_id" disabled>';
+        echo '<select class="eqLogicAttr form-control" data-l1key="object_id" disabled>';
         foreach (object::all() as $object) {
             echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
         }
@@ -57,13 +57,13 @@ if (!isConnect()) {
 <div class="form-group">
     <label class="col-lg-2 control-label" >Activer</label>
     <div class="col-lg-1">
-        <input type="checkbox" class="eqLogicAttr" l1key="isEnable" disabled checked/>
+        <input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" disabled checked/>
     </div>
 </div>
 <div class="form-group">
     <label class="col-lg-2 control-label" >Visible</label>
     <div class="col-lg-1">
-        <input type="checkbox" class="eqLogicAttr" l1key="isVisible" disabled checked/>
+        <input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" disabled checked/>
     </div>
 </div>
 

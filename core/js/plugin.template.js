@@ -73,14 +73,14 @@ $(function() {
     /**************************CMD*********************************************/
     $('.cmdAction[action=add]').on('click', function() {
         addCmdToTable();
-        $('.cmd .cmdAttr[l1key=type]').trigger('change');
+        $('.cmd .cmdAttr[data-l1key=type]').trigger('change');
     });
 
-    $('body').delegate('.cmd .cmdAttr[l1key=type]', 'change', function() {
+    $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
         cmd.changeType($(this).closest('.cmd'));
     });
     
-    $('body').delegate('.cmd .cmdAttr[l1key=subType]', 'change', function() {
+    $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function() {
         cmd.changeSubType($(this).closest('.cmd'));
     });
 
@@ -90,7 +90,7 @@ $(function() {
 
     $('body').delegate('.cmd .cmdAction[action=test]', 'click', function() {
         $.hideAlert();
-        if ($('.eqLogicAttr[l1key=isEnable]').is(':checked')) {
+        if ($('.eqLogicAttr[data-l1key=isEnable]').is(':checked')) {
             var id = $(this).closest('.cmd').attr('cmd_id');
             cmd_test(id);
         } else {

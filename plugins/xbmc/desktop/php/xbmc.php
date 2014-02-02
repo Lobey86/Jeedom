@@ -33,14 +33,14 @@ sendVarToJS('eqType', 'xbmc');
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Nom de l'équipement XBMC</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr form-control" l1key="id" style="display : none;" />
-                        <input type="text" class="eqLogicAttr form-control" l1key="name" placeholder="Nom de l'équipement XBMC"/>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement XBMC"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label" >Objet parent</label>
                     <div class="col-lg-3">
-                        <select id="sel_object" class="eqLogicAttr form-control" l1key="object_id">
+                        <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                             <option value="">Aucun</option>
                             <?php
                             foreach (object::all() as $object) {
@@ -53,31 +53,31 @@ sendVarToJS('eqType', 'xbmc');
                 <div class="form-group">
                     <label class="col-lg-2 control-label" >Activer</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="isEnable" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isEnable" checked/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label" >Visible</label>
                     <div class="col-lg-1">
-                        <input type="checkbox" class="eqLogicAttr form-control" l1key="isVisible" checked/>
+                        <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isVisible" checked/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Adresse</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr form-control" l1key="configuration" l2key="addr" placeholder="Adresse ou IP de XBMC avec le port"/>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="addr" placeholder="Adresse ou IP de XBMC avec le port"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Nom d'utilisateur</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr form-control" l1key="configuration" l2key="login" placeholder="Nom d'utilisateur"/>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="login" placeholder="Nom d'utilisateur"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Mot de passe</label>
                     <div class="col-lg-3">
-                        <input type="password" class="eqLogicAttr form-control" l1key="configuration" l2key="password" placeholder="Mot de passe"/>
+                        <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="password" placeholder="Mot de passe"/>
                     </div>
                 </div>
             </fieldset> 
@@ -191,7 +191,7 @@ sendVarToJS('eqType', 'xbmc');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom de l'équipement XBMC</label>
                             <div class="col-lg-8">
-                                <input class="form-control eqLogicAttr" l1key="name" type="text" placeholder="Nom de l'équipement XBMC"/>
+                                <input class="form-control eqLogicAttr" data-l1key="name" type="text" placeholder="Nom de l'équipement XBMC"/>
                             </div>
                         </div>
                     </fieldset>

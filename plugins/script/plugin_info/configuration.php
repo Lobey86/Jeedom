@@ -30,7 +30,7 @@ if (!isConnect()) {
         <div class="form-group">
             <label class="col-lg-2 control-label">Chemin des scripts utilisateur</label>
             <div class="col-lg-4">
-               <input type="text" class="configKey form-control" l1key="userScriptDir" />
+               <input type="text" class="configKey form-control" data-l1key="userScriptDir" />
             </div>
         </div>
     </fieldset>

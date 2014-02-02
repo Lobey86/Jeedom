@@ -80,7 +80,7 @@ sendVarToJS('select_id', init('id', '-1'));
         </div>
     </div>
     <div class="col-lg-10" id="div_editScenario" style="display: none; border-left: solid 1px #EEE; padding-left: 25px;">
-        <input class="scenarioAttr" l1key="id" hidden/>
+        <input class="scenarioAttr" data-l1key="id" hidden/>
         <legend style="height: 35px;">Scénario
             <a class="btn btn-default btn-xs pull-right" id="bt_copyScenario"><i class="fa fa-copy"></i> Dupliquer</a>
             <a class="btn btn-default btn-xs pull-right" id="bt_logScenario"><i class="fa fa-file-text-o"></i> Log</a>
@@ -93,25 +93,25 @@ sendVarToJS('select_id', init('id', '-1'));
                         <div class="form-group">
                             <label class="col-lg-6 control-label" >Nom du scénario</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr" l1key="name" type="text" placeholder="Nom du scénario"/>
+                                <input class="form-control scenarioAttr" data-l1key="name" type="text" placeholder="Nom du scénario"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-6 control-label" >Groupe</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr" l1key="group" type="text" placeholder="Groupe du scénario"/>
+                                <input class="form-control scenarioAttr" data-l1key="group" type="text" placeholder="Groupe du scénario"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-6 control-label">Actif</label>
                             <div class="col-lg-6">
-                                <input type="checkbox" class="form-control scenarioAttr" l1key="isActive">
+                                <input type="checkbox" class="form-control scenarioAttr" data-l1key="isActive">
                             </div>
                         </div>
                         <div class="form-group expertModeHidden">
                             <label class="col-lg-6 control-label">Timeout secondes (0 = illimité)</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr" l1key="timeout">
+                                <input class="form-control scenarioAttr" data-l1key="timeout">
                             </div>
                         </div>
                     </fieldset>
@@ -122,7 +122,7 @@ sendVarToJS('select_id', init('id', '-1'));
                     <div class="form-group">
                         <label class="col-lg-3 control-label" >Mode du scénario</label>
                         <div class="col-lg-3">
-                            <select class="form-control scenarioAttr" l1key="mode">
+                            <select class="form-control scenarioAttr" data-l1key="mode">
                                 <option value="provoke">Provoqué</option>
                                 <option value="schedule">Programmé</option>
                                 <option value="all">Les deux</option>
@@ -136,9 +136,9 @@ sendVarToJS('select_id', init('id', '-1'));
                     <div class="scheduleDisplay" style="display: none;">
                         <div class="form-group">
                             <label class="col-lg-3 control-label" >Précédent</label>
-                            <div class="col-lg-3" ><span class="scenarioAttr label label-primary" l1key="forecast" l2key="prevDate" l3key="date"></span></div>
+                            <div class="col-lg-3" ><span class="scenarioAttr label label-primary" data-l1key="forecast" data-l2key="prevDate" data-l3key="date"></span></div>
                             <label class="col-lg-3 control-label" >Prochain</label>
-                            <div class="col-lg-3"><span class="scenarioAttr label label-success" l1key="forecast" l2key="nextDate" l3key="date"></span></div> 
+                            <div class="col-lg-3"><span class="scenarioAttr label label-success" data-l1key="forecast" data-l2key="nextDate" data-l3key="date"></span></div> 
                         </div>
                         <div class="scheduleMode"></div>
                     </div>
