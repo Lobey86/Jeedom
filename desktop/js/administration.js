@@ -280,6 +280,7 @@ function getJeedomLog(_autoUpdate, _log) {
                 }, 1000);
             } else {
                 $('#bt_' + _log + 'Jeedom .fa-refresh').hide();
+                $('.bt_' + _log + 'Jeedom .fa-refresh').hide();
                 updateListBackup();
             }
         }
