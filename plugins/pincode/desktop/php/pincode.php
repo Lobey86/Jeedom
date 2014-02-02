@@ -62,7 +62,7 @@ sendVarToJS('eqType', 'pincode');
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Code</label>
                     <div class="col-lg-1">
-                        <input class="eqLogicAttr form-control" l1key="configuration" l2key="code" checked/>
+                        <input type="password" class="eqLogicAttr form-control" l1key="configuration" l2key="code" checked/>
                     </div>
                 </div>
                 <div class="form-group">
