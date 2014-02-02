@@ -311,8 +311,8 @@ function refreshScenarioValue(_scenario_id) {
 }
 
 function refreshCmdValue(_cmd_id) {
-    if ($('.cmd[cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('version') != undefined) {
-        var version = $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('version');
+    if ($('.cmd[cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version') != undefined) {
+        var version = $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/cmd.ajax.php", // url du fichier php
@@ -332,9 +332,8 @@ function refreshCmdValue(_cmd_id) {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-              
                 $('.cmd[cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
-               
+
                 activateTooltips();
                 if ($.mobile) {
                     $('.cmd[cmd_id=' + _cmd_id + ']').trigger("create");
@@ -474,8 +473,8 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
             } else {
                 var legend = {};
             }
-            
-          var maxDatetime = new Date().getTime();
+
+            var maxDatetime = new Date().getTime();
 
             if (!isset(CORE_chart[_el])) {
                 CORE_chart[_el] = {};

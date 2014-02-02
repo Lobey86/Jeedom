@@ -30,7 +30,7 @@ function addCmdToTable(_cmd) {
     if (is_numeric(_cmd.id)) {
         tr += '<a class="btn btn-default btn-xs cmdAction" action="test"><i class="fa fa-rss"></i> Tester</a>';
     }
-    tr += '<i class="fa fa-minus-circle pull-right cmdAction" action="remove"></i></td>';
+    tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" action="remove"></i></td>';
     tr += '</tr>';
     $('#table_cmd tbody').append(tr);
     $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');

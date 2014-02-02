@@ -368,10 +368,15 @@ class cmd {
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
     }
 
-    public static function allSubType() {
-        $sql = 'SELECT distinct(subType) as subtype
-                FROM cmd';
-        return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
+    public static function allSubType($_type = '') {
+        $values = array();
+        $sql = 'SELECT distinct(subType) as subtype';
+        if ($_type != '') {
+            $values['type'] = $_type;
+            $sql .= ' WHERE type=:type';
+        }
+        $sql .= ' FROM cmd';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
     }
 
     public static function allUnite() {
@@ -423,6 +428,10 @@ class cmd {
 
     public function getLastValue() {
         return $this->getConfiguration('lastCmdValue', null);
+    }
+
+    public function dontRemoveCmd() {
+        return false;
     }
 
     public function getTableName() {

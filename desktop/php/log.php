@@ -26,123 +26,119 @@ if ($logfile == '') {
     throw new Exception('No log file');
 }
 ?>
-<div class="row">
-    <div class="col-lg-12">
-        <a class="btn btn-danger pull-right" id="bt_removeLog"><i class="fa fa-trash-o"></i> Supprimer</a>
-        <a class="btn btn-warning pull-right" id="bt_clearLog"><i class="fa fa-times"></i> Vider</a>
-        <select id="sel_log" class="pull-left form-control" style="width: 200px;">
-            <?php
-            foreach ($list_logfile as $file) {
-                if ($file == $logfile) {
-                    echo '<option value="' . $file . '" selected>' . $file . '</option>';
-                } else {
-                    echo '<option value="' . $file . '">' . $file . '</option>';
-                }
-            }
-            ?>
-        </select>
-
-        <?php
-        $nbLine = log::nbLine($logfile);
-        $nbPage = ceil($nbLine / $nbLinePerPage);
-        $firstLine = $nbLine - $nbLinePerPage * $page;
-        if ($firstLine < 0) {
-            $nbLinePerPage+=$firstLine;
-            $firstLine = 0;
+<a class="btn btn-danger pull-right" id="bt_removeLog"><i class="fa fa-trash-o"></i> Supprimer</a>
+<a class="btn btn-warning pull-right" id="bt_clearLog"><i class="fa fa-times"></i> Vider</a>
+<select id="sel_log" class="pull-left form-control" style="width: 200px;">
+    <?php
+    foreach ($list_logfile as $file) {
+        if ($file == $logfile) {
+            echo '<option value="' . $file . '" selected>' . $file . '</option>';
+        } else {
+            echo '<option value="' . $file . '">' . $file . '</option>';
         }
-        $log = log::get($logfile, $firstLine, $nbLinePerPage);
+    }
+    ?>
+</select>
 
-        if (isset($log[0][0]) && $log[0][0] == '') {
-            unset($log[0]);
+<?php
+$nbLine = log::nbLine($logfile);
+$nbPage = ceil($nbLine / $nbLinePerPage);
+$firstLine = $nbLine - $nbLinePerPage * $page;
+if ($firstLine < 0) {
+    $nbLinePerPage+=$firstLine;
+    $firstLine = 0;
+}
+$log = log::get($logfile, $firstLine, $nbLinePerPage);
+
+if (isset($log[0][0]) && $log[0][0] == '') {
+    unset($log[0]);
+}
+?>
+<br/><br/>
+
+<center>
+    <ul class="pagination">
+        <?php
+        if ($page > 1) {
+            echo '<li><a class="changePage" page="1">&laquo;</a></li>';
+        } else {
+            echo '<li class="disabled"><a>&laquo;</a></li>';
+        }
+
+        for ($i = 1; $i <= $nbPage; $i++) {
+            if ($i == $page) {
+                echo '<li class="active"><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
+            } else {
+                echo '<li><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
+            }
+        }
+
+        if ($page < $nbPage) {
+            echo '<li><a class="changePage" page="' . $nbPage . '">&raquo;</a></li>';
+        } else {
+            echo '<li class="disabled"><a>&raquo;</a></li>';
         }
         ?>
-        <br/><br/>
+    </ul>
+</center>
 
-        <center>
-            <ul class="pagination">
-                <?php
-                if ($page > 1) {
-                    echo '<li><a class="changePage" page="1">&laquo;</a></li>';
-                } else {
-                    echo '<li class="disabled"><a>&laquo;</a></li>';
+
+<table class="table table-condensed table-bordered tablesorter">
+    <thead>
+        <tr>
+            <th style="width: 150px;">Date et heure</th><th style="width: 70px;">Type</th><th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        if ($log !== false) {
+            foreach ($log as $ligne) {
+                $class = '';
+                if (strtolower($ligne[1]) == 'error') {
+                    $class = 'alert-danger';
                 }
-
-                for ($i = 1; $i <= $nbPage; $i++) {
-                    if ($i == $page) {
-                        echo '<li class="active"><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
-                    } else {
-                        echo '<li><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
-                    }
+                if (strtolower($ligne[1]) == 'event') {
+                    $class = 'alert-success';
                 }
-
-                if ($page < $nbPage) {
-                    echo '<li><a class="changePage" page="' . $nbPage . '">&raquo;</a></li>';
-                } else {
-                    echo '<li class="disabled"><a>&raquo;</a></li>';
+                if (strtolower($ligne[1]) == 'debug') {
+                    $class = 'alert';
                 }
-                ?>
-            </ul>
-        </center>
+                echo '<tr class="' . $class . '">';
+                echo '<td class="datetime">' . $ligne[0] . '</td>';
+                echo '<td class="type">' . $ligne[1] . '</td>';
+                echo '<td class="message"><pre>' . $ligne[2] . '</pre></td>';
+                echo '</tr>';
+            }
+        }
+        ?>
+    </tbody>
+</table>
 
+<center>
+    <ul class="pagination">
+        <?php
+        if ($page > 1) {
+            echo '<li><a class="changePage" page="1">&laquo;</a></li>';
+        } else {
+            echo '<li class="disabled"><a>&laquo;</a></li>';
+        }
 
-        <table class="table table-condensed table-bordered tablesorter">
-            <thead>
-                <tr>
-                    <th style="width: 150px;">Date et heure</th><th style="width: 70px;">Type</th><th>Message</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($log !== false) {
-                    foreach ($log as $ligne) {
-                        $class = '';
-                        if (strtolower($ligne[1]) == 'error') {
-                            $class = 'alert-danger';
-                        }
-                        if (strtolower($ligne[1]) == 'event') {
-                            $class = 'alert-success';
-                        }
-                        if (strtolower($ligne[1]) == 'debug') {
-                            $class = 'alert';
-                        }
-                        echo '<tr class="' . $class . '">';
-                        echo '<td class="datetime">' . $ligne[0] . '</td>';
-                        echo '<td class="type">' . $ligne[1] . '</td>';
-                        echo '<td class="message"><pre>' . $ligne[2] . '</pre></td>';
-                        echo '</tr>';
-                    }
-                }
-                ?>
-            </tbody>
-        </table>
+        for ($i = 1; $i <= $nbPage; $i++) {
+            if ($i == $page) {
+                echo '<li class="active"><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
+            } else {
+                echo '<li><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
+            }
+        }
 
-        <center>
-            <ul class="pagination">
-                <?php
-                if ($page > 1) {
-                    echo '<li><a class="changePage" page="1">&laquo;</a></li>';
-                } else {
-                    echo '<li class="disabled"><a>&laquo;</a></li>';
-                }
-
-                for ($i = 1; $i <= $nbPage; $i++) {
-                    if ($i == $page) {
-                        echo '<li class="active"><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
-                    } else {
-                        echo '<li><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
-                    }
-                }
-
-                if ($page < $nbPage) {
-                    echo '<li><a class="changePage" page="' . $nbPage . '">&raquo;</a></li>';
-                } else {
-                    echo '<li class="disabled"><a>&raquo;</a></li>';
-                }
-                ?>
-            </ul>
-        </center>
-    </div>
-</div>
+        if ($page < $nbPage) {
+            echo '<li><a class="changePage" page="' . $nbPage . '">&raquo;</a></li>';
+        } else {
+            echo '<li class="disabled"><a>&raquo;</a></li>';
+        }
+        ?>
+    </ul>
+</center>
 
 <script>
     $(function() {

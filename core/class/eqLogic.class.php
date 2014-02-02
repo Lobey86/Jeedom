@@ -294,10 +294,6 @@ class eqLogic {
         return false;
     }
 
-    public function dontRemoveCmd() {
-        return false;
-    }
-
     public function remove() {
         foreach ($this->getCmd() as $cmd) {
             $cmd->remove();

@@ -238,10 +238,6 @@ class weather extends eqLogic {
         return $return;
     }
 
-    public function dontRemoveCmd() {
-        return true;
-    }
-
     public function getShowOnChild() {
         return true;
     }
@@ -322,6 +318,10 @@ class weatherCmd extends cmd {
 
 
     /*     * *********************Methode d'instance************************* */
+
+    public function dontRemoveCmd() {
+        return true;
+    }
 
     public function execute() {
         $eqLogic_weather = weather::byId($this->eqLogic_id);

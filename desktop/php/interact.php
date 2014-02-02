@@ -38,26 +38,23 @@ $sel_subtype .= '</select>';
 sendVarToJS('sel_subtype', $sel_subtype);
 ?>
 
-<div class="row">
-    <div class="col-lg-12">
-        <a class="btn btn-success pull-right" id="bt_save"><i class="fa fa-check-circle"></i> Enregistrer</a>
-        <a class="btn btn-default pull-right" id="bt_addSarahDef"><i class="fa fa-plus-circle"></i> Ajouter</a>
-        <br/><br/><br/>
-        <table class="table table-bordered table-condensed table-striped" id="table_interactDef">
-            <thead>
-                <tr>
-                    <th style="width : 350px;">Filtre</th>
-                    <th>Phrase</th>
-                    <th style="width : 360px;">Type</th>
-                    <th style="width : 100px;">Personne</th>
-                    <th style="width : 110px;">Action</th>
-                </tr>
-            </thead>
-            <tbody>
 
-            </tbody>
-        </table>
-    </div>
-</div>
+<a class="btn btn-success pull-right" id="bt_save"><i class="fa fa-check-circle"></i> Enregistrer</a>
+<a class="btn btn-default pull-right" id="bt_addSarahDef"><i class="fa fa-plus-circle"></i> Ajouter</a>
+<br/><br/><br/>
+<table class="table table-bordered table-condensed table-striped" id="table_interactDef">
+    <thead>
+        <tr>
+            <th style="width : 350px;">Filtre</th>
+            <th>Phrase</th>
+            <th style="width : 360px;">Type</th>
+            <th style="width : 100px;">Personne</th>
+            <th style="width : 110px;">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
 
 <?php include_file('desktop', 'interact', 'js'); ?>
