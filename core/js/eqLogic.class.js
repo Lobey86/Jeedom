@@ -60,7 +60,7 @@ eqLogic.save = function(_type, _eqLogics) {
 eqLogic.remove = function(_type, _eqLogic_Id) {
     $.hideAlert();
     if (!isset(_eqLogic_Id)) {
-        _eqLogic_Id = $('.li_eqLogic.active').attr('eqLogic_id');
+        _eqLogic_Id = $('.li_eqLogic.active').attr('data-eqLogic_id');
     }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php

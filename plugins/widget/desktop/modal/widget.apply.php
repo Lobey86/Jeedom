@@ -30,9 +30,9 @@ if (!is_object($widget)) {
 
 <div style="display: none;" id="md_applyWidgetAlert"></div>
 
-<a class="btn btn-default" id="bt_applyWidgetToogle" state="0"><i class="fa fa-check-circle-o"></i> Basculer</a>
-<a class="btn btn-success pull-right bt_applyWidgetToCmd" path="<?php echo $widget->getPath() ?>" style="color : white;" version=""><i class="fa fa-check"></i> Valider</a>
-<a class="btn btn-warning pull-right bt_applyWidgetToCmd" path="default" style="color : white;" version="<?php echo $widget->getVersion() ?>"><i class="fa fa-times"></i> Remise à défaut</a>
+<a class="btn btn-default" id="bt_applyWidgetToogle" data-state="0"><i class="fa fa-check-circle-o"></i> Basculer</a>
+<a class="btn btn-success pull-right bt_applyWidgetToCmd" data-path="<?php echo $widget->getPath() ?>" style="color : white;" data-version=""><i class="fa fa-check"></i> Valider</a>
+<a class="btn btn-warning pull-right bt_applyWidgetToCmd" data-path="default" style="color : white;" data-version="<?php echo $widget->getVersion() ?>"><i class="fa fa-times"></i> Remise à défaut</a>
 
 <br/><br/>
 
@@ -51,7 +51,7 @@ if (!is_object($widget)) {
             } else {
                 $object = null;
             }
-            echo '<tr cmd_id="' . $cmd->getId() . '">';
+            echo '<tr data-cmd_id="' . $cmd->getId() . '">';
             echo '<td><input class="applyWidget" type="checkbox" /></td>';
 
             echo '<td>';
@@ -81,9 +81,9 @@ if (!is_object($widget)) {
     initTableSorter();
     $('#bt_applyWidgetToogle').on('click', function() {
         var state = false;
-        if ($(this).attr('state') == 0) {
+        if ($(this).attr('data-state') == 0) {
             state = true;
-            $(this).attr('state', 1);
+            $(this).attr('data-state', 1);
             $(this).find('i').removeClass('fa-check-circle-o').addClass('fa-circle-o');
         } else {
             state = false;
@@ -101,11 +101,11 @@ if (!is_object($widget)) {
         var cmds = [];
         $('#table_applyWidget tbody tr').each(function() {
             if ($(this).find('.applyWidget').prop('checked')) {
-                cmds.push($(this).attr('cmd_id'));
+                cmds.push($(this).attr('data-cmd_id'));
             }
         });
-        var path = $(this).attr('path');
-        var version = $(this).attr('version');
+        var path = $(this).attr('data-path');
+        var version = $(this).attr('data-version');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "/plugins/widget/core/ajax/widget.ajax.php", // url du fichier php

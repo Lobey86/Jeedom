@@ -7,7 +7,7 @@ if (!isConnect()) {
 }
 ?>
 
-<div class="form-group cmd" mode="?" type="a">
+<div class="form-group cmd" data-mode="?" data-type="a">
     <label class="col-lg-2 control-label" >Nom du capteur de lumière</label>
     <input type="text" class="cmdAttr form-control" data-l1key="id" value="" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="unite" value="" style="display: none;"/>

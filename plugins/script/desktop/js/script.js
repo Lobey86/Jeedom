@@ -126,10 +126,10 @@ $(function() {
         $('#bt_addPreConfigSave').undelegate().unbind();
         var tr = $(this).closest('tr');
         $("#bt_addPreConfigSave").on('click', function(event) {
-            tr.find('.cmdAttr[data-l1key=configuration][data-l2key=request]').value($('#sel_addPreConfigScript option:selected').attr('path') + $('#sel_addPreConfigScript option:selected').attr('argv'));
-            tr.find('.cmdAttr[data-l1key=type]').value($('#sel_addPreConfigScript option:selected').attr('type'));
-            tr.find('.cmdAttr[data-l1key=configuration][data-l2key=requestType]').value($('#sel_addPreConfigScript option:selected').attr('requestType'));
-            cmd.changeType(tr.find('.type select'), $('#sel_addPreConfigScript option:selected').attr('subType'));
+            tr.find('.cmdAttr[data-l1key=configuration][data-l2key=request]').value($('#sel_addPreConfigScript option:selected').attr('data-path') + $('#sel_addPreConfigScript option:selected').attr('data-argv'));
+            tr.find('.cmdAttr[data-l1key=type]').value($('#sel_addPreConfigScript option:selected').attr('data-type'));
+            tr.find('.cmdAttr[data-l1key=configuration][data-l2key=requestType]').value($('#sel_addPreConfigScript option:selected').attr('data-requestType'));
+            cmd.changeType(tr.find('.type select'), $('#sel_addPreConfigScript option:selected').attr('data-subType'));
             $('#md_addPreConfigScript').modal('hide');
         });
     });
@@ -289,7 +289,7 @@ function addCmdToTable(_cmd) {
     selRequestType += '<option value="http">Http</option>';
     selRequestType += '</select>';
 
-    var tr = '<tr class="cmd" cmd_id="' + init(_cmd.id) + '">';
+    var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td><input class="cmdAttr form-control" data-l1key="name" style="width : 140px;">';
     tr += '<input class="cmdAttr form-control" data-l1key="id"  style="display : none;"></td>';
     tr += '<td class="requestType" type="' + init(_cmd.configuration.requestType) + '" >' + selRequestType + '</td>';
@@ -329,9 +329,9 @@ function addCmdToTable(_cmd) {
     tr += '</td>';
     tr += '<td>';
     if (is_numeric(_cmd.id)) {
-        tr += '<a class="btn btn-default btn-xs cmdAction" action="test"><i class="fa fa-rss"></i> Tester</a>';
+        tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> Tester</a>';
     }
-    tr += '<i class="fa fa-minus-circle pull-right cmdAction" action="remove"></i></td>';
+    tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
     tr += '</tr>';
 
     $('#table_cmd tbody').append(tr);

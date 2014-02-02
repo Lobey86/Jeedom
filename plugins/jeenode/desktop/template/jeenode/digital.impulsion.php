@@ -7,7 +7,7 @@ if (!isConnect()) {
 }
 ?>
 
-<div class="form-group cmd" mode="?" type="i">
+<div class="form-group cmd" data-mode="?" data-type="i">
     <input type="text" class="cmdAttr form-control" data-l1key="id" value="" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="type" value="info" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="subType" value="numeric" style="display: none;"/>

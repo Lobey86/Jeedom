@@ -17,7 +17,7 @@
 
 $(function() {
     $(".li_eqLogic").on('click', function() {
-        printPluginInfo($(this).attr('eqLogic_id'));
+        printPluginInfo($(this).attr('data-eqLogic_id'));
         return false;
     });
 
@@ -25,7 +25,7 @@ $(function() {
         syncEqLogicWithRazberry();
     });
     $('.changeIncludeState').on('click', function() {
-        changeIncludeState($(this).attr('state'));
+        changeIncludeState($(this).attr('data-state'));
     });
 
     $('#bt_showClass').on('click', function() {
@@ -55,10 +55,10 @@ $(function() {
     $('body').one('nodeJsConnect', function() {
         socket.on('zwave::controller.data.controllerState', function(_options) {
             if (_options == 1) {
-                $('.changeIncludeState[state=1]').removeClass('btn-default').addClass('btn-success');
+                $('.changeIncludeState[data-state=1]').removeClass('btn-default').addClass('btn-success');
             }
             if (_options == 5) {
-                $('.changeIncludeState[state=0]').removeClass('btn-default').addClass('btn-danger');
+                $('.changeIncludeState[data-state=0]').removeClass('btn-default').addClass('btn-danger');
             }
             if (_options == 0) {
                 $('.changeIncludeState').addClass('btn-default').removeClass('btn-success btn-danger');
@@ -145,11 +145,11 @@ function addCmdToTable(_cmd) {
         var _cmd = {configuration: {}};
     }
 
-    var tr = '<tr class="cmd" cmd_id="' + init(_cmd.id) + '">';
+    var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td>';
     tr += '<input class="cmdAttr form-control" data-l1key="name" >';
     tr += '<select class="cmdAttr form-control tooltips" data-l1key="value" style="display : none;margin-top : 5px;" title="La valeur de la commande vaut par defaut la commande">';
-    tr += eqLogic.builSelectCmd($(".li_eqLogic.active").attr('eqLogic_id'), 'info');
+    tr += eqLogic.builSelectCmd($(".li_eqLogic.active").attr('data-eqLogic_id'), 'info');
     tr += '</select>';
     tr += '</td>';
     tr += '<td class="expertModeHidden">';
@@ -173,9 +173,9 @@ function addCmdToTable(_cmd) {
     tr += '</td>';
     tr += '<td>';
     if (is_numeric(_cmd.id)) {
-        tr += '<a class="btn btn-default btn-xs cmdAction" action="test"><i class="fa fa-rss"></i> Tester</a>';
+        tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> Tester</a>';
     }
-    tr += '<i class="fa fa-minus-circle pull-right cmdAction" action="remove"></i></td>';
+    tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
     tr += '</tr>';
     $('#table_cmd tbody').append(tr);
     $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');

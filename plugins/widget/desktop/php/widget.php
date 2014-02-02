@@ -28,19 +28,19 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
         <div class="bs-sidebar affix">
             <ul id="ul_widget" class="nav nav-list bs-sidenav fixnav">
                 <li class="nav-header">Liste des widgets
-                    <i class="fa fa-plus-circle pull-right cursor widgetAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
+                    <i class="fa fa-plus-circle pull-right cursor widgetAction" data-action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <li class="nav-header">Dashboard</li>
                 <?php
                 foreach (widget::listWidget('dashboard') as $widget) {
-                    echo '<li class="cursor li_widget" path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
+                    echo '<li class="cursor li_widget" data-path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
                 }
                 ?>
                 <li class="nav-header">Mobile</li>
                 <?php
                 foreach (widget::listWidget('mobile') as $widget) {
-                    echo '<li class="cursor li_widget" path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
+                    echo '<li class="cursor li_widget" data-path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
                 }
                 ?>
             </ul>
@@ -111,8 +111,8 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
-                    <a class="btn btn-danger widgetAction" action="remove"><i class="fa fa-minus-circle"></i> Supprimer</a>
-                    <a class="btn btn-success widgetAction" action="save"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+                    <a class="btn btn-danger widgetAction" data-action="remove"><i class="fa fa-minus-circle"></i> Supprimer</a>
+                    <a class="btn btn-success widgetAction" data-action="save"><i class="fa fa-check-circle"></i> Sauvegarder</a>
                 </div>
             </fieldset>
         </form>
@@ -142,7 +142,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
             </div>
             <div class="modal-footer">
                 <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> Annuler</a>
-                <a class="btn btn-success widgetAction" action="newAdd"><i class="fa fa-check-circle icon-white"></i> Enregistrer</a>
+                <a class="btn btn-success widgetAction" data-action="newAdd"><i class="fa fa-check-circle icon-white"></i> Enregistrer</a>
             </div>
         </div>
     </div>

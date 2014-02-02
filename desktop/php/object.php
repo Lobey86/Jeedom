@@ -16,7 +16,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <?php
                 $allObject = object::all();
                 foreach ($allObject as $object) {
-                    echo '<li class="cursor li_object" object_id="' . $object->getId() . '" name="' . $object->getName() . '"><a>' . $object->getName() . '</a></li>';
+                    echo '<li class="cursor li_object" data-object_id="' . $object->getId() . '" data-name="' . $object->getName() . '"><a>' . $object->getName() . '</a></li>';
                 }
                 ?>
             </ul>

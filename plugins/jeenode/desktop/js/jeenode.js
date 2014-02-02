@@ -21,7 +21,7 @@ $(function() {
         $('#div_conf').show();
         $('.li_jeenode').removeClass('active');
         $(this).addClass('active');
-        printJeenode($(this).attr('name'), $(this).attr('type'), $(this).attr('jeenodeReal_id'));
+        printJeenode($(this).attr('data-name'), $(this).attr('data-type'), $(this).attr('data-jeenodeReal_id'));
         return false;
     });
 
@@ -49,7 +49,7 @@ $(function() {
     });
 
     $("#bt_saveJeenode").on('click', function(event) {
-        if ($('.li_jeenode.active').attr('jeenodeReal_id') != undefined) {
+        if ($('.li_jeenode.active').attr('data-jeenodeReal_id') != undefined) {
             saveJeenode();
         } else {
             $('#div_alert').showAlert({message: 'Veuillez d\'abord sélectionner un jeenode', level: 'danger'});
@@ -58,11 +58,11 @@ $(function() {
     });
 
     $("#bt_removeJeenode").on('click', function(event) {
-        if ($('.li_jeenode.active').attr('jeenodeReal_id') != undefined) {
+        if ($('.li_jeenode.active').attr('data-jeenodeReal_id') != undefined) {
             $.hideAlert();
-            bootbox.confirm('Etez-vous sûr de vouloir supprimer le jeenode <span style="font-weight: bold ;">' + $('.li_jeenode.active').attr('name') + '</span> ?', function(result) {
+            bootbox.confirm('Etez-vous sûr de vouloir supprimer le jeenode <span style="font-weight: bold ;">' + $('.li_jeenode.active').attr('data-name') + '</span> ?', function(result) {
                 if (result) {
-                    removeJeenode($('.li_jeenode.active').attr('jeenodeReal_id'));
+                    removeJeenode($('.li_jeenode.active').attr('data-jeenodeReal_id'));
                 }
             });
         } else {
@@ -72,8 +72,8 @@ $(function() {
     });
 
     if (select_id != -1) {
-        if ($('#ul_jeenode .li_jeenode[jeenodeReal_id=' + select_id + ']').length != 0) {
-            $('#ul_jeenode .li_jeenode[jeenodeReal_id=' + select_id + ']').click();
+        if ($('#ul_jeenode .li_jeenode[data-jeenodeReal_id=' + select_id + ']').length != 0) {
+            $('#ul_jeenode .li_jeenode[data-jeenodeReal_id=' + select_id + ']').click();
         } else {
             $('#ul_jeenode .li_jeenode:first').click();
         }
@@ -127,12 +127,12 @@ function getJeenodeConf(_type, _jeenodeRealId) {
                 replace['#generaleConfData#'] = json_encode(data.result);
                 $('#div_configurationSpecifiqueType').html(getTemplate('jeenode', 'jeenode', 'generaleConfiguration.php', replace));
                 if (data.result.configuration.mode == 'actif') {
-                    $('#div_configurationSpecifiqueType').find('.sel_portType option[active_only=1]').prop('disabled', false);
+                    $('#div_configurationSpecifiqueType').find('.sel_portType option[data-active_only=1]').prop('disabled', false);
                     $('#label_ram').closest('.form-group').show();
                     $('#label_uptime').closest('.form-group').show();
                     getInfo(_jeenodeRealId);
                 } else {
-                    $('#div_configurationSpecifiqueType').find('.sel_portType option[active_only=1]').prop('disabled', true);
+                    $('#div_configurationSpecifiqueType').find('.sel_portType option[data-active_only=1]').prop('disabled', true);
                 }
             }
             $('body').setValues(data.result, '.eqRealAttr');
@@ -199,7 +199,7 @@ function saveJeenode() {
         $('.eqReal').each(function() {
             var eqReal = $(this).getValues('.eqRealAttr');
             eqReal = eqReal[0];
-            eqReal.id = $('.li_jeenode.active').attr('jeenodeReal_id');
+            eqReal.id = $('.li_jeenode.active').attr('data-jeenodeReal_id');
 
             if (isNaN(eqReal.logicalId) || eqReal.logicalId == '') {
                 throw('Le node ID ne peut etre vide et doit etre un nombre');
@@ -214,7 +214,7 @@ function saveJeenode() {
                     eqLogic['plugin'] = 'jeenode';
                     eqLogic['eqReal_id'] = eqReal.id;
                     $(this).find('.portType').each(function() {
-                        eqLogic.configuration.portType.push($(this).attr('code'));
+                        eqLogic.configuration.portType.push($(this).attr('data-code'));
                     });
                     eqLogic.cmd = $(this).find('.confSpePort .cmd').getValues('.cmdAttr');
                     eqReal.eqLogic.push(eqLogic);
@@ -244,7 +244,7 @@ function saveJeenode() {
             }
             $('#div_alert').showAlert({message: 'Jeenode sauvegardé', level: 'success'});
             var li = $('.li_jeenode.active');
-            printJeenode(li.attr('name'), li.attr('type'), li.attr('jeenodeReal_id'));
+            printJeenode(li.attr('data-name'), li.attr('data-type'), li.attr('data-jeenodeReal_id'));
         }
     });
 }

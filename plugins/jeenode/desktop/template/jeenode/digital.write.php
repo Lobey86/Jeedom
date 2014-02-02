@@ -7,7 +7,7 @@ if (!isConnect()) {
 }
 ?>
 
-<div class="form-group cmd" mode="!" type="d" value="1">
+<div class="form-group cmd" data-mode="!" data-type="d" data-value="1">
     <input type="text" class="cmdAttr form-control" data-l1key="id" value="" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="eventOnly" value="0" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="unite" value="" style="display: none;"/>
@@ -23,7 +23,7 @@ if (!isConnect()) {
         <input type="text" class="cmdAttr form-control" data-l1key="name" value="On"/>
     </div>
 </div>
-<div class="form-group cmd" type="!" mode="d" value="1">
+<div class="form-group cmd" data-type="!" data-mode="d" data-value="1">
     <input type="text" class="cmdAttr form-control" data-l1key="id" value="" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="eventOnly" value="0" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="unite" value="" style="display: none;"/>

@@ -40,7 +40,7 @@ include_file('core', 'class.command', 'config', 'zwave');
             <tbody>
                 <?php
                 foreach ($eqLogic->getAvailableCommandClass() as $commandClasses) {
-                    echo '<tr commandClass="' . $commandClasses . '" class="cursor">';
+                    echo '<tr data-commandClass="' . $commandClasses . '" class="cursor">';
                     echo '<td>';
                     echo $commandClasses;
                     if (count($listClassCommand[$commandClasses]) > 0) {
@@ -97,7 +97,7 @@ include_file('core', 'class.command', 'config', 'zwave');
     $('#table_class tbody tr').on('click', function() {
         $('#table_class tbody tr').removeClass('active');
         $(this).addClass('active');
-        syncEqLogicWithRazberry($(this).attr('commandClass'));
+        syncEqLogicWithRazberry($(this).attr('data-commandClass'));
     });
 
     $('#bt_addClassCommand').on('click', function() {

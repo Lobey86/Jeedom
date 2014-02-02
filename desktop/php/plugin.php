@@ -14,7 +14,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (plugin::listPlugin() as $plugin) {
-                    echo '<li class="cursor li_plugin" pluginPath="' . $plugin->getFilepath() . '" plugin_id="' . $plugin->getId() . '"><a >';
+                    echo '<li class="cursor li_plugin" data-pluginPath="' . $plugin->getFilepath() . '" data-plugin_id="' . $plugin->getId() . '"><a >';
 
                     echo '<i class="' . $plugin->getIcon() . '"></i> ' . $plugin->getName();
                     if ($plugin->isActive() == 1) {

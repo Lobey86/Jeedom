@@ -16,7 +16,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (jeenodeReal::liste() as $jeenodeReal) {
-                    echo '<li class="cursor li_jeenode" jeenodeReal_id="' . $jeenodeReal['id'] . '" type="' . $jeenodeReal['type'] . '" name="' . $jeenodeReal['name'] . '"><a>' . $jeenodeReal['name'] . ' (' . $jeenodeReal['type'] . ')</a></li>';
+                    echo '<li class="cursor li_jeenode" data-jeenodeReal_id="' . $jeenodeReal['id'] . '" data-type="' . $jeenodeReal['type'] . '" data-name="' . $jeenodeReal['name'] . '"><a>' . $jeenodeReal['name'] . ' (' . $jeenodeReal['type'] . ')</a></li>';
                 }
                 ?>
             </ul>

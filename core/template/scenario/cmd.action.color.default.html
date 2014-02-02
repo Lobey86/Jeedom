@@ -1,12 +1,12 @@
 <script type="text/javascript" src="3rdparty/jquery.farbtastic/farbtastic.js" ></script>
 <link rel="stylesheet" href="3rdparty/jquery.farbtastic/farbtastic.css" />
-<input class="expressionAttr form-control input-sm" data-l1key="options" data-l2key="color" value="#color#" uid="#uid#" />
-<a class="btn btn-default form-control listEquipementInfo cursor" cmd_id="#id#" uid="#uid#" style="margin-top : 5px;"><i class="fa fa-list-alt"></i> Rechercher équipement</a>
-<div class="colorpicker" uid="#uid#" style="display : none"></div>
+<input class="expressionAttr form-control input-sm" data-l1key="options" data-l2key="color" value="#color#" data-uid="#uid#" />
+<a class="btn btn-default form-control listEquipementInfo cursor" data-cmd_id="#id#" data-uid="#uid#" style="margin-top : 5px;"><i class="fa fa-list-alt"></i> Rechercher équipement</a>
+<div class="colorpicker" data-uid="#uid#" style="display : none"></div>
 <script>
     $(function() {
-        var input = $('input[uid=#uid#]');
-        var div = $('div.colorpicker[uid=#uid#]');
+        var input = $('input[data-uid=#uid#]');
+        var div = $('div.colorpicker[data-uid=#uid#]');
         div.farbtastic(input);
 
         input.focus(function() {
@@ -21,7 +21,7 @@
             }
         });
     });
-    $('.listEquipementInfo[uid=#uid#]').on('click', function() {
+    $('.listEquipementInfo[data-uid=#uid#]').on('click', function() {
         var el = $(this);
         cmd.getSelectModal({type: 'info'}, function(result) {
             el.parent().find('.expressionAttr[data-l1key=options][data-l2key=color]').value(result.human);

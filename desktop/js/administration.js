@@ -84,7 +84,7 @@ $(function() {
                     url: 'core/ajax/jeedom.ajax.php',
                     data: {
                         action: 'update',
-                        mode: el.attr('mode')
+                        mode: el.attr('data-mode')
                     },
                     dataType: 'json',
                     error: function(request, status, error) {

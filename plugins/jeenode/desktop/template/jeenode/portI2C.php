@@ -12,8 +12,8 @@ if (!isConnect()) {
     <div class="col-lg-2">
         <select class="sel_portType form-control" port="I2C">
             <option value='0'>Selectionner une option...</option>
-            <option value='1' cmdName='i2c.blinkm' active_only='1'>Blink M</option>
-            <option value='2' cmdName='i2c.pressure'>Pression</option>
+            <option value='1' data-cmdName='i2c.blinkm' data-active_only='1'>Blink M</option>
+            <option value='2' data-cmdName='i2c.pressure'>Pression</option>
         </select>
     </div>
     <div class="col-lg-2">
@@ -59,7 +59,7 @@ if (!isConnect()) {
     </div>
 </div>
 
-<div class="confSpePort" port="#portNumber#">
+<div class="confSpePort" data-port="#portNumber#">
 
 
 </div>

@@ -6,7 +6,7 @@ if (!isConnect()) {
     throw new Exception('401 Unauthorized');
 }
 ?>
-<div class="form-group cmd" mode="?" type="p">
+<div class="form-group cmd" data-mode="?" data-type="p">
     <label class="col-lg-2 control-label" >Nom du capteur de pression</label>
     <input type="text" class="cmdAttr form-control" data-l1key="id" value="" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="unite" value="" style="display: none;"/>

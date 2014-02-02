@@ -6,7 +6,7 @@ if (!isConnect()) {
     throw new Exception('401 Unauthorized');
 }
 ?>
-<div class="form-group cmd" mode="d" type="?">
+<div class="form-group cmd" data-mode="d" data-type="?">
     <input type="text" class="cmdAttr form-control" data-l1key="id" value="" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="type" value="info" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="subType" value="binary" style="display: none;"/>

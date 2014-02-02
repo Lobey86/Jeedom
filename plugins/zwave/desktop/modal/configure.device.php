@@ -70,7 +70,7 @@ sendVarToJS('configureDeviceId', init('id'));
                     case 'select':
                         echo '<select class = "zwaveParameters form-control" data-l1key="' . $id . '" data-l2key="value">';
                         foreach ($parameter['value'] as $value => $details) {
-                            echo '<option value="' . $value . '" description="' . $details['description'] . '">' . $details['name'] . '</option>';
+                            echo '<option value="' . $value . '" data-description="' . $details['description'] . '">' . $details['name'] . '</option>';
                         }
                         echo '</select>';
                         break;
@@ -105,7 +105,7 @@ sendVarToJS('configureDeviceId', init('id'));
     configureDeviceLoad();
 
     $('select.zwaveParameters').on('change', function() {
-        $(this).closest('.form-group').find('.description').html($(this).find('option:selected').attr('description'));
+        $(this).closest('.form-group').find('.description').html($(this).find('option:selected').attr('data-description'));
     });
 
     $('.bt_forceRefresh').on('click', function() {

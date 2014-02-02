@@ -31,7 +31,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (view::all() as $view) {
-                    echo '<li class="cursor li_view" view_id="' . $view->getId() . '"><a>' . $view->getName() . '</a></li>';
+                    echo '<li class="cursor li_view" data-view_id="' . $view->getId() . '"><a>' . $view->getName() . '</a></li>';
                 }
                 ?>
             </ul>
@@ -140,7 +140,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 }
                 if ($eqLogic->getIsVisible() == 1 && $cmd->getIsHistorized() == 1) {
                     $object = $cmd->getEqLogic()->getObject();
-                    echo '<tr link_id="' . $cmd->getId() . '" type="graph" viewDataType="cmd">';
+                    echo '<tr data-link_id="' . $cmd->getId() . '" data-type="graph" data-viewDataType="cmd">';
                     echo '<td>';
                     echo '<input type="checkbox" class="enable form-control" />';
                     echo '<input class="viewDataOption" data-l1key="link_id" value="' . $cmd->getId() . '" hidden/>';
@@ -204,7 +204,7 @@ sendVarToJS('select_id', init('id', '-1'));
             foreach (eqLogic::all() as $eqLogic) {
                 if ($eqLogic->getIsVisible() == 1) {
                     $object = $eqLogic->getObject();
-                    echo '<tr link_id="' . $eqLogic->getId() . '" type="widget" viewDataType="eqLogic">';
+                    echo '<tr data-link_id="' . $eqLogic->getId() . '" data-type="widget" data-viewDataType="eqLogic">';
                     echo '<td>';
                     echo '<input type="checkbox" class="enable form-control" />';
                     echo '<input class="viewDataOption" data-l1key="type" value= "eqLogic" hidden/>';
@@ -227,10 +227,10 @@ sendVarToJS('select_id', init('id', '-1'));
                 }
             }
             foreach (scenario::all() as $scenario) {
-                echo '<tr link_id="' . $scenario->getId() . '" type="widget" viewDataType="scenario">';
+                echo '<tr data-link_id="' . $scenario->getId() . '" data-type="widget" data-viewDataType="scenario">';
                 echo '<td>';
                 echo '<input type="checkbox" class="enable form-control" />';
-                echo '<input class="viewDataOption" data-l1key="type" value= "scenario" hidden/>';
+                echo '<input class="viewDataOption" data-l1key="type" value="scenario" hidden/>';
                 echo '<input class="viewDataOption" data-l1key="link_id" value="' . $scenario->getId() . '" hidden/>';
                 echo '</td>';
                 echo '<td class="type">';

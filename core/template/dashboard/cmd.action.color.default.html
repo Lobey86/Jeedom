@@ -1,4 +1,4 @@
-<span class="cmd" type="action" subtype="color" cmd_id="#id#" style="display: inline-block;">
+<span class="cmd" data-type="action" data-subtype="color" data-cmd_id="#id#" style="display: inline-block;">
 
     <hr style="margin : 0px 0px 3px 0px;"/>
 
@@ -8,14 +8,14 @@
     <script>
         $(function() {
             $.include(['3rdparty/jquery.farbtastic/farbtastic.js', '3rdparty/jquery.farbtastic/farbtastic.css'], function() {
-                $('.cmd[cmd_id=#id#] .action_colorpicker').off();
-                if ($('.cmd[cmd_id=#id#] .action_colorpicker').length > 0) {
-                    $('.cmd[cmd_id=#id#] .action_colorpicker').farbtastic();
-                    $.farbtastic($('.cmd[cmd_id=#id#] .action_colorpicker')).setColor(('#state#' != '') ? '#state#' : '#000000');
-                    $('.cmd[cmd_id=#id#] .action_colorpicker_off').on('click', function() {
+                $('.cmd[data-cmd_id=#id#] .action_colorpicker').off();
+                if ($('.cmd[data-cmd_id=#id#] .action_colorpicker').length > 0) {
+                    $('.cmd[data-cmd_id=#id#] .action_colorpicker').farbtastic();
+                    $.farbtastic($('.cmd[data-cmd_id=#id#] .action_colorpicker')).setColor(('#state#' != '') ? '#state#' : '#000000');
+                    $('.cmd[data-cmd_id=#id#] .action_colorpicker_off').on('click', function() {
                         execCmd('#id#', {color: '#000000'});
                     });
-                    $('.cmd[cmd_id=#id#] .action_colorpicker').on('mouseup', function() {
+                    $('.cmd[data-cmd_id=#id#] .action_colorpicker').on('mouseup', function() {
                         execCmd('#id#', {color: $.farbtastic($(this)).color});
                     });
                 }

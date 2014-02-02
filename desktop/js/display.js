@@ -19,13 +19,13 @@ $(function() {
 
     $('#div_tree').on('select_node.jstree', function(node, selected) {
         if (selected.node.a_attr.class == 'infoObject') {
-            displayObject(selected.node.a_attr.object_id);
+            displayObject(selected.node.a_attr['data-object_id']);
         }
         if (selected.node.a_attr.class == 'infoEqLogic') {
-            displayEqLogic(selected.node.a_attr.eqlogic_id);
+            displayEqLogic(selected.node.a_attr['data-eqlogic_id']);
         }
         if (selected.node.a_attr.class == 'infoCmd') {
-            displayCmd(selected.node.a_attr.cmd_id);
+            displayCmd(selected.node.a_attr['data-cmd_id']);
         }
     });
     $('#div_tree').jstree();

@@ -7,7 +7,7 @@ if (!isConnect()) {
 }
 ?>
 
-<div class="form-group cmd" mode="?" type="t">
+<div class="form-group cmd" data-mode="?" data-type="t">
     <label class="col-lg-2 control-label" >Nom du capteur de temperature</label>
     <input type="text" class="cmdAttr form-control" data-l1key="id" value="" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="unite" value="°C" style="display: none;"/>
@@ -25,7 +25,7 @@ if (!isConnect()) {
         <input class="cmdAttr form-control" data-l1key="isHistorized" type="checkbox" /> 
     </div>
 </div>
-<div class="form-group cmd" mode="?" type="h">
+<div class="form-group cmd" data-mode="?" data-type="h">
     <label class="col-lg-2 control-label" >Nom du capteur d'humidité</label>
     <input type="text" class="cmdAttr form-control" data-l1key="id" value="" style="display: none;"/>
     <input type="text" class="cmdAttr form-control" data-l1key="unite" value="%" style="display: none;"/>

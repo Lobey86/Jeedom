@@ -55,7 +55,7 @@ function addCmdToTable(_cmd) {
 
     if (init(_cmd.type) == 'info') {
         var disabled = (init(_cmd.configuration.virtualAction) == '1') ? 'disabled' : '';
-        var tr = '<tr class="cmd" cmd_id="' + init(_cmd.id) + '" virtualAction="' + init(_cmd.configuration.virtualAction) + '">';
+        var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '" virtualAction="' + init(_cmd.configuration.virtualAction) + '">';
         tr += '<td>';
         tr += '<span class="cmdAttr" data-l1key="id"></span>';
         tr += '</td>';
@@ -76,16 +76,16 @@ function addCmdToTable(_cmd) {
         tr += '</td>';
         tr += '<td>';
         if (is_numeric(_cmd.id)) {
-            tr += '<a class="btn btn-default btn-xs cmdAction" action="test"><i class="fa fa-rss"></i> Tester</a>';
+            tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> Tester</a>';
         }
-        tr += '<i class="fa fa-minus-circle pull-right cmdAction" action="remove"></i></td>';
+        tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
         tr += '</tr>';
         $('#table_cmd tbody').append(tr);
         $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
     }
 
     if (init(_cmd.type) == 'action') {
-        var tr = '<tr class="cmd" cmd_id="' + init(_cmd.id) + '">';
+        var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
         tr += '<td>';
         tr += '<span class="cmdAttr" data-l1key="id"></span>';
         tr += '</td>';
@@ -104,188 +104,12 @@ function addCmdToTable(_cmd) {
         tr += '</td>';
         tr += '<td>';
         if (is_numeric(_cmd.id)) {
-            tr += '<a class="btn btn-default btn-xs cmdAction" action="test"><i class="fa fa-rss"></i> Tester</a>';
+            tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> Tester</a>';
         }
-        tr += '<i class="fa fa-minus-circle pull-right cmdAction" action="remove"></i></td>';
+        tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
         tr += '</tr>';
 
         $('#table_cmd tbody').append(tr);
         $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
     }
-
 }
-
-
-function changeObjectCmd(_select, _typeCmd, _eqLogic_id, _cmd_id, _option) {
-    var object_id = _select.value();
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/eqLogic.ajax.php", // url du fichier php
-        data: {
-            action: "listByObjectAndCmdType",
-            object_id: object_id,
-            typeCmd: _typeCmd
-        },
-        dataType: 'json',
-        async: false,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-
-            _select.parent().next('.eqLogic').empty();
-            var selecteqLogic = '<select class="form-control">';
-            for (var i in data.result) {
-                selecteqLogic += '<option value="' + data.result[i].id + '">' + data.result[i].name + '</option>';
-            }
-            selecteqLogic += '</select>';
-            _select.parent().next('.eqLogic').append(selecteqLogic);
-            _select.parent().next('.eqLogic').find('select').change(function() {
-                changeEqLogic($(this), _typeCmd);
-            });
-
-            if (isset(_eqLogic_id)) {
-                _select.parent().next('.eqLogic').find('select').value(_eqLogic_id);
-            }
-            changeEqLogic(_select.parent().next('.eqLogic').find('select'), _typeCmd, _cmd_id, _option);
-        }
-    });
-}
-
-function changeEqLogic(_select, _typeCmd, _cmd_id, _option) {
-    var eqLogic_id = _select.value();
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/cmd.ajax.php", // url du fichier php
-        data: {
-            action: "byEqLogic",
-            eqLogic_id: eqLogic_id
-        },
-        dataType: 'json',
-        async: false,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            _select.closest('td').next('.cmd').empty();
-            var selectCmd = '<select class="cmd_value form-control">';
-            for (var i in data.result) {
-                if (data.result[i].type == _typeCmd) {
-                    selectCmd += '<option value="' + data.result[i].id + '" subtype="' + data.result[i].subType + '">' + data.result[i].name + '</option>';
-                }
-            }
-            selectCmd += '</select>';
-            _select.closest('td').next('.cmd').append(selectCmd);
-            if (isset(_cmd_id)) {
-                _select.closest('td').next('.cmd').find('select').value(_cmd_id);
-            }
-
-            if (_typeCmd == 'action') {
-                _select.closest('td').next('.cmd').find('select').change(function() {
-                    changeCmd($(this));
-                });
-                changeCmd(_select.closest('td').next('.cmd').find('select'), _option);
-                _select.closest('td').next('.cmd').find('select').addClass('scenarioActionAttr').attr('key', 'cmd_id');
-            }
-            if (_typeCmd == 'info') {
-                _select.closest('td').next('.cmd').find('select').addClass('scenarioConditionAttr').attr('key', 'cmd_id' + _select.closest('td').next('.cmd').attr('number'));
-            }
-        }
-    });
-}
-
-function changeCmd(_select, _option) {
-    _select.closest('tr').find('.option').empty();
-
-    switch (_select.find('option:selected').attr('subtype')) {
-        case "slider" :
-            if (isset(_option)) {
-                var input = '<input class="form-control" value="' + _option + '" />';
-            } else {
-                var input = '<input class="form-control" />';
-            }
-            _select.closest('tr').find('.option').append(input);
-            break;
-        case "option" :
-            if (isset(_option)) {
-                var input = '<input class="form-control" value="' + _option + '" />';
-            } else {
-                var input = '<input class="form-control" />';
-            }
-            _select.closest('tr').find('.option').append(input);
-            break;
-        case "color" :
-            if (isset(_option)) {
-                var input = '<center><input class="form-control" value="' + _option + '" /><div class="colorpicker" style="display : none"></div></center>';
-            } else {
-                var input = '<center><input class="form-control" name="color" value="#123456"/><div class="colorpicker" style="display : none"></div></center>';
-            }
-            _select.closest('tr').find('.option').append(input);
-            var input = _select.closest('tr').find('.option input');
-            var div = _select.closest('tr').find('.option .colorpicker');
-            div.farbtastic(input);
-
-            input.focus(function() {
-                if (!$(this).parent().find('.colorpicker').is(':visible')) {
-                    $(this).parent().find('.colorpicker').show();
-                }
-            });
-
-            input.blur(function() {
-                if ($(this).parent().find('.colorpicker').is(':visible')) {
-                    $(this).parent().find('.colorpicker').hide();
-                }
-            });
-
-            break;
-
-        case "message" :
-            var option = json_decode(_option);
-            var td = '<input class="form-control" class="title" placeholder="Title" style="width : 88%" value="';
-            td += init(option.title);
-            td += '"/><br>';
-            td += '<textarea class="message" style="margin-top : 5px;width : 85%" placeholder="Message">';
-            if (init(option.message) != '') {
-                var cmdId = option.message.match(/#(.*?)#/g);
-                for (var i in cmdId) {
-                    cmdId[i] = cmdId[i].replace(/#/gi, '');
-                    $.ajax({// fonction permettant de faire de l'ajax
-                        type: "POST", // methode de transmission des données au fichier php
-                        url: "core/ajax/cmd.ajax.php", // url du fichier php
-                        data: {
-                            action: "getCmd",
-                            id: cmdId[i]
-                        },
-                        dataType: 'json',
-                        async: false,
-                        error: function(request, status, error) {
-                            handleAjaxError(request, status, error);
-                        },
-                        success: function(data) { // si l'appel a bien fonctionné
-                            if (data.state != 'ok') {
-                                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                                return;
-                            }
-                            if (data != '-1') {
-                                option.message = option.message.replace('#' + cmdId[i] + '#', '#[' + data.result.plugin + '].[' + data.result.eqLogic_name + '].[' + data.result.name + ']#');
-                            }
-                        }
-                    });
-                }
-            }
-            td += init(option.message);
-            td += '</textarea>';
-            td += '<i class="fa fa-list-alt listEquipementInfo cursor pull-right" style="margin-top : 5px;">';
-            _select.closest('tr').find('.option').append(td);
-            break;
-    }
-}
-

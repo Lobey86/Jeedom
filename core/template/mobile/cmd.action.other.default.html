@@ -1,17 +1,17 @@
-<span class="cmd" type="action" subtype="other" cmd_id="#id#" >
+<span class="cmd" data-type="action" data-subtype="other" data-cmd_id="#id#" >
     <a class="action ui-btn" style="margin: 8px 8px;">#name#</a>
 
     <script>
         $(function() {
-            $('.cmd[cmd_id=#id#] .action').click(function() {
+            $('.cmd[data-cmd_id=#id#] .action').click(function() {
                 execCmd('#id#', '');
             });
             var name = "#name#";
             if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
-                $('.cmd[cmd_id=#id#] .action').addClass('ui-btn-b');
+                $('.cmd[data-cmd_id=#id#] .action').addClass('ui-btn-b');
             }
             if (name.toLowerCase().indexOf('on') >= 0) {
-                $('.cmd[cmd_id=#id#] .action').addClass('ui-btn-a');
+                $('.cmd[data-cmd_id=#id#] .action').addClass('ui-btn-a');
             }
         });
     </script>

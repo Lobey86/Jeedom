@@ -42,12 +42,12 @@ $(function() {
         $.hideAlert();
         $(".li_scenario").removeClass('active');
         $(this).addClass('active');
-        printScenario($(this).attr('scenario_id'));
+        printScenario($(this).attr('data-scenario_id'));
     });
 
     $("#bt_changeAllScenarioState").on('click', function() {
         var el = $(this);
-        var value = {enableScenario: el.attr('state')};
+        var value = {enableScenario: el.attr('data-state')};
         $.ajax({
             type: 'POST',
             url: 'core/ajax/config.ajax.php',
@@ -64,12 +64,12 @@ $(function() {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                if (el.attr('state') == 1) {
+                if (el.attr('data-state') == 1) {
                     el.find('i').removeClass('fa-check').addClass('fa-times');
-                    el.removeClass('btn-success').addClass('btn-danger').attr('state', 0);
+                    el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 0);
                 } else {
                     el.find('i').removeClass('fa-times').addClass('fa-check');
-                    el.removeClass('btn-danger').addClass('btn-success').attr('state', 1);
+                    el.removeClass('btn-danger').addClass('btn-success').attr('data-state', 1);
                 }
             }
         });

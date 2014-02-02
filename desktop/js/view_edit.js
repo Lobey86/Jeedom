@@ -27,7 +27,7 @@ $(function() {
         $.hideAlert();
         $(".li_view").removeClass('active');
         $(this).addClass('active');
-        printView($(this).attr('view_id'));
+        printView($(this).attr('data-view_id'));
         return false;
     });
 
@@ -46,7 +46,7 @@ $(function() {
     $("#bt_editView").on('click', function(event) {
         $.hideAlert();
         $('#in_addViewName').value($('.li_view.active a').text());
-        $('#in_addViewId').value($('.li_view.active').attr('view_id'));
+        $('#in_addViewId').value($('.li_view.active').attr('data-view_id'));
         $('#md_addView').modal('show');
         return false;
     });
@@ -57,7 +57,7 @@ $(function() {
     });
 
     $('#bt_saveView').on('click', function(event) {
-        saveView($(".li_view.active").attr('view_id'));
+        saveView($(".li_view.active").attr('data-view_id'));
         return;
     });
 
@@ -65,14 +65,14 @@ $(function() {
         $.hideAlert();
         bootbox.confirm('Etez-vous sûr de vouloir supprimer la vue <span style="font-weight: bold ;">' + $(".li_view.active a").text() + '</span> ?', function(result) {
             if (result) {
-                removeView($(".li_view.active").attr('view_id'));
+                removeView($(".li_view.active").attr('data-view_id'));
             }
         });
     });
 
     if (select_id != -1) {
-        if ($('#ul_view .li_view[view_id=' + select_id + ']').length != 0) {
-            $('#ul_view .li_view[view_id=' + select_id + ']').click();
+        if ($('#ul_view .li_view[data-view_id=' + select_id + ']').length != 0) {
+            $('#ul_view .li_view[data-view_id=' + select_id + ']').click();
         } else {
             $('#ul_view .li_view:first').click();
         }
@@ -149,12 +149,12 @@ $(function() {
         $('#table_addViewData tbody tr .enable').prop('checked', false);
         var type = viewZone.find('.viewZoneAttr[data-l1key=type]').value();
         if (type == 'graph') {
-            $('#table_addViewDataHidden tbody').append($('#table_addViewData tr[type=widget]'));
-            $('#table_addViewData tbody').append($('#table_addViewDataHidden tr[type=graph]'));
+            $('#table_addViewDataHidden tbody').append($('#table_addViewData tr[data-type=widget]'));
+            $('#table_addViewData tbody').append($('#table_addViewDataHidden tr[data-type=graph]'));
         }
         if (type == 'widget') {
-            $('#table_addViewDataHidden tbody').append($('#table_addViewData tr[type=graph]'));
-            $('#table_addViewData tbody').append($('#table_addViewDataHidden tr[type=widget]'));
+            $('#table_addViewDataHidden tbody').append($('#table_addViewData tr[data-type=graph]'));
+            $('#table_addViewData tbody').append($('#table_addViewDataHidden tr[data-type=widget]'));
         }
         $('#table_addViewData tbody tr div.option').hide();
 
@@ -183,11 +183,11 @@ $(function() {
             "Valider": function() {
                 var span = '';
                 var tr = $('#table_addViewData tbody tr:first');
-                while (tr.attr('link_id') != undefined) {
+                while (tr.attr('data-link_id') != undefined) {
                     if (tr.find('.enable').is(':checked')) {
                         var viewData = tr.getValues('.viewDataOption');
                         viewData = viewData[0];
-                        viewData.link_id = tr.attr('link_id');
+                        viewData.link_id = tr.attr('data-link_id');
                         viewData.name = '';
                         if (tr.find('.object_name').text() != '') {
                             viewData.name += '[' + tr.find('.object_name').text() + ']';

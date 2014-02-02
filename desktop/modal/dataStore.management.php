@@ -36,7 +36,7 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
                         url: "core/ajax/dataStore.ajax.php",
                         data: {
                             action: "remove",
-                            id: tr.attr('dataStore_id'),
+                            id: tr.attr('data-dataStore_id'),
                         },
                         dataType: 'json',
                         error: function(request, status, error) {
@@ -65,7 +65,7 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
                 url: "core/ajax/dataStore.ajax.php",
                 data: {
                     action: "save",
-                    id: tr.attr('dataStore_id'),
+                    id: tr.attr('data-dataStore_id'),
                     value: tr.find('.value').value(),
                     type: dataStore_type,
                     key: tr.find('.key').value(),
@@ -87,7 +87,7 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
         });
 
         $('#bt_dataStoreManagementAdd').on('click', function() {
-            var tr = '<tr dataStore_id="">';
+            var tr = '<tr data-dataStore_id="">';
             tr += '<td>';
             tr += '<input class="form-control input-sm key" value="" />';
             tr += '</td>';
@@ -123,7 +123,7 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
                     $('#table_dataStore tbody').empty();
                     var tr = '';
                     for (var i in data.result) {
-                        tr += '<tr dataStore_id="' + data.result[i].id + '">';
+                        tr += '<tr data-dataStore_id="' + data.result[i].id + '">';
                         tr += '<td>';
                         tr += '<span style="display : none;">' + data.result[i].key + '</span><input class="form-control input-sm key" value="' + data.result[i].key + '" />';
                         tr += '</td>';

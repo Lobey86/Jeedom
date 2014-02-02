@@ -21,9 +21,9 @@ sendVarToJS('select_id', init('id', '-1'));
             <ul id="ul_scenario" class="nav nav-list bs-sidenav fixnav">                  
                 <?php
                 if (config::byKey('enableScenario') == 0) {
-                    echo '<a class="btn btn-sm btn-success" id="bt_changeAllScenarioState" state="1" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-check"></i></a>';
+                    echo '<a class="btn btn-sm btn-success" id="bt_changeAllScenarioState" data-state="1" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-check"></i></a>';
                 } else {
-                    echo '<a class="btn btn-sm btn-danger" id="bt_changeAllScenarioState" state="0" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-times"></i> </a>';
+                    echo '<a class="btn btn-sm btn-danger" id="bt_changeAllScenarioState" data-state="0" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-times"></i> </a>';
                 }
                 ?>
                 <a class="btn btn-default btn-sm tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
@@ -71,7 +71,7 @@ sendVarToJS('select_id', init('id', '-1'));
                     } else {
                         $state = 'grey';
                     }
-                    echo '<li class="cursor li_scenario" id="scenario' . $scenario->getId() . '" scenario_id="' . $scenario->getId() . '">';
+                    echo '<li class="cursor li_scenario" id="scenario' . $scenario->getId() . '" data-scenario_id="' . $scenario->getId() . '">';
                     echo '<a> <span class="binary ' . $state . ' pull-right binary" style="width : 15px;"></span>' . $group . $scenario->getName() . '</a>';
                     echo '</li>';
                 }

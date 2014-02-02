@@ -12,18 +12,18 @@ sendVarToJS('eqType', 'zwave');
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
 
                 <a class="btn btn-default btn-sm tooltips" id="bt_syncEqLogic" title="Synchroniser équipement avec le Razberry" style="display: inline-block;"><i class="fa fa-refresh"></i></a>
-                <a class="btn btn-default btn-sm tooltips changeIncludeState" title="Inclure prériphérique Z-wave" state="1" style="display: inline-block;"><i class="fa fa-sign-in fa-rotate-90"></i></a>
-                <a class="btn btn-default btn-sm tooltips changeIncludeState" title="Exclure périphérique Z-wave" state="0" style="display: inline-block;"><i class="fa fa-sign-out fa-rotate-90"></i></a>
-                <a class="btn btn-default btn-sm tooltips expertModeHidden" id="bt_inspectQueue" title="Inspecter la queue Z-wave" state="0" style="display: inline-block;"><i class="fa fa-exchange fa-rotate-90"></i></a>
-                <a class="btn btn-default btn-sm tooltips expertModeHidden" id="bt_routingTable" title="Afficher la table de routage" state="0" style="display: inline-block;"><i class="fa fa-sitemap"></i></a>
+                <a class="btn btn-default btn-sm tooltips changeIncludeState" title="Inclure prériphérique Z-wave" data-state="1" style="display: inline-block;"><i class="fa fa-sign-in fa-rotate-90"></i></a>
+                <a class="btn btn-default btn-sm tooltips changeIncludeState" title="Exclure périphérique Z-wave" data-state="0" style="display: inline-block;"><i class="fa fa-sign-out fa-rotate-90"></i></a>
+                <a class="btn btn-default btn-sm tooltips expertModeHidden" id="bt_inspectQueue" title="Inspecter la queue Z-wave" style="display: inline-block;"><i class="fa fa-exchange fa-rotate-90"></i></a>
+                <a class="btn btn-default btn-sm tooltips expertModeHidden" id="bt_routingTable" title="Afficher la table de routage" style="display: inline-block;"><i class="fa fa-sitemap"></i></a>
 
                 <li class="nav-header">Liste des équipements Z-wave
-                    <i class="fa fa-plus-circle pull-right cursor eqLogicAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
+                    <i class="fa fa-plus-circle pull-right cursor eqLogicAction" data-action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (eqLogic::byType('zwave') as $eqLogic) {
-                    echo '<li class="cursor li_eqLogic" eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
+                    echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
                 }
                 ?>
             </ul>
@@ -143,7 +143,7 @@ sendVarToJS('eqType', 'zwave');
         </div>
 
         <legend>Commandes</legend>
-        <a class="btn btn-success btn-sm cmdAction expertModeHidden" action="add"><i class="fa fa-plus-circle"></i> Commandes</a><br/><br/>
+        <a class="btn btn-success btn-sm cmdAction expertModeHidden" data-action="add"><i class="fa fa-plus-circle"></i> Commandes</a><br/><br/>
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>
@@ -165,8 +165,8 @@ sendVarToJS('eqType', 'zwave');
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
-                    <a class="btn btn-danger eqLogicAction" action="remove"><i class="fa fa-minus-circle"></i> Supprimer</a>
-                    <a class="btn btn-success eqLogicAction" action="save"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+                    <a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> Supprimer</a>
+                    <a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> Sauvegarder</a>
                 </div>
             </fieldset>
         </form>
@@ -204,7 +204,7 @@ sendVarToJS('eqType', 'zwave');
             </div>
             <div class="modal-footer">
                 <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> Annuler</a>
-                <a class="btn btn-success eqLogicAction" action="newAdd"><i class="fa fa-check-circle icon-white"></i> Enregistrer</a>
+                <a class="btn btn-success eqLogicAction" data-action="newAdd"><i class="fa fa-check-circle icon-white"></i> Enregistrer</a>
             </div>
         </div>
     </div>
