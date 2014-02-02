@@ -121,7 +121,7 @@ scenario : permet le controle des scénarios
                                 <pre>
 <h5 style='display: inline;'>$cmd->execCmd($options = null, $cache = 1);</h5>
     Exécute la commande et retourne le résultat
-    $options => Options pour l'exécution de la commande (peut être spécifique au module), option de base : 
+    $options => Options pour l'exécution de la commande (peut être spécifique au plugin), option de base : 
           Sous-type de la commande : message => $option = array('title' => 'titre du message , 'message' => 'Mon message');
                                      color => $option = array('color' => 'couleur en hexadécimal');
                                      value => $option = array('color' => 'valeur voulue');

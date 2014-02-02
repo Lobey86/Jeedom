@@ -15,11 +15,11 @@ if (isset($PAGE_DESCRIPTOR_MOBILE[$page])) {
 } else {
     $title = $page;
 }
-$module = init('m');
-if ($module != '') {
-    $module = new module($module);
-    if (is_object($module)) {
-        $title = $module->getName();
+$plugin = init('m');
+if ($plugin != '') {
+    $plugin = new plugin($plugin);
+    if (is_object($plugin)) {
+        $title = $plugin->getName();
     }
 }
 ?>
@@ -73,8 +73,8 @@ if ($module != '') {
                     try {
                         if (isset($PAGE_DESCRIPTOR_MOBILE[$page])) {
                             include_file('mobile', $PAGE_DESCRIPTOR_MOBILE[$page]['pageName'], 'php');
-                        } else if (isset($module) && is_object($module)) {
-                            include_file('modules', $page, 'php');
+                        } else if (isset($plugin) && is_object($plugin)) {
+                            include_file('plugins', $page, 'php');
                         } else {
                             echo '<div class="alert alert-danger div_alert">';
                             echo '404 - Request page not found';
@@ -99,7 +99,7 @@ if ($module != '') {
             </div><!-- /footer -->
 
 
-            <div data-role="panel" id="leftpanel" data-position="left" data-display="push" data-theme="b" class="ui-icon-alt">
+            <div data-role="panel" id="leftpanel" data-position="left" data-display="push" data-theme="b" data-position-fixed="true" data-animate="false" class="ui-icon-alt">
                 <ul data-role="listview">
                     <li><a href="index.php?v=m" data-icon="home" data-ajax="false"><i class="fa fa-home"></i> Accueil</a></li>
                     <li><a href="index.php?v=m&p=equipment" data-ajax="false" data-theme="a"><i class="fa fa fa-tachometer" ></i> Equipements </a></li>
@@ -118,7 +118,7 @@ if ($module != '') {
             </div>
 
             <?php if (isset($rightPanel)) { ?>
-                <div data-role="panel" id="rightpanel" data-position="right" data-display="push" data-theme="a" class="ui-icon-alt">
+                <div data-role="panel" id="rightpanel" data-position="right" data-display="push" data-dismissible="false" data-animate="false" data-position-fixed="true" data-theme="a" class="ui-icon-alt" >
                     <?php echo $rightPanel; ?>
                 </div>
             <?php } ?>
@@ -131,7 +131,7 @@ if ($module != '') {
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
         if (isConnect()) {
-
+            include_file('3rdparty', 'jquery.include/jquery.include', 'js');
             include_file('mobile', 'utils', 'js');
             if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
                 include_file('mobile', 'chat', 'js');

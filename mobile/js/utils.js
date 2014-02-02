@@ -21,11 +21,33 @@ $(function() {
     $(document).ajaxStop(function() {
         $.hideLoading();
     });
-
-    if ($('#rightpanel').length == 0) {
-        $('a[href=#rightpanel]').remove();
-    }
 });
+
+$("#leftpanel").panel({
+    create: function(event, ui) {
+        if ($('#rightpanel').length == 0) {
+            $('a[href=#rightpanel]').remove();
+            if (window.innerWidth > 800) {
+                setTimeout(function() {
+                    $("#leftpanel").panel("open")
+                }, 10);
+            }
+        }
+    },
+});
+
+$("#rightpanel").panel({
+    create: function(event, ui) {
+        if ($('#rightpanel').length != 0) {
+            if (window.innerWidth > 800) {
+                setTimeout(function() {
+                    $("#rightpanel").panel("open")
+                }, 10);
+            }
+        }
+    },
+});
+
 
 function refreshMessageNumber() {
     $.ajax({// fonction permettant de faire de l'ajax
@@ -56,7 +78,7 @@ function refreshMessageNumber() {
 }
 
 function notify(_title, _text) {
-    $('#div_alert').html("<center><b>" + _title + "</b></center>" + _text).popup("open",{y : 0});
+    $('#div_alert').html("<center><b>" + _title + "</b></center>" + _text).popup("open", {y: 0});
     setTimeout(function() {
         $('#div_alert').popup("close");
     }, 1000)

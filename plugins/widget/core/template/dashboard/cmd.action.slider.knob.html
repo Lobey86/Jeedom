@@ -1,0 +1,47 @@
+<span class="cmd" type="action" subtype="slider" cmd_id="#id#" style="margin-top : 3px;">
+
+    <div>
+        <input type="text" class="knob" value="#state#" />
+    </div>
+
+    <script>
+        $(function() {
+            $.include(['plugins/widget/3rdparty/jquery.knob/jquery.knob.js'], function() {
+                $(".cmd[cmd_id=#id#] .knob").knob({
+                    min: '#minValue#',
+                    max: '#maxValue#',
+                    width: 120,
+                    height: 120,
+                    scroll: false,
+                    release: function(v) {
+                        execCmd('#id#', {slider: v});
+                    }
+                });
+            });
+        });
+    </script>
+
+</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

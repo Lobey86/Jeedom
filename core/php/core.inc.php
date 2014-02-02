@@ -19,7 +19,7 @@
 require_once dirname(__FILE__) . '/utils.inc.php';
 include_file('core', 'common', 'config');
 include_file('core', 'version', 'config');
-include_file('core', 'module', 'class');
+include_file('core', 'plugin', 'class');
 include_file('core', 'config', 'class');
 include_file('core', 'DB', 'class');
 
@@ -39,26 +39,25 @@ function jeedomComAutoload($classname) {
     }
 }
 
-function jeedomModuleAutoload($classname) {
-    $module  = null;
+function jeedomPluginAutoload($classname) {
+    $plugin  = null;
     try {
         try {
-            $module = new module($classname);
+            $plugin = new plugin($classname);
         } catch (Exception $e) {
-            if (!is_object($module) || $module->getId() == '') {
+            if (!is_object($plugin) || $plugin->getId() == '') {
                 if (strpos($classname, 'Real') !== false) {
-                    error_log(substr($classname, 0, -4));
-                    $module = new module(substr($classname, 0, -4));
+                    $plugin = new plugin(substr($classname, 0, -4));
                 }
                 if (strpos($classname, 'Cmd') !== false) {
-                    $module = new module(substr($classname, 0, -3));
+                    $plugin = new plugin(substr($classname, 0, -3));
                 }
             }
         }
-        if (is_object($module) && $module->getId() != '') {
-            if ($module->isActive() == 1) {
-                $include = $module->getInclude();
-                include_file('core', $include['file'], $include['type'], $module->getId());
+        if (is_object($plugin) && $plugin->getId() != '') {
+            if ($plugin->isActive() == 1) {
+                $include = $plugin->getInclude();
+                include_file('core', $include['file'], $include['type'], $plugin->getId());
             }
         }
     } catch (Exception $e) {
@@ -81,6 +80,6 @@ function jeedom3rdPartyAutoload($classname) {
 
 spl_autoload_register('jeedomCoreAutoload', true, true);
 spl_autoload_register('jeedomComAutoload', true, true);
-spl_autoload_register('jeedomModuleAutoload', true, true);
+spl_autoload_register('jeedomPluginAutoload', true, true);
 spl_autoload_register('jeedom3rdPartyAutoload', true, true);
 ?>

@@ -56,6 +56,7 @@ $(function() {
 
     $("#bt_saveGeneraleConfig").on('click', function(event) {
         $.hideAlert();
+        saveConvertColor();
         saveConfiguration($('#config'));
     });
 
@@ -64,18 +65,23 @@ $(function() {
         saveConfiguration($('#update'));
     });
 
+    $("#bt_saveBackup").on('click', function(event) {
+        $.hideAlert();
+        saveConfiguration($('#backup'));
+    });
+
     $("#bt_saveUser").on('click', function(event) {
         saveUser();
     });
 
     $(".bt_updateJeedom").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('Etez-vous sûr de vouloir mettre à jour Jeedom ?', function(result) {
-            el.find('.fa-refresh').show();
+        bootbox.confirm('Etez-vous sûr de vouloir mettre à jour Jeedom ? Une fois lancée cette opération ne peut etre annulée', function(result) {
             if (result) {
+                el.find('.fa-refresh').show();
                 $.ajax({
                     type: 'POST',
-                    url: 'core/ajax/git.ajax.php',
+                    url: 'core/ajax/jeedom.ajax.php',
                     data: {
                         action: 'update',
                         mode: el.attr('mode')
@@ -89,18 +95,95 @@ $(function() {
                             $('#div_alert').showAlert({message: data.result, level: 'danger'});
                             return;
                         }
-                        getUpdateLog(1);
+                        getJeedomLog(1, 'update');
                     }
                 });
             }
         });
-
-
-
     });
 
-    $("#bt_refreshUpdateLog").on('click', function(event) {
-        getUpdateLog();
+    $("#bt_backupJeedom").on('click', function(event) {
+        var el = $(this);
+        bootbox.confirm('Etez-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut etre annulée', function(result) {
+            if (result) {
+                el.find('.fa-refresh').show();
+                $.ajax({
+                    type: 'POST',
+                    url: 'core/ajax/jeedom.ajax.php',
+                    data: {
+                        action: 'backup',
+                    },
+                    dataType: 'json',
+                    error: function(request, status, error) {
+                        handleAjaxError(request, status, error);
+                    },
+                    success: function(data) {
+                        if (data.state != 'ok') {
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        getJeedomLog(1, 'backup');
+                    }
+                });
+            }
+        });
+    });
+
+    $("#bt_restoreJeedom").on('click', function(event) {
+        var el = $(this);
+        bootbox.confirm('Etez-vous sûr de vouloir restaurer Jeedom avec <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ? Une fois lancée cette opération ne peut etre annulée', function(result) {
+            if (result) {
+                el.find('.fa-refresh').show();
+                $.ajax({
+                    type: 'POST',
+                    url: 'core/ajax/jeedom.ajax.php',
+                    data: {
+                        action: 'restore',
+                        backup: $('#sel_restoreBackup').value(),
+                    },
+                    dataType: 'json',
+                    error: function(request, status, error) {
+                        handleAjaxError(request, status, error);
+                    },
+                    success: function(data) {
+                        if (data.state != 'ok') {
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        getJeedomLog(1, 'restore');
+                    }
+                });
+            }
+        });
+    });
+
+    $("#bt_removeBackup").on('click', function(event) {
+        var el = $(this);
+        bootbox.confirm('Etez-vous sûr de vouloir supprimer la sauvegarde <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ?', function(result) {
+            if (result) {
+                el.find('.fa-refresh').show();
+                $.ajax({
+                    type: 'POST',
+                    url: 'core/ajax/jeedom.ajax.php',
+                    data: {
+                        action: 'removeBackup',
+                        backup: $('#sel_restoreBackup').value(),
+                    },
+                    dataType: 'json',
+                    error: function(request, status, error) {
+                        handleAjaxError(request, status, error);
+                    },
+                    success: function(data) {
+                        if (data.state != 'ok') {
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        updateListBackup();
+                        $('#div_alert').showAlert({message: 'Sauvegarde supprimé avec succès', level: 'success'});
+                    }
+                });
+            }
+        });
     });
 
     $("#bt_testLdapConnection").on('click', function(event) {
@@ -155,16 +238,18 @@ $(function() {
 
     printConvertColor();
 
-    loadConfiguration($('#update'));
-    loadConfiguration($('#config'));
+    loadConfiguration($('body'));
+    updateListBackup();
 });
 /********************Log************************/
-function getUpdateLog(_autoUpdate) {
+
+function getJeedomLog(_autoUpdate, _log) {
     $.ajax({
         type: 'POST',
-        url: 'core/ajax/git.ajax.php',
+        url: 'core/ajax/log.ajax.php',
         data: {
-            action: 'getUpdateLog',
+            action: 'get',
+            logfile: _log,
         },
         dataType: 'json',
         global: false,
@@ -179,21 +264,50 @@ function getUpdateLog(_autoUpdate) {
             var log = '';
             for (var i in data.result.reverse()) {
                 log += data.result[i][2];
+                if ($.trim(data.result[i][2]) == '[END ' + _log.toUpperCase() + ' SUCCESS]') {
+                    $('#div_alert').showAlert({message: 'L\'opération est réussie', level: 'success'});
+                    _autoUpdate = 0;
+                }
+                if ($.trim(data.result[i][2]) == '[END ' + _log.toUpperCase() + ' ERROR]') {
+                    $('#div_alert').showAlert({message: 'L\'opération a échoué', level: 'error'});
+                    _autoUpdate = 0;
+                }
             }
-            if (_autoUpdate > 0 && log == $('#pre_updateInfo').text()) {
-                _autoUpdate++;
-            }
-            if (_autoUpdate > 20) {
-                _autoUpdate = 0;
-            }
-            $('#pre_updateInfo').text(log);
-            if (init(_autoUpdate, 0) > 0) {
+            $('#pre_' + _log + 'Info').text(log);
+            if (init(_autoUpdate, 0) == 1) {
                 setTimeout(function() {
-                    getUpdateLog(_autoUpdate)
+                    getJeedomLog(_autoUpdate, _log)
                 }, 1000);
             } else {
-                $(".bt_updateJeedom .fa-refresh").hide();
+                $('#bt_' + _log + 'Jeedom .fa-refresh').hide();
+                updateListBackup();
             }
+        }
+    });
+}
+
+function updateListBackup() {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/jeedom.ajax.php',
+        data: {
+            action: 'listBackup',
+        },
+        dataType: 'json',
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            var options = '';
+            for (var i in data.result) {
+                options += '<option value="' + i + '">' + data.result[i] + '</option>';
+            }
+            $('#sel_restoreBackup').html(options);
         }
     });
 }
@@ -225,8 +339,8 @@ function printUsers() {
                 ligne += '</td>';
                 ligne += '<td>';
                 if (ldapEnable != '1') {
-                    ligne += '<a class="btn btn-danger pull-right sup_user" id="' + data.result[i].id + '"><i class="fa fa-trash-o" style="position:relative;left:-5px;top:1px"></i>Supprimer</a>';
-                    ligne += '<a class="btn btn-warning pull-right change_mdp_user" id="' + data.result[i].id + '"><i class="fa fa-pencil" style="position:relative;left:-5px;top:1px"></i>Changer le mot de passe</a>';
+                    ligne += '<a class="btn btn-xs btn-danger pull-right sup_user" id="' + data.result[i].id + '"><i class="fa fa-trash-o"></i>Supprimer</a>';
+                    ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user" id="' + data.result[i].id + '"><i class="fa fa-pencil"></i>Changer le mot de passe</a>';
                 }
                 ligne += '</td>';
                 ligne += '<td>';
@@ -402,7 +516,6 @@ function flushMemcache() {
 }
 
 function saveConfiguration(_el) {
-    saveConvertColor();
     try {
         var configuration = _el.getValues('.configKey');
         configuration = configuration[0];
@@ -440,7 +553,7 @@ function loadConfiguration(_el) {
         url: "core/ajax/config.ajax.php", // url du fichier php
         data: {
             action: "getKey",
-            module: 'core',
+            plugin: 'core',
             key: json_encode(configuration)
         },
         dataType: 'json',

@@ -211,7 +211,7 @@ function getTemplate(_folder, _version, _filename, _replace) {
     if (_folder == 'core') {
         var path = _folder + '/template/' + _version + '/' + _filename;
     } else {
-        var path = 'modules/' + _folder + '/desktop/template/' + _version + '/' + _filename;
+        var path = 'plugins/' + _folder + '/desktop/template/' + _version + '/' + _filename;
     }
     var template = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -311,8 +311,8 @@ function refreshScenarioValue(_scenario_id) {
 }
 
 function refreshCmdValue(_cmd_id) {
-    if ($('.cmd[cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('version') != undefined) {
-        var version = $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('version');
+    if ($('.cmd[cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version') != undefined) {
+        var version = $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/cmd.ajax.php", // url du fichier php
@@ -332,17 +332,8 @@ function refreshCmdValue(_cmd_id) {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-                    if (options.dataType == 'script' || originalOptions.dataType == 'script') {
-                        options.cache = true;
-                    }
-                });
                 $('.cmd[cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
-                $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-                    if (options.dataType == 'script' || originalOptions.dataType == 'script') {
-                        options.cache = false;
-                    }
-                });
+
                 activateTooltips();
                 if ($.mobile) {
                     $('.cmd[cmd_id=' + _cmd_id + ']').trigger("create");
@@ -483,6 +474,8 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 var legend = {};
             }
 
+            var maxDatetime = new Date().getTime();
+
             if (!isset(CORE_chart[_el])) {
                 CORE_chart[_el] = {};
                 CORE_chart[_el].cmd = new Array();
@@ -589,6 +582,7 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                     xAxis: {
                         type: 'datetime',
                         ordinal: false,
+                        max: maxDatetime,
                         plotBands: generatePlotBand(data.result.data[0][0], data.result.data[data.result.data.length - 1][0])
                     },
                     scrollbar: {

@@ -39,7 +39,7 @@ if (init('api') != '' && init('type') != '') {
                 throw new Exception('Aucune methode correspondante : ' . $type . '::event()');
             }
         } else {
-            throw new Exception('Aucune module correspondant : ' . $type);
+            throw new Exception('Aucune plugin correspondant : ' . $type);
         }
     } catch (Exception $e) {
         echo $e->getMessage();
@@ -68,8 +68,8 @@ if (init('api') != '' && init('type') != '') {
             throw new Exception('Clef API invalide', -32001);
         }
 
-        if ($params['module'] != '') {
-            include_file('core', $params['module'], 'api', $params['module']);
+        if ($params['plugin'] != '') {
+            include_file('core', $params['plugin'], 'api', $params['plugin']);
         } else {
             /*             * ***********************Ping********************************* */
             if ($jsonrpc->getMethod() == 'ping') {

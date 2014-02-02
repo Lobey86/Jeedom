@@ -1,6 +1,4 @@
 <span class="cmd #history# tooltips" cmd_id="#id#" type="info" subtype="numeric" title="#collectDate#" style="display: inline-block;">
-    <script type="text/javascript" src="3rdparty/justGage/justgage.1.0.1.min.js" ></script>
-    <script type="text/javascript" src="3rdparty/justGage/raphael.2.1.0.min.js" ></script>
 
     <span style="width:130px;height: 130px;display: inline-block;vertical-align: top;">
         <div id="cmd#id#"></div>
@@ -15,21 +13,23 @@
 
     <script>
         $(function() {
-            if (is_numeric('#state#')) {
-                new JustGage({
-                    id: "cmd#id#",
-                    value: '#state#',
-                    min: '#minValue#',
-                    max: '#maxValue#',
-                    title: "#name#",
-                    label: "#unite#",
-                    decimals: 1,
-                    humanFriendly: true,
-                    startAnimationTime: 0
-                });
-            } else {
-                $('#cmd#id#').append('<span class="label label-danger">#state#</span>');
-            }
+            $.include(['3rdparty/justGage/justgage.1.0.1.min.js', '3rdparty/justGage/raphael.2.1.0.min.js'], function() {
+                if (is_numeric('#state#')) {
+                    new JustGage({
+                        id: "cmd#id#",
+                        value: '#state#',
+                        min: '#minValue#',
+                        max: '#maxValue#',
+                        title: "#name#",
+                        label: "#unite#",
+                        decimals: 1,
+                        humanFriendly: true,
+                        startAnimationTime: 0
+                    });
+                } else {
+                    $('#cmd#id#').append('<span class="label label-danger">#state#</span>');
+                }
+            });
         });
     </script>
 

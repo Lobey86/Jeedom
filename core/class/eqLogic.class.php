@@ -142,9 +142,9 @@ class eqLogic {
         return $return;
     }
 
-    public static function byType($_type) {
+    public static function byType($_eqType_name) {
         $values = array(
-            'eqType_name' => $_type
+            'eqType_name' => $_eqType_name
         );
         $sql = 'SELECT id
                 FROM eqLogic
@@ -158,10 +158,10 @@ class eqLogic {
         return $return;
     }
 
-    public static function listByTypeAndCmdType($_type, $_typeCmd, $subTypeCmd = '') {
+    public static function listByTypeAndCmdType($_eqType_name, $_typeCmd, $subTypeCmd = '') {
         if ($subTypeCmd == '') {
             $values = array(
-                'eqType_name' => $_type,
+                'eqType_name' => $_eqType_name,
                 'typeCmd' => $_typeCmd
             );
             $sql = 'SELECT DISTINCT(el.id),el.name
@@ -173,7 +173,7 @@ class eqLogic {
             return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         } else {
             $values = array(
-                'eqType_name' => $_type,
+                'eqType_name' => $_eqType_name,
                 'typeCmd' => $_typeCmd,
                 'subTypeCmd' => $subTypeCmd
             );
@@ -213,7 +213,7 @@ class eqLogic {
     }
 
     public static function allType() {
-        $sql = 'SELECT distinct(eqType_name) as type
+        $sql = 'SELECT distinct(eqType_name) as eqType_name
                 FROM eqLogic';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
     }
@@ -231,7 +231,7 @@ class eqLogic {
                 $logicalId = 'noMessage' . $eqLogic->getId();
                 if ($sendReport) {
                     $noReponseTimeLimit = $eqLogic->getTimeout();
-                    if (count(message::byModuleLogicalId('core', $logicalId)) == 0) {
+                    if (count(message::byPluginLogicalId('core', $logicalId)) == 0) {
                         if ($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')) < date('Y-m-d H:i:s', strtotime('-' . $noReponseTimeLimit . ' minutes' . date('Y-m-d H:i:s')))) {
                             $message = 'Attention <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getHumanName();
                             $message .= '</a> n\'a pas envoyé de message depuis plus de ' . $noReponseTimeLimit . ' min (vérifier les piles)';
@@ -244,7 +244,7 @@ class eqLogic {
                         }
                     } else {
                         if ($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')) > date('Y-m-d H:i:s', strtotime('-' . $noReponseTimeLimit . ' minutes' . date('Y-m-d H:i:s')))) {
-                            foreach (message::byModuleLogicalId('core', $logicalId) as $message) {
+                            foreach (message::byPluginLogicalId('core', $logicalId) as $message) {
                                 $message->remove();
                             }
                         }
@@ -291,10 +291,6 @@ class eqLogic {
     }
 
     public function getShowOnChild() {
-        return false;
-    }
-
-    public function dontRemoveCmd() {
         return false;
     }
 

@@ -33,10 +33,6 @@ if (config::byKey('api') != init('api')) {
     die();
 }
 
-if (config::byKey('enableCron') == 0) {
-    die('Tous les crons sont actuellement désactivés');
-}
-
 if (init('cron_id') != '') {
     $datetime = date('Y-m-d H:i:s');
     $cron = cron::byId(init('cron_id'));
@@ -112,6 +108,11 @@ if (init('cron_id') != '') {
     log::add('cron', 'info', 'Fin de ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
     die();
 } else {
+    if (config::byKey('enableCron') == 0) {
+        die('Tous les crons sont actuellement désactivés');
+    }
+
+
     $retry = 0;
     while (true) {
         $retry++;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Jeu 30 Janvier 2014 à 11:39
+-- Généré le: Ven 31 Janvier 2014 à 16:29
 -- Version du serveur: 5.5.33a-MariaDB-1~saucy-log
 -- Version de PHP: 5.5.3-1ubuntu2.1
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `chat` (
   `user_id` int(11) DEFAULT NULL,
   `datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MEMORY  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2793 ;
+) ENGINE=MEMORY  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3124 ;
 
 -- --------------------------------------------------------
 
@@ -106,10 +106,10 @@ CREATE TABLE IF NOT EXISTS `cmd` (
 --
 
 CREATE TABLE IF NOT EXISTS `config` (
-  `module` varchar(255) NOT NULL DEFAULT 'core',
+  `plugin` varchar(127) NOT NULL DEFAULT 'core',
   `key` varchar(255) NOT NULL,
   `value` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`key`,`module`)
+  PRIMARY KEY (`key`,`plugin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `cron` (
   PRIMARY KEY (`id`),
   KEY `type` (`class`),
   KEY `logicalId_Type` (`class`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 -- --------------------------------------------------------
 
@@ -292,11 +292,11 @@ CREATE TABLE IF NOT EXISTS `message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
   `logicalId` varchar(127) DEFAULT NULL,
-  `module` varchar(127) NOT NULL,
+  `plugin` varchar(127) NOT NULL,
   `message` text,
   `action` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=527 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=994 ;
 
 -- --------------------------------------------------------
 
@@ -353,7 +353,7 @@ CREATE TABLE IF NOT EXISTS `scenarioElement` (
   `options` text,
   `log` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=140 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=141 ;
 
 -- --------------------------------------------------------
 
@@ -372,7 +372,7 @@ CREATE TABLE IF NOT EXISTS `scenarioExpression` (
   `log` text,
   PRIMARY KEY (`id`),
   KEY `fk_scenarioExpression_scenarioSubElement1_idx` (`scenarioSubElement_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=306 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=309 ;
 
 -- --------------------------------------------------------
 
@@ -391,21 +391,7 @@ CREATE TABLE IF NOT EXISTS `scenarioSubElement` (
   `log` text,
   PRIMARY KEY (`id`),
   KEY `fk_scenarioSubElement_scenarioElement1_idx` (`scenarioElement_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=292 ;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `speech`
---
-
-CREATE TABLE IF NOT EXISTS `speech` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `text` varchar(511) NOT NULL,
-  `enable` int(11) DEFAULT '1',
-  `option` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='<double-click to overwrite multiple objects>' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=295 ;
 
 -- --------------------------------------------------------
 

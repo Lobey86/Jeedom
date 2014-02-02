@@ -41,7 +41,7 @@ if (!isset($_GET['v'])) {
                 if (!isConnect()) {
                     throw new Exception('401 - Unauthorized access to page');
                 }
-                include_file('desktop', init('modal'), 'modal', init('module'));
+                include_file('desktop', init('modal'), 'modal', init('plugin'));
             } catch (Exception $e) {
                 ob_end_clean(); //Clean pile after expetion (to prevent no-traduction)
                 echo '<div class="alert alert-danger div_alert">';

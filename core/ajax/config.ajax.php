@@ -41,7 +41,7 @@ try {
             $keys = json_decode($keys, true);
             $return = array();
             foreach ($keys as $key => $value) {
-                $return[$key] = config::byKey($key, init('module'));
+                $return[$key] = config::byKey($key, init('plugin'));
             }
             ajax::success($return);
         } else {
@@ -57,29 +57,13 @@ try {
         ajax::success(config::byKey('nodeJsKey'));
     }
 
-    if (init('action') == 'clearLog') {
-        if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
-        }
-        log::clear(init('logfile'));
-        ajax::success();
-    }
-
-    if (init('action') == 'removeLog') {
-        if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
-        }
-        log::remove(init('logfile'));
-        ajax::success();
-    }
-
     if (init('action') == 'addKey') {
         if (!isConnect('admin')) {
             throw new Exception('401 Unauthorized');
         }
         $values = json_decode(init('value'), true);
         foreach ($values as $key => $value) {
-            config::save($key, $value, init('module', 'core'));
+            config::save($key, $value, init('plugin', 'core'));
         }
         ajax::success();
     }

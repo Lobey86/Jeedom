@@ -50,9 +50,9 @@ $PAGE_DESCRIPTOR_DESKTOP = array(
         'pageName' => 'message',
         'title' => 'Messages',
     ),
-    'module' => array(
-        'pageName' => 'module',
-        'title' => 'Modules',
+    'plugin' => array(
+        'pageName' => 'plugin',
+        'title' => 'Plugins',
     ),
     'object' => array(
         'pageName' => 'object',

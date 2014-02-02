@@ -24,7 +24,7 @@ if (php_sapi_name() != 'cli' || isset($_SERVER['REQUEST_METHOD']) || !isset($_SE
     echo "The page that you have requested could not be found.";
     exit();
 }
-
+echo "[START UPDATE]\n";
 if (isset($argv)) {
     foreach ($argv as $arg) {
         $argList = explode('=', $arg);
@@ -34,79 +34,136 @@ if (isset($argv)) {
     }
 }
 
+$update = false;
+$backup_ok = false;
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
     echo "***************Installation/Mise à jour de Jeedom " . getVersion('jeedom') . "***************\n";
-    $update = false;
+
     $curentVersion = config::byKey('version');
     if ($curentVersion != '') {
         $update = true;
     }
 
     if ($update) {
-        stopActivities();
-
-        if (!isset($_GET['v'])) {
-            echo "Verification des mises à jour (git pull)\n";
-            $repo = getGitRepo();
-            if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
-                echo "Reset du dépot git (mise à jour forcée)\n";
-                echo $repo->run('reset --hard HEAD');
+        try {
+            jeedom::backup();
+        } catch (Exception $e) {
+            if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                throw $e;
+            } else {
+                echo '***ERREUR*** ' . $e->getMessage();
             }
-            echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
+        }
+        $backup_ok = true;
+        if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
+            echo "/!\ Mise à jour en mode forcée /!\ \n";
+        }
+        jeedom::stop();
+        if (!isset($_GET['v'])) {
+            try {
+                echo "Verification des mises à jour (git pull)\n";
+                $repo = getGitRepo();
+                if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
+                    echo "Reset du dépot git (mise à jour forcée)\n";
+                    echo $repo->run('reset --hard HEAD');
+                }
+                echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
+            } catch (Exception $e) {
+                if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                    throw $e;
+                } else {
+                    echo '***ERREUR*** ' . $e->getMessage();
+                }
+            }
         }
         @include dirname(__FILE__) . '/../core/config/version.config.php';
 
         if (version_compare(getVersion('jeedom'), $curentVersion, '=') && !isset($_GET['v'])) {
-            startActivities();
+            jeedom::start();
             echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
+            echo "[END UPDATE SUCCESS]\n";
             exit();
         }
         if (isset($_GET['v'])) {
             echo "La mise à jour " . $_GET['v'] . " va être reapliquée. Voulez vous continuer  ? [o/N] ";
             if (trim(fgets(STDIN)) !== 'o') {
                 echo "Mise à jour forcee de Jeedom est annulée\n";
-                startActivities();
+                jeedom::start();
+                echo "[END UPDATE SUCCESS]\n";
                 exit(0);
             }
             $updateSql = dirname(__FILE__) . '/update/' . $_GET['v'] . '.sql';
             if (file_exists($updateSql)) {
-                echo "Mise a jour BDD en version : " . $_GET['v'] . "\n";
-                $sql = file_get_contents($updateSql);
-                DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
-                echo "OK\n";
+                try {
+                    echo "Mise a jour BDD en version : " . $_GET['v'] . "\n";
+                    $sql = file_get_contents($updateSql);
+                    DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
+                    echo "OK\n";
+                } catch (Exception $e) {
+                    if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                        throw $e;
+                    } else {
+                        echo '***ERREUR*** ' . $e->getMessage();
+                    }
+                }
             }
             $updateScript = dirname(__FILE__) . '/update/' . $_GET['v'] . '.php';
             if (file_exists($updateScript)) {
-                echo "Mise à jour systeme en version : " . $_GET['v'] . "\n";
-                require_once $updateScript;
-                echo "OK\n";
+                try {
+                    echo "Mise à jour systeme en version : " . $_GET['v'] . "\n";
+                    require_once $updateScript;
+                    echo "OK\n";
+                } catch (Exception $e) {
+                    if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                        throw $e;
+                    } else {
+                        echo '***ERREUR*** ' . $e->getMessage();
+                    }
+                }
             }
         } else {
             while (version_compare(getVersion('jeedom'), $curentVersion, '>')) {
                 $nextVersion = incrementVersion($curentVersion);
                 $updateSql = dirname(__FILE__) . '/update/' . $nextVersion . '.sql';
                 if (file_exists($updateSql)) {
-                    echo "Mise à jour BDD en version : " . $nextVersion . "\n";
-                    $sql = file_get_contents($updateSql);
-                    DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
-                    echo "OK\n";
+                    try {
+                        echo "Mise à jour BDD en version : " . $nextVersion . "\n";
+                        $sql = file_get_contents($updateSql);
+                        DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
+                        echo "OK\n";
+                    } catch (Exception $e) {
+                        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                            throw $e;
+                        } else {
+                            echo '***ERREUR*** ' . $e->getMessage();
+                        }
+                    }
                 }
                 $updateScript = dirname(__FILE__) . '/update/' . $nextVersion . '.php';
                 if (file_exists($updateScript)) {
-                    echo "Mise à jour systeme en version : " . $nextVersion . "\n";
-                    require_once $updateScript;
-                    echo "OK\n";
+                    try {
+                        echo "Mise à jour systeme en version : " . $nextVersion . "\n";
+                        require_once $updateScript;
+                        echo "OK\n";
+                    } catch (Exception $e) {
+                        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                            throw $e;
+                        } else {
+                            echo '***ERREUR*** ' . $e->getMessage();
+                        }
+                    }
                 }
                 $curentVersion = $nextVersion;
             }
         }
-        startActivities();
+        jeedom::start();
         echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
     } else {
         echo "Jeedom va être installé voulez vous continuer ? [o/N] ";
         if (trim(fgets(STDIN)) !== 'o') {
             echo "Installation de Jeedom est annulée\n";
+            echo "[END UPDATE SUCCESS]\n";
             exit(0);
         }
         echo "\nInstallation de Jeedom " . getVersion('jeedom') . "\n";
@@ -134,7 +191,7 @@ try {
         $cron->setSchedule('* * * * * *');
         $cron->save();
         $cron = new cron();
-        $cron->setFunction('cronModule');
+        $cron->setFunction('cronPlugin');
         $cron->setSchedule('* * * * * *');
         $cron->save();
         $cron = new cron();
@@ -166,21 +223,29 @@ try {
 
     config::save('version', getVersion('jeedom'));
 } catch (Exception $e) {
-    startActivities();
+    if ($update) {
+        if ($backup_ok) {
+            jeedom::restore();
+        }
+        jeedom::start();
+    }
     echo 'Erreur durant l\'installation : ' . $e->getMessage();
     echo 'Détails : ' . print_r($e->getTrace());
+    echo "[END UPDATE ERROR]\n";
+    throw $e;
 }
+echo "[END UPDATE SUCCESS]\n";
 
 function incrementVersion($_version) {
     $version = explode('.', $_version);
     if ($version[2] < 99) {
-        $version[2]++;
+        $version[2] ++;
     } else {
         if ($version[1] < 99) {
-            $version[1]++;
+            $version[1] ++;
             $version[2] = 0;
         } else {
-            $version[0]++;
+            $version[0] ++;
             $version[1] = 0;
             $version[2] = 0;
         }
@@ -190,45 +255,4 @@ function incrementVersion($_version) {
         $returnVersion .= $version[$j] . '.';
     }
     return trim($returnVersion, '.');
-}
-
-function stopActivities() {
-    /*     * **********Arret des crons********************* */
-    echo "Désactivation de toutes les tâches";
-    config::save('enableCron', 0);
-    foreach (cron::all() as $cron) {
-        if ($cron->running()) {
-            $cron->halt();
-            echo '.';
-        }
-    }
-    echo " OK\n";
-    if (cron::jeeCronRun()) {
-        echo "Arret du cron master ";
-        exec('kill ' . cron::getPidFile());
-        while (cron::jeeCronRun()) {
-            echo '.';
-            sleep(2);
-        }
-        echo " OK\n";
-    }
-    /*     * *********Arret des scénarios**************** */
-    echo "Desactivation de tout les scenarios";
-    config::save('enableScenario', 0);
-    foreach (scenario::all() as $scenario) {
-        $scenario->stop();
-        echo '.';
-    }
-    echo " OK\n";
-}
-
-function startActivities() {
-    /*     * *********Réactivation des scénarios**************** */
-    echo "Réactivation des scenarios : ";
-    config::save('enableScenario', 1);
-    echo "OK\n";
-    /*     * *********Réactivation des tâches**************** */
-    echo "Réactivation des tâches : ";
-    config::save('enableCron', 1);
-    echo "OK\n";
 }

@@ -138,9 +138,9 @@ class cmd {
         return $return;
     }
 
-    public static function byTypeEqLogicNameCmdName($_type, $_eqLogic_name, $_cmd_name) {
+    public static function byTypeEqLogicNameCmdName($_eqType_name, $_eqLogic_name, $_cmd_name) {
         $values = array(
-            'type' => $_type,
+            'eqType_name' => $_eqType_name,
             'eqLogic_name' => $_eqLogic_name,
             'cmd_name' => $_cmd_name,
         );
@@ -149,7 +149,7 @@ class cmd {
                     INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                 WHERE c.name=:cmd_name
                     AND el.name=:eqLogic_name
-                    AND el.eqType_name=:type';
+                    AND el.eqType_name=:eqType_name';
         $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         return self::byId($id['id']);
     }
@@ -368,10 +368,15 @@ class cmd {
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
     }
 
-    public static function allSubType() {
-        $sql = 'SELECT distinct(subType) as subtype
-                FROM cmd';
-        return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
+    public static function allSubType($_type = '') {
+        $values = array();
+        $sql = 'SELECT distinct(subType) as subtype';
+        if ($_type != '') {
+            $values['type'] = $_type;
+            $sql .= ' WHERE type=:type';
+        }
+        $sql .= ' FROM cmd';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
     }
 
     public static function allUnite() {
@@ -402,8 +407,8 @@ class cmd {
             }
             $return[$informations[1]][$informations[2]][] = array('name' => $informations[3]);
         }
-        foreach (module::listModule(true) as $module) {
-            $path = dirname(__FILE__) . '/../../modules/' . $module->getId() . '/core/template/' . $_version;
+        foreach (plugin::listPlugin(true) as $plugin) {
+            $path = dirname(__FILE__) . '/../../plugins/' . $plugin->getId() . '/core/template/' . $_version;
             $files = ls($path, 'cmd.*', false, array('files', 'quiet'));
             foreach ($files as $file) {
                 $informations = explode('.', $file);
@@ -423,6 +428,10 @@ class cmd {
 
     public function getLastValue() {
         return $this->getConfiguration('lastCmdValue', null);
+    }
+
+    public function dontRemoveCmd() {
+        return false;
     }
 
     public function getTableName() {
@@ -585,9 +594,9 @@ class cmd {
             $template = getTemplate('core', $_version, $template_name);
         } catch (Exception $e) {
             if ($template == '') {
-                foreach (module::listModule(true) as $module) {
+                foreach (plugin::listPlugin(true) as $plugin) {
                     try {
-                        $template = getTemplate('core', $_version, $template_name, $module->getId());
+                        $template = getTemplate('core', $_version, $template_name, $plugin->getId());
                     } catch (Exception $e) {
                         
                     }

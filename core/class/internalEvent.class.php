@@ -79,13 +79,13 @@ class internalEvent {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function getNewInternalEvent($_module) {
-        if ($_module == '') {
-            throw new Exception('Le nom du module ne peut etre vide');
+    public static function getNewInternalEvent($_plugin) {
+        if ($_plugin == '') {
+            throw new Exception('Le nom du plugin ne peut etre vide');
         }
         $now = date('Y-m-d H:i:s', strtotime('-1 second', strtotime(date('Y-m-d H:i:s'))));
         self::cleanEvent();
-        $key = $_module . '::lastRetrievalInternalEvent';
+        $key = $_plugin . '::lastRetrievalInternalEvent';
         $cache = cache::byKey($key);
         $lastDatetime = $cache->getValue($now);
         cache::set($key, $now, 0);

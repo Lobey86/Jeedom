@@ -123,11 +123,11 @@ try {
     if (init('action') == 'get') {
         $typeEqLogic = init('type');
         if ($typeEqLogic == '' || !class_exists($typeEqLogic)) {
-            throw new Exception('Type incorrect');
+            throw new Exception('Type incorrect (classe équipement inexistante) : ' . $typeEqLogic);
         }
         $eqLogic = $typeEqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new Exception('EqLogic inconnu verifié l\'id');
+            throw new Exception('EqLogic inconnu verifié l\'id : ' . init('id'));
         }
         $return = utils::o2a($eqLogic);
         $return['cmd'] = cmd::cmdToHumanReadable(utils::o2a($eqLogic->getCmd()));
@@ -147,7 +147,7 @@ try {
             $typeEqLogic = init('type');
             $typeCmd = $typeEqLogic . 'Cmd';
             if ($typeEqLogic == '' || !class_exists($typeEqLogic) || !class_exists($typeCmd)) {
-                throw new Exception('Type incorrect');
+                throw new Exception('Type incorrect (classe commande inexistante)' . $typeCmd);
             }
             $eqLogic = null;
             if (isset($eqLogicSave['id'])) {
@@ -156,7 +156,7 @@ try {
             if (!is_object($eqLogic)) {
                 $eqLogic = new $typeEqLogic();
                 $eqLogic->setEqType_name(init('type'));
-                $imgPath = dirname(__FILE__) . '/../../modules/' . $typeEqLogic . '/core/img/default.png';
+                $imgPath = dirname(__FILE__) . '/../../plugins/' . $typeEqLogic . '/core/img/default.png';
                 if (file_exists($imgPath)) {
                     eqLogic::saveImage($eqLogic->getId(), file_get_contents($imgPath));
                 }
@@ -184,12 +184,10 @@ try {
                     $enableList[$cmd->getId()] = true;
                 }
             }
-            //suppression des entrées non modifiées.
-            if (!$eqLogic->dontRemoveCmd()) {
-                foreach ($dbList as $dbObject) {
-                    if (!isset($enableList[$dbObject->getId()])) {
-                        $dbObject->remove();
-                    }
+            //suppression des entrées non innexistante.
+            foreach ($dbList as $dbObject) {
+                if (!isset($enableList[$dbObject->getId()]) && !$dbObject->dontRemoveCmd()) {
+                    $dbObject->remove();
                 }
             }
         }

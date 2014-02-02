@@ -122,6 +122,7 @@ eqLogic.print = function(_type, _eqLogic_id) {
                 }
             }
             activateTooltips();
+            initExpertMode();
             $.hideLoading();
         }
     });

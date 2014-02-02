@@ -34,7 +34,7 @@ class scenario {
     private $scenarioElement;
     private $trigger;
     private $log;
-    private $timeout = 60;
+    private $timeout = 0;
 
     /*     * ***********************Methode static*************************** */
 
@@ -333,7 +333,7 @@ class scenario {
                     $prev = $c->getPreviousRunDate();
                     if ($lastCheck < $prev) {
                         if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
-                            log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                            log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s'). '. Retard de : ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
                         }
                         return true;
                     }
@@ -352,7 +352,7 @@ class scenario {
                 $prev = $c->getPreviousRunDate();
                 if ($lastCheck < $prev) {
                     if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
-                        log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                        log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s'). '. Retard de : ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
                     }
                     return true;
                 }

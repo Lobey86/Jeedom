@@ -25,7 +25,7 @@ try {
     }
 
     if (init('action') == 'clearMessage') {
-        message::removeAll(init('module'));
+        message::removeAll(init('plugin'));
         ajax::success();
     }
     
