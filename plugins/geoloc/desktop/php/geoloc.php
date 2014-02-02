@@ -68,7 +68,7 @@ sendVarToJS('eqType', 'geoloc');
         </div>
 
         <legend>Commandes</legend>
-        <a class="btn btn-success btn-sm cmdAction" action="add"><i class="fa fa-plus-circle"></i> Commandes</a><br/><br/>
+        <a class="btn btn-success btn-sm cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> Commandes</a><br/><br/>
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>

@@ -78,7 +78,7 @@ sendVarToJS('userScriptDir', getRootPath() . '/' . config::byKey('userScriptDir'
         </form>
 
         <legend>Script</legend>
-        <a class="btn btn-success btn-sm cmdAction" action="add"><i class="fa fa-plus-circle"></i> Ajouter une commande script</a><br/><br/>
+        <a class="btn btn-success btn-sm cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> Ajouter une commande script</a><br/><br/>
         <div class="alert alert-info">
             Sous type : <br/>
             - Slider : mettre #slider# pour recupérer la valeur<br/>

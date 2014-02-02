@@ -113,7 +113,7 @@ sendVarToJS('eqType', 'mail');
         </div>
 
         <legend>Mail</legend>
-        <a class="btn btn-success btn-sm cmdAction" action="add"><i class="fa fa-plus-circle"></i> Ajouter une commande mail</a><br/><br/>
+        <a class="btn btn-success btn-sm cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> Ajouter une commande mail</a><br/><br/>
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>

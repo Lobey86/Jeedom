@@ -45,7 +45,7 @@ sendVarToJS('eqType', 'gCalendar');
 
         <legend>GCalendar</legend>
         <div class="alert alert-info">L'URL de l'agenda google se trouve dans Paramètres>Agenda>[Agenda voulu]>Adresse privée XML</div>
-        <a class="btn btn-success btn-sm cmdAction" action="add"><i class="fa fa-plus-circle"></i> Ajouter une commande google agenda</a><br/><br/>
+        <a class="btn btn-success btn-sm cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> Ajouter une commande google agenda</a><br/><br/>
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>
