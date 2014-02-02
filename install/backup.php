@@ -68,11 +68,11 @@ try {
     echo "OK\n";
 
     echo "***************Fin du backup de Jeedom***************\n";
+    echo "[END BACKUP SUCCESS]\n";
 } catch (Exception $e) {
     echo 'Erreur durant le backup : ' . $e->getMessage();
     echo 'Détails : ' . print_r($e->getTrace());
+    echo "[END BACKUP ERROR]\n";
     throw $e;
 }
-
-echo "[END BACKUP]\n";
 ?>

@@ -160,9 +160,9 @@ if ($logfile == '') {
         $("#bt_clearLog").on('click', function(event) {
             $.ajax({// fonction permettant de faire de l'ajax
                 type: "POST", // methode de transmission des données au fichier php
-                url: "core/ajax/config.ajax.php", // url du fichier php
+                url: "core/ajax/log.ajax.php", // url du fichier php
                 data: {
-                    action: "clearLog",
+                    action: "clear",
                     logfile: $('#sel_log').value()
                 },
                 dataType: 'json',
@@ -182,9 +182,9 @@ if ($logfile == '') {
         $("#bt_removeLog").on('click', function(event) {
             $.ajax({// fonction permettant de faire de l'ajax
                 type: "POST", // methode de transmission des données au fichier php
-                url: "core/ajax/config.ajax.php", // url du fichier php
+                url: "core/ajax/log.ajax.php", // url du fichier php
                 data: {
-                    action: "removeLog",
+                    action: "remove",
                     logfile: $('#sel_log').value()
                 },
                 dataType: 'json',

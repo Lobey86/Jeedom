@@ -57,22 +57,6 @@ try {
         ajax::success(config::byKey('nodeJsKey'));
     }
 
-    if (init('action') == 'clearLog') {
-        if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
-        }
-        log::clear(init('logfile'));
-        ajax::success();
-    }
-
-    if (init('action') == 'removeLog') {
-        if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
-        }
-        log::remove(init('logfile'));
-        ajax::success();
-    }
-
     if (init('action') == 'addKey') {
         if (!isConnect('admin')) {
             throw new Exception('401 Unauthorized');
