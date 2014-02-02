@@ -6,6 +6,7 @@ sudo mkdir -p /usr/share/nginx/www
 cd /usr/share/nginx/www
 sudo chown www-data:www-data -R /usr/share/nginx/www
 sudo -u www-data -H git clone --depth=1 --branch=stable https://github.com/zoic21/jeedom.git
+cd jeedom
 sudo cp jeedom /etc/init.d/
 sudo chmod +x /etc/init.d/jeedom
 sudo update-rc.d jeedom defaults
