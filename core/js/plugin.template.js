@@ -26,11 +26,11 @@ $(function() {
     });
 
     if (getUrlVars('saveSuccessFull') == 1) {
-        $('#div_alert').showAlert({message: 'Sauvegarde effectué avec succès', level: 'success'});
+        $('#div_alert').showAlert({message: 'Sauvegarde effectuée avec succès', level: 'success'});
     }
 
     if (getUrlVars('removeSuccessFull') == 1) {
-        $('#div_alert').showAlert({message: 'Suppression effectué avec succès', level: 'success'});
+        $('#div_alert').showAlert({message: 'Suppression effectuée avec succès', level: 'success'});
     }
 
     /**************************EqLogic*********************************************/
