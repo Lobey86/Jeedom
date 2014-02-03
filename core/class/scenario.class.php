@@ -146,7 +146,6 @@ class scenario {
     public function launch($_force = false) {
         if (config::byKey('enableScenario') == 1) {
             $cmd = 'nohup php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
-            $cmd.= ' api=' . config::byKey('api');
             $cmd.= ' scenario_id=' . $this->getId();
             $cmd.= ' force=' . $_force;
             $cmd.= ' >> ' . log::getPathToLog('scenario') . ' 2>&1 &';

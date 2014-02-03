@@ -17,7 +17,7 @@
 
 $(function() {
     $(".li_eqLogic").on('click', function(event) {
-        printWeather($(this).attr('eqLogic_id'));
+        printWeather($(this).attr('data-eqLogic_id'));
         return false;
     });
 });

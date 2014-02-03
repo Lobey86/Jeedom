@@ -119,7 +119,6 @@ class cron {
 
     public function run() {
         $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
-        $cmd.= ' api=' . init('api');
         $cmd.= ' cron_id=' . $this->getId();
         if (exec('ps ax | grep "' . $cmd . '" | wc -l') < 3) {
             shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
