@@ -16,26 +16,27 @@ sendVarToJS('select_id', init('id', '-1'));
                 <?php
                 $allObject = object::all();
                 foreach ($allObject as $object) {
-                    echo '<li class="cursor li_object" data-object_id="' . $object->getId() . '" data-name="' . $object->getName() . '"><a>' . $object->getName() . '</a></li>';
+                    echo '<li class="cursor li_object" data-object_id="' . $object->getId() . '"><a>' . $object->getName() . '</a></li>';
                 }
                 ?>
             </ul>
         </div>
     </div>
-    <div class="col-lg-10" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;" id="div_conf">
+    <div class="col-lg-10 object" style="display: none;" id="div_conf">
         <form class="form-horizontal">
             <fieldset>
                 <legend>Général</legend>
                 <div class="form-group">
                     <label class="col-lg-1 control-label" for="in_name">Nom de l'objet</label>
                     <div class="col-lg-3">
-                        <input class="form-control" type="text"  id="in_name" size="16" placeholder="Nom de l'objet"/>
+                        <input class="form-control objectAttr" type="text" data-l1key="id" style="display : none;"/>
+                        <input class="form-control objectAttr" type="text" data-l1key="name" placeholder="Nom de l'objet"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-1 control-label" for="in_name">Père</label>
                     <div class="col-lg-3">
-                        <select class="form-control" id="sel_father">
+                        <select class="form-control objectAttr" data-l1key="father_id">
                             <option value="">Aucun</option>
                             <?php
                             foreach ($allObject as $object) {
@@ -48,7 +49,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <div class="form-group">
                     <label class="col-lg-1 control-label" >Visible</label>
                     <div class="col-lg-1">
-                        <input class="form-control" type="checkbox"  id="in_visible" size="16" checked/>
+                        <input class="form-control objectAttr" type="checkbox"  data-l1key="is_visible" checked/>
                     </div>
                 </div>
             </fieldset>
@@ -70,9 +71,6 @@ sendVarToJS('select_id', init('id', '-1'));
     </div>
 </div>
 
-
-
-
 <div class="modal fade" id="md_addObject">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -85,9 +83,9 @@ sendVarToJS('select_id', init('id', '-1'));
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label" for="in_addJeenodeName">Nom de l'objet</label>
+                            <label class="col-lg-4 control-label">Nom de l'objet</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text"  id="in_addObjectName" size="16" placeholder="Nom de l'objet"/>
+                                <input class="form-control" type="text"  id="in_addObjectName" placeholder="Nom de l'objet"/>
                             </div>
                         </div>
                     </fieldset>
