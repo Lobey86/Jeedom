@@ -16,6 +16,15 @@
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
 
+if (php_sapi_name() != 'cli' || isset($_SERVER['REQUEST_METHOD']) || !isset($_SERVER['argc'])) {
+    header("Status: 404 Not Found");
+    header('HTTP/1.0 404 Not Found');
+    $_SERVER['REDIRECT_STATUS'] = 404;
+    echo "<h1>404 Not Found</h1>";
+    echo "The page that you have requested could not be found.";
+    exit();
+}
+
 require_once dirname(__FILE__) . "/core.inc.php";
 
 if (isset($argv)) {
@@ -25,11 +34,6 @@ if (isset($argv)) {
             $_GET[$argList[0]] = $argList[1];
         }
     }
-}
-
-if (config::byKey('api') != init('api')) {
-    log::add('scenario', 'Error', 'Problème dans la clef API, vous n\'etez pas autorisé à effectuer cette action');
-    die('Problème dans la clef API, vous n\'etez pas autorisé à effectuer cette action');
 }
 
 $scenario = scenario::byId(init('scenario_id'));
