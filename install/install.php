@@ -40,9 +40,14 @@ try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
     echo "***************Installation/Mise à jour de Jeedom " . getVersion('jeedom') . "***************\n";
 
-    $curentVersion = config::byKey('version');
-    if ($curentVersion != '') {
-        $update = true;
+
+    try {
+        $curentVersion = config::byKey('version');
+        if ($curentVersion != '') {
+            $update = true;
+        }
+    } catch (Exception $e) {
+        
     }
 
     if ($update) {
@@ -239,13 +244,13 @@ echo "[END UPDATE SUCCESS]\n";
 function incrementVersion($_version) {
     $version = explode('.', $_version);
     if ($version[2] < 99) {
-        $version[2] ++;
+        $version[2]++;
     } else {
         if ($version[1] < 99) {
-            $version[1] ++;
+            $version[1]++;
             $version[2] = 0;
         } else {
-            $version[0] ++;
+            $version[0]++;
             $version[1] = 0;
             $version[2] = 0;
         }
