@@ -32,7 +32,7 @@ if ($selectPlugin != '') {
     <tbody>
         <?php
         foreach ($listMessage as $message) {
-            echo '<tr message_id="' . $message->getId() . '">';
+            echo '<tr data-message_id="' . $message->getId() . '">';
             echo '<td><center><i class="fa fa-trash-o cursor removeMessage"></i></center></td>';
             echo '<td class="datetime">' . $message->getDate() . '</td>';
             echo '<td class="plugin">' . $message->getPlugin() . '</td>';

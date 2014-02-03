@@ -50,7 +50,7 @@ $(function() {
             url: "core/ajax/message.ajax.php", // url du fichier php
             data: {
                 action: "removeMessage",
-                id: _el.closest('tr').attr('message_id')
+                id: _el.closest('tr').attr('data-message_id')
             },
             dataType: 'json',
             error: function(request, status, error) {
@@ -62,31 +62,6 @@ $(function() {
                     return;
                 }
                 _el.closest('tr').remove();
-            }
-        });
-    });
-
-
-    $("#table_message").delegate(".bt_changeIsEnable", 'click', function() {
-        message_id = $(this).closest('tr').attr('message_id');
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/eqLogic.ajax.php", // url du fichier php
-            data: {
-                action: "setIsEnable",
-                id: $(this).attr('eqLogic_id'),
-                isEnable: $(this).attr('isEnable')
-            },
-            dataType: 'json',
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                removeMessage(message_id);
             }
         });
     });

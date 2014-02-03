@@ -65,12 +65,12 @@ sendVarToJS('configureDeviceId', init('id'));
                 echo '<div class="col-lg-3">';
                 switch ($parameter['type']) {
                     case 'input':
-                        echo '<input class="zwaveParameters form-control" l1key="' . $id . '" l2key="value"/>';
+                        echo '<input class="zwaveParameters form-control" data-l1key="' . $id . '" data-l2key="value"/>';
                         break;
                     case 'select':
-                        echo '<select class = "zwaveParameters form-control" l1key="' . $id . '" l2key="value">';
+                        echo '<select class = "zwaveParameters form-control" data-l1key="' . $id . '" data-l2key="value">';
                         foreach ($parameter['value'] as $value => $details) {
-                            echo '<option value="' . $value . '" description="' . $details['description'] . '">' . $details['name'] . '</option>';
+                            echo '<option value="' . $value . '" data-description="' . $details['description'] . '">' . $details['name'] . '</option>';
                         }
                         echo '</select>';
                         break;
@@ -87,8 +87,8 @@ sendVarToJS('configureDeviceId', init('id'));
                 if (isset($parameter['default'])) {
                     echo '<span class="tooltips label label-primary tooltips" title="Défaut">' . $parameter['default'] . '</span> ';
                 }
-                echo '<span class="tooltips label label-default zwaveParameters" l1key="' . $id . '" l2key="size" title="Taille en byte"></span> ';
-                echo '<span class="tooltips label label-info zwaveParameters" l1key="' . $id . '" l2key="datetime" title="Date"></span>';
+                echo '<span class="tooltips label label-default zwaveParameters" data-l1key="' . $id . '" data-l2key="size" title="Taille en byte"></span> ';
+                echo '<span class="tooltips label label-info zwaveParameters" data-l1key="' . $id . '" data-l2key="datetime" title="Date"></span>';
                 echo '</div>';
                 echo '<div class="col-lg-3">';
                 echo '<span class="tooltips description"></span> ';
@@ -105,7 +105,7 @@ sendVarToJS('configureDeviceId', init('id'));
     configureDeviceLoad();
 
     $('select.zwaveParameters').on('change', function() {
-        $(this).closest('.form-group').find('.description').html($(this).find('option:selected').attr('description'));
+        $(this).closest('.form-group').find('.description').html($(this).find('option:selected').attr('data-description'));
     });
 
     $('.bt_forceRefresh').on('click', function() {

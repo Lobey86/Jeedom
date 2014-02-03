@@ -42,12 +42,12 @@ $(function() {
         $.hideAlert();
         $(".li_scenario").removeClass('active');
         $(this).addClass('active');
-        printScenario($(this).attr('scenario_id'));
+        printScenario($(this).attr('data-scenario_id'));
     });
 
     $("#bt_changeAllScenarioState").on('click', function() {
         var el = $(this);
-        var value = {enableScenario: el.attr('state')};
+        var value = {enableScenario: el.attr('data-state')};
         $.ajax({
             type: 'POST',
             url: 'core/ajax/config.ajax.php',
@@ -64,12 +64,12 @@ $(function() {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                if (el.attr('state') == 1) {
+                if (el.attr('data-state') == 1) {
                     el.find('i').removeClass('fa-check').addClass('fa-times');
-                    el.removeClass('btn-success').addClass('btn-danger').attr('state', 0);
+                    el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 0);
                 } else {
                     el.find('i').removeClass('fa-times').addClass('fa-check');
-                    el.removeClass('btn-danger').addClass('btn-success').attr('state', 1);
+                    el.removeClass('btn-danger').addClass('btn-success').attr('data-state', 1);
                 }
             }
         });
@@ -97,16 +97,16 @@ $(function() {
 
     $("#bt_delScenario").on('click', function(event) {
         $.hideAlert();
-        bootbox.confirm('Etes-vous sûr de vouloir supprimer le scénario <span style="font-weight: bold ;">' + $('.scenarioAttr[l1key=name]').value() + '</span> ?', function(result) {
+        bootbox.confirm('Etes-vous sûr de vouloir supprimer le scénario <span style="font-weight: bold ;">' + $('.scenarioAttr[data-l1key=name]').value() + '</span> ?', function(result) {
             if (result) {
-                removeScenario($('.scenarioAttr[l1key=id]').value());
+                removeScenario($('.scenarioAttr[data-l1key=id]').value());
             }
         });
     });
 
     $("#bt_testScenario").on('click', function() {
         $.hideAlert();
-        execScenario($('.scenarioAttr[l1key=id]').value());
+        execScenario($('.scenarioAttr[data-l1key=id]').value());
     });
 
     $("#bt_copyScenario").on('click', function() {
@@ -115,11 +115,11 @@ $(function() {
     });
 
     $("#bt_copyScenarioSave").on('click', function(event) {
-        copyScenario($('.scenarioAttr[l1key=id]').value(), $('#in_copyScenarioName').value());
+        copyScenario($('.scenarioAttr[data-l1key=id]').value(), $('#in_copyScenarioName').value());
     });
 
     $("#bt_stopScenario").on('click', function(event) {
-        stopScenario($('.scenarioAttr[l1key=id]').value());
+        stopScenario($('.scenarioAttr[data-l1key=id]').value());
     });
 
     $('#bt_displayScenarioVariable').on('click', function() {
@@ -170,22 +170,22 @@ $(function() {
     $('body').delegate('.bt_selectCmdExpression', 'click', function(event) {
         var expression = $(this).closest('.expression');
         var type = 'info';
-        if (expression.find('.expressionAttr[l1key=type]').value() == 'action') {
+        if (expression.find('.expressionAttr[data-l1key=type]').value() == 'action') {
             type = 'action';
         }
         cmd.getSelectModal({type: type}, function(result) {
-            if (expression.find('.expressionAttr[l1key=type]').value() == 'action') {
-                expression.find('.expressionAttr[l1key=expression]').value(result.human);
-                expression.find('.expressionOptions').html(displayActionOption(expression.find('.expressionAttr[l1key=expression]').value(), ''));
+            if (expression.find('.expressionAttr[data-l1key=type]').value() == 'action') {
+                expression.find('.expressionAttr[data-l1key=expression]').value(result.human);
+                expression.find('.expressionOptions').html(displayActionOption(expression.find('.expressionAttr[data-l1key=expression]').value(), ''));
             }
-            if (expression.find('.expressionAttr[l1key=type]').value() == 'condition') {
-                expression.find('.expressionAttr[l1key=expression]').value(expression.find('.expressionAttr[l1key=expression]').value() + ' ' + result.human);
+            if (expression.find('.expressionAttr[data-l1key=type]').value() == 'condition') {
+                expression.find('.expressionAttr[data-l1key=expression]').value(expression.find('.expressionAttr[data-l1key=expression]').value() + ' ' + result.human);
             }
         });
     });
 
-    $('body').delegate('.expression .expressionAttr[l1key=expression]', 'focusout', function(event) {
-        if ($(this).closest('.expression').find('.expressionAttr[l1key=type]').value() == 'action') {
+    $('body').delegate('.expression .expressionAttr[data-l1key=expression]', 'focusout', function(event) {
+        if ($(this).closest('.expression').find('.expressionAttr[data-l1key=type]').value() == 'action') {
             var expression = $(this).closest('.expression').getValues('.expressionAttr');
             $(this).closest('.expression').find('.expressionOptions').html(displayActionOption($(this).value(), init(expression[0].options)));
         }
@@ -194,7 +194,7 @@ $(function() {
 
     /**************** Scheduler **********************/
 
-    $('.scenarioAttr[l1key=mode]').on('change', function() {
+    $('.scenarioAttr[data-l1key=mode]').on('change', function() {
         if ($(this).value() == 'schedule' || $(this).value() == 'all') {
             $('.scheduleDisplay').show();
             $('#bt_addSchedule').show();
@@ -234,7 +234,7 @@ $(function() {
     $('body').delegate('.bt_selectTrigger', 'click', function(event) {
         var el = $(this);
         cmd.getSelectModal({type: 'info'}, function(result) {
-            el.closest('.trigger').find('.scenarioAttr[l1key=trigger]').value(result.human);
+            el.closest('.trigger').find('.scenarioAttr[data-l1key=trigger]').value(result.human);
         });
     });
 
@@ -251,7 +251,7 @@ $(function() {
 
     $('#bt_logScenario').on('click', function() {
         $('#md_modal').dialog({title: "Log d\'éxécution du scénario"});
-        $("#md_modal").load('index.php?v=d&modal=scenario.log.execution&scenario_id=' + $('.scenarioAttr[l1key=id]').value()).dialog('open');
+        $("#md_modal").load('index.php?v=d&modal=scenario.log.execution&scenario_id=' + $('.scenarioAttr[data-l1key=id]').value()).dialog('open');
     });
 
     /**************** Initialisation **********************/
@@ -267,9 +267,9 @@ $(function() {
 });
 
 function setEditor() {
-    $('.expressionAttr[l1key=type][value=code]').each(function() {
+    $('.expressionAttr[data-l1key=type][value=code]').each(function() {
         var expression = $(this).closest('.expression');
-        var code = expression.find('.expressionAttr[l1key=expression]');
+        var code = expression.find('.expressionAttr[data-l1key=expression]');
         if (code.attr('id') == undefined) {
             code.uniqueId();
             var id = code.attr('id');
@@ -286,11 +286,11 @@ function setEditor() {
 
 function setAutocomplete() {
     $('.expression').each(function() {
-        if ($(this).find('.expressionAttr[l1key=type]').value() == 'condition') {
-            $(this).find('.expressionAttr[l1key=expression]').sew({values: autoCompleteCondition, token: '#'}); // pass in the values
+        if ($(this).find('.expressionAttr[data-l1key=type]').value() == 'condition') {
+            $(this).find('.expressionAttr[data-l1key=expression]').sew({values: autoCompleteCondition, token: '#'}); // pass in the values
         }
-        if ($(this).find('.expressionAttr[l1key=type]').value() == 'action') {
-            $(this).find('.expressionAttr[l1key=expression]').autocomplete({
+        if ($(this).find('.expressionAttr[data-l1key=type]').value() == 'action') {
+            $(this).find('.expressionAttr[data-l1key=expression]').autocomplete({
                 source: autoCompleteAction
             });
         }
@@ -433,7 +433,7 @@ function printScenario(_id) {
             $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> Ajouter Elément</a>');
             $('.provokeMode').empty();
             $('.scheduleMode').empty();
-            $('.scenarioAttr[l1key=mode]').trigger('change');
+            $('.scenarioAttr[data-l1key=mode]').trigger('change');
             for (var i in data.result.schedules) {
                 $('#div_schedules').schedule.display(data.result.schedules[i]);
             }
@@ -494,11 +494,11 @@ function saveScenario() {
     var scenario = $('body').getValues('.scenarioAttr');
     scenario = scenario[0];
     scenario.trigger = []
-    $('.scenarioAttr[l1key="trigger"]').each(function() {
+    $('.scenarioAttr[data-l1key="trigger"]').each(function() {
         scenario.trigger.push($(this).value());
     });
     scenario.schedule = []
-    $('.scenarioAttr[l1key="schedule"]').each(function() {
+    $('.scenarioAttr[data-l1key="schedule"]').each(function() {
         scenario.schedule.push($(this).value());
     });
     var elements = [];
@@ -584,7 +584,7 @@ function addTrigger(_trigger) {
     var div = '<div class="form-group trigger">';
     div += '<label class="col-lg-3 control-label">Evènement</label>';
     div += '<div class="col-lg-7">';
-    div += '<input class="scenarioAttr form-control" l1key="trigger" value="' + _trigger + '">';
+    div += '<input class="scenarioAttr form-control" data-l1key="trigger" value="' + _trigger + '">';
     div += '</div>';
     div += '<div class="col-lg-1">';
     div += '<a class="btn btn-default cursor bt_selectTrigger"><i class="fa fa-list-alt"></i></a>';
@@ -600,7 +600,7 @@ function addSchedule(_schedule) {
     var div = '<div class="form-group schedule">';
     div += '<label class="col-lg-3 control-label">Programmation</label>';
     div += '<div class="col-lg-7">';
-    div += '<input class="scenarioAttr form-control" l1key="schedule" value="' + _schedule + '">';
+    div += '<input class="scenarioAttr form-control" data-l1key="schedule" value="' + _schedule + '">';
     div += '</div>';
     div += '<div class="col-lg-1">';
     div += '<i class="fa fa-question-circle cursor getHelpSchedule floatright" ></i>';
@@ -617,15 +617,15 @@ function addExpression(_expression) {
         return '';
     }
     var retour = '<div class="expression row" style="margin-top : 9px;">';
-    retour += '<input class="expressionAttr" l1key="id" style="display : none;" value="' + init(_expression.id) + '"/>';
-    retour += '<input class="expressionAttr" l1key="scenarioSubElement_id" style="display : none;" value="' + init(_expression.scenarioSubElement_id) + '"/>';
-    retour += '<input class="expressionAttr" l1key="type" style="display : none;" value="' + init(_expression.type) + '"/>';
+    retour += '<input class="expressionAttr" data-l1key="id" style="display : none;" value="' + init(_expression.id) + '"/>';
+    retour += '<input class="expressionAttr" data-l1key="scenarioSubElement_id" style="display : none;" value="' + init(_expression.scenarioSubElement_id) + '"/>';
+    retour += '<input class="expressionAttr" data-l1key="type" style="display : none;" value="' + init(_expression.type) + '"/>';
     switch (_expression.type) {
         case 'condition' :
             if (isset(_expression.expression)) {
                 _expression.expression = _expression.expression.replace(/"/g, '&quot;');
             }
-            retour += '<input class="expressionAttr form-control input-sm" l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #dff0d8;display : inline-block; width : 80%" />';
+            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #dff0d8;display : inline-block; width : 80%" />';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="info"><i class="fa fa-list-alt"></i></a>';
             break;
         case 'element' :
@@ -636,7 +636,7 @@ function addExpression(_expression) {
             retour += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : 9px;"></i>';
             retour += '<i class="fa fa-minus-circle pull-left cursor bt_removeExpression" style="margin-top : 9px;"></i>';
             retour += '<div class="col-lg-6">';
-            retour += '<input class="expressionAttr form-control input-sm" l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #fcf8e3;"/>';
+            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #fcf8e3;"/>';
             retour += '</div>';
             retour += '<div class="col-lg-1">';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="action"><i class="fa fa-list-alt"></i></a>';
@@ -647,7 +647,7 @@ function addExpression(_expression) {
             break;
         case 'code' :
             retour += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : 9px;"></i>';
-            retour += '<textarea class="expressionAttr form-control" l1key="expression">' + init(_expression.expression) + '</textarea>';
+            retour += '<textarea class="expressionAttr form-control" data-l1key="expression">' + init(_expression.expression) + '</textarea>';
             break;
     }
     retour += '</div>';
@@ -662,12 +662,12 @@ function addSubElement(_subElement) {
         _subElement.options = {};
     }
     var retour = '<div class="subElement">';
-    retour += '<input class="subElementAttr" l1key="id" style="display : none;" value="' + init(_subElement.id) + '"/>';
-    retour += '<input class="subElementAttr" l1key="scenarioElement_id" style="display : none;" value="' + init(_subElement.scenarioElement_id) + '"/>';
-    retour += '<input class="subElementAttr" l1key="type" style="display : none;" value="' + init(_subElement.type) + '"/>';
+    retour += '<input class="subElementAttr" data-l1key="id" style="display : none;" value="' + init(_subElement.id) + '"/>';
+    retour += '<input class="subElementAttr" data-l1key="scenarioElement_id" style="display : none;" value="' + init(_subElement.scenarioElement_id) + '"/>';
+    retour += '<input class="subElementAttr" data-l1key="type" style="display : none;" value="' + init(_subElement.type) + '"/>';
     switch (_subElement.type) {
         case 'if' :
-            retour += '<input class="subElementAttr" l1key="subtype" style="display : none;" value="condition"/>';
+            retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
             retour += '<legend>SI ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
@@ -679,7 +679,7 @@ function addSubElement(_subElement) {
             retour += '</legend>';
             break;
         case 'then' :
-            retour += '<input class="subElementAttr" l1key="subtype" style="display : none;" value="action"/>';
+            retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
             retour += '<legend style="margin-top : 8px;">ALORS';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
@@ -693,7 +693,7 @@ function addSubElement(_subElement) {
             retour += '</div>';
             break;
         case 'else' :
-            retour += '<input class="subElementAttr" l1key="subtype" style="display : none;" value="action"/>';
+            retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
             retour += '<legend style="margin-top : 8px;">SINON';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
@@ -707,7 +707,7 @@ function addSubElement(_subElement) {
             retour += '</div>';
             break;
         case 'for' :
-            retour += '<input class="subElementAttr" l1key="subtype" style="display : none;" value="condition"/>';
+            retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
             retour += '<legend style="margin-top : 8px;">DE 1 A ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
@@ -719,7 +719,7 @@ function addSubElement(_subElement) {
             retour += '</legend>';
             break;
         case 'do' :
-            retour += '<input class="subElementAttr" l1key="subtype" style="display : none;" value="action"/>';
+            retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
             retour += '<legend style="margin-top : 8px;">FAIRE';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
@@ -733,7 +733,7 @@ function addSubElement(_subElement) {
             retour += '</div>';
             break;
         case 'code' :
-            retour += '<input class="subElementAttr" l1key="subtype" style="display : none;" value="action"/>';
+            retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
             retour += '<legend style="margin-top : 8px;">CODE';
             retour += '</legend>';
             retour += '<div class="expressions">';
@@ -745,7 +745,7 @@ function addSubElement(_subElement) {
             retour += '</div>';
             break;
         case 'action' :
-            retour += '<input class="subElementAttr" l1key="subtype" style="display : none;" value="action"/>';
+            retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
             retour += '<legend style="margin-top : 8px;">ACTION';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
@@ -772,8 +772,8 @@ function addElement(_element) {
         return '';
     }
     var div = '<div class="element well well-sm" style="margin-top : 8px;border : 2px solid black;">';
-    div += '<input class="elementAttr" l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
-    div += '<input class="elementAttr" l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
+    div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
+    div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
     div += '<i class="fa fa-minus-circle pull-right cursor bt_removeElement"></i>';
     switch (_element.type) {
         case 'if' :
@@ -843,7 +843,7 @@ function getElement(_element) {
                 expression.element = getElement($(this).findAtDepth('.element', 1));
             }
             if (subElement.type == 'code') {
-                var id = $(this).find('.expressionAttr[l1key=expression]').attr('id');
+                var id = $(this).find('.expressionAttr[data-l1key=expression]').attr('id');
                 if (id != undefined && isset(editor[id])) {
                     expression.expression = editor[id].getValue();
                 }

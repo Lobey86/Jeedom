@@ -15,9 +15,9 @@ if (!isConnect()) {
     <fieldset>
         <legend>Global</legend>
         <div class="form-group">
-            <label class="col-lg-2 control-label" for="in_jeenodeMasterId">Node ID master</label>
+            <label class="col-lg-2 control-label">Node ID master</label>
             <div class="col-lg-2">
-                <input type="text" class="eqRealAttr form-control" l1key="configuration" l2key="masterId" placeholder="ID du master"/>
+                <input type="text" class="eqRealAttr form-control" data-l1key="configuration" data-l2key="masterId" placeholder="ID du master"/>
             </div>
         </div>
     </fieldset>
@@ -31,7 +31,7 @@ if (!isConnect()) {
     <li><a href="#div_jeenodePortI2C" data-toggle="tab">Port I2C</a></li>
 </ul>
 <div class="tab-content">
-    <div id="div_jeenodePort1" class="tab-pane active eqLogic" port="1">
+    <div id="div_jeenodePort1" class="tab-pane active eqLogic" data-port="1">
         <form class="form-horizontal">
             <fieldset>
                 <script>
@@ -42,7 +42,7 @@ if (!isConnect()) {
             </fieldset>
         </form>
     </div> 
-    <div id="div_jeenodePort2" class="tab-pane eqLogic" port="2">
+    <div id="div_jeenodePort2" class="tab-pane eqLogic" data-port="2">
         <form class="form-horizontal">
             <fieldset>
                 <script>
@@ -53,7 +53,7 @@ if (!isConnect()) {
             </fieldset>
         </form>
     </div> 
-    <div id="div_jeenodePort3" class="tab-pane eqLogic" port="3">
+    <div id="div_jeenodePort3" class="tab-pane eqLogic" data-port="3">
         <form class="form-horizontal">
             <fieldset>
                 <script>
@@ -64,7 +64,7 @@ if (!isConnect()) {
             </fieldset>
         </form>
     </div> 
-    <div id="div_jeenodePort4" class="tab-pane eqLogic" port="4">
+    <div id="div_jeenodePort4" class="tab-pane eqLogic" data-port="4">
         <form class="form-horizontal">
             <fieldset>
                 <script>
@@ -75,7 +75,7 @@ if (!isConnect()) {
             </fieldset>
         </form>
     </div>
-    <div id="div_jeenodePortI2C" class="tab-pane eqLogic" port="I2C">
+    <div id="div_jeenodePortI2C" class="tab-pane eqLogic" data-port="I2C">
         <form class="form-horizontal">
             <fieldset>
                 <script>
@@ -97,10 +97,10 @@ if (!isConnect()) {
             for (var key in generaleConfData.port[k]) {
                 if (is_object(generaleConfData.port[k][key]) || is_array(generaleConfData.port[k][key])) {
                     for (var subkey in generaleConfData.port[k][key]) {
-                        port.find('.eqLogicAttr[l1key="' + key + '"][l2key="' + subkey + '"]').value(generaleConfData.port[k][key][subkey]);
+                        port.find('.eqLogicAttr[data-l1key="' + key + '"][data-l2key="' + subkey + '"]').value(generaleConfData.port[k][key][subkey]);
                     }
                 } else {
-                    port.find('.eqLogicAttr[l1key="' + key + '"]').value(generaleConfData.port[k][key]);
+                    port.find('.eqLogicAttr[data-l1key="' + key + '"]').value(generaleConfData.port[k][key]);
                 }
             }
 
@@ -120,7 +120,7 @@ if (!isConnect()) {
         sel_portType.find('option').prop('disabled', false);
         portType.remove();
         eqLogic.find('.confSpePort .portType').each(function() {
-            excludePortType(sel_portType, sel_portType.find('option[value=' + $(this).attr('code') + ']'));
+            excludePortType(sel_portType, sel_portType.find('option[value=' + $(this).attr('data-code') + ']'));
         });
     });
 
@@ -129,7 +129,7 @@ if (!isConnect()) {
         if (!isset(_option)) {
             _option = _select.find('option:selected');
         }
-        exclude = _option.attr('exclude');
+        exclude = _option.attr('data-exclude');
         if (exclude != null) {
             if (exclude == '*') {
                 _select.find('option').prop('disabled', true);
@@ -144,13 +144,13 @@ if (!isConnect()) {
     }
 
     function configurationPort(_select, _cmd) {
-        var portType = _select.find('option:selected').attr('cmdName');
-        var jeenodeType = $('.eqRealAttr[l1key=type]').value();
+        var portType = _select.find('option:selected').attr('data-cmdName');
+        var jeenodeType = $('.eqRealAttr[data-l1key=type]').value();
         if (portType == undefined || portType == '' || jeenodeType == '') {
             $('#div_alert').showAlert({message: 'Veuillez selectionner un type de port', level: 'warning'});
             return;
         }
-        var logicalId = _select.attr('port');
+        var logicalId = _select.attr('data-port');
 
         var port = $('#div_jeenodePort' + logicalId);
         if (portType != 'none') {
@@ -160,7 +160,7 @@ if (!isConnect()) {
             port.find('.sel_portType').prop('disabled', false);
         }
         var confSpePort = port.find('.confSpePort');
-        var portConfiguration = '<div class="portType well" code="' + _select.value() + '">';
+        var portConfiguration = '<div class="portType well" data-code="' + _select.value() + '">';
         portConfiguration += '<a class="btn btn-danger pull-right removePortType"><i class="fa fa-minus-circle"></i> Supprimer</a>';
         portConfiguration += getTemplate('jeenode', 'jeenode', portType + '.php');
         portConfiguration += '</div>';
@@ -172,18 +172,18 @@ if (!isConnect()) {
 
                     var cmd = null;
                     if (isset(_cmd[i].configuration.value)) {
-                        cmd = confSpePort.find('.cmd[mode="' + _cmd[i].configuration.mode + '"][type="' + _cmd[i].configuration.type + '"][value="' + _cmd[i].configuration.value + '"]');
+                        cmd = confSpePort.find('.cmd[data-mode="' + _cmd[i].configuration.mode + '"][data-type="' + _cmd[i].configuration.type + '"][data-value="' + _cmd[i].configuration.value + '"]');
                     } else {
-                        cmd = confSpePort.find('.cmd[mode="' + _cmd[i].configuration.mode + '"][type="' + _cmd[i].configuration.type + '"]');
+                        cmd = confSpePort.find('.cmd[data-mode="' + _cmd[i].configuration.mode + '"][data-type="' + _cmd[i].configuration.type + '"]');
                     }
                     if (cmd != null && cmd.length == 1) {
                         for (var key in _cmd[i]) {
                             if (is_array(_cmd[i][key]) || is_object(_cmd[i][key])) {
                                 for (var subkey in _cmd[i][key]) {
-                                    cmd.find('.cmdAttr[l1key="' + key + '"][l2key="' + subkey + '"]').value(_cmd[i][key][subkey]);
+                                    cmd.find('.cmdAttr[data-l1key="' + key + '"][data-l2key="' + subkey + '"]').value(_cmd[i][key][subkey]);
                                 }
                             } else {
-                                cmd.find('.cmdAttr[l1key="' + key + '"]').value(_cmd[i][key]);
+                                cmd.find('.cmdAttr[data-l1key="' + key + '"]').value(_cmd[i][key]);
                             }
                         }
                     }

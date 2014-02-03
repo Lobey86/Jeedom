@@ -31,7 +31,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (view::all() as $view) {
-                    echo '<li class="cursor li_view" view_id="' . $view->getId() . '"><a>' . $view->getName() . '</a></li>';
+                    echo '<li class="cursor li_view" data-view_id="' . $view->getId() . '"><a>' . $view->getName() . '</a></li>';
                 }
                 ?>
             </ul>
@@ -140,14 +140,14 @@ sendVarToJS('select_id', init('id', '-1'));
                 }
                 if ($eqLogic->getIsVisible() == 1 && $cmd->getIsHistorized() == 1) {
                     $object = $cmd->getEqLogic()->getObject();
-                    echo '<tr link_id="' . $cmd->getId() . '" type="graph" viewDataType="cmd">';
+                    echo '<tr data-link_id="' . $cmd->getId() . '" data-type="graph" data-viewDataType="cmd">';
                     echo '<td>';
                     echo '<input type="checkbox" class="enable form-control" />';
-                    echo '<input class="viewDataOption" l1key="link_id" value="' . $cmd->getId() . '" hidden/>';
+                    echo '<input class="viewDataOption" data-l1key="link_id" value="' . $cmd->getId() . '" hidden/>';
                     echo '</td>';
                     echo '<td class="type">';
                     echo 'Commande';
-                    echo '<input class="viewDataOption" l1key="type" value="cmd" hidden/>';
+                    echo '<input class="viewDataOption" data-l1key="type" value="cmd" hidden/>';
                     echo '</td>';
                     echo '<td class="object_name">';
                     if (is_object($object)) {
@@ -162,7 +162,7 @@ sendVarToJS('select_id', init('id', '-1'));
                     echo '<div class="option">';
                     echo '<form class="form-inline">';
                     echo '<div class="form-group">';
-                    echo '<label>Couleur :</label> <select class="viewDataOption form-control" l1key="configuration" l2key="graphColor" style="width : 110px;background-color:#4572A7;color:white;">';
+                    echo '<label>Couleur :</label> <select class="viewDataOption form-control" data-l1key="configuration" data-l2key="graphColor" style="width : 110px;background-color:#4572A7;color:white;">';
                     echo '<option value="#4572A7" style="background-color:#4572A7;color:white;">Bleu</option>';
                     echo '<option value="#AA4643" style="background-color:#AA4643;color:white;">Rouge</option>';
                     echo '<option value="#89A54E" style="background-color:#89A54E;color:white;">Vert</option>';
@@ -176,7 +176,7 @@ sendVarToJS('select_id', init('id', '-1'));
                     echo '</select> ';
                     echo '</div> ';
                     echo '<div class="form-group">';
-                    echo ' <label>Type :</label> <select class="viewDataOption form-control" l1key="configuration" l2key="graphType" style="width : 100px;">';
+                    echo ' <label>Type :</label> <select class="viewDataOption form-control" data-l1key="configuration" data-l2key="graphType" style="width : 100px;">';
                     echo '<option value="line">Ligne</option>';
                     echo '<option value="area">Aire</option>';
                     echo '<option value="column">Colonne</option>';
@@ -184,11 +184,11 @@ sendVarToJS('select_id', init('id', '-1'));
                     echo '</div> ';
                     echo '<div class="form-group">';
                     echo '';
-                    echo ' <label>Escalier : <input type="checkbox" class="viewDataOption" l1key="configuration" l2key="graphStep">';
+                    echo ' <label>Escalier : <input type="checkbox" class="viewDataOption" data-l1key="configuration" data-l2key="graphStep">';
                     echo '</label>';
-                    echo ' <label>Empiler : <input type="checkbox" class="viewDataOption" l1key="configuration" l2key="graphStack">';
+                    echo ' <label>Empiler : <input type="checkbox" class="viewDataOption" data-l1key="configuration" data-l2key="graphStack">';
                     echo '</label>';
-                    echo ' <label>Echelle :</label> <select class="viewDataOption form-control" l1key="configuration" l2key="graphScale" style="width : 60px;">';
+                    echo ' <label>Echelle :</label> <select class="viewDataOption form-control" data-l1key="configuration" data-l2key="graphScale" style="width : 60px;">';
                     echo '<option value="0">0</option>';
                     echo '<option value="1">1</option>';
                     echo '</select>';
@@ -204,15 +204,15 @@ sendVarToJS('select_id', init('id', '-1'));
             foreach (eqLogic::all() as $eqLogic) {
                 if ($eqLogic->getIsVisible() == 1) {
                     $object = $eqLogic->getObject();
-                    echo '<tr link_id="' . $eqLogic->getId() . '" type="widget" viewDataType="eqLogic">';
+                    echo '<tr data-link_id="' . $eqLogic->getId() . '" data-type="widget" data-viewDataType="eqLogic">';
                     echo '<td>';
                     echo '<input type="checkbox" class="enable form-control" />';
-                    echo '<input class="viewDataOption" l1key="type" value= "eqLogic" hidden/>';
-                    echo '<input class="viewDataOption" l1key="link_id" value="' . $eqLogic->getId() . '" hidden/>';
+                    echo '<input class="viewDataOption" data-l1key="type" value= "eqLogic" hidden/>';
+                    echo '<input class="viewDataOption" data-l1key="link_id" value="' . $eqLogic->getId() . '" hidden/>';
                     echo '</td>';
                     echo '<td class="type">';
                     echo 'Equipement';
-                    echo '<input class="viewDataOption" l1key="type" value="eqLogic" hidden/>';
+                    echo '<input class="viewDataOption" data-l1key="type" value="eqLogic" hidden/>';
                     echo '</td>';
                     echo '<td class="object_name">';
                     if (is_object($object)) {
@@ -227,15 +227,15 @@ sendVarToJS('select_id', init('id', '-1'));
                 }
             }
             foreach (scenario::all() as $scenario) {
-                echo '<tr link_id="' . $scenario->getId() . '" type="widget" viewDataType="scenario">';
+                echo '<tr data-link_id="' . $scenario->getId() . '" data-type="widget" data-viewDataType="scenario">';
                 echo '<td>';
                 echo '<input type="checkbox" class="enable form-control" />';
-                echo '<input class="viewDataOption" l1key="type" value= "scenario" hidden/>';
-                echo '<input class="viewDataOption" l1key="link_id" value="' . $scenario->getId() . '" hidden/>';
+                echo '<input class="viewDataOption" data-l1key="type" value="scenario" hidden/>';
+                echo '<input class="viewDataOption" data-l1key="link_id" value="' . $scenario->getId() . '" hidden/>';
                 echo '</td>';
                 echo '<td class="type">';
                 echo 'Scénario';
-                echo '<input class="viewDataOption" l1key="type" value="scenario" hidden/>';
+                echo '<input class="viewDataOption" data-l1key="type" value="scenario" hidden/>';
                 echo '</td>';
                 echo '<td class="object_name"></td>';
                 echo '<td class="name">';

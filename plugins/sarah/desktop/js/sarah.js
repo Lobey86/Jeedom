@@ -31,7 +31,7 @@ function syncInteract() {
         url: "plugins/sarah/core/ajax/sarah.ajax.php", // url du fichier php
         data: {
             action: "syncInteractWithSarah",
-            id: $('.eqLogicAttr[l1key=id]').value()
+            id: $('.eqLogicAttr[data-l1key=id]').value()
         },
         dataType: 'json',
         error: function(request, status, error) {

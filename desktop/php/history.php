@@ -11,7 +11,7 @@ if (!isConnect()) {
             <li class="filter"><input class="form-control" class="filter form-control" placeholder="Rechercher" /></li>
             <?php
             foreach (cmd::allHistoryCmd() as $cmd) {
-                echo '<li class="cursor li_history" cmd_id="' . $cmd->getId() . '"><a class="history">' . $cmd->getHumanName() . '<i class="fa fa-trash-o remove pull-right"></i></a></li>';
+                echo '<li class="cursor li_history" data-cmd_id="' . $cmd->getId() . '"><a class="history">' . $cmd->getHumanName() . '<i class="fa fa-trash-o remove pull-right"></i></a></li>';
             }
             ?>
         </ul>

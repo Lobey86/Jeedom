@@ -1,46 +1,45 @@
-<div class="scenario dashboard-widget" scenario_id="#id#" version="mobile" style="min-width: 250px;">
+<div class="scenario dashboard-widget" data-scenario_id="#id#" data-version="mobile" style="min-width: 250px;">
     <a href="#tooltipsScenario#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline" style="margin: 8px 8px;"></a>
     <span style="font-weight:bold;">#name#</span>
     <span class="state pull-right binary" style="width : 15px;margin: 8px 8px;"></span>
 
-    <a class="ui-btn ui-btn-a changeScenarioState" state="start" scenario_id="#id#" style="display: none;margin: 8px 8px;">On</a>
-    <a class="ui-btn ui-btn-b changeScenarioState" state="stop" scenario_id="#id#" style="display: none;margin: 8px 8px;">Off</a>
-    <a class="ui-btn ui-btn-a changeScenarioState" state="activate" scenario_id="#id#" style="display: none;margin: 8px 8px;">Activer</a>
-    <a class="ui-btn ui-btn-b changeScenarioState" state="deactivate" scenario_id="#id#" style="display: none;margin: 8px 8px;">Desactiver</a>
+    <a class="ui-btn ui-btn-a changeScenarioState" data-state="start" style="display: none;margin: 8px 8px;">On</a>
+    <a class="ui-btn ui-btn-b changeScenarioState" data-state="stop" style="display: none;margin: 8px 8px;">Off</a>
+    <a class="ui-btn ui-btn-a changeScenarioState" data-state="activate" style="display: none;margin: 8px 8px;">Activer</a>
+    <a class="ui-btn ui-btn-b changeScenarioState" data-state="deactivate" style="display: none;margin: 8px 8px;">Desactiver</a>
 
     <div data-role="popup" id="tooltipsScenario#id#" class="ui-content" data-theme="a" style="max-width:350px;">
         Dernier lancement : #lastLaunch#
     </div>
 
     <script>
-        $('.changeScenarioState[scenario_id=#id#]').on('click', function() {
-            changeScenarioState($(this).attr('scenario_id'), $(this).attr('state'));
+        $('.scenario[data-scenario_id=#id#] .changeScenarioState').on('click', function() {
+            changeScenarioState($(this).closest('.scenario').attr('data-scenario_id'), $(this).attr('state'));
         });
-        
-      if ('#isActive#' == '1') {
+        if ('#isActive#' == '1') {
             if ('#state#' == 'on') {
-                $('.changeScenarioState[scenario_id=#id#][state=start]').show();
-                $('.changeScenarioState[scenario_id=#id#][state=deactivate]').show();
-                $('.scenario[scenario_id=#id#] .state').addClass('green');
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=start]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=deactivate]').show();
+                $('.scenario[data-scenario_id=#id#] .state').addClass('green');
             }
             if ('#state#' == 'in progress') {
-                $('.changeScenarioState[scenario_id=#id#][state=stop]').show();
-                $('.changeScenarioState[scenario_id=#id#][state=deactivate]').show();
-                $('.scenario[scenario_id=#id#] .state').addClass('blue');
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=stop]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=deactivate]').show();
+                $('.scenario[data-scenario_id=#id#] .state').addClass('blue');
             }
             if ('#state#' == 'error') {
-                $('.changeScenarioState[scenario_id=#id#][state=start]').show();
-                $('.changeScenarioState[scenario_id=#id#][state=deactivate]').show();
-                $('.scenario[scenario_id=#id#] .state').addClass('orange');
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=start]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=deactivate]').show();
+                $('.scenario[data-scenario_id=#id#]] .state').addClass('orange');
             }
             if ('#state#' == 'stop') {
-                $('.changeScenarioState[scenario_id=#id#][state=start]').show();
-                $('.changeScenarioState[scenario_id=#id#][state=deactivate]').show();
-                $('.scenario[scenario_id=#id#] .state').addClass('red');
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=start]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=deactivate]').show();
+                $('.scenario[data-scenario_id=#id#] .state').addClass('red');
             }
         } else {
             $('.scenario[scenario_id=#id#] .state').addClass('grey');
-            $('.changeScenarioState[scenario_id=#id#][state=activate]').show();
+            $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=activate]').show();
         }
     </script>
 </div>

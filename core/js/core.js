@@ -281,8 +281,8 @@ function getUrlVars(_key) {
 
 
 function refreshScenarioValue(_scenario_id) {
-    if ($('.scenario[scenario_id=' + _scenario_id + ']').html() != undefined) {
-        var version = $('.scenario[scenario_id=' + _scenario_id + ']').attr('version');
+    if ($('.scenario[data-scenario_id=' + _scenario_id + ']').html() != undefined) {
+        var version = $('.scenario[data-scenario_id=' + _scenario_id + ']').attr('data-version');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/scenario.ajax.php", // url du fichier php
@@ -301,9 +301,9 @@ function refreshScenarioValue(_scenario_id) {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('.scenario[scenario_id=' + _scenario_id + ']').replaceWith(data.result);
+                $('.scenario[data-scenario_id=' + _scenario_id + ']').replaceWith(data.result);
                 if ($.mobile) {
-                    $('.scenario[scenario_id=' + _scenario_id + ']').trigger("create");
+                    $('.scenario[data-scenario_id=' + _scenario_id + ']').trigger("create");
                 }
             }
         });
@@ -311,8 +311,8 @@ function refreshScenarioValue(_scenario_id) {
 }
 
 function refreshCmdValue(_cmd_id) {
-    if ($('.cmd[cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version') != undefined) {
-        var version = $('.cmd[cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version');
+    if ($('.cmd[data-cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version') != undefined) {
+        var version = $('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/cmd.ajax.php", // url du fichier php
@@ -332,11 +332,11 @@ function refreshCmdValue(_cmd_id) {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('.cmd[cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
+                $('.cmd[data-cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
 
                 activateTooltips();
                 if ($.mobile) {
-                    $('.cmd[cmd_id=' + _cmd_id + ']').trigger("create");
+                    $('.cmd[data-cmd_id=' + _cmd_id + ']').trigger("create");
                 }
             }
         });

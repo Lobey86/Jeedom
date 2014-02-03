@@ -67,14 +67,14 @@ if (isset($log[0][0]) && $log[0][0] == '') {
 
         for ($i = 1; $i <= $nbPage; $i++) {
             if ($i == $page) {
-                echo '<li class="active"><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
+                echo '<li class="active"><a class="changePage" data-page="' . $i . '">' . $i . '</a></li>';
             } else {
-                echo '<li><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
+                echo '<li><a class="changePage" data-page="' . $i . '">' . $i . '</a></li>';
             }
         }
 
         if ($page < $nbPage) {
-            echo '<li><a class="changePage" page="' . $nbPage . '">&raquo;</a></li>';
+            echo '<li><a class="changePage" data-page="' . $nbPage . '">&raquo;</a></li>';
         } else {
             echo '<li class="disabled"><a>&raquo;</a></li>';
         }
@@ -125,14 +125,14 @@ if (isset($log[0][0]) && $log[0][0] == '') {
 
         for ($i = 1; $i <= $nbPage; $i++) {
             if ($i == $page) {
-                echo '<li class="active"><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
+                echo '<li class="active"><a class="changePage" data-page="' . $i . '">' . $i . '</a></li>';
             } else {
-                echo '<li><a class="changePage" page="' . $i . '">' . $i . '</a></li>';
+                echo '<li><a class="changePage" data-page="' . $i . '">' . $i . '</a></li>';
             }
         }
 
         if ($page < $nbPage) {
-            echo '<li><a class="changePage" page="' . $nbPage . '">&raquo;</a></li>';
+            echo '<li><a class="changePage" data-page="' . $nbPage . '">&raquo;</a></li>';
         } else {
             echo '<li class="disabled"><a>&raquo;</a></li>';
         }
@@ -143,9 +143,7 @@ if (isset($log[0][0]) && $log[0][0] == '') {
 <script>
     $(function() {
         $('.changePage').click(function() {
-            page = $(this).attr('page');
-            log = $('#sel_log').value();
-            window.location = 'index.php?v=d&p=log&page=' + page + '&logfile=' + log;
+            window.location = 'index.php?v=d&p=log&page=' + $(this).attr('data-page') + '&logfile=' + $('#sel_log').value();
         });
 
         $("#sel_log").on('change', function() {

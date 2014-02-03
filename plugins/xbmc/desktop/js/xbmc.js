@@ -27,11 +27,11 @@ $(function() {
         $('#bt_addPreConfigCmdXbmcSave').undelegate().unbind();
         var tr = $(this).closest('tr');
         $("#div_mainContainer").delegate("#bt_addPreConfigCmdXbmcSave", 'click', function(event) {
-            tr.find('.cmdAttr[l1key=name]').value($('#sel_addPreConfigCmdXbmc option:selected').html());
-            tr.find('.cmdAttr[l1key=configuration][l2key=request]').value($('#sel_addPreConfigCmdXbmc option:selected').attr('request'));
-            tr.find('.cmdAttr[l1key=configuration][l2key=parameters]').value($('#sel_addPreConfigCmdXbmc option:selected').attr('parameters'));
-            tr.find('.cmdAttr[l1key=type]').value($('#sel_addPreConfigCmdXbmc option:selected').attr('type'));
-            cmd.changeType(tr.find('.cmdAttr[l1key=type]'), $('#sel_addPreConfigCmdXbmc option:selected').attr('subType'));
+            tr.find('.cmdAttr[data-l1key=name]').value($('#sel_addPreConfigCmdXbmc option:selected').html());
+            tr.find('.cmdAttr[data-l1key=configuration][data-l2key=request]').value($('#sel_addPreConfigCmdXbmc option:selected').attr('data-request'));
+            tr.find('.cmdAttr[data-l1key=configuration][data-l2key=parameters]').value($('#sel_addPreConfigCmdXbmc option:selected').attr('data-parameters'));
+            tr.find('.cmdAttr[data-l1key=type]').value($('#sel_addPreConfigCmdXbmc option:selected').attr('data-type'));
+            cmd.changeType(tr.find('.cmdAttr[data-l1key=type]'), $('#sel_addPreConfigCmdXbmc option:selected').attr('data-subType'));
             $('#md_addPreConfigCmdXbmc').modal('hide');
         });
     });
@@ -52,23 +52,23 @@ function addCmdToTable(_cmd) {
     if (!isset(_cmd)) {
         var _cmd = {configuration: {}};
     }
-    var tr = '<tr class="cmd" cmd_id="' + init(_cmd.id) + '">';
+    var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td class="type" type="' + init(_cmd.type) + '">' + cmd.availableType();
     tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span></td>';
     tr += '<td class="name">';
-    tr += '<input class="cmdAttr form-control" l1key="id" style="display : none;">';
-    tr += '<input class="cmdAttr form-control" l1key="name"></td>';
-    tr += '<td ><input class="cmdAttr form-control" l1key="configuration" l2key="request" style="margin-top : 5px;" />';
-    tr += '<textarea class="cmdAttr form-control" l1key="configuration" l2key="parameters" style="margin-top : 5px;" placeholder="Parametres (JSON)" ></textarea>';
+    tr += '<input class="cmdAttr form-control" data-l1key="id" style="display : none;">';
+    tr += '<input class="cmdAttr form-control" data-l1key="name"></td>';
+    tr += '<td ><input class="cmdAttr form-control" data-l1key="configuration" data-l2key="request" style="margin-top : 5px;" />';
+    tr += '<textarea class="cmdAttr form-control" data-l1key="configuration" data-l2key="parameters" style="margin-top : 5px;" placeholder="Parametres (JSON)" ></textarea>';
     tr += '<a class="btn btn-default listCmdXbmc form-control" style="margin-top : 5px;"><i class="fa fa-list-alt cursor"></i> Ajouter une commande prédéfinie</a>';
     tr += '</td>';
     tr += '<td>';
     if (is_numeric(_cmd.id)) {
-        tr += '<a class="btn btn-default btn-xs cmdAction" action="test"><i class="fa fa-rss"></i> Tester</a>';
+        tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> Tester</a>';
     }
-    tr += '<i class="fa fa-minus-circle pull-right cmdAction" action="remove"></i></td>';
+    tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
     tr += '</tr>';
     $('#table_cmd tbody').append(tr);
     $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
-    cmd.changeType($('#table_cmd tbody tr:last .cmdAttr[l1key=type]'), init(_cmd.subType));
+    cmd.changeType($('#table_cmd tbody tr:last .cmdAttr[data-l1key=type]'), init(_cmd.subType));
 }

@@ -16,7 +16,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (jeenodeReal::liste() as $jeenodeReal) {
-                    echo '<li class="cursor li_jeenode" jeenodeReal_id="' . $jeenodeReal['id'] . '" type="' . $jeenodeReal['type'] . '" name="' . $jeenodeReal['name'] . '"><a>' . $jeenodeReal['name'] . ' (' . $jeenodeReal['type'] . ')</a></li>';
+                    echo '<li class="cursor li_jeenode" data-jeenodeReal_id="' . $jeenodeReal['id'] . '" data-type="' . $jeenodeReal['type'] . '" data-name="' . $jeenodeReal['name'] . '"><a>' . $jeenodeReal['name'] . ' (' . $jeenodeReal['type'] . ')</a></li>';
                 }
                 ?>
             </ul>
@@ -32,19 +32,19 @@ sendVarToJS('select_id', init('id', '-1'));
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Nom du jeenode</label>
                                 <div class="col-lg-3">
-                                    <input class="eqRealAttr form-control" l1key="name" type="text" placeholder="Nom du jeenode"/>
+                                    <input class="eqRealAttr form-control" data-l1key="name" type="text" placeholder="Nom du jeenode"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Type</label>
                                 <div class="col-lg-3">
-                                    <input class="eqRealAttr form-control" l1key="type" disabled/>
+                                    <input class="eqRealAttr form-control" data-l1key="type" disabled/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Mode</label>
                                 <div class="col-lg-3">
-                                    <select class="eqRealAttr form-control" l1key='configuration' l2key='mode'>
+                                    <select class="eqRealAttr form-control" data-l1key='configuration' data-l2key='mode'>
                                         <option value="actif">Actif</option>
                                         <option value="passif">Passif</option>
                                     </select>
@@ -53,13 +53,13 @@ sendVarToJS('select_id', init('id', '-1'));
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Node ID</label>
                                 <div class="col-lg-3">
-                                    <input class="eqRealAttr form-control" l1key="logicalId" type="text" placeholder="ID du jeenode"/>
+                                    <input class="eqRealAttr form-control" data-l1key="logicalId" type="text" placeholder="ID du jeenode"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Fréquence</label>
                                 <div class="col-lg-3">
-                                    <select  class="eqRealAttr form-control" l1key="configuration" l2key="frequence">
+                                    <select  class="eqRealAttr form-control" data-l1key="configuration" data-l2key="frequence">
                                         <option value='RF12_433MHZ'>433 MHZ</option>
                                         <option value='RF12_868MHZ' selected>868 MHZ</option>
                                         <option value='RF12_915MHZ'>915 MHZ</option>
@@ -125,13 +125,13 @@ sendVarToJS('select_id', init('id', '-1'));
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Debug mode</label>
                                 <div class="col-lg-1">
-                                    <input type="checkbox" class="eqRealAttr form-control" l1key="configuration" l2key="debug">
+                                    <input type="checkbox" class="eqRealAttr form-control" data-l1key="configuration" data-l2key="debug">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Debit port série</label>
                                 <div class="col-lg-3">
-                                    <select class="eqRealAttr form-control" l1key="configuration" l2key="debitSerial">
+                                    <select class="eqRealAttr form-control" data-l1key="configuration" data-l2key="debitSerial">
                                         <option value='57600'>57600 Bauds</option>
                                     </select>
                                 </div>
@@ -139,13 +139,13 @@ sendVarToJS('select_id', init('id', '-1'));
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Groupe</label>
                                 <div class="col-lg-3">
-                                    <input type="text" class="eqRealAttr form-control" l1key="configuration" l2key="group" placeholder="Groupe du jeenode" notEmpty mustNumber value="212"/>
+                                    <input type="text" class="eqRealAttr form-control" data-l1key="configuration" data-l2key="group" placeholder="Groupe du jeenode" notEmpty mustNumber value="212"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Radio sync mode</label>
                                 <div class="col-lg-3">
-                                    <input class="form-control" type="text" class="eqRealAttr form-control" l1key="configuration" l2key="debitSerial" placeholder="Mode de syncrhonisation radio" notEmpty mustNumber value="2"/>
+                                    <input class="form-control" type="text" class="eqRealAttr form-control" data-l1key="configuration" data-l2key="debitSerial" placeholder="Mode de syncrhonisation radio" notEmpty mustNumber value="2"/>
                                 </div>
                             </div>
                         </div>
@@ -153,19 +153,19 @@ sendVarToJS('select_id', init('id', '-1'));
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Retry period</label>
                                 <div class="col-lg-3">
-                                    <input class="form-control" type="text" class="eqRealAttr form-control" l1key="configuration" l2key="debitSerial" placeholder="Temps d'attente avant relance (ms)" notEmpty mustNumber value="10"/>
+                                    <input class="form-control" type="text" class="eqRealAttr form-control" data-l1key="configuration" data-l2key="debitSerial" placeholder="Temps d'attente avant relance (ms)" notEmpty mustNumber value="10"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Retry limit</label>
                                 <div class="col-lg-3">
-                                    <input class="form-control" type="text" class="eqRealAttr form-control" l1key="configuration" l2key="debitSerial" placeholder="Nombre d'essai avant abandont" notEmpty mustNumber value="3"/>
+                                    <input class="form-control" type="text" class="eqRealAttr form-control" data-l1key="configuration" data-l2key="debitSerial" placeholder="Nombre d'essai avant abandont" notEmpty mustNumber value="3"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Ack time</label>
                                 <div class="col-lg-3">
-                                    <input class="form-control" type="text" class="eqRealAttr form-control" l1key="configuration" l2key="debitSerial" placeholder="Temps d'attente avant le ack (ms)" notEmpty mustNumber value="10"/>
+                                    <input class="form-control" type="text" class="eqRealAttr form-control" data-l1key="configuration" data-l2key="debitSerial" placeholder="Temps d'attente avant le ack (ms)" notEmpty mustNumber value="10"/>
                                 </div>
                             </div>
                         </div>

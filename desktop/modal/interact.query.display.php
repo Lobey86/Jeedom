@@ -26,7 +26,7 @@ if (count($interactQueries) == 0) {
         <?php
         foreach ($interactQueries as $interactQuery) {
             $trClass = ($interactQuery->getEnable() == 1) ? 'success' : 'danger';
-            echo '<tr class="' . $trClass . '" interactQuery_id="' . $interactQuery->getId() . '">';
+            echo '<tr class="' . $trClass . '" data-interactQuery_id="' . $interactQuery->getId() . '">';
             echo '<td>' . $interactQuery->getQuery() . '</td>';
             echo '<td>';
             if ($interactQuery->getLink_type() == 'cmd') {
@@ -35,9 +35,9 @@ if (count($interactQueries) == 0) {
             echo '</td>';
             echo '<td>';
             if ($interactQuery->getEnable() == 1) {
-                echo '<a class="btn btn-danger btn-xs changeEnable" state="0" style="color : white;">Désactiver</a>';
+                echo '<a class="btn btn-danger btn-xs changeEnable" data-state="0" style="color : white;">Désactiver</a>';
             } else {
-                echo '<a class="btn btn-success btn-xs changeEnable" state="1" style="color : white;">Activer</a>';
+                echo '<a class="btn btn-success btn-xs changeEnable" data-state="1" style="color : white;">Activer</a>';
             }
             echo '</td>';
             echo '</tr>';
@@ -57,8 +57,8 @@ if (count($interactQueries) == 0) {
             url: "core/ajax/interact.ajax.php", // url du fichier php
             data: {
                 action: 'changeState',
-                id: tr.attr('interactQuery_id'),
-                enable: btn.attr('state'),
+                id: tr.attr('data-interactQuery_id'),
+                enable: btn.attr('data-state'),
             },
             dataType: 'json',
             error: function(request, status, error) {
@@ -69,13 +69,13 @@ if (count($interactQueries) == 0) {
                     $('#md_displayInteractQueryAlert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                if (btn.attr('state') == 1) {
+                if (btn.attr('data-state') == 1) {
                     tr.removeClass('danger').addClass('success');
-                    btn.attr('state', 0);
+                    btn.attr('data-state', 0);
                     btn.removeClass('btn-success').addClass('btn-danger');
                 } else {
                     tr.removeClass('success').addClass('danger');
-                    btn.attr('state', 1);
+                    btn.attr('data-state', 1);
                     btn.removeClass('btn-danger').addClass('btn-success');
                 }
             }

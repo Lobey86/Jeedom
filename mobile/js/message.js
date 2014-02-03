@@ -30,7 +30,7 @@ $(function() {
             url: "core/ajax/message.ajax.php", // url du fichier php
             data: {
                 action: "removeMessage",
-                id: tr.attr('message_id'),
+                id: tr.attr('data-message_id'),
             },
             dataType: 'json',
             error: function(request, status, error) {

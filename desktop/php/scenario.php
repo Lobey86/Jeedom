@@ -21,9 +21,9 @@ sendVarToJS('select_id', init('id', '-1'));
             <ul id="ul_scenario" class="nav nav-list bs-sidenav fixnav">                  
                 <?php
                 if (config::byKey('enableScenario') == 0) {
-                    echo '<a class="btn btn-sm btn-success" id="bt_changeAllScenarioState" state="1" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-check"></i></a>';
+                    echo '<a class="btn btn-sm btn-success" id="bt_changeAllScenarioState" data-state="1" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-check"></i></a>';
                 } else {
-                    echo '<a class="btn btn-sm btn-danger" id="bt_changeAllScenarioState" state="0" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-times"></i> </a>';
+                    echo '<a class="btn btn-sm btn-danger" id="bt_changeAllScenarioState" data-state="0" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-times"></i> </a>';
                 }
                 ?>
                 <a class="btn btn-default btn-sm tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
@@ -71,7 +71,7 @@ sendVarToJS('select_id', init('id', '-1'));
                     } else {
                         $state = 'grey';
                     }
-                    echo '<li class="cursor li_scenario" id="scenario' . $scenario->getId() . '" scenario_id="' . $scenario->getId() . '">';
+                    echo '<li class="cursor li_scenario" id="scenario' . $scenario->getId() . '" data-scenario_id="' . $scenario->getId() . '">';
                     echo '<a> <span class="binary ' . $state . ' pull-right binary" style="width : 15px;"></span>' . $group . $scenario->getName() . '</a>';
                     echo '</li>';
                 }
@@ -80,7 +80,7 @@ sendVarToJS('select_id', init('id', '-1'));
         </div>
     </div>
     <div class="col-lg-10" id="div_editScenario" style="display: none; border-left: solid 1px #EEE; padding-left: 25px;">
-        <input class="scenarioAttr" l1key="id" hidden/>
+        <input class="scenarioAttr" data-l1key="id" hidden/>
         <legend style="height: 35px;">Scénario
             <a class="btn btn-default btn-xs pull-right" id="bt_copyScenario"><i class="fa fa-copy"></i> Dupliquer</a>
             <a class="btn btn-default btn-xs pull-right" id="bt_logScenario"><i class="fa fa-file-text-o"></i> Log</a>
@@ -93,25 +93,25 @@ sendVarToJS('select_id', init('id', '-1'));
                         <div class="form-group">
                             <label class="col-lg-6 control-label" >Nom du scénario</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr" l1key="name" type="text" placeholder="Nom du scénario"/>
+                                <input class="form-control scenarioAttr" data-l1key="name" type="text" placeholder="Nom du scénario"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-6 control-label" >Groupe</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr" l1key="group" type="text" placeholder="Groupe du scénario"/>
+                                <input class="form-control scenarioAttr" data-l1key="group" type="text" placeholder="Groupe du scénario"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-6 control-label">Actif</label>
                             <div class="col-lg-6">
-                                <input type="checkbox" class="form-control scenarioAttr" l1key="isActive">
+                                <input type="checkbox" class="form-control scenarioAttr" data-l1key="isActive">
                             </div>
                         </div>
                         <div class="form-group expertModeHidden">
                             <label class="col-lg-6 control-label">Timeout secondes (0 = illimité)</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr" l1key="timeout">
+                                <input class="form-control scenarioAttr" data-l1key="timeout">
                             </div>
                         </div>
                     </fieldset>
@@ -122,7 +122,7 @@ sendVarToJS('select_id', init('id', '-1'));
                     <div class="form-group">
                         <label class="col-lg-3 control-label" >Mode du scénario</label>
                         <div class="col-lg-3">
-                            <select class="form-control scenarioAttr" l1key="mode">
+                            <select class="form-control scenarioAttr" data-l1key="mode">
                                 <option value="provoke">Provoqué</option>
                                 <option value="schedule">Programmé</option>
                                 <option value="all">Les deux</option>
@@ -136,9 +136,9 @@ sendVarToJS('select_id', init('id', '-1'));
                     <div class="scheduleDisplay" style="display: none;">
                         <div class="form-group">
                             <label class="col-lg-3 control-label" >Précédent</label>
-                            <div class="col-lg-3" ><span class="scenarioAttr label label-primary" l1key="forecast" l2key="prevDate" l3key="date"></span></div>
+                            <div class="col-lg-3" ><span class="scenarioAttr label label-primary" data-l1key="forecast" data-l2key="prevDate" data-l3key="date"></span></div>
                             <label class="col-lg-3 control-label" >Prochain</label>
-                            <div class="col-lg-3"><span class="scenarioAttr label label-success" l1key="forecast" l2key="nextDate" l3key="date"></span></div> 
+                            <div class="col-lg-3"><span class="scenarioAttr label label-success" data-l1key="forecast" data-l2key="nextDate" data-l3key="date"></span></div> 
                         </div>
                         <div class="scheduleMode"></div>
                     </div>

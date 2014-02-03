@@ -30,7 +30,7 @@ if (!isConnect()) {
         <div class="form-group">
             <label class="col-lg-2 control-label">Razberry IP</label>
             <div class="col-lg-2">
-                <input class="configKey form-control" l1key="zwaveAddr" />
+                <input class="configKey form-control" data-l1key="zwaveAddr" />
             </div>
         </div>
     </fieldset>

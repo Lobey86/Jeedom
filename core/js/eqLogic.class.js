@@ -60,7 +60,7 @@ eqLogic.save = function(_type, _eqLogics) {
 eqLogic.remove = function(_type, _eqLogic_Id) {
     $.hideAlert();
     if (!isset(_eqLogic_Id)) {
-        _eqLogic_Id = $('.li_eqLogic.active').attr('eqLogic_id');
+        _eqLogic_Id = $('.li_eqLogic.active').attr('data-eqLogic_id');
     }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -117,8 +117,8 @@ eqLogic.print = function(_type, _eqLogic_id) {
             $('.cmd').remove();
             for (var i in data.result.cmd) {
                 addCmdToTable(data.result.cmd[i]);
-                if ($('#table_cmd tbody tr:last .cmdAttr[l1key=subType]').value() == 'slider' || $('#table_cmd tbody tr:last .cmdAttr[l1key=subType]').value() == 'color') {
-                    $('#table_cmd tbody tr:last .cmdAttr[l1key=value]').show();
+                if ($('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'slider' || $('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'color') {
+                    $('#table_cmd tbody tr:last .cmdAttr[data-l1key=value]').show();
                 }
             }
             activateTooltips();

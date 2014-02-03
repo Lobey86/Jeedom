@@ -24,10 +24,10 @@ $(function() {
         $.hideAlert();
         if ($(this).closest('.li_history').hasClass('active')) {
             $(this).closest('.li_history').removeClass('active');
-            addChart($(this).closest('.li_history').attr('cmd_id'), 0);
+            addChart($(this).closest('.li_history').attr('data-cmd_id'), 0);
         } else {
             $(this).closest('.li_history').addClass('active');
-            addChart($(this).closest('.li_history').attr('cmd_id'), 1);
+            addChart($(this).closest('.li_history').attr('data-cmd_id'), 1);
         }
         return false;
     });
@@ -37,7 +37,7 @@ $(function() {
         $.hideAlert();
         bootbox.confirm('Etez-vous sûr de vouloir supprimer l\'historique de <span style="font-weight: bold ;">' + bt_remove.closest('.li_history').find('.history').text() + '</span> ?', function(result) {
             if (result) {
-                emptyHistory(bt_remove.closest('.li_history').attr('cmd_id'));
+                emptyHistory(bt_remove.closest('.li_history').attr('data-cmd_id'));
             }
         });
     });
@@ -62,7 +62,7 @@ function emptyHistory(_cmd_id) {
                 return;
             }
             $('#div_alert').showAlert({message: 'Historique supprimé avec succes', level: 'success'});
-            li = $('li[cmd_id=' + _cmd_id + ']');
+            li = $('li[data-cmd_id=' + _cmd_id + ']');
             if (li.hasClass('active')) {
                 li.find('.history').click();
             }

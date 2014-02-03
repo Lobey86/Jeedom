@@ -3,7 +3,7 @@ if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
 
-$sel_eqType = '<select class=\'interactDefAttr tooltips form-control input-sm\' title=\'Limiter aux équipement de type\' l1key=\'filtres\' l2key=\'plugin\' style=\'margin-top : 5px;\'>';
+$sel_eqType = '<select class=\'interactDefAttr tooltips form-control input-sm\' title=\'Limiter aux équipement de type\' data-l1key=\'filtres\' data-l2key=\'plugin\' style=\'margin-top : 5px;\'>';
 $sel_eqType .= '<option value=\'all\' >Tous</option>';
 foreach (eqLogic::allType() as $type) {
     $sel_eqType .= '<option value=\'' . $type['type'] . '\' >' . $type['type'] . '</option>';
@@ -11,7 +11,7 @@ foreach (eqLogic::allType() as $type) {
 $sel_eqType .= '</select>';
 sendVarToJS('sel_eqType', $sel_eqType);
 
-$sel_object = '<select class=\'interactDefAttr tooltips form-control input-sm\' l1key=\'filtres\' l2key=\'object_id\' title=\'Limiter aux commandes appartenant à l objet\' style=\'margin-top : 5px;\'>';
+$sel_object = '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'object_id\' title=\'Limiter aux commandes appartenant à l objet\' style=\'margin-top : 5px;\'>';
 $sel_object .= '<option value=\'all\' >Tous</option>';
 foreach (object::all() as $object) {
     $sel_object .= '<option value=\'' . $object->getId() . '\' >' . $object->getName() . '</option>';
@@ -19,7 +19,7 @@ foreach (object::all() as $object) {
 $sel_object .= '</select>';
 sendVarToJS('sel_object', $sel_object);
 
-$sel_unite = '<select class=\'interactDefAttr tooltips form-control input-sm\' l1key=\'filtres\' l2key=\'cmd_unite\' title=\'Limiter aux commandes ayant pour unité\'>';
+$sel_unite = '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'cmd_unite\' title=\'Limiter aux commandes ayant pour unité\'>';
 $sel_unite .= '<option value=\'all\' >Toutes</option>';
 foreach (cmd::allUnite() as $unite) {
     $sel_unite .= '<option value=\'' . $unite['unite'] . '\' >' . $unite['unite'] . '</option>';
@@ -27,7 +27,7 @@ foreach (cmd::allUnite() as $unite) {
 $sel_unite .= '</select>';
 sendVarToJS('sel_unite', $sel_unite);
 
-$sel_subtype = '<select class=\'interactDefAttr tooltips form-control input-sm\' l1key=\'filtres\' l2key=\'subtype\' title=\'Limiter aux commandes ayant pour sous-type\'>';
+$sel_subtype = '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'subtype\' title=\'Limiter aux commandes ayant pour sous-type\'>';
 $sel_subtype .= '<option value=\'all\' >Tous</option>';
 $sel_subtype .= '<option value=\'color\' >Couleur</option>';
 $sel_subtype .= '<option value=\'binary\' >Binaire</option>';

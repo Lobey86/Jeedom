@@ -20,16 +20,16 @@ $(function() {
         $.hideAlert();
         $('.li_plugin').removeClass('active');
         $(this).addClass('active');
-        printPlugin($(this).attr('id'), $(this).attr('pluginPath'));
+        printPlugin($(this).attr('data-plugin_id'), $(this).attr('data-pluginPath'));
         return false;
     });
 
     $("#span_plugin_toggleState").delegate(".togglePlugin", 'click', function(event) {
-        togglePlugin($(this).attr('plugin_id'), $(this).attr('state'));
+        togglePlugin($(this).attr('data-plugin_id'), $(this).attr('data-state'));
     });
 
     if (select_id != -1) {
-        $('#ul_plugin .li_plugin[plugin_id=' + select_id + ']').click();
+        $('#ul_plugin .li_plugin[data-plugin_id=' + select_id + ']').click();
     } else {
         $('#ul_plugin .li_plugin:first').click();
     }
@@ -78,7 +78,7 @@ function savePluginConfig() {
         data: {
             action: "addKey",
             value: json_encode(configuration),
-            plugin: $('.li_plugin.active').attr('plugin_id')
+            plugin: $('.li_plugin.active').attr('data-plugin_id')
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -108,7 +108,7 @@ function loadPluginConfig() {
         data: {
             action: "getKey",
             key: json_encode(configuration),
-            plugin: $('.li_plugin.active').attr('plugin_id')
+            plugin: $('.li_plugin.active').attr('data-plugin_id')
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -159,9 +159,9 @@ function printPlugin(_id, _pluginPath) {
             $('#span_plugin_toggleState').empty();
             if (data.result.checkVersion != -1) {
                 if (data.result.activate == 1) {
-                    var btn = '<a class="btn btn-danger btn-xs togglePlugin" state="0" plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-times"></i> Désactiver</a>';
+                    var btn = '<a class="btn btn-danger btn-xs togglePlugin" data-state="0" data-plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-times"></i> Désactiver</a>';
                 } else {
-                    var btn = '<a class="btn btn-success btn-xs togglePlugin" state="1" plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-check"></i> Activer</a>';
+                    var btn = '<a class="btn btn-success btn-xs togglePlugin" data-state="1" data-plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-check"></i> Activer</a>';
                 }
                 $('#span_plugin_toggleState').html(btn);
             }

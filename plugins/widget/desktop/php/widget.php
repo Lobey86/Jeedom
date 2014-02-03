@@ -28,19 +28,19 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
         <div class="bs-sidebar affix">
             <ul id="ul_widget" class="nav nav-list bs-sidenav fixnav">
                 <li class="nav-header">Liste des widgets
-                    <i class="fa fa-plus-circle pull-right cursor widgetAction" action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
+                    <i class="fa fa-plus-circle pull-right cursor widgetAction" data-action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <li class="nav-header">Dashboard</li>
                 <?php
                 foreach (widget::listWidget('dashboard') as $widget) {
-                    echo '<li class="cursor li_widget" path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
+                    echo '<li class="cursor li_widget" data-path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
                 }
                 ?>
                 <li class="nav-header">Mobile</li>
                 <?php
                 foreach (widget::listWidget('mobile') as $widget) {
-                    echo '<li class="cursor li_widget" path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
+                    echo '<li class="cursor li_widget" data-path="' . $widget->getPath() . '"><a>' . $widget->getHumanName() . '</a></li>';
                 }
                 ?>
             </ul>
@@ -57,14 +57,14 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom du widget</label>
                             <div class="col-lg-6">
-                                <input type="text" class="widgetAttr form-control" l1key="path" style="display : none;" />
-                                <input type="text" class="widgetAttr form-control" l1key="name" placeholder="Nom du widget"/>
+                                <input type="text" class="widgetAttr form-control" data-l1key="path" style="display : none;" />
+                                <input type="text" class="widgetAttr form-control" data-l1key="name" placeholder="Nom du widget"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Version</label>
                             <div class="col-lg-6">
-                                <select class="widgetAttr form-control" l1key='version'>
+                                <select class="widgetAttr form-control" data-l1key='version'>
                                     <option value='dashboard'>Dashboard</option>
                                     <option value='mobile'>Mobile</option>
                                 </select>
@@ -73,7 +73,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Type</label>
                             <div class="col-lg-6">
-                                <select class="widgetAttr form-control" l1key='type'>
+                                <select class="widgetAttr form-control" data-l1key='type'>
                                     <option value='none'>Aucun</option>
                                     <?php
                                     foreach (cmd::allType() as $type) {
@@ -86,7 +86,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Sous-type</label>
                             <div class="col-lg-6">
-                                <select class="widgetAttr form-control" l1key='subtype'>
+                                <select class="widgetAttr form-control" data-l1key='subtype'>
                                     <option value='none'>Aucun</option>
                                     <?php
                                     foreach (cmd::allSubType() as $subtype) {
@@ -106,13 +106,13 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
             </div>
         </div>
 
-        <textarea class='form-control widgetAttr' l1key='content' id='ta_widgetContent' style='height: 500px;'></textarea>
+        <textarea class='form-control widgetAttr' data-l1key='content' id='ta_widgetContent' style='height: 500px;'></textarea>
 
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
-                    <a class="btn btn-danger widgetAction" action="remove"><i class="fa fa-minus-circle"></i> Supprimer</a>
-                    <a class="btn btn-success widgetAction" action="save"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+                    <a class="btn btn-danger widgetAction" data-action="remove"><i class="fa fa-minus-circle"></i> Supprimer</a>
+                    <a class="btn btn-success widgetAction" data-action="save"><i class="fa fa-check-circle"></i> Sauvegarder</a>
                 </div>
             </fieldset>
         </form>
@@ -134,7 +134,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Nom du widget</label>
                             <div class="col-lg-8">
-                                <input class="form-control widgetAttr" l1key="name" type="text" placeholder="Nom du widget"/>
+                                <input class="form-control widgetAttr" data-l1key="name" type="text" placeholder="Nom du widget"/>
                             </div>
                         </div>
                     </fieldset>
@@ -142,7 +142,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
             </div>
             <div class="modal-footer">
                 <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> Annuler</a>
-                <a class="btn btn-success widgetAction" action="newAdd"><i class="fa fa-check-circle icon-white"></i> Enregistrer</a>
+                <a class="btn btn-success widgetAction" data-action="newAdd"><i class="fa fa-check-circle icon-white"></i> Enregistrer</a>
             </div>
         </div>
     </div>

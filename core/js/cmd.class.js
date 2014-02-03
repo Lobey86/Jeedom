@@ -21,87 +21,87 @@ function cmd() {
 
 
 cmd.changeType = function(_cmd, _subType) {
-    var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control" l1key="subType">';
-    var type = _cmd.find('.cmdAttr[l1key=type]').value();
+    var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control" data-l1key="subType">';
+    var type = _cmd.find('.cmdAttr[data-l1key=type]').value();
     switch (type) {
         case 'info' :
             selSubType += '<option value="numeric">Numérique</option>';
             selSubType += '<option value="binary">Binaire</option>';
             selSubType += '<option value="string">Autre</option>';
-            _cmd.find('.cmdAttr[l1key=eventOnly]').show();
-            _cmd.find('.cmdAttr[l1key=isHistorized]').parent().show();
-            _cmd.find('.cmdAttr[l1key=cache][l2key=enable]').parent().show();
+            _cmd.find('.cmdAttr[data-l1key=eventOnly]').show();
+            _cmd.find('.cmdAttr[data-l1key=isHistorized]').parent().show();
+            _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=enable]').parent().show();
             break;
         case 'action' :
             selSubType += '<option value="other">Défaut</option>';
             selSubType += '<option value="slider">Slider</option>';
             selSubType += '<option value="message">Message</option>';
             selSubType += '<option value="color">Couleur</option>';
-            _cmd.find('.cmdAttr[l1key=eventOnly]').parent().hide();
-            _cmd.find('.cmdAttr[l1key=isHistorized]').parent().hide();
-            _cmd.find('.cmdAttr[l1key=cache][l2key=enable]').parent().hide();
+            _cmd.find('.cmdAttr[data-l1key=eventOnly]').parent().hide();
+            _cmd.find('.cmdAttr[data-l1key=isHistorized]').parent().hide();
+            _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=enable]').parent().hide();
             break;
     }
     selSubType += '</select>';
     _cmd.find('.subType').empty();
     _cmd.find('.subType').append(selSubType);
     if (isset(_subType)) {
-        _cmd.find('.cmdAttr[l1key=subType]').value(_subType);
+        _cmd.find('.cmdAttr[data-l1key=subType]').value(_subType);
     }
-    _cmd.find('.cmdAttr[l1key=subType]').trigger('change');
+    _cmd.find('.cmdAttr[data-l1key=subType]').trigger('change');
 }
 
 cmd.changeSubType = function(_cmd) {
-    var type = _cmd.find('.cmdAttr[l1key=type]').value();
-    var subType = _cmd.find('.cmdAttr[l1key=subType]').value();
+    var type = _cmd.find('.cmdAttr[data-l1key=type]').value();
+    var subType = _cmd.find('.cmdAttr[data-l1key=subType]').value();
     switch (type) {
         case 'info' :
             switch (subType) {
                 case 'numeric' :
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').show();
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').show();
-                    _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').show();
-                    _cmd.find('.cmdAttr[l1key=unite]').show();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').show();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').show();
+                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').show();
+                    _cmd.find('.cmdAttr[data-l1key=unite]').show();
                     break;
                 case 'binary' :
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').hide();
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').hide();
-                    _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').show();
-                    _cmd.find('.cmdAttr[l1key=unite]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').show();
+                    _cmd.find('.cmdAttr[data-l1key=unite]').hide();
                     break;
                 case 'string' :
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').hide();
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').hide();
-                    _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').show();
-                    _cmd.find('.cmdAttr[l1key=unite]').show();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').show();
+                    _cmd.find('.cmdAttr[data-l1key=unite]').show();
                     break;
             }
             break;
         case 'action' :
             switch (subType) {
                 case 'other' :
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').hide();
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').hide();
-                    _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').hide();
-                    _cmd.find('.cmdAttr[l1key=unite]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=unite]').hide();
                     break;
                 case 'slider' :
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').show();
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').show();
-                    _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').hide();
-                    _cmd.find('.cmdAttr[l1key=unite]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').show();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').show();
+                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=unite]').hide();
                     break;
                 case 'message' :
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').hide();
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').hide();
-                    _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').hide();
-                    _cmd.find('.cmdAttr[l1key=unite]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=unite]').hide();
                     break;
                 case 'color' :
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=minValue]').hide();
-                    _cmd.find('.cmdAttr[l1key=configuration][l2key=maxValue]').hide();
-                    _cmd.find('.cmdAttr[l1key=cache][l2key=lifetime]').hide();
-                    _cmd.find('.cmdAttr[l1key=unite]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').hide();
+                    _cmd.find('.cmdAttr[data-l1key=unite]').hide();
                     break;
             }
             break;
@@ -109,7 +109,7 @@ cmd.changeSubType = function(_cmd) {
 }
 
 cmd.availableType = function() {
-    var selType = '<select style="width : 120px; margin-bottom : 3px;" class="cmdAttr form-control" l1key="type">';
+    var selType = '<select style="width : 120px; margin-bottom : 3px;" class="cmdAttr form-control" data-l1key="type">';
     selType += '<option value="info">Info</option>';
     selType += '<option value="action">Action</option>';
     selType += '</select>';

@@ -22,7 +22,7 @@ $(function() {
         $('.widget').show();
         $('.li_widget').removeClass('active');
         $(this).addClass('active');
-        printWidget($(this).attr('path'));
+        printWidget($(this).attr('data-path'));
         return false;
     });
 
@@ -39,9 +39,9 @@ $(function() {
     });
 
     $('.widgetAction[action=remove]').on('click', function() {
-        bootbox.confirm('Etes-vous sûr de vouloir supprimer le widget <span style="font-weight: bold ;">' + $('.widgetAttr[l1key=name]').value() + '</span> ?', function(result) {
+        bootbox.confirm('Etes-vous sûr de vouloir supprimer le widget <span style="font-weight: bold ;">' + $('.widgetAttr[data-l1key=name]').value() + '</span> ?', function(result) {
             if (result) {
-                removeWidget($('.widgetAttr[l1key=path]').value());
+                removeWidget($('.widgetAttr[data-l1key=path]').value());
             }
         });
     });
@@ -54,18 +54,18 @@ $(function() {
 
     $('#bt_applyWidget').on('click', function() {
         $('#md_modal').dialog({title: "Appliquer widget"});
-        $('#md_modal').load('index.php?v=d&plugin=widget&modal=widget.apply&path=' + $('.widgetAttr[l1key=path]').value()).dialog('open');
+        $('#md_modal').load('index.php?v=d&plugin=widget&modal=widget.apply&path=' + $('.widgetAttr[data-l1key=path]').value()).dialog('open');
     });
 
     $("#md_addWidget .widgetAction[action=newAdd]").on('click', function() {
         $('#md_addWidget').modal('hide');
-        addWidget($('#md_addWidget .widgetAttr[l1key=name]').value());
+        addWidget($('#md_addWidget .widgetAttr[data-l1key=name]').value());
     });
 
 
     if (select_id != -1) {
-        if ($('#ul_widget .li_widget[path="' + select_id + '"]').length != 0) {
-            $('#ul_widget .li_widget[path="' + select_id + '"]').click();
+        if ($('#ul_widget .li_widget[data-path="' + select_id + '"]').length != 0) {
+            $('#ul_widget .li_widget[data-path="' + select_id + '"]').click();
         } else {
             $('#ul_widget .li_widget:first').click();
         }

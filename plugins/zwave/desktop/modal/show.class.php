@@ -40,7 +40,7 @@ include_file('core', 'class.command', 'config', 'zwave');
             <tbody>
                 <?php
                 foreach ($eqLogic->getAvailableCommandClass() as $commandClasses) {
-                    echo '<tr commandClass="' . $commandClasses . '" class="cursor">';
+                    echo '<tr data-commandClass="' . $commandClasses . '" class="cursor">';
                     echo '<td>';
                     echo $commandClasses;
                     if (count($listClassCommand[$commandClasses]) > 0) {
@@ -64,13 +64,13 @@ include_file('core', 'class.command', 'config', 'zwave');
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Nom</label>
                     <div class="col-lg-8">
-                        <span class='showClassAttr label label-primary' l1key='name'></span>
+                        <span class='showClassAttr label label-primary' data-l1key='name'></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Description</label>
                     <div class="col-lg-8">
-                        <div class='showClassAttr label label-info' l1key='description'></div>
+                        <div class='showClassAttr label label-info' data-l1key='description'></div>
                     </div>
                 </div>
             </fieldset>
@@ -97,20 +97,20 @@ include_file('core', 'class.command', 'config', 'zwave');
     $('#table_class tbody tr').on('click', function() {
         $('#table_class tbody tr').removeClass('active');
         $(this).addClass('active');
-        syncEqLogicWithRazberry($(this).attr('commandClass'));
+        syncEqLogicWithRazberry($(this).attr('data-commandClass'));
     });
 
     $('#bt_addClassCommand').on('click', function() {
         $('#table_classCommands tbody tr').each(function() {
-            if ($(this).find('.classCommandAttr[l1key=enable]').prop('checked')) {
-                addCmdToTable(json_decode($(this).find('.classCommandAttr[l1key=json_cmd]').value()));
+            if ($(this).find('.classCommandAttr[data-l1key=enable]').prop('checked')) {
+                addCmdToTable(json_decode($(this).find('.classCommandAttr[data-l1key=json_cmd]').value()));
             }
         });
         $('#div_showClassAlert').showAlert({message: 'Commandes ajoutées', level: 'success'});
     });
 
     $('#cb_selectAllCommand').on('click', function() {
-        $('#table_classCommands tbody tr .classCommandAttr[l1key=enable]').prop('checked', $(this).prop('checked'));
+        $('#table_classCommands tbody tr .classCommandAttr[data-l1key=enable]').prop('checked', $(this).prop('checked'));
     });
 
     function syncEqLogicWithRazberry(_commandClass) {
@@ -138,18 +138,18 @@ include_file('core', 'class.command', 'config', 'zwave');
                     var tr = '';
                     tr += '<tr>';
                     tr += '<td>';
-                    tr += '<input style="display: none;" class="classCommandAttr" l1key="json_cmd"/>';
-                    tr += '<input type="checkbox" class="classCommandAttr" l1key="enable"/>';
+                    tr += '<input style="display: none;" class="classCommandAttr" data-l1key="json_cmd"/>';
+                    tr += '<input type="checkbox" class="classCommandAttr" data-l1key="enable"/>';
                     tr += '</td>';
                     tr += '<td>';
-                    tr += '<span class="classCommandAttr label label-default" l1key="name"></span> ';
+                    tr += '<span class="classCommandAttr label label-default" data-l1key="name"></span> ';
                     tr += '</td>';
                     tr += '<td>';
-                    tr += '<span class="classCommandAttr label label-default" l1key="type"></span> ';
-                    tr += '<span class="classCommandAttr label label-default" l1key="subtype"></span> ';
+                    tr += '<span class="classCommandAttr label label-default" data-l1key="type"></span> ';
+                    tr += '<span class="classCommandAttr label label-default" data-l1key="subtype"></span> ';
                     tr += '</td>';
                     tr += '<td>';
-                    tr += '<span class="classCommandAttr label label-default" l1key="configuration" l2key="value" ></span> ';
+                    tr += '<span class="classCommandAttr label label-default" data-l1key="configuration" data-l2key="value" ></span> ';
                     tr += '</td>';
                     tr += '</tr>';
                     $('#table_classCommands tbody').append(tr);
