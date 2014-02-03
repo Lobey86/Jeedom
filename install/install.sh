@@ -1,3 +1,4 @@
+apt-get update
 apt-get install git git-core  git-man
 apt-get install nginx-common  nginx-full
 apt-get install mysql-client mysql-common mysql-server mysql-server-core
