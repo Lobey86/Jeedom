@@ -52,13 +52,14 @@ try {
         if (!isConnect('admin')) {
             throw new Exception('401 Unauthorized');
         }
-        $object = new object();
-        $object->setId(init('id'));
-        $object->setName(init('name'));
-        $object->setFather_id(init('father_id', null));
-        $object->setIsVisible(init('isVisible'));
+        $object_json = json_decode(init('object'), true);
+        $object = object::byId($object_json['id']);
+        if (!is_object($object)) {
+            $object = new object();
+        }
+        utils::a2o($object, $object_json);
         $object->save();
-        ajax::success(array('id' => $object->getId()));
+        ajax::success(utils::o2a($object));
     }
 
     if (init('action') == 'getChild') {

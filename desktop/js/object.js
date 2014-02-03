@@ -49,7 +49,7 @@ $(function() {
     $("#bt_removeObject").on('click', function(event) {
         if ($('.li_object.active').attr('data-object_id') != undefined) {
             $.hideAlert();
-            bootbox.confirm('Etez-vous sûr de vouloir supprimer l\'objet <span style="font-weight: bold ;">' + $('.li_object.active').attr('data-name') + '</span> ?', function(result) {
+            bootbox.confirm('Etez-vous sûr de vouloir supprimer l\'objet <span style="font-weight: bold ;">' + $('.li_object.active a').text() + '</span> ?', function(result) {
                 if (result) {
                     removeObject($('.li_object.active').attr('data-object_id'));
                 }
@@ -111,12 +111,9 @@ function printObject(_object_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#in_name').value(data.result.name);
-            $('#sel_father').value(data.result.father_id);
-            $('#in_visible').attr('checked', (data.result.isVisible == 1) ? true : false);
-
-            $('#sel_father option').show();
-            $('#sel_father option[value=' + _object_id + ']').hide();
+            $('.objectAttr[data-l1key=father_id] option').show();
+            $('.object').setValues(data.result, '.objectAttr');
+            $('.objectAttr[data-l1key=father_id] option[value=' + _object_id + ']').hide();
         }
     });
 }
@@ -151,20 +148,14 @@ function addObject() {
 
 
 function  saveObject() {
-    var id = $('.li_object.active').attr('data-object_id');
-    var name = $('#in_name').value();
-    var father_id = $('#sel_father').value();
-    var isVisible = $('#in_visible').value();
-
+    var object = $('.object').getValues('.objectAttr');
+    object = object[0];
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/object.ajax.php", // url du fichier php
         data: {
             action: "saveObject",
-            id: id,
-            name: name,
-            father_id: father_id,
-            isVisible: isVisible
+            object : json_encode(object),
         },
         dataType: 'json',
         error: function(request, status, error) {
