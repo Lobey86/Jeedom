@@ -60,6 +60,14 @@ $(function() {
         return false;
     });
 
+    if (getUrlVars('saveSuccessFull') == 1) {
+        $('#div_alert').showAlert({message: 'Sauvegarde effectuée avec succès', level: 'success'});
+    }
+
+    if (getUrlVars('removeSuccessFull') == 1) {
+        $('#div_alert').showAlert({message: 'Suppression effectuée avec succès', level: 'success'});
+    }
+
     if (select_id != -1) {
         if ($('#ul_object .li_object[data-object_id=' + select_id + ']').length != 0) {
             $('#ul_object .li_object[data-object_id=' + select_id + ']').click();
@@ -89,7 +97,7 @@ function removeObject(_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            window.location.replace('index.php?v=d&p=object');
+            window.location.replace('index.php?v=d&p=object&removeSuccessFull=1');
         }
     });
 }
@@ -119,18 +127,13 @@ function printObject(_object_id) {
 }
 
 function addObject() {
-    var name = $('#in_addObjectName').value();
-    if (name == '') {
-        $('#div_addObjetAlert').showAlert({message: 'Le nom de l\'objet ne peut être vide', level: 'danger'});
-        return;
-    }
+    var object = {name: $('#in_addObjectName').value()};
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/object.ajax.php", // url du fichier php
         data: {
             action: "saveObject",
-            name: name,
-            isVisible: 1
+            object: json_encode(object),
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -155,7 +158,7 @@ function  saveObject() {
         url: "core/ajax/object.ajax.php", // url du fichier php
         data: {
             action: "saveObject",
-            object : json_encode(object),
+            object: json_encode(object),
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -166,7 +169,7 @@ function  saveObject() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Objet sauvegardé', level: 'success'});
+            window.location.replace('index.php?v=d&p=object&id=' + data.result.id + '&saveSuccessFull=1');
         }
     });
 
