@@ -12,32 +12,32 @@
 
     <script>
         $('.scenario[data-scenario_id=#id#] .changeScenarioState').on('click', function() {
-            changeScenarioState($(this).closest('.scenario').attr('data-scenario_id'), $(this).attr('state'));
+            changeScenarioState($(this).closest('.scenario').attr('data-scenario_id'), $(this).attr('data-state'));
         });
         if ('#isActive#' == '1') {
             if ('#state#' == 'on') {
-                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=start]').show();
-                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=deactivate]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=start]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
                 $('.scenario[data-scenario_id=#id#] .state').addClass('green');
             }
             if ('#state#' == 'in progress') {
-                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=stop]').show();
-                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=deactivate]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=stop]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
                 $('.scenario[data-scenario_id=#id#] .state').addClass('blue');
             }
             if ('#state#' == 'error') {
-                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=start]').show();
-                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=deactivate]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=start]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
                 $('.scenario[data-scenario_id=#id#]] .state').addClass('orange');
             }
             if ('#state#' == 'stop') {
-                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=start]').show();
-                $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=deactivate]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=start]').show();
+                $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
                 $('.scenario[data-scenario_id=#id#] .state').addClass('red');
             }
         } else {
             $('.scenario[scenario_id=#id#] .state').addClass('grey');
-            $('.scenario[data-scenario_id=#id#] .changeScenarioState[state=activate]').show();
+            $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=activate]').show();
         }
     </script>
 </div>
