@@ -33,6 +33,7 @@ class eqLogic {
     protected $configuration;
     protected $specificCapatibilities;
     protected $timeout;
+    protected $category;
     protected $_internalEvent = 0;
 
     /*     * ***********************Methode static*************************** */
@@ -513,6 +514,30 @@ class eqLogic {
 
     public function setTimeout($timeout) {
         $this->timeout = $timeout;
+    }
+
+    public function getCategory($_key = '', $_default = '') {
+        if ($this->category == '') {
+            return $_default;
+        }
+        if (is_json($this->category)) {
+            if ($_key == '') {
+                return json_decode($this->category, true);
+            }
+            $category = json_decode($this->category, true);
+            return (isset($category[$_key])) ? $category[$_key] : $_default;
+        }
+        return $_default;
+    }
+
+    public function setCategory($_key, $_value) {
+        if ($this->category == '' || !is_json($this->category)) {
+            $this->category = json_encode(array($_key => $_value));
+        } else {
+            $category = json_decode($this->category, true);
+            $category[$_key] = $_value;
+            $this->category = json_encode($category);
+        }
     }
 
 }
