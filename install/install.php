@@ -49,6 +49,9 @@ try {
     } catch (Exception $e) {
         
     }
+    if (isset($_GET['v'])) {
+        $update = true;
+    }
 
     if ($update) {
         try {
