@@ -267,8 +267,6 @@ class weather extends eqLogic {
         $return = array();
         $return['condition']['text'] = (string) $yw_forecast['condition']['text'][0];
         $return['condition']['temperature'] = (string) $yw_forecast['condition']['temp'][0];
-        preg_match("/<img src=\"(.*?)\/>/", (string) $weather->channel->item->description, $matches);
-        $return['condition']['image'] = $matches[1];
         $return['location']['city'] = (string) $yw_channel['location']['city'][0];
         $return['atmosphere']['humidity'] = (string) $yw_channel['atmosphere']['humidity'][0];
         $return['atmosphere']['pressure'] = (string) $yw_channel['atmosphere']['pressure'][0];
