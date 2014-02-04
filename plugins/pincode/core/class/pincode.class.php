@@ -81,6 +81,7 @@ class pincode extends eqLogic {
             '#eqLink#' => $this->getLinkToConfiguration(),
             '#action#' => (isset($action)) ? $action : '',
             '#object_name#' => (is_object($object)) ? $object->getName() . ' - ' : '',
+            '#background_color#' => $this->getBackgroundColor(),
         );
         $html = template_replace($replace, getTemplate('core', $_version, 'eqLogic', 'pincode'));
         return $html;

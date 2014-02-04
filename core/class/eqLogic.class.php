@@ -278,19 +278,6 @@ class eqLogic {
         }
         $object = $this->getObject();
 
-        $bgcolor = '#F5F5F5';
-        if ($this->getCategory('heating', 0) == 1) {
-            $bgcolor = '#F8E6E0';
-        }
-        if ($this->getCategory('energy', 0) == 1) {
-            $bgcolor = '#CEF6CE';
-        }
-        if ($this->getCategory('light', 0) == 1) {
-            $bgcolor = '#F7F8E0';
-        }
-        if ($this->getCategory('security', 0) == 1) {
-            $bgcolor = '#CEE3F6';
-        }
 
         $replace = array(
             '#id#' => $this->getId(),
@@ -299,7 +286,7 @@ class eqLogic {
             '#eqLink#' => $this->getLinkToConfiguration(),
             '#action#' => (isset($action)) ? $action : '',
             '#object_name#' => (is_object($object)) ? $object->getName() . ' - ' : '',
-            '#background_color#' => $bgcolor,
+            '#background_color#' => $this->getBackgroundColor(),
         );
 
         $html = template_replace($replace, getTemplate('core', $_version, 'eqLogic'));
@@ -373,6 +360,22 @@ class eqLogic {
         }
         $name .= '[' . $this->getName() . ']';
         return $name;
+    }
+
+    public function getBackgroundColor() {
+        if ($this->getCategory('security', 0) == 1) {
+            return '#CEE3F6';
+        }
+        if ($this->getCategory('heating', 0) == 1) {
+            return '#F8E6E0';
+        }
+        if ($this->getCategory('energy', 0) == 1) {
+            return '#CEF6CE';
+        }
+        if ($this->getCategory('light', 0) == 1) {
+            return '#F7F8E0';
+        }
+        return '#F5F5F5';
     }
 
     /*     * **********************Getteur Setteur*************************** */
