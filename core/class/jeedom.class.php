@@ -156,7 +156,9 @@ class jeedom {
     public static function getAvailableEqLogicCategorie() {
         $return = array(
             'heating' => 'Chauffage',
-            'security' => 'Sécurité'
+            'security' => 'Sécurité',
+            'energy' => 'Energie',
+            'light' => 'Lumière',
         );
         return $return;
     }
