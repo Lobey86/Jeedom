@@ -2,11 +2,6 @@
     cursor : pointer;
 }
 
-.row {
-    margin-left: 0px;
-    margin-right: 0px;
-}
-
 /* Themes for different contexts */
 .alert {
     border-left: 5px solid #F3E5A7;
@@ -44,7 +39,6 @@
     margin: 0 5px 5px;
     font-size: 13px;
     line-height: 20px;
-    background-color: #f5f5f5;
     border: 1px solid rgba(0,0,0,0.15);
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
