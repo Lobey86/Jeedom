@@ -130,7 +130,7 @@ class weather extends eqLogic {
         $weatherCmd->setConfiguration('data', 'sunrise');
         $weatherCmd->setUnite('');
         $weatherCmd->setType('info');
-        $weatherCmd->setSubType('string');
+        $weatherCmd->setSubType('numeric');
         $weatherCmd->save();
 
         $weatherCmd = new weatherCmd();
@@ -140,7 +140,7 @@ class weather extends eqLogic {
         $weatherCmd->setConfiguration('data', 'sunset');
         $weatherCmd->setUnite('');
         $weatherCmd->setType('info');
-        $weatherCmd->setSubType('string');
+        $weatherCmd->setSubType('numeric');
         $weatherCmd->save();
 
         $weatherCmd = new weatherCmd();
