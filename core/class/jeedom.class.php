@@ -153,6 +153,14 @@ class jeedom {
         shell_exec($cmd);
     }
 
+    public static function getAvailableEqLogicCategorie() {
+        $return = array(
+            'heating' => 'Chauffage',
+            'security' => 'Sécurité'
+        );
+        return $return;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     /*     * **********************Getteur Setteur*************************** */

@@ -275,7 +275,9 @@ class weather extends eqLogic {
         $return['wind']['speed'] = (string) $yw_channel['wind']['speed'][0];
         $return['wind']['direction'] = (string) $yw_channel['wind']['direction'][0];
         $return['astronomy']['sunrise'] = (string) $yw_channel['astronomy']['sunrise'][0];
+        $return['astronomy']['sunrise'] = date("H:i", strtotime($return['astronomy']['sunrise']));
         $return['astronomy']['sunset'] = (string) $yw_channel['astronomy']['sunset'][0];
+        $return['astronomy']['sunset'] = date("H:i", strtotime($return['astronomy']['sunset']));
         $day = 0;
         foreach ($yw_forecast['forecast'] as $forecast) {
             $return['forecast'][$day]['day'] = (string) $forecast['day'][0];
