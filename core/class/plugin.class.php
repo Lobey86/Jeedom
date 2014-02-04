@@ -137,9 +137,12 @@ class plugin {
             throw new Exception('Votre version de jeedom n\'est pas assez récente pour activer ce plugin');
         }
         config::save('active', $_state, $this->id);
-        foreach (eqLogic::byType($this->id) as $eqLogic) {
-            $eqLogic->setIsEnable($_state);
-            $eqLogic->save();
+        if ($_state == 0) {
+            foreach (eqLogic::byType($this->id) as $eqLogic) {
+                $eqLogic->setIsEnable($_state);
+                $eqLogic->setIsVisible($_state);
+                $eqLogic->save();
+            }
         }
         if (file_exists(dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php')) {
             require_once dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php';
