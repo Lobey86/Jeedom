@@ -31,13 +31,19 @@ sendVarToJS('dontRemoveCmd', '1');
                     <label class="col-lg-2 control-label">Nom de l'équipement GSM</label>
                     <div class="col-lg-3">
                         <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement GSM"/>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement GSM" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label" >Activer</label>
                     <div class="col-lg-1">
                         <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isEnable" checked/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" >Port du périphérique</label>
+                    <div class="col-lg-1">
+                        <input class="eqLogicAttr form-control" data-l1key="configuration" data-l1key="port" placeholder="/dev/ttyS0"/>
                     </div>
                 </div>
                 <div class="form-group">

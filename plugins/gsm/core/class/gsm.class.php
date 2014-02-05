@@ -18,6 +18,7 @@
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+include_file('3rdparty', 'phpSerial.class', 'php', 'gsm');
 
 class gsm extends eqLogic {
     
@@ -33,7 +34,18 @@ class gsmCmd extends cmd {
     /*     * *********************Methode d'instance************************* */
 
     public function execute($_options = null) {
-        
+        $eqLogic = $this->getEqLogic();
+        $serial = new phpSerial;
+        $serial->deviceSet($eqLogic->getConfiguration('port'));
+        $serial->deviceOpen();
+        $serial->sendMessage('AT+CPIN="0000"' . "\n");
+        sleep(2);
+        $serial->sendMessage('AT+CMGF=1' . "\n");
+        $serial->sendMessage('AT+CSMP=17,167,0,16' . "\n");
+        $serial->sendMessage('AT+CMGS="+33627860098"' . "\n");
+        $serial->sendMessage('Test');
+        $serial->sendMessage(chr(26));
+        $serial->deviceClose();
     }
 
 }
