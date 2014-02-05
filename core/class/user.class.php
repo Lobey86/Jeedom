@@ -35,7 +35,7 @@ class user {
         $values = array(
             'id' => $_id,
         );
-        $sql = 'SELECT id,login
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM user 
                 WHERE id=:id';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
