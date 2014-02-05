@@ -222,7 +222,7 @@ $(function() {
 
     $("#table_user").delegate(".change_mdp_user", 'click', function(event) {
         $.hideAlert();
-        var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value()};
+        var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value(), login : $(this).closest('tr').find('.userAttr[data-l1key=login]').value()};
         bootbox.prompt("Quel est le nouveau mot de passe", function(result) {
             if (result !== null) {
                 user.password = result;
