@@ -493,14 +493,6 @@ function saveScenario() {
     $.hideAlert();
     var scenario = $('body').getValues('.scenarioAttr');
     scenario = scenario[0];
-    scenario.trigger = []
-    $('.scenarioAttr[data-l1key="trigger"]').each(function() {
-        scenario.trigger.push($(this).value());
-    });
-    scenario.schedule = []
-    $('.scenarioAttr[data-l1key="schedule"]').each(function() {
-        scenario.schedule.push($(this).value());
-    });
     var elements = [];
     $('#div_scenarioElement').children('.element').each(function() {
         elements.push(getElement($(this)));
@@ -838,7 +830,7 @@ function getElement(_element) {
     element = element[0];
     element.subElements = [];
 
-    _element.findAtDepth('.subElement', 2).each(function() {
+    _element.findAtDepth('.subElement',2).each(function() {
         var subElement = $(this).getValues('.subElementAttr', 2);
         subElement = subElement[0];
         subElement.expressions = [];
@@ -850,7 +842,7 @@ function getElement(_element) {
             var expression = $(this).getValues('.expressionAttr', 3);
             expression = expression[0];
             if (expression.type == 'element') {
-                expression.element = getElement($(this).findAtDepth('.element', 1));
+                expression.element = getElement($(this).findAtDepth('.element', 2));
             }
             if (subElement.type == 'code') {
                 var id = $(this).find('.expressionAttr[data-l1key=expression]').attr('id');
