@@ -340,8 +340,8 @@ function printUsers() {
                 ligne += '</td>';
                 ligne += '<td>';
                 if (ldapEnable != '1') {
-                    ligne += '<a class="btn btn-xs btn-danger pull-right del_user"><i class="fa fa-trash-o"></i>Supprimer</a>';
-                    ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user"><i class="fa fa-pencil"></i>Changer le mot de passe</a>';
+                    ligne += '<a class="btn btn-xs btn-danger pull-right del_user"><i class="fa fa-trash-o"></i> Supprimer</a>';
+                    ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user"><i class="fa fa-pencil"></i> Changer le mot de passe</a>';
                 }
                 ligne += '</td>';
                 ligne += '<td>';
