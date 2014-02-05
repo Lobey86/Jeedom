@@ -566,6 +566,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
         </div>
     </div>
 </div>
+</div>
 
 <div class="modal fade" id="md_newUser">
     <div class="modal-dialog">
@@ -583,7 +584,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
             </div>
             <div class="modal-footer">
                 <a class="btn" data-dismiss="modal">Annuler</a>
-                <a class="btn btn-primary" id="bt_newUserSave"><i class="fa fa-check-circle" style="position:relative;left:-5px;top:1px"></i> Enregistrer</a>
+                <a class="btn btn-primary" id="bt_newUserSave"><i class="fa fa-check-circle"></i> Enregistrer</a>
             </div>
         </div>
     </div>

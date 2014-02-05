@@ -38,12 +38,13 @@ try {
         if (config::byKey('ldap::enable') == '1') {
             throw new Exception('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur');
         }
-        $user = user::byId(init('id'));
+        $user_json = json_decode(init('user'), true);
+        $user = user::byId($user_json['id']);
         if (!is_object($user)) {
             $user = new user();
-            $user->setLogin(init('login'));
+            $user->setLogin($user_json['login']);
         }
-        $user->setPassword(sha1(init('password')));
+        $user->setPassword(sha1($user_json['password']));
         $user->save();
         ajax::success();
     }
