@@ -565,32 +565,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
             </div>
         </div>
     </div>
-
-
-
-
-
-    <div class="modal fade" id="md_mdpUser">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" data-dismiss="modal">×</button>
-                    <h3>Changer le mot de passe</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger" style="display: none;" id="div_mdpUserError"></div>
-                    <center>
-                        <input type="password" class="form-control" id="in_mdpUserNewMdp" placeholder="Nouveau mot de passe"/>
-                    </center>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn" data-dismiss="modal">Annuler</a>
-                    <a class="btn btn-primary" id="bt_mdpUserSave"><i class="fa fa-check-circle" style="position:relative;left:-5px;top:1px"></i> Enregistrer</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 </div>
 
 <div class="modal fade" id="md_newUser">

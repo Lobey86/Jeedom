@@ -221,14 +221,12 @@ $(function() {
 
     $("#table_user").delegate(".change_mdp_user", 'click', function(event) {
         $.hideAlert();
-        var id = $(this).attr('id');
-        $('#bt_mdpUserSave').undelegate();
-        $("#div_mainContainer").delegate("#bt_mdpUserSave", 'click', function(event) {
-            addEditUser(id);
-            return false;
+        var id = $(this).closest('tr').find('.userAttr[data-l1key=id]').value();
+        bootbox.prompt("Quel est le nouveau mot de passe", function(result) {
+            if (result !== null) {
+                addEditUser(id);
+            }
         });
-        $('#md_mdpUser').modal('show');
-        return false;
     });
 
 
