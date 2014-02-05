@@ -616,7 +616,7 @@ function addExpression(_expression) {
     if (!isset(_expression.type) || _expression.type == '') {
         return '';
     }
-    var retour = '<div class="expression row" style="margin-top : 9px;">';
+    var retour = '<div class="expression row">';
     retour += '<input class="expressionAttr" data-l1key="id" style="display : none;" value="' + init(_expression.id) + '"/>';
     retour += '<input class="expressionAttr" data-l1key="scenarioSubElement_id" style="display : none;" value="' + init(_expression.scenarioSubElement_id) + '"/>';
     retour += '<input class="expressionAttr" data-l1key="type" style="display : none;" value="' + init(_expression.type) + '"/>';
@@ -625,16 +625,24 @@ function addExpression(_expression) {
             if (isset(_expression.expression)) {
                 _expression.expression = _expression.expression.replace(/"/g, '&quot;');
             }
-            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #dff0d8;display : inline-block; width : 80%" />';
+            retour += '<div class="col-lg-11">';
+            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #dff0d8;" />';
+            retour += '</div>';
+            retour += '<div class="col-lg-1">';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="info"><i class="fa fa-list-alt"></i></a>';
+            retour += '</div>';
             break;
         case 'element' :
+            retour += '<div class="col-lg-12">';
             retour += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : 12px;margin-left : 4px;"></i>';
             retour += addElement(_expression.element, true);
+            retour += '</div>';
             break;
         case 'action' :
+            retour += '<div class="col-lg-1">';
             retour += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : 9px;"></i>';
             retour += '<i class="fa fa-minus-circle pull-left cursor bt_removeExpression" style="margin-top : 9px;"></i>';
+            retour += '</div>';
             retour += '<div class="col-lg-6">';
             retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #fcf8e3;"/>';
             retour += '</div>';
@@ -646,8 +654,10 @@ function addExpression(_expression) {
             retour += '</div>';
             break;
         case 'code' :
+            retour += '<div class="col-lg-12">';
             retour += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : 9px;"></i>';
             retour += '<textarea class="expressionAttr form-control" data-l1key="expression">' + init(_expression.expression) + '</textarea>';
+            retour += '</div>';
             break;
     }
     retour += '</div>';

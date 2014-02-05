@@ -222,7 +222,7 @@ $(function() {
 
     $("#table_user").delegate(".change_mdp_user", 'click', function(event) {
         $.hideAlert();
-        var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value(), login : $(this).closest('tr').find('.userAttr[data-l1key=login]').value()};
+        var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value(), login: $(this).closest('tr').find('.userAttr[data-l1key=login]').value()};
         bootbox.prompt("Quel est le nouveau mot de passe", function(result) {
             if (result !== null) {
                 user.password = result;
@@ -336,7 +336,7 @@ function printUsers() {
             for (var i in data.result) {
                 var ligne = '<tr><td class="login">';
                 ligne += '<span class="userAttr" data-l1key="id" style="display : none;"/>';
-                ligne += data.result[i].login;
+                ligne += '<span class="userAttr" data-l1key="login" />';
                 ligne += '</td>';
                 ligne += '<td>';
                 if (ldapEnable != '1') {
