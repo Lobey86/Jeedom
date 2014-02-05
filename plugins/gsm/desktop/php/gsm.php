@@ -3,7 +3,7 @@ if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
 sendVarToJS('select_id', init('id', '-1'));
-sendVarToJS('eqType', 'sarah');
+sendVarToJS('eqType', 'gsm');
 sendVarToJS('dontRemoveCmd', '1');
 ?>
 
@@ -11,12 +11,12 @@ sendVarToJS('dontRemoveCmd', '1');
     <div class="col-lg-2">
         <div class="bs-sidebar affix">
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav fixnav">
-                <li class="nav-header">Liste des equipements S.A.R.A.H 
+                <li class="nav-header">Liste des equipements GSM
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" data-action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
-                foreach (eqLogic::byType('sarah') as $eqLogic) {
+                foreach (eqLogic::byType('gsm') as $eqLogic) {
                     echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
                 }
                 ?>
@@ -28,23 +28,10 @@ sendVarToJS('dontRemoveCmd', '1');
             <fieldset>
                 <legend>Générale</legend>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Nom de l'équipement S.A.R.A.H</label>
+                    <label class="col-lg-2 control-label">Nom de l'équipement GSM</label>
                     <div class="col-lg-3">
                         <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement S.A.R.A.H"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label" >Objet parent</label>
-                    <div class="col-lg-3">
-                        <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
-                            <option value="">Aucun</option>
-                            <?php
-                            foreach (object::all() as $object) {
-                                echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
-                            }
-                            ?>
-                        </select>
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="Nom de l'équipement GSM"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -53,17 +40,16 @@ sendVarToJS('dontRemoveCmd', '1');
                         <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isEnable" checked/>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Adresse du nodeJS</label>
+                    <label class="col-lg-2 control-label" >Numéro(s) autorisé(s)</label>
                     <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="addrSrv" placeholder="xxx.xxx.xxx.xxx:8080"/>
+                        <a class="btn btn-default" id="bt_addPhoneNumber"><i class="fa fa-plus-square"></i>  Ajouter</a>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Adresse du TTS</label>
-                    <div class="col-lg-3">
-                        <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="addrSrvTts" placeholder="xxx.xxx.xxx.xxx:8888"/>
+                    <label class="col-lg-2 control-label" ></label>
+                    <div class="col-lg-3" id="div_listPhoneNumber">
+                        
                     </div>
                 </div>
             </fieldset> 
@@ -72,7 +58,6 @@ sendVarToJS('dontRemoveCmd', '1');
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
-                    <a class="btn btn-warning" id="bt_syncInteract"><i class="fa fa-exchange"></i> Synchroniser</a>
                     <a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> Supprimer</a>
                     <a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> Sauvegarder</a>
                 </div>
@@ -87,16 +72,16 @@ sendVarToJS('dontRemoveCmd', '1');
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
-                <h3>Ajouter un équipement S.A.R.A.H</h3>
+                <h3>Ajouter un équipement GSM</h3>
             </div>
             <div class="modal-body">
                 <div style="display: none;" id="div_addEqLogicAlert"></div>
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">Nom de l'équipement S.A.R.A.H</label>
+                            <label class="col-lg-4 control-label">Nom de l'équipement GSM</label>
                             <div class="col-lg-8">
-                                <input class="form-control eqLogicAttr" data-l1key="name" type="text" placeholder="Nom de l'équipement S.A.R.A.H"/>
+                                <input class="form-control eqLogicAttr" data-l1key="name" type="text" placeholder="Nom de l'équipement GSM"/>
                             </div>
                         </div>
                     </fieldset>
@@ -110,5 +95,5 @@ sendVarToJS('dontRemoveCmd', '1');
     </div>
 </div>
 
-<?php include_file('desktop', 'sarah', 'js', 'sarah'); ?>
+<?php include_file('desktop', 'gsm', 'js', 'gsm'); ?>
 <?php include_file('core', 'plugin.template', 'js'); ?>

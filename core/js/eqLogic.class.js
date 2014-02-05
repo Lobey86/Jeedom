@@ -114,11 +114,18 @@ eqLogic.print = function(_type, _eqLogic_id) {
             }
             $('body .eqLogicAttr').value('');
             $('body').setValues(data.result, '.eqLogicAttr');
-            $('.cmd').remove();
-            for (var i in data.result.cmd) {
-                addCmdToTable(data.result.cmd[i]);
-                if ($('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'slider' || $('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'color') {
-                    $('#table_cmd tbody tr:last .cmdAttr[data-l1key=value]').show();
+
+            if ('function' == typeof(addEqLogic)) {
+                addEqLogic(data.result);
+            }
+
+            if ('function' == typeof(addCmdToTable)) {
+                $('.cmd').remove();
+                for (var i in data.result.cmd) {
+                    addCmdToTable(data.result.cmd[i]);
+                    if ($('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'slider' || $('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'color') {
+                        $('#table_cmd tbody tr:last .cmdAttr[data-l1key=value]').show();
+                    }
                 }
             }
             activateTooltips();
