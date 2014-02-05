@@ -36,7 +36,8 @@ $(function() {
 
     $("#bt_newUserSave").on('click', function(event) {
         $.hideAlert();
-        addEditUser('');
+        var user = {login: $('#in_newUserLogin'), password: $('#in_newUserMdp')};
+        addEditUser(user);
     });
 
     $("#bt_genKeyAPI").on('click', function(event) {
@@ -209,22 +210,23 @@ $(function() {
         return false;
     });
 
-    $("#table_user").delegate(".sup_user", 'click', function(event) {
+    $("#table_user").delegate(".del_user", 'click', function(event) {
         $.hideAlert();
-        var id = $(this).attr('id');
+        var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value()};
         bootbox.confirm('Etez-vous sûr de vouloir supprimer cet utilisateur ?', function(result) {
             if (result) {
-                delUser(id);
+                delUser(user);
             }
         });
     });
 
     $("#table_user").delegate(".change_mdp_user", 'click', function(event) {
         $.hideAlert();
-        var id = $(this).closest('tr').find('.userAttr[data-l1key=id]').value();
+        var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value()};
         bootbox.prompt("Quel est le nouveau mot de passe", function(result) {
             if (result !== null) {
-                addEditUser(id);
+                user.password = result;
+                addEditUser(user);
             }
         });
     });
@@ -338,8 +340,8 @@ function printUsers() {
                 ligne += '</td>';
                 ligne += '<td>';
                 if (ldapEnable != '1') {
-                    ligne += '<a class="btn btn-xs btn-danger pull-right sup_user" id="' + data.result[i].id + '"><i class="fa fa-trash-o"></i>Supprimer</a>';
-                    ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user" id="' + data.result[i].id + '"><i class="fa fa-pencil"></i>Changer le mot de passe</a>';
+                    ligne += '<a class="btn btn-xs btn-danger pull-right del_user"><i class="fa fa-trash-o"></i>Supprimer</a>';
+                    ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user"><i class="fa fa-pencil"></i>Changer le mot de passe</a>';
                 }
                 ligne += '</td>';
                 ligne += '<td>';
@@ -354,13 +356,13 @@ function printUsers() {
 }
 
 
-function delUser(_id) {
+function delUser(_user) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
             action: "delUser",
-            id: _id
+            id: _user.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -402,31 +404,13 @@ function saveUser() {
 }
 
 
-function addEditUser(_id) {
-    try {
-        if (_id == '') {
-            var login = $('#in_newUserLogin').value();
-            var password = $('#in_newUserMdp').value();
-        } else {
-            var password = $('#in_mdpUserNewMdp').value();
-            var login = '';
-        }
-        if (password == '') {
-            throw('Le mot de passe ne peut être vide');
-        }
-    } catch (e) {
-        $('#div_newUserAlert').showAlert({message: e, level: 'danger'});
-        return false;
-    }
-
+function addEditUser(_user) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
             action: "editUser",
-            login: login,
-            password: password,
-            id: _id
+            user: json_encode(_user),
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -443,7 +427,7 @@ function addEditUser(_id) {
                 }
                 return;
             }
-            $('#div_alert').showAlert({message: 'L\'utilisateur ' + login + ' a bien été mise à jour / crée', level: 'success'});
+            $('#div_alert').showAlert({message: 'L\'utilisateur ' + _user.login + ' a bien été mise à jour / créé', level: 'success'});
             $('#md_mdpUser').modal('hide');
         }
     });
