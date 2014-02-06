@@ -216,7 +216,7 @@ class zwave extends eqLogic {
                             $message .= '[' . $object->getName() . ']';
                         }
                         $message .= $eqLogic->getName() . ' a été désactivé car il n\'a plus de batterie';
-                        $action = '<a class="bt_changeIsEnable cursor" eqLogic_id="' . $eqLogic->getId() . '" isEnable="1">Ré-activer</a>';
+                        $action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $eqLogic->getId() . '" data-isEnable="1">Ré-activer</a>';
                         message::add('zwave', $message, $action, $logicalId);
                     }
                 }

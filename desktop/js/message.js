@@ -42,15 +42,15 @@ $(function() {
         });
     });
 
-
-    $("#table_message").delegate(".removeMessage", 'click', function(event) {
-        var _el = $(this);
+    $("#table_message").delegate(".bt_changeIsEnable", 'click', function() {
+        var el = $(this);
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/message.ajax.php", // url du fichier php
+            url: "core/ajax/eqLogic.ajax.php", // url du fichier php
             data: {
-                action: "removeMessage",
-                id: _el.closest('tr').attr('data-message_id')
+                action: "setIsEnable",
+                id: $(this).attr('data-eqLogic_id'),
+                isEnable: $(this).attr('data-isEnable')
             },
             dataType: 'json',
             error: function(request, status, error) {
@@ -61,8 +61,36 @@ $(function() {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                _el.closest('tr').remove();
+                removeMessage(el);
             }
         });
     });
+
+
+    $("#table_message").delegate(".removeMessage", 'click', function(event) {
+        removeMessage($(this));
+
+    });
 });
+
+function removeMessage(_el) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/message.ajax.php", // url du fichier php
+        data: {
+            action: "removeMessage",
+            id: _el.closest('tr').attr('data-message_id')
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            _el.closest('tr').remove();
+        }
+    });
+}
