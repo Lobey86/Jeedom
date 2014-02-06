@@ -735,10 +735,12 @@ class cmd {
 
     public function addHistoryValue($_value) {
         if ($this->getIsHistorized() == 1) {
-            $hitory = new history();
-            $hitory->setCmd_id($this->getId());
-            $hitory->setValue($_value);
-            return $hitory->save();
+            if ($_value <= $this->getConfiguration('maxValue') && $_value >= $this->getConfiguration('minValue')) {
+                $hitory = new history();
+                $hitory->setCmd_id($this->getId());
+                $hitory->setValue($_value);
+                return $hitory->save();
+            }
         }
         return false;
     }

@@ -35,6 +35,7 @@ class eqLogic {
     protected $timeout;
     protected $category;
     protected $_internalEvent = 0;
+    protected $_debug = false;
 
     /*     * ***********************Methode static*************************** */
 
@@ -378,6 +379,12 @@ class eqLogic {
         return '#F5F5F5';
     }
 
+    public function displayDebug($_message) {
+        if ($this->getDebug()) {
+            echo $_message . "\n";
+        }
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {
@@ -556,6 +563,17 @@ class eqLogic {
             $category[$_key] = $_value;
             $this->category = json_encode($category);
         }
+    }
+
+    public function getDebug() {
+        return $this->_debug;
+    }
+
+    public function setDebug($_debug) {
+        if($_debug){
+            echo "Mode debug activé\n";
+        }
+        $this->_debug = $_debug;
     }
 
 }

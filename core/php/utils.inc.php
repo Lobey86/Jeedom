@@ -363,7 +363,8 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
                 if ($pattern !== '*') {
                     if (in_array($this_folder, $matching_folders))
                         array_push($all, $this_folder);
-                } else
+                }
+                else
                     array_push($all, $this_folder);
             }
 
@@ -384,15 +385,15 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
         global $current_dir;
         $current_dir = $folder;
         usort($all, function($a, $b) {
-            return filemtime($GLOBALS['current_dir'] . '/' . $a) < filemtime($GLOBALS['current_dir'] . '/' . $b);
-        });
+                    return filemtime($GLOBALS['current_dir'] . '/' . $a) < filemtime($GLOBALS['current_dir'] . '/' . $b);
+                });
     }
     if (in_array('datetime_desc', $options)) {
         global $current_dir;
         $current_dir = $folder;
         usort($all, function($a, $b) {
-            return filemtime($GLOBALS['current_dir'] . '/' . $a) > filemtime($GLOBALS['current_dir'] . '/' . $b);
-        });
+                    return filemtime($GLOBALS['current_dir'] . '/' . $a) > filemtime($GLOBALS['current_dir'] . '/' . $b);
+                });
     }
 
     return $all;

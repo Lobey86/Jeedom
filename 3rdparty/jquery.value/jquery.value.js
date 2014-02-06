@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 
 (function($) {
@@ -132,12 +132,33 @@
                                 if (!isset(value[l1key][l2key])) {
                                     value[l1key][l2key] = {};
                                 }
-                                value[l1key][l2key][l3key] = elValue;
+                                if (isset(value[l1key][l2key][l3key])) {
+                                    if (!is_array(value[l1key][l2key][l3key])) {
+                                        value[l1key][l2key][l3key] = [value[l1key][l2key][l3key]];
+                                    }
+                                    value[l1key][l2key][l3key].push(elValue);
+                                } else {
+                                    value[l1key][l2key][l3key] = elValue;
+                                }
                             } else {
-                                value[l1key][l2key] = elValue;
+                                if (isset(value[l1key][l2key])) {
+                                    if (!is_array(value[l1key][l2key])) {
+                                        value[l1key][l2key] = [value[l1key][l2key]];
+                                    }
+                                    value[l1key][l2key].push(elValue);
+                                } else {
+                                    value[l1key][l2key] = elValue;
+                                }
                             }
                         } else {
-                            value[l1key] = elValue;
+                            if (isset(value[l1key])) {
+                                if (!is_array(value[l1key])) {
+                                    value[l1key] = [value[l1key]];
+                                }
+                                value[l1key].push(elValue);
+                            } else {
+                                value[l1key] = elValue;
+                            }
                         }
                     }
                 });
@@ -164,12 +185,33 @@
                             if (!isset(value[l1key][l2key])) {
                                 value[l1key][l2key] = {};
                             }
-                            value[l1key][l2key][l3key] = elValue;
+                            if (isset(value[l1key][l2key][l3key])) {
+                                if (!is_array(value[l1key][l2key][l3key])) {
+                                    value[l1key][l2key][l3key] = [value[l1key][l2key][l3key]];
+                                }
+                                value[l1key][l2key][l3key].push(elValue);
+                            } else {
+                                value[l1key][l2key][l3key] = elValue;
+                            }
                         } else {
-                            value[l1key][l2key] = elValue;
+                            if (isset(value[l1key][l2key])) {
+                                if (!is_array(value[l1key][l2key])) {
+                                    value[l1key][l2key] = [value[l1key][l2key]];
+                                }
+                                value[l1key][l2key].push(elValue);
+                            } else {
+                                value[l1key][l2key] = elValue;
+                            }
                         }
                     } else {
-                        value[l1key] = elValue;
+                        if (isset(value[l1key])) {
+                            if (!is_array(value[l1key])) {
+                                value[l1key] = [value[l1key]];
+                            }
+                            value[l1key].push(elValue);
+                        } else {
+                            value[l1key] = elValue;
+                        }
                     }
                 }
             });
