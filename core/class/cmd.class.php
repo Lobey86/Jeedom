@@ -538,7 +538,7 @@ class cmd {
                 $message = 'Désactivation de <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getName();
                 $message .= ($eqLogic->getEqReal_id() != '') ? ' (' . $eqLogic->getEqReal()->getName() . ') ' : '';
                 $message .= '</a> car il n\'a pas répondu ou mal répondu lors des 3 derniers essais';
-                $action = '<a class="bt_changeIsEnable cursor" eqLogic_id="' . $this->getEqLogic_id() . '" isEnable="1">Ré-activer</a>';
+                $action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getEqLogic_id() . '" data-isEnable="1">Ré-activer</a>';
                 message::add($type, $message, $action);
             }
             log::add($type, 'error', 'Erreur sur ' . $eqLogic->getName() . ' : ' . $e->getMessage());

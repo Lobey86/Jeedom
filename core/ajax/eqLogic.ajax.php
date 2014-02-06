@@ -99,7 +99,7 @@ try {
         }
         $eqLogic = eqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new Exception('Objet inconnu verifié l\'id');
+            throw new Exception('EqLogic inconnu verifié l\'id');
         }
         $eqLogic->setIsEnable(init('isEnable'));
         $eqLogic->save();
