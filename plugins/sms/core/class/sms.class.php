@@ -40,7 +40,7 @@ class sms extends eqLogic {
             'Œ' => 'oe', 'œ' => 'oe',
             '$' => 's');
         $_message = strtr($_message, $caracteres);
-        $_message = preg_replace('#[^A-Za-z0-9 \n \.]+#', '', $_message);
+        $_message = preg_replace('#[^A-Za-z0-9 \n\.\']+#', '', $_message);
         return $_message;
     }
 
