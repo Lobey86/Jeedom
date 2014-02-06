@@ -239,7 +239,7 @@ class smsCmd extends cmd {
 
     public function execute($_options = null) {
         $eqLogic = $this->getEqLogic();
-        $eqLogic->setDebug(true);
+        //$eqLogic->setDebug(true);
         if (!isset($_options['title']) && !isset($_options['message'])) {
             throw new Exception("Le titre ou le message ne peuvent être tous les deux vide");
         }
