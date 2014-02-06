@@ -61,24 +61,33 @@ if (init('cron_id') != '') {
     if ($cron->getClass() != '') {
         $class = $cron->getClass();
         $function = $cron->getFunction();
-        if (method_exists($class, $function)) {
-            if ($cron->getDeamon() == 0) {
-                $class::$function();
-            } else {
-                while (true) {
+        if (class_exists($class)) {
+            if (method_exists($class, $function)) {
+                if ($cron->getDeamon() == 0) {
                     $class::$function();
-                    sleep($cron->getDeamonSleepTime());
-                    if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
-                        die();
+                } else {
+                    while (true) {
+                        $class::$function();
+                        sleep($cron->getDeamonSleepTime());
+                        if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
+                            die();
+                        }
                     }
                 }
+            } else {
+                $cron->setState('Not found');
+                $cron->setPID();
+                $cron->setServer('');
+                $cron->save();
+                log::add('cron', 'error', '[Erreur] Fonction non trouvée ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
+                die();
             }
         } else {
             $cron->setState('Not found');
             $cron->setPID();
             $cron->setServer('');
             $cron->save();
-            log::add('cron', 'error', '[Erreur] Non trouvée ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
+            log::add('cron', 'error', '[Erreur] Classe non trouvée ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
             die();
         }
     } else {
