@@ -380,7 +380,7 @@ class phpSerial {
                 $_buffer = "";
                 while (!in_array($last, $this->_validOutputs)) {
                     $bit = fread($this->_dHandle, 1);
-                    if ($bit == "\r") {
+                    if ($bit == "\r" || $bit == "\n") {
                         $last = strtoupper(trim(strtoupper($_buffer)));
                         $buffer[] = $_buffer;
                         $_buffer = "";
