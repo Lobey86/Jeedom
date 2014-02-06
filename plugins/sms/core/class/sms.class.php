@@ -25,6 +25,9 @@ class sms extends eqLogic {
     private $_pinOk = false;
     private static $_serial;
 
+    const ALL = "ALL";
+    const UNREAD = "REC UNREAD";
+
     /*     * ***********************Methode static*************************** */
 
     public static function cleanSMS($_message) {
@@ -37,8 +40,29 @@ class sms extends eqLogic {
             'Œ' => 'oe', 'œ' => 'oe',
             '$' => 's');
         $_message = strtr($_message, $caracteres);
-        $_message = preg_replace('#[^A-Za-z0-9 \n]+#', '', $_message);
+        $_message = preg_replace('#[^A-Za-z0-9 \n \.]+#', '', $_message);
         return $_message;
+    }
+
+    public static function pull() {
+        foreach (sms::byType('sms') as $eqLogic) {
+            $cmds = $eqLogic->getCmd();
+            foreach ($eqLogic->readInbox() as $message) {
+                $eqLogic->deleteSms($message['id']);
+                $autorized = false;
+                foreach ($cmds as $cmd) {
+                    $formatedPhoneNumber = '+33' . substr($cmd->getConfiguration('phonenumber'), 1);
+                    if ($cmd->getConfiguration('phonenumber') == $message['phonenumber'] || $formatedPhoneNumber == $message['phonenumber']) {
+                        $autorized = true;
+                        break;
+                    }
+                }
+                if ($autorized) {
+                    $reply = interactQuery::tryToReply($message['message'], array());
+                    $eqLogic->sendSMS($message['phonenumber'], self::cleanSMS($reply));
+                }
+            }
+        }
     }
 
     /*     * *********************Methode d'instance************************* */
@@ -98,6 +122,38 @@ class sms extends eqLogic {
             return true;
         }
         return false;
+    }
+
+    public function readInbox($mode = self::ALL) {
+        $inbox = $return = array();
+        if ($this->checkPin()) {
+            $this->deviceOpen();
+            $this->sendMessage("AT+CMGF=1\r");
+            $out = $this->readPort();
+            if ($out == 'OK') {
+                $this->sendMessage("AT+CMGL=\"{$mode}\"\r");
+                $inbox = $this->readPort(true);
+            }
+            $this->deviceClose();
+            if (count($inbox) > 2) {
+                array_pop($inbox);
+                array_pop($inbox);
+                $arr = explode("+CMGL:", implode("\n", $inbox));
+                for ($i = 1; $i < count($arr); $i++) {
+                    $arrItem = explode("\n", $arr[$i], 2);
+                    $headArr = explode(",", $arrItem[0]);
+                    $fromTlfn = str_replace('"', null, $headArr[2]);
+                    $id = $headArr[0];
+                    $date = $headArr[4];
+                    $hour = $headArr[5];
+                    $txt = $arrItem[1];
+                    $return[] = array('id' => $id, 'phonenumber' => $fromTlfn, 'message' => $txt, 'date' => $date, 'hour' => $hour);
+                }
+            }
+            return $return;
+        } else {
+            throw new Exception("Please insert the PIN");
+        }
     }
 
     public function sendSMS($_phoneNumber, $_message) {

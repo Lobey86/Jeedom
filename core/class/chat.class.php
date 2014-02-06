@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
@@ -110,12 +110,12 @@ class chat {
         $chatHistory->setDatetime(date('Y-m-d H:i:s'));
         $chatHistory->save();
         if ($_userDestId == 0) {
-            $aparameters = array();
+            $parameters = array();
             $user = user::byId($_userFromId);
-            if(is_object($user)){
-                $aparameters['profile'] = $user->getLogin();
+            if (is_object($user)) {
+                $parameters['profile'] = $user->getLogin();
             }
-            $reply = interactQuery::tryToReply($_message, $aparameters);
+            $reply = interactQuery::tryToReply($_message, $parameters);
             $chatHistory = new chatHistory();
             $chatHistory->setFrom($_userDestId);
             $chatHistory->setTo($_userFromId);

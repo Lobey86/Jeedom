@@ -136,6 +136,11 @@ if (init('cron_id') != '') {
     set_time_limit(59);
     cron::setPidFile();
     while (true) {
+        if (config::byKey('enableCron') == 0) {
+            die('Tous les crons sont actuellement désactivés');
+        }
+
+
         foreach (cron::all() as $cron) {
             $cron->refresh();
             $datetime = date('Y-m-d H:i:s');
