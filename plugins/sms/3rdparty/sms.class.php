@@ -13,9 +13,7 @@
 class Sms {
 
     private $_serial;
-    private $debug;
     protected $_pinOK = false;
-    protected $openAT = false;
 
     const EXCEPTION_PIN_ERROR = 1;
     const EXCEPTION_NO_PIN = 2;
@@ -53,7 +51,6 @@ class Sms {
 
     protected function __construct($serial, $debug = false) {
         $this->_serial = $serial;
-        $this->_debug = $debug;
     }
 
     private function readPort($returnBufffer = false) {
@@ -63,9 +60,6 @@ class Sms {
             $out = $buffer;
         } else {
             $out = strtoupper($last);
-        }
-        if ($this->_debug == true) {
-            echo $out . "\n";
         }
         return $out;
     }
@@ -107,23 +101,14 @@ class Sms {
      * @return Boolean
      */
     public function sendSMS($tlfn, $text) {
-        if ($this->_pinOK) {
+        if ($this->isPinOk()) {
             $text = substr($text, 0, 160);
             $this->deviceOpen();
-            if ($this->openAT === true) {
-                $this->sendMessage("AT+CMGS=\"{$tlfn}\"\n");
-                $out = $this->readPort();
-                if ($out == '>') {
-                    $this->sendMessage("{$text}" . chr(26));
-                    $out = $this->readPort();
-                } else {
-                    return false;
-                }
-            } else {
-                $this->sendMessage("AT+CMGS=\"{$tlfn}\"\r{$text}" . chr(26));
-                $out = $this->readPort();
-            }
-
+            $this->sendMessage(chr(26));
+            $this->sendMessage("AT+CMGF=1\r");
+            $this->sendMessage("AT+CMGS=\"{$tlfn}\"\r");
+            $this->sendMessage("{$text}" . chr(26));
+            $out = $this->readPort();
             $this->deviceClose();
             if ($out == 'OK') {
                 return true;
@@ -147,7 +132,6 @@ class Sms {
      */
     public function insertPin($pin) {
         $this->deviceOpen();
-
         $this->sendMessage("AT+CPIN?\r");
         $out = $this->readPort();
         $this->deviceClose();
@@ -225,10 +209,6 @@ class Sms {
         } else {
             throw new Exception("Please insert the PIN", self::EXCEPTION_NO_PIN);
         }
-    }
-
-    public function setOpenAT($openAT) {
-        $this->openAT = $openAT;
     }
 
 }

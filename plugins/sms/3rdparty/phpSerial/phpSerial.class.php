@@ -14,7 +14,7 @@
  *
  * @copyright under GPL 2 licence
  */
-class Sms_Serial implements Sms_Interface {
+class phpSerial {
 
     const SERIAL_DEVICE_NOTSET = 0;
     const SERIAL_DEVICE_SET = 1;
@@ -42,10 +42,10 @@ class Sms_Serial implements Sms_Interface {
             if ($this->_exec("stty --version") === 0) {
                 register_shutdown_function(array($this, "deviceClose"));
             } else {
-                trigger_error("No stty availible, unable to run.", E_USER_ERROR);
+                throw new Exception("No stty availible, unable to run.", E_USER_ERROR);
             }
         } else {
-            trigger_error("Host OS is must be linux, unable tu run.", E_USER_ERROR);
+            throw new Exception("Host OS is must be linux, unable tu run.", E_USER_ERROR);
             exit();
         }
     }
@@ -70,10 +70,10 @@ class Sms_Serial implements Sms_Interface {
                     return true;
                 }
             }
-            trigger_error("Specified serial port is not valid", E_USER_WARNING);
+            throw new Exception("Le port spécifié est invalide : " . $device);
             return false;
         } else {
-            trigger_error("You must close your device before to set an other one", E_USER_WARNING);
+            throw new Exception("You must close your device before to set an other one");
             return false;
         }
     }
@@ -86,17 +86,17 @@ class Sms_Serial implements Sms_Interface {
      */
     function deviceOpen($mode = "r+b") {
         if ($this->_dState === self::SERIAL_DEVICE_OPENED) {
-            trigger_error("The device is already opened", E_USER_NOTICE);
+            throw new Exception("The device is already opened", E_USER_NOTICE);
             return true;
         }
 
         if ($this->_dState === self::SERIAL_DEVICE_NOTSET) {
-            trigger_error("The device must be set before to be open", E_USER_WARNING);
+            throw new Exception("The device must be set before to be open");
             return false;
         }
 
         if (!preg_match("@^[raw]\+?b?$@", $mode)) {
-            trigger_error("Invalid opening mode : " . $mode . ". Use fopen() modes.", E_USER_WARNING);
+            throw new Exception("Invalid opening mode : " . $mode . ". Use fopen() modes.");
             return false;
         }
 
@@ -109,7 +109,7 @@ class Sms_Serial implements Sms_Interface {
         }
 
         $this->_dHandle = null;
-        trigger_error("Unable to open the device", E_USER_WARNING);
+        throw new Exception("Unable to open the device");
         return false;
     }
 
@@ -129,7 +129,7 @@ class Sms_Serial implements Sms_Interface {
             return true;
         }
 
-        trigger_error("Unable to close the device", E_USER_ERROR);
+        throw new Exception("Unable to close the device", E_USER_ERROR);
         return false;
     }
 
@@ -149,7 +149,7 @@ class Sms_Serial implements Sms_Interface {
      */
     function confBaudRate($rate) {
         if ($this->_dState !== self::SERIAL_DEVICE_SET) {
-            trigger_error("Unable to set the baud rate : the device is either not set or opened", E_USER_WARNING);
+            throw new Exception("Unable to set the baud rate : the device is either not set or opened");
             return false;
         }
 
@@ -176,7 +176,7 @@ class Sms_Serial implements Sms_Interface {
             }
 
             if ($ret !== 0) {
-                trigger_error("Unable to set baud rate: " . $out[1], E_USER_WARNING);
+                throw new Exception("Unable to set baud rate: " . $out[1]);
                 return false;
             }
         }
@@ -191,7 +191,7 @@ class Sms_Serial implements Sms_Interface {
      */
     function confParity($parity) {
         if ($this->_dState !== self::SERIAL_DEVICE_SET) {
-            trigger_error("Unable to set parity : the device is either not set or opened", E_USER_WARNING);
+            throw new Exception("Unable to set parity : the device is either not set or opened");
             return false;
         }
 
@@ -202,7 +202,7 @@ class Sms_Serial implements Sms_Interface {
         );
 
         if (!isset($args[$parity])) {
-            trigger_error("Parity mode not supported", E_USER_WARNING);
+            throw new Exception("Parity mode not supported");
             return false;
         }
 
@@ -214,7 +214,7 @@ class Sms_Serial implements Sms_Interface {
             return true;
         }
 
-        trigger_error("Unable to set parity : " . $out[1], E_USER_WARNING);
+        throw new Exception("Unable to set parity : " . $out[1]);
         return false;
     }
 
@@ -226,7 +226,7 @@ class Sms_Serial implements Sms_Interface {
      */
     function confCharacterLength($int) {
         if ($this->_dState !== self::SERIAL_DEVICE_SET) {
-            trigger_error("Unable to set length of a character : the device is either not set or opened", E_USER_WARNING);
+            throw new Exception("Unable to set length of a character : the device is either not set or opened");
             return false;
         }
 
@@ -244,7 +244,7 @@ class Sms_Serial implements Sms_Interface {
             return true;
         }
 
-        trigger_error("Unable to set character length : " . $out[1], E_USER_WARNING);
+        throw new Exception("Unable to set character length : " . $out[1]);
         return false;
     }
 
@@ -257,12 +257,12 @@ class Sms_Serial implements Sms_Interface {
      */
     function confStopBits($length) {
         if ($this->_dState !== self::SERIAL_DEVICE_SET) {
-            trigger_error("Unable to set the length of a stop bit : the device is either not set or opened", E_USER_WARNING);
+            throw new Exception("Unable to set the length of a stop bit : the device is either not set or opened");
             return false;
         }
 
         if ($length != 1 and $length != 2 and $length != 1.5 and !($length == 1.5 and $this->_os === "linux")) {
-            trigger_error("Specified stop bit length is invalid", E_USER_WARNING);
+            throw new Exception("Specified stop bit length is invalid");
             return false;
         }
 
@@ -274,7 +274,7 @@ class Sms_Serial implements Sms_Interface {
             return true;
         }
 
-        trigger_error("Unable to set stop bit length : " . $out[1], E_USER_WARNING);
+        throw new Exception("Unable to set stop bit length : " . $out[1]);
         return false;
     }
 
@@ -289,7 +289,7 @@ class Sms_Serial implements Sms_Interface {
      */
     function confFlowControl($mode) {
         if ($this->_dState !== self::SERIAL_DEVICE_SET) {
-            trigger_error("Unable to set flow control mode : the device is either not set or opened", E_USER_WARNING);
+            throw new Exception("Unable to set flow control mode : the device is either not set or opened");
             return false;
         }
 
@@ -300,7 +300,7 @@ class Sms_Serial implements Sms_Interface {
         );
 
         if ($mode !== "none" and $mode !== "rts/cts" and $mode !== "xon/xoff") {
-            trigger_error("Invalid flow control mode specified", E_USER_ERROR);
+            throw new Exception("Invalid flow control mode specified", E_USER_ERROR);
             return false;
         }
 
@@ -311,7 +311,7 @@ class Sms_Serial implements Sms_Interface {
         if ($ret === 0) {
             return true;
         } else {
-            trigger_error("Unable to set flow control : " . $out[1], E_USER_ERROR);
+            throw new Exception("Unable to set flow control : " . $out[1], E_USER_ERROR);
             return false;
         }
     }
@@ -333,10 +333,10 @@ class Sms_Serial implements Sms_Interface {
         $return = exec("setserial " . $this->_device . " " . $param . " " . $arg . " 2>&1");
 
         if ($return{0} === "I") {
-            trigger_error("setserial: Invalid flag", E_USER_WARNING);
+            throw new Exception("setserial: Invalid flag");
             return false;
         } elseif ($return{0} === "/") {
-            trigger_error("setserial: Error with device file", E_USER_WARNING);
+            throw new Exception("setserial: Error with device file");
             return false;
         } else {
             return true;
@@ -371,7 +371,7 @@ class Sms_Serial implements Sms_Interface {
      */
     function readPort() {
         if ($this->_dState !== self::SERIAL_DEVICE_OPENED) {
-            trigger_error("Device must be opened to read it", E_USER_WARNING);
+            throw new Exception("Device must be opened to read it");
             return false;
         }
         if ($this->_os === "linux") {
@@ -410,14 +410,14 @@ class Sms_Serial implements Sms_Interface {
             return true;
         } else {
             $this->_buffer = "";
-            trigger_error("Error while sending message", E_USER_WARNING);
+            throw new Exception("Error while sending message");
             return false;
         }
     }
 
     private function _ckOpened() {
         if ($this->_dState !== self::SERIAL_DEVICE_OPENED) {
-            trigger_error("Device must be opened", E_USER_WARNING);
+            throw new Exception("Device must be opened");
             return false;
         }
 
@@ -426,7 +426,7 @@ class Sms_Serial implements Sms_Interface {
 
     private function _ckClosed() {
         if ($this->_dState !== SERIAL_DEVICE_CLOSED) {
-            trigger_error("Device must be closed", E_USER_WARNING);
+            throw new Exception("Device must be closed");
             return false;
         }
 
