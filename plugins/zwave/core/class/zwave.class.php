@@ -25,7 +25,7 @@ class zwave extends eqLogic {
 
     /*     * ***********************Methode static*************************** */
 
-    public static function pullUpdate() {
+    public static function pull() {
         $cache = cache::byKey('zwave::lastUpdate');
         $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Data/' . $cache->getValue(0));
         $results = json_decode(self::handleError($http->exec()), true);
