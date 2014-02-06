@@ -24,7 +24,7 @@ if (!isConnect()) {
 function install() {
     $cron = new cron();
     $cron->setClass('zwave');
-    $cron->setFunction('pullRazberryUpdate');
+    $cron->setFunction('pull');
     $cron->setEnable(1);
     $cron->setDeamon(1);
     $cron->setSchedule('* * * * *');
