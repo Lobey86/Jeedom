@@ -27,16 +27,38 @@ class sms extends eqLogic {
 
     /*     * ***********************Methode static*************************** */
 
+    public static function cleanSMS($_message) {
+        $caracteres = array(
+            'À' => 'a', 'Á' => 'a', 'Â' => 'a', 'Ä' => 'a', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ä' => 'a', '@' => 'a',
+            'È' => 'e', 'É' => 'e', 'Ê' => 'e', 'Ë' => 'e', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', '€' => 'e',
+            'Ì' => 'i', 'Í' => 'i', 'Î' => 'i', 'Ï' => 'i', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+            'Ò' => 'o', 'Ó' => 'o', 'Ô' => 'o', 'Ö' => 'o', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'ö' => 'o',
+            'Ù' => 'u', 'Ú' => 'u', 'Û' => 'u', 'Ü' => 'u', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'µ' => 'u',
+            'Œ' => 'oe', 'œ' => 'oe',
+            '$' => 's');
+        $_message = strtr($_message, $caracteres);
+        $_message = preg_replace('#[^A-Za-z0-9 \n]+#', '', $_message);
+        return $_message;
+    }
 
     /*     * *********************Methode d'instance************************* */
 
     public function getSerial() {
+        $this->displayDebug('Demande de l\'interface série');
         if (!isset(self::$_serial)) {
+            $this->displayDebug('Création de l\'interface série sur le port : ' . $this->getConfiguration('port'));
             $serial = new phpSerial();
             $serial->deviceSet($this->getConfiguration('port'));
             $serial->confBaudRate(460800);
             $serial->confParity('none');
             $serial->confCharacterLength(8);
+            $serial->setValidOutputs(array(
+                'OK',
+                'ERROR',
+                '+CPIN: SIM PIN',
+                '+CPIN: READY',
+                '>'
+            ));
             self::$_serial = $serial;
         }
         return self::$_serial;
@@ -45,6 +67,7 @@ class sms extends eqLogic {
     private function readPort($returnBufffer = false) {
         $out = null;
         list($last, $buffer) = $this->getSerial()->readPort();
+        $this->displayDebug('Lecture interface série fini retour des résultats');
         if ($returnBufffer) {
             $out = $buffer;
         } else {
@@ -54,6 +77,7 @@ class sms extends eqLogic {
     }
 
     private function sendMessage($msg) {
+        $this->displayDebug('Envoie message sur port série : ' . $msg);
         $this->getSerial()->sendMessage($msg);
     }
 
@@ -78,6 +102,7 @@ class sms extends eqLogic {
 
     public function sendSMS($_phoneNumber, $_message) {
         if ($this->checkPin()) {
+            $_message = self::cleanSMS($_message);
             $_message = substr($_message, 0, 160);
             $this->deviceOpen();
             $this->sendMessage(chr(26));
@@ -97,13 +122,17 @@ class sms extends eqLogic {
     }
 
     private function checkPin() {
+        $this->displayDebug('Vérification du code pin');
         if ($this->getPinOk()) {
+            $this->displayDebug('Code pin OK');
             return true;
         }
+        $this->displayDebug('Demande au modem');
         $this->deviceOpen();
         $this->sendMessage("AT+CPIN?\r");
         $out = $this->readPort();
         $this->deviceClose();
+        $this->displayDebug('Resultat : ' . $out);
         if ($out == "+CPIN: SIM PIN") {
             $pin = $this->getConfiguration('pin');
             if (is_null($pin) || $pin == '' || !is_numeric($pin)) {
@@ -153,7 +182,7 @@ class smsCmd extends cmd {
 
     public function execute($_options = null) {
         $eqLogic = $this->getEqLogic();
-        if (!isset($_options['title']) || !isset($_options['message'])) {
+        if (!isset($_options['title']) && !isset($_options['message'])) {
             throw new Exception("Le titre ou le message ne peuvent être tous les deux vide");
         }
         $message = '';
@@ -165,7 +194,7 @@ class smsCmd extends cmd {
         if (isset($_options['message'])) {
             $message .= $sep . $_options['message'];
         }
-        $eqLogic->sendSMS($this->getConfiguration('phoneNumber'), $message);
+        $eqLogic->sendSMS($this->getConfiguration('phonenumber'), $message);
     }
 
 }

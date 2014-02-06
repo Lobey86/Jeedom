@@ -70,7 +70,7 @@ class phpSerial {
                     return true;
                 }
             }
-            throw new Exception("Le port spécifié est invalide : " . $device);
+            throw new Exception("Le port spécifié est invalide ou il y a un problème de droit : " . $device);
             return false;
         } else {
             throw new Exception("You must close your device before to set an other one");
@@ -371,18 +371,16 @@ class phpSerial {
      */
     function readPort() {
         if ($this->_dState !== self::SERIAL_DEVICE_OPENED) {
-            throw new Exception("Device must be opened to read it");
-            return false;
+            throw new Exception("Le périphérique doit etre ouvert pour etre lu");
         }
         if ($this->_os === "linux") {
             $last = null;
             $buffer = array();
-
             if ($this->_dHandle) {
                 $_buffer = "";
                 while (!in_array($last, $this->_validOutputs)) {
                     $bit = fread($this->_dHandle, 1);
-                    if ($bit == "\n") {
+                    if ($bit == "\r") {
                         $last = strtoupper(trim(strtoupper($_buffer)));
                         $buffer[] = $_buffer;
                         $_buffer = "";
@@ -410,14 +408,14 @@ class phpSerial {
             return true;
         } else {
             $this->_buffer = "";
-            throw new Exception("Error while sending message");
+            throw new Exception("Erreur pendant l'envoi du message");
             return false;
         }
     }
 
     private function _ckOpened() {
         if ($this->_dState !== self::SERIAL_DEVICE_OPENED) {
-            throw new Exception("Device must be opened");
+            throw new Exception("Le périphérique doit etre ouvert");
             return false;
         }
 
@@ -426,7 +424,7 @@ class phpSerial {
 
     private function _ckClosed() {
         if ($this->_dState !== SERIAL_DEVICE_CLOSED) {
-            throw new Exception("Device must be closed");
+            throw new Exception("Le périphérique doit etre fermé");
             return false;
         }
 
