@@ -42,10 +42,8 @@ class virtual extends eqLogic {
             $virtualCmd->setConfiguration('value', $value);
             $virtualCmd->save();
         } else {
-            if (trim($cmd->getConfiguration('calcul')) == '' || $cmd->getConfiguration('calcul') == '#value#') {
-                $cmd->setConfiguration('value', $value);
-                $cmd->save();
-            }
+            $cmd->setConfiguration('value', $value);
+            $cmd->save();
         }
         $cmd->event($value);
     }
@@ -76,16 +74,13 @@ class virtualCmd extends cmd {
                 $actionInfo->setType('info');
                 $actionInfo->setSubType('string');
                 $actionInfo->setCache('enable', 0);
-                $actionInfo->setEventOnly(0);
-                $actionInfo->setConfiguration('value', '#value#');
             }
-            $actionInfo->setEventOnly(1);
+            $actionInfo->setEventOnly(0);
             $actionInfo->setConfiguration('virtualAction', 1);
             $actionInfo->setName($this->getConfiguration('infoName'));
             $actionInfo->setEqLogic_id($this->getEqLogic_id());
             $actionInfo->setConfiguration('value', $this->getConfiguration('value'));
             $actionInfo->save();
-
             $this->setConfiguration('infoId', $actionInfo->getId());
         } else {
             $this->setConfiguration('calcul', cmd::humanReadableToCmd($this->getConfiguration('calcul')));
@@ -97,7 +92,6 @@ class virtualCmd extends cmd {
             case 'info':
                 if ($this->getConfiguration('virtualAction', 0) == '0') {
                     $calcul = cmd::cmdToValue($this->getConfiguration('calcul'));
-                    $calcul = str_replace('#value#', $this->getConfiguration('value'), $calcul);
                     $test = new evaluate();
                     $result = $test->Evaluer($calcul);
                     if ($this->getSubType() == 'binary') {
