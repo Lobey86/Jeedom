@@ -29,7 +29,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
     'cmd' => array(
         'type' => array(
             'info' => array(
-                'name' => 'Action',
+                'name' => 'Info',
                 'subtype' => array(
                     'numeric' => array('name' => 'Numérique'),
                     'binary' => array('name' => 'Binaire'),
@@ -37,10 +37,13 @@ $JEEDOM_INTERNAL_CONFIG = array(
                 )
             ),
             'action' => array(
-                'other' => array('name' => 'Défaut'),
-                'slider' => array('name' => 'Slider'),
-                'message' => array('name' => 'Message'),
-                'color' => array('name' => 'Couleur'),
+                'name' => 'Action',
+                'subtype' => array(
+                    'other' => array('name' => 'Défaut'),
+                    'slider' => array('name' => 'Slider'),
+                    'message' => array('name' => 'Message'),
+                    'color' => array('name' => 'Couleur'),
+                ),
             ),
         ),
     ),

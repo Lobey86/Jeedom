@@ -48,7 +48,7 @@ sendVarToJS('eqType', 'pincode');
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-4 control-label">Catégorie</label>
+                    <label class="col-lg-3 control-label">Catégorie</label>
                     <div class="col-lg-8">
                         <?php
                         foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
@@ -79,7 +79,7 @@ sendVarToJS('eqType', 'pincode');
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Nom de la commande info</label>
+                    <label class="col-lg-3 control-label">Nom de la commande</label>
                     <div class="col-lg-3">
                         <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_name" />
                     </div>
@@ -88,20 +88,22 @@ sendVarToJS('eqType', 'pincode');
                     <label class="col-lg-3 control-label">Sous-type de la commande</label>
                     <div class="col-lg-3">
                         <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_subtype" >
-                            <option value="numeric">Numérique</option>
-                            <option value="binary">Binaire</option>
-                            <option value="string">Autre</option>
+                            <?php
+                            foreach (jeedom::getConfiguration('cmd:type:info:subtype') as $key => $value) {
+                                echo '<option value="' . $key . '" >' . $value['name'] . '</option>';
+                            }
+                            ?>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Unité de la commande info</label>
+                    <label class="col-lg-3 control-label">Unité de la commande</label>
                     <div class="col-lg-3">
                         <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_unite" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Afficher la commande info</label>
+                    <label class="col-lg-3 control-label">Afficher la commande</label>
                     <div class="col-lg-1">
                         <input type="checkbox" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_isVisible" checked/>
                     </div>

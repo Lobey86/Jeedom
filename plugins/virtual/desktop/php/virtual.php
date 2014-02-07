@@ -48,7 +48,7 @@ sendVarToJS('eqType', 'virtual');
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-4 control-label">Catégorie</label>
+                    <label class="col-lg-2 control-label">Catégorie</label>
                     <div class="col-lg-8">
                         <?php
                         foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
