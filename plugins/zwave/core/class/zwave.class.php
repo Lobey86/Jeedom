@@ -90,8 +90,6 @@ class zwave extends eqLogic {
         }
         if (isset($results['updateTime']) && is_numeric($results['updateTime']) && $results['updateTime'] > $cache->getValue(0)) {
             cache::set('zwave::lastUpdate', $results['updateTime'], 0);
-        } else {
-            cache::set('zwave::lastUpdate', strtotime('- 2 seconds ' . date('Y-m-d H:i:s')), 0);
         }
     }
 
