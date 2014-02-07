@@ -6,7 +6,6 @@ if (!isConnect('admin')) {
 global $listCmdXBMC;
 
 include_file('core', 'xbmc', 'config', 'xbmc');
-class="panel-collapse collapse" >
 sendVarToJS('eqType', 'xbmc');
 ?>
 

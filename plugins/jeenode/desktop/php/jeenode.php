@@ -3,7 +3,6 @@ if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
 include_file('core', 'jeenode', 'class', 'jeenode');
-class="panel-collapse collapse" >
 ?>
 
 <div class="row">

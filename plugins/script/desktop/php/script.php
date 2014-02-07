@@ -16,7 +16,6 @@ include_file('3rdparty', 'codemirror/mode/python/python', 'js');
 include_file('3rdparty', 'codemirror/mode/ruby/ruby', 'js');
 include_file('3rdparty', 'codemirror/mode/perl/perl', 'js');
 
-class="panel-collapse collapse" >
 sendVarToJS('eqType', 'script');
 sendVarToJS('userScriptDir', getRootPath() . '/' . config::byKey('userScriptDir', 'script'));
 ?>

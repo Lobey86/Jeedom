@@ -6,7 +6,6 @@ if (!isConnect('admin')) {
 include_file('core', 'xpl', 'config', 'xpl');
 include_file('core', 'xpl', 'class', 'xpl');
 
-class="panel-collapse collapse" >
 sendVarToJS('eqType', 'xpl');
 ?>
 
