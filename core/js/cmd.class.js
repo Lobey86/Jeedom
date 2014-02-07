@@ -25,18 +25,16 @@ cmd.changeType = function(_cmd, _subType) {
     var type = _cmd.find('.cmdAttr[data-l1key=type]').value();
     switch (type) {
         case 'info' :
-            selSubType += '<option value="numeric">Numérique</option>';
-            selSubType += '<option value="binary">Binaire</option>';
-            selSubType += '<option value="string">Autre</option>';
-            _cmd.find('.cmdAttr[data-l1key=eventOnly]').show();
-            _cmd.find('.cmdAttr[data-l1key=isHistorized]').parent().show();
-            _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=enable]').parent().show();
+            var subType = jeedom.getConfiguration('cmd:type:info:subtype');
+            for(var i in subType){
+                 selSubType += '<option value="'+i+'">'+subType[i].name+'</option>';
+            }
             break;
         case 'action' :
-            selSubType += '<option value="other">Défaut</option>';
-            selSubType += '<option value="slider">Slider</option>';
-            selSubType += '<option value="message">Message</option>';
-            selSubType += '<option value="color">Couleur</option>';
+            var subType = jeedom.getConfiguration('cmd:type:action:subtype');
+            for(var i in subType){
+                 selSubType += '<option value="'+i+'">'+subType[i].name+'</option>';
+            }
             _cmd.find('.cmdAttr[data-l1key=eventOnly]').parent().hide();
             _cmd.find('.cmdAttr[data-l1key=isHistorized]').parent().hide();
             _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=enable]').parent().hide();
