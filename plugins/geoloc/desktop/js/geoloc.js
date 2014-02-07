@@ -60,12 +60,12 @@ function addCmdToTable(_cmd) {
     tr += '<span class="cmdAttr" data-l1key="id" ></span>';
     tr += '</td>';
     tr += '<td>';
-    tr += '<input class="cmdAttr form-control" data-l1key="type" value="info" style="display : none;">';
-    tr += '<input class="cmdAttr form-control" data-l1key="subtype" value="string" style="display : none;">';
-    tr += '<input class="cmdAttr form-control" data-l1key="name" >';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="type" value="info" style="display : none;">';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="subtype" value="string" style="display : none;">';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="name" >';
     tr += '</td>';
     tr += '<td>';
-    tr += '<select class="cmdAttr form-control" data-l1key="configuration" data-l2key="mode">';
+    tr += '<select class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="mode">';
     tr += '<option value="fixe">Fixe</option>';
     tr += '<option value="dynamic">Dynamique</option>';
     tr += '<option value="distance">Distance</option>';
@@ -74,7 +74,7 @@ function addCmdToTable(_cmd) {
 
     tr += '<td>';
     tr += '<span class="fixe modeOption">';
-    tr += '<input class="cmdAttr form-control" data-l1key="configuration" data-l2key="coordinate" placeholder="Latitude,Longitude" >';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="coordinate" placeholder="Latitude,Longitude" >';
     tr += '</span>';
 
     tr += '<span class="dynamic modeOption" style="display : none;">';
@@ -83,18 +83,18 @@ function addCmdToTable(_cmd) {
 
     tr += '<span class="distance modeOption" style="display : none;">';
     tr += 'De ';
-    tr += '<select class="cmdAttr form-control" data-l1key="configuration" data-l2key="from" style="display : inline-block; width : 400px;">';
+    tr += '<select class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="from" style="display : inline-block; width : 400px;">';
     tr += optionCmdForDistance;
     tr += '</select>';
     tr += ' à ';
-    tr += '<select class="cmdAttr form-control" data-l1key="configuration" data-l2key="to" style="display : inline-block; width : 400px;">';
+    tr += '<select class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="to" style="display : inline-block; width : 400px;">';
     tr += optionCmdForDistance;
     tr += '</select>';
     tr += '</span>';
 
     tr += '</td>';
     tr += '<td>';
-    tr += '<input class="cmdAttr form-control" data-l1key="type" value="info" style="display : none;">';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="type" value="info" style="display : none;">';
     tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/> Afficher<br/></span>';
     tr += '</td>';
     tr += '<td>';

@@ -28,12 +28,12 @@ function addCmdToTable(_cmd) {
     }
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td>';
-    tr += '<input class="cmdAttr form-control" data-l1key="id" style="display : none;">';
-    tr += '<input class="cmdAttr form-control" data-l1key="name"></td>';
-    tr += '<td><input class="cmdAttr form-control" data-l1key="configuration" data-l2key="recipient"></td>';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="name"></td>';
+    tr += '<td><input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="recipient"></td>';
     tr += '<td>';
-    tr += '<input class="cmdAttr form-control" data-l1key="type" value="action" style="display : none;">';
-    tr += '<input class="cmdAttr form-control" data-l1key="subType" value="message" style="display : none;">';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="type" value="action" style="display : none;">';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="subType" value="message" style="display : none;">';
     if (is_numeric(_cmd.id)) {
         tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> Tester</a>';
     }

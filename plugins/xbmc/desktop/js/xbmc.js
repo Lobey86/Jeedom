@@ -56,11 +56,11 @@ function addCmdToTable(_cmd) {
     tr += '<td class="type" type="' + init(_cmd.type) + '">' + cmd.availableType();
     tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span></td>';
     tr += '<td class="name">';
-    tr += '<input class="cmdAttr form-control" data-l1key="id" style="display : none;">';
-    tr += '<input class="cmdAttr form-control" data-l1key="name"></td>';
-    tr += '<td ><input class="cmdAttr form-control" data-l1key="configuration" data-l2key="request" style="margin-top : 5px;" />';
-    tr += '<textarea class="cmdAttr form-control" data-l1key="configuration" data-l2key="parameters" style="margin-top : 5px;" placeholder="Parametres (JSON)" ></textarea>';
-    tr += '<a class="btn btn-default listCmdXbmc form-control" style="margin-top : 5px;"><i class="fa fa-list-alt cursor"></i> Ajouter une commande prédéfinie</a>';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="name"></td>';
+    tr += '<td ><input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="request" style="margin-top : 5px;" />';
+    tr += '<textarea class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="parameters" style="margin-top : 5px;" placeholder="Parametres (JSON)" ></textarea>';
+    tr += '<a class="btn btn-default listCmdXbmc form-control input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt cursor"></i> Ajouter une commande prédéfinie</a>';
     tr += '</td>';
     tr += '<td>';
     if (is_numeric(_cmd.id)) {

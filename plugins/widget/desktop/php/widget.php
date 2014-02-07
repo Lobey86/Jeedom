@@ -30,7 +30,7 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
                 <li class="nav-header">Liste des widgets
                     <i class="fa fa-plus-circle pull-right cursor widgetAction" data-action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
                 <li class="nav-header">Dashboard</li>
                 <?php
                 foreach (widget::listWidget('dashboard') as $widget) {

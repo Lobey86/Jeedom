@@ -284,44 +284,44 @@ function addCmdToTable(_cmd) {
         _cmd.configuration = {};
     }
 
-    var selRequestType = '<select style="width : 90px;" class="cmdAttr form-control" data-l1key="configuration" data-l2key="requestType">';
+    var selRequestType = '<select style="width : 90px;" class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="requestType">';
     selRequestType += '<option value="script">Script</option>';
     selRequestType += '<option value="http">Http</option>';
     selRequestType += '</select>';
 
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
-    tr += '<td><input class="cmdAttr form-control" data-l1key="name" style="width : 140px;">';
-    tr += '<input class="cmdAttr form-control" data-l1key="id"  style="display : none;"></td>';
+    tr += '<td><input class="cmdAttr form-control input-sm" data-l1key="name" style="width : 140px;">';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="id"  style="display : none;"></td>';
     tr += '<td class="requestType" type="' + init(_cmd.configuration.requestType) + '" >' + selRequestType + '</td>';
     tr += '<td>';
     tr += '<span class="type" type="' + init(_cmd.type) + '">' + cmd.availableType() + '</span>';
     tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span>';
     tr += '</td>';
-    tr += '<td><textarea style="height : 95px;" class="cmdAttr form-control" data-l1key="configuration" data-l2key="request"></textarea>';
+    tr += '<td><textarea style="height : 95px;" class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="request"></textarea>';
 
     tr += '<div class="form-group">';
     tr += '<div class="col-lg-3">';
-    tr += '<a class="btn btn-default listScript cursor form-control" style="margin-top : 5px;"><i class="fa fa-list-alt"></i> Script prédefini</a>';
+    tr += '<a class="btn btn-default listScript cursor form-control input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt"></i> Script prédefini</a>';
     tr += '</div>';
     tr += '<div class="col-lg-2">';
-    tr += '<a class="btn btn-default browseScriptFile cursor form-control" style="margin-top : 5px;"><i class="fa fa-folder-open"></i> Parcourir</a>';
+    tr += '<a class="btn btn-default browseScriptFile cursor form-control input-sm" style="margin-top : 5px;"><i class="fa fa-folder-open"></i> Parcourir</a>';
     tr += '</div>';
     tr += '<div class="col-lg-2">';
-    tr += '<a class="btn btn-default editScriptFile cursor form-control" style="margin-top : 5px;"><i class="fa fa-edit"></i> Editer</a>';
+    tr += '<a class="btn btn-default editScriptFile cursor form-control input-sm" style="margin-top : 5px;"><i class="fa fa-edit"></i> Editer</a>';
     tr += '</div>';
     tr += '<div class="col-lg-2">';
-    tr += '<a class="btn btn-default newScriptFile cursor form-control" style="margin-top : 5px;"><i class="fa fa-file-o"></i> Nouveau</a>';
+    tr += '<a class="btn btn-default newScriptFile cursor form-control input-sm" style="margin-top : 5px;"><i class="fa fa-file-o"></i> Nouveau</a>';
     tr += '</div>';
     tr += '<div class="col-lg-2">';
-    tr += '<a class="btn btn-default removeScriptFile cursor form-control" style="margin-top : 5px;"><i class="fa fa-trash-o"></i> Supprimer</a>';
+    tr += '<a class="btn btn-default removeScriptFile cursor form-control input-sm" style="margin-top : 5px;"><i class="fa fa-trash-o"></i> Supprimer</a>';
     tr += '</div>';
     tr += '</div>';
     tr += '</td>';
     tr += '<td>';
-    tr += '<input class="cmdAttr form-control tooltips" data-l1key="unite"  style="width : 100px;" placeholder="Unité" title="Unité">';
-    tr += '<input style="width : 100px;" class="tooltips cmdAttr form-control" data-l1key="cache" data-l2key="lifetime" placeholder="Lifetime cache" title="Lifetime cache">';
-    tr += '<input class="tooltips cmdAttr form-control" data-l1key="configuration" data-l2key="minValue" placeholder="Min" title="Min"> ';
-    tr += '<input class="tooltips cmdAttr form-control" data-l1key="configuration" data-l2key="maxValue" placeholder="Max" title="Max">';
+    tr += '<input class="cmdAttr form-control tooltips input-sm" data-l1key="unite"  style="width : 100px;" placeholder="Unité" title="Unité">';
+    tr += '<input style="width : 100px;" class="tooltips cmdAttr form-control input-sm" data-l1key="cache" data-l2key="lifetime" placeholder="Lifetime cache" title="Lifetime cache">';
+    tr += '<input class="tooltips cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="minValue" placeholder="Min" title="Min"> ';
+    tr += '<input class="tooltips cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="maxValue" placeholder="Max" title="Max">';
     tr += '</td>';
     tr += '<td>';
     tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isHistorized" /> Historiser<br/></span>';
