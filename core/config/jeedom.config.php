@@ -31,18 +31,95 @@ $JEEDOM_INTERNAL_CONFIG = array(
             'info' => array(
                 'name' => 'Info',
                 'subtype' => array(
-                    'numeric' => array('name' => 'Numérique'),
-                    'binary' => array('name' => 'Binaire'),
-                    'string' => array('name' => 'Autre'),
+                    'numeric' => array('name' => 'Numérique',
+                        'configuration' => array(
+                            'minValue' => array('visible' => true),
+                            'maxValue' => array('visible' => true)),
+                        'unite' => array('visible' => true),
+                        'eventOnly' => array('visible' => true),
+                        'isHistorized' => array('visible' => true),
+                        'cache' => array(
+                            'lifetime' => array('visible' => true),
+                            'enable' => array('visible' => true)
+                        ),
+                    ),
+                    'binary' => array('name' => 'Binaire',
+                        'configuration' => array(
+                            'minValue' => array('visible' => false),
+                            'maxValue' => array('visible' => false)),
+                        'unite' => array('visible' => false),
+                        'eventOnly' => array('visible' => true),
+                        'isHistorized' => array('visible' => true),
+                        'cache' => array(
+                            'lifetime' => array('visible' => true),
+                            'enable' => array('visible' => true)
+                        ),
+                    ),
+                    'string' => array('name' => 'Autre',
+                        'configuration' => array(
+                            'minValue' => array('visible' => false),
+                            'maxValue' => array('visible' => false)),
+                        'unite' => array('visible' => true),
+                        'eventOnly' => array('visible' => true),
+                        'isHistorized' => array('visible' => false),
+                        'cache' => array(
+                            'lifetime' => array('visible' => true),
+                            'enable' => array('visible' => true)
+                        ),
+                    ),
                 )
             ),
             'action' => array(
                 'name' => 'Action',
                 'subtype' => array(
-                    'other' => array('name' => 'Défaut'),
-                    'slider' => array('name' => 'Slider'),
-                    'message' => array('name' => 'Message'),
-                    'color' => array('name' => 'Couleur'),
+                    'other' => array('name' => 'Défaut',
+                        'configuration' => array(
+                            'minValue' => array('visible' => false),
+                            'maxValue' => array('visible' => false)),
+                        'unite' => array('visible' => false),
+                        'eventOnly' => array('visible' => false),
+                        'isHistorized' => array('visible' => false),
+                        'cache' => array(
+                            'lifetime' => array('visible' => false),
+                            'enable' => array('visible' => false)
+                        ),
+                    ),
+                    'slider' => array('name' => 'Slider',
+                        'configuration' => array(
+                            'minValue' => array('visible' => true),
+                            'maxValue' => array('visible' => true)),
+                        'unite' => array('visible' => false),
+                        'eventOnly' => array('visible' => false),
+                        'isHistorized' => array('visible' => false),
+                        'cache' => array(
+                            'lifetime' => array('visible' => false),
+                            'enable' => array('visible' => false)
+                        ),
+                    ),
+                    'message' => array('name' => 'Message',
+                        'configuration' => array(
+                            'minValue' => array('visible' => false),
+                            'maxValue' => array('visible' => false)),
+                        'unite' => array('visible' => false),
+                        'eventOnly' => array('visible' => false),
+                        'isHistorized' => array('visible' => false),
+                        'cache' => array(
+                            'lifetime' => array('visible' => false),
+                            'enable' => array('visible' => false)
+                        ),
+                    ),
+                    'color' => array('name' => 'Couleur',
+                        'configuration' => array(
+                            'minValue' => array('visible' => false),
+                            'maxValue' => array('visible' => false)),
+                        'unite' => array('visible' => false),
+                        'eventOnly' => array('visible' => false),
+                        'isHistorized' => array('visible' => false),
+                        'cache' => array(
+                            'lifetime' => array('visible' => false),
+                            'enable' => array('visible' => false)
+                        ),
+                    ),
                 ),
             ),
         ),
