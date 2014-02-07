@@ -47,8 +47,10 @@ class sms extends eqLogic {
     public static function pull() {
         foreach (sms::byType('sms') as $eqLogic) {
             $cmds = $eqLogic->getCmd();
+            
+                $eqLogic->setDebug(true);
             foreach ($eqLogic->readInbox() as $message) {
-                $eqLogic->deleteSms($message['id']);
+               // $eqLogic->deleteSms($message['id']);
                 $autorized = false;
                 foreach ($cmds as $cmd) {
                     $formatedPhoneNumber = '+33' . substr($cmd->getConfiguration('phonenumber'), 1);
@@ -201,7 +203,7 @@ class sms extends eqLogic {
             $this->sendMessage("AT+CPIN={$pin}\r");
             $out = $this->readPort();
             $this->deviceClose();
-            sleep(60);
+            sleep(30);
         }
 
         switch ($out) {

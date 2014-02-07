@@ -155,6 +155,7 @@ class interactQuery {
         }
         include_file('core', 'bot', 'config');
         global $BRAINREPLY;
+        $shortest = 999;
         foreach ($BRAINREPLY as $word => $response) {
             $lev = levenshtein(strtolower($_query), strtolower($word));
             if ($lev == 0) {
@@ -162,7 +163,7 @@ class interactQuery {
                 $shortest = 0;
                 break;
             }
-            if ($lev <= $shortest || $shortest < 0) {
+            if (!isset($shortest) || $lev <= $shortest || $shortest < 0) {
                 $closest = $word;
                 $shortest = $lev;
             }

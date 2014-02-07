@@ -378,14 +378,20 @@ class phpSerial {
             $buffer = array();
             if ($this->_dHandle) {
                 $_buffer = "";
-                while (!in_array($last, $this->_validOutputs)) {
+                $startTime = getmicrotime();
+                $continue = true;
+                while ((!in_array($last, $this->_validOutputs) && $continue)) {
                     $bit = fread($this->_dHandle, 1);
+                    echo $bit;
                     if ($bit == "\r" || $bit == "\n") {
                         $last = strtoupper(trim(strtoupper($_buffer)));
                         $buffer[] = $_buffer;
                         $_buffer = "";
                     } else {
                         $_buffer .= $bit;
+                    }
+                    if (round(getmicrotime() - $startTime, 3) > 10) {
+                        $continue = false;
                     }
                 }
                 return array($last, $buffer);
@@ -400,9 +406,9 @@ class phpSerial {
      * @return bool
      */
     private function flush() {
-        if (!$this->_ckOpened())
+        if (!$this->_ckOpened()) {
             return false;
-
+        }
         if (fwrite($this->_dHandle, $this->_buffer) !== false) {
             $this->_buffer = "";
             return true;
