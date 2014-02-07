@@ -1,4 +1,4 @@
-<span class="cmd #history# tooltips" type="info" subtype="numeric" cmd_id="#id#" title="#collectDate#" style="width:120px;display: inline-block;">
+<span class="cmd #history# tooltips" data-type="info" data-subtype="numeric" data-cmd_id="#id#" title="#collectDate#" style="width:120px;display: inline-block;">
 
     <div class="gauge"></div>
     <span style="vertical-align: top; display : inline;white-space: nowrap;" >
@@ -15,7 +15,7 @@
         $(function() {
             if (is_numeric('#state#')) {
                 
-                $('.cmd[cmd_id=#id#] .gauge').highcharts({
+                $('.cmd[data-cmd_id=#id#] .gauge').highcharts({
                     chart: {
                         type: 'gauge',
                         plotBackgroundColor: null,
@@ -120,7 +120,7 @@
 
                 });
             } else {
-                $('.cmd[cmd_id=#id#] .gauge').append('<span class="label label-danger" style="vertical-align : top;">#state#</span>');
+                $('.cmd[data-cmd_id=#id#] .gauge').append('<span class="label label-danger" style="vertical-align : top;">#state#</span>');
             }
         });
     </script>
