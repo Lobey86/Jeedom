@@ -27,7 +27,7 @@ class zwave extends eqLogic {
 
     public static function pull() {
         $cache = cache::byKey('zwave::lastUpdate');
-        $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Data/' . $cache->getValue(0));
+        $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Data/' . $cache->getValue(strtotime(date('Y-m-d H:i:s')) - 86400));
         $results = json_decode(self::handleError($http->exec()), true);
         if (is_array($results)) {
             foreach ($results as $key => $result) {
@@ -57,7 +57,6 @@ class zwave extends eqLogic {
                                 array_shift($explodeKey);
                             }
                             $attribut = implode('.', $explodeKey);
-
                             foreach (self::byLogicalId($nodeId, 'zwave') as $eqLogic) {
                                 foreach ($eqLogic->getCmd() as $cmd) {
                                     if ($cmd->getConfiguration('instanceId') == $instanceId && $cmd->getConfiguration('class') == '0x' . dechex($class)) {
@@ -89,7 +88,7 @@ class zwave extends eqLogic {
             }
         }
         if (isset($results['updateTime']) && is_numeric($results['updateTime']) && $results['updateTime'] > $cache->getValue(0)) {
-            cache::set('zwave::lastUpdate', $results['updateTime'], 0);
+            // cache::set('zwave::lastUpdate', $results['updateTime'], 0);
         }
     }
 

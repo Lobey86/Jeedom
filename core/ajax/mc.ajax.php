@@ -28,10 +28,8 @@ try {
         if (!isConnect('admin')) {
             throw new Exception('401 Unauthorized');
         }
-        if (cache::flush()) {
-            ajax::success();
-        }
-        throw new Exception('Impossible de vider le cache');
+        cache::flush();
+        ajax::success();
     }
 
     throw new Exception('Aucune methode correspondante à : ' . init('action'));
