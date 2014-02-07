@@ -201,7 +201,7 @@ class sms extends eqLogic {
             $this->sendMessage("AT+CPIN={$pin}\r");
             $out = $this->readPort();
             $this->deviceClose();
-            sleep(10);
+            sleep(60);
         }
 
         switch ($out) {
