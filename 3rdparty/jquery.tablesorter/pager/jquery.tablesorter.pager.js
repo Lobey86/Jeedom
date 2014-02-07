@@ -333,7 +333,7 @@
 				fixHeight(table, p);
 				// apply widgets after table has rendered
 				$t.trigger('applyWidgets');
-				$t.trigger('updateRow', [false, function(){
+				$t.trigger('update', [false, function(){
 					if (p.initialized) {
 						$t.trigger('updateComplete');
 						$t.trigger('pagerChange', p);
@@ -562,9 +562,9 @@
 			p.page = $.data(table, 'pagerLastPage') || p.page || 0;
 			p.size = $.data(table, 'pagerLastSize') || parseInt(pg.find('option[selected]').val(), 10) || p.size || 10;
 			pg.val(p.size); // set page size
-			p.totalPages = Math.ceil( Math.min( p.totalRows, p.filteredRows ) / p.size );
+			p.totalPages = Math.ceil( Math.min( p.totalPages, p.filteredPages ) / p.size );
 			if ( triggered ) {
-				$(table).trigger('updateRow');
+				$(table).trigger('update');
 				setPageSize(table, p.size, p);
 				hideRowsSetup(table, p);
 				fixHeight(table, p);

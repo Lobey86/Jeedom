@@ -1,4 +1,4 @@
-/*! tablesorter CSS Sticky Headers widget - updated 12/17/2013 (v2.14.6)
+/*! tablesorter CSS Sticky Headers widget - updated 12/14/2013 (v2.14.4)
 * Requires a modern browser, tablesorter v2.8+
 */
 /*global jQuery: false, unused:false */
@@ -11,8 +11,7 @@
 		options: {
 			cssStickyHeaders_offset     : 0,
 			cssStickyHeaders_addCaption : false,
-			cssStickyHeaders_attachTo   : null,
-			cssStickyHeaders_zIndex     : 10
+			cssStickyHeaders_attachTo   : null
 		},
 		init : function(table, thisWidget, c, wo) {
 			var $attach = $(wo.cssStickyHeaders_attachTo),
@@ -36,11 +35,9 @@
 					$cells = $cells.add($caption);
 				}
 				$cells.css({
-					"position" : "relative",
-					"z-index" : wo.cssStickyHeaders_zIndex,
-					"transform" : finalY === 0 ? "" : "translate(0px," + finalY + "px)",
-					"-ms-transform" : finalY === 0 ? "" : "translate(0px," + finalY + "px)",
-					"-webkit-transform" : finalY === 0 ? "" : "translate(0px," + finalY + "px)"
+					"transform": finalY === 0 ? "" : "translate(0px," + finalY + "px)",
+					"-ms-transform": finalY === 0 ? "" : "translate(0px," + finalY + "px)",
+					"-webkit-transform": finalY === 0 ? "" : "translate(0px," + finalY + "px)"
 				});
 			});
 		},
@@ -50,9 +47,7 @@
 			c.$table
 				.unbind('update updateAll '.split(' ').join(namespace + ' '))
 				.children('thead, caption').css({
-					"position" : "",
-					"z-index" : "",
-					"transform" : "",
+					"transform": "",
 					"-ms-transform" : "",
 					"-webkit-transform" : ""
 				});
