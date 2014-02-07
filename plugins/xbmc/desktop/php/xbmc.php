@@ -6,7 +6,7 @@ if (!isConnect('admin')) {
 global $listCmdXBMC;
 
 include_file('core', 'xbmc', 'config', 'xbmc');
-sendVarToJS('select_id', init('id', '-1'));
+class="panel-collapse collapse" >
 sendVarToJS('eqType', 'xbmc');
 ?>
 

@@ -98,9 +98,9 @@ $(function() {
         }
     });
 
-    if (select_id != -1) {
-        if ($('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + select_id + ']').length != 0) {
-            $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + select_id + ']').click();
+    if (is_numeric(getUrlVars('id'))) {
+        if ($('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + getUrlVars('id') + ']').length != 0) {
+            $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + getUrlVars('id') + ']').click();
         } else {
             $('#ul_eqLogic .li_eqLogic:first').click();
         }

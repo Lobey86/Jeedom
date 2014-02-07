@@ -2,7 +2,7 @@
 if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
-sendVarToJS('select_id', init('id', '-1'));
+class="panel-collapse collapse" >
 sendVarToJS('eqType', 'sarah');
 sendVarToJS('dontRemoveCmd', '1');
 ?>

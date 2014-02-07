@@ -3,7 +3,7 @@ if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
 include_file('core', 'jeenode', 'class', 'jeenode');
-sendVarToJS('select_id', init('id', '-1'));
+class="panel-collapse collapse" >
 ?>
 
 <div class="row">

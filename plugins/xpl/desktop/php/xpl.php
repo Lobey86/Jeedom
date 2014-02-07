@@ -6,7 +6,7 @@ if (!isConnect('admin')) {
 include_file('core', 'xpl', 'config', 'xpl');
 include_file('core', 'xpl', 'class', 'xpl');
 
-sendVarToJS('select_id', init('id', '-1'));
+class="panel-collapse collapse" >
 sendVarToJS('eqType', 'xpl');
 ?>
 
