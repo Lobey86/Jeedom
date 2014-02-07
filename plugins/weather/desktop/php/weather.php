@@ -48,19 +48,6 @@ sendVarToJS('dontRemoveCmd', '1');
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Catégorie</label>
-                    <div class="col-lg-9">
-                        <?php
-                        foreach (jeedom::getAvailableEqLogicCategorie() as $key => $value) {
-                            echo '<label class="checkbox-inline">';
-                            echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value;
-                            echo '</label>';
-                        }
-                        ?>
-
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="col-lg-2 control-label" >Activer</label>
                     <div class="col-lg-1">
                         <input type="checkbox" class="eqLogicAttr form-control" data-l1key="isEnable" size="16" checked/>

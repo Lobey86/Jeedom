@@ -51,12 +51,12 @@ sendVarToJS('eqType', 'xbmc');
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Catégorie</label>
-                    <div class="col-lg-9">
+                    <label class="col-lg-4 control-label">Catégorie</label>
+                    <div class="col-lg-8">
                         <?php
-                        foreach (jeedom::getAvailableEqLogicCategorie() as $key => $value) {
+                        foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
                             echo '<label class="checkbox-inline">';
-                            echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value;
+                            echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
                             echo '</label>';
                         }
                         ?>
