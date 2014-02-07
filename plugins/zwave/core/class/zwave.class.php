@@ -88,7 +88,7 @@ class zwave extends eqLogic {
             }
         }
         if (isset($results['updateTime']) && is_numeric($results['updateTime']) && $results['updateTime'] > $cache->getValue(0)) {
-            // cache::set('zwave::lastUpdate', $results['updateTime'], 0);
+            cache::set('zwave::lastUpdate', $results['updateTime'], 0);
         }
     }
 
@@ -498,6 +498,13 @@ class zwaveCmd extends cmd {
         zwave::handleError($http->exec());
 
         return true;
+    }
+
+    public function postUpdate() {
+        log::add('zwave', 'debug', 'Update of : ' . print_r($this, true));
+        if ($this->getType() == 'info') {
+            $this->execute();
+        }
     }
 
     public function execute($_options = null) {
