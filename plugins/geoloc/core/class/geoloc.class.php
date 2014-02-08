@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
@@ -64,7 +64,7 @@ class geolocCmd extends cmd {
                 break;
         }
     }
-    
+
     function distance($lat1, $lng1, $lat2, $lng2) {
         $earth_radius = 6378.137;   // Terre = sphère de 6378km de rayon
         $rlo1 = deg2rad($lng1);
@@ -75,10 +75,10 @@ class geolocCmd extends cmd {
         $dla = ($rla2 - $rla1) / 2;
         $a = (sin($dla) * sin($dla)) + cos($rla1) * cos($rla2) * (sin($dlo) * sin($dlo));
         $d = 2 * atan2(sqrt($a), sqrt(1 - $a));
-        return round(($earth_radius * $d),2);
+        return round(($earth_radius * $d), 2);
     }
 
-    public function execute() {
+    public function execute($_options  = array()) {
         switch ($this->getConfiguration('mode')) {
             case 'fixe':
                 return $this->getConfiguration('coordinate');
@@ -97,7 +97,10 @@ class geolocCmd extends cmd {
                 }
                 $to = explode(',', $to->execCmd());
                 $from = explode(',', $from->execCmd());
-                return self::distance($from[0], $from[1], $to[0], $to[1]);
+                if (count($to) == 2 && count($from) == 2) {
+                    return self::distance($from[0], $from[1], $to[0], $to[1]);
+                }
+                return -1;
                 break;
             default:
                 break;

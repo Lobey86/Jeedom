@@ -177,6 +177,29 @@ class zwave extends eqLogic {
     }
 
     public static function cron() {
+        //Rafraichissement des valeurs des modules
+        foreach (eqLogic::byType('zwave') as $eqLogic) {
+            $scheduler = $eqLogic->getConfiguration('refreshDelay', '');
+            if ($scheduler != '') {
+                try {
+                    $c = new Cron\CronExpression($scheduler, new Cron\FieldFactory);
+                    if ($c->isDue()) {
+                        try {
+                            $url = self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $eqLogic->getLogicalId() . ']';
+                            foreach ($eqLogic->getCmd() as $cmd) {
+                                $http = new com_http($url . '.instances[' . $cmd->getConfiguration('instanceId', 0) . '].commandClasses[' . $cmd->getConfiguration('class') . '].Get()');
+                                self::handleError($http->exec());
+                            }
+                        } catch (Exception $exc) {
+                            log::add('zwave', 'error', 'Erreur pour ' . $eqLogic->getHumanName() . ' : ' . $exc->getMessage());
+                        }
+                    }
+                } catch (Exception $exc) {
+                    log::add('zwave', 'error', 'Expression cron non valide pour ' . $eqLogic->getHumanName() . ' : ' . $scheduler);
+                }
+            }
+        }
+
         //Verification des piles une fois par jour
         if (date('H:i') == '00:00') {
             foreach (zwave::byType('zwave') as $eqLogic) {
@@ -501,7 +524,6 @@ class zwaveCmd extends cmd {
     }
 
     public function postUpdate() {
-        log::add('zwave', 'debug', 'Update of : ' . print_r($this, true));
         if ($this->getType() == 'info') {
             $this->execute();
         }

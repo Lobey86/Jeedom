@@ -155,12 +155,52 @@ class jeedom {
 
     public static function getConfiguration($_key) {
         $keys = explode(':', $_key);
-        
+
         global $JEEDOM_INTERNAL_CONFIG;
         $result = $JEEDOM_INTERNAL_CONFIG;
         foreach ($keys as $key) {
             if (isset($result[$key])) {
                 $result = $result[$key];
+            }
+        }
+        return $result;
+    }
+
+    public static function whatDoYouKnow($_object = null) {
+        $result = array();
+        if (is_object($_object)) {
+            $objects = array($_object);
+        } else {
+            $objects = object::all();
+        }
+        foreach ($objects as $object) {
+            foreach ($object->getEqLogic() as $eqLogic) {
+                if ($eqLogic->getIsEnable() == 1) {
+                    foreach ($eqLogic->getCmd() as $cmd) {
+                        if ($cmd->getIsVisible() == 1 && $cmd->getType() == 'info') {
+                            try {
+                                $value = $cmd->execCmd();
+                                if (!isset($result[$object->getId()])) {
+                                    $result[$object->getId()] = array();
+                                    $result[$object->getId()]['name'] = $object->getName();
+                                    $result[$object->getId()]['eqLogic'] = array();
+                                }
+                                if (!isset($result[$object->getId()]['eqLogic'][$eqLogic->getId()])) {
+                                    $result[$object->getId()]['eqLogic'][$eqLogic->getId()] = array();
+                                    $result[$object->getId()]['eqLogic'][$eqLogic->getId()]['name'] = $eqLogic->getName();
+                                    $result[$object->getId()]['eqLogic'][$eqLogic->getId()]['cmd'] = array();
+                                }
+
+                                $result[$object->getId()]['eqLogic'][$eqLogic->getId()]['cmd'][$cmd->getId()] = array();
+                                $result[$object->getId()]['eqLogic'][$eqLogic->getId()]['cmd'][$cmd->getId()]['name'] = $cmd->getName();
+                                $result[$object->getId()]['eqLogic'][$eqLogic->getId()]['cmd'][$cmd->getId()]['unite'] = $cmd->getUnite();
+                                $result[$object->getId()]['eqLogic'][$eqLogic->getId()]['cmd'][$cmd->getId()]['value'] = $value;
+                            } catch (Exception $exc) {
+                                
+                            }
+                        }
+                    }
+                }
             }
         }
         return $result;

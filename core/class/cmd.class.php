@@ -474,7 +474,7 @@ class cmd {
         $internalEvent->save();
     }
 
-    public function execute() {
+    public function execute($_options = array()) {
         return false;
     }
 
@@ -710,8 +710,10 @@ class cmd {
                 $_value = 1;
             }
             cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
-            $this->setCollect(0);
-            $this->save();
+            if ($this->getCollect() == 1) {
+                $this->setCollect(0);
+                $this->save();
+            }
             nodejs::pushUpdate('eventCmd', $this->getId());
             foreach (self::byValue($this->getId()) as $cmd) {
                 nodejs::pushUpdate('eventCmd', $cmd->getId());

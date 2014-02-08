@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $(function() {
     printSarahDef();
@@ -41,6 +41,20 @@ $(function() {
         cmd.getSelectModal({type: 'action'}, function(result) {
             el.closest('tr').find('.interactDefAttr[data-l1key=link_id]').value(result.human);
         });
+    });
+
+    $("#table_interactDef").delegate(".interactDefAttr[data-l1key=link_type]", 'change', function() {
+        var el = $(this);
+        el.closest('tr').find('.interactDefAttr').show();
+        el.closest('tr').find('.listEquipementInfo').show();
+        if (el.value() == 'whatDoYouKnow') {
+            el.closest('tr').find('.interactDefAttr[data-l1key=link_id]').hide();
+            el.closest('tr').find('.interactDefAttr[data-l1key=options][data-l2key=convertBinary]').hide();
+            el.closest('tr').find('.interactDefAttr[data-l1key=options][data-l2key=synonymes]').hide();
+            el.closest('tr').find('.interactDefAttr[data-l1key=reply]').hide();
+            el.closest('tr').find('.listEquipementInfo').hide();
+            el.closest('tr').find('.interactDefAttr[data-l1key=filtres]').hide();
+        }
     });
 
     $("#table_interactDef tbody").sortable();
@@ -103,22 +117,37 @@ function addSarahDefToTable(_interactDef) {
     }
     var tr = '<tr>';
     tr += '<td>';
-    tr += '<input class="interactDefAttr" data-l1key="id" style="display : none;"/>';
+    tr += '<input class="interactDefAttr hide" data-l1key="id" />';
     tr += '<div class="form-group">';
     tr += '<div class="col-lg-4">';
     tr += '<select class="interactDefAttr tooltips form-control input-sm" data-l1key="filtres" data-l2key="cmd_type" title="Limiter aux commande de type">';
-    tr += '<option value="info">Info</option>';
-    tr += '<option value="action">Action</option>';
+    var types = jeedom.getConfiguration('cmd:type');
+    for (var i in types) {
+        tr += '<option value="' + i + '">' + types[i].name + '</option>';
+    }
     tr += '</select>';
     tr += '</div>';
     tr += '<div class="col-lg-4">';
-    tr += sel_subtype;
+    tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'subtype\' title=\'Limiter aux commandes ayant pour sous-type\'>';
+    tr += '<option value=\'all\' >Tous</option>';
+    for (var i in types) {
+        for (var j in types[i].subtype) {
+            tr += '<option value="' + j + '">' + types[i].subtype[j].name + '</option>';
+        }
+    }
+    tr += '</select>';
     tr += '</div>';
     tr += '<div class="col-lg-4">';
     tr += sel_unite;
     tr += '</div>';
     tr += '<div class="col-lg-4">';
-    tr += sel_object;
+    var objects = object.all();
+    tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'object_id\' title=\'Limiter aux commandes appartenant à l objet\' style=\'margin-top : 5px;\'>';
+    tr += '<option value=\'all\' >Tous</option>';
+    for (var i in objects) {
+        tr += '<option value=' + objects[i].id + '>' + objects[i].name + '</option>';
+    }
+    tr += '</select>';
     tr += '</div>';
     tr += '<div class="col-lg-4">';
     tr += sel_eqType;
@@ -146,6 +175,7 @@ function addSarahDefToTable(_interactDef) {
     tr += '<div class="col-lg-12">';
     tr += '<select class="interactDefAttr form-control input-sm" data-l1key="link_type">';
     tr += '<option value="cmd">Commande</option>';
+    tr += '<option value="whatDoYouKnow">Que sais tu ?</option>';
     tr += '</select>';
     tr += '</div>';
     tr += '<div class="col-lg-9">';
@@ -161,7 +191,7 @@ function addSarahDefToTable(_interactDef) {
     tr += '<td>';
     tr += '<span class="displayInteracQuery cursor">';
     tr += '<span class="label label-success interactDefAttr tooltips" data-l1key="nbEnableInteractQuery" title="Nombre de requetes active"></span> / ';
-    tr += '<span class="label label-default interactDefAttr tooltips" data-l1key="nbInteractQuery" title="Nombre de requetes générées"></span>';
+    tr += '<span class="label label-default interactDefAttr tooltips" data-l1key="nbInteractQuery" title="Nombre de requetes totales"></span>';
     tr += '</span>';
     tr += '<i class="fa fa-minus-circle remove pull-right cursor"></i>';
     tr += '</td>';

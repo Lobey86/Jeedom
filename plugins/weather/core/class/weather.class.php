@@ -323,7 +323,7 @@ class weatherCmd extends cmd {
         return true;
     }
 
-    public function execute() {
+    public function execute($_options = array()) {
         $eqLogic_weather = weather::byId($this->eqLogic_id);
         $weather = $eqLogic_weather->getWeatherArea();
 
