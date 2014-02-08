@@ -524,7 +524,6 @@ class zwaveCmd extends cmd {
     }
 
     public function postUpdate() {
-        log::add('zwave', 'debug', 'Update of : ' . print_r($this, true));
         if ($this->getType() == 'info') {
             $this->execute();
         }
