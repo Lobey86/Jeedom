@@ -11,13 +11,6 @@ foreach (eqLogic::allType() as $type) {
 $sel_eqType .= '</select>';
 sendVarToJS('sel_eqType', $sel_eqType);
 
-$sel_object = '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'object_id\' title=\'Limiter aux commandes appartenant à l objet\' style=\'margin-top : 5px;\'>';
-$sel_object .= '<option value=\'all\' >Tous</option>';
-foreach (object::all() as $object) {
-    $sel_object .= '<option value=\'' . $object->getId() . '\' >' . $object->getName() . '</option>';
-}
-$sel_object .= '</select>';
-sendVarToJS('sel_object', $sel_object);
 
 $sel_unite = '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'cmd_unite\' title=\'Limiter aux commandes ayant pour unité\'>';
 $sel_unite .= '<option value=\'all\' >Toutes</option>';
@@ -26,16 +19,6 @@ foreach (cmd::allUnite() as $unite) {
 }
 $sel_unite .= '</select>';
 sendVarToJS('sel_unite', $sel_unite);
-
-$sel_subtype = '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'subtype\' title=\'Limiter aux commandes ayant pour sous-type\'>';
-$sel_subtype .= '<option value=\'all\' >Tous</option>';
-$sel_subtype .= '<option value=\'color\' >Couleur</option>';
-$sel_subtype .= '<option value=\'binary\' >Binaire</option>';
-$sel_subtype .= '<option value=\'slider\' >Slider</option>';
-$sel_subtype .= '<option value=\'numeric\' >Numérique</option>';
-$sel_subtype .= '<option value=\'string\' >Autre</option>';
-$sel_subtype .= '</select>';
-sendVarToJS('sel_subtype', $sel_subtype);
 ?>
 
 

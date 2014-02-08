@@ -56,12 +56,15 @@ object.getEqLogic = function(_object_id, _cmd_eqTypeName) {
 }
 
 object.all = function() {
+    if (isset(object.cache.all)) {
+        return object.cache.all;
+    }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/eqLogic.ajax.php", // url du fichier php
+        url: "core/ajax/object.ajax.php", // url du fichier php
         data: {
-            action: "listByObjectAndCmdType",
+            action: "all",
         },
         dataType: 'json',
         async: false,
@@ -76,5 +79,6 @@ object.all = function() {
             result = data.result;
         }
     });
+    object.cache.all = result;
     return result;
 }
