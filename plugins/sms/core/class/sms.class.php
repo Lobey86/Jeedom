@@ -47,10 +47,8 @@ class sms extends eqLogic {
     public static function pull() {
         foreach (sms::byType('sms') as $eqLogic) {
             $cmds = $eqLogic->getCmd();
-            
-                $eqLogic->setDebug(true);
             foreach ($eqLogic->readInbox() as $message) {
-               // $eqLogic->deleteSms($message['id']);
+                $eqLogic->deleteSms($message['id']);
                 $autorized = false;
                 foreach ($cmds as $cmd) {
                     $formatedPhoneNumber = '+33' . substr($cmd->getConfiguration('phonenumber'), 1);
@@ -70,23 +68,27 @@ class sms extends eqLogic {
     /*     * *********************Methode d'instance************************* */
 
     public function getSerial() {
-        $this->displayDebug('Demande de l\'interface série');
         if (!isset(self::$_serial)) {
             $this->displayDebug('Création de l\'interface série sur le port : ' . $this->getConfiguration('port'));
             $serial = new phpSerial();
             $serial->deviceSet($this->getConfiguration('port'));
-            $serial->confBaudRate(460800);
+            $serial->confBaudRate(9600);
             $serial->confParity('none');
+            $serial->confStopBits(1);
             $serial->confCharacterLength(8);
+            $serial->confFlowControl('none');
+            $serial->sendParameters("-ignbrk -hupcl -onlcr -echo -echok -echoctl -echoke");
             $serial->setValidOutputs(array(
                 'OK',
                 'ERROR',
                 '+CPIN: SIM PIN',
                 '+CPIN: READY',
                 '>',
-                'COMMAND NOT SUPPORT'
+                'COMMAND NOT SUPPORT',
+                '+CMS ERROR: 305'
             ));
             self::$_serial = $serial;
+            $this->cleanDevice();
         }
         return self::$_serial;
     }
@@ -94,7 +96,6 @@ class sms extends eqLogic {
     private function readPort($returnBufffer = false) {
         $out = null;
         list($last, $buffer) = $this->getSerial()->readPort();
-        $this->displayDebug('Lecture interface série fini retour des résultats');
         if ($returnBufffer) {
             $out = $buffer;
         } else {
@@ -114,6 +115,16 @@ class sms extends eqLogic {
 
     private function deviceClose() {
         $this->getSerial()->deviceClose();
+    }
+
+    private function cleanDevice() {
+        $this->deviceOpen();
+        $this->sendMessage(chr(26));
+        $this->deviceClose();
+        $this->deviceOpen();
+        $this->sendMessage("AT\r");
+        $this->readPort();
+        $this->deviceClose();
     }
 
     public function deleteSms($id) {
@@ -136,8 +147,10 @@ class sms extends eqLogic {
             if ($out == 'OK') {
                 $this->sendMessage("AT+CMGL=\"{$mode}\"\r");
                 $inbox = $this->readPort(true);
+                $this->deviceClose();
+            } else {
+                $this->deviceClose();
             }
-            $this->deviceClose();
             if (count($inbox) > 2) {
                 array_pop($inbox);
                 array_pop($inbox);
@@ -150,7 +163,7 @@ class sms extends eqLogic {
                     $date = $headArr[4];
                     $hour = $headArr[5];
                     $txt = $arrItem[1];
-                    $return[] = array('id' => $id, 'phonenumber' => $fromTlfn, 'message' => $txt, 'date' => $date, 'hour' => $hour);
+                    $return[] = array('id' => trim($id), 'phonenumber' => $fromTlfn, 'message' => $txt, 'date' => $date, 'hour' => $hour);
                 }
             }
             return $return;
@@ -164,15 +177,21 @@ class sms extends eqLogic {
             $_message = self::cleanSMS($_message);
             $_message = substr($_message, 0, 160);
             $this->deviceOpen();
-            $this->sendMessage(chr(26));
             $this->sendMessage("AT+CMGF=1\r");
-            $this->sendMessage("AT+CMGS=\"{$_phoneNumber}\"\r");
-            $this->sendMessage("{$_message}" . chr(26));
             $out = $this->readPort();
-            $this->deviceClose();
+            if ($out == 'OK') {
+                $this->sendMessage("AT+CMGS=\"{$_phoneNumber}\"\r");
+                $this->sendMessage("{$_message}" . chr(26));
+                $out = $this->readPort();
+                $this->deviceClose();
+            }
             if ($out == 'OK') {
                 return true;
             } else {
+                $this->deviceOpen();
+                $this->sendMessage(chr(26));
+                $out = $this->readPort();
+                $this->deviceClose();
                 return false;
             }
         } else {
@@ -203,7 +222,7 @@ class sms extends eqLogic {
             $this->sendMessage("AT+CPIN={$pin}\r");
             $out = $this->readPort();
             $this->deviceClose();
-            sleep(30);
+            sleep(20);
         }
 
         switch ($out) {

@@ -42,11 +42,10 @@ class phpSerial {
             if ($this->_exec("stty --version") === 0) {
                 register_shutdown_function(array($this, "deviceClose"));
             } else {
-                throw new Exception("No stty availible, unable to run.", E_USER_ERROR);
+                throw new Exception("No stty availible, unable to run.");
             }
         } else {
-            throw new Exception("Host OS is must be linux, unable tu run.", E_USER_ERROR);
-            exit();
+            throw new Exception("Host OS is must be linux, unable tu run.");
         }
     }
 
@@ -70,11 +69,9 @@ class phpSerial {
                     return true;
                 }
             }
-            throw new Exception("Le port spécifié est invalide ou il y a un problème de droit : " . $device);
-            return false;
+            throw new Exception("Specified serial port is not valid");
         } else {
             throw new Exception("You must close your device before to set an other one");
-            return false;
         }
     }
 
@@ -86,18 +83,15 @@ class phpSerial {
      */
     function deviceOpen($mode = "r+b") {
         if ($this->_dState === self::SERIAL_DEVICE_OPENED) {
-            throw new Exception("The device is already opened", E_USER_NOTICE);
-            return true;
+            throw new Exception("The device is already opened");
         }
 
         if ($this->_dState === self::SERIAL_DEVICE_NOTSET) {
             throw new Exception("The device must be set before to be open");
-            return false;
         }
 
         if (!preg_match("@^[raw]\+?b?$@", $mode)) {
             throw new Exception("Invalid opening mode : " . $mode . ". Use fopen() modes.");
-            return false;
         }
 
         $this->_dHandle = @fopen($this->_device, $mode);
@@ -110,7 +104,6 @@ class phpSerial {
 
         $this->_dHandle = null;
         throw new Exception("Unable to open the device");
-        return false;
     }
 
     /**
@@ -129,8 +122,7 @@ class phpSerial {
             return true;
         }
 
-        throw new Exception("Unable to close the device", E_USER_ERROR);
-        return false;
+        throw new Exception("Unable to close the device");
     }
 
     //
@@ -150,7 +142,6 @@ class phpSerial {
     function confBaudRate($rate) {
         if ($this->_dState !== self::SERIAL_DEVICE_SET) {
             throw new Exception("Unable to set the baud rate : the device is either not set or opened");
-            return false;
         }
 
         $validBauds = array(
@@ -177,7 +168,6 @@ class phpSerial {
 
             if ($ret !== 0) {
                 throw new Exception("Unable to set baud rate: " . $out[1]);
-                return false;
             }
         }
     }
@@ -192,7 +182,6 @@ class phpSerial {
     function confParity($parity) {
         if ($this->_dState !== self::SERIAL_DEVICE_SET) {
             throw new Exception("Unable to set parity : the device is either not set or opened");
-            return false;
         }
 
         $args = array(
@@ -203,7 +192,6 @@ class phpSerial {
 
         if (!isset($args[$parity])) {
             throw new Exception("Parity mode not supported");
-            return false;
         }
 
         if ($this->_os === "linux") {
@@ -215,7 +203,6 @@ class phpSerial {
         }
 
         throw new Exception("Unable to set parity : " . $out[1]);
-        return false;
     }
 
     /**
@@ -227,7 +214,6 @@ class phpSerial {
     function confCharacterLength($int) {
         if ($this->_dState !== self::SERIAL_DEVICE_SET) {
             throw new Exception("Unable to set length of a character : the device is either not set or opened");
-            return false;
         }
 
         $int = (int) $int;
@@ -243,9 +229,7 @@ class phpSerial {
         if ($ret === 0) {
             return true;
         }
-
         throw new Exception("Unable to set character length : " . $out[1]);
-        return false;
     }
 
     /**
@@ -258,24 +242,19 @@ class phpSerial {
     function confStopBits($length) {
         if ($this->_dState !== self::SERIAL_DEVICE_SET) {
             throw new Exception("Unable to set the length of a stop bit : the device is either not set or opened");
-            return false;
         }
 
         if ($length != 1 and $length != 2 and $length != 1.5 and !($length == 1.5 and $this->_os === "linux")) {
             throw new Exception("Specified stop bit length is invalid");
-            return false;
         }
 
         if ($this->_os === "linux") {
             $ret = $this->_exec("stty -F " . $this->_device . " " . (($length == 1) ? "-" : "") . "cstopb", $out);
         }
-
         if ($ret === 0) {
             return true;
         }
-
         throw new Exception("Unable to set stop bit length : " . $out[1]);
-        return false;
     }
 
     /**
@@ -300,8 +279,7 @@ class phpSerial {
         );
 
         if ($mode !== "none" and $mode !== "rts/cts" and $mode !== "xon/xoff") {
-            throw new Exception("Invalid flow control mode specified", E_USER_ERROR);
-            return false;
+            throw new Exception("Invalid flow control mode specified");
         }
 
         if ($this->_os === "linux") {
@@ -311,8 +289,19 @@ class phpSerial {
         if ($ret === 0) {
             return true;
         } else {
-            throw new Exception("Unable to set flow control : " . $out[1], E_USER_ERROR);
-            return false;
+            throw new Exception("Unable to set flow control : " . $out[1]);
+        }
+    }
+
+    function sendParameters($param) {
+        if ($this->_os === "linux") {
+            $ret = $this->_exec("stty -F " . $this->_device . " " . $param, $out);
+        }
+
+        if ($ret === 0) {
+            return true;
+        } else {
+            throw new Exception("Unable to set parameter " . $param . " : " . $out[1]);
         }
     }
 
@@ -334,10 +323,8 @@ class phpSerial {
 
         if ($return{0} === "I") {
             throw new Exception("setserial: Invalid flag");
-            return false;
         } elseif ($return{0} === "/") {
             throw new Exception("setserial: Error with device file");
-            return false;
         } else {
             return true;
         }
@@ -371,19 +358,19 @@ class phpSerial {
      */
     function readPort() {
         if ($this->_dState !== self::SERIAL_DEVICE_OPENED) {
-            throw new Exception("Le périphérique doit etre ouvert pour etre lu");
+            throw new Exception("Device must be opened to read it");
         }
         if ($this->_os === "linux") {
             $last = null;
             $buffer = array();
+
             if ($this->_dHandle) {
                 $_buffer = "";
                 $startTime = getmicrotime();
                 $continue = true;
-                while ((!in_array($last, $this->_validOutputs) && $continue)) {
+                while (!in_array($last, $this->_validOutputs) && $continue) {
                     $bit = fread($this->_dHandle, 1);
-                    echo $bit;
-                    if ($bit == "\r" || $bit == "\n") {
+                    if ($bit == "\n") {
                         $last = strtoupper(trim(strtoupper($_buffer)));
                         $buffer[] = $_buffer;
                         $_buffer = "";
@@ -391,7 +378,7 @@ class phpSerial {
                         $_buffer .= $bit;
                     }
                     if (round(getmicrotime() - $startTime, 3) > 10) {
-                        $continue = false;
+                        $continue = false;;
                     }
                 }
                 return array($last, $buffer);
@@ -406,34 +393,26 @@ class phpSerial {
      * @return bool
      */
     private function flush() {
-        if (!$this->_ckOpened()) {
-            return false;
-        }
+        $this->_ckOpened();
         if (fwrite($this->_dHandle, $this->_buffer) !== false) {
             $this->_buffer = "";
             return true;
-        } else {
-            $this->_buffer = "";
-            throw new Exception("Erreur pendant l'envoi du message");
-            return false;
         }
+        $this->_buffer = "";
+        throw new Exception("Error while sending message");
     }
 
     private function _ckOpened() {
         if ($this->_dState !== self::SERIAL_DEVICE_OPENED) {
-            throw new Exception("Le périphérique doit etre ouvert");
-            return false;
+            throw new Exception("Device must be opened");
         }
-
         return true;
     }
 
     private function _ckClosed() {
         if ($this->_dState !== SERIAL_DEVICE_CLOSED) {
-            throw new Exception("Le périphérique doit etre fermé");
-            return false;
+            throw new Exception("Device must be closed");
         }
-
         return true;
     }
 
