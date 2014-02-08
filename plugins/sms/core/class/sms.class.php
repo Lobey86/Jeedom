@@ -40,7 +40,7 @@ class sms extends eqLogic {
             'Œ' => 'oe', 'œ' => 'oe',
             '$' => 's');
         $_message = strtr($_message, $caracteres);
-        $_message = preg_replace('#[^A-Za-z0-9 \n\.\'=\*]+#', '', $_message);
+        $_message = preg_replace('#[^A-Za-z0-9 \n\.\'=\*:]+#', '', $_message);
         return $_message;
     }
 
@@ -48,7 +48,7 @@ class sms extends eqLogic {
         foreach (sms::byType('sms') as $eqLogic) {
             $cmds = $eqLogic->getCmd();
             foreach ($eqLogic->readInbox() as $message) {
-                $eqLogic->deleteSms($message['id']);
+                //$eqLogic->deleteSms($message['id']);
                 $autorized = false;
                 foreach ($cmds as $cmd) {
                     $formatedPhoneNumber = '+33' . substr($cmd->getConfiguration('phonenumber'), 1);
@@ -175,18 +175,37 @@ class sms extends eqLogic {
     public function sendSMS($_phoneNumber, $_message) {
         $_message = self::cleanSMS($_message);
         if (strlen($_message) > 160) {
-            $words = explode(' ', $_message);
+            $lines = explode("\n", $_message);
             $message = '';
-            foreach ($words as $word) {
-                if (strlen($message . ' ' . $word) > 160) {
-                    self::sendSMS($_phoneNumber, $message);
-                    $message = $word;
+            $sepLine = '';
+            foreach ($lines as $line) {
+                if (strlen($line) > 160) {
+                    $words = explode(' ', $line);
+                    $sepWord = '';
+                    foreach ($words as $word) {
+                        if (strlen($message . $sepWord . $word) > 160) {
+                            self::sendSMS($_phoneNumber, $message);
+                            $message = $word;
+                        } else {
+                            $message .=$sepWord . $word;
+                        }
+                        $sepWord = ' ';
+                    }
                 } else {
-                    $message .=' ' . $word;
+                    if (strlen($message . $sepLine . $line) > 160) {
+                        self::sendSMS($_phoneNumber, $message);
+                        $message = $line;
+                    } else {
+                        $message .= $sepLine . $line;
+                    }
+                    $sepLine = "\n";
                 }
             }
+            if ($message != '') {
+                self::sendSMS($_phoneNumber, $message);
+            }
         } else {
-            echo $_message."\n";
+            echo $_message . "\n";
             if ($this->checkPin()) {
                 $_message = substr($_message, 0, 160);
                 $this->deviceOpen();
