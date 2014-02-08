@@ -48,7 +48,7 @@ class sms extends eqLogic {
         foreach (sms::byType('sms') as $eqLogic) {
             $cmds = $eqLogic->getCmd();
             foreach ($eqLogic->readInbox() as $message) {
-                //$eqLogic->deleteSms($message['id']);
+                $eqLogic->deleteSms($message['id']);
                 $autorized = false;
                 foreach ($cmds as $cmd) {
                     $formatedPhoneNumber = '+33' . substr($cmd->getConfiguration('phonenumber'), 1);
