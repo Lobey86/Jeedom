@@ -40,7 +40,7 @@ class sms extends eqLogic {
             'Œ' => 'oe', 'œ' => 'oe',
             '$' => 's');
         $_message = strtr($_message, $caracteres);
-        $_message = preg_replace('#[^A-Za-z0-9 \n\.\']+#', '', $_message);
+        $_message = preg_replace('#[^A-Za-z0-9 \n\.\'=\*]+#', '', $_message);
         return $_message;
     }
 
@@ -58,7 +58,7 @@ class sms extends eqLogic {
                     }
                 }
                 if ($autorized) {
-                    $reply = interactQuery::tryToReply($message['message'], array());
+                    $reply = interactQuery::tryToReply(trim($message['message']), array());
                     $eqLogic->sendSMS($message['phonenumber'], self::cleanSMS($reply));
                 }
             }
@@ -173,29 +173,43 @@ class sms extends eqLogic {
     }
 
     public function sendSMS($_phoneNumber, $_message) {
-        if ($this->checkPin()) {
-            $_message = self::cleanSMS($_message);
-            $_message = substr($_message, 0, 160);
-            $this->deviceOpen();
-            $this->sendMessage("AT+CMGF=1\r");
-            $out = $this->readPort();
-            if ($out == 'OK') {
-                $this->sendMessage("AT+CMGS=\"{$_phoneNumber}\"\r");
-                $this->sendMessage("{$_message}" . chr(26));
-                $out = $this->readPort();
-                $this->deviceClose();
-            }
-            if ($out == 'OK') {
-                return true;
-            } else {
-                $this->deviceOpen();
-                $this->sendMessage(chr(26));
-                $out = $this->readPort();
-                $this->deviceClose();
-                return false;
+        $_message = self::cleanSMS($_message);
+        if (strlen($_message) > 160) {
+            $words = explode(' ', $_message);
+            $message = '';
+            foreach ($words as $word) {
+                if (strlen($message . ' ' . $word) > 160) {
+                    self::sendSMS($_phoneNumber, $message);
+                    $message = $word;
+                } else {
+                    $message .=' ' . $word;
+                }
             }
         } else {
-            throw new Exception("Please insert the PIN");
+            echo $_message."\n";
+            if ($this->checkPin()) {
+                $_message = substr($_message, 0, 160);
+                $this->deviceOpen();
+                $this->sendMessage("AT+CMGF=1\r");
+                $out = $this->readPort();
+                if ($out == 'OK') {
+                    $this->sendMessage("AT+CMGS=\"{$_phoneNumber}\"\r");
+                    $this->sendMessage("{$_message}" . chr(26));
+                    $out = $this->readPort();
+                    $this->deviceClose();
+                }
+                if ($out == 'OK') {
+                    return true;
+                } else {
+                    $this->deviceOpen();
+                    $this->sendMessage(chr(26));
+                    $out = $this->readPort();
+                    $this->deviceClose();
+                    return false;
+                }
+            } else {
+                throw new Exception("Please insert the PIN");
+            }
         }
     }
 

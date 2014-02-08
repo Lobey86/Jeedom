@@ -127,10 +127,10 @@ class interactQuery {
         $results = jeedom::whatDoYouKnow($_object);
         $reply = '';
         foreach ($results as $object) {
-            $reply .= 'Je sais que pour ' . $object['name'] . " : \n";
+            $reply .= '*** Je sais que pour ' . $object['name'] . " : \n";
             foreach ($object['eqLogic'] as $eqLogic) {
                 foreach ($eqLogic['cmd'] as $cmd) {
-                    $reply.= $eqLogic['name'] . ' ' . $cmd['name'] . ' vaut ' . $cmd['value'] . ' ' . $cmd['unite'] . "\n";
+                    $reply.= $eqLogic['name'] . ' ' . $cmd['name'] . ' = ' . $cmd['value'] . ' ' . $cmd['unite'] . "\n";
                 }
             }
         }
@@ -143,15 +143,14 @@ class interactQuery {
             $_parameters['profile'] = ucfirst($_parameters['profile']);
         }
         $reply = self::dontUnderstand($_parameters);
-
         $interactQuery = self::byQuery($_query);
         if (!is_object($interactQuery)) {
             $interactQuery = interactQuery::recognize($_query);
         }
+        
         if (is_object($interactQuery)) {
             $reply = $interactQuery->executeAndReply($_parameters);
         }
-
         if (!is_object($interactQuery)) {
             $brainReply = self::brainReply($_query, $_parameters);
             if ($brainReply != '') {
@@ -248,7 +247,11 @@ class interactQuery {
         if ($this->getLink_type() == 'whatDoYouKnow') {
             $object = object::byId($this->getLink_id());
             if (is_object($object)) {
-                return self::whatDoYouKnow($object);
+                $reply = self::whatDoYouKnow($object);
+                if(trim($reply) == ''){
+                    return 'Je ne sais rien sur '.$object->getName();
+                }
+                return $reply;
             }
             return self::whatDoYouKnow();
         }
