@@ -91,6 +91,15 @@ sendVarToJS('eqType', 'zwave');
                                 <input class="eqLogicAttr form-control" data-l1key="timeout" />
                             </div>
                         </div>
+                        <div class="form-group expertModeHidden">
+                            <label class="col-lg-4 control-label">Fréquence de rafraichissement des valeurs</label>
+                            <div class="col-lg-4">
+                                <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="refreshDelay"/>
+                            </div>
+                            <div class="col-lg-1">
+                                <i class="fa fa-question-circle cursor getHelpSchedule floatright" ></i>
+                            </div>
+                        </div>
                     </fieldset> 
                 </form>
             </div>

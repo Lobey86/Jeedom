@@ -51,6 +51,10 @@ $(function() {
     $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
 
+    $('body').delegate(".getHelpSchedule", 'click', function() {
+        showHelpModal("cronSyntaxe");
+    });
+
     /**********************Node js requests *****************************/
     $('body').one('nodeJsConnect', function() {
         socket.on('zwave::controller.data.controllerState', function(_options) {
