@@ -2,7 +2,6 @@
 if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
-sendVarToJS('select_id', init('id', '-1'));
 sendVarToJS('eqType', 'weather');
 sendVarToJS('dontRemoveCmd', '1');
 ?>
@@ -14,7 +13,7 @@ sendVarToJS('dontRemoveCmd', '1');
                 <li class="nav-header">Liste des equipements méteo 
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" data-action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (eqLogic::byType('weather') as $eqLogic) {
                     echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
@@ -45,19 +44,6 @@ sendVarToJS('dontRemoveCmd', '1');
                             }
                             ?>
                         </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Catégorie</label>
-                    <div class="col-lg-9">
-                        <?php
-                        foreach (jeedom::getAvailableEqLogicCategorie() as $key => $value) {
-                            echo '<label class="checkbox-inline">';
-                            echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value;
-                            echo '</label>';
-                        }
-                        ?>
-
                     </div>
                 </div>
                 <div class="form-group">

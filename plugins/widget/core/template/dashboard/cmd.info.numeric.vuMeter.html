@@ -1,4 +1,4 @@
-<span class="cmd #history# tooltips" type="info" subtype="numeric" cmd_id="#id#" title="#collectDate#" style="width:120px;display: inline-block;">
+<span class="cmd #history# tooltips" data-type="info" data-subtype="numeric" data-cmd_id="#id#" title="#collectDate#" style="width:120px;display: inline-block;">
 
     <div class="vuMeter"></div>
     <center>
@@ -10,7 +10,7 @@
     <script>
         $(function() {
             if (is_numeric('#state#')) {
-                $('.cmd[cmd_id=#id#] .vuMeter').highcharts({
+                $('.cmd[data-cmd_id=#id#] .vuMeter').highcharts({
                     chart: {
                         type: 'gauge',
                         plotBackgroundImage: null,
@@ -70,7 +70,7 @@
 
                 });
             } else {
-                $('.cmd[cmd_id=#id#] .vuMeter').append('<span class="label label-danger" style="vertical-align: top;">#state#</span>');
+                $('.cmd[data-cmd_id=#id#] .vuMeter').append('<span class="label label-danger" style="vertical-align: top;">#state#</span>');
             }
         });
     </script>

@@ -19,6 +19,7 @@
 require_once dirname(__FILE__) . '/utils.inc.php';
 include_file('core', 'common', 'config');
 include_file('core', 'version', 'config');
+include_file('core', 'jeedom', 'config');
 include_file('core', 'plugin', 'class');
 include_file('core', 'config', 'class');
 include_file('core', 'DB', 'class');

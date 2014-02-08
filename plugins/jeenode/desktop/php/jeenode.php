@@ -3,7 +3,6 @@ if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
 include_file('core', 'jeenode', 'class', 'jeenode');
-sendVarToJS('select_id', init('id', '-1'));
 ?>
 
 <div class="row">
@@ -13,7 +12,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <li class="nav-header">Liste des jeenodes
                     <i class="fa fa-plus-circle pull-right cursor" id="bt_addJeenode" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (jeenodeReal::liste() as $jeenodeReal) {
                     echo '<li class="cursor li_jeenode" data-jeenodeReal_id="' . $jeenodeReal['id'] . '" data-type="' . $jeenodeReal['type'] . '" data-name="' . $jeenodeReal['name'] . '"><a>' . $jeenodeReal['name'] . ' (' . $jeenodeReal['type'] . ')</a></li>';

@@ -2,7 +2,6 @@
 if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
-sendVarToJS('select_id', init('id', '-1'));
 sendVarToJS('eqType', 'pincode');
 ?>
 
@@ -13,7 +12,7 @@ sendVarToJS('eqType', 'pincode');
                 <li class="nav-header">Liste équipements Pincode
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" data-action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (eqLogic::byType('pincode') as $eqLogic) {
                     echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
@@ -49,11 +48,11 @@ sendVarToJS('eqType', 'pincode');
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Catégorie</label>
-                    <div class="col-lg-9">
+                    <div class="col-lg-8">
                         <?php
-                        foreach (jeedom::getAvailableEqLogicCategorie() as $key => $value) {
+                        foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
                             echo '<label class="checkbox-inline">';
-                            echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value;
+                            echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
                             echo '</label>';
                         }
                         ?>
@@ -79,7 +78,7 @@ sendVarToJS('eqType', 'pincode');
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Nom de la commande info</label>
+                    <label class="col-lg-3 control-label">Nom de la commande</label>
                     <div class="col-lg-3">
                         <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_name" />
                     </div>
@@ -88,20 +87,22 @@ sendVarToJS('eqType', 'pincode');
                     <label class="col-lg-3 control-label">Sous-type de la commande</label>
                     <div class="col-lg-3">
                         <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_subtype" >
-                            <option value="numeric">Numérique</option>
-                            <option value="binary">Binaire</option>
-                            <option value="string">Autre</option>
+                            <?php
+                            foreach (jeedom::getConfiguration('cmd:type:info:subtype') as $key => $value) {
+                                echo '<option value="' . $key . '" >' . $value['name'] . '</option>';
+                            }
+                            ?>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Unité de la commande info</label>
+                    <label class="col-lg-3 control-label">Unité de la commande</label>
                     <div class="col-lg-3">
                         <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_unite" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Afficher la commande info</label>
+                    <label class="col-lg-3 control-label">Afficher la commande</label>
                     <div class="col-lg-1">
                         <input type="checkbox" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmd_isVisible" checked/>
                     </div>

@@ -21,25 +21,20 @@ function cmd() {
 
 
 cmd.changeType = function(_cmd, _subType) {
-    var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control" data-l1key="subType">';
+    var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control input-sm" data-l1key="subType">';
     var type = _cmd.find('.cmdAttr[data-l1key=type]').value();
     switch (type) {
         case 'info' :
-            selSubType += '<option value="numeric">Numérique</option>';
-            selSubType += '<option value="binary">Binaire</option>';
-            selSubType += '<option value="string">Autre</option>';
-            _cmd.find('.cmdAttr[data-l1key=eventOnly]').show();
-            _cmd.find('.cmdAttr[data-l1key=isHistorized]').parent().show();
-            _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=enable]').parent().show();
+            var subType = jeedom.getConfiguration('cmd:type:info:subtype');
+            for (var i in subType) {
+                selSubType += '<option value="' + i + '">' + subType[i].name + '</option>';
+            }
             break;
         case 'action' :
-            selSubType += '<option value="other">Défaut</option>';
-            selSubType += '<option value="slider">Slider</option>';
-            selSubType += '<option value="message">Message</option>';
-            selSubType += '<option value="color">Couleur</option>';
-            _cmd.find('.cmdAttr[data-l1key=eventOnly]').parent().hide();
-            _cmd.find('.cmdAttr[data-l1key=isHistorized]').parent().hide();
-            _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=enable]').parent().hide();
+            var subType = jeedom.getConfiguration('cmd:type:action:subtype');
+            for (var i in subType) {
+                selSubType += '<option value="' + i + '">' + subType[i].name + '</option>';
+            }
             break;
     }
     selSubType += '</select>';
@@ -48,68 +43,45 @@ cmd.changeType = function(_cmd, _subType) {
     if (isset(_subType)) {
         _cmd.find('.cmdAttr[data-l1key=subType]').value(_subType);
     }
-    _cmd.find('.cmdAttr[data-l1key=subType]').trigger('change');
 }
 
 cmd.changeSubType = function(_cmd) {
-    var type = _cmd.find('.cmdAttr[data-l1key=type]').value();
-    var subType = _cmd.find('.cmdAttr[data-l1key=subType]').value();
-    switch (type) {
-        case 'info' :
-            switch (subType) {
-                case 'numeric' :
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').show();
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').show();
-                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').show();
-                    _cmd.find('.cmdAttr[data-l1key=unite]').show();
-                    break;
-                case 'binary' :
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').show();
-                    _cmd.find('.cmdAttr[data-l1key=unite]').hide();
-                    break;
-                case 'string' :
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').show();
-                    _cmd.find('.cmdAttr[data-l1key=unite]').show();
-                    break;
+    var subtype = jeedom.getConfiguration('cmd:type:' + _cmd.find('.cmdAttr[data-l1key=type]').value() + ':subtype:' + _cmd.find('.cmdAttr[data-l1key=subType]').value());
+    for (var i in subtype) {
+        if (isset(subtype[i].visible)) {
+            var el = _cmd.find('.cmdAttr[data-l1key=' + i + ']');
+            if (el.attr('type') == 'checkbox' && el.parent().is('span')) {
+                el = el.parent();
             }
-            break;
-        case 'action' :
-            switch (subType) {
-                case 'other' :
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=unite]').hide();
-                    break;
-                case 'slider' :
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').show();
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').show();
-                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=unite]').hide();
-                    break;
-                case 'message' :
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=unite]').hide();
-                    break;
-                case 'color' :
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=minValue]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=maxValue]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').hide();
-                    _cmd.find('.cmdAttr[data-l1key=unite]').hide();
-                    break;
+            if (subtype[i].visible) {
+                el.show();
+                el.removeClass('hide');
+            } else {
+                el.hide();
+                el.addClass('hide');
             }
-            break;
+        } else {
+            for (var j in subtype[i]) {
+                var el = _cmd.find('.cmdAttr[data-l1key=' + i + '][data-l2key=' + j + ']');
+                if (el.attr('type') == 'checkbox' && el.parent().is('span')) {
+                    el = el.parent();
+                }
+                if (isset(subtype[i][j].visible)) {
+                    if (subtype[i][j].visible) {
+                        el.show();
+                        el.removeClass('hide');
+                    } else {
+                        el.hide();
+                        el.addClass('hide');
+                    }
+                }
+            }
+        }
     }
 }
 
 cmd.availableType = function() {
-    var selType = '<select style="width : 120px; margin-bottom : 3px;" class="cmdAttr form-control" data-l1key="type">';
+    var selType = '<select style="width : 120px; margin-bottom : 3px;" class="cmdAttr form-control input-sm" data-l1key="type">';
     selType += '<option value="info">Info</option>';
     selType += '<option value="action">Action</option>';
     selType += '</select>';
@@ -129,9 +101,9 @@ cmd.getSelectModal = function(_options, callback) {
             height: 250,
             width: 800
         });
-        jQuery.ajaxSetup({async:false});
+        jQuery.ajaxSetup({async: false});
         $('#mod_insertCmdValue').load('index.php?v=d&modal=cmd.human.insert');
-        jQuery.ajaxSetup({async:true});
+        jQuery.ajaxSetup({async: true});
     }
     mod_insertCmd.setTypeCmd(init(_options.type, 'all'));
     $("#mod_insertCmdValue").dialog('option', 'buttons', {

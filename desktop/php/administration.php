@@ -522,50 +522,49 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             </form>
                         </div>
                     </div>
-                </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_nodeJS">
-                                NodeJS / Chat
-                            </a>
-                        </h3>
-                    </div>
-                    <div id="configuration_nodeJS" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <form class="form-horizontal">
-                                <fieldset>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">Activer nodeJS</label>
-                                        <div class="col-lg-1">
-                                            <input type="checkbox" class="configKey form-control" data-l1key="enableNodeJs"/>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_nodeJS">
+                                    NodeJS / Chat
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="configuration_nodeJS" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label">Activer nodeJS</label>
+                                            <div class="col-lg-1">
+                                                <input type="checkbox" class="configKey form-control" data-l1key="enableNodeJs"/>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">Port interne NodeJS</label>
-                                        <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" data-l1key="nodeJsInternalPort" />
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label">Port interne NodeJS</label>
+                                            <div class="col-lg-3">
+                                                <input type="text"  class="configKey form-control" data-l1key="nodeJsInternalPort" />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">Activer le chat</label>
-                                        <div class="col-lg-1">
-                                            <input type="checkbox" class="configKey form-control" data-l1key="enableChat"/>
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label">Activer le chat</label>
+                                            <div class="col-lg-1">
+                                                <input type="checkbox" class="configKey form-control" data-l1key="enableChat"/>
+                                            </div>
                                         </div>
-                                    </div>
-                                </fieldset>
-                            </form>
+                                    </fieldset>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-actions" style="height: 20px;">
-                    <a class="btn btn-success" id="bt_saveGeneraleConfig"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+                    <div class="form-actions" style="height: 20px;">
+                        <a class="btn btn-success" id="bt_saveGeneraleConfig"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <div class="modal fade" id="md_newUser">

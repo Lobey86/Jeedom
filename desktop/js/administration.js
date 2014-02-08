@@ -269,7 +269,7 @@ function getJeedomLog(_autoUpdate, _log) {
                     _autoUpdate = 0;
                 }
                 if ($.trim(data.result[i][2]) == '[END ' + _log.toUpperCase() + ' ERROR]') {
-                    $('#div_alert').showAlert({message: 'L\'opération a échoué', level: 'error'});
+                    $('#div_alert').showAlert({message: 'L\'opération a échoué', level: 'danger'});
                     _autoUpdate = 0;
                 }
             }

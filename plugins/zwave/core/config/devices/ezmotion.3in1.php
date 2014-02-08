@@ -16,25 +16,21 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-try {
-    require_once(dirname(__FILE__) . '/../../core/php/core.inc.php');
-    include_file('core', 'authentification', 'php');
+global $deviceConfiguration;
 
-    if (!isConnect()) {
-        throw new Exception('401 Unauthorized');
-    }
-
-    if (init('action') == 'flush') {
-        if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
-        }
-        cache::flush();
-        ajax::success();
-    }
-
-    throw new Exception('Aucune methode correspondante à : ' . init('action'));
-    /*     * *********Catch exeption*************** */
-} catch (Exception $e) {
-    ajax::error(displayExeption($e), $e->getCode());
-}
+$deviceConfiguration = array(
+    'ezmotion.3in1' => array(
+        'name' => 'EZ Motion 3 in 1',
+        'vendor' => 'EZ motion',
+        'manufacturerId' => 30,
+        'manufacturerProductType' => 2,
+        'manufacturerProductId' => 1,
+        'commands' => array(
+           
+        ),
+        'parameters' => array(
+            
+        )
+    ),
+);
 ?>

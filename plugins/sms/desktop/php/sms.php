@@ -2,7 +2,6 @@
 if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
-sendVarToJS('select_id', init('id', '-1'));
 sendVarToJS('eqType', 'sms');
 sendVarToJS('dontRemoveCmd', '1');
 ?>
@@ -14,7 +13,7 @@ sendVarToJS('dontRemoveCmd', '1');
                 <li class="nav-header">Liste des equipements SMS
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" data-action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (eqLogic::byType('sms') as $eqLogic) {
                     echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
@@ -56,7 +55,7 @@ sendVarToJS('dontRemoveCmd', '1');
         </form>
 
         <legend>Commandes</legend>
-        <a class="btn btn-success btn-sm cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> Ajouter une commande script</a><br/><br/>
+        <a class="btn btn-success btn-sm cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> Ajouter d'un numéro</a><br/><br/>
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>

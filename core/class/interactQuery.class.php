@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
@@ -155,6 +155,7 @@ class interactQuery {
         }
         include_file('core', 'bot', 'config');
         global $BRAINREPLY;
+        $shortest = 999;
         foreach ($BRAINREPLY as $word => $response) {
             $lev = levenshtein(strtolower($_query), strtolower($word));
             if ($lev == 0) {
@@ -162,7 +163,7 @@ class interactQuery {
                 $shortest = 0;
                 break;
             }
-            if ($lev <= $shortest || $shortest < 0) {
+            if (!isset($shortest) || $lev <= $shortest || $shortest < 0) {
                 $closest = $word;
                 $shortest = $lev;
             }
@@ -243,6 +244,18 @@ class interactQuery {
                 log::add('interact', 'error', 'Commande : ' . $this->getLink_id() . ' introuvable veuillez renvoyer les listes des commandes');
                 return 'Commande introuvable verifier qu\'elle existe toujours';
             }
+
+            $replace['#objet#'] = '';
+            $replace['#equipement#'] = '';
+            $eqLogic = $cmd->getEqLogic();
+            if (is_object($eqLogic)) {
+                $replace['#equipement#'] = $eqLogic->getName();
+                $object = $eqLogic->getObject();
+                if (is_object($object)) {
+                    $replace['#objet#'] = $object->getName();
+                }
+            }
+
             $replace['#unite#'] = $cmd->getUnite();
             if ($cmd->getType() == 'action') {
                 $options = null;

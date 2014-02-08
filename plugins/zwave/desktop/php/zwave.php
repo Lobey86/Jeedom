@@ -2,7 +2,6 @@
 if (!isConnect('admin')) {
     throw new Exception('Error 401 Unauthorized');
 }
-sendVarToJS('select_id', init('id', '-1'));
 sendVarToJS('eqType', 'zwave');
 ?>
 
@@ -20,7 +19,7 @@ sendVarToJS('eqType', 'zwave');
                 <li class="nav-header">Liste des équipements Z-wave
                     <i class="fa fa-plus-circle pull-right cursor eqLogicAction" data-action="add" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (eqLogic::byType('zwave') as $eqLogic) {
                     echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName() . '</a></li>';
@@ -65,9 +64,9 @@ sendVarToJS('eqType', 'zwave');
                             <label class="col-lg-4 control-label">Catégorie</label>
                             <div class="col-lg-8">
                                 <?php
-                                foreach (jeedom::getAvailableEqLogicCategorie() as $key => $value) {
+                                foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
                                     echo '<label class="checkbox-inline">';
-                                    echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value;
+                                    echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
                                     echo '</label>';
                                 }
                                 ?>

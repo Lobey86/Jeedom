@@ -215,7 +215,7 @@ class eqLogic {
     }
 
     public static function allType() {
-        $sql = 'SELECT distinct(eqType_name) as eqType_name
+        $sql = 'SELECT distinct(eqType_name) as type
                 FROM eqLogic';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
     }

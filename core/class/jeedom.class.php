@@ -153,14 +153,17 @@ class jeedom {
         shell_exec($cmd);
     }
 
-    public static function getAvailableEqLogicCategorie() {
-        $return = array(
-            'heating' => 'Chauffage',
-            'security' => 'Sécurité',
-            'energy' => 'Energie',
-            'light' => 'Lumière',
-        );
-        return $return;
+    public static function getConfiguration($_key) {
+        $keys = explode(':', $_key);
+        
+        global $JEEDOM_INTERNAL_CONFIG;
+        $result = $JEEDOM_INTERNAL_CONFIG;
+        foreach ($keys as $key) {
+            if (isset($result[$key])) {
+                $result = $result[$key];
+            }
+        }
+        return $result;
     }
 
     /*     * *********************Methode d'instance************************* */

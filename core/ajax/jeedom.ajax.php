@@ -55,9 +55,13 @@ try {
         jeedom::removeBackup(init('backup'));
         ajax::success();
     }
-    
-     if (init('action') == 'listBackup') {
+
+    if (init('action') == 'listBackup') {
         ajax::success(jeedom::listBackup());
+    }
+
+    if (init('action') == 'getConfiguration') {
+        ajax::success(jeedom::getConfiguration(init('key')));
     }
 
     throw new Exception('Aucune methode correspondante à : ' . init('action'));

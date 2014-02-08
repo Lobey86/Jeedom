@@ -513,7 +513,10 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                     },
                     plotOptions: {
                         series: {
-                            stacking: 'normal'
+                            stacking: 'normal',
+                            dataGrouping: {
+                                enabled : false
+                            }
                         }
                     },
                     credits: {

@@ -611,16 +611,21 @@ class cmd {
             '#id#' => $this->getId(),
             '#name#' => $this->getName(),
         );
+        $replace['#history#'] = '';
+        $replace['#displayHistory#'] = 'display : none;';
         switch ($this->getType()) {
             case "info":
                 $replace['#unite#'] = ($this->getUnite() != '') ? $this->getUnite() : '';
+                $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
+                $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
                 $replace['#state#'] = '';
                 $replace['#tendance#'] = '';
                 try {
                     $value = $this->execCmd(null, 2);
                     if ($value === null) {
-                        return $html;
+                        return template_replace($replace, $template);
                     }
+                    $replace['#state#'] = $value;
                     $replace['#collectDate#'] = $this->getCollectDate();
                     switch ($this->getSubType()) {
                         case "binary" :
@@ -644,12 +649,7 @@ class cmd {
                                 if ($tendance < config::byKey('historyCalculTendanceThresholddMin')) {
                                     $replace['#tendance#'] = 'fa fa-arrow-down';
                                 }
-                            } else {
-                                $replace['#displayHistory#'] = 'display : none;';
                             }
-                            $replace['#state#'] = $value;
-                            $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
-                            $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
                             break;
                     }
                 } catch (Exception $e) {
@@ -658,8 +658,6 @@ class cmd {
                 if ($this->getIsHistorized() == 1) {
                     $replace['#history#'] = 'history cursor';
                     $html .= template_replace($replace, getTemplate('core', $_version, 'cmd.info.history.default'));
-                } else {
-                    $replace['#history#'] = '';
                 }
                 $html .= template_replace($replace, $template);
                 break;
@@ -735,7 +733,7 @@ class cmd {
 
     public function addHistoryValue($_value) {
         if ($this->getIsHistorized() == 1) {
-            if ($_value <= $this->getConfiguration('maxValue') && $_value >= $this->getConfiguration('minValue')) {
+            if ($_value <= $this->getConfiguration('maxValue', 100) && $_value >= $this->getConfiguration('minValue', 0)) {
                 $hitory = new history();
                 $hitory->setCmd_id($this->getId());
                 $hitory->setValue($_value);
