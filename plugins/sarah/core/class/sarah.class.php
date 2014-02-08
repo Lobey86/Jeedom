@@ -126,7 +126,7 @@ class sarahCmd extends cmd {
 
     /*     * *********************Methode d'instance************************* */
 
-    public function execute($_options) {
+    public function execute($_options  = array()) {
         $eqLogic_sarah = sarah::byId($this->eqLogic_id);
         $http = new com_http($eqLogic_sarah->getConfiguration('addrSrvTts') . '/?tts=' . urlencode($_options['message']));
         return $http->exec();

@@ -162,6 +162,7 @@ function saveCron() {
                 return;
             }
             $('#div_alert').showAlert({message: 'Sauvegarde réussie', level: 'success'});
+            printCron();
         }
     });
 }

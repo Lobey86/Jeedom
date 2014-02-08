@@ -146,6 +146,7 @@ function addSarahDefToTable(_interactDef) {
     tr += '<div class="col-lg-12">';
     tr += '<select class="interactDefAttr form-control input-sm" data-l1key="link_type">';
     tr += '<option value="cmd">Commande</option>';
+    tr += '<option value="whatDoYouKnow">Que sais tu ?</option>';
     tr += '</select>';
     tr += '</div>';
     tr += '<div class="col-lg-9">';

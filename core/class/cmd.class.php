@@ -474,7 +474,7 @@ class cmd {
         $internalEvent->save();
     }
 
-    public function execute() {
+    public function execute($_options = array()) {
         return false;
     }
 

@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
@@ -170,16 +170,16 @@ class interactDef {
             preg_match_all("/#(.*?)#/", $input, $matches);
             $matches = $matches[1];
             if (in_array('commande', $matches) && in_array('objet', $matches)) {
-                foreach (object::all() as $objet) {
-                    if (($this->getFiltres('object_id', 'all') == 'all' || $objet->getId() == $this->getFiltres('object_id'))) {
-                        foreach ($objet->getEqLogic() as $eqLogic) {
+                foreach (object::all() as $object) {
+                    if (($this->getFiltres('object_id', 'all') == 'all' || $object->getId() == $this->getFiltres('object_id'))) {
+                        foreach ($object->getEqLogic() as $eqLogic) {
                             if (($this->getFiltres('plugin', 'all') == 'all' || $eqLogic->getPlugin() == $this->getFiltres('plugin'))) {
                                 foreach ($eqLogic->getCmd() as $cmd) {
                                     if ($cmd->getType() == 'info' || ($cmd->getType() == 'action' && ($cmd->getSubType() == 'color' || $cmd->getSubType() == 'slider' || $cmd->getSubType() == 'other')))
                                         if ($this->getFiltres('subtype') == 'all' || $this->getFiltres('subtype') == $cmd->getSubType()) {
                                             if ($cmd->getType() == $this->getFiltres('cmd_type') && ($this->getFiltres('cmd_unite', 'all') == 'all' || $cmd->getUnite() == $this->getFiltres('cmd_unite'))) {
                                                 $replace = array(
-                                                    '#objet#' => strtolower($objet->getName()),
+                                                    '#objet#' => strtolower($object->getName()),
                                                     '#commande#' => strtolower($cmd->getName()),
                                                     '#equipement#' => strtolower($eqLogic->getName()),
                                                 );
@@ -195,8 +195,24 @@ class interactDef {
                         }
                     }
                 }
+            } else {
+                if ($this->getLink_type() == 'whatDoYouKnow') {
+                    if (in_array('objet', $matches)) {
+                        foreach (object::all() as $object) {
+                            $replace = array(
+                                '#objet#' => strtolower($object->getName()),
+                            );
+                            $return[] = array(
+                                'query' => str_replace(array_keys($replace), $replace, $input),
+                                'link_type' => $this->getLink_type(),
+                                'link_id' => $object->getId(),
+                            );
+                        }
+                    }
+                }
             }
         }
+
         if (count($return) == 0) {
             foreach ($inputs as $input) {
                 $return[] = array(
@@ -364,5 +380,4 @@ class interactDef {
     }
 
 }
-
 ?>

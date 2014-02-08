@@ -99,7 +99,7 @@ class interactQuery {
                 $queries[] = self::byId($result['id']);
             }
         }
-        $shortest = -1;
+        $shortest = 999;
         foreach ($queries as $query) {
             $input = $query->getQuery();
             preg_match_all("/#(.*?)#/", $input, $matches);
@@ -123,7 +123,21 @@ class interactQuery {
         return $query;
     }
 
-    public static function tryToReply($_query, $_parameters) {
+    public static function whatDoYouKnow($_object = null) {
+        $results = jeedom::whatDoYouKnow($_object);
+        $reply = '';
+        foreach ($results as $object) {
+            $reply .= 'Je sais que pour ' . $object['name'] . " : \n";
+            foreach ($object['eqLogic'] as $eqLogic) {
+                foreach ($eqLogic['cmd'] as $cmd) {
+                    $reply.= $eqLogic['name'] . ' ' . $cmd['name'] . ' vaut ' . $cmd['value'] . ' ' . $cmd['unite'] . "\n";
+                }
+            }
+        }
+        return $reply;
+    }
+
+    public static function tryToReply($_query, $_parameters = array()) {
         $_parameters['dictation'] = $_query;
         if (isset($_parameters['profile'])) {
             $_parameters['profile'] = ucfirst($_parameters['profile']);
@@ -163,7 +177,7 @@ class interactQuery {
                 $shortest = 0;
                 break;
             }
-            if (!isset($shortest) || $lev <= $shortest || $shortest < 0) {
+            if ($lev <= $shortest || $shortest < 0) {
                 $closest = $word;
                 $shortest = $lev;
             }
@@ -199,7 +213,7 @@ class interactQuery {
         if ($this->getInteractDef_id() == '') {
             throw new Exception('SarahDef_id ne peut etre vide');
         }
-        if ($this->getLink_id() == '') {
+        if ($this->getLink_id() == '' && $this->getLink_type() != 'whatDoYouKnow') {
             throw new Exception('Cette ordre vocale n\'est associé à aucune commande : ' . $this->getQuery());
         }
         $checksum = DB::checksum('interactQuery');
@@ -231,6 +245,14 @@ class interactQuery {
                 return 'Tu n\es pas autorisé à executer cette action';
             }
         }
+        if ($this->getLink_type() == 'whatDoYouKnow') {
+            $object = object::byId($this->getLink_id());
+            if (is_object($object)) {
+                return self::whatDoYouKnow($object);
+            }
+            return self::whatDoYouKnow();
+        }
+
         $reply = $interactDef->selectReply();
         $replace = array();
         $replace['#heure#'] = date('H\hi');

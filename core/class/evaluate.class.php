@@ -92,7 +92,7 @@ class evaluate {
         while (!$trouve && $i < sizeof($tabOperateursComparaison)) {
             $j = 0;
             while (!$trouve && $j < sizeof($lstParam)) {
-                if ($lstParam[$j]["operateur"] == $tabOperateursComparaison[$i]) {
+                if (isset($lstParam[$j]["operateur"]) && $lstParam[$j]["operateur"] == $tabOperateursComparaison[$i]) {
                     $trouve = true;
                 } else {
                     $j++;
@@ -134,7 +134,11 @@ class evaluate {
                 }
                 $i++;
             }
-            $res = $lstParam[0]["valeur"];
+            if (isset($lstParam[0]["valeur"])) {
+                $res = $lstParam[0]["valeur"];
+            } else {
+                $res = '';
+            }
         }
         return $res;
     }
