@@ -203,7 +203,16 @@ class zwave extends eqLogic {
         //Verification des piles une fois par jour
         if (date('H:i') == '00:00') {
             foreach (zwave::byType('zwave') as $eqLogic) {
+                $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $eqLogic->getLogicalId() . '].instances[0].commandClasses[0x80].Get()');
+                try {
+                    $http->exec();
+                } catch (Exception $exc) {
+                    
+                }
                 $info = $eqLogic->getInfo();
+                if (isset($return['state']) && $return['state'] == 'Réveillé') {
+                    continue;
+                }
                 if (isset($info['battery'])) {
                     if ($info['battery']['value'] >= 20) {
                         foreach (message::byPluginLogicalId('zwave', 'lowBattery' . $eqLogic->getId()) as $message) {
