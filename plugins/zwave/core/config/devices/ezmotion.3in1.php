@@ -92,7 +92,7 @@ $deviceConfiguration = array(
                 'min' => '0',
                 'max' => '100,255',
             ),
-            '6' => array(
+            '7' => array(
                 'name' => 'TempAdj',
                 'description' => 'TempAdj is a twos-complement number that is used to adjust the temperature reading to make it more accurate. The value programmed is in tenths of degree Fahrenheit. The temperature reading can be adjusted up to +12.7F to -12.8F. A value of 1 will adjust the temperature reading by +0.1F. A value of -1 will adjust the temperature by -0.1F. A value of 123 will adjust the temperature by +12.3F. TempAdj is NOT changed when Excluded (reset) from t he Z- Wave network.',
                 'default' => 'Factory Cali-brated',
