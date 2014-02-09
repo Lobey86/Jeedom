@@ -584,17 +584,18 @@ function printConvertColor() {
 function addConvertColor(_color, _html) {
     var tr = '<tr>';
     tr += '<td>';
-    tr += '<input class="color form-control" value="' + init(_color) + '"/>';
+    tr += '<input class="color form-control input-sm" value="' + init(_color) + '"/>';
     tr += '</td>';
     tr += '<td>';
-    tr += '<input class="html form-control" value="' + init(_html) + '"/>';
+    tr += '<input class="html form-control input-sm" value="' + init(_html) + '" />';
     tr += '<div class="colorpicker" style="display : none"></div>';
     tr += '</td>';
     tr += '</tr>';
     $('#table_convertColor tbody').append(tr);
-    var input = $('#table_convertColor tbody tr:last .html');
+    var input = $('#table_convertColor tbody tr:last input.html');
     var div = input.closest('td').find('.colorpicker');
     div.farbtastic(input);
+
     input.focus(function() {
         if (!$(this).parent().find('.colorpicker').is(':visible')) {
             $(this).parent().find('.colorpicker').show();
@@ -606,24 +607,25 @@ function addConvertColor(_color, _html) {
             $(this).parent().find('.colorpicker').hide();
         }
     });
+
+    div.on('mouseup', function() {
+        div.closest('td').find('input.html').value($.farbtastic($(this)).color);
+    });
 }
 
 function saveConvertColor() {
-    var values = [];
     var value = {};
-    value.key = 'convertColor';
     var colors = {};
     $('#table_convertColor tbody tr').each(function() {
         colors[$(this).find('.color').value()] = $(this).find('.html').value();
     });
-    value.value = colors;
-    values.push(value);
+    value.convertColor = colors;
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/config.ajax.php", // url du fichier php
         data: {
             action: 'addKey',
-            value: json_encode(values)
+            value: json_encode(value)
         },
         dataType: 'json',
         error: function(request, status, error) {
