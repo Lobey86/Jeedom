@@ -106,6 +106,16 @@ class zwave extends eqLogic {
                     $eqLogic->setLogicalId($nodeId);
                     $eqLogic->setIsVisible(1);
                     $eqLogic->save();
+
+                    /* Demande du niveau de batterie */
+                    $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $eqLogic->getLogicalId() . '].instances[0].commandClasses[0x80].Get()');
+                    try {
+                        $http->exec();
+                    } catch (Exception $exc) {
+                        
+                    }
+
+                    /* Reconnaissance du module */
                     foreach (self::devicesParameters() as $device_id => $device) {
                         if ($device['manufacturerId'] == $data['manufacturerId']['value'] && $device['manufacturerProductType'] == $data['manufacturerProductType']['value'] && $device['manufacturerProductId'] == $data['manufacturerProductId']['value']) {
                             $eqLogic->setConfiguration('device', $device_id);
