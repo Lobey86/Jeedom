@@ -195,10 +195,8 @@ class zwave extends eqLogic {
                     $c = new Cron\CronExpression($scheduler, new Cron\FieldFactory);
                     if ($c->isDue()) {
                         try {
-                            $url = self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $eqLogic->getLogicalId() . ']';
                             foreach ($eqLogic->getCmd() as $cmd) {
-                                $http = new com_http($url . '.instances[' . $cmd->getConfiguration('instanceId', 0) . '].commandClasses[' . $cmd->getConfiguration('class') . '].Get()');
-                                self::handleError($http->exec());
+                                $cmd->forceUpdate();
                             }
                         } catch (Exception $exc) {
                             log::add('zwave', 'error', 'Erreur pour ' . $eqLogic->getHumanName() . ' : ' . $exc->getMessage());
@@ -544,8 +542,22 @@ class zwaveCmd extends cmd {
 
     public function postUpdate() {
         if ($this->getType() == 'info') {
-            $this->execute();
+            try {
+                $value = $this->execute();
+                if ($value != null) {
+                    $this->event($value);
+                }
+                $this->forceUpdate();
+            } catch (Exception $exc) {
+                
+            }
         }
+    }
+
+    public function forceUpdate() {
+        $url = zwave::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getEqLogic()->getLogicalId() . ']';
+        $http = new com_http($url . '.instances[' . $this->getConfiguration('instanceId', 0) . '].commandClasses[' . $this->getConfiguration('class') . '].Get()');
+        zwave::handleError($http->exec());
     }
 
     public function execute($_options = null) {
