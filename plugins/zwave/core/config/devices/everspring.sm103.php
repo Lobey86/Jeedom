@@ -22,9 +22,9 @@ $deviceConfiguration = array(
     'everspring.sm103' => array(
         'name' => 'Everspring SM103',
         'vendor' => 'Everspring',
-        'manufacturerId' => 0,
-        'manufacturerProductType' => 0,
-        'manufacturerProductId' => 0,
+        'manufacturerId' => 96,
+        'manufacturerProductType' => 13,
+        'manufacturerProductId' => 1,
         'commands' => array(
             array('name' => 'Etat', 'type' => 'info', 'subtype' => 'binary', 'isVisible' => 1, 'isHistorized' => 1, 'eventOnly' => 1,
                 'configuration' => array('class' => '0x30', 'value' => 'data[1].level')
