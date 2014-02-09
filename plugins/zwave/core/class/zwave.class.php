@@ -555,9 +555,9 @@ class zwaveCmd extends cmd {
     }
 
     public function forceUpdate() {
-        $url = self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getEqLogic()->getLogicalId() . ']';
+        $url = zwave::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $this->getEqLogic()->getLogicalId() . ']';
         $http = new com_http($url . '.instances[' . $this->getConfiguration('instanceId', 0) . '].commandClasses[' . $this->getConfiguration('class') . '].Get()');
-        self::handleError($http->exec());
+        zwave::handleError($http->exec());
     }
 
     public function execute($_options = null) {
