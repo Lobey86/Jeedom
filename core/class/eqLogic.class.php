@@ -365,16 +365,16 @@ class eqLogic {
 
     public function getBackgroundColor() {
         if ($this->getCategory('security', 0) == 1) {
-            return '#CEE3F6';
+            return jeedom::getConfiguration('eqLogic:category:security:color');
         }
         if ($this->getCategory('heating', 0) == 1) {
-            return '#F8E6E0';
+            return jeedom::getConfiguration('eqLogic:category:heating:color');
         }
         if ($this->getCategory('energy', 0) == 1) {
-            return '#CEF6CE';
+            return jeedom::getConfiguration('eqLogic:category:energy:color');
         }
         if ($this->getCategory('light', 0) == 1) {
-            return '#F7F8E0';
+            return jeedom::getConfiguration('eqLogic:category:light:color');
         }
         return '#F5F5F5';
     }
@@ -570,7 +570,7 @@ class eqLogic {
     }
 
     public function setDebug($_debug) {
-        if($_debug){
+        if ($_debug) {
             echo "Mode debug activé\n";
         }
         $this->_debug = $_debug;

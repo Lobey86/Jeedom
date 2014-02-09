@@ -106,8 +106,8 @@ sendVarToJS('eqType', 'xbmc');
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>
-                    <th style="width: 100px;">Type</th>
                     <th style="width: 200px;">Nom</th>
+                    <th style="width: 100px;">Type</th>
                     <th>Parametre(s)</th>
                     <th style="width: 100px;"></th>
                 </tr>
@@ -146,7 +146,7 @@ sendVarToJS('eqType', 'xbmc');
                                 <select class="form-control" id="sel_addPreConfigCmdXbmc">
                                     <?php
                                     foreach ($listCmdXBMC as $key => $cmdXbmc) {
-                                        echo "<option value='" . $key . "' data-request='" . $cmdXbmc['request'] . "' data-parameters='" . $cmdXbmc['parameters'] . "' data-type='" . $cmdXbmc['type'] . "' data-subType='" . $cmdXbmc['subType'] . "' >" . $cmdXbmc['name'] . "</option>";
+                                        echo "<option value='" . $key . "'>" . $cmdXbmc['name'] . "</option>";
                                     }
                                     ?>
                                 </select>
@@ -159,6 +159,7 @@ sendVarToJS('eqType', 'xbmc');
                     <center><h4>Version 
                             <?php
                             foreach ($listCmdXBMC as $key => $cmdXbmc) {
+                                echo '<span class="json_cmd ' . $key . ' hide" style="display : none;" >' . json_encode($cmdXbmc) . '</span>';
                                 echo '<span class="version ' . $key . '" style="display : none;">' . $cmdXbmc['version'] . '</span>';
                             }
                             ?>

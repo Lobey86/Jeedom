@@ -16,8 +16,15 @@
  */
 
 $(function() {
+    if (getUrlVars('saveSuccessFull') == 1) {
+        $('#div_alert').showAlert({message: 'Sauvegarde effectuée avec succès', level: 'success'});
+    }
+
+    if (getUrlVars('removeSuccessFull') == 1) {
+        $('#div_alert').showAlert({message: 'Suppression effectuée avec succès', level: 'success'});
+    }
+
     $(".li_object").on('click', function(event) {
-        $.hideAlert();
         $('#div_conf').show();
         $('.li_object').removeClass('active');
         $(this).addClass('active');
@@ -33,13 +40,16 @@ $(function() {
     });
 
     $("#bt_addObjetSave").on('click', function(event) {
-        addObject();
+        var object = {name: $('#in_addObjectName').value(), isVisible: 1};
+        $('#md_addObject').modal('hide');
+        saveObject(object);
         return false;
     });
 
     $("#bt_saveObject").on('click', function(event) {
         if ($('.li_object.active').attr('data-object_id') != undefined) {
-            saveObject();
+            var object = $('.object').getValues('.objectAttr');
+            saveObject(object[0]);
         } else {
             $('#div_alert').showAlert({message: 'Veuillez d\'abord sélectionner un objet', level: 'danger'});
         }
@@ -60,9 +70,9 @@ $(function() {
         return false;
     });
 
-    if (select_id != -1) {
-        if ($('#ul_object .li_object[data-object_id=' + select_id + ']').length != 0) {
-            $('#ul_object .li_object[data-object_id=' + select_id + ']').click();
+    if (is_numeric(getUrlVars('id'))) {
+        if ($('#ul_object .li_object[data-object_id=' + getUrlVars('id') + ']').length != 0) {
+            $('#ul_object .li_object[data-object_id=' + getUrlVars('id') + ']').click();
         } else {
             $('#ul_object .li_object:first').click();
         }
@@ -89,7 +99,7 @@ function removeObject(_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            window.location.replace('index.php?v=d&p=object');
+            window.location.replace('index.php?v=d&p=object&removeSuccessFull=1');
         }
     });
 }
@@ -118,44 +128,13 @@ function printObject(_object_id) {
     });
 }
 
-function addObject() {
-    var name = $('#in_addObjectName').value();
-    if (name == '') {
-        $('#div_addObjetAlert').showAlert({message: 'Le nom de l\'objet ne peut être vide', level: 'danger'});
-        return;
-    }
+function  saveObject(object) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/object.ajax.php", // url du fichier php
         data: {
             action: "saveObject",
-            name: name,
-            isVisible: 1
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            window.location.replace('index.php?v=d&p=object&id=' + data.result.id);
-        }
-    });
-}
-
-
-function  saveObject() {
-    var object = $('.object').getValues('.objectAttr');
-    object = object[0];
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/object.ajax.php", // url du fichier php
-        data: {
-            action: "saveObject",
-            object : json_encode(object),
+            object: json_encode(object),
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -167,6 +146,7 @@ function  saveObject() {
                 return;
             }
             $('#div_alert').showAlert({message: 'Objet sauvegardé', level: 'success'});
+            window.location.replace('index.php?v=d&p=object&id=' + data.result.id + '&saveSuccessFull=1');
         }
     });
 
