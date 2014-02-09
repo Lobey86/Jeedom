@@ -15,11 +15,6 @@
             changeScenarioState($(this).closest('.scenario').attr('data-scenario_id'), $(this).attr('data-state'));
         });
         if ('#isActive#' == '1') {
-            if ('#state#' == 'on') {
-                $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=start]').show();
-                $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
-                $('.scenario[data-scenario_id=#id#] .state').addClass('green');
-            }
             if ('#state#' == 'in progress') {
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=stop]').show();
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
@@ -28,12 +23,12 @@
             if ('#state#' == 'error') {
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=start]').show();
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
-                $('.scenario[data-scenario_id=#id#]] .state').addClass('orange');
+                $('.scenario[data-scenario_id=#id#]] .state').addClass('red');
             }
             if ('#state#' == 'stop') {
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=start]').show();
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
-                $('.scenario[data-scenario_id=#id#] .state').addClass('red');
+                $('.scenario[data-scenario_id=#id#] .state').addClass('yellow');
             }
         } else {
             $('.scenario[scenario_id=#id#] .state').addClass('grey');

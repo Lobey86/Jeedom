@@ -71,11 +71,6 @@ class scenarioSubElement {
             }
         }
         if ($this->getSubtype() == 'action') {
-            if ($this->getOptions('runingScenario') == 1) {
-                $_scenario->setState('on');
-            } else {
-                $_scenario->setState('stop');
-            }
             foreach ($this->getExpression() as $expression) {
                 $return = $expression->execute($_scenario);
             }
