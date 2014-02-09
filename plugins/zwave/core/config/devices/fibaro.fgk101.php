@@ -23,8 +23,8 @@ $deviceConfiguration = array(
         'name' => 'Fibaro FGK-101',
         'vendor' => 'Fibar Group',
         'manufacturerId' => 271,
-        'manufacturerProductType' => 0,
-        'manufacturerProductId' => 0,
+        'manufacturerProductType' => 1792,
+        'manufacturerProductId' => 4096,
         'commands' => array(
             array('name' => 'Etat', 'type' => 'info', 'subtype' => 'binary', 'isVisible' => 1, 'isHistorized' => 1, 'eventOnly' => 1,
                 'configuration' => array('class' => '0x30', 'value' => 'data[1].level')
