@@ -26,7 +26,7 @@ $deviceConfiguration = array(
         'manufacturerProductType' => 0,
         'manufacturerProductId' => 0,
         'commands' => array(
-            array('name' => 'Présence', 'type' => 'info', 'subtype' => 'binary', 'isVisible' => 1, 'isHistorized' => 1, 'eventOnly' => 1,
+            array('name' => 'Etat', 'type' => 'info', 'subtype' => 'binary', 'isVisible' => 1, 'isHistorized' => 1, 'eventOnly' => 1,
                 'configuration' => array('class' => '0x30', 'value' => 'data[1].level')
             ),
         ),
