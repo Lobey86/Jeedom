@@ -92,7 +92,7 @@ class scenarioExpression {
             '#time#' => date('Hi'),
             '#date#' => date('md'),
             '#semaine#' => date('W'),
-            '#sjour#' => date('l'),
+            '#sjour#' => convertDayEnToFr(date('l')),
         );
         preg_match_all("/#rand\[([0-9]*)\-([0-9]*)\]#/", $_expression, $matches);
         if (isset($matches[1]) && isset($matches[2]) && isset($matches[1][0]) && isset($matches[2][0])) {

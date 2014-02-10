@@ -502,4 +502,6 @@ function convertDayEnToFr($_day) {
     if ($_day == 'sunday' || $_day == 'sun') {
         return 'dimanche';
     }
+    
+    return $_day;
 }
