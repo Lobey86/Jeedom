@@ -42,7 +42,7 @@ if (!isConnect()) {
 #time# : heure et minute courante (ex : 1715 pour 17h15)
 #date# : jour et mois courant (ex : 1215 pour le 15 decembre)
 #semaine# : numéro de la semaine (ex : 51)
-#sjour# : pour le nom du jour de la semaine en anglais (ex : sunday)
+#sjour# : pour le nom du jour de la semaine (ex : Samedi)
 #rand[1-10]# : pour un nombre aléatoire de 1 à 10
 #var[mavariable-valeur par default]# : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut
     Ex : #var[plop-10]# renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas

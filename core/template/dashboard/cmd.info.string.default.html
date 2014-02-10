@@ -1,3 +1,12 @@
 <div class="tooltips cmd" data-type="info" data-subtype="string" data-cmd_id="#id#" title="#collectDate#">
     <center>#name# : <span class='label label-primary'>#state#</span></center>
 </div>
+
+<script>
+    if ('#state#' == 'On' || '#state#' == 'Marche') {
+        $('.cmd[data-cmd_id=#id#] span.label').removeClass('label-primary').addClass('label-success');
+    }
+    if ('#state#' == 'Off' || '#state#' == 'Arret') {
+        $('.cmd[data-cmd_id=#id#] span.label').removeClass('label-primary').addClass('label-danger');
+    }
+</script>

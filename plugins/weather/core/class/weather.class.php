@@ -27,30 +27,61 @@ class weather extends eqLogic {
 
     public static function getIconFromCondition($_condition) {
         switch ($_condition) {
-            case 'Partly Cloudy':
+            case 'Partiellement nuageux':
                 return 'H';
-            case 'Mostly Cloudy':
+            case 'Nuageux':
                 return 'N';
-            case 'Cloudy':
-                return 'N';
-            case 'Partly Cloudy/Wind':
+            case 'Partiellement nuageux / vent':
                 return 'I';
-            case 'Fair/Windy':
+            case 'Venteux':
                 return 'F';
-            case 'Sunny':
+            case 'Ensoleillé':
                 return 'B';
-            case 'Fair':
+            case 'Passable':
                 return 'A';
-            case 'Showers':
+            case 'Averse':
                 return 'R';
-            case 'Light Rain':
+            case 'Pluie faible':
                 return 'Q';
-            case 'Rain':
+            case 'Pluie':
                 return 'R';
-            case 'Fog':
+            case 'Brouillard':
                 return 'M';
             default:
                 return '';
+        }
+    }
+
+    public static function convertCondition($_condition) {
+        switch ($_condition) {
+            case 'Partly Cloudy':
+                return 'Partiellement nuageux';
+            case 'Mostly Cloudy':
+                return 'Nuageux';
+            case 'Cloudy':
+                return 'Nuageux';
+            case 'Partly Cloudy/Wind':
+                return 'Partiellement nuageux / vent';
+            case 'Fair/Windy':
+                return 'Venteux';
+            case 'Sunny':
+                return 'Ensoleillé';
+            case 'Fair':
+                return 'Passable';
+            case 'Showers':
+                return 'Averse';
+            case 'Light Rain':
+                return 'Pluie faible';
+            case 'Rain':
+                return 'Pluie';
+            case 'Fog':
+                return 'Brouillard';
+            case 'Scattered Showers':
+                return 'Peu nuageux';
+            case 'AM Showers':
+                return 'Pluie l\'après-midi';
+            default:
+                return $_condition;
         }
     }
 
@@ -266,20 +297,27 @@ class weather extends eqLogic {
 
         $return = array();
         $return['condition']['text'] = (string) $yw_forecast['condition']['text'][0];
+        $return['condition']['text'] = self::convertCondition($return['condition']['text']);
+
         $return['condition']['temperature'] = (string) $yw_forecast['condition']['temp'][0];
         $return['location']['city'] = (string) $yw_channel['location']['city'][0];
         $return['atmosphere']['humidity'] = (string) $yw_channel['atmosphere']['humidity'][0];
         $return['atmosphere']['pressure'] = (string) $yw_channel['atmosphere']['pressure'][0];
         $return['wind']['speed'] = (string) $yw_channel['wind']['speed'][0];
         $return['wind']['direction'] = (string) $yw_channel['wind']['direction'][0];
+
         $return['astronomy']['sunrise'] = (string) $yw_channel['astronomy']['sunrise'][0];
         $return['astronomy']['sunrise'] = date("Hi", strtotime($return['astronomy']['sunrise']));
+
         $return['astronomy']['sunset'] = (string) $yw_channel['astronomy']['sunset'][0];
         $return['astronomy']['sunset'] = date("Hi", strtotime($return['astronomy']['sunset']));
         $day = 0;
         foreach ($yw_forecast['forecast'] as $forecast) {
             $return['forecast'][$day]['day'] = (string) $forecast['day'][0];
+            $return['forecast'][$day]['day'] = convertDayEnToFr($return['forecast'][$day]['day']);
+            
             $return['forecast'][$day]['condition'] = (string) $forecast['text'][0];
+            $return['forecast'][$day]['condition'] = self::convertCondition($return['forecast'][$day]['condition']);
             $return['forecast'][$day]['low_temperature'] = (string) $forecast['low'][0];
             $return['forecast'][$day]['high_temperature'] = (string) $forecast['high'][0];
             $day++;

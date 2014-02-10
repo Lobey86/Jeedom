@@ -452,3 +452,56 @@ function rrmdir($dir) {
         unlink($dir);
     }
 }
+
+function convertDayEnToFr($_day) {
+    if ($_day == 'Monday' || $_day == 'Mon') {
+        return 'Lundi';
+    }
+    if ($_day == 'monday' || $_day == 'mon') {
+        return 'lundi';
+    }
+
+    if ($_day == 'Thuesday' || $_day == 'Tue') {
+        return 'Mardi';
+    }
+    if ($_day == 'thuesday' || $_day == 'tue') {
+        return 'mardi';
+    }
+
+    if ($_day == 'Wednesday' || $_day == 'Wed') {
+        return 'Mercredi';
+    }
+    if ($_day == 'wednesday' || $_day == 'wed') {
+        return 'mercredi';
+    }
+
+    if ($_day == 'Thursday' || $_day == 'Thu') {
+        return 'Jeudi';
+    }
+    if ($_day == 'thursday' || $_day == 'thu') {
+        return 'Jeudi';
+    }
+
+    if ($_day == 'Friday' || $_day == 'Fri') {
+        return 'Vendredi';
+    }
+    if ($_day == 'friday' || $_day == 'fri') {
+        return 'vendredi';
+    }
+
+    if ($_day == 'Saturday' || $_day == 'Sat') {
+        return 'Samedi';
+    }
+    if ($_day == 'saturday' || $_day == 'sat') {
+        return 'samedi';
+    }
+
+    if ($_day == 'Sunday' || $_day == 'Sun') {
+        return 'Dimanche';
+    }
+    if ($_day == 'sunday' || $_day == 'sun') {
+        return 'dimanche';
+    }
+    
+    return $_day;
+}
