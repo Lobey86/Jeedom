@@ -108,8 +108,8 @@ class zwave extends eqLogic {
                     $eqLogic->save();
 
                     /* Demande du niveau de batterie */
-                    $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $eqLogic->getLogicalId() . '].instances[0].commandClasses[0x80].Get()');
                     try {
+                        $http = new com_http(self::makeBaseUrl() . '/ZWaveAPI/Run/devices[' . $eqLogic->getLogicalId() . '].instances[0].commandClasses[0x80].Get()');
                         $http->exec();
                     } catch (Exception $exc) {
                         
