@@ -45,7 +45,7 @@ if (isConnect() && (!isset($_SESSION['userHash']) || getUserHash() != $_SESSION[
     }
 }
 
-if (isset($_POST['login']) && isset($_POST['mdp'])) {
+if (init('login') != '' && init('login') != '') {
     login(init('login'), init('mdp'));
 }
 
