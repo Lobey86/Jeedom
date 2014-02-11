@@ -108,7 +108,7 @@ if (!is_object($widget)) {
         var version = $(this).attr('data-version');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
-            url: "/plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
+            url: "plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
             data: {
                 action: "applyWidget",
                 path: path,

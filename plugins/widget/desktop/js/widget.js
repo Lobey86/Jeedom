@@ -77,7 +77,7 @@ $(function() {
 function printWidget(_path) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "/plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
+        url: "plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
         data: {
             action: "get",
             path: _path
@@ -125,7 +125,7 @@ function saveWidget() {
     }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "/plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
+        url: "plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
         data: {
             action: "save",
             widget: json_encode(widget),
@@ -156,7 +156,7 @@ function saveWidget() {
 function addWidget(_name) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "/plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
+        url: "plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
         data: {
             action: "add",
             name: _name,
@@ -186,7 +186,7 @@ function addWidget(_name) {
 function removeWidget(_path) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "/plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
+        url: "plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
         data: {
             action: "remove",
             path: _path,
