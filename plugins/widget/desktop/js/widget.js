@@ -63,9 +63,9 @@ $(function() {
     });
 
 
-    if (select_id != -1) {
-        if ($('#ul_widget .li_widget[data-path="' + select_id + '"]').length != 0) {
-            $('#ul_widget .li_widget[data-path="' + select_id + '"]').click();
+    if (is_numeric(getUrlVars('id'))) {
+        if ($('#ul_widget .li_widget[data-path="' + getUrlVars('id') + '"]').length != 0) {
+            $('#ul_widget .li_widget[data-path="' + getUrlVars('id') + '"]').click();
         } else {
             $('#ul_widget .li_widget:first').click();
         }

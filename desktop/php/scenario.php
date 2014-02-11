@@ -11,8 +11,6 @@ include_file('3rdparty', 'codemirror/addon/edit/matchbrackets', 'js');
 include_file('3rdparty', 'codemirror/mode/htmlmixed/htmlmixed', 'js');
 include_file('3rdparty', 'codemirror/mode/clike/clike', 'js');
 include_file('3rdparty', 'codemirror/mode/php/php', 'js');
-
-sendVarToJS('select_id', init('id', '-1'));
 ?>
 
 <div class="row">
