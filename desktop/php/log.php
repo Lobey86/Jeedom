@@ -60,7 +60,7 @@ if (isset($log[0][0]) && $log[0][0] == '') {
     <ul class="pagination">
         <?php
         if ($page > 1) {
-            echo '<li><a class="changePage" page="1">&laquo;</a></li>';
+            echo '<li><a class="changePage cursor" page="1">&laquo;</a></li>';
         } else {
             echo '<li class="disabled"><a>&laquo;</a></li>';
         }
@@ -69,12 +69,12 @@ if (isset($log[0][0]) && $log[0][0] == '') {
             if ($i == $page) {
                 echo '<li class="active"><a class="changePage" data-page="' . $i . '">' . $i . '</a></li>';
             } else {
-                echo '<li><a class="changePage" data-page="' . $i . '">' . $i . '</a></li>';
+                echo '<li><a class="changePage cursor" data-page="' . $i . '">' . $i . '</a></li>';
             }
         }
 
         if ($page < $nbPage) {
-            echo '<li><a class="changePage" data-page="' . $nbPage . '">&raquo;</a></li>';
+            echo '<li><a class="changePage cursor" data-page="' . $nbPage . '">&raquo;</a></li>';
         } else {
             echo '<li class="disabled"><a>&raquo;</a></li>';
         }
@@ -118,21 +118,21 @@ if (isset($log[0][0]) && $log[0][0] == '') {
     <ul class="pagination">
         <?php
         if ($page > 1) {
-            echo '<li><a class="changePage" page="1">&laquo;</a></li>';
+            echo '<li><a class="changePage cursor" page="1">&laquo;</a></li>';
         } else {
             echo '<li class="disabled"><a>&laquo;</a></li>';
         }
 
         for ($i = 1; $i <= $nbPage; $i++) {
             if ($i == $page) {
-                echo '<li class="active"><a class="changePage" data-page="' . $i . '">' . $i . '</a></li>';
+                echo '<li class="active"><a class="changePage cursor" data-page="' . $i . '">' . $i . '</a></li>';
             } else {
-                echo '<li><a class="changePage" data-page="' . $i . '">' . $i . '</a></li>';
+                echo '<li><a class="changePage cursor" data-page="' . $i . '">' . $i . '</a></li>';
             }
         }
 
         if ($page < $nbPage) {
-            echo '<li><a class="changePage" data-page="' . $nbPage . '">&raquo;</a></li>';
+            echo '<li><a class="changePage cursor" data-page="' . $nbPage . '">&raquo;</a></li>';
         } else {
             echo '<li class="disabled"><a>&raquo;</a></li>';
         }

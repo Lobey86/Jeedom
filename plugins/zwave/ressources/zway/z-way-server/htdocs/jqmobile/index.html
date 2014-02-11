@@ -1,0 +1,121 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+	<title>Z-Way</title>
+
+	<link rel="stylesheet" href="css/jquery.mobile.css" />
+	<link rel="icon" type="image/ico" href="favicon.ico">
+
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile.js"></script>
+	<script type="text/javascript" src="js/jquery.triggerpath.js"></script>
+	<script type="text/javascript" src="js/jquery.dateformat.js"></script>
+	<script type="text/javascript" src="js/mobile_zwave.js"></script>
+	<script type="text/javascript" src="js/mobile_pages.js"></script>
+</head>
+<body> 
+	<div data-role="page" id="home" data-theme="b">
+		<div data-role="header" data-theme="b"><h4>Z-Way home</h4></div> 
+		<div data-role="content">
+			<ul data-role="listview" data-theme="b">
+				<li><a href="#lights" data-transition="slide">Lights</a></li>
+				<li><a href="#blinds" data-transition="slide">Blinds</a></li>
+				<li><a href="#allsensors" data-transition="slide">Sensors</a></li>
+				<li><a href="#rooms" data-transition="slide">Rooms</a></li>
+				<li><a href="#devices" data-transition="slide">Devices</a></li>
+			</ul>
+		</div> 
+		<div data-role="footer" data-theme="b"><h4>(c) 2013 Z-Wave.Me</h4></div> 
+	</div>
+	<div data-role="page" id="rooms" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Rooms</h4></div> 
+		<div data-role="content" id="rooms_content">
+			<ul data-role="listview" data-theme="b" if="rooms_con"></ul>
+ 		</div> 
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div> 
+	<div data-role="page" id="allsensors" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Sensors</h4></div>
+		<div data-role="content" id="sensors_content"></div>
+		<!--
+		<div data-role="content">
+			<ul data-role="listview" data-theme="b">
+				<li><a href="#powers" data-transition="slide">Power</a></li>
+				<li><a href="#temperatures" data-transition="slide">Climate</a></li>
+				<li><a href="#securities" data-transition="slide">Securities</a></li>
+				<li><a href="#miscsensors" data-transition="slide">Misc</a></li>
+				<li><a href="#meters" data-transition="slide">Meters</a></li>
+			</ul>
+ 		</div> 
+ 		-->
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div> 
+	<!--
+	<div data-role="page" id="temperatures" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Temperatures</h4></div> 
+		<div data-role="content" id="temperatures_content"></div>
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div>
+	<div data-role="page" id="powers" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Power</h4></div> 
+		<div data-role="content" id="powers_content"></div>
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div>
+	<div data-role="page" id="securities" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Security</h4></div> 
+		<div data-role="content" id="securities_content"></div>
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div>
+	<div data-role="page" id="miscsensors" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Misc</h4></div> 
+		<div data-role="content" id="miscsensors_content"></div>
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div>
+	<div data-role="page" id="meters" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Meters</h4></div> 
+		<div data-role="content" id="meters_content"></div>
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div>
+	-->
+ 	<div data-role="page" id="blinds" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Blinds</h4></div> 
+		<div data-role="content" id="blinds_content"></div> 
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div> 
+	<div data-role="page" id="lights" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Light</h4></div> 
+		<div data-role="content" id="lights_content"></div> 
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div> 
+	<div data-role="page" id="heatings" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Heating</h4></div> 
+		<div data-role="content" id="heatings_content"></div> 
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div> 
+	<div data-role="page" id="devices" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Devices</h4></div> 
+		<div data-role="content">
+			<ul data-role="listview" data-theme="b">
+				<li><a href="#batteries" data-transition="slide">Battery Status</a></li>
+				<li><a href="#deviceinfo" data-transition="slide">Devices Info</a></li>
+			</ul>
+ 		</div> 
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div> 
+	<div data-role="page" id="batteries" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Battery Status</h4></div> 
+		<div data-role="content" id="batteries_content"></div> 
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div> 
+	<div data-role="page" id="deviceinfo" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b"><h4>Devices Info</h4></div> 
+		<div data-role="content" id="deviceinfo_content"></div> 
+		<div data-role="footer" data-theme="b"><h4><a href="#home" data-role="button" data-icon="home">Home</a></h4></div> 
+	</div> 	 
+</body>
+</html> 
+
+ 

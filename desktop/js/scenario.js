@@ -255,9 +255,9 @@ $(function() {
     });
 
     /**************** Initialisation **********************/
-    if (select_id != -1) {
-        if ($('#ul_scenario .li_scenario[data-scenario_id=' + select_id + ']').length != 0) {
-            $('#ul_scenario .li_scenario[data-scenario_id=' + select_id + ']').click();
+    if (is_numeric(getUrlVars('id'))) {
+        if ($('#ul_scenario .li_scenario[data-scenario_id=' + getUrlVars('id') + ']').length != 0) {
+            $('#ul_scenario .li_scenario[data-scenario_id=' + getUrlVars('id') + ']').click();
         } else {
             $('#ul_scenario .li_scenario:first').click();
         }

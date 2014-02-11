@@ -169,7 +169,7 @@ class plugin {
     }
 
     public function getDescription() {
-        return $this->description;
+        return nl2br($this->description);
     }
 
     public function getAuthor() {
@@ -197,7 +197,7 @@ class plugin {
     }
 
     public function getInstallation() {
-        return $this->installation;
+        return nl2br($this->installation);
     }
 
     public function getIcon() {

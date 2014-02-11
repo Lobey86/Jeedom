@@ -1,0 +1,534 @@
+body {
+	font-size: 75%;
+	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+	overflow: hidden;
+}
+
+a {
+	color: black;
+}
+
+img {
+	border: 0px;
+}
+
+img.leaf, img.collapse {
+	padding-right: 5px;
+	vertical-align: middle;
+}
+
+div#area_list, div#device_list {
+	overflow-x: hidden;
+}
+
+div#area_list {
+	height: 100%;
+}
+
+td {
+	white-space: nowrap;
+}
+
+td.leftpanel {
+	height: 100%;
+	border: 1px solid #dddddd;
+}
+
+div.leftpanel {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	background: #f2f5f7;
+	white-space: nowrap;
+}
+
+div.leftpanel .margin_left {
+	margin-left: 5px;
+}
+
+td.separator.hover div.separator.move {
+	background-color: blue;
+}
+
+div.toolbar_container {
+	z-Index: 998;
+	position: absolute;
+	right: 32px;
+	padding-top: 4px;
+	padding-left: 4px;
+	padding-right: 4px;
+	background: #88aaff;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+}
+
+div.toolbar {
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	display: none;
+}
+
+div.toolbar button {
+	margin-left: 2px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	font-size: 75%;
+}
+
+td.rightpanel {
+	height: 100%;
+	background-color: white;
+	border: 1px solid #dddddd;
+	overflow: auto;
+}
+
+.ui-draggable {
+	cursor: move;
+}
+
+td.separator {
+	width: 7px;
+	min-width: 7px;
+	cursor: col-resize;
+	background-image: url(../pics/vbar_center.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+td.separator.hover, td.separator.move {
+	background-color: #aaeeff;
+}
+
+#devices_icons_list {
+	background-color: white;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	height: 100%;
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+
+}
+.device_icon {
+	border: 0px;
+	padding: 4px 8px 4px 8px;
+}
+.device_icon.pointer {
+	cursor: pointer;
+}
+
+button, .toolbar, #event_filter_div, .subtag, .parameter, .device_icon, .tab {
+	white-space: nowrap;
+}
+
+div.rightpanel {
+	height: 100%;
+	background: white;
+	overflow: auto;
+	white-space: nowrap;
+}
+
+div#deviceconfiguration {
+	position: relative;
+	float: left;
+	width: 100%; 
+	height: 100%;
+	background: white;
+	overflow: auto;
+	margin-right: 16px;
+}
+
+#tab_areas > table, #tab_scenes > table, #tab_climates > table, #tab_rules > table, #tab_deviceconfiguration > table, #tab_raw_devices_interface > table {
+	height: 100%;
+	font-size: 1.0em;
+}
+
+div.fullpanel {
+	position: relative;
+	width: 100%; 
+	height: 100%;
+	background: white;
+	overflow: auto;
+	white-space: nowrap;
+}
+
+span.area_list, span.area_device_list {
+	position: relative;
+	float: left;
+	width: 100%;
+	cursor: pointer;
+	overflow: hidden;
+	padding: 4px 8px 4px 8px;
+}
+
+a.area_list {
+	text-decoration: none;
+	width: 100%;
+	padding: 4px 0px 4px 0px;
+}
+
+.jeegoocontext {
+	z-Index: 999;
+}
+
+.cache {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+}
+
+a:hover {
+}
+
+div.hover, .ctxhover {
+	background-color: #aaeeff;
+	background: -moz-linear-gradient(
+		top,
+		#eef8ff,
+		#77ddff
+	);
+	background: -webkit-gradient(
+		linear,
+		left top, left bottom,
+		from(#eef8ff),
+		to(#77ddff)
+	);
+}
+
+div.scene, div.rule, div.schedule {
+	margin-bottom: 13px;
+	border: 1px cyan solid;
+	padding: 16px;
+	padding-bottom: 8px;
+	padding-top: 8px;
+
+}
+
+div.tag.ui-selected {
+	border-bottom: 2px solid #999999;
+	border-right: 2px solid #999999;
+}
+
+.subtag textarea {
+	width: 100%;
+	height: 64px;
+}
+
+div.tag, div.subtag {
+	margin: 10px;
+	border: 1px cyan solid;
+	padding: 8px;
+	padding-left: 16px;
+	padding-right: 16px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
+
+div.tag {
+	cursor: pointer;
+	background-color: rgb(215, 235, 249);
+	overflow: hidden;
+}
+
+div.subtag {
+	cursor: default;
+	overflow: auto;
+}
+
+.tag > span {
+	font-weight: bold;
+}
+span.tagname {
+	padding-right: 16px;
+}
+span.tagname.tag_disabled {
+	color: gray;
+}
+
+.paddingtop {
+	padding-top: 8px;
+}
+
+.margintop {
+	margin-top: 8px;
+}
+
+span.paddingbottom {
+	padding-bottom: 8px;
+}
+
+div.timedevent div.attribute {
+	padding-bottom: 0px;
+}
+
+div.attribute {
+	padding-bottom: 8px;
+}
+
+.method_attr_no_bottom_padding div.attribute {
+	padding-bottom: 0px;
+}
+
+span.value.device, span.value.instance, span.value.commandClass, span.value.command {
+	padding-right: 8px;
+}
+
+span.value > select {
+}
+
+div.parameter {
+	clear: both;
+	padding-top: 8px;
+}
+
+span.datetimelabel {
+	position: relative;
+	float: left;
+	padding-top: 3px;
+	width: 48px;
+}
+
+span.attributename {
+	position: relative;
+	float: left;
+	padding-top: 3px;
+	width: 120px;
+}
+
+span.subtagname {
+	padding-top: 3px;
+	width: 120px;
+	overflow: hidden;
+}
+
+div.tag span.subtagname, div.parameters span.subtagname {
+	clear: both;
+	position: relative;
+	float: left;
+}
+
+
+div.rule > input, div.schedule > input {
+	position: relative;
+	float: left;
+}
+
+.script > textarea, .condscript > textarea {
+	width: 100%;
+	height: 128px;
+}
+
+.submit {
+       	float: right;
+}
+
+div.subtag, div#area_list, div#orphanDevice_list {
+	background-color: white;
+}
+
+div#orphanDevice_list {
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	margin-top: 4px;
+}
+
+.clear {
+	clear: both;
+}
+
+div.toolbar {
+	background-color: white;
+}
+
+.description input {
+	width: 70%;
+}
+
+.delay input {
+	width: 64px;
+}
+
+.condlogic select {
+	margin-left: 8px;
+}
+
+div.condcheck {
+	min-height: 32px;
+}
+
+.step {
+	width: 48px;
+}
+
+.slider {
+	width: 100px;
+	padding-left: 160px;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.sliderPos, .bitrangePos {
+	margin-left: 16px;
+	margin-right: 8px;
+	width: 64px;
+}
+
+.ui-slider.handle {
+	height: 1.75em;
+}
+
+label {
+	margin-right: 8px;
+}
+
+#area_list .ui-selected, span.current.ui-selected, .device_icon.ui-selected {
+	background-color: #88bbff;
+}
+
+span.current {
+	background-color: #ddeeff;
+}
+
+label.current_val, span.current_val {
+	text-decoration: underline;
+}
+
+label.slider_current_val {
+	margin-left: 0.5em;
+}
+
+option.current_val {
+	color: #f44;
+}
+
+li.duplicate {
+	display: none;
+}
+
+.tag .ui-icon {
+	display: inline;
+	padding-right: 16px;
+}
+
+.tag.ui-selected, .tag.collapsible {
+	background-color: cyan;
+	background: -moz-linear-gradient(
+		top,
+		#aaeeff,
+		#44bbff
+	);
+	background: -webkit-gradient(
+		linear,
+		left top, left bottom,
+		from(#aaeeff),
+		to(#44bbff)
+	);
+}
+
+div.map {
+	z-Index: 990;
+	width: 100%;
+}
+
+#interviewResultsTable {
+	border-spacing: 5px 3px;
+}
+
+.nothingtodisplay {
+	background-color: #aaeeff;
+	position: relative;
+	top: 40%;
+	width: 45%;
+	margin: auto;
+	padding: 8px;
+	text-align: center;
+
+}
+
+.crayonbox_selector {
+	width: 1em;
+	height: 1em;
+	display: inline-block;
+	margin-right: 1em;
+	border: 1px solid black;
+}
+
+.crayonbox_selector_value {
+	height: 2em;
+	width: 2em;
+	border: 1px solid #333;
+}
+	.crayonbox_selector_value.transparent {
+		border: 1px dashed #333;
+	}
+
+.crayonbox_selector_label {
+	padding-top: 0.5em;
+}
+
+#crayonbox_selector_dialog .keep {
+	float: left;
+	margin: 3px;
+}
+
+.crayon, .boxlid {
+	color: #000;
+	cursor: pointer;
+	float: left;
+	font-size: larger;
+	margin: 1px;
+	text-align: center;
+	width: 1.4em;
+}
+	.crayon {
+		border: 1px solid #333;
+	}
+	.boxlid {
+		border: 1px dashed #333;
+	}
+
+#tab_menu_separator {
+	clear: both;
+	padding-top: 10px;
+}
+
+.menu_box {
+	background-image:url(../pics/menu_dropdown.png);
+	width: 16px;
+	height: 16px;
+	margin-bottom: -16px;
+	position: relative;
+	top: 0;
+	right: 0;
+	float: right;
+}
+
+.lang_select {
+	float: right;
+}
+
+.lang_select li {
+	display: none;
+}
+
+.lang_select:hover li {
+	display: block;
+}
+
+.lang_select .selector {
+	display: block;
+}
+
+.lang_select:hover .selector {
+	display: none;
+}
+ 

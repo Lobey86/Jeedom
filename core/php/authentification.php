@@ -45,7 +45,7 @@ if (isConnect() && (!isset($_SESSION['userHash']) || getUserHash() != $_SESSION[
     }
 }
 
-if (isset($_POST['login']) && isset($_POST['mdp'])) {
+if (init('login') != '' && init('login') != '') {
     login(init('login'), init('mdp'));
 }
 
@@ -93,14 +93,6 @@ function isConnect($_right = '') {
         } else {
             return false;
         }
-    } else {
-        return false;
-    }
-}
-
-function isAdmin() {
-    if (isset($_SESSION['user'])) {
-        return $_SESSION['user']->is_Admin();
     } else {
         return false;
     }

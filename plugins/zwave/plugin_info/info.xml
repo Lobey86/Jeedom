@@ -6,7 +6,13 @@
     <icon>fa fa-rss</icon>
     <licence>AGPL</licence>
     <author>Loïc Gevrey</author>
-    <installation>Aucune</installation>
+    <installation>Il faut installer l'application zway (http://razberry.z-wave.me/). Deux possibilitées :
+                 - "wget -q -O - razberry.z-wave.me/install | sudo bash"
+                 - Aller dans le repertoire d'installation de Jeedom puis "cd plugins/zwave/ressources/zway; sudo ./install.sh
+    /!\ Attention il y a actuellement un bug entre le dernier kernel de Debian et l'application zway pour corriger :
+    "sudo wget -O /boot/kernel.img https://github.com/raspberrypi/firmware/blob/e6b21d6a62c9a29d4e2dece0452908449b434400/boot/kernel.img?raw=true"
+    Puis redemarrer le système
+    </installation>
     <require>1.10</require>
     <version>1.0</version>
     <category></category>

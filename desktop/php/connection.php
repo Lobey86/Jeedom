@@ -3,6 +3,11 @@
     <div class="container">
         <center>
             <img src="core/img/jeedom_ico.png" /><br/><br/>
+            <?php
+            if (init('error') == 1) {
+                echo '<div class="alert alert-danger">Nom d\'utilisateur ou mot de passe inccorect !</div>';
+            }
+            ?>
             <form method="post" name="login" action="core/php/authentification.php?v=d" class="form-signin">
                 <h2 class="form-signin-heading">Connectez-vous</h2>
                 <br/><input class="input-block-level" type="text" name="login" id="login" placeholder="Nom d'utilisateur"/><br/>

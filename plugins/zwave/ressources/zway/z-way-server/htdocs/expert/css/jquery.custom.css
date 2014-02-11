@@ -1,0 +1,11 @@
+#notice {
+	position:absolute;
+	text-align: center;
+	padding: 10px 15px 10px 15px;
+	font-size: 150%;
+	color: #000;
+	background: #fff;
+	border: 2px cyan solid;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}

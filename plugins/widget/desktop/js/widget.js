@@ -63,9 +63,9 @@ $(function() {
     });
 
 
-    if (select_id != -1) {
-        if ($('#ul_widget .li_widget[data-path="' + select_id + '"]').length != 0) {
-            $('#ul_widget .li_widget[data-path="' + select_id + '"]').click();
+    if (is_numeric(getUrlVars('id'))) {
+        if ($('#ul_widget .li_widget[data-path="' + getUrlVars('id') + '"]').length != 0) {
+            $('#ul_widget .li_widget[data-path="' + getUrlVars('id') + '"]').click();
         } else {
             $('#ul_widget .li_widget:first').click();
         }
@@ -77,7 +77,7 @@ $(function() {
 function printWidget(_path) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "/plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
+        url: "plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
         data: {
             action: "get",
             path: _path
@@ -125,7 +125,7 @@ function saveWidget() {
     }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "/plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
+        url: "plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
         data: {
             action: "save",
             widget: json_encode(widget),
@@ -156,7 +156,7 @@ function saveWidget() {
 function addWidget(_name) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "/plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
+        url: "plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
         data: {
             action: "add",
             name: _name,
@@ -186,7 +186,7 @@ function addWidget(_name) {
 function removeWidget(_path) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "/plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
+        url: "plugins/widget/core/ajax/widget.ajax.php", // url du fichier php
         data: {
             action: "remove",
             path: _path,

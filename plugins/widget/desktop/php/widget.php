@@ -2,8 +2,6 @@
 if (!isConnect('admin')) {
     throw new Exception('401 - Unauthorized access to page');
 }
-
-sendVarToJS('select_id', init('id'));
 include_file('3rdparty', 'codemirror/lib/codemirror', 'js');
 include_file('3rdparty', 'codemirror/lib/codemirror', 'css');
 include_file('3rdparty', 'codemirror/addon/edit/matchbrackets', 'js');

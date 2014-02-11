@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<Defaults>
+	<Autoconfig>1</Autoconfig>
+	<DeepInterview>1</DeepInterview>
+	<SaveDataAfterInterviewSteps>1</SaveDataAfterInterviewSteps>
+	<TryToBecomeSIS>1</TryToBecomeSIS>
+	<CommandClass id="0x73">
+		<Default name="Timeout">
+			<value>10</value>
+			<description>Seconds until PowerLevel test will time out</description>
+		</Default>
+		<Default name="MaxFrames">
+			<value>20</value>
+			<description>Number of Test-Frames sent out per power level</description>
+		</Default>
+	</CommandClass>
+	<CommandClass id="0x84">
+		<WakeupInterval>300</WakeupInterval>
+	</CommandClass>
+	<CommandClass id="0x2C">
+		<MaxScenes>16</MaxScenes>
+	</CommandClass>
+	<CommandClass id="0x2D">
+		<MaxScenes>16</MaxScenes>
+	</CommandClass>
+	<CommandClass id="0x75">
+ 		<Mode>0</Mode>
+	</CommandClass>
+	<CommandClass id="0x31">
+ 		<Fahrenheit>0</Fahrenheit>
+	</CommandClass>
+	<CommandClass id="0x43">
+ 		<Fahrenheit>0</Fahrenheit>
+	</CommandClass>
+	<CommandClass id="0x27">
+ 		<Mode>0</Mode>
+	</CommandClass>
+	<CommandClass id="0x60">
+		<Default name="ChannelsNumber">
+			<value>16</value>
+			<description>Number of Channels simulated for event handling</description>
+		</Default>
+		<Default name="GenericDeviceClass">
+			<value>2</value>
+			<description>Generic Device Class of simulated Channel</description>
+		</Default>
+		<Default name="SpecificDeviceClass">
+			<value>1</value>
+			<description>Specific Device Class of simulated Channel</description>
+		</Default>
+	</CommandClass>
+	<Controller>
+		<NodeInformationFrame>
+			<!--
+			To add in future: "SimpleAVControl"
+			-->
+			<!-- Make sure to list more important first in case broken stick is used that support only 6 Command Classes -->
+			<value>["ManufacturerSpecific", "MultiChannel", "Clock", "MultiCmd", "SwitchMultilevel", "Security", "Version", "Time", "SceneActivation", "ClimateControlSchedule", "NodeNaming", "Basic", "ApplicationStatus"]</value>
+			<description>Controllers own NIF</description>
+		</NodeInformationFrame>
+		<SecureNodeInformationFrame>
+			<!--
+			To add in future: "SimpleAVControl"
+			-->
+			<value>["ManufacturerSpecific", "MultiChannel", "Clock", "MultiCmd", "SwitchMultilevel", "Security", "Version", "Time", "SceneActivation", "NodeNaming", "Basic", "ApplicationStatus"]</value>
+			<description>Controllers own NIF reported under Security</description>
+		</SecureNodeInformationFrame>
+		<InstanceNodeInformationFrame>
+			<!--
+			To add in future: "SimpleAVControl"
+			-->
+			<value>["SwitchMultilevel", "SceneActivation", "Basic"]</value>
+			<description>Controllers instances capabilities</description>
+		</InstanceNodeInformationFrame>
+		<Version id="0x20"> 1 </Version><!-- Basic -->
+		<Version id="0x22"> 1 </Version><!-- ApplicationStatus -->
+		<Version id="0x26"> 1 </Version><!-- SwitchMultilevel -->
+		<Version id="0x72"> 1 </Version><!-- ManufacturerSpecific -->
+		<Version id="0x81"> 1 </Version><!-- Clock -->
+		<Version id="0x60"> 2 </Version><!-- MultiChannel -->
+		<Version id="0x86"> 1 </Version><!-- Version -->
+		<Version id="0x8F"> 1 </Version><!-- MultiCmd -->
+		<!-- <Version id="0x94"> 4 </Version> --><!-- SimpleAV -->
+		<Version id="0x77"> 1 </Version><!-- NodeNaming -->
+		<Version id="0x8A"> 2 </Version><!-- Time -->
+		<Version id="0x2B"> 1 </Version><!-- SceneActivation -->
+		<Version id="0x46"> 1 </Version><!-- ClimateControlSchedule -->
+		<Version id="0x98"> 1 </Version><!-- Security -->		
+		<Name>
+			<value>Gateway</value>
+			<description>Default Node Name of Controller</description>
+		</Name>
+		<Location>
+			<value>Main Room</value>
+			<description>Default Node Location of Controller</description>
+		</Location>
+		<AppVersion>
+			<Major>1</Major>
+			<Minor>0</Minor>
+		</AppVersion>
+		<Manufacturer_Specific>
+			<VendorID>277</VendorID>
+			<ProductID>1</ProductID>
+			<ProductTypeID>1</ProductTypeID>
+		</Manufacturer_Specific>
+		<SpecificDeviceClass>
+			<value>1</value>
+			<description>Controllers own Specific Device Class 1 = Static PC Controller</description>
+		</SpecificDeviceClass>
+		<GenericDeviceClass>
+			<value>2</value>
+			<description>Controllers own Generic Device Class 2 = Static Controller</description>
+		</GenericDeviceClass>
+	</Controller>
+	<VirtualSlave>
+		<NodeInformationFrame>
+			<value>["Basic", "SwitchMultilevel", "ManufacturerSpecific", "MultiChannel", "Version"]</value>
+			<description>Virtual Slave NIF</description>
+		</NodeInformationFrame>
+	</VirtualSlave>
+</Defaults>
