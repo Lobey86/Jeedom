@@ -1,0 +1,48 @@
+.jsddm {
+	margin: 0;
+	padding: 0;
+}
+	
+	.jsddm li {
+		float: left;
+		list-style: none;
+		padding-right: 5px;
+	}
+
+	.jsddm li a {
+		display: block;
+		padding: 5px 12px;
+		text-decoration: none;
+		background: #def;
+		color: #2779aa;
+		white-space: nowrap;
+		font-weight: bold;
+	}
+
+	.jsddm li a:hover {
+		background: #8bf;
+		color: white;
+	}
+		
+		.jsddm li ul {
+			margin: 0;
+			padding: 0;
+			position: absolute;
+			display: none;
+			z-index: 2000;
+		}
+		
+		.jsddm li ul li {
+			float: none;
+		}
+		
+		.jsddm li ul li a {
+			width: auto;
+			background: #def;
+			color: #2779aa;
+		}
+		
+		.jsddm li ul li a:hover {
+			background: #8bf;
+			color: white;
+		}

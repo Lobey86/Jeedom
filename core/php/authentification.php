@@ -98,14 +98,6 @@ function isConnect($_right = '') {
     }
 }
 
-function isAdmin() {
-    if (isset($_SESSION['user'])) {
-        return $_SESSION['user']->is_Admin();
-    } else {
-        return false;
-    }
-}
-
 function getUserHash() {
     $hash = getClientIp() . $_SERVER["HTTP_USER_AGENT"];
     if (isConnect()) {

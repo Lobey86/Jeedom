@@ -1,0 +1,48 @@
+.jnotify{
+	height:50px;
+	width:100%;
+	background-color: #fff;
+	position:fixed;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=95); 
+	opacity: 0.95;
+	-moz-opacity: 0.95;
+	text-align:center;
+	left:0px;
+	z-index:9999999;
+	margin:0px;
+	padding:0px;
+}
+.jnotify-top{
+	top:0px;
+	border-top:2px solid #fff;
+	border-bottom: 1px solid #ebebeb;
+}
+.jnotify-bottom{
+	bottom:0px;
+	border-bottom:2px solid #fff;
+	border-top: 1px solid #ebebeb;
+	color:#777;
+}
+.jnotify-content{
+	cursor: default;
+	line-height:46px;
+	font-size: 18px;
+	font-family:'Lucida Grande',sans-serif;
+}
+a.jnotify-cross{
+	position:absolute;
+	width:31px;
+	height:31px;
+	background:transparent url(../pics/cross.png) no-repeat top left;	
+	cursor:pointer;
+	right:10px;
+}
+a.jnotify-cross:hover{
+	background-image: url(../pics/cross_hover.png)
+}
+.jnotify-top a.jnotify-cross{
+	top:8px;	
+}
+.jnotify-bottom a.jnotify-cross{
+	bottom:8px;
+}
