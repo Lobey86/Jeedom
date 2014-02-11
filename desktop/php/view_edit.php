@@ -2,8 +2,6 @@
 if (!isConnect()) {
     throw new Exception('401 - Unauthorized access to page');
 }
-
-sendVarToJS('select_id', init('id', '-1'));
 ?>
 
 <style>
@@ -207,12 +205,11 @@ sendVarToJS('select_id', init('id', '-1'));
                     echo '<tr data-link_id="' . $eqLogic->getId() . '" data-type="widget" data-viewDataType="eqLogic">';
                     echo '<td>';
                     echo '<input type="checkbox" class="enable form-control" />';
-                    echo '<input class="viewDataOption" data-l1key="type" value= "eqLogic" hidden/>';
+                    echo '<input class="viewDataOption" data-l1key="type" value="eqLogic" hidden/>';
                     echo '<input class="viewDataOption" data-l1key="link_id" value="' . $eqLogic->getId() . '" hidden/>';
                     echo '</td>';
                     echo '<td class="type">';
                     echo 'Equipement';
-                    echo '<input class="viewDataOption" data-l1key="type" value="eqLogic" hidden/>';
                     echo '</td>';
                     echo '<td class="object_name">';
                     if (is_object($object)) {
@@ -235,7 +232,6 @@ sendVarToJS('select_id', init('id', '-1'));
                 echo '</td>';
                 echo '<td class="type">';
                 echo 'Scénario';
-                echo '<input class="viewDataOption" data-l1key="type" value="scenario" hidden/>';
                 echo '</td>';
                 echo '<td class="object_name"></td>';
                 echo '<td class="name">';
