@@ -34,18 +34,18 @@ sendVarToJS('select_id', init('id', '-1'));
             <span id="span_plugin_name" ></span> (<span id="span_plugin_id"></span>)
         </legend>
         <div class="alert alert-info">
-            <h5 style="display: inline-block">Description : </h5> <span id="span_plugin_description"></span>
+            <h5 style="display: inline-block;font-weight: bold;">Description : </h5> <span id="span_plugin_description"></span>
         </div>
         <div class="alert alert-danger">
-            <h5 style="display: inline-block">Installation : </h5> <span id="span_plugin_installation"></span>
+            <h5 style="display: inline-block;font-weight: bold;">Installation : </h5> <span id="span_plugin_installation"></span>
         </div>
         <div class="alert alert-success">
-            <h5 style="display: inline-block">Version plugin : </h5> <span id="span_plugin_version"></span> - 
-            <h5 style="display: inline-block">Version Jeedom requis : </h5> <span id="span_plugin_require"></span>
+            <h5 style="display: inline-block;font-weight: bold;">Version plugin : </h5> <span id="span_plugin_version"></span> - 
+            <h5 style="display: inline-block;font-weight: bold;">Version Jeedom requis : </h5> <span id="span_plugin_require"></span>
         </div>
         <div class="alert alert-warning">
-            <h5 style="display: inline-block">Auteur : </h5> <span id="span_plugin_author"></span> - 
-            <h5 style="display: inline-block">Licence : </h5> <span id="span_plugin_licence"></span>
+            <h5 style="display: inline-block;font-weight: bold;">Auteur : </h5> <span id="span_plugin_author"></span> - 
+            <h5 style="display: inline-block;font-weight: bold;">Licence : </h5> <span id="span_plugin_licence"></span>
         </div>
         <div>
             <legend>Configuration</legend>
