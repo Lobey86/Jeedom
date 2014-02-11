@@ -38,7 +38,7 @@ class gCalendarCmd extends cmd {
         }
     }
 
-    public function execute($_options) {
+    public function execute($_options = array()) {
         try {
             $oAgenda = new GoogleAgenda($this->getConfiguration('calendarUrl'));
             // Le tableau d'options suivant contient les valeurs par défaut
