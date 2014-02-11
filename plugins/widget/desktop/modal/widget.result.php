@@ -1,4 +1,5 @@
 <?php
+
 /* This file is part of Jeedom.
  *
  * Jeedom is free software: you can redistribute it and/or modify
@@ -28,31 +29,30 @@ $widget = widget::byPath(init('path'));
 if (!is_object($widget)) {
     throw new Exception('Widget non trouvé');
 }
+
+
+include_file('3rdparty', 'font-awesome/css/font-awesome.min', 'css');
+include_file('3rdparty', 'highstock/highstock', 'js');
+include_file('3rdparty', 'highstock/highcharts-more', 'js');
+include_file('3rdparty', 'php.js/php.min', 'js');
+include_file('3rdparty', 'jquery/jquery.min', 'js');
+include_file('3rdparty', 'jquery.include/jquery.include', 'js');
+
 if ($widget->getVersion() == 'mobile') {
     include_file('3rdparty', 'jquery.mobile/jquery.mobile', 'css');
-    include_file('3rdparty', 'font-awesome/css/font-awesome.min', 'css');
     include_file('mobile', 'commun', 'css');
-    include_file('3rdparty', 'jquery/jquery.min', 'js');
-    include_file('3rdparty', 'php.js/php.min', 'js');
     include_file('3rdparty', 'jquery.mobile/jquery.mobile.min', 'js');
-    include_file('3rdparty', 'highstock/highstock', 'js');
-    include_file('3rdparty', 'highstock/highcharts-more', 'js');
 } else {
-    include_file('3rdparty', 'font-awesome/css/font-awesome', 'css');
     include_file('desktop', 'commun', 'css');
     include_file('3rdparty', 'bootstrap/bootstrap.min', 'css');
     include_file('3rdparty', 'jquery.gritter/jquery.gritter', 'css');
     include_file('3rdparty', 'jquery.ui/jquery-ui-bootstrap/jquery-ui', 'css');
     include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
-    include_file('3rdparty', 'jquery/jquery.min', 'js');
-    include_file('3rdparty', 'php.js/php.min', 'js');
     include_file('3rdparty', 'bootstrap/bootstrap.min', 'js');
     include_file('3rdparty', 'jquery.ui/jquery-ui.min', 'js');
     include_file('3rdparty', 'jquery.value/jquery.value', 'js');
     include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
     include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
-    include_file('3rdparty', 'highstock/highstock', 'js');
-    include_file('3rdparty', 'highstock/highcharts-more', 'js');
     include_file('core', 'js.inc', 'php');
 }
 echo '<center style="margin-top : 10px;">';
