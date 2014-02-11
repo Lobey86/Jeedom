@@ -332,7 +332,7 @@ class scenario {
                     $prev = $c->getPreviousRunDate();
                     if ($lastCheck < $prev) {
                         if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
-                            log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s'). '. Retard de : ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                            log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . '. Retard de : ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
                         }
                         return true;
                     }
@@ -351,7 +351,7 @@ class scenario {
                 $prev = $c->getPreviousRunDate();
                 if ($lastCheck < $prev) {
                     if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
-                        log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s'). '. Retard de : ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                        log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . '. Retard de : ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
                     }
                     return true;
                 }
@@ -386,13 +386,24 @@ class scenario {
 
     public function getElement() {
         $return = array();
-        foreach ($this->getScenarioElement() as $element_id) {
+        $elements = $this->getScenarioElement();
+        if (is_array($elements)) {
+            foreach ($this->getScenarioElement() as $element_id) {
+                $element = scenarioElement::byId($element_id);
+                if (is_object($element)) {
+                    $return[] = $element;
+                }
+            }
+            return $return;
+        }
+        if ($elements != '') {
             $element = scenarioElement::byId($element_id);
             if (is_object($element)) {
                 $return[] = $element;
+                return $return;
             }
         }
-        return $return;
+        return array();
     }
 
     public function getConsolidateLog() {

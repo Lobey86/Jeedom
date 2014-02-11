@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $(function() {
     $("#md_addViewData").dialog({
@@ -70,9 +70,9 @@ $(function() {
         });
     });
 
-    if (select_id != -1) {
-        if ($('#ul_view .li_view[data-view_id=' + select_id + ']').length != 0) {
-            $('#ul_view .li_view[data-view_id=' + select_id + ']').click();
+    if (is_numeric(getUrlVars('id'))) {
+        if ($('#ul_view .li_view[data-view_id=' + getUrlVars('id') + ']').length != 0) {
+            $('#ul_view .li_view[data-view_id=' + getUrlVars('id') + ']').click();
         } else {
             $('#ul_view .li_view:first').click();
         }
@@ -80,7 +80,7 @@ $(function() {
         $('#ul_view .li_view:first').click();
     }
 
-    $("#div_viewZones").sortable({axis: "y", cursor: "move",placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+    $("#div_viewZones").sortable({axis: "y", cursor: "move", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
     $('.enable').on('click', function() {
         var selectTr = $(this).closest('tr');
@@ -164,7 +164,7 @@ $(function() {
             viewDatas.push($(this));
         });
         for (var i = (viewDatas.length - 1); i >= 0; i--) {
-            var viewData = $('#table_addViewData tbody tr[viewDataType=' + viewDatas[i].find('.viewDataAttr[data-l1key=type]').value() + '][link_id=' + viewDatas[i].find('.viewDataAttr[data-l1key=link_id]').value() + ']');
+            var viewData = $('#table_addViewData tbody tr[data-viewDataType=' + viewDatas[i].find('.viewDataAttr[data-l1key=type]').value() + '][data-link_id=' + viewDatas[i].find('.viewDataAttr[data-l1key=link_id]').value() + ']');
             if (viewData != null) {
                 viewData.find('.enable').value(1);
                 viewData.find('.option').show();
@@ -191,12 +191,13 @@ $(function() {
                         viewData.name = '';
                         if (tr.find('.object_name').text() != '') {
                             viewData.name += '[' + tr.find('.object_name').text() + ']';
-                        }else{
+                        } else {
                             if (tr.find('.type').text() == 'Scénario') {
                                 viewData.name += '[Scénario]';
                             }
                         }
                         viewData.name += '[' + tr.find('.name').text() + ']';
+                        console.log(viewData);
                         span += addServiceToviewZone(viewData);
                     }
                     tr = tr.next();
@@ -332,7 +333,7 @@ function addEditviewZone(_viewZone) {
         div += '<div class="div_viewData"></div>';
         div += '</div>';
         $('#div_viewZones').append(div);
-        $('#viewZone' + id + ' .div_viewData').sortable({axis: "x", cursor: "move",placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+        $('#viewZone' + id + ' .div_viewData').sortable({axis: "x", cursor: "move", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
     } else {
         $('#' + _viewZone.emplacement).find('.viewZoneAttr[data-l1key=name]').text(_viewZone.name);
     }
