@@ -34,11 +34,11 @@ $(function() {
         $('#div_alert').showAlert({message: 'Suppression effectué avec succès', level: 'success'});
     }
 
-    $('.widgetAction[action=save]').on('click', function() {
+    $('.widgetAction[data-action=save]').on('click', function() {
         saveWidget();
     });
 
-    $('.widgetAction[action=remove]').on('click', function() {
+    $('.widgetAction[data-action=remove]').on('click', function() {
         bootbox.confirm('Etes-vous sûr de vouloir supprimer le widget <span style="font-weight: bold ;">' + $('.widgetAttr[data-l1key=name]').value() + '</span> ?', function(result) {
             if (result) {
                 removeWidget($('.widgetAttr[data-l1key=path]').value());
@@ -46,7 +46,7 @@ $(function() {
         });
     });
 
-    $('.widgetAction[action=add]').on('click', function() {
+    $('.widgetAction[data-action=add]').on('click', function() {
         $.hideAlert();
         $('#md_addWidget .widgetAttr').value('');
         $('#md_addWidget').modal('show');
@@ -57,13 +57,13 @@ $(function() {
         $('#md_modal').load('index.php?v=d&plugin=widget&modal=widget.apply&path=' + $('.widgetAttr[data-l1key=path]').value()).dialog('open');
     });
 
-    $("#md_addWidget .widgetAction[action=newAdd]").on('click', function() {
+    $("#md_addWidget .widgetAction[data-action=newAdd]").on('click', function() {
         $('#md_addWidget').modal('hide');
         addWidget($('#md_addWidget .widgetAttr[data-l1key=name]').value());
     });
 
 
-    if (is_numeric(getUrlVars('id'))) {
+    if (getUrlVars('id') != '') {
         if ($('#ul_widget .li_widget[data-path="' + getUrlVars('id') + '"]').length != 0) {
             $('#ul_widget .li_widget[data-path="' + getUrlVars('id') + '"]').click();
         } else {
