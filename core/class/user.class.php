@@ -250,7 +250,7 @@ class user {
     }
 
     public function getHash() {
-        if ($this->hash == '') {
+        if ($this->hash == '' && $this->id != '') {
             $this->setHash(sha1(uniqid('ddfhHoiJLd56646dg' . mt_rand(), true)));
             $this->save();
         }
