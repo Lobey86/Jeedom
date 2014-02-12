@@ -735,7 +735,17 @@ class cmd {
 
     public function addHistoryValue($_value) {
         if ($this->getIsHistorized() == 1) {
-            if ($_value <= $this->getConfiguration('maxValue', $_value) && $_value >= $this->getConfiguration('minValue', $_value)) {
+            if ($this->getConfiguration('maxValue') == '' || $_value <= $this->getConfiguration('maxValue')) {
+                $historize = true;
+            } else {
+                $historize = false;
+            }
+            if ($historize && ($this->getConfiguration('minValue') == '' || $_value >= $this->getConfiguration('minValue', $_value))) {
+                $historize = true;
+            } else {
+                $historize = false;
+            }
+            if ($historize) {
                 $hitory = new history();
                 $hitory->setCmd_id($this->getId());
                 $hitory->setValue($_value);
