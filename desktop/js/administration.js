@@ -36,7 +36,7 @@ $(function() {
 
     $("#bt_newUserSave").on('click', function(event) {
         $.hideAlert();
-        var user = [{login: $('#in_newUserLogin'), password: $('#in_newUserMdp')}];
+        var user = [{login: $('#in_newUserLogin').value(), password: $('#in_newUserMdp').value()}];
         saveUser(user);
     });
 
