@@ -44,7 +44,7 @@ try {
                 }
                 $user = new user();
             }
-            self::a2o($user, $user_json);
+            utils::a2o($user, $user_json);
             if (isset($user_json['password'])) {
                 if (config::byKey('ldap::enable') == '1') {
                     throw new Exception('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur');
