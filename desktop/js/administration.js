@@ -37,7 +37,7 @@ $(function() {
     $("#bt_newUserSave").on('click', function(event) {
         $.hideAlert();
         var user = [{login: $('#in_newUserLogin'), password: $('#in_newUserMdp')}];
-        addEditUser(user);
+        saveUser(user);
     });
 
     $("#bt_genKeyAPI").on('click', function(event) {
@@ -72,7 +72,8 @@ $(function() {
     });
 
     $("#bt_saveUser").on('click', function(event) {
-        saveUser();
+        var users = $('#table_user tbody tr').getValues('.userAttr');
+        saveUser(users);
     });
 
     $(".bt_updateJeedom").on('click', function(event) {
@@ -332,6 +333,7 @@ function printUsers() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+
             $('#table_user tbody').empty();
             for (var i in data.result) {
                 var ligne = '<tr><td class="login">';
@@ -370,65 +372,36 @@ function delUser(_user) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             printUsers();
+            $.hideLoading();
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
             $('#div_alert').showAlert({message: 'L\'utilisateur a bien été supprimé', level: 'success'});
-            printUsers();
         }
     });
 }
 
-function saveUser() {
-    var users = $('#table_user tbody tr').getValues('.userAttr');
+function saveUser(_users) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
             action: "save",
-            users: json_encode(users)
+            users: json_encode(_users)
         },
         dataType: 'json',
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
         success: function(data) { // si l'appel a bien fonctionné
+            printUsers();
+            $.hideLoading();
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
             $('#div_alert').showAlert({message: 'Sauvegarde effetuée', level: 'success'});
-        }
-    });
-}
-
-
-function addEditUser(_user) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "editUser",
-            user: json_encode(_user),
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('#div_newUserAlert'));
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            printUsers();
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                if (login == '') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                } else {
-                    $('#div_newUserAlert').showAlert(data.result);
-                }
-                return;
-            }
-            $('#div_alert').showAlert({message: 'L\'utilisateur ' + _user.login + ' a bien été mise à jour / créé', level: 'success'});
-            $('#md_mdpUser').modal('hide');
         }
     });
 }

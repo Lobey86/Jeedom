@@ -31,29 +31,28 @@ try {
         ajax::success(utils::o2a(user::all()));
     }
 
-    if (init('action') == 'editUser') {
-        if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
-        }
-        if (config::byKey('ldap::enable') == '1') {
-            throw new Exception('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur');
-        }
-        $user_json = json_decode(init('user'), true);
-        $user = user::byId($user_json['id']);
-        if (!is_object($user)) {
-            $user = new user();
-            $user->setLogin($user_json['login']);
-        }
-        $user->setPassword(sha1($user_json['password']));
-        $user->save();
-        ajax::success();
-    }
-
     if (init('action') == 'save') {
         if (!isConnect('admin')) {
             throw new Exception('401 Unauthorized');
         }
-        utils::processJsonObject('user', init('users'));
+        $users = json_decode(init('users'), true);
+        foreach ($users as $user_json) {
+            $user = user::byId($user_json['id']);
+            if (!is_object($user)) {
+                if (config::byKey('ldap::enable') == '1') {
+                    throw new Exception('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur');
+                }
+                $user = new user();
+            }
+            self::a2o($user, $user_json);
+            if (isset($user_json['password'])) {
+                if (config::byKey('ldap::enable') == '1') {
+                    throw new Exception('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur');
+                }
+                $user->setPassword(sha1($user_json['password']));
+            }
+            $user->save();
+        }
         ajax::success();
     }
 
