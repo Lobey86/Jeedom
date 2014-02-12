@@ -36,7 +36,10 @@ try {
             throw new Exception('401 Unauthorized');
         }
         $users = json_decode(init('users'), true);
+        print_r($users);
         foreach ($users as $user_json) {
+            echo "**************";
+            print_r($user_json);
             $user = user::byId($user_json['id']);
             if (!is_object($user)) {
                 if (config::byKey('ldap::enable') == '1') {
@@ -51,6 +54,7 @@ try {
                 }
                 $user->setPassword(sha1($user_json['password']));
             }
+             echo "******SAVE********";
             $user->save();
         }
         ajax::success();

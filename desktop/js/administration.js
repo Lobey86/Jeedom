@@ -38,6 +38,7 @@ $(function() {
         $.hideAlert();
         var user = [{login: $('#in_newUserLogin').value(), password: $('#in_newUserMdp').value()}];
         saveUser(user);
+        $('#md_newUser').modal('hide');
     });
 
     $("#bt_genKeyAPI").on('click', function(event) {
