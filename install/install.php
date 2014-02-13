@@ -220,12 +220,18 @@ try {
         $user->setPassword(sha1('admin'));
         $user->setRights('admin', 1);
         $user->save();
-        echo "Jeedom est-il installé sur un Rasberry PI ? [o/N] ";
-        if (trim(fgets(STDIN)) === 'o') {
+
+        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+            echo "Jeedom est-il installé sur un Rasberry PI ? [o/N] ";
+            if (trim(fgets(STDIN)) === 'o') {
+                config::save('cronSleepTime', 60);
+                $logLevel = array('info' => 0, 'debug' => 0, 'event' => 0, 'error' => 1);
+            } else {
+                $logLevel = array('info' => 1, 'debug' => 0, 'event' => 1, 'error' => 1);
+            }
+        } else {
             config::save('cronSleepTime', 60);
             $logLevel = array('info' => 0, 'debug' => 0, 'event' => 0, 'error' => 1);
-        } else {
-            $logLevel = array('info' => 1, 'debug' => 0, 'event' => 1, 'error' => 1);
         }
         config::save('logLevel', $logLevel);
         echo "OK\n";
