@@ -93,7 +93,7 @@ echo "********************************************************\n"
 sudo service nginx stop
 sudo rm /etc/nginx/sites-available/default
 sudo cp install/nginx_default /etc/nginx/sites-available/default
-sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enable/default
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo service nginx restart
 
 
@@ -113,5 +113,5 @@ sudo service jeedom start
 echo "********************************************************\n"
 echo "*                 Installation finie                   *\n"
 echo "********************************************************\n"
-IP=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
+IP=$(ifconfig eth0 | grep 'inet adr:' | cut -d: -f2 | awk '{print $1}')
 echo "Vous pouvez vous connecter sur jeedom en allant sur $IP/jeedom et en utilisant les identifiants admin/admin"
