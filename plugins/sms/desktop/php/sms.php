@@ -81,33 +81,5 @@ sendVarToJS('dontRemoveCmd', '1');
     </div>
 </div>
 
-<div class="modal fade" id="md_addEqLogic">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal">×</button>
-                <h3>Ajouter un équipement SMS</h3>
-            </div>
-            <div class="modal-body">
-                <div style="display: none;" id="div_addEqLogicAlert"></div>
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label">Nom de l'équipement SMS</label>
-                            <div class="col-lg-8">
-                                <input class="form-control eqLogicAttr" data-l1key="name" type="text" placeholder="Nom de l'équipement SMS"/>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> Annuler</a>
-                <a class="btn btn-success eqLogicAction" data-action="newAdd"><i class="fa fa-check-circle icon-white"></i> Enregistrer</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <?php include_file('desktop', 'sms', 'js', 'sms'); ?>
 <?php include_file('core', 'plugin.template', 'js'); ?>
