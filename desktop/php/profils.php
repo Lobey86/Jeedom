@@ -21,7 +21,7 @@ $homePage = array(
 <legend>Profile</legend>
 
 <div class="panel-group" id="accordionConfiguration">
-<input style="display: none;" class="userAttr form-control" data-l1key="id" />
+    <input style="display: none;" class="userAttr form-control" data-l1key="id" />
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">
@@ -127,6 +127,31 @@ $homePage = array(
                                     }
                                     ?>
                                 </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_other">
+                    Autres
+                </a>
+            </h3>
+        </div>
+        <div id="config_other" class="panel-collapse collapse">
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label">Mot de passe</label>
+                            <div class="col-lg-3">
+                                <input type="password" class="userAttr form-control" data-l1key="password" />
                             </div>
                         </div>
                     </fieldset>
