@@ -126,18 +126,22 @@ class zwave extends eqLogic {
                             $cmd_order = 0;
                             $link_cmds = array();
                             foreach ($device['commands'] as $command) {
-                                $cmd = new cmd();
-                                utils::a2o($cmd, $command);
-                                if (isset($command['value'])) {
-                                    $cmd->setValue(0);
+                                try {
+                                    $cmd = new cmd();
+                                    utils::a2o($cmd, $command);
+                                    if (isset($command['value'])) {
+                                        $cmd->setValue(null);
+                                    }
+                                    $cmd->setEqLogic_id($eqLogic->getId());
+                                    $cmd->setOrder($cmd_order);
+                                    $cmd->save();
+                                    if (isset($command['value'])) {
+                                        $link_cmds[$cmd->getId()] = $command['value'];
+                                    }
+                                    $cmd_order++;
+                                } catch (Exception $exc) {
+                                    
                                 }
-                                $cmd->setEqLogic_id($eqLogic->getId());
-                                $cmd->setOrder($cmd_order);
-                                $cmd->save();
-                                if (isset($command['value'])) {
-                                    $link_cmds[$cmd->getId()] = $command['value'];
-                                }
-                                $cmd_order++;
                             }
                             if (count($link_cmds) > 0) {
                                 foreach ($eqLogic->getCmd() as $eqLogic_cmd) {
