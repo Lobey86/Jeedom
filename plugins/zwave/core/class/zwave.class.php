@@ -118,6 +118,9 @@ class zwave extends eqLogic {
                     /* Reconnaissance du module */
                     foreach (self::devicesParameters() as $device_id => $device) {
                         if ($device['manufacturerId'] == $data['manufacturerId']['value'] && $device['manufacturerProductType'] == $data['manufacturerProductType']['value'] && $device['manufacturerProductId'] == $data['manufacturerProductId']['value']) {
+                            foreach ($device['configuration'] as $key => $value) {
+                                $eqLogic->setConfiguration($key, $value);
+                            }
                             $eqLogic->setConfiguration('device', $device_id);
                             $eqLogic->save();
                             $cmd_order = 0;

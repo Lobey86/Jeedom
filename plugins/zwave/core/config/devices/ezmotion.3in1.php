@@ -33,6 +33,7 @@ $deviceConfiguration = array(
                 'configuration' => array('class' => '0x31', 'instanceId' => 3, 'value' => 'data[1].val')
             ),
         ),
+        'configuration' => array('refreshDelay' => 10),
         'parameters' => array(
             '1' => array(
                 'name' => 'Sensibilité',
