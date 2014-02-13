@@ -185,13 +185,10 @@ class evaluate {
       --------------------------------------------------------------- */
 
     private function Eval_Comparer($valeur1, $valeur2, $operateur) {
-        log::add('debug', 'debug', $valeur1 . ' ' . $operateur . ' ' . $valeur2);
         switch ($operateur) {
             case "=":
-                if (is_string($valeur1) || is_string($valeur2)) {
-                    log::add('debug', 'debug', $valeur1 . ' = ' . $valeur2 . ' => ' . strcmp($valeur1, $valeur2));
+                if (!is_numeric($valeur1) && !is_numeric($valeur2)) {
                     if (strcmp($valeur1, $valeur2) == 0) {
-
                         $res = true;
                     } else {
                         $res = false;
