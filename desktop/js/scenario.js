@@ -82,13 +82,11 @@ $(function() {
     $('#md_addScenario').modal('hide');
 
     $("#bt_addScenario").on('click', function(event) {
-        $.hideAlert();
-        $('#in_addScenarioName').value('');
-        $('#md_addScenario').modal('show');
-    });
-
-    $("#bt_addScenarioSave").on('click', function(event) {
-        addScenario();
+        bootbox.prompt("Nom du scénario ?", function(result) {
+            if (result !== null) {
+                addScenario(result);
+            }
+        });
     });
 
     $("#bt_saveScenario").on('click', function(event) {
@@ -110,8 +108,11 @@ $(function() {
     });
 
     $("#bt_copyScenario").on('click', function() {
-        $('#in_copyScenarioName').value('');
-        $('#md_copyScenario').modal('show');
+        bootbox.prompt("Nom du scénario ?", function(result) {
+            if (result !== null) {
+                copyScenario($('.scenarioAttr[data-l1key=id]').value(), result);
+            }
+        });
     });
 
     $("#bt_copyScenarioSave").on('click', function(event) {
@@ -378,14 +379,13 @@ function stopScenario(_scenario_id) {
     });
 }
 
-function addScenario() {
+function addScenario(_name) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
         data: {
             action: "addScenario",
-            name: $('#in_addScenarioName').value(),
-            type: $('#sel_addScenarioType').value()
+            name: _name,
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -830,7 +830,7 @@ function getElement(_element) {
     element = element[0];
     element.subElements = [];
 
-    _element.findAtDepth('.subElement',2).each(function() {
+    _element.findAtDepth('.subElement', 2).each(function() {
         var subElement = $(this).getValues('.subElementAttr', 2);
         subElement = subElement[0];
         subElement.expressions = [];
