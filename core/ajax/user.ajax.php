@@ -72,12 +72,29 @@ try {
     }
 
     if (init('action') == 'saveProfil') {
-        $values = json_decode(init('value'), true);
-        foreach ($values as $value) {
-            $_SESSION['user']->setOptions($value['key'], $value['value']);
+        $values = json_decode(init('profil'), true);
+        foreach ($values as $key => $value) {
+            $_SESSION['user']->setOptions($key, $value);
         }
         $_SESSION['user']->save();
         ajax::success();
+    }
+
+    if (init('action') == 'getProfil') {
+        $keys = init('key');
+        if ($keys == '') {
+            throw new Exception('Aucune clef demandée');
+        }
+        if (is_json($keys)) {
+            $keys = json_decode($keys, true);
+            $return = array();
+            foreach ($keys as $key => $value) {
+                $return[$key] = $_SESSION['user']->getOptions($key);
+            }
+            ajax::success($return);
+        } else {
+            ajax::success($_SESSION['user']->getOptions(init('key')));
+        }
     }
 
     if (init('action') == 'testLdapConneciton') {
