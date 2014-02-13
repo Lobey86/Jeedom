@@ -30,10 +30,10 @@ $deviceConfiguration = array(
                 'configuration' => array('class' => '0x26', 'value' => 'Set(#slider#)')
             ),
             array('name' => 'On', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
-                'configuration' => array('class' => '0x25', 'value' => 'Set(255)')
+                'configuration' => array('class' => '0x26', 'value' => 'Set(99)')
             ),
             array('name' => 'Off', 'type' => 'action', 'subtype' => 'other', 'isVisible' => 1,
-                'configuration' => array('class' => '0x25', 'value' => 'Set(0)')
+                'configuration' => array('class' => '0x26', 'value' => 'Set(0)')
             ),
             array('name' => 'Etat', 'type' => 'info', 'subtype' => 'numeric', 'unite' => '%', 'isVisible' => 0, 'eventOnly' => 1,
                 'configuration' => array('class' => '0x26', 'value' => 'data.level', 'minValue' => 0, 'minValue' => 100)

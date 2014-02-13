@@ -7,7 +7,7 @@
                 range: "min",
                 min: '#minValue#',
                 max: '#maxValue#',
-                value: '#state#',
+                value: parseInt('#state#'),
                 change: function(event, ui) {
                     execCmd('#id#', {slider: ui.value});
                 }

@@ -147,6 +147,7 @@ class zwave extends eqLogic {
                                 foreach ($eqLogic->getCmd() as $eqLogic_cmd) {
                                     foreach ($link_cmds as $cmd_id => $link_cmd) {
                                         if ($link_cmd == $eqLogic_cmd->getName()) {
+                                            $cmd = null;
                                             $cmd = cmd::byId($cmd_id);
                                             if (is_object($cmd)) {
                                                 $cmd->setValue($eqLogic_cmd->getId());

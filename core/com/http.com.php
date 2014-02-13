@@ -50,7 +50,7 @@ class com_http {
                     sleep(1);
                 } else {
                     if ($_logErrorIfNoResponse) {
-                        log::add('http.com', 'Error', 'Erreur curl : ' . curl_error($ch) . ' sur la commande ' . $this->url . ' après ' . $nbRetry . ' relance');
+                        log::add('http.com', 'error', 'Erreur curl : ' . curl_error($ch) . ' sur la commande ' . $this->url . ' après ' . $nbRetry . ' relance');
                     }
                     throw new Exception('Echec de la requete http : ' . $this->url, 404);
                 }
