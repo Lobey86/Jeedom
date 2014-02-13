@@ -168,11 +168,13 @@ try {
         jeedom::start();
         echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
     } else {
-        echo "Jeedom va être installé voulez vous continuer ? [o/N] ";
-        if (trim(fgets(STDIN)) !== 'o') {
-            echo "Installation de Jeedom est annulée\n";
-            echo "[END UPDATE SUCCESS]\n";
-            exit(0);
+        if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+            echo "Jeedom va être installé voulez vous continuer ? [o/N] ";
+            if (trim(fgets(STDIN)) !== 'o') {
+                echo "Installation de Jeedom est annulée\n";
+                echo "[END UPDATE SUCCESS]\n";
+                exit(0);
+            }
         }
         echo "\nInstallation de Jeedom " . getVersion('jeedom') . "\n";
         $sql = file_get_contents(dirname(__FILE__) . '/install.sql');

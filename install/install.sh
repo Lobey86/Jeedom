@@ -79,7 +79,7 @@ echo "********************************************************\n"
 sudo cp core/config/common.config.sample.php core/config/common.config.php
 sudo sed -i -e "s/#PASSWORD#/${bdd_password}/g" core/config/common.config.php 
 sudo chown www-data:www-data core/config/common.config.php
-sudo php install/install.php
+sudo php install/install.php mode=force
 
 
 echo "********************************************************\n"
