@@ -21,7 +21,7 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class pincode extends eqLogic {
 
-    public function preSave() {
+    public function preUpdate() {
         if ($this->getConfiguration('code') == '') {
             throw new Exception('Le code ne peut etre vide.');
         }
@@ -33,7 +33,7 @@ class pincode extends eqLogic {
         }
     }
 
-    public function postSave() {
+    public function postUpdate() {
         $cmd_info = $this->getCmdInfo();
         if (!is_object($cmd_info)) {
             $cmd_info = new pincodeCmd();
