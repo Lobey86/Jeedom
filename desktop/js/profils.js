@@ -26,14 +26,14 @@ $(function() {
 });
 
 function saveProfils() {
-    var profil = $('body').getValues('.profilsKey');
-    profil = profil[0];
+    var user = $('body').getValues('.userAttr');
+    user = user[0];
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
-            action: "saveProfil",
-            profil: json_encode(profil)
+            action: "saveUser",
+            user: json_encode(user)
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -51,13 +51,13 @@ function saveProfils() {
 }
 
 function loadProfil() {
-    var profil = $('body').getValues('.profilsKey');
+    var profil = $('body').getValues('.userAttr');
     profil = profil[0];
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
-            action: "getProfil",
+            action: "getUser",
             key: json_encode(profil)
         },
         dataType: 'json',
@@ -69,7 +69,7 @@ function loadProfil() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('body').setValues(data.result, '.profilsKey');
+            $('body').setValues(data.result, '.userAttr');
         }
     });
 }

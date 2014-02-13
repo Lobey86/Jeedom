@@ -21,7 +21,7 @@ $homePage = array(
 <legend>Profile</legend>
 
 <div class="panel-group" id="accordionConfiguration">
-
+<input style="display: none;" class="userAttr form-control" data-l1key="id" />
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">
@@ -37,7 +37,7 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Notifier des évenements</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" data-l1key="notifyEvent">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyEvent">
                                     <?php
                                     foreach ($notifyTheme as $key => $value) {
                                         echo "<option value='$key'>$value</option>";
@@ -49,7 +49,7 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Notifier du lancement des scénarios</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" data-l1key="notifyLaunchScenario">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyLaunchScenario">
                                     <?php
                                     foreach ($notifyTheme as $key => $value) {
                                         echo "<option value='$key'>$value</option>";
@@ -61,7 +61,7 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Notifier nouveau message</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" data-l1key="notifyNewMessage">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyNewMessage">
                                     <?php
                                     foreach ($notifyTheme as $key => $value) {
                                         echo "<option value='$key'>$value</option>";
@@ -91,7 +91,7 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Page d'accueils</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" data-l1key="homePage">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="homePage">
                                     <?php
                                     foreach ($homePage as $key => $value) {
                                         echo "<option value='$key'>$value</option>";
@@ -105,7 +105,7 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Vue par default(desktop)</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" data-l1key="defaultDesktopView">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDesktopView">
                                     <?php
                                     foreach (view::all() as $view) {
                                         echo "<option value='" . $view->getId() . "'>" . $view->getName() . "</option>";
@@ -118,7 +118,7 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Objet par default(desktop)</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" data-l1key="defaultDashboardObject">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardObject">
                                     <?php
                                     echo "<option value='global'>Global</option>";
                                     foreach (object::all() as $object) {

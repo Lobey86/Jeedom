@@ -163,7 +163,7 @@ if ($plugin != '') {
                                         }
                                         ?>
                                         <li class="divider"></li>
-                                        <li><a href="core/php/authentification.php?logout"><i class="fa fa-signout"></i> Se déconnecter</a></li>
+                                        <li><a href="core/php/authentification.php?logout"><i class="fa fa-sign-out"></i> Se déconnecter</a></li>
                                     </ul>
                                 </li>
                                 <li>

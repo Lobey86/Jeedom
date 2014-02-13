@@ -76,13 +76,13 @@ $(function() {
 
     $('#bt_expertMode').on('click', function() {
         if ($(this).attr('state') == 1) {
-            var value = {expertMode : 0};
+            var value = {options: {expertMode: 0}};
             $(this).attr('state', 0);
             $(this).find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
             $('.expertModeDisable').attr('disabled', false);
             $('.expertModeHidden').hide();
         } else {
-            var value = {expertMode : 1};
+            var value = {options: {expertMode: 1}};
             $(this).attr('state', 1);
             $(this).find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
             $('.expertModeDisable').attr('disabled', true);
@@ -93,8 +93,8 @@ $(function() {
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/user.ajax.php", // url du fichier php
             data: {
-                action: "saveProfil",
-                profil: json_encode(value)
+                action: "saveUser",
+                user: json_encode(value)
             },
             dataType: 'json',
             global: false,
