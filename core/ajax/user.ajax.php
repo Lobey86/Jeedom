@@ -71,13 +71,34 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'saveProfil') {
-        $values = json_decode(init('value'), true);
-        foreach ($values as $value) {
-            $_SESSION['user']->setOptions($value['key'], $value['value']);
+    if (init('action') == 'saveUser') {
+        if (!isConnect()) {
+            throw new Exception('401 Unauthorized');
+        }
+        $user_json = json_decode(init('user'), true);
+        if (isset($user_json['id']) && $user_json['id'] != $_SESSION['user']->getId()) {
+            throw new Exception('401 unautorized');
+        }
+        $login = $_SESSION['user']->getLogin();
+        $rights = $_SESSION['user']->getRights();
+        $password = $_SESSION['user']->getPassword();
+        utils::a2o($_SESSION['user'], $user_json);
+        foreach ($rights as $right => $value) {
+            $_SESSION['user']->setRights($right, $value);
+        }
+        $_SESSION['user']->setLogin($login);
+        if ($password != $_SESSION['user']->getPassword()) {
+            $_SESSION['user']->setPassword(sha1($_SESSION['user']->getPassword()));
         }
         $_SESSION['user']->save();
         ajax::success();
+    }
+
+    if (init('action') == 'getUser') {
+        if (!isConnect()) {
+            throw new Exception('401 Unauthorized');
+        }
+        ajax::success(utils::o2a($_SESSION['user']));
     }
 
     if (init('action') == 'testLdapConneciton') {

@@ -21,7 +21,7 @@ $homePage = array(
 <legend>Profile</legend>
 
 <div class="panel-group" id="accordionConfiguration">
-
+    <input style="display: none;" class="userAttr form-control" data-l1key="id" />
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">
@@ -37,14 +37,10 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Notifier des évenements</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" key="notifyEvent">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyEvent">
                                     <?php
                                     foreach ($notifyTheme as $key => $value) {
-                                        if ($_SESSION['user']->getOptions('notifyEvent') == $key) {
-                                            echo "<option value='$key' selected>$value</option>";
-                                        } else {
-                                            echo "<option value='$key'>$value</option>";
-                                        }
+                                        echo "<option value='$key'>$value</option>";
                                     }
                                     ?>
                                 </select>
@@ -53,14 +49,10 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Notifier du lancement des scénarios</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" key="notifyLaunchScenario">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyLaunchScenario">
                                     <?php
                                     foreach ($notifyTheme as $key => $value) {
-                                        if ($_SESSION['user']->getOptions('notifyLaunchScenario') == $key) {
-                                            echo "<option value='$key' selected>$value</option>";
-                                        } else {
-                                            echo "<option value='$key'>$value</option>";
-                                        }
+                                        echo "<option value='$key'>$value</option>";
                                     }
                                     ?>
                                 </select>
@@ -69,14 +61,10 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Notifier nouveau message</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" key="notifyNewMessage">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyNewMessage">
                                     <?php
                                     foreach ($notifyTheme as $key => $value) {
-                                        if ($_SESSION['user']->getOptions('notifyNewMessage') == $key) {
-                                            echo "<option value='$key' selected>$value</option>";
-                                        } else {
-                                            echo "<option value='$key'>$value</option>";
-                                        }
+                                        echo "<option value='$key'>$value</option>";
                                     }
                                     ?>
                                 </select>
@@ -103,14 +91,10 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Page d'accueils</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" key="homePage">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="homePage">
                                     <?php
                                     foreach ($homePage as $key => $value) {
-                                        if ($_SESSION['user']->getOptions('homePage', 'plan') == $key) {
-                                            echo "<option value='$key' selected>$value</option>";
-                                        } else {
-                                            echo "<option value='$key'>$value</option>";
-                                        }
+                                        echo "<option value='$key'>$value</option>";
                                     }
                                     ?>
                                 </select>
@@ -121,14 +105,10 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Vue par default(desktop)</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" key="defaultDesktopView">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDesktopView">
                                     <?php
                                     foreach (view::all() as $view) {
-                                        if ($_SESSION['user']->getOptions('defaultDesktopView') == $view->getId()) {
-                                            echo "<option value='" . $view->getId() . "' selected>" . $view->getName() . "</option>";
-                                        } else {
-                                            echo "<option value='" . $view->getId() . "'>" . $view->getName() . "</option>";
-                                        }
+                                        echo "<option value='" . $view->getId() . "'>" . $view->getName() . "</option>";
                                     }
                                     ?>
                                 </select>
@@ -138,19 +118,12 @@ $homePage = array(
                         <div class="form-group">
                             <label class="col-lg-1 control-label">Objet par default(desktop)</label>
                             <div class="col-lg-3">
-                                <select class="profilsKey form-control" key="defaultDashboardObject">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardObject">
                                     <?php
-                                    if ($_SESSION['user']->getOptions('defaultDashboardObject') == 'global') {
-                                        echo "<option value='global' selected>Global</option>";
-                                    } else {
-                                        echo "<option value='global'>Global</option>";
-                                    }
+                                    echo "<option value='global'>Global</option>";
                                     foreach (object::all() as $object) {
-                                        if ($_SESSION['user']->getOptions('defaultDashboardObject') == $object->getId()) {
-                                            echo "<option value='" . $object->getId() . "' selected>" . $object->getName() . "</option>";
-                                        } else {
-                                            echo "<option value='" . $object->getId() . "'>" . $object->getName() . "</option>";
-                                        }
+
+                                        echo "<option value='" . $object->getId() . "'>" . $object->getName() . "</option>";
                                     }
                                     ?>
                                 </select>
@@ -162,9 +135,34 @@ $homePage = array(
         </div>
     </div>
 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_other">
+                    Autres
+                </a>
+            </h3>
+        </div>
+        <div id="config_other" class="panel-collapse collapse">
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label">Mot de passe</label>
+                            <div class="col-lg-3">
+                                <input type="password" class="userAttr form-control" data-l1key="password" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <br/> 
     <div class="form-actions">
-        <a class="btn btn-success" id="bt_saveProfils"><i class="fa fa-check-circle icon-white" style="position:relative;left:-5px;top:1px"></i>Sauvegarder</a>
+        <a class="btn btn-success" id="bt_saveProfils"><i class="fa fa-check-circle icon-white"></i>Sauvegarder</a>
     </div>
 </div>
 <?php include_file("desktop", "profils", "js"); ?>

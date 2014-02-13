@@ -118,32 +118,4 @@ include_file('3rdparty', 'codemirror/mode/javascript/javascript', 'js');
     </div>
 </div>
 
-<div class="modal fade" id="md_addWidget">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal">×</button>
-                <h3>Ajouter d'un nouveau widget</h3>
-            </div>
-            <div class="modal-body">
-                <div style="display: none;" id="div_addWidgetAlert"></div>
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label">Nom du widget</label>
-                            <div class="col-lg-8">
-                                <input class="form-control widgetAttr" data-l1key="name" type="text" placeholder="Nom du widget"/>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> Annuler</a>
-                <a class="btn btn-success widgetAction" data-action="newAdd"><i class="fa fa-check-circle icon-white"></i> Enregistrer</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <?php include_file('desktop', 'widget', 'js', 'widget'); ?>

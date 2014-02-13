@@ -222,34 +222,6 @@ sendVarToJS('userScriptDir', getRootPath() . '/' . config::byKey('userScriptDir'
     </div>
 </div>
 
-<div class="modal fade" id="md_newUserScript">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal">×</button>
-                <h3>Ajouter un script</h3>
-            </div>
-            <div class="modal-body">
-                <div style="display: none;" id="div_newUserScriptAlert"></div>
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label">Nom du script</label>
-                            <div class="col-lg-8">
-                                <input class="form-control" id="in_newUserScriptName" type="text" placeholder="Nom du script"/>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> Annuler</a>
-                <a class="btn btn-success" id="bt_addUserNewScript"><i class="fa fa-check-circle icon-white"></i> Valider</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div id="md_browseScriptFile" title="Parcourir...">
     <div style="display: none;" id="div_browseScriptFileAlert"></div>
     <div id="div_browseScriptFileTree"></div>

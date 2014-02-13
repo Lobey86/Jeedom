@@ -61,13 +61,11 @@ $(function() {
 
 
     $('.eqLogicAction[data-action=add]').on('click', function() {
-        $.hideAlert();
-        $('#md_addEqLogic .eqLogicAttr').value('');
-        $('#md_addEqLogic').modal('show');
-    });
-
-    $("#md_addEqLogic .eqLogicAction[data-action=newAdd]").on('click', function() {
-        eqLogic.save(eqType, $('#md_addEqLogic').getValues('.eqLogicAttr'));
+        bootbox.prompt("Nom de l'équipement ?", function(result) {
+            if (result !== null) {
+                eqLogic.save(eqType, [{name: result}]);
+            }
+        });
     });
 
     /**************************CMD*********************************************/
