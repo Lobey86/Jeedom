@@ -107,4 +107,4 @@ Jeedom réalisé par Loïc Gevrey
 
     4) Configuration de jeedom
         a) Aller dans Admin puis récupérer la clef api
-        b) Ajouter cette ligne à crontab :  "* * * * * * su --shell=/bin/bash - www-data -c "/usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php api=#CLEF API#" >> /dev/null 
+        b) Ajouter cette ligne à crontab :  "* * * * * * su --shell=/bin/bash - www-data -c "/usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php" >> /dev/null "
