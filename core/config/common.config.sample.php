@@ -28,7 +28,7 @@ $CONFIG = array(
         'port' => 3306,
         'dbname' => 'jeedom',
         'username' => 'jeedom',
-        'password' => 'TODO',
+        'password' => '#PASSWORD#',
     )
 );
 ?>
