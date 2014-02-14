@@ -310,7 +310,7 @@ class scenario {
     }
 
     public function isDue() {
-        if ($this->getLastLaunch() == '') {
+        if ($this->getLastLaunch() == '' || $this->getLastLaunch() == '0000-00-00 00:00:00') {
             return true;
         }
         $last = strtotime($this->getLastLaunch());

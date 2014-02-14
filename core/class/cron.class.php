@@ -209,7 +209,7 @@ class cron {
 
     public function isDue() {
         //if never sent
-        if ($this->getLastRun() == '') {
+        if ($this->getLastRun() == '' || $this->getLastRun() == '0000-00-00 00:00:00') {
             return true;
         }
         //check if already sent on that minute 
@@ -234,8 +234,8 @@ class cron {
                 }
                 return true;
             }
-        } catch (Exception $exc) {
-            log::add('cron', 'error', 'Expression cron non valide : ' . $this->getSchedule());
+        } catch (Exception $e) {
+            log::add('cron', 'error', 'Expression cron non valide : ' . $this->getSchedule().'. Détails : '.$e->getMessage());
             return false;
         }
         return false;
