@@ -16,6 +16,8 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+date_default_timezone_set('Europe/Amsterdam');
+
 require_once dirname(__FILE__) . '/utils.inc.php';
 include_file('core', 'common', 'config');
 include_file('core', 'version', 'config');
