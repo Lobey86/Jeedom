@@ -35,6 +35,7 @@ class market {
     private $downloaded;
     private $status;
     private $author;
+    private $logicalId;
 
     /*     * ***********************Methode static*************************** */
 
@@ -53,6 +54,7 @@ class market {
         $market->setStatus($_arrayMarket['status']);
         $market->setAuthor($_arrayMarket['author']);
         $market->setChangelog($_arrayMarket['changelog']);
+        $market->setLogicalId($_arrayMarket['logicalId']);
         return $market;
     }
 
@@ -85,8 +87,8 @@ class market {
     /*     * *********************Methode d'instance************************* */
 
     public function install() {
-        $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getName() . '.zip';
-        $pluginDir = dirname(__FILE__) . '/../../plugins/' . $this->getName();
+        $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getLogicalId() . '.zip';
+        $pluginDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
         $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId();
         file_put_contents($tmp, fopen($url, 'r'));
         if (!file_exists($tmp)) {
@@ -106,17 +108,17 @@ class market {
             switch ($this->getType()) {
                 case 'plugin' :
                     try {
-                        $plugin = new plugin($this->getName());
+                        $plugin = new plugin($this->getLogicalId());
                     } catch (Exception $e) {
                         $this->remove();
                         throw new Exception('Impossible d\'installer le plugin. Le nom du plugin est différent de l\'ID ou le plugin n\'est pas correctement formé. Veuillez contacter l\'auteur.');
                     }
-                    if (config::byKey('installVersionDate', $this->getName()) != '') {
+                    if (config::byKey('installVersionDate', $this->getLogicalId()) != '') {
                         if (is_object($plugin) && $plugin->isActive()) {
                             $plugin->setIsEnable(1);
                         }
                     }
-                    config::save('installVersionDate', $this->getDatetime(), $this->getName());
+                    config::save('installVersionDate', $this->getDatetime(), $this->getLogicalId());
                     break;
             }
         } else {
@@ -125,11 +127,11 @@ class market {
     }
 
     public function remove() {
-        $pluginDir = dirname(__FILE__) . '/../../plugins/' . $this->getName();
+        $pluginDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
         if (file_exists($pluginDir)) {
             rrmdir($pluginDir);
         }
-        config::remove('installVersionDate', $this->getName());
+        config::remove('installVersionDate', $this->getLogicalId());
     }
 
     /*     * **********************Getteur Setteur*************************** */
@@ -229,13 +231,21 @@ class market {
     public function setAuthor($author) {
         $this->author = $author;
     }
-    
+
     public function getChangelog() {
         return $this->changelog;
     }
 
     public function setChangelog($changelog) {
         $this->changelog = $changelog;
+    }
+
+    public function getLogicalId() {
+        return $this->logicalId;
+    }
+
+    public function setLogicalId($logicalId) {
+        $this->logicalId = $logicalId;
     }
 
 }
