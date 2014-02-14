@@ -26,9 +26,15 @@ if (config::byKey('installVersionDate', $market->getName()) != '' && config::byK
         <div class="col-md-5">
 
             <div class="form-group">
-                <label class="col-lg-4 control-label">Nom</label>
+                <label class="col-lg-4 control-label">ID</label>
                 <div class="col-lg-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
+                    <span class="label label-success marketAttr" data-l1key="logicalId" placeholder="Nom"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Nom</label>
+                <div class="col-lg-8">
                     <span class="label label-success marketAttr" data-l1key="name" placeholder="Nom"></span>
                 </div>
             </div>

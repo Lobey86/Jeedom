@@ -9,6 +9,7 @@ if (!isConnect('admin')) {
     <thead>
         <tr>
             <th>Type</th>
+            <th>ID</th>
             <th>Nom</th>
             <th>Auteur</th>
             <th>Catégorie</th>
@@ -22,6 +23,7 @@ if (!isConnect('admin')) {
         foreach (market::byStatusAndType('Validé', 'plugin') as $market) {
             echo '<tr data-market_id="' . $market->getId() . '" class="cursor">';
             echo '<td>' . $market->getType() . '</td>';
+            echo '<td>' . $market->getLogicalId() . '</td>';
             echo '<td>' . $market->getName() . '</td>';
             echo '<td>' . $market->getAuthor() . '</td>';
             echo '<td>' . $market->getCategorie() . '</td>';
