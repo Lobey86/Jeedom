@@ -1,19 +1,19 @@
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $(function() {
     $(".li_plugin").on('click', function(event) {
@@ -28,8 +28,12 @@ $(function() {
         togglePlugin($(this).attr('data-plugin_id'), $(this).attr('data-state'));
     });
 
-    if (select_id != -1) {
-        $('#ul_plugin .li_plugin[data-plugin_id=' + select_id + ']').click();
+    if (is_numeric(getUrlVars('id'))) {
+        if ($('#ul_plugin .li_plugin[data-plugin_id=' + getUrlVars('id') + ']').length != 0) {
+            $('#ul_plugin .li_plugin[data-plugin_id=' + getUrlVars('id') + ']').click();
+        } else {
+            $('#ul_plugin .li_plugin:first').click();
+        }
     } else {
         $('#ul_plugin .li_plugin:first').click();
     }
@@ -37,6 +41,11 @@ $(function() {
     $("#bt_savePluginConfig").on('click', function(event) {
         savePluginConfig();
         return false;
+    });
+
+    $('#bt_displayMarket').on('click', function() {
+        $('#md_modal').dialog({title: "Market Jeedom"});
+        $('#md_modal').load('index.php?v=d&modal=market.list').dialog('open');
     });
 });
 

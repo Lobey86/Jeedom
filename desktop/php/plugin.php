@@ -10,8 +10,11 @@ sendVarToJS('select_id', init('id', '-1'));
     <div class="col-lg-2">
         <div class="bs-sidebar affix">
             <ul id="ul_plugin" class="nav nav-list bs-sidenav fixnav">
+                <center>
+                    <a class="btn btn-success btn-xs tooltips cursor" id="bt_displayMarket" style="display: inline-block;"><i class="fa fa fa-eye"></i> Télécharger du market</a>
+                </center>
                 <li class="nav-header">Liste plugin</li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="form-control input-sm" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (plugin::listPlugin() as $plugin) {
                     echo '<li class="cursor li_plugin" data-pluginPath="' . $plugin->getFilepath() . '" data-plugin_id="' . $plugin->getId() . '"><a >';

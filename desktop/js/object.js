@@ -33,17 +33,12 @@ $(function() {
     });
 
     $("#bt_addObject").on('click', function(event) {
-        $.hideAlert();
-        $('#in_addObjectName').value('');
-        $('#md_addObject').modal('show');
-        return false;
-    });
-
-    $("#bt_addObjetSave").on('click', function(event) {
-        var object = {name: $('#in_addObjectName').value(), isVisible: 1};
-        $('#md_addObject').modal('hide');
-        saveObject(object);
-        return false;
+        bootbox.prompt("Nom de l'objet ?", function(result) {
+            if (result !== null) {
+                var object = {name: result, isVisible: 1};
+                saveObject(object);
+            }
+        });
     });
 
     $("#bt_saveObject").on('click', function(event) {

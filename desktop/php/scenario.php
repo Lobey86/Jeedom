@@ -178,32 +178,6 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
     </div>
 </div>
 
-<div class="modal fade" id="md_addScenario">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal">×</button>
-                <h3>Ajouter un scénario</h3>
-            </div>
-            <div class="modal-body">
-                <div style="display: none;" id="div_addScenarioAlert"></div>
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-lg-4 control-label" for="inputEmail">Nom</label>
-                        <div class="col-lg-8">
-                            <input class="form-control" type="text"  id="in_addScenarioName" size="16" placeholder="Nom du scénario"/>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> Annuler</a>
-                <a class="btn btn-success" id="bt_addScenarioSave"><i class="fa fa-check-circle"></i> Enregistrer</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="md_copyScenario">
     <div class="modal-dialog">
         <div class="modal-content">

@@ -71,32 +71,4 @@ sendVarToJS('select_id', init('id', '-1'));
     </div>
 </div>
 
-<div class="modal fade" id="md_addObject">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal">×</button>
-                <h3>Ajouter un objet</h3>
-            </div>
-            <div class="modal-body">
-                <div style="display: none;" id="div_addObjetAlert"></div>
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label">Nom de l'objet</label>
-                            <div class="col-lg-8">
-                                <input class="form-control" type="text"  id="in_addObjectName" placeholder="Nom de l'objet"/>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> Annuler</a>
-                <a class="btn btn-primary" id="bt_addObjetSave"><i class="fa fa-check-circle"></i> Enregistrer</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <?php include_file("desktop", "object", "js"); ?>

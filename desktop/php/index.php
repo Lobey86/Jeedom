@@ -195,6 +195,7 @@ if ($plugin != '') {
                     }
                     ?>
                     <div id="md_modal"></div>
+                    <div id="md_modal2"></div>
                     <div id="md_pageHelp"></div>
                 </main>
             </div>
