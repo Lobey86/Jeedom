@@ -205,7 +205,6 @@ class sms extends eqLogic {
                 self::sendSMS($_phoneNumber, $message);
             }
         } else {
-            echo $_message . "\n";
             if ($this->checkPin()) {
                 $_message = substr($_message, 0, 160);
                 $this->deviceOpen();
@@ -255,7 +254,7 @@ class sms extends eqLogic {
             $this->sendMessage("AT+CPIN={$pin}\r");
             $out = $this->readPort();
             $this->deviceClose();
-            sleep(20);
+            sleep(45);
         }
 
         switch ($out) {
