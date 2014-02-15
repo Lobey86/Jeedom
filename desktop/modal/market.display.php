@@ -126,9 +126,6 @@ if (config::byKey('installVersionDate', $market->getName()) != '' && config::byK
 sendVarToJS('market_display_info', utils::o2a($market));
 ?>
 <script>
-
-
-
     $('body').setValues(market_display_info, '.marketAttr');
 
     $('#bt_installFromMarket').on('click', function() {
