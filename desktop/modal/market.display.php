@@ -121,8 +121,15 @@ if (config::byKey('installVersionDate', $market->getName()) != '' && config::byK
     </div> 
 </form>
 
+
+<?php
+sendVarToJS('market_display_info', utils::o2a($market));
+?>
 <script>
-    $('body').setValues(json_decode('<?php echo json_encode(utils::o2a($market)) ?>'), '.marketAttr');
+
+
+
+    $('body').setValues(market_display_info, '.marketAttr');
 
     $('#bt_installFromMarket').on('click', function() {
         var id = $(this).attr('data-market_id');
