@@ -191,7 +191,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                             <a class="btn btn-default form-control" id="bt_genKeyAPI">Générer</a>
                                         </div>
                                         <div class="alert-info col-lg-6" style="padding: 10px;">
-                                            Activation du cron : ajouter "<em>* * * * * * php -f /var/www/jeedom/ressources/php/jeeCron.php api=#CLEFAPI# >> /var/log/cron.log </em>" à la crontab
+                                            Activation du cron : ajouter <em>* * * * * su --shell=/bin/bash - www-data -c "/usr/bin/php #PATH_TO_JEEDOM#/jeedom/core/php/jeeCron.php" >> /dev/null 2>&1</em> à la crontab
                                         </div>
                                     </div>
                                     <div class="form-group">
