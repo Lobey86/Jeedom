@@ -62,6 +62,7 @@ echo "********************************************************\n"
 echo "*             Copie des fichiers de Jeedom             *\n"
 echo "********************************************************\n"
 sudo -u www-data -H git clone --depth=1 -b stable https://github.com/zoic21/jeedom.git
+sudo chmod 775 -R /usr/share/nginx/www
 cd jeedom
 
 echo "********************************************************\n"
@@ -85,7 +86,11 @@ sudo php install/install.php mode=force
 echo "********************************************************\n"
 echo "*                Mise en place du cron                 *\n"
 echo "********************************************************\n"
-echo '* * * * * * su --shell=/bin/bash - www-data -c "/usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php" >> /dev/null' > /etc/crontab
+
+croncmd="su --shell=/bin/bash - www-data -c '/usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php' >> /dev/null"
+cronjob="* * * * * $croncmd"
+( crontab -l | grep -v "$croncmd" ; echo "$cronjob" ) | crontab -
+
 
 echo "********************************************************\n"
 echo "*                Configuration de nginx                *\n"
