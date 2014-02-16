@@ -1,3 +1,15 @@
 nbproject/
 test.php
 core/config/common.config.php
+plugins/weather
+plugins/widget
+plugins/xbmc
+plugins/weather
+plugins/gCalendar
+plugins/geoloc
+plugins/jeenode
+plugins/pincode
+plugins/pushingBox
+plugins/sms
+plugins/sarah
+publins/xpl

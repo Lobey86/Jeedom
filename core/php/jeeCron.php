@@ -151,7 +151,6 @@ if (init('cron_id') != '') {
             die('Tous les crons sont actuellement désactivés');
         }
 
-
         foreach (cron::all() as $cron) {
             $cron->refresh();
             $datetime = date('Y-m-d H:i:s');
