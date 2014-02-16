@@ -107,6 +107,9 @@ class cron {
     }
 
     public function remove() {
+        if ($this->running()) {
+            $this->stop();
+        }
         return DB::remove($this);
     }
 
@@ -235,7 +238,7 @@ class cron {
                 return true;
             }
         } catch (Exception $e) {
-            log::add('cron', 'error', 'Expression cron non valide : ' . $this->getSchedule().'. Détails : '.$e->getMessage());
+            log::add('cron', 'error', 'Expression cron non valide : ' . $this->getSchedule() . '. Détails : ' . $e->getMessage());
             return false;
         }
         return false;
