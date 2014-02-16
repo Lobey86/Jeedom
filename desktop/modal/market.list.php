@@ -2,6 +2,16 @@
 if (!isConnect('admin')) {
     throw new Exception('401 Unauthorized');
 }
+
+$markets = market::byStatus('Validé');
+
+if (config::byKey('market::apikey') != '') {
+    foreach (market::byMe() as $myMarket){
+       if($myMarket->getStatus() != 'Validé'){
+           $markets[] = $myMarket;
+       }
+    }
+}
 ?>
 
 
@@ -20,7 +30,7 @@ if (!isConnect('admin')) {
     </thead>
     <tbody>
         <?php
-        foreach (market::byStatusAndType('Validé', 'plugin') as $market) {
+        foreach ($markets as $market) {
             echo '<tr data-market_id="' . $market->getId() . '" class="cursor">';
             echo '<td>' . $market->getType() . '</td>';
             echo '<td>' . $market->getLogicalId() . '</td>';

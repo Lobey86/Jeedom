@@ -580,7 +580,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">API key</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" data-l1key="market::key" />
+                                                <input type="text"  class="configKey form-control" data-l1key="market::apikey" />
                                             </div>
                                         </div>
                                     </fieldset>

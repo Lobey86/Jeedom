@@ -66,6 +66,19 @@ class market {
             throw new Exception($market->getError());
         }
     }
+    
+     public static function byMe() {
+        $market = market::getJsonRpc();
+        if ($market->sendRequest('market::byAuthor', array())) {
+            $return = array();
+            foreach ($market->getResult() as $result) {
+                $return[] = self::construct($result);
+            }
+            return $return;
+        } else {
+            throw new Exception($market->getError());
+        }
+    }
 
     public static function byStatusAndType($_status, $_type) {
         $market = market::getJsonRpc();
@@ -80,8 +93,21 @@ class market {
         }
     }
 
+    public static function byStatus($_status) {
+        $market = market::getJsonRpc();
+        if ($market->sendRequest('market::byStatus', array('status' => $_status))) {
+            $return = array();
+            foreach ($market->getResult() as $result) {
+                $return[] = self::construct($result);
+            }
+            return $return;
+        } else {
+            throw new Exception($market->getError());
+        }
+    }
+
     public static function getJsonRpc() {
-        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php');
+        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'));
     }
 
     /*     * *********************Methode d'instance************************* */
