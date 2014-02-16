@@ -158,6 +158,42 @@ class plugin {
         return true;
     }
 
+    public function status() {
+        $return = array();
+        $return['market'] = 0;
+        $updateDateTime = config::byKey('installVersionDate', $this->getId());
+
+        try {
+            $market = market::byLogicalId($this->getId());
+
+            if (!is_object($market)) {
+                $return['status'] = 'depreciated';
+            } else {
+                $return['market'] = 1;
+            }
+            if ($market->getStatus() == 'Refusé') {
+                $return['status'] = 'depreciated';
+            }
+            if ($market->getStatus() == 'A valider') {
+                $return['status'] = 'ok';
+            }
+            if ($market->getStatus() == 'Validé') {
+                if ($updateDateTime < $market->getDatetime()) {
+                    $return['status'] = 'update';
+                } else {
+                    $return['status'] = 'ok';
+                }
+            }
+        } catch (Exception $e) {
+            $return['status'] = 'ok';
+        }
+
+        if (!$this->isActive()) {
+            $return['status'] = 'disable';
+        }
+        return $return;
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {

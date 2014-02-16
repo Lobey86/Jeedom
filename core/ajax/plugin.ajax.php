@@ -29,20 +29,12 @@ try {
             throw new Exception('401 Unauthorized');
         }
         $plugin = new plugin(init('pluginPath'));
-        $return = array();
-        $return['id'] = $plugin->getId();
-        $return['name'] = $plugin->getName();
-        $return['description'] = $plugin->getDescription();
-        $return['licence'] = $plugin->getLicence();
-        $return['author'] = $plugin->getAuthor();
-        $return['require'] = $plugin->getRequire();
-        $return['installation'] = $plugin->getInstallation();
-        $return['version'] = $plugin->getVersion();
-        $return['category'] = $plugin->getCategory();
-        $return['filepath'] = $plugin->getFilepath();
+
+        $return = utils::o2a($plugin);
         $return['activate'] = $plugin->isActive();
         $return['configurationPath'] = $plugin->getPathToConfigurationById();
         $return['checkVersion'] = version_compare(getVersion('jeedom'), $plugin->getRequire());
+        $return['status'] = $plugin->status();
         ajax::success($return);
     }
 

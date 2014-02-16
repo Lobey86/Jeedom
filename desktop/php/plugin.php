@@ -17,10 +17,20 @@ sendVarToJS('select_id', init('id', '-1'));
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control input-sm" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (plugin::listPlugin() as $plugin) {
-                    echo '<li class="cursor li_plugin" data-pluginPath="' . $plugin->getFilepath() . '" data-plugin_id="' . $plugin->getId() . '"><a >';
+                    $status = $plugin->status();
+                    echo '<li class="cursor li_plugin" data-pluginPath="' . $plugin->getFilepath() . '" data-plugin_id="' . $plugin->getId() . '"><a>';
 
                     echo '<i class="' . $plugin->getIcon() . '"></i> ' . $plugin->getName();
                     if ($plugin->isActive() == 1) {
+                        if ($status['status'] == 'depreciated') {
+                            echo '<i class="fa fa-times pull-right" title="Plugin non maintenu ou supprimé"></i>';
+                        }
+                        if ($status['status'] == 'ok') {
+                            echo '<i class="fa fa-check pull-right" title="Plugin à jour"></i>';
+                        }
+                        if ($status['status'] == 'update') {
+                            echo '<i class="fa fa-refresh pull-right" title="Mise à jour nécessaire"></i>';
+                        }
                         echo '<span class="binary green pull-right"></span> ';
                     } else {
                         echo '<span class="binary red pull-right"></span> ';
@@ -33,8 +43,9 @@ sendVarToJS('select_id', init('id', '-1'));
     </div>
     <div class="col-lg-10" id="div_confPlugin" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <legend>
-            <span id="span_plugin_toggleState"></span>
             <span id="span_plugin_name" ></span> (<span id="span_plugin_id"></span>)
+             <span id="span_plugin_toggleState" class="pull-right"></span>
+             <span id="span_plugin_viewMarket" class="pull-right"></span>
         </legend>
         <div class="alert alert-info">
             <h5 style="display: inline-block;font-weight: bold;">Description : </h5> <span id="span_plugin_description"></span>

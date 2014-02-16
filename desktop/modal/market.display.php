@@ -3,7 +3,16 @@ if (!isConnect('admin')) {
     throw new Exception('401 Unauthorized');
 }
 
-$market = market::byId(init('id'));
+
+if (init('id') != '') {
+    $market = market::byId(init('id'));
+}
+if (init('logicalId') != '') {
+    $market = market::byLogicalId(init('logicalId'));
+}
+if (!isset($market)) {
+    throw new Exception('404 not found');
+}
 $update = '';
 
 if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config::byKey('installVersionDate', $market->getLogicalId()) < $market->getDatetime()) {
@@ -132,7 +141,7 @@ sendVarToJS('market_display_info', utils::o2a($market));
 ?>
 <script>
     $('body').setValues(market_display_info, '.marketAttr');
-
+    
     $('#bt_installFromMarket').on('click', function() {
         var id = $(this).attr('data-market_id');
         $.ajax({// fonction permettant de faire de l'ajax
@@ -156,7 +165,7 @@ sendVarToJS('market_display_info', utils::o2a($market));
             }
         });
     });
-
+    
     $('#bt_removeFromMarket').on('click', function() {
         var id = $(this).attr('data-market_id');
         $.ajax({// fonction permettant de faire de l'ajax

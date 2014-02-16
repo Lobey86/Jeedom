@@ -64,6 +64,15 @@ class market {
             throw new Exception($market->getError());
         }
     }
+    
+    public static function byLogicalId($_logicalId) {
+        $market = market::getJsonRpc();
+        if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId))) {
+            return self::construct($market->getResult());
+        } else {
+            throw new Exception($market->getError());
+        }
+    }
 
     public static function byMe() {
         $market = market::getJsonRpc();
