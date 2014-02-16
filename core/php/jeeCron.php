@@ -78,6 +78,7 @@ if (init('cron_id') != '') {
                 $cron->setState('Not found');
                 $cron->setPID();
                 $cron->setServer('');
+                $cron->setEnable(0);
                 $cron->save();
                 log::add('cron', 'error', '[Erreur] Fonction non trouvée ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
                 die();
@@ -109,6 +110,7 @@ if (init('cron_id') != '') {
             $cron->setPID();
             $cron->setServer('');
             $cron->save();
+            $cron->setEnable(0);
             log::add('cron', 'error', '[Erreur] Non trouvée ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
             die();
         }
@@ -148,7 +150,6 @@ if (init('cron_id') != '') {
         if (config::byKey('enableCron') == 0) {
             die('Tous les crons sont actuellement désactivés');
         }
-
 
         foreach (cron::all() as $cron) {
             $cron->refresh();
