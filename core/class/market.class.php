@@ -31,7 +31,6 @@ class market {
     private $changelog;
     private $version;
     private $user_id;
-    private $path;
     private $downloaded;
     private $status;
     private $author;
@@ -50,7 +49,6 @@ class market {
         $market->setUser_id($_arrayMarket['user_id']);
         $market->setVersion($_arrayMarket['version']);
         $market->setCategorie($_arrayMarket['categorie']);
-        $market->setPath($_arrayMarket['path']);
         $market->setStatus($_arrayMarket['status']);
         $market->setAuthor($_arrayMarket['author']);
         $market->setChangelog($_arrayMarket['changelog']);
@@ -194,10 +192,6 @@ class market {
         return $this->user_id;
     }
 
-    public function getPath() {
-        return $this->path;
-    }
-
     public function getDownloaded() {
         return $this->downloaded;
     }
@@ -236,10 +230,6 @@ class market {
 
     public function setUser_id($user_id) {
         $this->user_id = $user_id;
-    }
-
-    public function setPath($path) {
-        $this->path = $path;
     }
 
     public function setDownloaded($downloaded) {
