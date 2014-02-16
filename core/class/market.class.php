@@ -64,8 +64,8 @@ class market {
             throw new Exception($market->getError());
         }
     }
-    
-     public static function byMe() {
+
+    public static function byMe() {
         $market = market::getJsonRpc();
         if ($market->sendRequest('market::byAuthor', array())) {
             $return = array();
@@ -112,7 +112,7 @@ class market {
 
     public function install() {
         $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getLogicalId() . '.zip';
-        $pluginDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
+
         $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId();
         file_put_contents($tmp, fopen($url, 'r'));
         if (!file_exists($tmp)) {
@@ -120,14 +120,30 @@ class market {
         }
         switch ($this->getType()) {
             case 'plugin' :
-                if (!file_exists($pluginDir) && !mkdir($pluginDir, 0775, true)) {
-                    throw new Exception('Impossible de créer le dossier  : ' . $pluginDir . '. Problème de droits ?');
+                $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
+                if (!file_exists($cibDir) && !mkdir($cibDir, 0775, true)) {
+                    throw new Exception('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?');
+                }
+                break;
+            case 'widget' :
+                $version = explode('/', $this->getLogicalId());
+                $cibDir = dirname(__FILE__) . '/../../plugins/widget/core/template/' . $version[0];
+                try {
+                    $plugin = new plugin('widget');
+                    if (!$plugin->isActive()) {
+                        throw new Exception('Impossible d\'installer le widget car le module widget n\'est pas activé');
+                    }
+                } catch (Exception $e) {
+                    throw new Exception('Impossible d\'installer le widget car le module widget n\'est pas installé');
+                }
+                if (!file_exists($cibDir)) {
+                    throw new Exception('Impossible d\'installer le widget le repertoire n\éxiste pas : ' . $cibDir);
                 }
                 break;
         }
         $zip = new ZipArchive;
         if ($zip->open($tmp) === TRUE) {
-            $zip->extractTo($pluginDir . '/');
+            $zip->extractTo($cibDir . '/');
             $zip->close();
             switch ($this->getType()) {
                 case 'plugin' :
@@ -151,9 +167,9 @@ class market {
     }
 
     public function remove() {
-        $pluginDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
-        if (file_exists($pluginDir)) {
-            rrmdir($pluginDir);
+        $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
+        if (file_exists($cibDir)) {
+            rrmdir($cibDir);
         }
         config::remove('installVersionDate', $this->getLogicalId());
     }
