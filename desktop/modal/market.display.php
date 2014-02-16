@@ -6,7 +6,7 @@ if (!isConnect('admin')) {
 $market = market::byId(init('id'));
 $update = '';
 
-if (config::byKey('installVersionDate', $market->getName()) != '' && config::byKey('installVersionDate', $market->getName()) < $market->getDatetime()) {
+if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config::byKey('installVersionDate', $market->getLogicalId()) < $market->getDatetime()) {
     echo '<div style="width : 100%" class="alert alert-warning" id="div_pluginUpdate">Une mise à jour est disponible. Cliquez sur installer pour l\'effectuer</div>';
 }
 ?>
@@ -17,7 +17,7 @@ if (config::byKey('installVersionDate', $market->getName()) != '' && config::byK
 <a class="btn btn-success pull-right" href="<?php echo config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $market->getId() ?>" style="color : white;"><i class="fa fa-cloud-download"></i> Télécharger</a>
 <a class="btn btn-warning pull-right" style="color : white;" id="bt_installFromMarket" data-market_id="<?php echo $market->getId(); ?> "><i class="fa fa-plus-circle"></i> Installer</a>
 
-<?php if (config::byKey('installVersionDate', $market->getName()) != '') { ?>
+<?php if (config::byKey('installVersionDate', $market->getLogicalId()) != '') { ?>
     <a class="btn btn-danger pull-right" style="color : white;" id="bt_removeFromMarket" data-market_id="<?php echo $market->getId(); ?> "><i class="fa fa-minus-circle"></i> Supprimer</a>
 <?php } ?>
 <br/><br/><br/>
@@ -100,7 +100,7 @@ if (config::byKey('installVersionDate', $market->getName()) != '' && config::byK
                 <div class="form-group">
                     <label class="col-lg-4 control-label">Version utilisé actuelement</label>
                     <div class="col-lg-6">
-                        <span class="marketAttr label label-info" ><?php echo config::byKey('installVersionDate', $market->getName()); ?></span>
+                        <span class="marketAttr label label-info" ><?php echo config::byKey('installVersionDate', $market->getLogicalId()); ?></span>
                     </div>
                 </div>
             <?php } ?>
@@ -114,7 +114,12 @@ if (config::byKey('installVersionDate', $market->getName()) != '' && config::byK
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-lg-12">
-                    <img   src="<?php echo config::byKey('market::address') . '/market/' . $market->getType() . '/' . $market->getName() . '.jpg'; ?>"  class="img-responsive img-thumbnail" />
+                    <?php
+                    $urlPath = config::byKey('market::address') . '/market/' . $market->getType() . '/' . $market->getLogicalId() . '.jpg';
+                    if (fopen($urlPath, "r")) {
+                        ?>
+                        <img   src="<?php echo $urlPath; ?>"  class="img-responsive img-thumbnail" />
+                    <?php } ?>
                 </div>
             </div>
         </div> 
