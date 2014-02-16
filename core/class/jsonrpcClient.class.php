@@ -24,7 +24,7 @@ class jsonrpcClient {
     }
 
     public function sendRequest($_method, $_params = null, $_timeout = 2) {
-        $_params['api'] = $this->apikey;
+        $_params['apikey'] = $this->apikey;
         $request = array(
             'request' => json_encode(array(
                 'jsonrpc' => '2.0',

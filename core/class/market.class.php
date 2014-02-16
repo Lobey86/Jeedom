@@ -31,7 +31,6 @@ class market {
     private $changelog;
     private $version;
     private $user_id;
-    private $path;
     private $downloaded;
     private $status;
     private $author;
@@ -50,7 +49,6 @@ class market {
         $market->setUser_id($_arrayMarket['user_id']);
         $market->setVersion($_arrayMarket['version']);
         $market->setCategorie($_arrayMarket['categorie']);
-        $market->setPath($_arrayMarket['path']);
         $market->setStatus($_arrayMarket['status']);
         $market->setAuthor($_arrayMarket['author']);
         $market->setChangelog($_arrayMarket['changelog']);
@@ -62,6 +60,28 @@ class market {
         $market = market::getJsonRpc();
         if ($market->sendRequest('market::byId', array('id' => $_id))) {
             return self::construct($market->getResult());
+        } else {
+            throw new Exception($market->getError());
+        }
+    }
+    
+    public static function byLogicalId($_logicalId) {
+        $market = market::getJsonRpc();
+        if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId))) {
+            return self::construct($market->getResult());
+        } else {
+            throw new Exception($market->getError());
+        }
+    }
+
+    public static function byMe() {
+        $market = market::getJsonRpc();
+        if ($market->sendRequest('market::byAuthor', array())) {
+            $return = array();
+            foreach ($market->getResult() as $result) {
+                $return[] = self::construct($result);
+            }
+            return $return;
         } else {
             throw new Exception($market->getError());
         }
@@ -80,15 +100,28 @@ class market {
         }
     }
 
+    public static function byStatus($_status) {
+        $market = market::getJsonRpc();
+        if ($market->sendRequest('market::byStatus', array('status' => $_status))) {
+            $return = array();
+            foreach ($market->getResult() as $result) {
+                $return[] = self::construct($result);
+            }
+            return $return;
+        } else {
+            throw new Exception($market->getError());
+        }
+    }
+
     public static function getJsonRpc() {
-        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php');
+        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'));
     }
 
     /*     * *********************Methode d'instance************************* */
 
     public function install() {
         $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getLogicalId() . '.zip';
-        $pluginDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
+
         $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId();
         file_put_contents($tmp, fopen($url, 'r'));
         if (!file_exists($tmp)) {
@@ -96,14 +129,30 @@ class market {
         }
         switch ($this->getType()) {
             case 'plugin' :
-                if (!file_exists($pluginDir) && !mkdir($pluginDir, 0775, true)) {
-                    throw new Exception('Impossible de créer le dossier  : ' . $pluginDir . '. Problème de droits ?');
+                $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
+                if (!file_exists($cibDir) && !mkdir($cibDir, 0775, true)) {
+                    throw new Exception('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?');
+                }
+                break;
+            case 'widget' :
+                $version = explode('/', $this->getLogicalId());
+                $cibDir = dirname(__FILE__) . '/../../plugins/widget/core/template/' . $version[0];
+                try {
+                    $plugin = new plugin('widget');
+                    if (!$plugin->isActive()) {
+                        throw new Exception('Impossible d\'installer le widget car le module widget n\'est pas activé');
+                    }
+                } catch (Exception $e) {
+                    throw new Exception('Impossible d\'installer le widget car le module widget n\'est pas installé');
+                }
+                if (!file_exists($cibDir)) {
+                    throw new Exception('Impossible d\'installer le widget le repertoire n\éxiste pas : ' . $cibDir);
                 }
                 break;
         }
         $zip = new ZipArchive;
         if ($zip->open($tmp) === TRUE) {
-            $zip->extractTo($pluginDir . '/');
+            $zip->extractTo($cibDir . '/');
             $zip->close();
             switch ($this->getType()) {
                 case 'plugin' :
@@ -127,9 +176,9 @@ class market {
     }
 
     public function remove() {
-        $pluginDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
-        if (file_exists($pluginDir)) {
-            rrmdir($pluginDir);
+        $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
+        if (file_exists($cibDir)) {
+            rrmdir($cibDir);
         }
         config::remove('installVersionDate', $this->getLogicalId());
     }
@@ -166,10 +215,6 @@ class market {
 
     public function getUser_id() {
         return $this->user_id;
-    }
-
-    public function getPath() {
-        return $this->path;
     }
 
     public function getDownloaded() {
@@ -210,10 +255,6 @@ class market {
 
     public function setUser_id($user_id) {
         $this->user_id = $user_id;
-    }
-
-    public function setPath($path) {
-        $this->path = $path;
     }
 
     public function setDownloaded($downloaded) {
