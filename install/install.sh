@@ -86,7 +86,11 @@ sudo php install/install.php mode=force
 echo "********************************************************\n"
 echo "*                Mise en place du cron                 *\n"
 echo "********************************************************\n"
-echo '* * * * * * su --shell=/bin/bash - www-data -c "/usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php" >> /dev/null' > /etc/crontab
+
+croncmd="su --shell=/bin/bash - www-data -c '/usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php' >> /dev/null"
+cronjob="* * * * * $croncmd"
+( crontab -l | grep -v "$croncmd" ; echo "$cronjob" ) | crontab -
+
 
 echo "********************************************************\n"
 echo "*                Configuration de nginx                *\n"
