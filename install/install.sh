@@ -62,6 +62,7 @@ echo "********************************************************\n"
 echo "*             Copie des fichiers de Jeedom             *\n"
 echo "********************************************************\n"
 sudo -u www-data -H git clone --depth=1 -b stable https://github.com/zoic21/jeedom.git
+sudo chmod 775 -R /usr/share/nginx/www
 cd jeedom
 
 echo "********************************************************\n"
