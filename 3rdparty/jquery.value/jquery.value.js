@@ -224,10 +224,9 @@
         for (var i in _object) {
             if (!is_array(_object[i]) && !is_object(_object[i])) {
                 $(this).find(_attr + '[data-l1key="' + i + '"]').value(_object[i]);
-            }
-            if (is_array(_object[i])) {
+            } else {
                 for (var j in _object[i]) {
-                    if (is_array(_object[i][j])) {
+                    if (is_array(_object[i][j]) || is_object(_object[i][j])) {
                         for (var k in _object[i][j]) {
                             $(this).find(_attr + '[data-l1key="' + i + '"][data-l2key="' + j + '"][data-l3key="' + k + '"]').value(_object[i][j][k]);
                         }
