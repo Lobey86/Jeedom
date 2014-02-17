@@ -130,8 +130,8 @@ try {
             throw new Exception('EqLogic inconnu verifié l\'id : ' . init('id'));
         }
         $return = utils::o2a($eqLogic);
-        $return['cmd'] = cmd::cmdToHumanReadable(utils::o2a($eqLogic->getCmd()));
-        ajax::success($return);
+        $return['cmd'] = utils::o2a($eqLogic->getCmd());
+        ajax::success(cmd::cmdToHumanReadable($return));
     }
 
     if (init('action') == 'save') {
@@ -161,8 +161,7 @@ try {
                     eqLogic::saveImage($eqLogic->getId(), file_get_contents($imgPath));
                 }
             }
-
-            utils::a2o($eqLogic, $eqLogicSave);
+            utils::a2o($eqLogic, cmd::humanReadableToCmd($eqLogicSave));
             $eqLogic->save();
             $dbList = $typeCmd::byEqLogicId($eqLogic->getId());
             $enableList = array();
