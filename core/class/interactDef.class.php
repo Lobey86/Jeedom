@@ -242,7 +242,6 @@ class interactDef {
     }
 
     public static function generateSynonymeVariante($_text, $_synonymes) {
-        $_text = strtolower($_text);
         $return = array();
         if (count($_synonymes) > 0) {
             foreach ($_synonymes as $replace => $values) {
@@ -280,7 +279,7 @@ class interactDef {
     }
 
     public function setQuery($query) {
-        $this->query = strtolower($query);
+        $this->query = $query;
     }
 
     public function getReply() {
@@ -288,7 +287,7 @@ class interactDef {
     }
 
     public function setReply($reply) {
-        $this->reply = strtolower($reply);
+        $this->reply = $reply;
     }
 
     public function getLink_type() {
