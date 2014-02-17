@@ -16,7 +16,7 @@
  */
 
 $(function() {
-    printSarahDef();
+    printInteractDef();
 
     $('#table_interactDef tbody').delegate('.displayInteracQuery', 'click', function() {
         var tr = $(this).closest('tr');
@@ -25,11 +25,11 @@ $(function() {
     });
 
     $("#bt_addSarahDef").on('click', function() {
-        addSarahDefToTable({});
+        addInteractDefToTable({});
     });
 
     $("#bt_save").on('click', function() {
-        saveSarahDef();
+        saveIntercDef();
     });
 
     $("#table_interactDef").delegate(".remove", 'click', function() {
@@ -60,7 +60,7 @@ $(function() {
     $("#table_interactDef tbody").sortable();
 });
 
-function saveSarahDef() {
+function saveIntercDef() {
     $.hideAlert();
     var interactDefs = $('#table_interactDef tbody tr').getValues('.interactDefAttr');
     $.ajax({
@@ -80,13 +80,13 @@ function saveSarahDef() {
                 return;
             }
             $('#div_alert').showAlert({message: 'Sauvegarde réussie', level: 'success'});
-            printSarahDef();
+            printInteractDef();
         }
     });
 }
 
 
-function printSarahDef() {
+function printInteractDef() {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/interact.ajax.php", // url du fichier php
@@ -105,13 +105,13 @@ function printSarahDef() {
             $('#table_interactDef tbody tr').remove();
 
             for (var i in data.result) {
-                addSarahDefToTable(data.result[i]);
+                addInteractDefToTable(data.result[i]);
             }
         }
     });
 }
 
-function addSarahDefToTable(_interactDef) {
+function addInteractDefToTable(_interactDef) {
     if (!isset(_interactDef)) {
         _interactDef = {};
     }
