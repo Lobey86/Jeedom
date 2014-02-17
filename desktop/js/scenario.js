@@ -464,8 +464,15 @@ function printScenario(_id) {
                 $('#in_ongoing').removeClass('label-danger');
                 $('#in_ongoing').removeClass('label-success');
             }
-            for (var i in data.result.trigger) {
-                addTrigger(data.result.trigger[i]);
+
+            if ($.isArray(data.result.trigger)) {
+                for (var i in data.result.trigger) {
+                    addTrigger(data.result.trigger[i]);
+                }
+            } else {
+                if (data.result.trigger != '') {
+                    addTrigger(data.result.trigger[i]);
+                }
             }
 
             if ($.isArray(data.result.schedule)) {
