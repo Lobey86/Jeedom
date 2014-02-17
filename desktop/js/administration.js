@@ -497,7 +497,7 @@ function saveConfiguration(_el) {
                 return;
             }
             $('#div_alert').showAlert({message: 'Sauvegarde effetuée', level: 'success'});
-            loadConfiguration(_el)
+            loadConfiguration(_el);
         }
     });
 }
