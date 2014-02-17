@@ -249,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `interactDef` (
   `person` varchar(255) DEFAULT NULL,
   `options` text,
   `filtres` text,
-  `position` text,
+  `position` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
