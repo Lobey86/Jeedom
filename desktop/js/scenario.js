@@ -471,7 +471,7 @@ function printScenario(_id) {
                 }
             } else {
                 if (data.result.trigger != '') {
-                    addTrigger(data.result.trigger[i]);
+                    addTrigger(data.result.trigger);
                 }
             }
 
