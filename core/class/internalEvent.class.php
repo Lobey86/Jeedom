@@ -87,7 +87,7 @@ class internalEvent {
         self::cleanEvent();
         $key = $_plugin . '::lastRetrievalInternalEvent';
         $cache = cache::byKey($key);
-        $lastDatetime = $cache->getValue($now);
+        $lastDatetime = $cache->getValue(0);
         cache::set($key, $now, 0);
         return self::byDatetime($lastDatetime);
     }

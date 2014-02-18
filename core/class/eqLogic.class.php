@@ -160,6 +160,24 @@ class eqLogic {
         return $return;
     }
 
+    public static function byTypeAndSearhConfiguration($_eqType_name, $_configuration) {
+        $values = array(
+            'eqType_name' => $_eqType_name,
+            'configuration' => '%' . $_configuration . '%'
+        );
+        $sql = 'SELECT id
+                FROM eqLogic
+                WHERE eqType_name=:eqType_name
+                    AND configuration LIKE :configuration
+                ORDER BY name';
+        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
+        $return = array();
+        foreach ($results as $result) {
+            $return[] = self::byId($result['id']);
+        }
+        return $return;
+    }
+
     public static function listByTypeAndCmdType($_eqType_name, $_typeCmd, $subTypeCmd = '') {
         if ($subTypeCmd == '') {
             $values = array(
