@@ -67,13 +67,13 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
             <div class="form-group">
                 <label class="col-lg-4 control-label">Description</label>
                 <div class="col-lg-8">
-                    <span class="label label-primary marketAttr" data-l1key="description" placeholder="Description" style="height: 100px;"></span>
+                    <span class="marketAttr" data-l1key="description" placeholder="Description" ></span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Changelog</label>
                 <div class="col-lg-8">
-                    <span class="label label-default marketAttr" data-l1key="changelog" placeholder="Changelog" style="height: 100px;"></span>
+                    <span class="marketAttr" data-l1key="changelog" placeholder="Changelog" style="height: 100px;"></span>
                 </div>
             </div>
             <div class="form-group">
