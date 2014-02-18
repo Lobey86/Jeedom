@@ -202,51 +202,19 @@ class user {
     }
 
     public function getOptions($_key = '', $_default = '') {
-        if ($this->options == '') {
-            return $_default;
-        }
-        if (is_json($this->options)) {
-            if ($_key == '') {
-                return json_decode($this->options, true);
-            }
-            $options = json_decode($this->options, true);
-            return (isset($options[$_key])) ? $options[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->options, $_key, $_default);
     }
 
     public function setOptions($_key, $_value) {
-        if ($this->options == '' || !is_json($this->options)) {
-            $this->options = json_encode(array($_key => $_value));
-        } else {
-            $options = json_decode($this->options, true);
-            $options[$_key] = $_value;
-            $this->options = json_encode($options);
-        }
+        $this->options = utils::setJsonAttr($this->options, $_key, $_value);
     }
 
     public function getRights($_key = '', $_default = '') {
-        if ($this->rights == '') {
-            return $_default;
-        }
-        if (is_json($this->rights)) {
-            if ($_key == '') {
-                return json_decode($this->rights, true);
-            }
-            $rights = json_decode($this->rights, true);
-            return (isset($rights[$_key])) ? $rights[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->rights, $_key, $_default);
     }
 
     public function setRights($_key, $_value) {
-        if ($this->rights == '' || !is_json($this->rights)) {
-            $this->rights = json_encode(array($_key => $_value));
-        } else {
-            $rights = json_decode($this->rights, true);
-            $rights[$_key] = $_value;
-            $this->rights = json_encode($rights);
-        }
+        $this->rights = utils::setJsonAttr($this->rights, $_key, $_value);
     }
 
     public function getHash() {

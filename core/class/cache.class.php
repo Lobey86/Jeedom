@@ -142,28 +142,12 @@ class cache {
         $this->datetime = $datetime;
     }
 
-    public function getOptions($_name = '', $_default = '') {
-        if ($this->options == '') {
-            return $_default;
-        }
-        if (is_json($this->options)) {
-            if ($_name == '') {
-                return json_decode($this->options);
-            }
-            $options = json_decode($this->options, true);
-            return (isset($options[$_name]) && $options[$_name] !== '') ? $options[$_name] : $_default;
-        }
-        return $_default;
+    public function getOptions($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->options, $_key, $_default);
     }
 
-    public function setOptions($_name, $_key) {
-        if ($this->options == '' || !is_json($this->options)) {
-            $this->options = json_encode(array($_name => $_key));
-        } else {
-            $cache = json_decode($this->options, true);
-            $cache[$_name] = $_key;
-            $this->options = json_encode($cache);
-        }
+    public function setOptions($_key, $_value) {
+        $this->options = utils::setJsonAttr($this->options, $_key, $_value);
     }
 
 }

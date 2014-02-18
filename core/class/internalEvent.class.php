@@ -131,27 +131,11 @@ class internalEvent {
     }
 
     public function getOptions($_key = '', $_default = '') {
-        if ($this->options == '') {
-            return $_default;
-        }
-        if (is_json($this->options)) {
-            if ($_key == '') {
-                return json_decode($this->options, true);
-            }
-            $options = json_decode($this->options, true);
-            return (isset($options[$_key])) ? $options[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->options, $_key, $_default);
     }
 
     public function setOptions($_key, $_value) {
-        if ($this->options == '' || !is_json($this->options)) {
-            $this->options = json_encode(array($_key => $_value));
-        } else {
-            $options = json_decode($this->options, true);
-            $options[$_key] = $_value;
-            $this->options = json_encode($options);
-        }
+        $this->options = utils::setJsonAttr($this->options, $_key, $_value);
     }
 
 }

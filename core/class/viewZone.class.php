@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
@@ -127,27 +127,11 @@ class viewZone {
     }
 
     public function getConfiguration($_key = '', $_default = '') {
-        if ($this->configuration == '') {
-            return $_default;
-        }
-        if (is_json($this->configuration)) {
-            if ($_key == '') {
-                return json_decode($this->configuration, true);
-            }
-            $options = json_decode($this->configuration, true);
-            return (isset($options[$_key])) ? $options[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->configuration, $_key, $_default);
     }
 
     public function setConfiguration($_key, $_value) {
-        if ($this->configuration == '' || !is_json($this->configuration)) {
-            $this->configuration = json_encode(array($_key => $_value));
-        } else {
-            $options = json_decode($this->configuration, true);
-            $options[$_key] = $_value;
-            $this->configuration = json_encode($options);
-        }
+        $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
 
 }

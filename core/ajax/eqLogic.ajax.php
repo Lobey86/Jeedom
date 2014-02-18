@@ -156,10 +156,9 @@ try {
             if (!is_object($eqLogic)) {
                 $eqLogic = new $typeEqLogic();
                 $eqLogic->setEqType_name(init('type'));
-                $imgPath = dirname(__FILE__) . '/../../plugins/' . $typeEqLogic . '/core/img/default.png';
-                if (file_exists($imgPath)) {
-                    eqLogic::saveImage($eqLogic->getId(), file_get_contents($imgPath));
-                }
+            }
+            if (method_exists($eqLogic, 'preAjax')) {
+                $eqLogic->preAjax();
             }
             utils::a2o($eqLogic, cmd::humanReadableToCmd($eqLogicSave));
             $eqLogic->save();

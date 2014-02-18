@@ -315,51 +315,19 @@ class interactDef {
     }
 
     public function getOptions($_key = '', $_default = '') {
-        if ($this->options == '') {
-            return $_default;
-        }
-        if (is_json($this->options)) {
-            if ($_key == '') {
-                return json_decode($this->options);
-            }
-            $options = json_decode($this->options, true);
-            return (isset($options[$_key])) ? $options[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->options, $_key, $_default);
     }
 
     public function setOptions($_key, $_value) {
-        if ($this->options == '' || !is_json($this->options)) {
-            $this->options = json_encode(array($_key => $_value));
-        } else {
-            $options = json_decode($this->options, true);
-            $options[$_key] = $_value;
-            $this->options = json_encode($options);
-        }
+        $this->options = utils::setJsonAttr($this->options, $_key, $_value);
     }
 
     public function getFiltres($_key = '', $_default = '') {
-        if ($this->filtres == '') {
-            return $_default;
-        }
-        if (is_json($this->filtres)) {
-            if ($_key == '') {
-                return json_decode($this->filtres);
-            }
-            $options = json_decode($this->filtres, true);
-            return (isset($options[$_key])) ? $options[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->filtres, $_key, $_default);
     }
 
     public function setFiltres($_key, $_value) {
-        if ($this->filtres == '' || !is_json($this->filtres)) {
-            $this->filtres = json_encode(array($_key => $_value));
-        } else {
-            $filtres = json_decode($this->filtres, true);
-            $filtres[$_key] = $_value;
-            $this->filtres = json_encode($filtres);
-        }
+        $this->filtres = utils::setJsonAttr($this->filtres, $_key, $_value);
     }
 
     public function getPosition() {

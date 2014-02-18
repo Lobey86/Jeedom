@@ -135,27 +135,11 @@ class viewData {
     }
 
     public function getConfiguration($_key = '', $_default = '') {
-        if ($this->configuration == '') {
-            return $_default;
-        }
-        if (is_json($this->configuration)) {
-            if ($_key == '') {
-                return json_decode($this->configuration, true);
-            }
-            $options = json_decode($this->configuration, true);
-            return (isset($options[$_key])) ? $options[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->configuration, $_key, $_default);
     }
 
     public function setConfiguration($_key, $_value) {
-        if ($this->configuration == '' || !is_json($this->configuration)) {
-            $this->configuration = json_encode(array($_key => $_value));
-        } else {
-            $options = json_decode($this->configuration, true);
-            $options[$_key] = $_value;
-            $this->configuration = json_encode($options);
-        }
+        $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
 
 }

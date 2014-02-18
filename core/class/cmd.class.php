@@ -867,100 +867,36 @@ class cmd {
         $this->eventOnly = $eventOnly;
     }
 
-    public function getCache($_name = '', $_default = '') {
-        if ($this->cache == '') {
-            return $_default;
-        }
-        if (is_json($this->cache)) {
-            if ($_name == '') {
-                return json_decode($this->cache, true);
-            }
-            $cache = json_decode($this->cache, true);
-            return (isset($cache[$_name]) && $cache[$_name] !== '') ? $cache[$_name] : $_default;
-        }
-        return $_default;
+    public function getCache($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->cache, $_key, $_default);
     }
 
-    public function setCache($_name, $_key) {
-        if ($this->cache == '' || !is_json($this->cache)) {
-            $this->cache = json_encode(array($_name => $_key));
-        } else {
-            $cache = json_decode($this->cache, true);
-            $cache[$_name] = $_key;
-            $this->cache = json_encode($cache);
-        }
+    public function setCache($_key, $_value) {
+        $this->cache = utils::setJsonAttr($this->cache, $_key, $_value);
     }
 
-    public function getTemplate($_name = '', $_default = '') {
-        if ($this->template == '') {
-            return $_default;
-        }
-        if (is_json($this->template)) {
-            if ($_name == '') {
-                return json_decode($this->template, true);
-            }
-            $template = json_decode($this->template, true);
-            return (isset($template[$_name]) && $template[$_name] !== '') ? $template[$_name] : $_default;
-        }
-        return $_default;
+    public function getTemplate($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->template, $_key, $_default);
     }
 
-    public function setTemplate($_name, $_key) {
-        if ($this->template == '' || !is_json($this->template)) {
-            $this->template = json_encode(array($_name => $_key));
-        } else {
-            $template = json_decode($this->template, true);
-            $template[$_name] = $_key;
-            $this->template = json_encode($template);
-        }
+    public function setTemplate($_key, $_value) {
+        $this->template = utils::setJsonAttr($this->template, $_key, $_value);
     }
 
-    public function getConfiguration($_name = '', $_default = '') {
-        if ($this->configuration == '') {
-            return $_default;
-        }
-        if (is_json($this->configuration)) {
-            if ($_name == '') {
-                return json_decode($this->configuration, true);
-            }
-            $configuration = json_decode($this->configuration, true);
-            return (isset($configuration[$_name]) && $configuration[$_name] !== '') ? $configuration[$_name] : $_default;
-        }
-        return $_default;
+    public function getConfiguration($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->configuration, $_key, $_default);
     }
 
-    public function setConfiguration($_name, $_key) {
-        if ($this->configuration == '' || !is_json($this->configuration)) {
-            $this->configuration = json_encode(array($_name => $_key));
-        } else {
-            $configuration = json_decode($this->configuration, true);
-            $configuration[$_name] = $_key;
-            $this->configuration = json_encode($configuration);
-        }
+    public function setConfiguration($_key, $_value) {
+        $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
 
     public function getDisplay($_key = '', $_default = '') {
-        if ($this->display == '') {
-            return $_default;
-        }
-        if (is_json($this->display)) {
-            if ($_key == '') {
-                return json_decode($this->display, true);
-            }
-            $display = json_decode($this->display, true);
-            return (isset($display[$_key])) ? $display[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->display, $_key, $_default);
     }
 
     public function setDisplay($_key, $_value) {
-        if ($this->display == '' || !is_json($this->display)) {
-            $this->display = json_encode(array($_key => $_value));
-        } else {
-            $display = json_decode($this->display, true);
-            $display[$_key] = $_value;
-            $this->display = json_encode($display);
-        }
+        $this->display = utils::setJsonAttr($this->display, $_key, $_value);
     }
 
     public function getCollect() {
