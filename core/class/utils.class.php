@@ -74,7 +74,7 @@ class utils {
                                         $_object->$method($arrayKey, $arrayArraykey, $arrayArrayvalue);
                                     }
                                 } else {
-                                    $_object->$method($arrayKey, json_encode($arrayValue));
+                                    $_object->$method($arrayKey, $arrayValue);
                                 }
                             } else {
                                 $_object->$method($arrayKey, $arrayValue);

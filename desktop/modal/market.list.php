@@ -19,13 +19,12 @@ if (config::byKey('market::apikey') != '') {
     <thead>
         <tr>
             <th>Type</th>
-            <th>ID</th>
             <th>Nom</th>
-            <th>Auteur</th>
             <th>Catégorie</th>
             <th>Description</th>
-            <th>Status</th>
-            <th>Nombre de téléchargement</th>
+            <th>Statut</th>
+            <th>Auteur</th>
+            <th style="width: 80px;">Nombre de téléchargements</th>
         </tr>
     </thead>
     <tbody>
@@ -33,12 +32,11 @@ if (config::byKey('market::apikey') != '') {
         foreach ($markets as $market) {
             echo '<tr data-market_id="' . $market->getId() . '" class="cursor">';
             echo '<td>' . $market->getType() . '</td>';
-            echo '<td>' . $market->getLogicalId() . '</td>';
             echo '<td>' . $market->getName() . '</td>';
-            echo '<td>' . $market->getAuthor() . '</td>';
             echo '<td>' . $market->getCategorie() . '</td>';
             echo '<td>' . $market->getDescription() . '</td>';
             echo '<td>' . $market->getStatus() . '</td>';
+            echo '<td>' . $market->getAuthor() . '</td>';
             echo '<td>' . $market->getDownloaded() . '</td>';
             echo '</tr>';
         }

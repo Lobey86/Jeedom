@@ -77,7 +77,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Status</label>
+                <label class="col-lg-4 control-label">Statut</label>
                 <div class="col-lg-8">
                     <select class="form-control marketAttr" data-l1key="status" disabled>
                         <option>A valider</option>
@@ -100,7 +100,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Derniere modification de l'archive</label>
+                <label class="col-lg-4 control-label">Dernière modification de l'archive</label>
                 <div class="col-lg-6">
                     <span class="marketAttr label label-info" data-l1key="datetime"></span>
                 </div>
@@ -114,7 +114,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             <?php } ?>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Nombre de téléchargement</label>
+                <label class="col-lg-4 control-label">Nombre de téléchargements</label>
                 <div class="col-lg-8">
                     <span class="marketAttr label label-info" data-l1key="downloaded"></span>
                 </div>
