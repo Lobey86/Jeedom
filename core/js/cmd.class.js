@@ -106,6 +106,7 @@ cmd.getSelectModal = function(_options, callback) {
         jQuery.ajaxSetup({async: true});
     }
     mod_insertCmd.setTypeCmd(init(_options.type, 'all'));
+    mod_insertCmd.setSubTypeCmd(init(_options.subtype, 'all'));
     $("#mod_insertCmdValue").dialog('option', 'buttons', {
         "Annuler": function() {
             $(this).dialog("close");

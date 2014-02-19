@@ -115,8 +115,8 @@ eqLogic.print = function(_type, _eqLogic_id) {
             $('body .eqLogicAttr').value('');
             $('body').setValues(data.result, '.eqLogicAttr');
 
-            if ('function' == typeof(addEqLogic)) {
-                addEqLogic(data.result);
+            if ('function' == typeof(printEqLogic)) {
+                printEqLogic(data.result);
             }
 
             if ('function' == typeof(addCmdToTable)) {
@@ -170,10 +170,14 @@ eqLogic.getCmd = function(_eqLogic_id) {
 }
 
 eqLogic.builSelectCmd = function(_eqLogic_id, _filter) {
+    if (!isset(_filter)) {
+        _filter = {};
+    }
     var cmds = eqLogic.getCmd(_eqLogic_id);
     var result = '';
     for (var i in cmds) {
-        if (init(_filter) == '' || cmds[i].type == _filter) {
+        if ((init(_filter.type, 'all') == 'all' || cmds[i].type == _filter.type) &&
+                (init(_filter.subtype, 'all') == 'all' || cmds[i].subType == _filter.subtype)) {
             result += '<option value="' + cmds[i].id + '" >' + cmds[i].name + '</option>';
         }
     }
