@@ -533,13 +533,13 @@ class cmd {
             $numberTryWithoutSuccess = $eqLogic->getStatus('numberTryWithoutSuccess', 0);
             $eqLogic->setStatus('numberTryWithoutSuccess', $numberTryWithoutSuccess);
             if ($numberTryWithoutSuccess >= config::byKey('numberOfTryBeforeEqLogicDisable')) {
-                $eqLogic->setIsEnable(0);
-                $eqLogic->save();
                 $message = 'Désactivation de <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getName();
                 $message .= ($eqLogic->getEqReal_id() != '') ? ' (' . $eqLogic->getEqReal()->getName() . ') ' : '';
                 $message .= '</a> car il n\'a pas répondu ou mal répondu lors des 3 derniers essais';
                 $action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getEqLogic_id() . '" data-isEnable="1">Ré-activer</a>';
                 message::add($type, $message, $action);
+                $eqLogic->setIsEnable(0);
+                $eqLogic->save();
             }
             log::add($type, 'error', 'Erreur sur ' . $eqLogic->getName() . ' : ' . $e->getMessage());
             throw $e;

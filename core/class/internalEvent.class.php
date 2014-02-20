@@ -83,13 +83,13 @@ class internalEvent {
         if ($_plugin == '') {
             throw new Exception('Le nom du plugin ne peut etre vide');
         }
-        $now = date('Y-m-d H:i:s', strtotime('-1 second', strtotime(date('Y-m-d H:i:s'))));
+        $now = strtotime(date('Y-m-d H:i:s', strtotime('-1 second', strtotime(date('Y-m-d H:i:s')))));
         self::cleanEvent();
         $key = $_plugin . '::lastRetrievalInternalEvent';
         $cache = cache::byKey($key);
         $lastDatetime = $cache->getValue(0);
         cache::set($key, $now, 0);
-        return self::byDatetime($lastDatetime);
+        return self::byDatetime(date('Y-m-d H:i:s',$lastDatetime));
     }
 
     /*     * *********************Methode d'instance************************* */
