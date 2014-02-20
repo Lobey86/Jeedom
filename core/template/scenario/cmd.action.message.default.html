@@ -4,7 +4,7 @@
 <script>
     $('.listEquipementInfo[data-uid=#uid#]').on('click', function() {
         var el = $(this);
-        cmd.getSelectModal({type: 'info'}, function(result) {
+        cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {
             el.parent().find('.expressionAttr[data-l1key=options][data-l2key=message]').value(el.parent().find('.expressionAttr[data-l1key=options][data-l2key=message]').value() + ' ' + result.human);
         });
     });

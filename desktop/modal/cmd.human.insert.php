@@ -31,22 +31,21 @@ include_file('core', 'js.inc', 'php');
 <script>
     function mod_insertCmd() {
     }
-    mod_insertCmd.cmd = {};
-    mod_insertCmd.cmd.type = 'all';
-    mod_insertCmd.cmd.subtype = 'all';
 
+    mod_insertCmd.options = {};
+    mod_insertCmd.options.cmd = {};
+    
 
     $("#table_mod_insertCmdValue_valueEqLogicToMessage").delegate("td.mod_insertCmdValue_object select", 'change', function() {
-        mod_insertCmd.changeObjectCmd($('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select'), mod_insertCmd);
+        mod_insertCmd.changeObjectCmd($('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select'), mod_insertCmd.options);
     });
-    mod_insertCmd.setTypeCmd = function(_typeCmd) {
-        mod_insertCmd.cmd.type = _typeCmd;
-        mod_insertCmd.changeObjectCmd($('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select'), mod_insertCmd);
-    }
 
-    mod_insertCmd.setSubTypeCmd = function(_subtypeCmd) {
-        mod_insertCmd.cmd.subtype = _subtypeCmd;
-        mod_insertCmd.changeObjectCmd($('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select'), mod_insertCmd);
+    mod_insertCmd.setOptions = function(_options) {
+        mod_insertCmd.options = _options;
+        if (!isset(mod_insertCmd.options.cmd)) {
+            mod_insertCmd.options.cmd = {};
+        }
+        mod_insertCmd.changeObjectCmd($('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select'), mod_insertCmd.options);
     }
 
     mod_insertCmd.getValue = function() {
@@ -59,7 +58,7 @@ include_file('core', 'js.inc', 'php');
         return '#[' + object_name + '][' + equipement_name + '][' + cmd_name + ']#';
     }
 
-    mod_insertCmd.changeObjectCmd = function(_select, _option) {
+    mod_insertCmd.changeObjectCmd = function(_select) {
         var eqLogics = object.getEqLogic(_select.value());
         _select.closest('tr').find('.mod_insertCmdValue_eqLogic').empty();
         var selectEqLogic = '<select class="form-control">';
@@ -69,16 +68,18 @@ include_file('core', 'js.inc', 'php');
         selectEqLogic += '</select>';
         _select.closest('tr').find('.mod_insertCmdValue_eqLogic').append(selectEqLogic);
         _select.closest('tr').find('.mod_insertCmdValue_eqLogic select').change(function() {
-            mod_insertCmd.changeEqLogic($(this), _option);
+            mod_insertCmd.changeEqLogic($(this), mod_insertCmd.options);
         });
-        mod_insertCmd.changeEqLogic(_select.closest('tr').find('.mod_insertCmdValue_eqLogic select'), _option);
+        mod_insertCmd.changeEqLogic(_select.closest('tr').find('.mod_insertCmdValue_eqLogic select'), mod_insertCmd.options);
     }
 
-    mod_insertCmd.changeEqLogic = function(_select, _option) {
+    mod_insertCmd.changeEqLogic = function(_select) {
         _select.closest('tr').find('.mod_insertCmdValue_cmd').empty();
         var selectCmd = '<select class="form-control">';
-        selectCmd += eqLogic.builSelectCmd(_select.value(), _option.cmd);
+        selectCmd += eqLogic.builSelectCmd(_select.value(), mod_insertCmd.options.cmd);
         selectCmd += '</select>';
         _select.closest('tr').find('.mod_insertCmdValue_cmd').append(selectCmd);
     }
+    
+    mod_insertCmd.changeObjectCmd($('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select'), mod_insertCmd.options);
 </script>

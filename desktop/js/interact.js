@@ -38,7 +38,7 @@ $(function() {
 
     $("#table_interactDef").delegate(".listEquipementInfo", 'click', function() {
         var el = $(this);
-        cmd.getSelectModal({type: 'action'}, function(result) {
+        cmd.getSelectModal({cmd: {type: 'action'}}, function(result) {
             el.closest('tr').find('.interactDefAttr[data-l1key=link_id]').value(result.human);
         });
     });

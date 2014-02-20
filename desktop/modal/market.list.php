@@ -6,10 +6,10 @@ if (!isConnect('admin')) {
 $markets = market::byStatus('Validé');
 
 if (config::byKey('market::apikey') != '') {
-    foreach (market::byMe() as $myMarket){
-       if($myMarket->getStatus() != 'Validé'){
-           $markets[] = $myMarket;
-       }
+    foreach (market::byMe() as $myMarket) {
+        if ($myMarket->getStatus() != 'Validé') {
+            $markets[] = $myMarket;
+        }
     }
 }
 ?>
@@ -19,8 +19,8 @@ if (config::byKey('market::apikey') != '') {
     <thead>
         <tr>
             <th>Type</th>
-            <th>Nom</th>
             <th>Catégorie</th>
+            <th>Nom</th>
             <th>Description</th>
             <th>Statut</th>
             <th>Auteur</th>
@@ -31,9 +31,9 @@ if (config::byKey('market::apikey') != '') {
         <?php
         foreach ($markets as $market) {
             echo '<tr data-market_id="' . $market->getId() . '" class="cursor">';
+            echo '<td>' . $market->getCategorie() . '</td>';
             echo '<td>' . $market->getType() . '</td>';
             echo '<td>' . $market->getName() . '</td>';
-            echo '<td>' . $market->getCategorie() . '</td>';
             echo '<td>' . $market->getDescription() . '</td>';
             echo '<td>' . $market->getStatus() . '</td>';
             echo '<td>' . $market->getAuthor() . '</td>';
