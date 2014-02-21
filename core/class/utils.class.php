@@ -125,7 +125,7 @@ class utils {
     }
 
     public static function setJsonAttr($_attr, $_key, $_value) {
-        if ($_value == null) {
+        if ($_value === null) {
             if ($_attr != '' && is_json($_attr)) {
                 $attr = json_decode($_attr, true);
                 unset($attr[$_key]);
@@ -150,11 +150,11 @@ class utils {
             }
             return json_decode($_attr, true);
         }
-        if ($_attr == '') {
+        if ($_attr === '') {
             return $_default;
         }
         $attr = json_decode($_attr, true);
-        return (isset($attr[$_key]) && $attr[$_key] != '') ? $attr[$_key] : $_default;
+        return (isset($attr[$_key]) && $attr[$_key] !== '') ? $attr[$_key] : $_default;
     }
 
     /*     * *********************Methode d'instance************************* */
