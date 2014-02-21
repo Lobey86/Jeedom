@@ -45,7 +45,7 @@ sendVarToJS('select_id', init('id', '-1'));
         <legend>
             <span id="span_plugin_name" ></span> (<span id="span_plugin_id"></span>)
              <span id="span_plugin_toggleState" class="pull-right"></span>
-             <span id="span_plugin_viewMarket" class="pull-right"></span>
+             <span id="span_plugin_market" class="pull-right"></span>
         </legend>
         <div class="alert alert-info">
             <h5 style="display: inline-block;font-weight: bold;">Description : </h5> <span id="span_plugin_description"></span>

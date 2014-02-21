@@ -21,10 +21,6 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
 
 <div style="display: none;width : 100%" id="div_alertMarketDisplay"></div>
 
-<?php if ($market->getApi_author() == config::byKey('market::apikey') && config::byKey('installVersionDate', $market->getLogicalId()) != '') { ?>
-    <a class="btn btn-default pull-right" id="bt_marketDisplaySend" data-market_id="<?php echo $market->getId(); ?>"><i class="fa fa-cloud-upload"></i> Envoyer</a>
-<?php } ?>
-
 <a class="btn btn-success pull-right" href="<?php echo config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $market->getId() ?>" style="color : white;"><i class="fa fa-cloud-download"></i> Télécharger</a>
 <a class="btn btn-warning pull-right" style="color : white;" id="bt_installFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-plus-circle"></i> Installer</a>
 
@@ -143,11 +139,6 @@ sendVarToJS('market_display_info', utils::o2a($market));
 ?>
 <script>
     $('body').setValues(market_display_info, '.marketAttr');
-
-    $('#bt_marketDisplaySend').on('click', function() {
-        $('#md_modal3').dialog({title: "Market Jeedom Upload"});
-        $('#md_modal3').load('index.php?v=d&modal=market.send&id=' + $(this).attr('data-market_id')).dialog('open');
-    });
 
     $('#bt_installFromMarket').on('click', function() {
         var id = $(this).attr('data-market_id');

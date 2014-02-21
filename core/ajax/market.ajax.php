@@ -35,8 +35,9 @@ try {
 
     if (init('action') == 'save') {
         $market_ajax = json_decode(init('market'), true);
-        $market = market::byId($market_ajax['id']);
-        if(!is_object($market)){
+        try {
+            $market = market::byId($market_ajax['id']);
+        } catch (Exception $e) {
             $market = new market();
         }
         utils::a2o($market, $market_ajax);

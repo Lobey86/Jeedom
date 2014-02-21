@@ -57,8 +57,8 @@ class jsonrpcClient {
 
     private function send($_request, $_timeout = 2, $_file = null) {
         $ch = curl_init();
-        if ($_file !== null && file_exists($_file)) {
-            $_request['file'] = "@$_file";
+        if ($_file !== null) {
+             $_request = array_merge($_request, $_file);
         }
         curl_setopt($ch, CURLOPT_URL, $this->apiAddr);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

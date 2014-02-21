@@ -3,19 +3,20 @@ if (!isConnect('admin')) {
     throw new Exception('401 Unauthorized');
 }
 
-
-if (init('id') != '') {
-    $market = market::byId(init('id'));
-}
-if (init('logicalId') != '') {
-    $market = market::byLogicalId(init('logicalId'));
-}
-if (!isset($market)) {
-    throw new Exception('404 not found');
-}
-
-if ($market->getApi_author() != config::byKey('market::apikey')) {
-    throw new Exception('Vous n\'etez pas l\'autheur du plugin');
+try {
+    if (init('id') != '') {
+        $market = market::byId(init('id'));
+    }
+    if (init('logicalId') != '') {
+        $market = market::byLogicalId(init('logicalId'));
+    }
+    if (is_object($market)) {
+        if ($market->getApi_author() != config::byKey('market::apikey')) {
+            throw new Exception('Vous n\'etez pas l\'autheur du plugin');
+        }
+    }
+} catch (Exception $e) {
+    
 }
 ?>
 
@@ -33,7 +34,7 @@ if ($market->getApi_author() != config::byKey('market::apikey')) {
                 <div class="col-lg-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <div class="alert alert-warning" >L'ID doit être pour : <br/>- un plugin doit être l'ID du plugin<br/>- un widget "VERSION/WIDGET_ID" ex : dashboard/cmd.action.slider.knob</div>
-                    <input class="form-control marketAttr" data-l1key="logicalId" placeholder="ID" disabled/>
+                    <input class="form-control marketAttr" data-l1key="logicalId" placeholder="ID"/>
                 </div>
             </div>
             <div class="form-group">
@@ -110,10 +111,17 @@ if ($market->getApi_author() != config::byKey('market::apikey')) {
 
 
 <?php
-sendVarToJS('market_display_info', utils::o2a($market));
+if (is_object($market)) {
+    sendVarToJS('market_display_info', utils::o2a($market));
+} else {
+    sendVarToJS('market_display_info', array());
+}
 ?>
 <script>
     $('body').setValues(market_display_info, '.marketAttr');
+    if(isset(market_display_info.id)){
+        $('.marketAttr[data-l1key=logicalId]').prop('disabled',true);
+    }
 
     $('#bt_sendToMarket').on('click', function() {
         var market = $('#form_sendToMarket').getValues('.marketAttr');
@@ -127,7 +135,7 @@ sendVarToJS('market_display_info', utils::o2a($market));
             },
             dataType: 'json',
             error: function(request, status, error) {
-                handleAjaxError(request, status, error,$('#div_alertMarketSend'));
+                handleAjaxError(request, status, error, $('#div_alertMarketSend'));
             },
             success: function(data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
@@ -135,7 +143,7 @@ sendVarToJS('market_display_info', utils::o2a($market));
                     return;
                 }
                 $('#div_alertMarketSend').showAlert({message: 'Enregistrement réussi', level: 'success'});
-                
+
             }
         });
     });

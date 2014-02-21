@@ -206,7 +206,10 @@ class market {
 
                 break;
         }
-        if (!$market->sendRequest('market::save', $params, 2, realpath($tmp))) {
+        $file = array(
+            'file' => '@' . realpath($tmp)
+        );
+        if (!$market->sendRequest('market::save', $params, 30, $file)) {
             throw new Exception($market->getError());
         }
         config::save('installVersionDate', date('Y-m-d H:i:s'), $this->getLogicalId());
