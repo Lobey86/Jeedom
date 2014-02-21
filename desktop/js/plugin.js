@@ -55,7 +55,7 @@ $(function() {
     
     $('body').delegate('.sendOnMarket', 'click', function() {
         $('#md_modal2').dialog({title: "Envoyer sur le market"});
-        $('#md_modal2').load('index.php?v=d&modal=market.send&logicalId=' + $(this).attr('data-market_logicalId')).dialog('open');
+        $('#md_modal2').load('index.php?v=d&modal=market.send&type=plugin&logicalId=' + $(this).attr('data-market_logicalId')).dialog('open');
     });
 });
 

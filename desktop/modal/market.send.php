@@ -4,9 +4,6 @@ if (!isConnect('admin')) {
 }
 
 try {
-    if (init('id') != '') {
-        $market = market::byId(init('id'));
-    }
     if (init('logicalId') != '') {
         $market = market::byLogicalId(init('logicalId'));
     }
@@ -17,6 +14,13 @@ try {
     }
 } catch (Exception $e) {
     
+}
+sendVarToJS('market_type', init('type'));
+if (init('type') == 'plugin') {
+    $plugin = new plugin(init('logicalId'));
+    if (!is_object($plugin)) {
+        throw new Exception('Le plugin : ' . init('logicalId') . ' est introuvable');
+    }
 }
 ?>
 
@@ -34,19 +38,19 @@ try {
                 <div class="col-lg-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <div class="alert alert-warning" >L'ID doit être pour : <br/>- un plugin doit être l'ID du plugin<br/>- un widget "VERSION/WIDGET_ID" ex : dashboard/cmd.action.slider.knob</div>
-                    <input class="form-control marketAttr" data-l1key="logicalId" placeholder="ID"/>
+                    <input class="form-control marketAttr" data-l1key="logicalId" placeholder="ID" value="<?php echo $plugin->getId() ?>" disabled/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Nom</label>
                 <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="name" placeholder="Nom" />
+                    <input class="form-control marketAttr" data-l1key="name" placeholder="Nom" value="<?php echo $plugin->getName() ?>"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Type</label>
                 <div class="col-lg-6">
-                    <select class="form-control marketAttr" data-l1key="type" >
+                    <select class="form-control marketAttr" data-l1key="type" disabled>
                         <option value="plugin">Plugin</option>
                         <option value="widget">Widget</option>
                         <option value="zwave_module">[Zwave] Configuration module</option>
@@ -62,7 +66,7 @@ try {
                         $disabled = "";
                     }
                     ?>
-                    <select class="form-control marketAttr" data-l1key="status" <?php echo $disabled ?>>
+                    <select class="form-control marketAttr" data-l1key="status" >
                         <option>A valider</option>
                         <option>Validé</option>
                         <option>Refusé</option>
@@ -73,13 +77,13 @@ try {
             <div class="form-group">
                 <label class="col-lg-4 control-label">Catégorie</label>
                 <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="categorie" placeholder="Catégorie">
+                    <input class="form-control marketAttr" data-l1key="categorie" placeholder="Catégorie" value="<?php echo $plugin->getCategory() ?>">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Version</label>
                 <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="version" placeholder="Version">
+                    <input class="form-control marketAttr" data-l1key="version" placeholder="Version" value="<?php echo $plugin->getVersion() ?>">
                 </div>
             </div>
             <div class="form-group">
@@ -95,7 +99,7 @@ try {
                 <div class="form-group">
                     <label class="col-lg-4 control-label">Description</label>
                     <div class="col-lg-6">
-                        <textarea class="form-control marketAttr" data-l1key="description" placeholder="Description" style="height: 150px;"></textarea>
+                        <textarea class="form-control marketAttr" data-l1key="description" placeholder="Description" style="height: 150px;"><?php echo $plugin->getDescription() ?></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -119,9 +123,7 @@ if (is_object($market)) {
 ?>
 <script>
     $('body').setValues(market_display_info, '.marketAttr');
-    if(isset(market_display_info.id)){
-        $('.marketAttr[data-l1key=logicalId]').prop('disabled',true);
-    }
+    $('.marketAttr[data-l1key=type]').value(market_type);
 
     $('#bt_sendToMarket').on('click', function() {
         var market = $('#form_sendToMarket').getValues('.marketAttr');
