@@ -142,7 +142,7 @@ if (is_object($market)) {
                     $('#div_alertMarketSend').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('#div_alertMarketSend').showAlert({message: 'Enregistrement réussi', level: 'success'});
+                $('#div_alertMarketSend').showAlert({message: 'Enregistrement réussi (recharger la page pour avoir toutes les fonctionalités)', level: 'success'});
 
             }
         });
