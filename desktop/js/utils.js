@@ -67,12 +67,25 @@ $(function() {
     $("#md_modal2").dialog({
         autoOpen: false,
         modal: true,
-        height: (jQuery(window).height() - 300),
+        height: (jQuery(window).height() - 200),
         width: 1200,
         position: {my: 'center', at: 'center', of: window},
         open: function() {
             if ((jQuery(window).width() - 50) < 1500) {
-                $('#md_modal').dialog({width: jQuery(window).width() - 50});
+                $('#md_modal2').dialog({width: jQuery(window).width() - 50});
+            }
+        }
+    });
+    
+     $("#md_modal3").dialog({
+        autoOpen: false,
+        modal: true,
+        height: (jQuery(window).height() - 250),
+        width: 1200,
+        position: {my: 'center', at: 'center', of: window},
+        open: function() {
+            if ((jQuery(window).width() - 50) < 1500) {
+                $('#md_modal3').dialog({width: jQuery(window).width() - 50});
             }
         }
     });

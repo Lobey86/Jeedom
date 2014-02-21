@@ -502,6 +502,53 @@ function convertDayEnToFr($_day) {
     if ($_day == 'sunday' || $_day == 'sun') {
         return 'dimanche';
     }
-    
+
     return $_day;
+}
+
+
+function create_zip($source_arr, $destination) {
+    if (is_string($source_arr))
+        $source_arr = array($source_arr); // convert it to array
+
+    if (!extension_loaded('zip')) {
+        return false;
+    }
+
+    $zip = new ZipArchive();
+    if (!$zip->open($destination, ZIPARCHIVE::CREATE)) {
+        return false;
+    }
+
+    foreach ($source_arr as $source) {
+        if (!file_exists($source))
+            continue;
+        $source = str_replace('\\', '/', realpath($source));
+
+        if (is_dir($source) === true) {
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+
+            foreach ($files as $file) {
+                if(strpos($file, $source) === false){
+                    continue;
+                }
+                if($file == $source.'/..'){
+                    continue;
+                }
+                if($file == $source.'/.'){
+                    continue;
+                }
+                $file = str_replace('\\', '/', realpath($file));
+                if (is_dir($file) === true) {
+                    $zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+                } else if (is_file($file) === true) {
+                    $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+                }
+            }
+        } else if (is_file($source) === true) {
+            $zip->addFromString(basename($source), file_get_contents($source));
+        }
+    }
+
+    return $zip->close();
 }

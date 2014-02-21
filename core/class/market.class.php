@@ -35,11 +35,15 @@ class market {
     private $status;
     private $author;
     private $logicalId;
+    private $api_author;
 
     /*     * ***********************Methode static*************************** */
 
     private static function construct($_arrayMarket) {
         $market = new market();
+        if (!isset($_arrayMarket['id'])) {
+            return;
+        }
         $market->setId($_arrayMarket['id']);
         $market->setName($_arrayMarket['name']);
         $market->setType($_arrayMarket['type']);
@@ -53,6 +57,10 @@ class market {
         $market->setAuthor($_arrayMarket['author']);
         $market->setChangelog($_arrayMarket['changelog']);
         $market->setLogicalId($_arrayMarket['logicalId']);
+        if (!isset($_arrayMarket['api_author'])) {
+            $_arrayMarket['api_author'] = null;
+        }
+        $market->setApi_author($_arrayMarket['api_author']);
         return $market;
     }
 
@@ -64,7 +72,7 @@ class market {
             throw new Exception($market->getError());
         }
     }
-    
+
     public static function byLogicalId($_logicalId) {
         $market = market::getJsonRpc();
         if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId))) {
@@ -183,6 +191,27 @@ class market {
         config::remove('installVersionDate', $this->getLogicalId());
     }
 
+    public function save() {
+        $market = market::getJsonRpc();
+        $params = utils::o2a($this);
+        switch ($this->getType()) {
+            case 'plugin' :
+                $cibDir = realpath(dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId());
+                $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getLogicalId() . '.zip';
+                if (!create_zip($cibDir, $tmp)) {
+                    throw new Exception('Echec de création du zip');
+                }
+                break;
+            case 'widget' :
+
+                break;
+        }
+        if (!$market->sendRequest('market::save', $params, 2, realpath($tmp))) {
+            throw new Exception($market->getError());
+        }
+        config::save('installVersionDate', date('Y-m-d H:i:s'), $this->getLogicalId());
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {
@@ -287,6 +316,14 @@ class market {
 
     public function setLogicalId($logicalId) {
         $this->logicalId = $logicalId;
+    }
+
+    public function getApi_author() {
+        return $this->api_author;
+    }
+
+    public function setApi_author($api_author) {
+        $this->api_author = $api_author;
     }
 
 }
