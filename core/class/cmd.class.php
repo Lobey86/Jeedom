@@ -663,7 +663,7 @@ class cmd {
                 break;
             case "action":
                 $cmdValue = $this->getCmdValue();
-                if (is_object($cmdValue)) {
+                if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
                     $replace['#state#'] = $cmdValue->execCmd(null, 2);
                 } else {
                     if ($this->getLastValue() != null) {
