@@ -159,7 +159,7 @@ sendVarToJS('market_display_info', utils::o2a($market));
                     return;
                 }
                 $('#div_pluginUpdate').remove();
-                $('#div_alertMarketDisplay').showAlert({message: 'Plugin installé. Rechargé la page pour mettre à jour', level: 'success'});
+                $('#div_alertMarketDisplay').showAlert({message: 'Objet installé. Rechargé la page pour mettre à jour', level: 'success'});
             }
         });
     });
@@ -182,7 +182,7 @@ sendVarToJS('market_display_info', utils::o2a($market));
                     $('#div_alertMarketDisplay').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('#div_alertMarketDisplay').showAlert({message: 'Plugin supprimé. Rechargé la page pour mettre à jour', level: 'success'});
+                $('#div_alertMarketDisplay').showAlert({message: 'Objet supprimé. Rechargé la page pour mettre à jour', level: 'success'});
             }
         });
     });

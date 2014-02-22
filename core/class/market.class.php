@@ -183,29 +183,10 @@ class market {
                 if (!file_exists($cibDir) && !mkdir($cibDir, 0775, true)) {
                     throw new Exception('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?');
                 }
-                break;
-            case 'widget' :
-                $version = explode('/', $this->getLogicalId());
-                $cibDir = dirname(__FILE__) . '/../../plugins/widget/core/template/' . $version[0];
-                try {
-                    $plugin = new plugin('widget');
-                    if (!$plugin->isActive()) {
-                        throw new Exception('Impossible d\'installer le widget car le module widget n\'est pas activé');
-                    }
-                } catch (Exception $e) {
-                    throw new Exception('Impossible d\'installer le widget car le module widget n\'est pas installé');
-                }
-                if (!file_exists($cibDir)) {
-                    throw new Exception('Impossible d\'installer le widget le repertoire n\éxiste pas : ' . $cibDir);
-                }
-                break;
-        }
-        $zip = new ZipArchive;
-        if ($zip->open($tmp) === TRUE) {
-            $zip->extractTo($cibDir . '/');
-            $zip->close();
-            switch ($this->getType()) {
-                case 'plugin' :
+                $zip = new ZipArchive;
+                if ($zip->open($tmp) === TRUE) {
+                    $zip->extractTo($cibDir . '/');
+                    $zip->close();
                     try {
                         $plugin = new plugin($this->getLogicalId());
                     } catch (Exception $e) {
@@ -217,21 +198,38 @@ class market {
                             $plugin->setIsEnable(1);
                         }
                     }
+                } else {
+                    throw new Exception('Impossible de décompresser le zip : ' . $tmp);
+                }
 
-                    break;
-            }
-        } else {
-            throw new Exception('Impossible de décompresser le zip : ' . $tmp);
+
+                break;
+            default :
+                $type = $this->getType();
+                if (class_exists($type) && method_exists(${type}, 'getFromMarket')) {
+                    $tmp = $type::getFromMarket($this, $tmp);
+                }
+                break;
         }
-
         config::save('installVersionDate', $this->getDatetime(), $this->getLogicalId());
     }
 
     public function remove() {
-        $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
-        if (file_exists($cibDir)) {
-            rrmdir($cibDir);
+        switch ($this->getType()) {
+            case 'plugin' :
+                $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
+                if (file_exists($cibDir)) {
+                    rrmdir($cibDir);
+                }
+                break;
+            default :
+                $type = $this->getType();
+                if (class_exists($type) && method_exists(${type}, 'getFromMarket')) {
+                    $tmp = $type::removeFromMarket($this);
+                }
+                break;
         }
+
         config::remove('installVersionDate', $this->getLogicalId());
     }
 
@@ -246,9 +244,15 @@ class market {
                     throw new Exception('Echec de création du zip');
                 }
                 break;
-            case 'widget' :
-
+            default :
+                $type = $this->getType();
+                if (class_exists($type) && method_exists(${type}, 'shareOnMarket')) {
+                    $tmp = $type::shareOnMarket($this);
+                }
                 break;
+        }
+        if (!file_exists($tmp)) {
+            throw new Exception('Impossible de trouver le fichier à envoyer : ' . $tmp);
         }
         $file = array(
             'file' => '@' . realpath($tmp)

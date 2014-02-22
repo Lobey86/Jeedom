@@ -30,9 +30,9 @@ if (config::byKey('market::apikey') != '') {
     <tbody>
         <?php
         foreach ($markets as $market) {
-            echo '<tr data-market_id="' . $market->getId() . '" data-market_type="'.$market->getType().'" class="cursor">';
-            echo '<td>' . $market->getCategorie() . '</td>';
+            echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor">';
             echo '<td>' . $market->getType() . '</td>';
+            echo '<td>' . $market->getCategorie() . '</td>';
             echo '<td>' . $market->getName() . '</td>';
             echo '<td>' . $market->getDescription() . '</td>';
             echo '<td>' . $market->getStatus() . '</td>';

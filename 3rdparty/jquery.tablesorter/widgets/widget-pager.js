@@ -519,7 +519,7 @@ tsp = ts.pager = {
 			tsp.fixHeight(table, c);
 			// apply widgets after table has rendered
 			$t.trigger('applyWidgets');
-			$t.trigger('update', [false, function(){
+			$t.trigger('updateRow', [false, function(){
 				if (p.initialized) {
 					$t.trigger('updateComplete');
 					$t.trigger('pagerChange', c);
@@ -759,10 +759,10 @@ tsp = ts.pager = {
 		p.page = $.data(table, 'pagerLastPage') || p.page || 0;
 		p.size = $.data(table, 'pagerLastSize') || parseInt(p.$size.find('option[selected]').val(), 10) || p.size || 10;
 		p.$size.val(p.size); // set page size
-		p.totalPages = Math.ceil( Math.min( p.totalPages, p.filteredPages ) / p.size );
+		p.totalPages = Math.ceil( Math.min( p.totalRows, p.filteredRows ) / p.size );
 		c.$table.removeClass('pagerDisabled');
 		if ( triggered ) {
-			c.$table.trigger('update');
+			c.$table.trigger('updateRow');
 			tsp.setPageSize(table, p.size, c);
 			tsp.hideRowsSetup(table, c);
 			tsp.fixHeight(table, c);

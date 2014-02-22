@@ -2,7 +2,13 @@
 if (!isConnect('admin')) {
     throw new Exception('401 Unauthorized');
 }
-
+sendVarToJS('market_display_info', array(
+    'logicalId' => init('logicalId'),
+    'name' => init('name')
+    
+    
+));
+sendVarToJS('market_type', init('type'));
 try {
     if (init('logicalId') != '') {
         $market = market::byLogicalId(init('logicalId'));
@@ -20,6 +26,7 @@ if (init('type') == 'plugin') {
     if (!is_object($plugin)) {
         throw new Exception('Le plugin : ' . init('logicalId') . ' est introuvable');
     }
+    sendVarToJS('market_display_info', utils::o2a($plugin));
 }
 ?>
 
@@ -36,13 +43,13 @@ if (init('type') == 'plugin') {
                 <label class="col-lg-4 control-label">ID</label>
                 <div class="col-lg-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
-                    <input class="form-control marketAttr" data-l1key="logicalId" placeholder="ID" value="<?php echo $plugin->getId() ?>" disabled/>
+                    <input class="form-control marketAttr" data-l1key="logicalId" placeholder="ID" disabled/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Nom</label>
                 <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="name" placeholder="Nom" value="<?php echo $plugin->getName() ?>"/>
+                    <input class="form-control marketAttr" data-l1key="name" placeholder="Nom" />
                 </div>
             </div>
             <div class="form-group">
@@ -70,13 +77,13 @@ if (init('type') == 'plugin') {
             <div class="form-group">
                 <label class="col-lg-4 control-label">Catégorie</label>
                 <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="categorie" placeholder="Catégorie" value="<?php echo $plugin->getCategory() ?>">
+                    <input class="form-control marketAttr" data-l1key="categorie" placeholder="Catégorie">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Version</label>
                 <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="version" placeholder="Version" value="<?php echo $plugin->getVersion() ?>">
+                    <input class="form-control marketAttr" data-l1key="version" placeholder="Version">
                 </div>
             </div>
             <div class="form-group">
@@ -92,7 +99,7 @@ if (init('type') == 'plugin') {
                 <div class="form-group">
                     <label class="col-lg-4 control-label">Description</label>
                     <div class="col-lg-6">
-                        <textarea class="form-control marketAttr" data-l1key="description" placeholder="Description" style="height: 150px;"><?php echo $plugin->getDescription() ?></textarea>
+                        <textarea class="form-control marketAttr" data-l1key="description" placeholder="Description" style="height: 150px;"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -110,12 +117,12 @@ if (init('type') == 'plugin') {
 <?php
 if (is_object($market)) {
     sendVarToJS('market_display_info', utils::o2a($market));
-} else {
-    sendVarToJS('market_display_info', array());
 }
 ?>
 <script>
+
     $('body').setValues(market_display_info, '.marketAttr');
+
     $('.marketAttr[data-l1key=type]').value(market_type);
 
     $('#bt_sendToMarket').on('click', function() {
