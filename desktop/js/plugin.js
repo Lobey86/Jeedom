@@ -45,12 +45,12 @@ $(function() {
 
     $('#bt_displayMarket').on('click', function() {
         $('#md_modal').dialog({title: "Market Jeedom"});
-        $('#md_modal').load('index.php?v=d&modal=market.list').dialog('open');
+        $('#md_modal').load('index.php?v=d&modal=market.list&type=plugin').dialog('open');
     });
 
     $('body').delegate('.viewOnMarket', 'click', function() {
         $('#md_modal2').dialog({title: "Market Jeedom Display"});
-        $('#md_modal2').load('index.php?v=d&modal=market.display&logicalId=' + $(this).attr('data-market_logicalId')).dialog('open');
+        $('#md_modal2').load('index.php?v=d&modal=market.display&type=plugin&logicalId=' + $(this).attr('data-market_logicalId')).dialog('open');
     });
     
     $('body').delegate('.sendOnMarket', 'click', function() {

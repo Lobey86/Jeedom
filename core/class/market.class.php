@@ -125,6 +125,48 @@ class market {
         return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'));
     }
 
+    public static function getInfo($_logicalId) {
+        $return = array();
+        if (config::byKey('market::apikey') !== '') {
+            $return['market_owner'] = 1;
+        } else {
+            $return['market_owner'] = 0;
+        }
+        $return['market'] = 0;
+        $updateDateTime = config::byKey('installVersionDate', $_logicalId);
+
+        try {
+            $market = market::byLogicalId($_logicalId);
+
+            if (!is_object($market)) {
+                $return['status'] = 'depreciated';
+            } else {
+                $return['market'] = 1;
+                if ($market->getApi_author() == config::byKey('market::apikey')) {
+                    $return['market_owner'] = 1;
+                } else {
+                    $return['market_owner'] = 0;
+                }
+            }
+            if ($market->getStatus() == 'Refusé') {
+                $return['status'] = 'depreciated';
+            }
+            if ($market->getStatus() == 'A valider') {
+                $return['status'] = 'ok';
+            }
+            if ($market->getStatus() == 'Validé') {
+                if ($updateDateTime < $market->getDatetime()) {
+                    $return['status'] = 'update';
+                } else {
+                    $return['status'] = 'ok';
+                }
+            }
+        } catch (Exception $e) {
+            $return['status'] = 'ok';
+        }
+        return $return;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function install() {
@@ -175,12 +217,14 @@ class market {
                             $plugin->setIsEnable(1);
                         }
                     }
-                    config::save('installVersionDate', $this->getDatetime(), $this->getLogicalId());
+
                     break;
             }
         } else {
             throw new Exception('Impossible de décompresser le zip : ' . $tmp);
         }
+
+        config::save('installVersionDate', $this->getDatetime(), $this->getLogicalId());
     }
 
     public function remove() {

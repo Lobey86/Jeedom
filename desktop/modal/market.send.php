@@ -15,7 +15,6 @@ try {
 } catch (Exception $e) {
     
 }
-sendVarToJS('market_type', init('type'));
 if (init('type') == 'plugin') {
     $plugin = new plugin(init('logicalId'));
     if (!is_object($plugin)) {
@@ -37,7 +36,6 @@ if (init('type') == 'plugin') {
                 <label class="col-lg-4 control-label">ID</label>
                 <div class="col-lg-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
-                    <div class="alert alert-warning" >L'ID doit être pour : <br/>- un plugin doit être l'ID du plugin<br/>- un widget "VERSION/WIDGET_ID" ex : dashboard/cmd.action.slider.knob</div>
                     <input class="form-control marketAttr" data-l1key="logicalId" placeholder="ID" value="<?php echo $plugin->getId() ?>" disabled/>
                 </div>
             </div>
@@ -53,19 +51,14 @@ if (init('type') == 'plugin') {
                     <select class="form-control marketAttr" data-l1key="type" disabled>
                         <option value="plugin">Plugin</option>
                         <option value="widget">Widget</option>
-                        <option value="zwave_module">[Zwave] Configuration module</option>
+                        <option value="zwave">[Zwave] Configuration module</option>
+                        <option value="script">Script</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Statut</label>
                 <div class="col-lg-6">
-                    <?php
-                    $disabled = "disabled";
-                    if (isConnect('admin') == '1') {
-                        $disabled = "";
-                    }
-                    ?>
                     <select class="form-control marketAttr" data-l1key="status" >
                         <option>A valider</option>
                         <option>Validé</option>
