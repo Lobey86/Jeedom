@@ -5,22 +5,21 @@ if (!isConnect('admin')) {
 sendVarToJS('market_display_info', array(
     'logicalId' => init('logicalId'),
     'name' => init('name')
-    
-    
 ));
 sendVarToJS('market_type', init('type'));
 try {
     if (init('logicalId') != '') {
         $market = market::byLogicalId(init('logicalId'));
     }
-    if (is_object($market)) {
-        if ($market->getApi_author() != config::byKey('market::apikey')) {
-            throw new Exception('Vous n\'etez pas l\'autheur du plugin');
-        }
-    }
 } catch (Exception $e) {
     
 }
+if (is_object($market)) {
+    if ($market->getApi_author() != config::byKey('market::apikey')) {
+        throw new Exception('Vous n\'etez pas l\'autheur du plugin');
+    }
+}
+
 if (init('type') == 'plugin') {
     $plugin = new plugin(init('logicalId'));
     if (!is_object($plugin)) {
