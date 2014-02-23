@@ -36,6 +36,7 @@ class market {
     private $author;
     private $logicalId;
     private $api_author;
+    private $rating;
 
     /*     * ***********************Methode static*************************** */
 
@@ -61,6 +62,7 @@ class market {
             $_arrayMarket['api_author'] = null;
         }
         $market->setApi_author($_arrayMarket['api_author']);
+        
         return $market;
     }
 
@@ -175,6 +177,21 @@ class market {
     }
 
     /*     * *********************Methode d'instance************************* */
+
+    public function setRating($_rating) {
+        $market = market::getJsonRpc();
+        if (!$market->sendRequest('market::setRating', array('rating' => $_rating, 'id' => $this->getId()))) {
+            throw new Exception($market->getError());
+        }
+    }
+
+    public function getRating() {
+        $market = market::getJsonRpc();
+        if (!$market->sendRequest('market::getRating', array('id' => $this->getId()))) {
+            throw new Exception($market->getError());
+        }
+        return $market->getResult();
+    }
 
     public function install() {
         $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getLogicalId() . '.zip';
