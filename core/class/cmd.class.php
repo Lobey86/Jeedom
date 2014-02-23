@@ -55,10 +55,13 @@ class cmd {
                     INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                 WHERE c.id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        if ($result['isEnable'] == 0) {
-            return __CLASS__;
-        }
         $eqTyme_name = $result['eqType_name'];
+        if ($result['isEnable'] == 0) {
+            $plugin = new plugin($eqTyme_name);
+            if ($plugin->isActive() == 0) {
+                return __CLASS__;
+            }
+        }
         if (class_exists($eqTyme_name)) {
             if (method_exists($eqTyme_name, 'getClassCmd')) {
                 return $eqTyme_name::getClassCmd();
