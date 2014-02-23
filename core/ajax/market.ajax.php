@@ -26,12 +26,18 @@ try {
 
     if (init('action') == 'install') {
         $market = market::byId(init('id'));
+        if (!is_object($market)) {
+            throw new Exception('Impossible de trouver l\'objet associé : ' . init('id'));
+        }
         $market->install();
         ajax::success();
     }
 
     if (init('action') == 'remove') {
         $market = market::byId(init('id'));
+        if (!is_object($market)) {
+            throw new Exception('Impossible de trouver l\'objet associé : ' . init('id'));
+        }
         $market->remove();
         ajax::success();
     }
@@ -50,6 +56,23 @@ try {
 
     if (init('action') == 'getInfo') {
         ajax::success(market::getInfo(init('logicalId')));
+    }
+
+    if (init('action') == 'setRating') {
+        $market = market::byId(init('id'));
+        if (!is_object($market)) {
+            throw new Exception('Impossible de trouver l\'objet associé : ' . init('id'));
+        }
+        $market->setRating(init('rating'));
+        ajax::success();
+    }
+
+    if (init('action') == 'getRating') {
+        $market = market::byId(init('id'));
+        if (!is_object($market)) {
+            throw new Exception('Impossible de trouver l\'objet associé : ' . init('id'));
+        }
+        ajax::success($market->getRating());
     }
 
     throw new Exception('Aucune methode correspondante à : ' . init('action'));

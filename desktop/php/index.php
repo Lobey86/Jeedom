@@ -38,7 +38,7 @@ if ($plugin != '') {
 
         <!-- Le styles -->
         <?php
-        include_file('3rdparty', 'bootstrap/bootstrap.min', 'css');
+        include_file('3rdparty', 'bootstrap/css/bootstrap.min', 'css');
         ?>
         <style type="text/css">
             body {

@@ -3,7 +3,6 @@ if (!isConnect('admin')) {
     throw new Exception('401 Unauthorized');
 }
 
-
 if (init('id') != '') {
     $market = market::byId(init('id'));
 }
@@ -13,6 +12,15 @@ if (init('logicalId') != '') {
 if (!isset($market)) {
     throw new Exception('404 not found');
 }
+
+include_file('3rdparty', 'bootstrap.rating/bootstrap.rating', 'js');
+
+$rating = $market->getRating();
+$market_array = utils::o2a($market);
+$market_array['rating'] = $rating['average'];
+sendVarToJS('market_display_info', $market_array);
+
+
 
 if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config::byKey('installVersionDate', $market->getLogicalId()) < $market->getDatetime()) {
     echo '<div style="width : 100%" class="alert alert-warning" id="div_pluginUpdate">Une mise à jour est disponible. Cliquez sur installer pour l\'effectuer</div>';
@@ -31,6 +39,21 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
 <form class="form-horizontal" role="form">
     <div class="row">
         <div class="col-md-5">
+            <?php if (config::byKey('market::apikey') != '') { ?>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">Ma Note</label>
+                    <div class="col-lg-8">
+                        <span><input type="number" class="rating" id="in_myRating" data-max="5" data-empty-value="0" data-min="1" data-clearable="Effacer" value="<?php echo $rating['user'] ?>" /></span>
+                    </div>
+                </div>
+            <?php } ?>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Note</label>
+                <div class="col-lg-8">
+                    <input class="form-control marketAttr" data-l1key="id" style="display: none;">
+                    <span class="label label-primary marketAttr" data-l1key="rating" style="font-size: 1.2em;"></span>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label class="col-lg-4 control-label">ID</label>
@@ -133,10 +156,6 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
     </div> 
 </form>
 
-
-<?php
-sendVarToJS('market_display_info', utils::o2a($market));
-?>
 <script>
     $('body').setValues(market_display_info, '.marketAttr');
 
@@ -183,6 +202,31 @@ sendVarToJS('market_display_info', utils::o2a($market));
                     return;
                 }
                 $('#div_alertMarketDisplay').showAlert({message: 'Objet supprimé. Rechargé la page pour mettre à jour', level: 'success'});
+            }
+        });
+    });
+
+
+
+    $('#in_myRating').on('change', function() {
+        var id = $('.marketAttr[data-l1key=id]').value();
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "core/ajax/market.ajax.php", // url du fichier php
+            data: {
+                action: "setRating",
+                id: id,
+                rating: $(this).val()
+            },
+            dataType: 'json',
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) { // si l'appel a bien fonctionné
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
             }
         });
     });
