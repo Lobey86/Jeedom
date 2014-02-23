@@ -50,12 +50,18 @@ class cmd {
         $values = array(
             'id' => $_id
         );
-        $sql = 'SELECT el.eqType_name
+        $sql = 'SELECT el.eqType_name, el.isEnable
                 FROM cmd c
                     INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                 WHERE c.id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         $eqTyme_name = $result['eqType_name'];
+        if ($result['isEnable'] == 0) {
+            $plugin = new plugin($eqTyme_name);
+            if ($plugin->isActive() == 0) {
+                return __CLASS__;
+            }
+        }
         if (class_exists($eqTyme_name)) {
             if (method_exists($eqTyme_name, 'getClassCmd')) {
                 return $eqTyme_name::getClassCmd();
@@ -150,6 +156,19 @@ class cmd {
                 WHERE c.name=:cmd_name
                     AND el.name=:eqLogic_name
                     AND el.eqType_name=:eqType_name';
+        $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+        return self::byId($id['id']);
+    }
+
+    public static function byEqLogicIdCmdName($_eqLogic_id, $_cmd_name) {
+        $values = array(
+            'eqLogic_id' => $_eqLogic_id,
+            'cmd_name' => $_cmd_name,
+        );
+        $sql = 'SELECT c.id
+                FROM cmd c
+                WHERE c.name=:cmd_name
+                    AND c.eqLogic_id=:eqLogic_id';
         $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         return self::byId($id['id']);
     }
@@ -533,13 +552,13 @@ class cmd {
             $numberTryWithoutSuccess = $eqLogic->getStatus('numberTryWithoutSuccess', 0);
             $eqLogic->setStatus('numberTryWithoutSuccess', $numberTryWithoutSuccess);
             if ($numberTryWithoutSuccess >= config::byKey('numberOfTryBeforeEqLogicDisable')) {
-                $eqLogic->setIsEnable(0);
-                $eqLogic->save();
                 $message = 'Désactivation de <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getName();
                 $message .= ($eqLogic->getEqReal_id() != '') ? ' (' . $eqLogic->getEqReal()->getName() . ') ' : '';
                 $message .= '</a> car il n\'a pas répondu ou mal répondu lors des 3 derniers essais';
                 $action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getEqLogic_id() . '" data-isEnable="1">Ré-activer</a>';
                 message::add($type, $message, $action);
+                $eqLogic->setIsEnable(0);
+                $eqLogic->save();
             }
             log::add($type, 'error', 'Erreur sur ' . $eqLogic->getName() . ' : ' . $e->getMessage());
             throw $e;
@@ -663,7 +682,7 @@ class cmd {
                 break;
             case "action":
                 $cmdValue = $this->getCmdValue();
-                if (is_object($cmdValue)) {
+                if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
                     $replace['#state#'] = $cmdValue->execCmd(null, 2);
                 } else {
                     if ($this->getLastValue() != null) {
@@ -735,7 +754,7 @@ class cmd {
 
     public function addHistoryValue($_value) {
         if ($this->getIsHistorized() == 1) {
-            if (($this->getConfiguration('maxValue') == '' || $_value <= $this->getConfiguration('maxValue')) && ($this->getConfiguration('minValue') == '' || $_value >= $this->getConfiguration('minValue', $_value))) {
+            if (($this->getConfiguration('maxValue') === '' || $_value <= $this->getConfiguration('maxValue')) && ($this->getConfiguration('minValue') === '' || $_value >= $this->getConfiguration('minValue', $_value))) {
                 $hitory = new history();
                 $hitory->setCmd_id($this->getId());
                 $hitory->setValue($_value);
@@ -867,100 +886,36 @@ class cmd {
         $this->eventOnly = $eventOnly;
     }
 
-    public function getCache($_name = '', $_default = '') {
-        if ($this->cache == '') {
-            return $_default;
-        }
-        if (is_json($this->cache)) {
-            if ($_name == '') {
-                return json_decode($this->cache, true);
-            }
-            $cache = json_decode($this->cache, true);
-            return (isset($cache[$_name]) && $cache[$_name] !== '') ? $cache[$_name] : $_default;
-        }
-        return $_default;
+    public function getCache($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->cache, $_key, $_default);
     }
 
-    public function setCache($_name, $_key) {
-        if ($this->cache == '' || !is_json($this->cache)) {
-            $this->cache = json_encode(array($_name => $_key));
-        } else {
-            $cache = json_decode($this->cache, true);
-            $cache[$_name] = $_key;
-            $this->cache = json_encode($cache);
-        }
+    public function setCache($_key, $_value) {
+        $this->cache = utils::setJsonAttr($this->cache, $_key, $_value);
     }
 
-    public function getTemplate($_name = '', $_default = '') {
-        if ($this->template == '') {
-            return $_default;
-        }
-        if (is_json($this->template)) {
-            if ($_name == '') {
-                return json_decode($this->template, true);
-            }
-            $template = json_decode($this->template, true);
-            return (isset($template[$_name]) && $template[$_name] !== '') ? $template[$_name] : $_default;
-        }
-        return $_default;
+    public function getTemplate($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->template, $_key, $_default);
     }
 
-    public function setTemplate($_name, $_key) {
-        if ($this->template == '' || !is_json($this->template)) {
-            $this->template = json_encode(array($_name => $_key));
-        } else {
-            $template = json_decode($this->template, true);
-            $template[$_name] = $_key;
-            $this->template = json_encode($template);
-        }
+    public function setTemplate($_key, $_value) {
+        $this->template = utils::setJsonAttr($this->template, $_key, $_value);
     }
 
-    public function getConfiguration($_name = '', $_default = '') {
-        if ($this->configuration == '') {
-            return $_default;
-        }
-        if (is_json($this->configuration)) {
-            if ($_name == '') {
-                return json_decode($this->configuration, true);
-            }
-            $configuration = json_decode($this->configuration, true);
-            return (isset($configuration[$_name]) && $configuration[$_name] !== '') ? $configuration[$_name] : $_default;
-        }
-        return $_default;
+    public function getConfiguration($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->configuration, $_key, $_default);
     }
 
-    public function setConfiguration($_name, $_key) {
-        if ($this->configuration == '' || !is_json($this->configuration)) {
-            $this->configuration = json_encode(array($_name => $_key));
-        } else {
-            $configuration = json_decode($this->configuration, true);
-            $configuration[$_name] = $_key;
-            $this->configuration = json_encode($configuration);
-        }
+    public function setConfiguration($_key, $_value) {
+        $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
 
     public function getDisplay($_key = '', $_default = '') {
-        if ($this->display == '') {
-            return $_default;
-        }
-        if (is_json($this->display)) {
-            if ($_key == '') {
-                return json_decode($this->display, true);
-            }
-            $display = json_decode($this->display, true);
-            return (isset($display[$_key])) ? $display[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->display, $_key, $_default);
     }
 
     public function setDisplay($_key, $_value) {
-        if ($this->display == '' || !is_json($this->display)) {
-            $this->display = json_encode(array($_key => $_value));
-        } else {
-            $display = json_decode($this->display, true);
-            $display[$_key] = $_value;
-            $this->display = json_encode($display);
-        }
+        $this->display = utils::setJsonAttr($this->display, $_key, $_value);
     }
 
     public function getCollect() {

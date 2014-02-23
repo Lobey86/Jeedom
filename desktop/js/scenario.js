@@ -174,7 +174,7 @@ $(function() {
         if (expression.find('.expressionAttr[data-l1key=type]').value() == 'action') {
             type = 'action';
         }
-        cmd.getSelectModal({type: type}, function(result) {
+        cmd.getSelectModal({cmd: {type: type}}, function(result) {
             if (expression.find('.expressionAttr[data-l1key=type]').value() == 'action') {
                 expression.find('.expressionAttr[data-l1key=expression]').value(result.human);
                 expression.find('.expressionOptions').html(displayActionOption(expression.find('.expressionAttr[data-l1key=expression]').value(), ''));
@@ -234,7 +234,7 @@ $(function() {
 
     $('body').delegate('.bt_selectTrigger', 'click', function(event) {
         var el = $(this);
-        cmd.getSelectModal({type: 'info'}, function(result) {
+        cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {
             el.closest('.trigger').find('.scenarioAttr[data-l1key=trigger]').value(result.human);
         });
     });

@@ -3,13 +3,13 @@ if (!isConnect('admin')) {
     throw new Exception('401 Unauthorized');
 }
 
-$markets = market::byStatus('Validé');
+$markets = market::byStatusAndType('Validé', init('type'));
 
 if (config::byKey('market::apikey') != '') {
-    foreach (market::byMe() as $myMarket){
-       if($myMarket->getStatus() != 'Validé'){
-           $markets[] = $myMarket;
-       }
+    foreach (market::byMe() as $myMarket) {
+        if ($myMarket->getStatus() != 'Validé' && $myMarket->getType() == init('type')) {
+            $markets[] = $myMarket;
+        }
     }
 }
 ?>
@@ -19,26 +19,24 @@ if (config::byKey('market::apikey') != '') {
     <thead>
         <tr>
             <th>Type</th>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Auteur</th>
             <th>Catégorie</th>
+            <th>Nom</th>
             <th>Description</th>
-            <th>Status</th>
-            <th>Nombre de téléchargement</th>
+            <th>Statut</th>
+            <th>Auteur</th>
+            <th style="width: 80px;">Nombre de téléchargements</th>
         </tr>
     </thead>
     <tbody>
         <?php
         foreach ($markets as $market) {
-            echo '<tr data-market_id="' . $market->getId() . '" class="cursor">';
+            echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor">';
             echo '<td>' . $market->getType() . '</td>';
-            echo '<td>' . $market->getLogicalId() . '</td>';
-            echo '<td>' . $market->getName() . '</td>';
-            echo '<td>' . $market->getAuthor() . '</td>';
             echo '<td>' . $market->getCategorie() . '</td>';
+            echo '<td>' . $market->getName() . '</td>';
             echo '<td>' . $market->getDescription() . '</td>';
             echo '<td>' . $market->getStatus() . '</td>';
+            echo '<td>' . $market->getAuthor() . '</td>';
             echo '<td>' . $market->getDownloaded() . '</td>';
             echo '</tr>';
         }
@@ -52,6 +50,6 @@ if (config::byKey('market::apikey') != '') {
     initTableSorter();
     $('#table_market tbody tr').on('click', function() {
         $('#md_modal2').dialog({title: "Market Jeedom Display"});
-        $('#md_modal2').load('index.php?v=d&modal=market.display&id=' + $(this).attr('data-market_id')).dialog('open');
+        $('#md_modal2').load('index.php?v=d&modal=market.display&type=' + $(this).attr('data-market_type') + '&id=' + $(this).attr('data-market_id')).dialog('open');
     });
 </script>

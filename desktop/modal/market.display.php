@@ -13,21 +13,19 @@ if (init('logicalId') != '') {
 if (!isset($market)) {
     throw new Exception('404 not found');
 }
-$update = '';
 
 if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config::byKey('installVersionDate', $market->getLogicalId()) < $market->getDatetime()) {
     echo '<div style="width : 100%" class="alert alert-warning" id="div_pluginUpdate">Une mise à jour est disponible. Cliquez sur installer pour l\'effectuer</div>';
 }
 ?>
 
-<div style="display: none;width : 100%" id="div_alertMarketDisplay"><?php echo $update; ?></div>
-
+<div style="display: none;width : 100%" id="div_alertMarketDisplay"></div>
 
 <a class="btn btn-success pull-right" href="<?php echo config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $market->getId() ?>" style="color : white;"><i class="fa fa-cloud-download"></i> Télécharger</a>
-<a class="btn btn-warning pull-right" style="color : white;" id="bt_installFromMarket" data-market_id="<?php echo $market->getId(); ?> "><i class="fa fa-plus-circle"></i> Installer</a>
+<a class="btn btn-warning pull-right" style="color : white;" id="bt_installFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-plus-circle"></i> Installer</a>
 
 <?php if (config::byKey('installVersionDate', $market->getLogicalId()) != '') { ?>
-    <a class="btn btn-danger pull-right" style="color : white;" id="bt_removeFromMarket" data-market_id="<?php echo $market->getId(); ?> "><i class="fa fa-minus-circle"></i> Supprimer</a>
+    <a class="btn btn-danger pull-right" style="color : white;" id="bt_removeFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-minus-circle"></i> Supprimer</a>
 <?php } ?>
 <br/><br/><br/>
 <form class="form-horizontal" role="form">
@@ -67,17 +65,17 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
             <div class="form-group">
                 <label class="col-lg-4 control-label">Description</label>
                 <div class="col-lg-8">
-                    <span class="label label-primary marketAttr" data-l1key="description" placeholder="Description" style="height: 100px;"></span>
+                    <span class="marketAttr" data-l1key="description" placeholder="Description" ></span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Changelog</label>
                 <div class="col-lg-8">
-                    <span class="label label-default marketAttr" data-l1key="changelog" placeholder="Changelog" style="height: 100px;"></span>
+                    <span class="marketAttr" data-l1key="changelog" placeholder="Changelog" style="height: 100px;"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Status</label>
+                <label class="col-lg-4 control-label">Statut</label>
                 <div class="col-lg-8">
                     <select class="form-control marketAttr" data-l1key="status" disabled>
                         <option>A valider</option>
@@ -100,7 +98,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Derniere modification de l'archive</label>
+                <label class="col-lg-4 control-label">Dernière modification de l'archive</label>
                 <div class="col-lg-6">
                     <span class="marketAttr label label-info" data-l1key="datetime"></span>
                 </div>
@@ -114,7 +112,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             <?php } ?>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Nombre de téléchargement</label>
+                <label class="col-lg-4 control-label">Nombre de téléchargements</label>
                 <div class="col-lg-8">
                     <span class="marketAttr label label-info" data-l1key="downloaded"></span>
                 </div>
@@ -141,7 +139,7 @@ sendVarToJS('market_display_info', utils::o2a($market));
 ?>
 <script>
     $('body').setValues(market_display_info, '.marketAttr');
-    
+
     $('#bt_installFromMarket').on('click', function() {
         var id = $(this).attr('data-market_id');
         $.ajax({// fonction permettant de faire de l'ajax
@@ -161,11 +159,11 @@ sendVarToJS('market_display_info', utils::o2a($market));
                     return;
                 }
                 $('#div_pluginUpdate').remove();
-                $('#div_alertMarketDisplay').showAlert({message: 'Plugin installé. Rechargé la page pour mettre à jour', level: 'success'});
+                $('#div_alertMarketDisplay').showAlert({message: 'Objet installé. Rechargé la page pour mettre à jour', level: 'success'});
             }
         });
     });
-    
+
     $('#bt_removeFromMarket').on('click', function() {
         var id = $(this).attr('data-market_id');
         $.ajax({// fonction permettant de faire de l'ajax
@@ -184,7 +182,7 @@ sendVarToJS('market_display_info', utils::o2a($market));
                     $('#div_alertMarketDisplay').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('#div_alertMarketDisplay').showAlert({message: 'Plugin supprimé. Rechargé la page pour mettre à jour', level: 'success'});
+                $('#div_alertMarketDisplay').showAlert({message: 'Objet supprimé. Rechargé la page pour mettre à jour', level: 'success'});
             }
         });
     });

@@ -11,7 +11,7 @@ sendVarToJS('select_id', init('id', '-1'));
         <div class="bs-sidebar affix">
             <ul id="ul_plugin" class="nav nav-list bs-sidenav fixnav">
                 <center>
-                    <a class="btn btn-success btn-xs tooltips cursor" id="bt_displayMarket" style="display: inline-block;"><i class="fa fa fa-eye"></i> Télécharger du market</a>
+                    <a class="btn btn-success btn-xs tooltips cursor" id="bt_displayMarket" style="display: inline-block;"><i class="fa fa-shopping-cart"></i> Télécharger du market</a>
                 </center>
                 <li class="nav-header">Liste plugin</li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control input-sm" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
@@ -23,13 +23,13 @@ sendVarToJS('select_id', init('id', '-1'));
                     echo '<i class="' . $plugin->getIcon() . '"></i> ' . $plugin->getName();
                     if ($plugin->isActive() == 1) {
                         if ($status['status'] == 'depreciated') {
-                            echo '<i class="fa fa-times pull-right" title="Plugin non maintenu ou supprimé"></i>';
+                            echo '<i class="fa fa-times pull-right tooltips" title="Plugin non maintenu ou supprimé"></i>';
                         }
                         if ($status['status'] == 'ok') {
-                            echo '<i class="fa fa-check pull-right" title="Plugin à jour"></i>';
+                            echo '<i class="fa fa-check pull-right tooltips" title="Plugin à jour"></i>';
                         }
                         if ($status['status'] == 'update') {
-                            echo '<i class="fa fa-refresh pull-right" title="Mise à jour nécessaire"></i>';
+                            echo '<i class="fa fa-refresh pull-right tooltips" title="Mise à jour nécessaire"></i>';
                         }
                         echo '<span class="binary green pull-right"></span> ';
                     } else {
@@ -45,7 +45,7 @@ sendVarToJS('select_id', init('id', '-1'));
         <legend>
             <span id="span_plugin_name" ></span> (<span id="span_plugin_id"></span>)
              <span id="span_plugin_toggleState" class="pull-right"></span>
-             <span id="span_plugin_viewMarket" class="pull-right"></span>
+             <span id="span_plugin_market" class="pull-right"></span>
         </legend>
         <div class="alert alert-info">
             <h5 style="display: inline-block;font-weight: bold;">Description : </h5> <span id="span_plugin_description"></span>

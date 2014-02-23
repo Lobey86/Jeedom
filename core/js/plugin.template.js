@@ -40,6 +40,9 @@ $(function() {
         $('.eqLogic').each(function() {
             var eqLogic = $(this).getValues('.eqLogicAttr');
             eqLogic = eqLogic[0];
+            if ('function' == typeof(saveEqLogic)) {
+                eqLogic = saveEqLogic(eqLogic);
+            }
             eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
             eqLogics.push(eqLogic);
         });

@@ -74,7 +74,7 @@ class utils {
                                         $_object->$method($arrayKey, $arrayArraykey, $arrayArrayvalue);
                                     }
                                 } else {
-                                    $_object->$method($arrayKey, json_encode($arrayValue));
+                                    $_object->$method($arrayKey, $arrayValue);
                                 }
                             } else {
                                 $_object->$method($arrayKey, $arrayValue);
@@ -122,6 +122,39 @@ class utils {
                 $dbObject->remove();
             }
         }
+    }
+
+    public static function setJsonAttr($_attr, $_key, $_value) {
+        if ($_value === null) {
+            if ($_attr != '' && is_json($_attr)) {
+                $attr = json_decode($_attr, true);
+                unset($attr[$_key]);
+                $_attr = json_encode($attr);
+            }
+        } else {
+            if ($_attr == '' || !is_json($_attr)) {
+                $_attr = json_encode(array($_key => $_value));
+            } else {
+                $attr = json_decode($_attr, true);
+                $attr[$_key] = $_value;
+                $_attr = json_encode($attr);
+            }
+        }
+        return $_attr;
+    }
+
+    public static function getJsonAttr($_attr, $_key = '', $_default = '') {
+        if ($_key == '') {
+            if ($_attr == '' || !is_json($_attr)) {
+                return $_attr;
+            }
+            return json_decode($_attr, true);
+        }
+        if ($_attr === '') {
+            return $_default;
+        }
+        $attr = json_decode($_attr, true);
+        return (isset($attr[$_key]) && $attr[$_key] !== '') ? $attr[$_key] : $_default;
     }
 
     /*     * *********************Methode d'instance************************* */

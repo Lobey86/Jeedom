@@ -20,17 +20,36 @@ try {
     require_once(dirname(__FILE__) . '/../../core/php/core.inc.php');
     include_file('core', 'authentification', 'php');
 
-   
-    if (init('action') == 'install') {
-       $market = market::byId(init('id'));
-       $market->install();
-       ajax::success();
+    if (!isConnect('admin')) {
+        throw new Exception('401 Unauthorized');
     }
-    
-     if (init('action') == 'remove') {
-       $market = market::byId(init('id'));
-       $market->remove();
-       ajax::success();
+
+    if (init('action') == 'install') {
+        $market = market::byId(init('id'));
+        $market->install();
+        ajax::success();
+    }
+
+    if (init('action') == 'remove') {
+        $market = market::byId(init('id'));
+        $market->remove();
+        ajax::success();
+    }
+
+    if (init('action') == 'save') {
+        $market_ajax = json_decode(init('market'), true);
+        try {
+            $market = market::byId($market_ajax['id']);
+        } catch (Exception $e) {
+            $market = new market();
+        }
+        utils::a2o($market, $market_ajax);
+        $market->save();
+        ajax::success();
+    }
+
+    if (init('action') == 'getInfo') {
+        ajax::success(market::getInfo(init('logicalId')));
     }
 
     throw new Exception('Aucune methode correspondante à : ' . init('action'));

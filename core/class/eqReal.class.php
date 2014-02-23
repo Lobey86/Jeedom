@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
@@ -167,28 +167,12 @@ class eqReal {
         $this->cat = $cat;
     }
 
-    public function getConfiguration($_name = '', $_default = '') {
-        if ($this->configuration == '') {
-            return $_default;
-        }
-        if (is_json($this->configuration)) {
-            if ($_name == '') {
-                return json_decode($this->configuration);
-            }
-            $configuration = json_decode($this->configuration, true);
-            return (isset($configuration[$_name])) ? $configuration[$_name] : $_default;
-        }
-        return $_default;
+    public function getConfiguration($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->configuration, $_key, $_default);
     }
 
-    public function setConfiguration($_name, $_key) {
-        if ($this->configuration == '' || !is_json($this->configuration)) {
-            $this->configuration = json_encode(array($_name => $_key));
-        } else {
-            $configuration = json_decode($this->configuration, true);
-            $configuration[$_name] = $_key;
-            $this->configuration = json_encode($configuration);
-        }
+    public function setConfiguration($_key, $_value) {
+        $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
 
     public function getInternalEvent() {

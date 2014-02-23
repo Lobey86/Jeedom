@@ -35,11 +35,15 @@ class market {
     private $status;
     private $author;
     private $logicalId;
+    private $api_author;
 
     /*     * ***********************Methode static*************************** */
 
     private static function construct($_arrayMarket) {
         $market = new market();
+        if (!isset($_arrayMarket['id'])) {
+            return;
+        }
         $market->setId($_arrayMarket['id']);
         $market->setName($_arrayMarket['name']);
         $market->setType($_arrayMarket['type']);
@@ -53,6 +57,10 @@ class market {
         $market->setAuthor($_arrayMarket['author']);
         $market->setChangelog($_arrayMarket['changelog']);
         $market->setLogicalId($_arrayMarket['logicalId']);
+        if (!isset($_arrayMarket['api_author'])) {
+            $_arrayMarket['api_author'] = null;
+        }
+        $market->setApi_author($_arrayMarket['api_author']);
         return $market;
     }
 
@@ -64,7 +72,7 @@ class market {
             throw new Exception($market->getError());
         }
     }
-    
+
     public static function byLogicalId($_logicalId) {
         $market = market::getJsonRpc();
         if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId))) {
@@ -117,6 +125,55 @@ class market {
         return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'));
     }
 
+    public static function getInfo($_logicalId) {
+        $return = array();
+        if ($_logicalId == '') {
+            $return['market'] = 0;
+            $return['market_owner'] = 0;
+            $return['status'] = 'ok';
+            return $return;
+        }
+
+        if (config::byKey('market::apikey') != '') {
+            $return['market_owner'] = 1;
+        } else {
+            $return['market_owner'] = 0;
+        }
+        $return['market'] = 0;
+        $updateDateTime = config::byKey('installVersionDate', $_logicalId);
+
+        try {
+            $market = market::byLogicalId($_logicalId);
+
+            if (!is_object($market)) {
+                $return['status'] = 'depreciated';
+            } else {
+                $return['market'] = 1;
+                if ($market->getApi_author() == config::byKey('market::apikey') && $market->getApi_author() != '') {
+                    $return['market_owner'] = 1;
+                } else {
+                    $return['market_owner'] = 0;
+                }
+            }
+            if ($market->getStatus() == 'Refusé') {
+                $return['status'] = 'depreciated';
+            }
+            if ($market->getStatus() == 'A valider') {
+                $return['status'] = 'ok';
+            }
+            if ($market->getStatus() == 'Validé') {
+                if ($updateDateTime < $market->getDatetime()) {
+                    $return['status'] = 'update';
+                } else {
+                    $return['status'] = 'ok';
+                }
+            }
+        } catch (Exception $e) {
+            $return['status'] = 'ok';
+        }
+        return $return;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function install() {
@@ -133,29 +190,10 @@ class market {
                 if (!file_exists($cibDir) && !mkdir($cibDir, 0775, true)) {
                     throw new Exception('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?');
                 }
-                break;
-            case 'widget' :
-                $version = explode('/', $this->getLogicalId());
-                $cibDir = dirname(__FILE__) . '/../../plugins/widget/core/template/' . $version[0];
-                try {
-                    $plugin = new plugin('widget');
-                    if (!$plugin->isActive()) {
-                        throw new Exception('Impossible d\'installer le widget car le module widget n\'est pas activé');
-                    }
-                } catch (Exception $e) {
-                    throw new Exception('Impossible d\'installer le widget car le module widget n\'est pas installé');
-                }
-                if (!file_exists($cibDir)) {
-                    throw new Exception('Impossible d\'installer le widget le repertoire n\éxiste pas : ' . $cibDir);
-                }
-                break;
-        }
-        $zip = new ZipArchive;
-        if ($zip->open($tmp) === TRUE) {
-            $zip->extractTo($cibDir . '/');
-            $zip->close();
-            switch ($this->getType()) {
-                case 'plugin' :
+                $zip = new ZipArchive;
+                if ($zip->open($tmp) === TRUE) {
+                    $zip->extractTo($cibDir . '/');
+                    $zip->close();
                     try {
                         $plugin = new plugin($this->getLogicalId());
                     } catch (Exception $e) {
@@ -167,20 +205,69 @@ class market {
                             $plugin->setIsEnable(1);
                         }
                     }
-                    config::save('installVersionDate', $this->getDatetime(), $this->getLogicalId());
-                    break;
-            }
-        } else {
-            throw new Exception('Impossible de décompresser le zip : ' . $tmp);
+                } else {
+                    throw new Exception('Impossible de décompresser le zip : ' . $tmp);
+                }
+
+
+                break;
+            default :
+                $type = $this->getType();
+                if (class_exists($type) && method_exists($type, 'getFromMarket')) {
+                    $tmp = $type::getFromMarket($this, $tmp);
+                }
+                break;
         }
+        config::save('installVersionDate', $this->getDatetime(), $this->getLogicalId());
     }
 
     public function remove() {
-        $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
-        if (file_exists($cibDir)) {
-            rrmdir($cibDir);
+        switch ($this->getType()) {
+            case 'plugin' :
+                $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
+                if (file_exists($cibDir)) {
+                    rrmdir($cibDir);
+                }
+                break;
+            default :
+                $type = $this->getType();
+                if (class_exists($type) && method_exists(${type}, 'getFromMarket')) {
+                    $tmp = $type::removeFromMarket($this);
+                }
+                break;
         }
+
         config::remove('installVersionDate', $this->getLogicalId());
+    }
+
+    public function save() {
+        $market = market::getJsonRpc();
+        $params = utils::o2a($this);
+        switch ($this->getType()) {
+            case 'plugin' :
+                $cibDir = realpath(dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId());
+                $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getLogicalId() . '.zip';
+                if (!create_zip($cibDir, $tmp)) {
+                    throw new Exception('Echec de création du zip');
+                }
+                break;
+            default :
+                $type = $this->getType();
+                if (class_exists($type) && method_exists(${type}, 'shareOnMarket')) {
+                    $tmp = $type::shareOnMarket($this);
+                }
+                break;
+        }
+        if (!file_exists($tmp)) {
+            throw new Exception('Impossible de trouver le fichier à envoyer : ' . $tmp);
+        }
+        $file = array(
+            'file' => '@' . realpath($tmp)
+        );
+        if (!$market->sendRequest('market::save', $params, 30, $file)) {
+            throw new Exception($market->getError());
+        }
+        config::save('installVersionDate', date('Y-m-d H:i:s'), $this->getLogicalId());
     }
 
     /*     * **********************Getteur Setteur*************************** */
@@ -287,6 +374,14 @@ class market {
 
     public function setLogicalId($logicalId) {
         $this->logicalId = $logicalId;
+    }
+
+    public function getApi_author() {
+        return $this->api_author;
+    }
+
+    public function setApi_author($api_author) {
+        $this->api_author = $api_author;
     }
 
 }

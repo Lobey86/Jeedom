@@ -22,21 +22,20 @@ function object() {
 
 object.cache = Array();
 
-object.getEqLogic = function(_object_id, _cmd_eqTypeName) {
+object.getEqLogic = function(_object_id) {
     if (!isset(object.cache.getEqLogic)) {
         object.cache.getEqLogic = Array();
     }
-    if (isset(object.cache.getEqLogic[_object_id + _cmd_eqTypeName])) {
-        return object.cache.getEqLogic[_object_id + _cmd_eqTypeName];
+    if (isset(object.cache.getEqLogic[_object_id])) {
+        return object.cache.getEqLogic[_object_id];
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/eqLogic.ajax.php", // url du fichier php
         data: {
-            action: "listByObjectAndCmdType",
+            action: "listByObject",
             object_id: _object_id,
-            typeCmd: _cmd_eqTypeName
         },
         dataType: 'json',
         async: false,
@@ -51,7 +50,7 @@ object.getEqLogic = function(_object_id, _cmd_eqTypeName) {
             result = data.result;
         }
     });
-    object.cache.getEqLogic[_object_id + _cmd_eqTypeName] = result;
+    object.cache.getEqLogic[_object_id] = result;
     return result;
 }
 

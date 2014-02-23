@@ -75,6 +75,11 @@ try {
         ajax::success(eqLogic::listByObjectAndCmdType($object_id, init('typeCmd'), init('subTypeCmd')));
     }
 
+    if (init('action') == 'listByObject') {
+        $object_id = (init('object_id') != -1) ? init('object_id') : null;
+        ajax::success(utils::o2a(eqLogic::byObjectId($object_id)));
+    }
+
     if (init('action') == 'listByTypeAndCmdType') {
         $results = eqLogic::listByTypeAndCmdType(init('type'), init('typeCmd'), init('subTypeCmd'));
         $return = array();
@@ -156,14 +161,13 @@ try {
             if (!is_object($eqLogic)) {
                 $eqLogic = new $typeEqLogic();
                 $eqLogic->setEqType_name(init('type'));
-                $imgPath = dirname(__FILE__) . '/../../plugins/' . $typeEqLogic . '/core/img/default.png';
-                if (file_exists($imgPath)) {
-                    eqLogic::saveImage($eqLogic->getId(), file_get_contents($imgPath));
-                }
+            }
+            if (method_exists($eqLogic, 'preAjax')) {
+                $eqLogic->preAjax();
             }
             utils::a2o($eqLogic, cmd::humanReadableToCmd($eqLogicSave));
-            $eqLogic->save();
             $dbList = $typeCmd::byEqLogicId($eqLogic->getId());
+            $eqLogic->save();
             $enableList = array();
             if (isset($eqLogicSave['cmd'])) {
                 $cmd_order = 0;

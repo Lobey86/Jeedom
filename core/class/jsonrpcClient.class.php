@@ -23,7 +23,7 @@ class jsonrpcClient {
         $this->apikey = $_apikey;
     }
 
-    public function sendRequest($_method, $_params = null, $_timeout = 2) {
+    public function sendRequest($_method, $_params = null, $_timeout = 2, $_file = null) {
         $_params['apikey'] = $this->apikey;
         $request = array(
             'request' => json_encode(array(
@@ -32,7 +32,7 @@ class jsonrpcClient {
                 'method' => $_method,
                 'params' => $_params,
         )));
-        $this->rawResult = $this->send($request, $_timeout);
+        $this->rawResult = $this->send($request, $_timeout, $_file);
 
         if ($this->rawResult === false) {
             return false;
@@ -55,8 +55,11 @@ class jsonrpcClient {
         }
     }
 
-    private function send($_request, $_timeout = 2) {
+    private function send($_request, $_timeout = 2, $_file = null) {
         $ch = curl_init();
+        if ($_file !== null) {
+             $_request = array_merge($_request, $_file);
+        }
         curl_setopt($ch, CURLOPT_URL, $this->apiAddr);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -66,6 +69,7 @@ class jsonrpcClient {
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $_request);
+
         $output = curl_exec($ch);
         if ($output === false) {
             $this->error = 'Erreur curl sur : ' . $this->apiAddr . '. Détail :' . curl_error($ch);

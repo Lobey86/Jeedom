@@ -83,13 +83,13 @@ class internalEvent {
         if ($_plugin == '') {
             throw new Exception('Le nom du plugin ne peut etre vide');
         }
-        $now = date('Y-m-d H:i:s', strtotime('-1 second', strtotime(date('Y-m-d H:i:s'))));
+        $now = strtotime(date('Y-m-d H:i:s', strtotime('-1 second', strtotime(date('Y-m-d H:i:s')))));
         self::cleanEvent();
         $key = $_plugin . '::lastRetrievalInternalEvent';
         $cache = cache::byKey($key);
-        $lastDatetime = $cache->getValue($now);
+        $lastDatetime = $cache->getValue(0);
         cache::set($key, $now, 0);
-        return self::byDatetime($lastDatetime);
+        return self::byDatetime(date('Y-m-d H:i:s',$lastDatetime));
     }
 
     /*     * *********************Methode d'instance************************* */
@@ -131,27 +131,11 @@ class internalEvent {
     }
 
     public function getOptions($_key = '', $_default = '') {
-        if ($this->options == '') {
-            return $_default;
-        }
-        if (is_json($this->options)) {
-            if ($_key == '') {
-                return json_decode($this->options, true);
-            }
-            $options = json_decode($this->options, true);
-            return (isset($options[$_key])) ? $options[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->options, $_key, $_default);
     }
 
     public function setOptions($_key, $_value) {
-        if ($this->options == '' || !is_json($this->options)) {
-            $this->options = json_encode(array($_key => $_value));
-        } else {
-            $options = json_decode($this->options, true);
-            $options[$_key] = $_value;
-            $this->options = json_encode($options);
-        }
+        $this->options = utils::setJsonAttr($this->options, $_key, $_value);
     }
 
 }

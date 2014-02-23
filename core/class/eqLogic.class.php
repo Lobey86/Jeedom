@@ -46,11 +46,17 @@ class eqLogic {
         $values = array(
             'id' => $_id
         );
-        $sql = 'SELECT eqType_name
+        $sql = 'SELECT eqType_name, isEnable
                 FROM eqLogic
                 WHERE id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         $eqTyme_name = $result['eqType_name'];
+        if ($result['isEnable'] == 0) {
+            $plugin = new plugin($eqTyme_name);
+            if ($plugin->isActive() == 0) {
+                return __CLASS__;
+            }
+        }
         if (class_exists($eqTyme_name)) {
             return $eqTyme_name;
         }
@@ -64,8 +70,7 @@ class eqLogic {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM eqLogic
                 WHERE id=:id';
-        $class = self::getClass($_id);
-        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, $class);
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, self::getClass($_id));
     }
 
     public static function all() {
@@ -151,6 +156,24 @@ class eqLogic {
         $sql = 'SELECT id
                 FROM eqLogic
                 WHERE eqType_name=:eqType_name
+                ORDER BY name';
+        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
+        $return = array();
+        foreach ($results as $result) {
+            $return[] = self::byId($result['id']);
+        }
+        return $return;
+    }
+
+    public static function byTypeAndSearhConfiguration($_eqType_name, $_configuration) {
+        $values = array(
+            'eqType_name' => $_eqType_name,
+            'configuration' => '%' . $_configuration . '%'
+        );
+        $sql = 'SELECT id
+                FROM eqLogic
+                WHERE eqType_name=:eqType_name
+                    AND configuration LIKE :configuration
                 ORDER BY name';
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
@@ -472,24 +495,11 @@ class eqLogic {
     }
 
     public function getConfiguration($_key = '', $_default = '') {
-        if ($_key == '') {
-            return $this->configuration;
-        }
-        if ($this->configuration == '') {
-            return $_default;
-        }
-        $configuration = json_decode($this->configuration, true);
-        return (isset($configuration[$_key])) ? $configuration[$_key] : $_default;
+        return utils::getJsonAttr($this->configuration, $_key, $_default);
     }
 
     public function setConfiguration($_key, $_value) {
-        if ($this->configuration == '' || !is_json($this->configuration)) {
-            $this->configuration = json_encode(array($_key => $_value));
-        } else {
-            $configuration = json_decode($this->configuration, true);
-            $configuration[$_key] = $_value;
-            $this->configuration = json_encode($configuration);
-        }
+        $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
 
     public function getStatus($_key = '', $_default = '') {
@@ -502,27 +512,11 @@ class eqLogic {
     }
 
     public function getSpecificCapatibilities($_key = '', $_default = '') {
-        if ($this->specificCapatibilities == '') {
-            return $_default;
-        }
-        if (is_json($this->specificCapatibilities)) {
-            if ($_key == '') {
-                return json_decode($this->specificCapatibilities, true);
-            }
-            $specificCapatibilities = json_decode($this->specificCapatibilities, true);
-            return (isset($specificCapatibilities[$_key])) ? $specificCapatibilities[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->specificCapatibilities, $_key, $_default);
     }
 
     public function setSpecificCapatibilities($_key, $_value) {
-        if ($this->specificCapatibilities == '' || !is_json($this->specificCapatibilities)) {
-            $this->specificCapatibilities = json_encode(array($_key => $_value));
-        } else {
-            $specificCapatibilities = json_decode($this->specificCapatibilities, true);
-            $specificCapatibilities[$_key] = $_value;
-            $this->specificCapatibilities = json_encode($specificCapatibilities);
-        }
+        $this->specificCapatibilities = utils::setJsonAttr($this->specificCapatibilities, $_key, $_value);
     }
 
     public function getInternalEvent() {
@@ -542,27 +536,11 @@ class eqLogic {
     }
 
     public function getCategory($_key = '', $_default = '') {
-        if ($this->category == '') {
-            return $_default;
-        }
-        if (is_json($this->category)) {
-            if ($_key == '') {
-                return json_decode($this->category, true);
-            }
-            $category = json_decode($this->category, true);
-            return (isset($category[$_key])) ? $category[$_key] : $_default;
-        }
-        return $_default;
+        return utils::getJsonAttr($this->category, $_key, $_default);
     }
 
     public function setCategory($_key, $_value) {
-        if ($this->category == '' || !is_json($this->category)) {
-            $this->category = json_encode(array($_key => $_value));
-        } else {
-            $category = json_decode($this->category, true);
-            $category[$_key] = $_value;
-            $this->category = json_encode($category);
-        }
+        $this->category = utils::setJsonAttr($this->category, $_key, $_value);
     }
 
     public function getDebug() {
