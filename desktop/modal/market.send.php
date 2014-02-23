@@ -15,7 +15,7 @@ try {
     
 }
 if (is_object($market)) {
-    if ($market->getApi_author() != config::byKey('market::apikey')) {
+    if ($market->getApi_author() != config::byKey('market::apikey') || $market->getApi_author() = '') {
         throw new Exception('Vous n\'etez pas l\'autheur du plugin');
     }
 }
