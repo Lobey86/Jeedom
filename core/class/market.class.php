@@ -127,6 +127,13 @@ class market {
 
     public static function getInfo($_logicalId) {
         $return = array();
+        if ($_logicalId == '') {
+            $return['market'] = 0;
+            $return['market_owner'] = 0;
+            $return['status'] = 'ok';
+            return $return;
+        }
+
         if (config::byKey('market::apikey') !== '') {
             $return['market_owner'] = 1;
         } else {
