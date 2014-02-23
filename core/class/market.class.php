@@ -134,7 +134,7 @@ class market {
             return $return;
         }
 
-        if (config::byKey('market::apikey') !== '') {
+        if (config::byKey('market::apikey') != '') {
             $return['market_owner'] = 1;
         } else {
             $return['market_owner'] = 0;
@@ -149,7 +149,7 @@ class market {
                 $return['status'] = 'depreciated';
             } else {
                 $return['market'] = 1;
-                if ($market->getApi_author() == config::byKey('market::apikey') || $market->getApi_author() == '') {
+                if ($market->getApi_author() == config::byKey('market::apikey') && $market->getApi_author() != '') {
                     $return['market_owner'] = 1;
                 } else {
                     $return['market_owner'] = 0;
