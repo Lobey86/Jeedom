@@ -50,12 +50,18 @@ class cmd {
         $values = array(
             'id' => $_id
         );
-        $sql = 'SELECT el.eqType_name
+        $sql = 'SELECT el.eqType_name, el.isEnable
                 FROM cmd c
                     INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                 WHERE c.id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         $eqTyme_name = $result['eqType_name'];
+        if ($result['isEnable'] == 0) {
+            $plugin = new plugin($eqTyme_name);
+            if ($plugin->isActive() == 0) {
+                return __CLASS__;
+            }
+        }
         if (class_exists($eqTyme_name)) {
             if (method_exists($eqTyme_name, 'getClassCmd')) {
                 return $eqTyme_name::getClassCmd();
@@ -153,19 +159,16 @@ class cmd {
         $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         return self::byId($id['id']);
     }
-    
-    public static function byTypeEqLogicIdCmdName($_eqType_name, $_eqLogic_id, $_cmd_name) {
+
+    public static function byEqLogicIdCmdName($_eqLogic_id, $_cmd_name) {
         $values = array(
-            'eqType_name' => $_eqType_name,
             'eqLogic_id' => $_eqLogic_id,
             'cmd_name' => $_cmd_name,
         );
         $sql = 'SELECT c.id
                 FROM cmd c
-                    INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                 WHERE c.name=:cmd_name
-                    AND el.id=:eqLogic_id
-                    AND el.eqType_name=:eqType_name';
+                    AND c.eqLogic_id=:eqLogic_id';
         $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         return self::byId($id['id']);
     }
