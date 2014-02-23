@@ -74,7 +74,7 @@ try {
         $object_id = (init('object_id') != -1) ? init('object_id') : null;
         ajax::success(eqLogic::listByObjectAndCmdType($object_id, init('typeCmd'), init('subTypeCmd')));
     }
-    
+
     if (init('action') == 'listByObject') {
         $object_id = (init('object_id') != -1) ? init('object_id') : null;
         ajax::success(utils::o2a(eqLogic::byObjectId($object_id)));
@@ -166,8 +166,8 @@ try {
                 $eqLogic->preAjax();
             }
             utils::a2o($eqLogic, cmd::humanReadableToCmd($eqLogicSave));
-            $eqLogic->save();
             $dbList = $typeCmd::byEqLogicId($eqLogic->getId());
+            $eqLogic->save();
             $enableList = array();
             if (isset($eqLogicSave['cmd'])) {
                 $cmd_order = 0;

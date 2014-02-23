@@ -213,7 +213,7 @@ class market {
                 break;
             default :
                 $type = $this->getType();
-                if (class_exists($type) && method_exists(${type}, 'getFromMarket')) {
+                if (class_exists($type) && method_exists($type, 'getFromMarket')) {
                     $tmp = $type::getFromMarket($this, $tmp);
                 }
                 break;
