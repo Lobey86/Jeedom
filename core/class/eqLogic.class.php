@@ -46,10 +46,13 @@ class eqLogic {
         $values = array(
             'id' => $_id
         );
-        $sql = 'SELECT eqType_name
+        $sql = 'SELECT eqType_name, isEnable
                 FROM eqLogic
                 WHERE id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+         if ($result['isEnable'] == 0) {
+            return __CLASS__;
+        }
         $eqTyme_name = $result['eqType_name'];
         if (class_exists($eqTyme_name)) {
             return $eqTyme_name;
@@ -64,8 +67,7 @@ class eqLogic {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM eqLogic
                 WHERE id=:id';
-        $class = self::getClass($_id);
-        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, $class);
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, self::getClass($_id));
     }
 
     public static function all() {
