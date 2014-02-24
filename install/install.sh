@@ -47,8 +47,11 @@ do
         fi
 done
 
-
-sudo apt-get install -y nodejs php5-common php5-fpm php5-cli php5-curl php5-json php5-mysql
+sudo apt-get install -y nodejs
+if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
+    sudo ln -s /usr/local/bin/node /usr/bin/nodejs
+fi
+sudo apt-get install -y php5-common php5-fpm php5-cli php5-curl php5-json php5-mysql
 
 
 echo "********************************************************\n"
@@ -96,7 +99,12 @@ echo "********************************************************\n"
 echo "*                Configuration de nginx                *\n"
 echo "********************************************************\n"
 sudo service nginx stop
-sudo rm /etc/nginx/sites-available/default
+if [ -f '/etc/nginx/sites-available/defaults' ]; then
+    sudo rm /etc/nginx/sites-available/default
+fi
+if [ -f '/etc/nginx/sites-enabled/default' ]; then
+    sudo rm /etc/nginx/sites-available/default
+fi
 sudo cp install/nginx_default /etc/nginx/sites-available/default
 sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo service nginx restart
