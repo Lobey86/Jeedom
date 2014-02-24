@@ -36,7 +36,6 @@ class market {
     private $author;
     private $logicalId;
     private $api_author;
-    private $rating;
 
     /*     * ***********************Methode static*************************** */
 
@@ -62,7 +61,7 @@ class market {
             $_arrayMarket['api_author'] = null;
         }
         $market->setApi_author($_arrayMarket['api_author']);
-        
+
         return $market;
     }
 
