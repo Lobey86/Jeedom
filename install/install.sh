@@ -48,9 +48,7 @@ do
 done
 
 sudo apt-get install -y nodejs
-if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
-    sudo ln -s /usr/local/bin/node /usr/bin/nodejs
-fi
+nodeJS=$?
 sudo apt-get install -y php5-common php5-fpm php5-cli php5-curl php5-json php5-mysql
 
 
@@ -67,6 +65,16 @@ echo "********************************************************\n"
 sudo -u www-data -H git clone --depth=1 -b stable https://github.com/zoic21/jeedom.git
 sudo chmod 775 -R /usr/share/nginx/www
 cd jeedom
+
+if [ ${nodeJS} -ne 0 ] ; then
+    echo "********************************************************\n"
+    echo "*          Installation de nodeJS manuellement         *\n"
+    echo "********************************************************\n"
+    sudo tar xJvf /usr/share/nginx/www/jeedom/install/node-v0.10.21-wheezy-armhf.tar.xz -C /usr/local --strip-components 1
+    if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
+        sudo ln -s /usr/local/bin/node /usr/bin/nodejs
+    fi
+fi
 
 echo "********************************************************\n"
 echo "*          Configuration de la base de données         *\n"
@@ -102,11 +110,10 @@ sudo service nginx stop
 if [ -f '/etc/nginx/sites-available/defaults' ]; then
     sudo rm /etc/nginx/sites-available/default
 fi
-if [ -f '/etc/nginx/sites-enabled/default' ]; then
-    sudo rm /etc/nginx/sites-available/default
-fi
 sudo cp install/nginx_default /etc/nginx/sites-available/default
-sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+if [ ! -f '/etc/nginx/sites-enabled/default' ]; then
+    sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+fi
 sudo service nginx restart
 
 
