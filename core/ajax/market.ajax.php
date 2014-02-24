@@ -49,6 +49,9 @@ try {
         } catch (Exception $e) {
             $market = new market();
         }
+        if(isset($market_ajax['rating'])){
+            unset($market_ajax['rating']);
+        }
         utils::a2o($market, $market_ajax);
         $market->save();
         ajax::success();
