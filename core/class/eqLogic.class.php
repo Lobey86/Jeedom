@@ -52,8 +52,14 @@ class eqLogic {
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         $eqTyme_name = $result['eqType_name'];
         if ($result['isEnable'] == 0) {
-            $plugin = new plugin($eqTyme_name);
-            if ($plugin->isActive() == 0) {
+            try {
+                if ($eqTyme_name != '') {
+                    $plugin = new plugin($eqTyme_name);
+                }
+                if (!is_object($plugin) || $plugin->isActive() == 0) {
+                    return __CLASS__;
+                }
+            } catch (Exception $e) {
                 return __CLASS__;
             }
         }
