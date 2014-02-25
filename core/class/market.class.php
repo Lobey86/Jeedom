@@ -217,9 +217,10 @@ class market {
     }
 
     public function install() {
-        $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getLogicalId() . '.zip';
-        if (!is_writable($tmp)) {
-            throw new Exception('Impossible d\'écrire dans le repertoire : ' . $tmp.'. Exécuter la commande suivante en SSH : chmod 777 -R '.$tmp);
+        $tmp_dir = dirname(__FILE__) . '/../../tmp';
+        $tmp = $tmp_dir . '/' . $this->getLogicalId() . '.zip';
+        if (!is_writable($tmp_dir)) {
+            throw new Exception('Impossible d\'écrire dans le repertoire : ' . $tmp . '. Exécuter la commande suivante en SSH : chmod 777 -R ' . $tmp_dir);
         }
         $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId();
         file_put_contents($tmp, fopen($url, 'r'));
