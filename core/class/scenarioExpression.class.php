@@ -82,7 +82,7 @@ class scenarioExpression {
     }
 
     public static function setTags($_expression) {
-        $_expression = cmd::cmdToValue($_expression, true);
+        $_expression = cmd::cmdToValue($_expression);
         $replace = array(
             '#heure#' => date('H'),
             '#minute#' => date('i'),
@@ -310,6 +310,7 @@ class scenarioExpression {
     }
 
     public function setOptions($_key, $_value) {
+        $_value = cmd::humanReadableToCmd($_value);
         $this->options = utils::setJsonAttr($this->options, $_key, $_value);
     }
 
