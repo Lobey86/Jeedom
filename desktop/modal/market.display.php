@@ -34,6 +34,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
 
 <?php if (config::byKey('installVersionDate', $market->getLogicalId()) != '') { ?>
     <a class="btn btn-danger pull-right" style="color : white;" id="bt_removeFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-minus-circle"></i> Supprimer</a>
+    <a class="btn btn-default pull-right" id="bt_viewComment"><i class="fa fa-comments-o"></i> Commentaires</a>
 <?php } ?>
 <br/><br/><br/>
 <form class="form-horizontal" role="form">
@@ -162,8 +163,33 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
     </div> 
 </form>
 
+<div id="div_comments" title="Commentaires"></div>
+
 <script>
     $('body').setValues(market_display_info, '.marketAttr');
+
+    $("#div_comments").dialog({
+        autoOpen: false,
+        modal: true,
+        height: (jQuery(window).height() - 300),
+        width: 600,
+        position: {my: 'center', at: 'center', of: window},
+        open: function() {
+            if ((jQuery(window).width() - 50) < 1500) {
+                $('#md_modal').dialog({width: jQuery(window).width() - 50});
+            }
+        }
+    });
+
+    $('#bt_viewComment').on('click', function() {
+        reloadMarketComment();
+        $('#div_comments').dialog('open');
+    });
+
+
+    function reloadMarketComment() {
+        $('#div_comments').load('index.php?v=d&modal=market.comment&id=' + $('.marketAttr[data-l1key=id]').value());
+    }
 
     $('#bt_installFromMarket').on('click', function() {
         var id = $(this).attr('data-market_id');

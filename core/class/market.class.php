@@ -179,6 +179,21 @@ class market {
 
     /*     * *********************Methode d'instance************************* */
 
+    public function getComment() {
+        $market = market::getJsonRpc();
+        if (!$market->sendRequest('market::getComment', array('id' => $this->getId()))) {
+            throw new Exception($market->getError());
+        }
+        return $market->getResult();
+    }
+
+    public function setComment($_comment = null, $_order = null) {
+        $market = market::getJsonRpc();
+        if (!$market->sendRequest('market::setComment', array('id' => $this->getId(), 'comment' => $_comment, 'order' => $_order))) {
+            throw new Exception($market->getError());
+        }
+    }
+
     public function setRating($_rating) {
         $market = market::getJsonRpc();
         if (!$market->sendRequest('market::setRating', array('rating' => $_rating, 'id' => $this->getId()))) {
