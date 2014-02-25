@@ -35,6 +35,7 @@ class market {
     private $status;
     private $author;
     private $logicalId;
+    private $utilization;
     private $api_author;
 
     /*     * ***********************Methode static*************************** */
@@ -57,6 +58,7 @@ class market {
         $market->setAuthor($_arrayMarket['author']);
         $market->setChangelog($_arrayMarket['changelog']);
         $market->setLogicalId($_arrayMarket['logicalId']);
+        $market->setUtilization($_arrayMarket['utilization']);
         if (!isset($_arrayMarket['api_author'])) {
             $_arrayMarket['api_author'] = null;
         }
@@ -123,7 +125,14 @@ class market {
     }
 
     public static function getJsonRpc() {
-        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'));
+        if (config::byKey('market::registerkey') == '') {
+            $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'));
+            if (!$register->sendRequest('register', array())) {
+                throw new Exception($register->getError());
+            }
+            config::save('market::registerkey', $register->getResult());
+        }
+        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'),config::byKey('market::registerkey'));
     }
 
     public static function getInfo($_logicalId) {
@@ -176,6 +185,21 @@ class market {
     }
 
     /*     * *********************Methode d'instance************************* */
+
+    public function getComment() {
+        $market = market::getJsonRpc();
+        if (!$market->sendRequest('market::getComment', array('id' => $this->getId()))) {
+            throw new Exception($market->getError());
+        }
+        return $market->getResult();
+    }
+
+    public function setComment($_comment = null, $_order = null) {
+        $market = market::getJsonRpc();
+        if (!$market->sendRequest('market::setComment', array('id' => $this->getId(), 'comment' => $_comment, 'order' => $_order))) {
+            throw new Exception($market->getError());
+        }
+    }
 
     public function setRating($_rating) {
         $market = market::getJsonRpc();
@@ -398,6 +422,14 @@ class market {
 
     public function setApi_author($api_author) {
         $this->api_author = $api_author;
+    }
+
+    public function getUtilization() {
+        return $this->utilization;
+    }
+
+    public function setUtilization($utilization) {
+        $this->utilization = $utilization;
     }
 
 }

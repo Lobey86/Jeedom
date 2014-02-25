@@ -102,6 +102,12 @@ if (init('type') == 'plugin') {
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-lg-4 control-label">Utilisation</label>
+                    <div class="col-lg-6">
+                        <textarea class="form-control marketAttr" data-l1key="utilization" placeholder="Utilisation" style="height: 150px;"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-lg-4 control-label">Changelog</label>
                     <div class="col-lg-6">
                         <textarea class="form-control marketAttr" data-l1key="changelog" placeholder="Changelog" style="height: 150px;"></textarea>

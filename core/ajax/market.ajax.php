@@ -49,7 +49,7 @@ try {
         } catch (Exception $e) {
             $market = new market();
         }
-        if(isset($market_ajax['rating'])){
+        if (isset($market_ajax['rating'])) {
             unset($market_ajax['rating']);
         }
         utils::a2o($market, $market_ajax);
@@ -76,6 +76,15 @@ try {
             throw new Exception('Impossible de trouver l\'objet associé : ' . init('id'));
         }
         ajax::success($market->getRating());
+    }
+
+    if (init('action') == 'setComment') {
+        $market = market::byId(init('id'));
+        if (!is_object($market)) {
+            throw new Exception('Impossible de trouver l\'objet associé : ' . init('id'));
+        }
+        $market->setComment(init('comment', null), init('order', null));
+        ajax::success();
     }
 
     throw new Exception('Aucune methode correspondante à : ' . init('action'));

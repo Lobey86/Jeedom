@@ -14,17 +14,20 @@ class jsonrpcClient {
     private $result;
     private $rawResult;
     private $apikey = '';
+    private $jeedomkey = '';
     private $apiAddr;
 
     /*     * ********Static******************* */
 
-    function __construct($_apiAddr, $_apikey = '') {
+    function __construct($_apiAddr, $_apikey = '', $_jeedomkey = '') {
         $this->apiAddr = $_apiAddr;
         $this->apikey = $_apikey;
+        $this->jeedomkey = $_jeedomkey;
     }
 
     public function sendRequest($_method, $_params = null, $_timeout = 2, $_file = null) {
         $_params['apikey'] = $this->apikey;
+        $_params['jeedomkey'] = $this->jeedomkey;
         $request = array(
             'request' => json_encode(array(
                 'jsonrpc' => '2.0',
@@ -58,7 +61,7 @@ class jsonrpcClient {
     private function send($_request, $_timeout = 2, $_file = null) {
         $ch = curl_init();
         if ($_file !== null) {
-             $_request = array_merge($_request, $_file);
+            $_request = array_merge($_request, $_file);
         }
         curl_setopt($ch, CURLOPT_URL, $this->apiAddr);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
