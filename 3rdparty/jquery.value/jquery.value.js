@@ -79,6 +79,9 @@
             if ($(this).is('span') || $(this).is('div') || $(this).is('p')) {
                 $(this).html(init(_value));
             }
+            if ($(this).is('pre')) {
+                $(this).html(init(_value));
+            }
             $(this).trigger('change');
         } else {
             var value = '';

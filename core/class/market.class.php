@@ -35,6 +35,7 @@ class market {
     private $status;
     private $author;
     private $logicalId;
+    private $utilization;
     private $api_author;
 
     /*     * ***********************Methode static*************************** */
@@ -57,6 +58,7 @@ class market {
         $market->setAuthor($_arrayMarket['author']);
         $market->setChangelog($_arrayMarket['changelog']);
         $market->setLogicalId($_arrayMarket['logicalId']);
+        $market->setUtilization($_arrayMarket['utilization']);
         if (!isset($_arrayMarket['api_author'])) {
             $_arrayMarket['api_author'] = null;
         }
@@ -398,6 +400,14 @@ class market {
 
     public function setApi_author($api_author) {
         $this->api_author = $api_author;
+    }
+
+    public function getUtilization() {
+        return $this->utilization;
+    }
+
+    public function setUtilization($utilization) {
+        $this->utilization = $utilization;
     }
 
 }

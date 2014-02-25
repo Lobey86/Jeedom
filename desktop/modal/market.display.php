@@ -38,7 +38,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
 <br/><br/><br/>
 <form class="form-horizontal" role="form">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <?php if (config::byKey('market::apikey') != '') { ?>
                 <div class="form-group">
                     <label class="col-lg-4 control-label">Ma Note</label>
@@ -88,13 +88,19 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
             <div class="form-group">
                 <label class="col-lg-4 control-label">Description</label>
                 <div class="col-lg-8">
-                    <span class="marketAttr" data-l1key="description" placeholder="Description" ></span>
+                    <pre class="marketAttr" data-l1key="description" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Utilisation</label>
+                <div class="col-lg-8">
+                    <pre class="marketAttr" data-l1key="utilization" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Changelog</label>
                 <div class="col-lg-8">
-                    <span class="marketAttr" data-l1key="changelog" placeholder="Changelog" style="height: 100px;"></span>
+                    <pre class="marketAttr" data-l1key="changelog" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
             <div class="form-group">
@@ -141,7 +147,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             </div>
         </div> 
-        <div class="col-md-7">
+        <div class="col-md-6">
             <div class="form-group">
                 <div class="col-lg-12">
                     <?php
