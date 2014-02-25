@@ -132,7 +132,7 @@ class market {
             }
             config::save('market::registerkey', $register->getResult());
         }
-        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'),config::byKey('market::registerkey'));
+        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), config::byKey('market::registerkey'));
     }
 
     public static function getInfo($_logicalId) {
@@ -218,7 +218,9 @@ class market {
 
     public function install() {
         $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getLogicalId() . '.zip';
-
+        if (!is_writable($tmp)) {
+            throw new Exception('Impossible d\'écrire dans le repertoire : ' . $tmp.'. Exécuter la commande suivante en SSH : chmod 777 -R '.$tmp);
+        }
         $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId();
         file_put_contents($tmp, fopen($url, 'r'));
         if (!file_exists($tmp)) {
