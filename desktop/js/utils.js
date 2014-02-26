@@ -123,6 +123,11 @@ $(function() {
         });
     });
 
+    $('.bt_pluginUpdate').on('click', function() {
+        $('#md_modal2').dialog({title: "Market Jeedom Display"});
+        $('#md_modal2').load('index.php?v=d&modal=market.display&type=plugin&logicalId=' + $(this).attr('data-logicalId')).dialog('open');
+    });
+
     initTableSorter();
     initExpertMode();
 });
