@@ -128,16 +128,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                     </div>
                     <div class="col-lg-6">
                         <legend>Informations :</legend>
-                        <pre id="pre_updateInfo">
-                            <?php
-                            try {
-                                $repo->fetch();
-                                echo $repo->run("status");
-                            } catch (Exception $e) {
-                                echo 'Impossible d\'afficher les mises à jour (Problème de droit sur le dépot git?)';
-                            }
-                            ?>
-                        </pre>
+                        <pre id="pre_updateInfo"></pre>
                     </div>
                 </div>
                 <div class="form-actions" style="height: 20px;">
