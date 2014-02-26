@@ -182,6 +182,19 @@ if ($plugin != '') {
                         if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
                             include_file('desktop', $PAGE_DESCRIPTOR_DESKTOP[$page]['pageName'], 'php');
                         } else if (isset($plugin) && is_object($plugin)) {
+                            $status = $plugin->status();
+                            if ($status['status'] == 'update') {
+                                echo '<div class="row">';
+                                echo '<div class="col-lg-2"></div>';
+                                echo '<div class="col-lg-10">';
+                                echo '<div class="alert alert-warning">Une nouvelle <a class="cursor bt_pluginUpdate" data-logicalId="'.$plugin->getId().'">mise à jour</a> existe pour '.$plugin->getName().'</div>';
+                                echo '</div>';
+                                echo '</div>';
+                            }
+
+
+
+
                             include_file('desktop', $page, 'php', $plugin->getId());
                         } else {
                             echo '<div class="alert alert-danger div_alert">';
