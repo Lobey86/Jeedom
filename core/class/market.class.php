@@ -125,6 +125,9 @@ class market {
     }
 
     public static function getJsonRpc() {
+        if (config::byKey('market::address') == '') {
+            throw new Exception('Aucune addresse pour le market de renseignée');
+        }
         if (config::byKey('market::registerkey') == '') {
             $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'));
             if (!$register->sendRequest('register', array())) {
@@ -137,7 +140,7 @@ class market {
 
     public static function getInfo($_logicalId) {
         $return = array();
-        if ($_logicalId == '') {
+        if ($_logicalId == '' || config::byKey('market::address') == '') {
             $return['market'] = 0;
             $return['market_owner'] = 0;
             $return['status'] = 'ok';
@@ -150,7 +153,6 @@ class market {
             $return['market_owner'] = 0;
         }
         $return['market'] = 0;
-        $updateDateTime = config::byKey('installVersionDate', $_logicalId);
 
         try {
             $market = market::byLogicalId($_logicalId);
@@ -165,6 +167,14 @@ class market {
                     $return['market_owner'] = 0;
                 }
             }
+
+            if ($market->getType() == 'plugin') {
+                $updateDateTime = config::byKey('installVersionDate', $market->getLogicalId());
+            } else {
+                $updateDateTime = config::byKey($market->getLogicalId() . '::installVersionDate', $market->getType());
+            }
+
+
             if ($market->getStatus() == 'Refusé') {
                 $return['status'] = 'depreciated';
             }
@@ -252,16 +262,16 @@ class market {
                     throw new Exception('Impossible de décompresser le zip : ' . $tmp);
                 }
 
-
+                config::save('installVersionDate', $this->getDatetime(), $this->getLogicalId());
                 break;
             default :
                 $type = $this->getType();
                 if (class_exists($type) && method_exists($type, 'getFromMarket')) {
-                    $tmp = $type::getFromMarket($this, $tmp);
+                    $type::getFromMarket($this, $tmp);
                 }
+                config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $type);
                 break;
         }
-        config::save('installVersionDate', $this->getDatetime(), $this->getLogicalId());
     }
 
     public function remove() {
@@ -271,16 +281,16 @@ class market {
                 if (file_exists($cibDir)) {
                     rrmdir($cibDir);
                 }
+                config::remove('installVersionDate', $this->getLogicalId());
                 break;
             default :
                 $type = $this->getType();
                 if (class_exists($type) && method_exists(${type}, 'getFromMarket')) {
-                    $tmp = $type::removeFromMarket($this);
+                    $type::removeFromMarket($this);
                 }
+                config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $type);
                 break;
         }
-
-        config::remove('installVersionDate', $this->getLogicalId());
     }
 
     public function save() {
@@ -310,7 +320,11 @@ class market {
         if (!$market->sendRequest('market::save', $params, 30, $file)) {
             throw new Exception($market->getError());
         }
-        config::save('installVersionDate', date('Y-m-d H:i:s'), $this->getLogicalId());
+        if ($this->getType() == 'plugin') {
+            config::save('installVersionDate', date('Y-m-d H:i:s'), $this->getLogicalId());
+        } else {
+            config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $this->getType());
+        }
     }
 
     /*     * **********************Getteur Setteur*************************** */
