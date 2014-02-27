@@ -123,8 +123,12 @@ class cron {
     public function run() {
         $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
-        if (exec('ps ax | grep "' . $cmd . '" | wc -l') < 3) {
+        $nbCronRun = exec('ps ax | grep "' . $cmd . '" | wc -l');
+        if ($nbCronRun < 3) {
+            log::add('cron', 'debug', 'Execution de : nohup ' . $cmd . ' >> /dev/null 2>&1 &');
             shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
+        } else {
+            log::add('cron', 'error', 'Impossible de lancer la tache car elle est déjà en cours (' . $nbCronRun . ') : ' . $cmd);
         }
     }
 
@@ -232,8 +236,8 @@ class cron {
             $lastCheck = new DateTime($this->getLastRun());
             $prev = $c->getPreviousRunDate();
             if ($lastCheck < $prev) {
-                if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
-                    log::add('cron', 'error', 'Retard de ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getClass() . '::' . $this->getFunction() . '(). Rattrapage en cours...');
+                if ($lastCheck->diff($prev)->format('%i') > 5) {
+                    log::add('cron', 'error', 'Retard de ' . ( $lastCheck->diff($prev)->format('%i min')) . ': ' . $this->getClass() . '::' . $this->getFunction() . '(). Rattrapage en cours...');
                 }
                 return true;
             }
