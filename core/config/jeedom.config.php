@@ -54,6 +54,9 @@ $JEEDOM_INTERNAL_CONFIG = array(
                             'lifetime' => array('visible' => true),
                             'enable' => array('visible' => true)
                         ),
+                        'display' => array(
+                            'invertBinary' => array('visible' => true),
+                        ),
                     ),
                     'string' => array('name' => 'Autre',
                         'configuration' => array(
