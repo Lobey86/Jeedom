@@ -123,12 +123,21 @@ class cron {
     public function run() {
         $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
-        $nbCronRun = exec('ps ax | grep "' . $cmd . '" | wc -l');
-        if ($nbCronRun < 3) {
-            log::add('cron', 'debug', 'Execution de : nohup ' . $cmd . ' >> /dev/null 2>&1 &');
+        $nbCronRun = exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | wc -l');
+        if ($nbCronRun == 0) {
             shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
         } else {
-            log::add('cron', 'error', 'Impossible de lancer la tache car elle est déjà en cours (' . $nbCronRun . ') : ' . $cmd);
+            $pid = shell_exec('ps ax | grep "php /var/www/vhosts/darkserver.fr/jeedom.darkserver.fr/core/class/../php/jeeCron.php cron_id=19" | grep -v "grep" | awk "{print $1}"');
+            $this->setPID($pid);
+            $this->setServer(gethostname());
+            $this->setState('run');
+            $this->halt();
+            $nbCronRun = exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | wc -l');
+            if ($nbCronRun == 0) {
+                shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
+            } else {
+                throw new Exception('Impossible de lancer la tache car elle est déjà en cours (' . $nbCronRun . ') : ' . $cmd);
+            }
         }
     }
 
@@ -179,7 +188,7 @@ class cron {
                 while ($check) {
                     $check = $this->running();
                     $retry++;
-                    if ($retry > 10) {
+                    if ($retry > 20) {
                         $check = false;
                     } else {
                         sleep(1);
