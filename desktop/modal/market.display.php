@@ -209,7 +209,11 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                     $('#div_alertMarketDisplay').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                window.location.reload();
+                bootbox.confirm('L\'installation a été réalisée avec succès. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
+                    if (result) {
+                        window.location.reload();
+                    }
+                });
             }
         });
     });
@@ -232,7 +236,11 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                     $('#div_alertMarketDisplay').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                window.location.reload();
+                bootbox.confirm('La désinstallation a été réalisée avec succès. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
+                    if (result) {
+                        window.location.reload();
+                    }
+                });
             }
         });
     });

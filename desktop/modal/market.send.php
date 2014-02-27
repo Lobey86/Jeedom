@@ -149,7 +149,15 @@ if (is_object($market)) {
                     $('#div_alertMarketSend').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('#div_alertMarketSend').showAlert({message: 'Enregistrement réussi (recharger la page pour avoir toutes les fonctionalités)', level: 'success'});
+                if (market.id == undefined || market.id == '') {
+                    bootbox.confirm('Votre objet a été envoyé avec succès sur le market. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
+                        if (result) {
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                    $('#div_alertMarketSend').showAlert({message: 'Votre objet a été envoyé avec succès sur le market', level: 'success'});
+                }
 
             }
         });
