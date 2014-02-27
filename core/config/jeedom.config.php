@@ -42,6 +42,9 @@ $JEEDOM_INTERNAL_CONFIG = array(
                             'lifetime' => array('visible' => true),
                             'enable' => array('visible' => true)
                         ),
+                        'display' => array(
+                            'invertBinary' => array('visible' => false),
+                        ),
                     ),
                     'binary' => array('name' => 'Binaire',
                         'configuration' => array(
@@ -54,6 +57,9 @@ $JEEDOM_INTERNAL_CONFIG = array(
                             'lifetime' => array('visible' => true),
                             'enable' => array('visible' => true)
                         ),
+                        'display' => array(
+                            'invertBinary' => array('visible' => true),
+                        ),
                     ),
                     'string' => array('name' => 'Autre',
                         'configuration' => array(
@@ -65,6 +71,9 @@ $JEEDOM_INTERNAL_CONFIG = array(
                         'cache' => array(
                             'lifetime' => array('visible' => true),
                             'enable' => array('visible' => true)
+                        ),
+                        'display' => array(
+                            'invertBinary' => array('visible' => false),
                         ),
                     ),
                 )
@@ -83,6 +92,9 @@ $JEEDOM_INTERNAL_CONFIG = array(
                             'lifetime' => array('visible' => false),
                             'enable' => array('visible' => false)
                         ),
+                        'display' => array(
+                            'invertBinary' => array('visible' => false),
+                        ),
                     ),
                     'slider' => array('name' => 'Slider',
                         'configuration' => array(
@@ -94,6 +106,9 @@ $JEEDOM_INTERNAL_CONFIG = array(
                         'cache' => array(
                             'lifetime' => array('visible' => false),
                             'enable' => array('visible' => false)
+                        ),
+                        'display' => array(
+                            'invertBinary' => array('visible' => false),
                         ),
                     ),
                     'message' => array('name' => 'Message',
@@ -107,6 +122,9 @@ $JEEDOM_INTERNAL_CONFIG = array(
                             'lifetime' => array('visible' => false),
                             'enable' => array('visible' => false)
                         ),
+                        'display' => array(
+                            'invertBinary' => array('visible' => false),
+                        ),
                     ),
                     'color' => array('name' => 'Couleur',
                         'configuration' => array(
@@ -118,6 +136,9 @@ $JEEDOM_INTERNAL_CONFIG = array(
                         'cache' => array(
                             'lifetime' => array('visible' => false),
                             'enable' => array('visible' => false)
+                        ),
+                        'display' => array(
+                            'invertBinary' => array('visible' => false),
                         ),
                     ),
                 ),
