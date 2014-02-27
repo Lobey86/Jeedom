@@ -573,8 +573,12 @@ class cmd {
             $eqLogic->setStatus('numberTryWithoutSuccess', 0);
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
         }
-        if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($value)) && intval($value) > 1) {
-            $value = 1;
+        if ($this->getType() == 'info' && $this->getSubType() == 'binary') {
+            if ((is_numeric(intval($value)) && intval($value) > 1) || $value || $value == 1) {
+                $value = 1;
+            } else {
+                $value = 0;
+            }
         }
         if ($this->getType() == 'info' && $value !== false) {
             if ($this->getCollectDate() == '') {
@@ -649,6 +653,13 @@ class cmd {
                     $value = $this->execCmd(null, 2);
                     if ($value === null) {
                         return template_replace($replace, $template);
+                    }
+                    if ($this->getSubType() == 'binary' && $this->getDisplay('invertBinary') == 1) {
+                        if ($value == 1) {
+                            $value = 0;
+                        } else {
+                            $value = 1;
+                        }
                     }
                     $replace['#state#'] = $value;
                     $replace['#collectDate#'] = $this->getCollectDate();

@@ -111,7 +111,7 @@ if ($plugin != '') {
                                             <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> Administration</a></li>
                                             <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> Interaction</a></li>
                                             <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> Affichage</a></li>
-                                            <li class="expertModeHidden"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> Cron</a></li>
+                                            <li class="expertModeHidden"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> Moteur de taches</a></li>
                                             <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> Objet</a></li>
                                             <li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> Plugins</a></li>
                                             <li><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> Log</a></li>
