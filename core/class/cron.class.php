@@ -127,7 +127,7 @@ class cron {
         if ($nbCronRun == 0) {
             shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
         } else {
-            $pid = shell_exec('ps ax | grep "php /var/www/vhosts/darkserver.fr/jeedom.darkserver.fr/core/class/../php/jeeCron.php cron_id=19" | grep -v "grep" | awk "{print $1}"');
+            $pid = exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | awk "{print $1}"');
             $this->setPID($pid);
             $this->setServer(gethostname());
             $this->setState('run');
@@ -145,6 +145,17 @@ class cron {
         if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && $this->getPID() > 0 && $this->getServer() == gethostname()) {
             exec('ps ' . $this->pid, $pState);
             return (count($pState) >= 2);
+        }
+        $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
+        $cmd.= ' cron_id=' . $this->getId();
+        $nbCronRun = exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | wc -l');
+        if ($nbCronRun > 0) {
+            $pid = exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | awk "{print $1}"');
+            $this->setPID($pid);
+            $this->setServer(gethostname());
+            $this->setState('run');
+            $this->save();
+            return true;
         }
         return false;
     }
