@@ -2,8 +2,25 @@
 if (!isConnect()) {
     throw new Exception('401 Unauthorized');
 }
+include_file('3rdparty', 'jquery.cron/jquery.cron.min', 'js');
+include_file('3rdparty', 'jquery.cron/jquery.cron', 'css');
 ?>
-<h3><span class="mw-headline" id="Examples">Exemples / Proggrammation prédefinie</span></h3>
+<h3><span class="mw-headline" id="Examples">Générateur</span></h3>
+
+
+<script>
+    $('#div_helpCronGenerate').cron({
+        initial: "* * * * *",
+        onChange: function() {
+            $('#span_helpCronGenerate').text($(this).cron("value"));
+        }
+    });
+</script>
+<pre>
+<div id='div_helpCronGenerate'></div>
+<p>Resultat : <span id='span_helpCronGenerate'></span></p>
+</pre>
+<h3><span class="mw-headline" id="Examples">Exemples / Programmation prédefinie</span></h3>
 
 <table class="table">
     <tbody><tr>
