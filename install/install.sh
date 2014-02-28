@@ -117,7 +117,8 @@ if [ ! -f '/etc/nginx/sites-enabled/default' ]; then
     sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 fi
 sudo service nginx restart
-
+sudo adduser www-data dialout
+sudo php5-fpm restart
 
 echo "********************************************************\n"
 echo "*             Mise en place service nodeJS             *\n"
