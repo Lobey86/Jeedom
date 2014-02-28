@@ -46,26 +46,58 @@ if (init('cron_id') != '') {
         die();
     }
     if ($cron->getNbRun() > 1) {
-        log::add('cron', 'Error', 'Le cron : ' . $cron->getClass() . '::' . $cron->getFunction() . '() est en cours (' . $cron->getNbRun() . ')');
-        die('Le cron : ' . $cron->getClass() . '::' . $cron->getFunction() . '() est en cours (' . $cron->getNbRun() . ')');
+        log::add('cron', 'Error', 'Le cron : ' . $cron->getName() . ' est en cours (' . $cron->getNbRun() . ')');
+        die('Le cron : ' . $cron->getName() . ' est en cours (' . $cron->getNbRun() . ')');
     }
-    log::add('cron', 'info', 'Lancement de ' . $cron->getClass() . '::' . $cron->getFunction() . '() avec le PID : ' . getmypid());
-    $cron->setState('run');
-    $cron->setDuration('0s');
-    $cron->setPID(getmypid());
-    $cron->setServer(gethostname());
-    $cron->setLastRun($datetime);
-    $cron->save();
-    if ($cron->getClass() != '') {
-        $class = $cron->getClass();
-        $function = $cron->getFunction();
-        if (class_exists($class)) {
-            if (method_exists($class, $function)) {
+    log::add('cron', 'info', 'Lancement de ' . $cron->getName() . ' avec le PID : ' . getmypid());
+    try {
+        $cron->setState('run');
+        $cron->setDuration('0s');
+        $cron->setPID(getmypid());
+        $cron->setServer(gethostname());
+        $cron->setLastRun($datetime);
+        $cron->save();
+        if ($cron->getClass() != '') {
+            $class = $cron->getClass();
+            $function = $cron->getFunction();
+            if (class_exists($class)) {
+                if (method_exists($class, $function)) {
+                    if ($cron->getDeamon() == 0) {
+                        $class::$function();
+                    } else {
+                        while (true) {
+                            $class::$function();
+                            sleep($cron->getDeamonSleepTime());
+                            if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
+                                die();
+                            }
+                        }
+                    }
+                } else {
+                    $cron->setState('Not found');
+                    $cron->setPID();
+                    $cron->setServer('');
+                    $cron->setEnable(0);
+                    $cron->save();
+                    log::add('cron', 'error', '[Erreur] Fonction non trouvée ' . $cron->getName());
+                    die();
+                }
+            } else {
+                $cron->setState('Not found');
+                $cron->setPID();
+                $cron->setServer('');
+                $cron->save();
+                log::add('cron', 'error', '[Erreur] Classe non trouvée ' . $cron->getName());
+                die();
+            }
+        } else {
+            $function = $cron->getFunction();
+            if (function_exists($function)) {
                 if ($cron->getDeamon() == 0) {
-                    $class::$function();
+                    $function();
                 } else {
                     while (true) {
-                        $class::$function();
+                        $function();
                         sleep($cron->getDeamonSleepTime());
                         if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
                             die();
@@ -76,55 +108,32 @@ if (init('cron_id') != '') {
                 $cron->setState('Not found');
                 $cron->setPID();
                 $cron->setServer('');
-                $cron->setEnable(0);
                 $cron->save();
-                log::add('cron', 'error', '[Erreur] Fonction non trouvée ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
+                $cron->setEnable(0);
+                log::add('cron', 'error', '[Erreur] Non trouvée ' . $cron->getName());
                 die();
             }
-        } else {
-            $cron->setState('Not found');
-            $cron->setPID();
-            $cron->setServer('');
-            $cron->save();
-            log::add('cron', 'error', '[Erreur] Classe non trouvée ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
-            die();
         }
-    } else {
-        $function = $cron->getFunction();
-        if (function_exists($function)) {
-            if ($cron->getDeamon() == 0) {
-                $function();
-            } else {
-                while (true) {
-                    $function();
-                    sleep($cron->getDeamonSleepTime());
-                    if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
-                        die();
-                    }
-                }
-            }
-        } else {
-            $cron->setState('Not found');
-            $cron->setPID();
-            $cron->setServer('');
-            $cron->save();
-            $cron->setEnable(0);
-            log::add('cron', 'error', '[Erreur] Non trouvée ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
-            die();
-        }
+        $cron->setState('stop');
+        $cron->setPID();
+        $cron->setServer('');
+        $cron->setDuration(convertDuration(strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)));
+        $cron->save();
+        log::add('cron', 'info', 'Fin de ' . $cron->getName());
+        die();
+    } catch (Exception $e) {
+        $cron->setState('error');
+        $cron->setPID('');
+        $cron->setServer('');
+        $cron->setDuration(-1);
+        $cron->save();
+        echo '[Erreur] ' . $cron->getName() . ' : ' . $e->getMessage();
+        log::add('cron', 'error', 'Erreur sur ' . $cron->getName() . ' : ' . $e->getMessage());
     }
-    $cron->setState('stop');
-    $cron->setPID();
-    $cron->setServer('');
-    $cron->setDuration(convertDuration(strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)));
-    $cron->save();
-    log::add('cron', 'info', 'Fin de ' . $cron->getClass() . '::' . $cron->getFunction() . '()');
-    die();
 } else {
     if (config::byKey('enableCron') == 0) {
         die('Tous les crons sont actuellement désactivés');
     }
-
 
     $retry = 0;
     while (true) {
@@ -148,28 +157,27 @@ if (init('cron_id') != '') {
         if (config::byKey('enableCron') == 0) {
             die('Tous les crons sont actuellement désactivés');
         }
-
         foreach (cron::all() as $cron) {
-            $cron->refresh();
-            $datetime = date('Y-m-d H:i:s');
-            if ($cron->getEnable() == 1 && !$cron->running()) {
-                if ($cron->getDeamon() == 0) {
-                    if ($cron->isDue()) {
+            try {
+                $cron->refresh();
+                $datetime = date('Y-m-d H:i:s');
+                if ($cron->getEnable() == 1 && !$cron->running()) {
+                    if ($cron->getDeamon() == 0) {
+                        if ($cron->isDue()) {
+                            $cron->start();
+                        }
+                    } else {
                         $cron->start();
                     }
-                } else {
-                    $cron->start();
                 }
-            }
-            if ($cron->running() && (strtotime($datetime) - strtotime($cron->getLastRun())) / 60 >= $cron->getTimeout()) {
-                if ($cron->getDeamon() == 0) {
-                    log::add('cron', 'error', '[Timeout] "' . $cron->getClass() . '::' . $cron->getFunction() . '()"');
-                } else {
-                    log::add('cron', 'info', 'Arrêt/relance du demon : "' . $cron->getClass() . '::' . $cron->getFunction() . '()"');
+                if ($cron->running() && (strtotime($datetime) - strtotime($cron->getLastRun())) / 60 >= $cron->getTimeout()) {
+                    if ($cron->getDeamon() == 0) {
+                        log::add('cron', 'error', '[Timeout] ' . $cron->getName());
+                    } else {
+                        log::add('cron', 'info', 'Arrêt/relance du demon : ' . $cron->getName());
+                    }
+                    $cron->stop();
                 }
-                $cron->stop();
-            }
-            try {
                 switch ($cron->getState()) {
                     case 'run':
                         if ($cron->getServer() == gethostname()) {
@@ -190,8 +198,8 @@ if (init('cron_id') != '') {
                 $cron->setServer('');
                 $cron->setDuration(-1);
                 $cron->save();
-                echo '[Erreur] ' . $cron->getClass() . '::' . $cron->getFunction() . '() : ' . $e->getMessage() . ' : ' . $e->getTraceAsString();
-                log::add('cron', 'error', '[Erreur] ' . $cron->getClass() . '::' . $cron->getFunction() . '() : ' . $e->getMessage() . ' : ' . $e->getTraceAsString());
+                echo '[Erreur] ' . $cron->getName() . ' : ' . $e->getMessage();
+                log::add('cron', 'error', '[Erreur] ' . $cron->getName() . ' : ' . $e->getMessage());
             }
         }
         if ($sleepTime > 59) {

@@ -273,6 +273,13 @@ class cron {
         return false;
     }
 
+    public function getName() {
+        if ($this->getClass() != '') {
+            return $this->getClass() . '::' . $this->getFunction() . '()';
+        }
+        return $this->getFunction() . '()';
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {
