@@ -120,23 +120,32 @@ class cron {
         }
     }
 
+    public function getNbRun() {
+        $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
+        $cmd.= ' cron_id=' . $this->getId();
+        return exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | wc -l');
+    }
+
+    public function retrievePid() {
+        $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
+        $cmd.= ' cron_id=' . $this->getId();
+        return exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | awk "{print $1}"');
+    }
+
     public function run() {
         $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
-        $nbCronRun = exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | wc -l');
-        if ($nbCronRun == 0) {
+        if ($this->getNbRun() == 0) {
             shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
         } else {
-            $pid = exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | awk "{print $1}"');
-            $this->setPID($pid);
+            $this->setPID($this->retrievePid());
             $this->setServer(gethostname());
             $this->setState('run');
             $this->halt();
-            $nbCronRun = exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | wc -l');
-            if ($nbCronRun == 0) {
+            if ($this->getNbRun() == 0) {
                 shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
             } else {
-                throw new Exception('Impossible de lancer la tache car elle est déjà en cours (' . $nbCronRun . ') : ' . $cmd);
+                throw new Exception('Impossible de lancer la tache car elle est déjà en cours (' . $this->getNbRun() . ') : ' . $cmd);
             }
         }
     }
@@ -146,12 +155,8 @@ class cron {
             exec('ps ' . $this->pid, $pState);
             return (count($pState) >= 2);
         }
-        $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
-        $cmd.= ' cron_id=' . $this->getId();
-        $nbCronRun = exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | wc -l');
-        if ($nbCronRun > 0) {
-            $pid = exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | awk "{print $1}"');
-            $this->setPID($pid);
+        if ($this->getNbRun() > 0) {
+            $this->setPID($this->retrievePid());
             $this->setServer(gethostname());
             $this->setState('run');
             $this->save();
