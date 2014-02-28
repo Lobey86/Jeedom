@@ -45,11 +45,6 @@ if (init('cron_id') != '') {
         log::add('cron', 'Error', 'Cron job non trouvé : ' . init('cron_id'));
         die();
     }
-    if ($cron->running()) {
-        echo 'Le cron : ' . $cron->getClass() . '::' . $cron->getFunction() . '() est en cours';
-        log::add('cron', 'Error', 'Le cron : ' . $cron->getClass() . '::' . $cron->getFunction() . '() est en cours');
-        die();
-    }
     log::add('cron', 'info', 'Lancement de ' . $cron->getClass() . '::' . $cron->getFunction() . '() avec le PID : ' . getmypid());
     $cron->setState('run');
     $cron->setDuration('0s');
