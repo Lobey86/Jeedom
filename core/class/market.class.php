@@ -131,7 +131,7 @@ class market {
         }
         $market = self::getJsonRpc();
         if ($market->sendRequest('jeedom::getCurrentVersion')) {
-            $version = $market->getResult();
+            $version = trim($market->getResult());
             cache::set('jeedom::lastVersion', $version, 86400);
             return $version;
         }
