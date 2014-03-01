@@ -124,7 +124,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-lg-2 control-label">Dernière version de Jeedom</label>
+                                    <label class="col-lg-2 control-label">Dernière version</label>
                                     <div class="col-lg-4">
                                         <?php
                                         $update = jeedom::needUpdate();
