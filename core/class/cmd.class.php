@@ -817,6 +817,10 @@ class cmd {
         return $name;
     }
 
+    public function getHistory($_dateStart = null, $_dateEnd = null) {
+        return history::all($this->id, $_dateStart, $_dateEnd);
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {
@@ -845,10 +849,6 @@ class cmd {
 
     public function getIsHistorized() {
         return $this->isHistorized;
-    }
-
-    public function getHistory($_dateStart = null, $_dateEnd = null) {
-        return history::all($this->id, $_dateStart, $_dateEnd);
     }
 
     public function getUnite() {

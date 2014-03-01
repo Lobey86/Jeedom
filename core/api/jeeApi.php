@@ -81,26 +81,93 @@ if (init('api') != '' && init('type') != '') {
                 $jsonrpc->makeSuccess(getVersion('jeedom'));
             }
 
-            /*             * ************************Executer une commande*************************** */
-            if ($jsonrpc->getMethod() == 'execCmd') {
-                if ($params['cmdId'] == '') {
-                    throw new Exception('Commande ID invalide', -32602);
+            /*             * ************************Object*************************** */
+            if ($jsonrpc->getMethod() == 'object::all') {
+                $jsonrpc->makeSuccess(utils::o2a(object::all()));
+            }
+
+            if ($jsonrpc->getMethod() == 'object::byId') {
+                $object = object::byId($params['id']);
+                if (!is_object($object)) {
+                    throw new Exception('Objet introuvable : ' . $params['id'], -32601);
                 }
-                $cmd = cmd::byId($params['cmdId']);
+                $jsonrpc->makeSuccess(utils::o2a($object));
+            }
+
+            /*             * ************************Equipement*************************** */
+            if ($jsonrpc->getMethod() == 'eqLogic::all') {
+                $jsonrpc->makeSuccess(utils::o2a(eqLogic::all()));
+            }
+
+            if ($jsonrpc->getMethod() == 'eqLogic::byObjectId') {
+                $jsonrpc->makeSuccess(utils::o2a(eqLogic::byObjectId($params['object_id'])));
+            }
+
+            if ($jsonrpc->getMethod() == 'eqLogic::byId') {
+                $eqLogic = eqLogic::byId($params['id']);
+                if (!is_object($eqLogic)) {
+                    throw new Exception('EqLogic introuvable : ' . $params['id'], -32602);
+                }
+                $jsonrpc->makeSuccess(utils::o2a($eqLogic));
+            }
+
+            /*             * ************************Commande*************************** */
+            if ($jsonrpc->getMethod() == 'cmd::all') {
+                $jsonrpc->makeSuccess(utils::o2a(cmd::all()));
+            }
+
+            if ($jsonrpc->getMethod() == 'cmd::byEqLogicId') {
+                $jsonrpc->makeSuccess(utils::o2a(cmd::byEqLogicId($params['eqLogic_id'])));
+            }
+
+            if ($jsonrpc->getMethod() == 'cmd::byId') {
+                $cmd = cmd::byId($params['id']);
                 if (!is_object($cmd)) {
-                    throw new Exception('Commande introuvable', -32603);
+                    throw new Exception('Cmd introuvable : ' . $params['id'], -32701);
+                }
+                $jsonrpc->makeSuccess(utils::o2a($cmd));
+            }
+
+            if ($jsonrpc->getMethod() == 'cmd::execCmd') {
+                $cmd = cmd::byId($params['id']);
+                if (!is_object($cmd)) {
+                    throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
                 }
                 $jsonrpc->makeSuccess($cmd->execCmd($params));
+            }
+            
+            if ($jsonrpc->getMethod() == 'cmd::getStatistique') {
+                $cmd = cmd::byId($params['id']);
+                if (!is_object($cmd)) {
+                    throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
+                }
+                $jsonrpc->makeSuccess($cmd->getStatistique($params['startTime'],$params['endTime']));
+            }
+            
+            if ($jsonrpc->getMethod() == 'cmd::getTendance') {
+                $cmd = cmd::byId($params['id']);
+                if (!is_object($cmd)) {
+                    throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
+                }
+                $jsonrpc->makeSuccess($cmd->getTendance($params['startTime'],$params['endTime']));
+            }
+            
+             if ($jsonrpc->getMethod() == 'cmd::getHistory') {
+                $cmd = cmd::byId($params['id']);
+                if (!is_object($cmd)) {
+                    throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
+                }
+                $jsonrpc->makeSuccess($cmd->getHistory($params['startTime'],$params['endTime']));
             }
 
             /*             * ************************************************************************ */
         }
-        throw new Exception('Methode non trouvée', -32601);
+        throw new Exception('Methode non trouvée', -32500);
         /*         * *********Catch exeption*************** */
     } catch (Exception $e) {
         $message = $e->getMessage();
         $jsonrpc = new jsonrpc(init('request'));
-        $errorCode = (is_numeric($e->getCode())) ? -32000 - $e->getCode() : -32699;
+        $errorCode = (is_numeric($e->getCode())) ? -32000 - $e->getCode() : -32599;
         $jsonrpc->makeError($errorCode, $message);
     }
 }
