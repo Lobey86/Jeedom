@@ -54,6 +54,18 @@ class cron {
         return DB::Prepare($sql, $value, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function byClassAndFunction($_class, $_function) {
+        $value = array(
+            'class' => $_class,
+            'function' => $_function,
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM cron
+                WHERE class=:class
+                    AND function=:function';
+        return DB::Prepare($sql, $value, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+    }
+
     public static function nbCronRun() {
         return exec('ps ax | grep jeeCron.php | grep -v "grep" | grep -v "sudo" | grep -v "shell=/bin/bash - " | grep -v "/bin/bash -c " | grep -v "/bin/sh -c " | grep -v ' . posix_getppid() . ' | grep -v ' . getmypid() . ' | wc -l');
     }
