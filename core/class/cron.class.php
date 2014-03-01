@@ -156,7 +156,11 @@ class cron {
             return (count($pState) >= 2);
         }
         if ($this->getNbRun() > 0) {
-            $this->setPID($this->retrievePid());
+            $pid = $this->retrievePid();
+            if (!is_numeric($pid)) {
+                return false;
+            }
+            $this->setPID($pid);
             $this->setServer(gethostname());
             $this->setState('run');
             $this->save();
@@ -184,6 +188,9 @@ class cron {
     }
 
     public function halt() {
+        if (!is_numeric($this->getPID())) {
+            return true;
+        }
         if ($this->getServer() == gethostname()) {
             log::add('cron', 'info', 'Arret de ' . $this->getClass() . '::' . $this->getFunction() . '()');
             exec('kill ' . $this->getPID());
