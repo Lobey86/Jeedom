@@ -107,7 +107,7 @@ class log {
                         $lineread = array();
                         $lineread[0] = '';
                         $lineread[1] = '';
-                        $lineread[2] = trim($line);
+                        $lineread[2] = $line;
                         array_unshift($page, $lineread);
                     }
                 }
