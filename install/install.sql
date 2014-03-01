@@ -136,6 +136,7 @@ CREATE TABLE IF NOT EXISTS `cron` (
   PRIMARY KEY (`id`),
   KEY `type` (`class`),
   KEY `logicalId_Type` (`class`)
+UNIQUE KEY `class_function` (`class`, `function`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
