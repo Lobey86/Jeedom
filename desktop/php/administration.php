@@ -105,6 +105,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <a class="btn btn-warning bt_updateJeedom" data-mode="force"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-github"></i> Forcer la mise à jour</a>
                                     </div>
                                 </div>
+                                <div class="form-group expertModeHidden">
+                                    <label class="col-lg-2 control-label">Faire une sauvegarde avant la mise à jour</label>
+                                    <div class="col-lg-1">
+                                        <input type="checkbox" class="configKey form-control" data-l1key="update::backupBefore"/>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">Adresse git</label>
                                     <div class="col-lg-4">
