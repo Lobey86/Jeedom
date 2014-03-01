@@ -189,6 +189,10 @@ $(function() {
         });
     });
 
+    $('#bt_downloadBackup').on('click', function() {
+        window.open('/backup/' + $('#sel_restoreBackup option:selected').text(), "_blank", null);
+    });
+
     $("#bt_testLdapConnection").on('click', function(event) {
         $.hideAlert();
         $.ajax({
