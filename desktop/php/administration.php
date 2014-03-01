@@ -123,6 +123,19 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Dernière version de Jeedom</label>
+                                    <div class="col-lg-4">
+                                        <?php
+                                        $update = needUpdate();
+                                        $label = 'label-success';
+                                        if ($update['needUpdate']) {
+                                            $label = 'label-danger';
+                                        }
+                                        ?>
+                                        <span class='label <?php echo $label ?>'> <?php echo $update['currentVersion'] ?> </span>
+                                    </div>
+                                </div>
                             </fieldset>
                         </form>
                     </div>

@@ -41,7 +41,7 @@ class market {
     /*     * ***********************Methode static*************************** */
 
     private static function construct($_arrayMarket) {
-        $market = new market();
+        $market = new self();
         if (!isset($_arrayMarket['id'])) {
             return;
         }
@@ -68,7 +68,7 @@ class market {
     }
 
     public static function byId($_id) {
-        $market = market::getJsonRpc();
+        $market = self::getJsonRpc();
         if ($market->sendRequest('market::byId', array('id' => $_id))) {
             return self::construct($market->getResult());
         } else {
@@ -77,7 +77,7 @@ class market {
     }
 
     public static function byLogicalId($_logicalId) {
-        $market = market::getJsonRpc();
+        $market = self::getJsonRpc();
         if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId))) {
             return self::construct($market->getResult());
         } else {
@@ -86,7 +86,7 @@ class market {
     }
 
     public static function byMe() {
-        $market = market::getJsonRpc();
+        $market = self::getJsonRpc();
         if ($market->sendRequest('market::byAuthor', array())) {
             $return = array();
             foreach ($market->getResult() as $result) {
@@ -99,7 +99,7 @@ class market {
     }
 
     public static function byStatusAndType($_status, $_type) {
-        $market = market::getJsonRpc();
+        $market = self::getJsonRpc();
         if ($market->sendRequest('market::byStatusAndType', array('status' => $_status, 'type' => $_type))) {
             $return = array();
             foreach ($market->getResult() as $result) {
@@ -112,7 +112,7 @@ class market {
     }
 
     public static function byStatus($_status) {
-        $market = market::getJsonRpc();
+        $market = self::getJsonRpc();
         if ($market->sendRequest('market::byStatus', array('status' => $_status))) {
             $return = array();
             foreach ($market->getResult() as $result) {
@@ -122,6 +122,20 @@ class market {
         } else {
             throw new Exception($market->getError());
         }
+    }
+
+    public static function getJeedomCurrentVersion() {
+        $cache = cache::byKey('jeedom::lastVersion');
+        if ($cache->getValue('') != '') {
+            return $cache->getValue();
+        }
+        $market = self::getJsonRpc();
+        if ($market->sendRequest('jeedom::getCurrentVersion')) {
+            $version = $market->getResult();
+            cache::set('jeedom::lastVersion', $version, 86400);
+            return $version;
+        }
+        return null;
     }
 
     public static function getJsonRpc() {
@@ -197,7 +211,7 @@ class market {
     /*     * *********************Methode d'instance************************* */
 
     public function getComment() {
-        $market = market::getJsonRpc();
+        $market = self::getJsonRpc();
         if (!$market->sendRequest('market::getComment', array('id' => $this->getId()))) {
             throw new Exception($market->getError());
         }
@@ -205,21 +219,21 @@ class market {
     }
 
     public function setComment($_comment = null, $_order = null) {
-        $market = market::getJsonRpc();
+        $market = self::getJsonRpc();
         if (!$market->sendRequest('market::setComment', array('id' => $this->getId(), 'comment' => $_comment, 'order' => $_order))) {
             throw new Exception($market->getError());
         }
     }
 
     public function setRating($_rating) {
-        $market = market::getJsonRpc();
+        $market = self::getJsonRpc();
         if (!$market->sendRequest('market::setRating', array('rating' => $_rating, 'id' => $this->getId()))) {
             throw new Exception($market->getError());
         }
     }
 
     public function getRating() {
-        $market = market::getJsonRpc();
+        $market = self::getJsonRpc();
         if (!$market->sendRequest('market::getRating', array('id' => $this->getId()))) {
             throw new Exception($market->getError());
         }
@@ -294,7 +308,7 @@ class market {
     }
 
     public function save() {
-        $market = market::getJsonRpc();
+        $market = self::getJsonRpc();
         $params = utils::o2a($this);
         switch ($this->getType()) {
             case 'plugin' :

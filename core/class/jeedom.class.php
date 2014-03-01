@@ -206,6 +206,18 @@ class jeedom {
         return $result;
     }
 
+    public static function needUpdate() {
+        $return = array();
+        $return['currentVersion'] = market::getJeedomCurrentVersion();
+        $return['version'] = getVersion('jeedom');
+        if (version_compare($return['currentVersion'], $return['version'], '=')) {
+            $return['needUpdate'] = true;
+        } else {
+            $return['needUpdate'] = false;
+        }
+        return $return;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     /*     * **********************Getteur Setteur*************************** */
