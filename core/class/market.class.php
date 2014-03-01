@@ -299,7 +299,7 @@ class market {
                 break;
             default :
                 $type = $this->getType();
-                if (class_exists($type) && method_exists(${type}, 'getFromMarket')) {
+                if (class_exists($type) && method_exists($type, 'getFromMarket')) {
                     $type::removeFromMarket($this);
                 }
                 config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $type);

@@ -267,20 +267,6 @@ function mySqlIsHere() {
     return is_object(DB::getConnection());
 }
 
-function cronPlugin() {
-    foreach (plugin::listPlugin(true) as $plugin) {
-        $plugin_id = $plugin->getId();
-        if (method_exists($plugin_id, 'cron')) {
-            $plugin_id::cron();
-        }
-    }
-}
-
-function cronCore() {
-    interactDef::cron();
-    eqLogic::checkAlive();
-}
-
 function displayExeption($e) {
     $message = '<span id="span_errorMessage">' . $e->getMessage() . '</span>';
     if (DEBUG) {

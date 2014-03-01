@@ -222,12 +222,25 @@ class jeedom {
         $cache = cache::byKey('jeedom::startOK');
         if ($cache->getValue(0) == 0) {
             cache::restore();
+            plugin::start();
         }
         cache::set('jeedom::startOK', 1, 0);
         $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
         if ($c->isDue()) {
             cache::persist();
         }
+    }
+
+    public static function cron() {
+        interactDef::cron();
+        eqLogic::checkAlive();
+    }
+
+    public static function checkOngoingThread($_cmd) {
+        return exec('ps ax | grep "' . $_cmd . '" | grep -v "grep" | wc -l');
+    }
+    public static function retrievePidThread($_cmd) {
+        return exec('ps ax | grep "' . $_cmd . '" | grep -v "grep" | awk "{print $1}"');
     }
 
     /*     * *********************Methode d'instance************************* */

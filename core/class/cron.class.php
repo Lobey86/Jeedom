@@ -123,13 +123,13 @@ class cron {
     public function getNbRun() {
         $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
-        return exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | wc -l');
+        return jeedom::checkOngoingThread($cmd);
     }
 
     public function retrievePid() {
         $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
-        return exec('ps ax | grep "' . $cmd . '" | grep -v "grep" | awk "{print $1}"');
+        return jeedom::retrievePidThread($cmd);
     }
 
     public function run() {
