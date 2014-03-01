@@ -53,9 +53,6 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                     }
                     if ($scenario->getIsActive() == 1) {
                         switch ($scenario->getState()) {
-                            case 'on':
-                                $state = 'green';
-                                break;
                             case 'in progress':
                                 $state = 'blue';
                                 break;
@@ -63,7 +60,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                                 $state = 'orange';
                                 break;
                             default:
-                                $state = 'red';
+                                $state = 'yellow';
                                 break;
                         }
                     } else {
