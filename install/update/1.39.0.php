@@ -16,6 +16,6 @@ try {
     
 }
 $sql = 'ALTER TABLE `cron` 
-ADD UNIQUE INDEX `class_function` (`class` ASC, `function` ASC);';
+ADD UNIQUE INDEX `class_function` (`class` ASC, `function` ASC)';
 DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
 ?>
