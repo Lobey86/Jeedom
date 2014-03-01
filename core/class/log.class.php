@@ -32,16 +32,26 @@ class log {
      * @param string $_type type du message à mettre dans les log
      * @param string $_message message à mettre dans les logs
      */
-    public static function add($_plugin, $_type, $_message) {
+    public static function add($_log, $_type, $_message) {
         $_type = strtolower($_type);
         if (self::isTypeLog($_type)) {
             $_message = str_replace("\n", '<br/>', $_message);
             $_message = str_replace(";", ',', $_message);
-            $path = self::getPathToLog($_plugin);
+            $path = self::getPathToLog($_log);
             $message = date("d-m-Y H:i:s") . ' | ' . $_type . ' | ' . $_message . "\r\n";
             $log = fopen($path, "a+");
             fputs($log, $message);
             fclose($log);
+            self::chunk($_log);
+            if (config::byKey('addMessageForErrorLog') == 1 && $_type == 'error') {
+                @message::add($_log, $_message);
+            }
+        }
+    }
+
+    public static function chunk($_log = '') {
+        if ($_log != '') {
+            $path = self::getPathToLog($_log);
             $log_file = file($path);
             if (count($log_file) > config::byKey('maxLineLog')) {
                 $log_file = array_slice($log_file, count($log_file) - config::byKey('maxLineLog'));
@@ -53,21 +63,34 @@ class log {
             @chown($path, 'www-data');
             @chgrp($path, 'www-data');
             @chmod($path, 0777);
-            if (config::byKey('addMessageForErrorLog') == 1 && $_type == 'error') {
-                @message::add($_plugin, $_message);
+        } else {
+            $logs = ls(dirname(__FILE__) . '/../../log/');
+            foreach ($logs as $log) {
+                $path = dirname(__FILE__) . '/../../log/' . $log;
+                $log_file = file($path);
+                if (count($log_file) > config::byKey('maxLineLog')) {
+                    $log_file = array_slice($log_file, count($log_file) - config::byKey('maxLineLog'));
+                    $log_txt = implode("", $log_file);
+                    $log = fopen($path, "w+");
+                    fwrite($log, $log_txt);
+                    fclose($log);
+                }
+                @chown($path, 'www-data');
+                @chgrp($path, 'www-data');
+                @chmod($path, 0777);
             }
         }
     }
 
-    public static function getPathToLog($_plugin = 'core') {
-        return dirname(__FILE__) . '/../../log/' . $_plugin;
+    public static function getPathToLog($_log = 'core') {
+        return dirname(__FILE__) . '/../../log/' . $_log;
     }
 
     /**
      * Vide le fichier de log 
      */
-    public static function clear($_plugin) {
-        $path = self::getPathToLog($_plugin);
+    public static function clear($_log) {
+        $path = self::getPathToLog($_log);
         $log = fopen($path, "w");
         ftruncate($log, 0);
         fclose($log);
@@ -77,8 +100,8 @@ class log {
     /**
      * Vide le fichier de log 
      */
-    public static function remove($_plugin) {
-        $path = self::getPathToLog($_plugin);
+    public static function remove($_log) {
+        $path = self::getPathToLog($_log);
         unlink($path);
         return true;
     }
@@ -88,9 +111,9 @@ class log {
      * @param int $_maxLigne nombre de ligne voulu
      * @return string Ligne du fichier de log
      */
-    public static function get($_plugin = 'core', $_begin, $_nbLines) {
+    public static function get($_log = 'core', $_begin, $_nbLines) {
         $page = array();
-        $path = self::getPathToLog($_plugin);
+        $path = self::getPathToLog($_log);
         if (!file_exists($path)) {
             return false;
         }
@@ -118,8 +141,8 @@ class log {
         return $page;
     }
 
-    public static function nbLine($_plugin = 'core') {
-        $path = self::getPathToLog($_plugin);
+    public static function nbLine($_log = 'core') {
+        $path = self::getPathToLog($_log);
         $log_file = file($path);
         return count($log_file);
     }
