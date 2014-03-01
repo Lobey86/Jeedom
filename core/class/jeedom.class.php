@@ -210,7 +210,7 @@ class jeedom {
         $return = array();
         $return['currentVersion'] = market::getJeedomCurrentVersion();
         $return['version'] = getVersion('jeedom');
-        if (version_compare($return['currentVersion'], $return['version'], '=')) {
+        if (version_compare($return['currentVersion'], $return['version'], '>')) {
             $return['needUpdate'] = true;
         } else {
             $return['needUpdate'] = false;
