@@ -167,8 +167,14 @@ if ($plugin != '') {
                                     </ul>
                                 </li>
                                 <li>
-                                    <a id="bt_pageHelp">
-                                        <i class="fa fa-question-circle cursor"></i>
+                                    <a class="bt_pageHelp cursor"
+                                        <?php
+                                        echo 'data-name="' . init('p') . '"';
+                                        if (isset($plugin) && is_object($plugin)) {
+                                                echo 'data-plugin="' . $plugin->getId() . '"';
+                                        }
+                                        ?>accesskey="">
+                                        <i class="fa fa-question-circle" ></i>
                                     </a>
                                 </li>
                             </ul>

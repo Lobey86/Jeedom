@@ -73,11 +73,6 @@ $(function() {
         changeStateCron('start', $(this).closest('tr').attr('id'));
     });
 
-
-    $("#table_cron").delegate('.getHelpSchedule', 'click', function() {
-        showHelpModal("cronSyntaxe");
-    });
-
     $('#table_cron').delegate('.cronAttr[data-l1key=deamon]', 'change', function() {
         if ($(this).value() == 1) {
             $(this).closest('tr').find('.cronAttr[data-l1key=deamonSleepTime]').show();

@@ -258,7 +258,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                             <input type="text"  class="configKey form-control" data-l1key="persist::cron" />
                                         </div>
                                         <div class="col-lg-1">
-                                            <i class="fa fa-question-circle cursor getHelpSchedule floatright" ></i>
+                                            <i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe'></i>
                                         </div>
                                     </div>
                                 </fieldset>
