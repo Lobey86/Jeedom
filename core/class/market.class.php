@@ -143,13 +143,13 @@ class market {
             throw new Exception('Aucune addresse pour le market de renseignée');
         }
         if (config::byKey('market::registerkey') == '') {
-            $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'));
+            $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', getVersion('jeedom'), config::byKey('market::apikey'));
             if (!$register->sendRequest('register', array())) {
                 throw new Exception($register->getError());
             }
             config::save('market::registerkey', $register->getResult());
         }
-        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), config::byKey('market::registerkey'));
+        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', getVersion('jeedom'), config::byKey('market::apikey'), config::byKey('market::registerkey'));
     }
 
     public static function getInfo($_logicalId) {
