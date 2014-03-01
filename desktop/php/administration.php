@@ -127,7 +127,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <label class="col-lg-2 control-label">Dernière version de Jeedom</label>
                                     <div class="col-lg-4">
                                         <?php
-                                        $update = needUpdate();
+                                        $update = jeedom::needUpdate();
                                         $label = 'label-success';
                                         if ($update['needUpdate']) {
                                             $label = 'label-danger';
