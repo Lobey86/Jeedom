@@ -71,6 +71,18 @@ class cache {
         return $cache->save();
     }
 
+    public static function persist() {
+        DB::Prepare('TRUNCATE TABLE `cache_persist', array(), DB::FETCH_TYPE_ROW);
+        DB::Prepare('INSERT INTO `cache_persist` SELECT * FROM `cache`', array(), DB::FETCH_TYPE_ROW);
+        return true;
+    }
+    
+    public static function restore() {
+        DB::Prepare('TRUNCATE TABLE `cache', array(), DB::FETCH_TYPE_ROW);
+        DB::Prepare('INSERT INTO `cache` SELECT * FROM `cache_persist`', array(), DB::FETCH_TYPE_ROW);
+        return true;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function save() {

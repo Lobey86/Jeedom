@@ -218,6 +218,18 @@ class jeedom {
         return $return;
     }
 
+    public static function persist() {
+        $cache = cache::byKey('jeedom::startOK');
+        if ($cache->getValue(0) == 0) {
+            cache::restore();
+        }
+        cache::set('jeedom::startOK', 1, 0);
+        $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
+        if ($c->isDue()) {
+            cache::persist();
+        }
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     /*     * **********************Getteur Setteur*************************** */

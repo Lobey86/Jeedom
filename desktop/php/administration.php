@@ -251,6 +251,16 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                             <a class="btn btn-warning" id="bt_flushMemcache">Vider</a>
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Cron persistance du cache</label>
+                                        <div class="col-lg-3">
+                                            <input type="text"  class="configKey form-control" data-l1key="persist::cron" />
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <i class="fa fa-question-circle cursor getHelpSchedule floatright" ></i>
+                                        </div>
+                                    </div>
                                 </fieldset>
                             </form>
                         </div>
