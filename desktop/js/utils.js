@@ -186,6 +186,9 @@ function refreshMessageNumber() {
 }
 
 function notify(_title, _text, _class_name, _cleanBefore) {
+    if(_title == '' && _text == ''){
+        return true;
+    }
     if (init(_cleanBefore, false)) {
         $.gritter.removeAll();
     }

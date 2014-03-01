@@ -115,6 +115,7 @@ class message {
 
     public function remove() {
         DB::remove($this);
+        @nodejs::pushNotification('', '', 'message');
     }
 
     /*     * **********************Getteur Setteur*************************** */
