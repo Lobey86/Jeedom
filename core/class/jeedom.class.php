@@ -234,6 +234,10 @@ class jeedom {
     public static function cron() {
         interactDef::cron();
         eqLogic::checkAlive();
+        $c = new Cron\CronExpression('00 00 * * *', new Cron\FieldFactory);
+        if ($c->isDue()) {
+            log::chunk();
+        }
     }
 
     public static function checkOngoingThread($_cmd) {
