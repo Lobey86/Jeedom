@@ -126,6 +126,24 @@ class plugin {
         return ($al > $bl) ? +1 : -1;
     }
 
+    public static function cron() {
+        foreach (self::listPlugin(true) as $plugin) {
+            $plugin_id = $plugin->getId();
+            if (method_exists($plugin_id, 'cron')) {
+                $plugin->launch('cron');
+            }
+        }
+    }
+
+    public static function start() {
+        foreach (self::listPlugin(true) as $plugin) {
+            $plugin_id = $plugin->getId();
+            if (method_exists($plugin_id, 'start')) {
+                $plugin->launch('start');
+            }
+        }
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function isActive() {
@@ -136,6 +154,7 @@ class plugin {
         if (version_compare(getVersion('jeedom'), $this->require) == -1 && $_state == 1) {
             throw new Exception('Votre version de jeedom n\'est pas assez récente pour activer ce plugin');
         }
+        $alreadyActive = config::byKey('active', $this->id, 0);
         config::save('active', $_state, $this->id);
         if ($_state == 0) {
             foreach (eqLogic::byType($this->id) as $eqLogic) {
@@ -155,6 +174,9 @@ class plugin {
             $out = ob_get_clean();
             log::add($this->id, 'info', $out);
         }
+        if ($alreadyActive == 0) {
+            $this->start();
+        }
         return true;
     }
 
@@ -173,7 +195,7 @@ class plugin {
                 $return['market'] = 1;
                 if ($market->getApi_author() == config::byKey('market::apikey')) {
                     $return['market_owner'] = 1;
-                }else{
+                } else {
                     $return['market_owner'] = 0;
                 }
             }
@@ -198,6 +220,23 @@ class plugin {
             $return['status'] = 'disable';
         }
         return $return;
+    }
+
+    public function launch($_function) {
+        if ($_function == '') {
+            throw new Exception('La fonction à lancer ne peut etre vide');
+        }
+        if (!class_exists($this->getId()) || !method_exists($this->getId(), $_function)) {
+            throw new Exception('Il n\'existe aucune méthode : ' . $this->getId() . '::' . $_function . '()');
+        }
+        $cmd = 'php ' . dirname(__FILE__) . '/../../core/php/jeePlugin.php ';
+        $cmd.= ' plugin_id=' . $this->getId();
+        $cmd.= ' function=' . $_function;
+        if (jeedom::checkOngoingThread($cmd) > 0) {
+            return true;
+        }
+        shell_exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('plugin') . ' 2>&1 &');
+        return true;
     }
 
     /*     * **********************Getteur Setteur*************************** */
