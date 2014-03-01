@@ -15,19 +15,22 @@ class jsonrpcClient {
     private $rawResult;
     private $apikey = '';
     private $jeedomkey = '';
+    private $version = '';
     private $apiAddr;
 
     /*     * ********Static******************* */
 
-    function __construct($_apiAddr, $_apikey = '', $_jeedomkey = '') {
+    function __construct($_apiAddr,$_version = '', $_apikey = '', $_jeedomkey = '') {
         $this->apiAddr = $_apiAddr;
         $this->apikey = $_apikey;
         $this->jeedomkey = $_jeedomkey;
+        $this->version = $_version;
     }
 
     public function sendRequest($_method, $_params = null, $_timeout = 2, $_file = null) {
         $_params['apikey'] = $this->apikey;
         $_params['jeedomkey'] = $this->jeedomkey;
+        $_params['jeedomversion'] = $this->version;
         $request = array(
             'request' => json_encode(array(
                 'jsonrpc' => '2.0',
