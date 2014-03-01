@@ -54,16 +54,18 @@ try {
     }
 
     if ($update) {
-        try {
-            jeedom::backup();
-        } catch (Exception $e) {
-            if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
-                throw $e;
-            } else {
-                echo '***ERREUR*** ' . $e->getMessage();
+        if (config::byKey('update::backupBefore') == 1) {
+            try {
+                jeedom::backup();
+            } catch (Exception $e) {
+                if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
+                    throw $e;
+                } else {
+                    echo '***ERREUR*** ' . $e->getMessage();
+                }
             }
+            $backup_ok = true;
         }
-        $backup_ok = true;
         if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
             echo "/!\ Mise à jour en mode forcée /!\ \n";
         }
@@ -255,13 +257,13 @@ echo "[END UPDATE SUCCESS]\n";
 function incrementVersion($_version) {
     $version = explode('.', $_version);
     if ($version[2] < 99) {
-        $version[2]++;
+        $version[2] ++;
     } else {
         if ($version[1] < 99) {
-            $version[1]++;
+            $version[1] ++;
             $version[2] = 0;
         } else {
-            $version[0]++;
+            $version[0] ++;
             $version[1] = 0;
             $version[2] = 0;
         }

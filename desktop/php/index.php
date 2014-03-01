@@ -240,8 +240,14 @@ if ($plugin != '') {
         ?>
         <footer>
             <span class="pull-left">Node JS <span id="span_nodeJsState" class="binary red tooltips"></span> - </span>
-            <span class="pull-left">&copy; <a id="bt_jeedomAbout" class="cursor">Jeedom</a> (v<?php echo getVersion('jeedom') ?>) <?php echo date('Y') ?>
+            <span class="pull-left">&copy; <a id="bt_jeedomAbout" class="cursor">Jeedom</a> (v<?php echo getVersion('jeedom') ?> 
                 <?php
+                $version = jeedom::needUpdate();
+                if ($version['needUpdate']) {
+                    echo '<span class="label label-danger">Mise à jour disponible</span>';
+                }
+                echo ')';
+                echo date('Y');
                 $pageLoadTime = round(getmicrotime() - $startLoadTime, 3);
                 echo ' - Page générée en ' . $pageLoadTime . 's';
                 ?>
