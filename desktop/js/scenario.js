@@ -220,10 +220,6 @@ $(function() {
         addSchedule('');
     });
 
-    $('body').delegate(".getHelpSchedule", 'click', function() {
-        showHelpModal("cronSyntaxe");
-    });
-
     $('body').delegate('.bt_removeTrigger', 'click', function(event) {
         $(this).closest('.trigger').remove();
     });
@@ -602,7 +598,7 @@ function addSchedule(_schedule) {
     div += '<input class="scenarioAttr form-control" data-l1key="schedule" value="' + _schedule + '">';
     div += '</div>';
     div += '<div class="col-lg-1">';
-    div += '<i class="fa fa-question-circle cursor getHelpSchedule floatright" ></i>';
+    div += '<i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>';
     div += '</div>';
     div += '<div class="col-lg-1">';
     div += '<i class="fa fa-minus-circle bt_removeSchedule cursor"></i>';

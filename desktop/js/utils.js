@@ -77,10 +77,6 @@ $(function() {
         }
     });
 
-    $('#bt_pageHelp').on('click', function() {
-        showHelpModal(getUrlVars('p'), getUrlVars('m'));
-    });
-
     $('#bt_jeedomAbout').on('click', function() {
         $('#md_modal').load('index.php?v=d&modal=about').dialog('open');
     });
@@ -127,6 +123,10 @@ $(function() {
         $('#md_modal2').dialog({title: "Market Jeedom Display"});
         $('#md_modal2').load('index.php?v=d&modal=market.display&type=plugin&logicalId=' + $(this).attr('data-logicalId')).dialog('open');
     });
+    
+    $('body').delegate('.bt_pageHelp','click',function(){
+        showHelpModal($(this).attr('data-name'), $(this).attr('data-plugin'));
+    });
 
     initTableSorter();
     initExpertMode();
@@ -156,7 +156,7 @@ function initTableSorter() {
 
 function showHelpModal(_name, _plugin) {
     var plugin = '';
-    if (init(_plugin) != false) {
+    if (init(_plugin) != '' && _plugin != undefined) {
         plugin = init(_plugin);
     }
     $('#md_pageHelp').load('index.php?v=d&plugin=' + plugin + '&modal=help.' + init(_name)).dialog('open');
@@ -186,6 +186,9 @@ function refreshMessageNumber() {
 }
 
 function notify(_title, _text, _class_name, _cleanBefore) {
+    if(_title == '' && _text == ''){
+        return true;
+    }
     if (init(_cleanBefore, false)) {
         $.gritter.removeAll();
     }

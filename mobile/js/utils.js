@@ -78,6 +78,9 @@ function refreshMessageNumber() {
 }
 
 function notify(_title, _text) {
+    if (_title == '' && _text == '') {
+        return true;
+    }
     $('#div_alert').html("<center><b>" + _title + "</b></center>" + _text).popup("open", {y: 0});
     setTimeout(function() {
         $('#div_alert').popup("close");

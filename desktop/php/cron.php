@@ -31,7 +31,7 @@ if (config::byKey('enableCron') == 0) {
             <th class="deamons" style="width: 80px;">Démon</th>
             <th class="class">Classe</th>
             <th class="function">Fonction</th>
-            <th class="schedule"><i class="fa fa-question-circle cursor getHelpSchedule" style="position: relative; width: 10px;"></i> Programation</th>
+            <th class="schedule"><i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe' style="position: relative; width: 10px;"></i> Programation</th>
             <th class="timeout" style="width: 150px;">Timeout (min)</th>
             <th class="lastRun" style="width: 200px;">Dernier lancement</th>
             <th class="duration" style="width: 80px;">Durée</th>

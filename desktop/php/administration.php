@@ -68,6 +68,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <a class="btn btn-danger" id="bt_removeBackup"><i class="fa fa-trash-o"></i> Supprimer</a>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">Télécharger la sauvegarde</label>
+                                <div class="col-lg-4">
+                                    <a class="btn btn-success" id="bt_downloadBackup"><i class="fa fa-cloud-download"></i> Télécharger</a>
+                                </div>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
@@ -258,7 +264,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                             <input type="text"  class="configKey form-control" data-l1key="persist::cron" />
                                         </div>
                                         <div class="col-lg-1">
-                                            <i class="fa fa-question-circle cursor getHelpSchedule floatright" ></i>
+                                            <i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe'></i>
                                         </div>
                                     </div>
                                 </fieldset>
