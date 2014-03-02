@@ -28,14 +28,15 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
 ?>
 
 <div style="display: none;width : 100%" id="div_alertMarketDisplay"></div>
-
-<a class="btn btn-success pull-right" href="<?php echo config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $market->getId() ?>" style="color : white;"><i class="fa fa-cloud-download"></i> Télécharger</a>
-<a class="btn btn-warning pull-right" style="color : white;" id="bt_installFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-plus-circle"></i> Installer</a>
-
+<?php if ($market->getPurchase() == 1) { ?>
+    <a class="btn btn-warning pull-right" style="color : white;" id="bt_installFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-plus-circle"></i> Installer</a>
+<?php } else { ?>
+    <a class="btn btn-success pull-right" style="color: white;"><i class="fa fa-eur"></i> Acheter</a>
+<?php } ?>
 <?php if (config::byKey('installVersionDate', $market->getLogicalId()) != '') { ?>
     <a class="btn btn-danger pull-right" style="color : white;" id="bt_removeFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-minus-circle"></i> Supprimer</a>
-    <a class="btn btn-default pull-right" id="bt_viewComment"><i class="fa fa-comments-o"></i> Commentaires</a>
 <?php } ?>
+<a class="btn btn-default pull-right" id="bt_viewComment"><i class="fa fa-comments-o"></i> Commentaires</a>
 <br/><br/><br/>
 <form class="form-horizontal" role="form">
     <div class="row">
@@ -55,7 +56,18 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                     <span class="label label-primary marketAttr" data-l1key="rating" style="font-size: 1.2em;"></span>
                 </div>
             </div>
-
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Prix</label>
+                <div class="col-lg-8">
+                    <?php
+                    if ($market->getCost() > 0) {
+                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">' . $market->getCost() . ' €</span>';
+                    } else {
+                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">Gratuit</span>';
+                    }
+                    ?>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">ID</label>
                 <div class="col-lg-8">
@@ -209,11 +221,11 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                     $('#div_alertMarketDisplay').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-               /* bootbox.confirm('L\'installation a été réalisée avec succès. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
-                    if (result) {*/
-                        window.location.reload();
-                  /*  }
-                });*/
+                /* bootbox.confirm('L\'installation a été réalisée avec succès. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
+                 if (result) {*/
+                window.location.reload();
+                /*  }
+                 });*/
             }
         });
     });
@@ -237,10 +249,10 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                     return;
                 }
                 /*bootbox.confirm('La désinstallation a été réalisée avec succès. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
-                    if (result) {*/
-                        window.location.reload();
-              /*      }
-                });*/
+                 if (result) {*/
+                window.location.reload();
+                /*      }
+                 });*/
             }
         });
     });
