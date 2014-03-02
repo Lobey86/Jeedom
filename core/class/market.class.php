@@ -39,6 +39,7 @@ class market {
     private $api_author;
     private $purchase = 0;
     private $cost = 0;
+    private $realcost = 0;
 
     /*     * ***********************Methode static*************************** */
 
@@ -63,6 +64,7 @@ class market {
         $market->setUtilization($_arrayMarket['utilization']);
         $market->setPurchase($_arrayMarket['purchase']);
         $market->setCost($_arrayMarket['cost']);
+        $market->setRealcost($_arrayMarket['realCost']);
         if (!isset($_arrayMarket['api_author'])) {
             $_arrayMarket['api_author'] = null;
         }
@@ -127,8 +129,8 @@ class market {
             throw new Exception($market->getError());
         }
     }
-    
-    public static function getPurchaseInfo(){
+
+    public static function getPurchaseInfo() {
         $market = self::getJsonRpc();
         if ($market->sendRequest('purchase::getInfo')) {
             return $market->getResult();
@@ -495,6 +497,14 @@ class market {
 
     public function setCost($cost) {
         $this->cost = $cost;
+    }
+
+    public function getRealcost() {
+        return $this->realcost;
+    }
+
+    public function setRealcost($realcost) {
+        $this->realcost = $realcost;
     }
 
 }

@@ -36,7 +36,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
     if (count($purchase_info) == 3 && isset($purchase_info['user_id']) && is_numeric($purchase_info['user_id']) && isset($purchase_info['paypal::url']) && isset($purchase_info['paypal::marchandMail'])) {
         ?>
         <form action="<?php echo $purchase_info['paypal::url'] ?>/cgi-bin/webscr" method="post" style="display: inline-block;" class="pull-right" target="_blank" id='form_paypal'>
-            <input type='hidden' name="amount" value="<?php echo $market->getCost() ?>" />
+            <input type='hidden' name="amount" value="<?php echo $market->getRealcost() ?>" />
             <input name="currency_code" type="hidden" value="EUR" />
             <input name="shipping" type="hidden" value="0.00" />
             <input name="tax" type="hidden" value="0.00" />
@@ -84,7 +84,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 <div class="col-lg-8">
                     <?php
                     if ($market->getCost() > 0) {
-                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">' . $market->getCost() . ' €</span>';
+                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">' . $market->getRealcost() . ' €</span>';
                     } else {
                         echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">Gratuit</span>';
                     }
