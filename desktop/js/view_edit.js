@@ -197,7 +197,6 @@ $(function() {
                             }
                         }
                         viewData.name += '[' + tr.find('.name').text() + ']';
-                        console.log(viewData);
                         span += addServiceToviewZone(viewData);
                     }
                     tr = tr.next();
