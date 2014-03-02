@@ -37,6 +37,8 @@ class market {
     private $logicalId;
     private $utilization;
     private $api_author;
+    private $purchase = 0;
+    private $cost = 0;
 
     /*     * ***********************Methode static*************************** */
 
@@ -59,6 +61,8 @@ class market {
         $market->setChangelog($_arrayMarket['changelog']);
         $market->setLogicalId($_arrayMarket['logicalId']);
         $market->setUtilization($_arrayMarket['utilization']);
+        $market->setPurchase($_arrayMarket['purchase']);
+        $market->setCost($_arrayMarket['cost']);
         if (!isset($_arrayMarket['api_author'])) {
             $_arrayMarket['api_author'] = null;
         }
@@ -121,6 +125,13 @@ class market {
             return $return;
         } else {
             throw new Exception($market->getError());
+        }
+    }
+    
+    public static function getPurchaseInfo(){
+        $market = self::getJsonRpc();
+        if ($market->sendRequest('purchase::getInfo')) {
+            return $market->getResult();
         }
     }
 
@@ -253,10 +264,10 @@ class market {
         if (!is_writable($tmp_dir)) {
             throw new Exception('Impossible d\'écrire dans le repertoire : ' . $tmp . '. Exécuter la commande suivante en SSH : chmod 777 -R ' . $tmp_dir);
         }
-        $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId();
+        $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId() . '&hwkey=' . jeedom::getHardwareKey() . '&hwkey=' . jeedom::getHardwareKey() . '&apikey=' . config::byKey('market::apikey');
         file_put_contents($tmp, fopen($url, 'r'));
         if (!file_exists($tmp)) {
-            throw new Exception('Impossible de télécharger le fichier depuis : ' . $url);
+            throw new Exception('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?');
         }
         switch ($this->getType()) {
             case 'plugin' :
@@ -468,6 +479,22 @@ class market {
 
     public function setUtilization($utilization) {
         $this->utilization = $utilization;
+    }
+
+    public function getPurchase() {
+        return $this->purchase;
+    }
+
+    public function setPurchase($purchase) {
+        $this->purchase = $purchase;
+    }
+
+    public function getCost() {
+        return $this->cost;
+    }
+
+    public function setCost($cost) {
+        $this->cost = $cost;
     }
 
 }
