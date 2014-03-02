@@ -30,9 +30,32 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
 <div style="display: none;width : 100%" id="div_alertMarketDisplay"></div>
 <?php if ($market->getPurchase() == 1) { ?>
     <a class="btn btn-warning pull-right" style="color : white;" id="bt_installFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-plus-circle"></i> Installer</a>
-<?php } else { ?>
-    <a class="btn btn-success pull-right" style="color: white;"><i class="fa fa-eur"></i> Acheter</a>
-<?php } ?>
+    <?php
+} else if (config::byKey('market::apikey') != '') {
+    $purchase_info = market::getPurchaseInfo();
+    if (count($purchase_info) == 3 && isset($purchase_info['user_id']) && is_numeric($purchase_info['user_id']) && isset($purchase_info['paypal::url']) && isset($purchase_info['paypal::marchandMail'])) {
+        ?>
+        <form action="<?php echo $purchase_info['paypal::url'] ?>/cgi-bin/webscr" method="post" style="display: inline-block;" class="pull-right" target="_blank" id='form_paypal'>
+            <input type='hidden' name="amount" value="<?php echo $market->getCost() ?>" />
+            <input name="currency_code" type="hidden" value="EUR" />
+            <input name="shipping" type="hidden" value="0.00" />
+            <input name="tax" type="hidden" value="0.00" />
+            <input name="return" type="hidden" value="<?php echo config::byKey('market::address') . '/index.php?v=d&p=resultBuy&success=1' ?>" />
+            <input name="cancel_return" type="hidden" value="<?php echo config::byKey('market::address') . '/index.php?v=d&p=resultBuy&success=0' ?>" />
+            <input name="notify_url" type="hidden" value="<?php echo config::byKey('market::address') . '/index.php?v=d&p=registerBuy' ?>" />
+            <input name="cmd" type="hidden" value="_xclick" />
+            <input name="business" type="hidden" value="<?php echo $purchase_info['paypal::marchandMail'] ?>" />
+            <input name="item_name" type="hidden" value="<?php echo '[' . $market->getType() . '] ' . $market->getLogicalId() ?>" />
+            <input name="no_note" type="hidden" value="1" />
+            <input name="lc" type="hidden" value="FR" />
+            <input name="bn" type="hidden" value="PP-BuyNowBF" />
+            <input name="custom" type="hidden" value="<?php echo $purchase_info['user_id'] . ':' . $market->getId() ?>" />
+            <input class="pull-right" id='bt_paypalClick' alt="Effectuez vos paiements via PayPal : une solution rapide, gratuite et sécurisée" name="submit" src="https://www.paypal.com/fr_FR/FR/i/btn/btn_buynow_LG.gif" type="image" style="display: inline-block;"/><img class="pull-right" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" border="0" alt="" width="1" height="1" style="display: inline-block;"/>
+        </form>
+        <?php
+    }
+}
+?>
 <?php if (config::byKey('installVersionDate', $market->getLogicalId()) != '') { ?>
     <a class="btn btn-danger pull-right" style="color : white;" id="bt_removeFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-minus-circle"></i> Supprimer</a>
 <?php } ?>
@@ -179,6 +202,10 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
 
 <script>
     $('body').setValues(market_display_info, '.marketAttr');
+
+    $('#bt_paypalClick').on('click', function() {
+        $(this).hide();
+    });
 
     $("#div_comments").dialog({
         autoOpen: false,

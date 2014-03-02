@@ -127,6 +127,13 @@ class market {
             throw new Exception($market->getError());
         }
     }
+    
+    public static function getPurchaseInfo(){
+        $market = self::getJsonRpc();
+        if ($market->sendRequest('purchase::getInfo')) {
+            return $market->getResult();
+        }
+    }
 
     public static function getJeedomCurrentVersion() {
         $cache = cache::byKey('jeedom::lastVersion');
