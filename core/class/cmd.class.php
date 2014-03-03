@@ -734,32 +734,34 @@ class cmd {
 
     public function event($_value) {
         $eqLogic = $this->getEqLogic();
-        if (is_object($eqLogic) && $eqLogic->getIsEnable() == 1) {
-            if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
-                $_value = 1;
+        if (is_object($eqLogic)) {
+            if ($eqLogic->getIsEnable() == 1) {
+                if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
+                    $_value = 1;
+                }
+                if (strpos($_value, 'error') === false) {
+                    $eqLogic->setStatus('numberTryWithoutSuccess', 0);
+                    $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
+                    $this->addHistoryValue($_value);
+                }
+                $message = 'Message venant de ' . $this->getHumanName() . ' : ' . $_value;
+                log::add($eqLogic->getEqType_name(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
+                cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
+                if ($this->getCollect() == 1) {
+                    $this->setCollect(0);
+                    $this->save();
+                }
+                nodejs::pushUpdate('eventCmd', $this->getId());
+                foreach (self::byValue($this->getId()) as $cmd) {
+                    nodejs::pushUpdate('eventCmd', $cmd->getId());
+                }
+                $internalEvent = new internalEvent();
+                $internalEvent->setEvent('event::cmd');
+                $internalEvent->setOptions('id', $this->getId());
+                $internalEvent->setOptions('value', $_value);
+                $internalEvent->save();
+                scenario::check($this->getId());
             }
-            if (strpos($_value, 'error') === false) {
-                $eqLogic->setStatus('numberTryWithoutSuccess', 0);
-                $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-                $this->addHistoryValue($_value);
-            }
-            $message = 'Message venant de ' . $this->getHumanName() . ' : ' . $_value;
-            log::add($eqLogic->getEqType_name(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
-            cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
-            if ($this->getCollect() == 1) {
-                $this->setCollect(0);
-                $this->save();
-            }
-            nodejs::pushUpdate('eventCmd', $this->getId());
-            foreach (self::byValue($this->getId()) as $cmd) {
-                nodejs::pushUpdate('eventCmd', $cmd->getId());
-            }
-            $internalEvent = new internalEvent();
-            $internalEvent->setEvent('event::cmd');
-            $internalEvent->setOptions('id', $this->getId());
-            $internalEvent->setOptions('value', $_value);
-            $internalEvent->save();
-            scenario::check($this->getId());
         } else {
             log::add('core', 'Error', 'Impossible de trouver l\'équipement correspondant à l\'id ' . $this->getEqLogic_id() . ' ou équipement désactivé. Evènement sur commande : ' . print_r($this, true));
         }
