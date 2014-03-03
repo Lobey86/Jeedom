@@ -761,7 +761,7 @@ class cmd {
             $internalEvent->save();
             scenario::check($this->getId());
         } else {
-            log::add('core', 'Error', 'Impossible de trouver l\'équipement correspondant à l\'id ' . $this->getEqLogic_id() . ' ou équipement désactivé');
+            log::add('core', 'Error', 'Impossible de trouver l\'équipement correspondant à l\'id ' . $this->getEqLogic_id() . ' ou équipement désactivé. Evènement sur commande : ' . print_r($this, true));
         }
     }
 
