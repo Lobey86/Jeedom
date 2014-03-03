@@ -3,7 +3,7 @@ if (!isConnect()) {
     throw new Exception('401 - Unauthorized access to page');
 }
 if (init('object_id') == '') {
-    $_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject','global');
+    $_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject', 'global');
 }
 $object = object::byId(init('object_id'));
 if (!is_object($object)) {
@@ -48,7 +48,21 @@ if (!is_object($object)) {
                 echo $eqLogic->toHtml('dashboard');
             }
         }
+        foreach ($object->getChilds() as $child) {
+            if (count($child->getEqLogic()) > 0) {
+                $margin = 40 * $child->parentNumber();
+                echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
+                echo '<legend>' . $child->getName() . '</legend>';
+                foreach ($child->getEqLogic() as $eqLogic) {
+                    if ($eqLogic->getIsVisible() == '1') {
+                        echo $eqLogic->toHtml('dashboard');
+                    }
+                }
+                echo '</div>';
+            }
+        }
         echo '</div>';
+
         if (init('object_id') == 'global') {
             foreach ($object->getChilds() as $child) {
                 if (count($child->getEqLogic()) > 0) {
