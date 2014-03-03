@@ -163,6 +163,10 @@ class user {
         return DB::remove($this);
     }
 
+    public function refresh() {
+        DB::refresh($this);
+    }
+
     /**
      *
      * @return boolean vrai si l'utilisateur est valide
