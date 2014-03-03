@@ -139,7 +139,7 @@
     }
     .bs-sidebar.affix {
         position: fixed;
-        top: 105px;
+        top: 60px;
     }
     .bs-sidebar.affix-bottom {
         position: absolute;

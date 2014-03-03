@@ -182,15 +182,6 @@ if ($plugin != '') {
                     </div>
                 </header>
                 <main class="container-fluid" id="div_mainContainer">
-                    <ol class="breadcrumb">
-                        <?php
-                        if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
-                            echo '<li class="active">' . $PAGE_DESCRIPTOR_DESKTOP[$page]['title'] . '</li>';
-                        } else if (isset($plugin) && is_object($plugin)) {
-                            echo '<li class="active">' . $plugin->getName() . ' : ' . $plugin->getDescription() . '</li>';
-                        }
-                        ?>
-                    </ol>
 
                     <div style="display: none;width : 100%" id="div_alert"></div>
                     <?php
