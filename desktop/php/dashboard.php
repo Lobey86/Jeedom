@@ -63,21 +63,6 @@ if (!is_object($object)) {
         }
         echo '</div>';
 
-        if (init('object_id') == 'global') {
-            foreach ($object->getChilds() as $child) {
-                if (count($child->getEqLogic()) > 0) {
-                    $margin = 40 * $child->parentNumber();
-                    echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
-                    echo '<legend>' . $child->getName() . '</legend>';
-                    foreach ($child->getEqLogic() as $eqLogic) {
-                        if ($eqLogic->getIsVisible() == '1') {
-                            echo $eqLogic->toHtml('dashboard');
-                        }
-                    }
-                    echo '</div>';
-                }
-            }
-        }
         ?>
     </div>
     <div class="col-lg-2">
