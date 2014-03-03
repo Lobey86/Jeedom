@@ -168,12 +168,12 @@ if ($plugin != '') {
                                 </li>
                                 <li>
                                     <a class="bt_pageHelp cursor"
-                                        <?php
-                                        echo 'data-name="' . init('p') . '"';
-                                        if (isset($plugin) && is_object($plugin)) {
-                                                echo 'data-plugin="' . $plugin->getId() . '"';
-                                        }
-                                        ?>accesskey="">
+                                    <?php
+                                    echo 'data-name="' . init('p') . '"';
+                                    if (isset($plugin) && is_object($plugin)) {
+                                        echo 'data-plugin="' . $plugin->getId() . '"';
+                                    }
+                                    ?>accesskey="">
                                         <i class="fa fa-question-circle" ></i>
                                     </a>
                                 </li>
@@ -182,6 +182,16 @@ if ($plugin != '') {
                     </div>
                 </header>
                 <main class="container-fluid" id="div_mainContainer">
+                    <ol class="breadcrumb">
+                        <?php
+                        if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
+                            echo '<li class="active">' . $PAGE_DESCRIPTOR_DESKTOP[$page]['title'] . '</li>';
+                        } else if (isset($plugin) && is_object($plugin)) {
+                            echo '<li class="active">' . $plugin->getName() . ' : ' . $plugin->getDescription() . '</li>';
+                        }
+                        ?>
+                    </ol>
+
                     <div style="display: none;width : 100%" id="div_alert"></div>
                     <?php
                     try {
@@ -197,10 +207,6 @@ if ($plugin != '') {
                                 echo '</div>';
                                 echo '</div>';
                             }
-
-
-
-
                             include_file('desktop', $page, 'php', $plugin->getId());
                         } else {
                             echo '<div class="alert alert-danger div_alert">';
