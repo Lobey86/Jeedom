@@ -50,6 +50,7 @@ try {
     if (!file_exists($backup_dir)) {
         mkdir($backup_dir, 0770, true);
     }
+    $bakcup_name = 'backup-' . date("d-m-Y-H\hi") . '.tar.gz';
 
     echo 'Backup des fichiers : ';
     rcopy(dirname(__FILE__) . '/..', $tmp, true, array('tmp', 'backup', 'log'));
@@ -60,12 +61,18 @@ try {
     echo "OK\n";
 
     echo 'Création de l\'archive : ';
-    system('cd ' . $tmp . '; tar cfz ' . $backup_dir . '/backup-' . date("d-m-Y-H\hi") . '.tar.gz * > /dev/null 2>&1');
+    system('cd ' . $tmp . '; tar cfz ' . $backup_dir . '/' . $bakcup_name . ' * > /dev/null 2>&1');
     echo "OK\n";
 
     echo 'Nettoyage des anciens backup : ';
     system('find ' . $backup_dir . ' -mtime +' . config::byKey('backup::keepDays') . ' -print | xargs -r rm');
     echo "OK\n";
+
+    if (config::byKey('backup::cloudUpload') == 1) {
+        echo 'Envoie de la sauvegarde dans le cloud : ';
+        market::sendBackup($backup_dir . '/' . $bakcup_name);
+        echo "OK\n";
+    }
 
     echo "***************Fin du backup de Jeedom***************\n";
     echo "[END BACKUP SUCCESS]\n";

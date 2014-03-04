@@ -252,8 +252,6 @@ class jeedom {
         $cache = cache::byKey('jeedom::hwkey');
         if ($cache->getValue(0) == 0) {
             $key = exec('cat /proc/cpuinfo');
-            $key .= exec('dmidecode');
-            $key .= exec('lspci');
             $key .= exec("ifconfig eth0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}'");
             $hwkey = sha1($key);
             cache::set('jeedom::hwkey', $hwkey, 86400);

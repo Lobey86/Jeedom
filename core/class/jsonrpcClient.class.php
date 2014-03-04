@@ -14,7 +14,6 @@ class jsonrpcClient {
     private $result;
     private $rawResult;
     private $apikey = '';
-    private $jeedomkey = '';
     private $options = array();
     private $apiAddr;
 
@@ -28,8 +27,6 @@ class jsonrpcClient {
 
     public function sendRequest($_method, $_params = null, $_timeout = 2, $_file = null) {
         $_params['apikey'] = $this->apikey;
-        $_params['jeedomkey'] = $this->jeedomkey;
-        $_params['jeedomversion'] = $this->version;
         $_params = array_merge($_params, $this->options);
         $request = array(
             'request' => json_encode(array(

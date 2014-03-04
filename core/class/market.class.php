@@ -228,6 +228,16 @@ class market {
         return $return;
     }
 
+    public static function sendBackup($_path) {
+        $market = self::getJsonRpc();
+        $file = array(
+            'file' => '@' . realpath($_path)
+        );
+        if (!$market->sendRequest('backup::upload', array(), 30, $file)) {
+            throw new Exception($market->getError());
+        }
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function getComment() {
