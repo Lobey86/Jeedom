@@ -615,12 +615,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                                 <input type="text"  class="configKey form-control" data-l1key="market::apikey" />
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-4 control-label">Envoyer les sauvegardes dans le cloud</label>
-                                            <div class="col-lg-4">
-                                                <input type="checkbox" class="configKey form-control" data-l1key="backup::cloudUpload" />
-                                            </div>
-                                        </div>
                                     </fieldset>
                                 </form>
                             </div>

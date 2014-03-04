@@ -70,7 +70,12 @@ try {
 
     if (config::byKey('backup::cloudUpload') == 1) {
         echo 'Envoie de la sauvegarde dans le cloud : ';
-        market::sendBackup($backup_dir . '/' . $bakcup_name);
+        try {
+            market::sendBackup($backup_dir . '/' . $bakcup_name);
+        } catch (Exception $e) {
+            log::add('backup', 'error', $e->getMessage());
+            echo '/!\ ' . $e->getMessage() . ' /!\\';
+        }
         echo "OK\n";
     }
 
