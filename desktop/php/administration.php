@@ -25,6 +25,15 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                     <form class="form-horizontal">
                         <fieldset>
                             <div class="form-group">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Frequence des sauvegardes</label>
+                                    <div class="col-lg-3">
+                                        <input type="text"  class="configKey form-control" data-l1key="backup::cron" />
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe'></i>
+                                    </div>
+                                </div>
                                 <label class="col-lg-4 control-label">Sauvegardes</label>
                                 <div class="col-lg-4">
                                     <a class="btn btn-default" id="bt_backupJeedom"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-floppy-o"></i> Sauvegarder</a>

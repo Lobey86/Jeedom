@@ -219,26 +219,42 @@ class jeedom {
     }
 
     public static function persist() {
-        $cache = cache::byKey('jeedom::startOK');
-        if ($cache->getValue(0) == 0) {
-            cache::set('jeedom::startOK', 1, 0);
-            cache::restore();
-            plugin::start();
-            log::add('core', 'info', 'Démarrage de Jeedom OK');
-        }
-        $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
-        if ($c->isDue()) {
-            log::add('core', 'debug', 'Persistance du cache');
-            cache::persist();
+        try {
+            $cache = cache::byKey('jeedom::startOK');
+            if ($cache->getValue(0) == 0) {
+                cache::set('jeedom::startOK', 1, 0);
+                cache::restore();
+                plugin::start();
+                log::add('core', 'info', 'Démarrage de Jeedom OK');
+            }
+            $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
+            if ($c->isDue()) {
+                log::add('cache', 'debug', 'Persistance du cache');
+                cache::persist();
+            }
+        } catch (Exception $e) {
+            log::add('cache', 'error', $e->getMessage());
         }
     }
 
     public static function cron() {
         interactDef::cron();
         eqLogic::checkAlive();
-        $c = new Cron\CronExpression('00 00 * * *', new Cron\FieldFactory);
-        if ($c->isDue()) {
-            log::chunk();
+        try {
+            $c = new Cron\CronExpression('00 00 * * *', new Cron\FieldFactory);
+            if ($c->isDue()) {
+                log::chunk();
+            }
+        } catch (Exception $e) {
+            log::add('log', 'error', $e->getMessage());
+        }
+        try {
+            $c = new Cron\CronExpression(config::byKey('backup::cron'), new Cron\FieldFactory);
+            if ($c->isDue()) {
+                jeedom::backup();
+            }
+        } catch (Exception $e) {
+            log::add('backup', 'error', $e->getMessage());
         }
     }
 
