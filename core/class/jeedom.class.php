@@ -223,8 +223,8 @@ class jeedom {
             $cache = cache::byKey('jeedom::startOK');
             if ($cache->getValue(0) == 0) {
                 cache::restore();
-                plugin::start();
                 cache::set('jeedom::startOK', 1, 0);
+                plugin::start();
                 log::add('core', 'info', 'Démarrage de Jeedom OK');
             }
             $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
