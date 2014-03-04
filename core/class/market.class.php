@@ -233,9 +233,33 @@ class market {
         $file = array(
             'file' => '@' . realpath($_path)
         );
-        if (!$market->sendRequest('backup::upload', array(), 30, $file)) {
+        if (!$market->sendRequest('backup::upload', array(), 120, $file)) {
             throw new Exception($market->getError());
         }
+    }
+
+    public static function listeBackup() {
+        $market = self::getJsonRpc();
+        if (!$market->sendRequest('backup::liste', array())) {
+            throw new Exception($market->getError());
+        }
+        return $market->getResult();
+    }
+
+    public static function retoreBackup($_backup) {
+        $url = config::byKey('market::address') . "/core/php/downloadBackup.php?backup=" . $_backup . '&hwkey=' . jeedom::getHardwareKey() . '&apikey=' . config::byKey('market::apikey');
+        $tmp_dir = dirname(__FILE__) . '/../../tmp';
+        $tmp = $tmp_dir . '/' . $_backup;
+        file_put_contents($tmp, fopen($url, 'r'));
+        if (!file_exists($tmp)) {
+            throw new Exception('Impossible de télécharger le backup : ' . $url . '.');
+        }
+        $backup_path = dirname(__FILE__) . '/../../backup/' . $_backup;
+        copy($tmp, $backup_path);
+        if (!file_exists($backup_path)) {
+            throw new Exception('Impossible de trouver le fichier : ' . $backup_path . '.');
+        }
+        jeedom::restore('backup/'.$_backup, true);
     }
 
     /*     * *********************Methode d'instance************************* */
@@ -276,7 +300,7 @@ class market {
         if (!is_writable($tmp_dir)) {
             throw new Exception('Impossible d\'écrire dans le repertoire : ' . $tmp . '. Exécuter la commande suivante en SSH : chmod 777 -R ' . $tmp_dir);
         }
-        $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId() . '&hwkey=' . jeedom::getHardwareKey() . '&hwkey=' . jeedom::getHardwareKey() . '&apikey=' . config::byKey('market::apikey');
+        $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId() . '&hwkey=' . jeedom::getHardwareKey() . '&apikey=' . config::byKey('market::apikey');
         file_put_contents($tmp, fopen($url, 'r'));
         if (!file_exists($tmp)) {
             throw new Exception('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?');

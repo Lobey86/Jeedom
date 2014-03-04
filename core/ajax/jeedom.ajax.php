@@ -38,6 +38,11 @@ try {
         jeedom::restore(init('backup'), true);
         ajax::success();
     }
+    
+      if (init('action') == 'restoreCloud') {
+          market::retoreBackup(init('backup'));
+        ajax::success();
+    }
 
     if (init('action') == 'getUpdateLog') {
         ajax::success(log::get('update', 0, 3000));

@@ -193,6 +193,34 @@ $(function() {
         window.open('backup/' + $('#sel_restoreBackup option:selected').text(), "_blank", null);
     });
 
+    $("#bt_restoreCloudJeedom").on('click', function(event) {
+        var el = $(this);
+        bootbox.confirm('Etez-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud <b>' + $('#sel_restoreCloudBackup option:selected').text() + '</b> ? Une fois lancée cette opération ne peut etre annulée', function(result) {
+            if (result) {
+                el.find('.fa-refresh').show();
+                $.ajax({
+                    type: 'POST',
+                    url: 'core/ajax/jeedom.ajax.php',
+                    data: {
+                        action: 'restoreCloud',
+                        backup: $('#sel_restoreCloudBackup').value(),
+                    },
+                    dataType: 'json',
+                    error: function(request, status, error) {
+                        handleAjaxError(request, status, error);
+                    },
+                    success: function(data) {
+                        if (data.state != 'ok') {
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        getJeedomLog(1, 'restore');
+                    }
+                });
+            }
+        });
+    });
+
     $("#bt_testLdapConnection").on('click', function(event) {
         $.hideAlert();
         $.ajax({

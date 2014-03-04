@@ -89,7 +89,7 @@ try {
     echo "***************Fin de la restoration de Jeedom***************\n";
     echo "[END RESTORE SUCCESS]\n";
 } catch (Exception $e) {
-    startActivities();
+    jeedom::start();
     echo 'Erreur durant le backup : ' . $e->getMessage();
     echo 'Détails : ' . print_r($e->getTrace());
     echo "[END RESTORE ERROR]\n";
