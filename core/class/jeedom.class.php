@@ -103,7 +103,7 @@ class jeedom {
     public static function backup($_background = false) {
         if ($_background) {
             log::clear('backup');
-            $cmd = 'nohup php ' . dirname(__FILE__) . '/../../install/backup.php';
+            $cmd = 'nohup nice -20 php ' . dirname(__FILE__) . '/../../install/backup.php';
             $cmd.= ' >> ' . log::getPathToLog('backup') . ' 2>&1 &';
             shell_exec($cmd);
         } else {
