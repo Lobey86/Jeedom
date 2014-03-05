@@ -138,9 +138,9 @@ if (init('cron_id') != '') {
     $retry = 0;
     while (true) {
         $retry++;
-        if ($retry > 10) {
+        if ($retry > 20) {
             echo "Il y a deja un jeeCron qui tourne : " . cron::getPidFile() . "\n";
-            log::add('cron', 'error', '[' . getmypid() . '] Lancement de Jeecron annulé car il y a deja un en cours : ' . cron::getPidFile());
+            log::add('cron', 'info', '[' . getmypid() . '] Lancement de Jeecron annulé car il y a deja un en cours : ' . cron::getPidFile());
             die();
         }
         if (cron::jeeCronRun()) {
