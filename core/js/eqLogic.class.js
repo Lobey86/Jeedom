@@ -170,26 +170,16 @@ eqLogic.getCmd = function(_eqLogic_id) {
 }
 
 eqLogic.builSelectCmd = function(_eqLogic_id, _filter) {
-    console.log('***************Début buildSelectCmd************************');
-    console.log('Filtres ========>');
     if (!isset(_filter)) {
         _filter = {};
     }
-    console.log(_filter);
     var cmds = eqLogic.getCmd(_eqLogic_id);
     var result = '';
     for (var i in cmds) {
-        console.log('--------------------------------------------------------------------------');
-        console.log(cmds[i]);
-        console.log(init(_filter.type, 'all') + '==' + 'all' + '||' + cmds[i].type + '==' + _filter.type + '&&' +
-                init(_filter.subtype, 'all') + '==' + 'all' + '||' + cmds[i].subType + '==' + _filter.subtype);
         if ((init(_filter.type, 'all') == 'all' || cmds[i].type == _filter.type) &&
                 (init(_filter.subtype, 'all') == 'all' || cmds[i].subType == _filter.subtype)) {
             result += '<option value="' + cmds[i].id + '" >' + cmds[i].name + '</option>';
         }
     }
-    console.log('Resultat ========>');
-    console.log(result);
-    console.log('********************************************************************');
     return result;
 }
