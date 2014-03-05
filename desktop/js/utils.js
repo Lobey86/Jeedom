@@ -15,6 +15,8 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+modifyWithoutSave = false;
+
 $(function() {
     /*********************Gestion de l'heure********************************/
     setInterval(function() {
@@ -126,6 +128,12 @@ $(function() {
     
     $('body').delegate('.bt_pageHelp','click',function(){
         showHelpModal($(this).attr('data-name'), $(this).attr('data-plugin'));
+    });
+    
+    $(window).bind('beforeunload', function(e) {
+        if (modifyWithoutSave) {
+            return 'Attention vous quittez une page ayant des données modifiées non sauvegardé. Voulez-vous continuer ?';
+        }
     });
 
     initTableSorter();

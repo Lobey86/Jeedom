@@ -51,6 +51,7 @@ eqLogic.save = function(_type, _eqLogics) {
                     url += i + '=' + vars[i].replace('#', '') + '&';
                 }
             }
+            modifyWithoutSave = false;
             url += 'id=' + data.result.id + '&saveSuccessFull=1';
             window.location.href = url;
         }
@@ -86,6 +87,7 @@ eqLogic.remove = function(_type, _eqLogic_Id) {
                     url += i + '=' + vars[i].replace('#', '') + '&';
                 }
             }
+            modifyWithoutSave = false;
             url += 'removeSuccessFull=1';
             window.location.href = url;
         }
@@ -131,6 +133,7 @@ eqLogic.print = function(_type, _eqLogic_id) {
             activateTooltips();
             initExpertMode();
             $.hideLoading();
+            modifyWithoutSave = false;
         }
     });
 }

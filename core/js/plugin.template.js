@@ -118,4 +118,12 @@ $(function() {
     } else {
         $('#ul_eqLogic .li_eqLogic:first').click();
     }
+
+    $('body').delegate('.cmdAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
+
+    $('body').delegate('.eqLogicAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
 });
