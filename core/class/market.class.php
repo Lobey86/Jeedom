@@ -233,7 +233,7 @@ class market {
         $file = array(
             'file' => '@' . realpath($_path)
         );
-        if (!$market->sendRequest('backup::upload', array(), 120, $file)) {
+        if (!$market->sendRequest('backup::upload', array(), 3600, $file)) {
             throw new Exception($market->getError());
         }
     }
