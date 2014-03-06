@@ -274,6 +274,14 @@ $(function() {
 
     loadConfiguration($('body'));
     updateListBackup();
+    
+    $('body').delegate('.userAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
+    
+    $('body').delegate('.configKey', 'change', function() {
+        modifyWithoutSave = true;
+    });
 });
 /********************Log************************/
 
@@ -385,6 +393,7 @@ function printUsers() {
                 ligne += '</tr>';
                 $('#table_user tbody').append(ligne);
                 $('#table_user tbody tr:last').setValues(data.result[i], '.userAttr');
+                modifyWithoutSave = false;
             }
         }
     });
@@ -435,6 +444,7 @@ function saveUser(_users) {
                 return;
             }
             $('#div_alert').showAlert({message: 'Sauvegarde effetuée', level: 'success'});
+            modifyWithoutSave = false;
         }
     });
 }
@@ -529,6 +539,7 @@ function saveConfiguration(_el) {
                 return;
             }
             $('#div_alert').showAlert({message: 'Sauvegarde effetuée', level: 'success'});
+            modifyWithoutSave = false;
             loadConfiguration(_el);
         }
     });
@@ -555,6 +566,7 @@ function loadConfiguration(_el) {
                 return;
             }
             _el.setValues(data.result, '.configKey');
+            modifyWithoutSave = false;
         }
     });
 }
@@ -583,6 +595,7 @@ function printConvertColor() {
             for (var color in data.result) {
                 addConvertColor(color, data.result[color]);
             }
+            modifyWithoutSave = false;
         }
     });
 }
@@ -617,6 +630,7 @@ function addConvertColor(_color, _html) {
     div.on('mouseup', function() {
         div.closest('td').find('input.html').value($.farbtastic($(this)).color);
     });
+    modifyWithoutSave = true;
 }
 
 function saveConvertColor() {
@@ -642,6 +656,7 @@ function saveConvertColor() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            modifyWithoutSave = false;
         }
     });
 }

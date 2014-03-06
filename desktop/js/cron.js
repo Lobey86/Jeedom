@@ -80,6 +80,10 @@ $(function() {
             $(this).closest('tr').find('.cronAttr[data-l1key=deamonSleepTime]').hide();
         }
     });
+
+    $('body').delegate('.cronAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
 });
 
 function changeStateCron(_state, _id) {
@@ -133,6 +137,7 @@ function printCron() {
             $('#span_loadAvg5').html(data.result.loadAvg[1]);
             $('#span_loadAvg15').html(data.result.loadAvg[2]);
             $("#table_cron").trigger("update");
+            modifyWithoutSave = false;
         }
     });
 }
@@ -157,6 +162,7 @@ function saveCron() {
                 return;
             }
             $('#div_alert').showAlert({message: 'Sauvegarde réussie', level: 'success'});
+            modifyWithoutSave = false;
         }
     });
 }

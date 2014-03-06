@@ -26,7 +26,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         <fieldset>
                             <div class="form-group">
                                 <div class="form-group">
-                                    <label class="col-lg-2 control-label">Frequence des sauvegardes</label>
+                                    <label class="col-lg-4 control-label">Frequence des sauvegardes</label>
                                     <div class="col-lg-3">
                                         <input type="text"  class="configKey form-control" data-l1key="backup::cron" />
                                     </div>
@@ -269,6 +269,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         </div>
                                         <div class="col-lg-1"> 
                                             <a class="btn btn-default form-control" id="bt_nodeJsKey" >Générer</a>
+                                        </div>
+                                    </div>
+                                     <div class="form-group expertModeHidden">
+                                        <label class="col-lg-2 control-label">Hardware key</label>
+                                        <div class="col-lg-2"> 
+                                            <p class="form-control-static"><?php echo jeedom::getHardwareKey(); ?></p>
                                         </div>
                                     </div>
 

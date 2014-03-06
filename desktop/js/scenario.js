@@ -261,6 +261,22 @@ $(function() {
     } else {
         $('#ul_scenario .li_scenario:first').click();
     }
+
+    $('body').delegate('.scenarioAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
+
+    $('body').delegate('.expressionAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
+
+    $('body').delegate('.elementAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
+
+    $('body').delegate('.subElementAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
 });
 
 function setEditor() {
@@ -488,6 +504,7 @@ function printScenario(_id) {
             setAutocomplete();
             $('#div_editScenario').show();
             $.hideLoading();
+            modifyWithoutSave = false;
         }
     });
 }
@@ -525,6 +542,7 @@ function saveScenario() {
                 }
             }
             url += 'id=' + scenario.id + '&saveSuccessFull=1';
+            modifyWithoutSave = false;
             window.location.href = url;
         }
     });
@@ -548,6 +566,7 @@ function removeScenario(_scenario_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            modifyWithoutSave = false;
             window.location.replace('index.php?v=d&p=scenario');
         }
     });

@@ -213,6 +213,14 @@ $(function() {
         $(this).closest('span').remove();
     });
 
+
+    $('body').delegate('.viewZoneAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
+
+    $('body').delegate('.viewDataAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
 });
 
 function setColorSelect(_select) {
@@ -274,8 +282,8 @@ function printView(_id) {
                     var span = addServiceToviewZone(viewData);
                     $('#div_viewZones .viewZone:last .div_viewData').append(span);
                 }
-
             }
+            modifyWithoutSave = false;
         }
     });
 }
@@ -371,6 +379,7 @@ function removeView(_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            modifyWithoutSave = false;
             window.location.reload();
         }
     });
@@ -406,6 +415,7 @@ function saveView(_view_id) {
                 return;
             }
             $('#div_alert').showAlert({message: 'Modification enregistré', level: 'success'});
+            modifyWithoutSave = false;
         }
     });
 }

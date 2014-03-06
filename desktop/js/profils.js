@@ -23,6 +23,10 @@ $(function() {
     });
     
     loadProfil();
+    
+    $('body').delegate('.userAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
 });
 
 function saveProfils() {
@@ -46,6 +50,7 @@ function saveProfils() {
             }
             $('#div_alert').showAlert({message: "Sauvegarde effectuée", level: 'success'});
             loadProfil();
+            modifyWithoutSave = false;
         }
     });
 }
@@ -70,6 +75,7 @@ function loadProfil() {
                 return;
             }
             $('body').setValues(data.result, '.userAttr');
+            modifyWithoutSave = false;
         }
     });
 }

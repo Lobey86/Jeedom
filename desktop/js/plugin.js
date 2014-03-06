@@ -57,6 +57,10 @@ $(function() {
         $('#md_modal2').dialog({title: "Envoyer sur le market"});
         $('#md_modal2').load('index.php?v=d&modal=market.send&type=plugin&logicalId=' + $(this).attr('data-market_logicalId')).dialog('open');
     });
+    
+    $('body').delegate('.configKey', 'change', function() {
+        modifyWithoutSave = true;
+    });
 });
 
 function togglePlugin(_id, _state) {
@@ -109,6 +113,7 @@ function savePluginConfig() {
                 return;
             }
             $('#div_alert').showAlert({message: 'Sauvegarde effetuée', level: 'success'});
+            modifyWithoutSave = false;
         }
     });
 }
@@ -139,6 +144,7 @@ function loadPluginConfig() {
                 return;
             }
             $('#div_plugin_configuration').setValues(data.result, '.configKey');
+            modifyWithoutSave = false;
         }
     });
 }
@@ -210,6 +216,7 @@ function printPlugin(_id, _pluginPath) {
                 $('#div_plugin_configuration').parent().hide();
             }
             $('#div_confPlugin').show();
+            modifyWithoutSave = false;
         }
     });
 }

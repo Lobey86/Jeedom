@@ -56,8 +56,10 @@ $(function() {
             el.closest('tr').find('.interactDefAttr[data-l1key=filtres]').hide();
         }
     });
-
-    $("#table_interactDef tbody").sortable();
+    
+    $('body').delegate('.interactDefAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
 });
 
 function saveIntercDef() {
@@ -81,6 +83,7 @@ function saveIntercDef() {
             }
             $('#div_alert').showAlert({message: 'Sauvegarde réussie', level: 'success'});
             printInteractDef();
+            modifyWithoutSave = false;
         }
     });
 }
@@ -107,6 +110,7 @@ function printInteractDef() {
             for (var i in data.result) {
                 addInteractDefToTable(data.result[i]);
             }
+            modifyWithoutSave = false;
         }
     });
 }
@@ -198,5 +202,5 @@ function addInteractDefToTable(_interactDef) {
     tr += '</tr>';
     $('#table_interactDef tbody').append(tr);
     $('#table_interactDef tbody tr:last').setValues(_interactDef, '.interactDefAttr');
-    //activateTooltips();
+    activateTooltips();
 }

@@ -74,6 +74,10 @@ $(function() {
     } else {
         $('#ul_object .li_object:first').click();
     }
+
+    $('body').delegate('.objectAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
 });
 
 
@@ -94,6 +98,7 @@ function removeObject(_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            modifyWithoutSave = false;
             window.location.replace('index.php?v=d&p=object&removeSuccessFull=1');
         }
     });
@@ -119,6 +124,7 @@ function printObject(_object_id) {
             $('.objectAttr[data-l1key=father_id] option').show();
             $('.object').setValues(data.result, '.objectAttr');
             $('.objectAttr[data-l1key=father_id] option[value=' + _object_id + ']').hide();
+            modifyWithoutSave = false;
         }
     });
 }
@@ -141,6 +147,7 @@ function  saveObject(object) {
                 return;
             }
             $('#div_alert').showAlert({message: 'Objet sauvegardé', level: 'success'});
+            modifyWithoutSave = false;
             window.location.replace('index.php?v=d&p=object&id=' + data.result.id + '&saveSuccessFull=1');
         }
     });
