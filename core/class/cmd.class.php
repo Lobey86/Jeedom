@@ -58,6 +58,7 @@ class cmd {
         $eqTyme_name = $result['eqType_name'];
         if ($result['isEnable'] == 0) {
             try {
+                $plugin = null;
                 if ($eqTyme_name != '') {
                     $plugin = new plugin($eqTyme_name);
                 }

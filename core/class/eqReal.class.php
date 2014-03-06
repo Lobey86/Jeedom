@@ -43,12 +43,30 @@ class eqReal {
         $values = array(
             'id' => $_id
         );
-        $sql = 'SELECT plugin
+        $sql = 'SELECT plugin,isEnable
                 FROM eqLogic
                 WHERE eqReal_id=:id';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         $eqTyme_name = $result['plugin'];
-        if ($eqTyme_name != '' && class_exists($eqTyme_name . 'Real')) {
+        if ($result['isEnable'] == 0) {
+            try {
+                $plugin = null;
+                if ($eqTyme_name != '') {
+                    $plugin = new plugin($eqTyme_name);
+                }
+                if (!is_object($plugin) || $plugin->isActive() == 0) {
+                    return __CLASS__;
+                }
+            } catch (Exception $e) {
+                return __CLASS__;
+            }
+        }
+        if (class_exists($eqTyme_name)) {
+            if (method_exists($eqTyme_name, 'getClassCmd')) {
+                return $eqTyme_name::getClassCmd();
+            }
+        }
+        if (class_exists($eqTyme_name . 'Real')) {
             return $eqTyme_name . 'Real';
         }
         return __CLASS__;
