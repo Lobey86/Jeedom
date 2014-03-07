@@ -191,29 +191,43 @@ try {
         $cron->setClass('history');
         $cron->setFunction('historize');
         $cron->setSchedule('*/5 * * * * *');
+        $cron->setTimeout(5);
         $cron->save();
         $cron = new cron();
         $cron->setClass('scenario');
         $cron->setFunction('check');
         $cron->setSchedule('* * * * * *');
+        $cron->setTimeout(5);
         $cron->save();
         $cron = new cron();
         $cron->setClass('cmd');
         $cron->setFunction('collect');
         $cron->setSchedule('* * * * * *');
+        $cron->setTimeout(5);
         $cron->save();
         $cron = new cron();
-        $cron->setFunction('cronPlugin');
+        $cron->setClass('plugin');
+        $cron->setFunction('cron');
         $cron->setSchedule('* * * * * *');
+        $cron->setTimeout(5);
         $cron->save();
         $cron = new cron();
         $cron->setClass('history');
         $cron->setFunction('archive');
         $cron->setSchedule('* * * * * *');
+        $cron->setTimeout(20);
         $cron->save();
         $cron = new cron();
-        $cron->setFunction('cronCore');
+        $cron->setClass('jeedom');
+        $cron->setFunction('cron');
         $cron->setSchedule('* * * * * *');
+        $cron->setTimeout(60);
+        $cron->save();
+        $cron = new cron();
+        $cron->setClass('jeedom');
+        $cron->setFunction('persist');
+        $cron->setSchedule('* * * * * *');
+        $cron->setTimeout(5);
         $cron->save();
 
         echo "Ajout de l\'utilisateur (admin,admin)\n";
@@ -257,13 +271,13 @@ echo "[END UPDATE SUCCESS]\n";
 function incrementVersion($_version) {
     $version = explode('.', $_version);
     if ($version[2] < 99) {
-        $version[2] ++;
+        $version[2]++;
     } else {
         if ($version[1] < 99) {
-            $version[1] ++;
+            $version[1]++;
             $version[2] = 0;
         } else {
-            $version[0] ++;
+            $version[0]++;
             $version[1] = 0;
             $version[2] = 0;
         }
