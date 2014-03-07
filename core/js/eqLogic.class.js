@@ -186,3 +186,37 @@ eqLogic.builSelectCmd = function(_eqLogic_id, _filter) {
     }
     return result;
 }
+
+eqLogic.getSelectModal = function(_options, callback) {
+    if (!isset(_options)) {
+        _options = {};
+    }
+    if ($("#mod_insertEqLogicValue").length == 0) {
+        $('body').append('<div id="mod_insertEqLogicValue" title="Sélectionner la commande" ></div>');
+
+        $("#mod_insertEqLogicValue").dialog({
+            autoOpen: false,
+            modal: true,
+            height: 250,
+            width: 800
+        });
+        jQuery.ajaxSetup({async: false});
+        $('#mod_insertEqLogicValue').load('index.php?v=d&modal=cmd.human.insert');
+        jQuery.ajaxSetup({async: true});
+    }
+    mod_insertEqLogic.setOptions(_options);
+    $("#mod_insertEqLogicValue").dialog('option', 'buttons', {
+        "Annuler": function() {
+            $(this).dialog("close");
+        },
+        "Valider": function() {
+            var retour = {};
+            retour.human = mod_insertEqLogic.getValue();
+            if ($.trim(retour) != '') {
+                callback(retour);
+            }
+            $(this).dialog('close');
+        }
+    });
+    $('#mod_insertEqLogicValue').dialog('open');
+}

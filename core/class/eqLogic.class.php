@@ -286,6 +286,104 @@ class eqLogic {
         }
     }
 
+    public static function byObjectNameEqLogicName($_object_name, $_eqLogic_name) {
+        $values = array(
+            'eqLogic_name' => $_eqLogic_name,
+            'object_name' => $_object_name,
+        );
+        $sql = 'SELECT el.id
+                    FROM eqLogic el
+                        INNER JOIN object ob ON el.object_id=ob.id
+                    WHERE el.name=:eqLogic_name
+                        AND ob.name=:object_name';
+        $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+        return self::byId($id['id']);
+    }
+
+    public static function toHumanReadable($_input) {
+        if (is_object($_input)) {
+            $reflections = array();
+            $uuid = spl_object_hash($_input);
+            if (!isset($reflections[$uuid])) {
+                $reflections[$uuid] = new ReflectionClass($_input);
+            }
+            $reflection = $reflections[$uuid];
+            $properties = $reflection->getProperties();
+            foreach ($properties as $property) {
+                $property->setAccessible(true);
+                $value = $property->getValue($_input);
+                $property->setValue($_input, self::cmdToHumanReadable($value));
+                $property->setAccessible(false);
+            }
+            return $_input;
+        }
+        if (is_array($_input)) {
+            foreach ($_input as $key => $value) {
+                $_input[$key] = self::cmdToHumanReadable($value);
+            }
+            return $_input;
+        }
+        $text = $_input;
+        preg_match_all("/#([0-9]*)#/", $text, $matches);
+        foreach ($matches[1] as $eqLogic_id) {
+            if (is_numeric($eqLogic_id)) {
+                $eqLogic = self::byId($eqLogic_id);
+                if (is_object($eqLogic)) {
+                    $text = str_replace('#' . $eqLogic . '#', '#' . $eqLogic->getHumanName() . '#', $text);
+                }
+            }
+        }
+        return $text;
+    }
+
+    public static function fromHumanReadable($_input) {
+        $isJson = false;
+        if (is_json($_input)) {
+            $isJson = true;
+            $_input = json_decode($_input, true);
+        }
+        if (is_object($_input)) {
+            $reflections = array();
+            $uuid = spl_object_hash($_input);
+            if (!isset($reflections[$uuid])) {
+                $reflections[$uuid] = new ReflectionClass($_input);
+            }
+            $reflection = $reflections[$uuid];
+            $properties = $reflection->getProperties();
+            foreach ($properties as $property) {
+                $property->setAccessible(true);
+                $value = $property->getValue($_input);
+                $property->setValue($_input, self::humanReadableToCmd($value));
+                $property->setAccessible(false);
+            }
+            return $_input;
+        }
+        if (is_array($_input)) {
+            foreach ($_input as $key => $value) {
+                $_input[$key] = self::humanReadableToCmd($value);
+            }
+            if ($isJson) {
+                return json_encode($_input);
+            }
+            return $_input;
+        }
+        $text = $_input;
+
+        preg_match_all("/#\[(.*?)\]\[(.*?)\]#/", $text, $matches);
+        if (count($matches) == 3) {
+            for ($i = 0; $i < count($matches[0]); $i++) {
+                if (isset($matches[1][$i]) && isset($matches[2][$i])) {
+                    $eqLogic = self::byObjectNameEqLogicName($matches[1][$i], $matches[2][$i]);
+                    if (is_object($eqLogic)) {
+                        $text = str_replace($matches[0][$i], '#' . $eqLogic->getId() . '#', $text);
+                    }
+                }
+            }
+        }
+
+        return $text;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function getTableName() {

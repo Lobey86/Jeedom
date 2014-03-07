@@ -136,7 +136,7 @@ try {
         }
         $return = utils::o2a($eqLogic);
         $return['cmd'] = utils::o2a($eqLogic->getCmd());
-        ajax::success(cmd::cmdToHumanReadable($return));
+        ajax::success(eqLogic::toHumanReadable(cmd::cmdToHumanReadable($return)));
     }
 
     if (init('action') == 'save') {
@@ -165,7 +165,7 @@ try {
             if (method_exists($eqLogic, 'preAjax')) {
                 $eqLogic->preAjax();
             }
-            utils::a2o($eqLogic, cmd::humanReadableToCmd($eqLogicSave));
+            utils::a2o($eqLogic, eqLogic::fromHumanReadable(cmd::humanReadableToCmd($eqLogicSave)));
             $dbList = $typeCmd::byEqLogicId($eqLogic->getId());
             $eqLogic->save();
             $enableList = array();

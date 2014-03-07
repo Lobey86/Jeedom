@@ -120,5 +120,4 @@ cmd.getSelectModal = function(_options, callback) {
         }
     });
     $('#mod_insertCmdValue').dialog('open');
-
 }
