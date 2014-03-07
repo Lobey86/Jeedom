@@ -49,11 +49,10 @@ include_file('core', 'js.inc', 'php');
     mod_insertEqLogic.getValue = function() {
         var object_name = $('#table_mod_insertEqLogicValue_valueEqLogicToMessage tbody tr:first .mod_insertEqLogicValue_object select option:selected').html();
         var equipement_name = $('#table_mod_insertEqLogicValue_valueEqLogicToMessage tbody tr:first .mod_insertEqLogicValue_eqLogic select option:selected').html();
-        var cmd_name = $('#table_mod_insertEqLogicValue_valueEqLogicToMessage tbody tr:first .mod_insertEqLogicValue_cmd select option:selected').html();
-        if (cmd_name == undefined) {
+        if (equipement_name == undefined) {
             return '';
         }
-        return '#[' + object_name + '][' + equipement_name + '][' + cmd_name + ']#';
+        return '#[' + object_name + '][' + equipement_name + ']#';
     }
 
     mod_insertEqLogic.changeObjectCmd = function(_select) {

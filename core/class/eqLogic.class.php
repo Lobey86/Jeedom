@@ -312,14 +312,14 @@ class eqLogic {
             foreach ($properties as $property) {
                 $property->setAccessible(true);
                 $value = $property->getValue($_input);
-                $property->setValue($_input, self::cmdToHumanReadable($value));
+                $property->setValue($_input, self::toHumanReadable($value));
                 $property->setAccessible(false);
             }
             return $_input;
         }
         if (is_array($_input)) {
             foreach ($_input as $key => $value) {
-                $_input[$key] = self::cmdToHumanReadable($value);
+                $_input[$key] = self::toHumanReadable($value);
             }
             return $_input;
         }
@@ -329,7 +329,7 @@ class eqLogic {
             if (is_numeric($eqLogic_id)) {
                 $eqLogic = self::byId($eqLogic_id);
                 if (is_object($eqLogic)) {
-                    $text = str_replace('#' . $eqLogic . '#', '#' . $eqLogic->getHumanName() . '#', $text);
+                    $text = str_replace('#' . $eqLogic_id . '#', '#' . $eqLogic->getHumanName() . '#', $text);
                 }
             }
         }
@@ -353,14 +353,14 @@ class eqLogic {
             foreach ($properties as $property) {
                 $property->setAccessible(true);
                 $value = $property->getValue($_input);
-                $property->setValue($_input, self::humanReadableToCmd($value));
+                $property->setValue($_input, self::fromHumanReadable($value));
                 $property->setAccessible(false);
             }
             return $_input;
         }
         if (is_array($_input)) {
             foreach ($_input as $key => $value) {
-                $_input[$key] = self::humanReadableToCmd($value);
+                $_input[$key] = self::fromHumanReadable($value);
             }
             if ($isJson) {
                 return json_encode($_input);

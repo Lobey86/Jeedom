@@ -201,7 +201,7 @@ eqLogic.getSelectModal = function(_options, callback) {
             width: 800
         });
         jQuery.ajaxSetup({async: false});
-        $('#mod_insertEqLogicValue').load('index.php?v=d&modal=cmd.human.insert');
+        $('#mod_insertEqLogicValue').load('index.php?v=d&modal=eqLogic.human.insert');
         jQuery.ajaxSetup({async: true});
     }
     mod_insertEqLogic.setOptions(_options);
