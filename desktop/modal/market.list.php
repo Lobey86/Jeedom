@@ -4,11 +4,14 @@ if (!isConnect('admin')) {
 }
 
 $markets = market::byStatusAndType('Validé', init('type'));
-
-if (config::byKey('market::apikey') != '') {
-    foreach (market::byMe() as $myMarket) {
-        if ($myMarket->getStatus() != 'Validé' && $myMarket->getType() == init('type')) {
-            $markets[] = $myMarket;
+if (config::byKey('market::showToValidateMarket') == 1) {
+    $markets = array_merge($markets, market::byStatusAndType('A valider', init('type')));
+} else {
+    if (config::byKey('market::apikey') != '') {
+        foreach (market::byMe() as $myMarket) {
+            if ($myMarket->getStatus() != 'Validé' && $myMarket->getType() == init('type')) {
+                $markets[] = $myMarket;
+            }
         }
     }
 }

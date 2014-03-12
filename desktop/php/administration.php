@@ -667,6 +667,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                                 <input type="text"  class="configKey form-control" data-l1key="market::apikey" />
                                             </div>
                                         </div>
+                                          <div class="form-group alert alert-danger">
+                                            <label class="col-lg-2 control-label">Voir modules non validés (à vos risques et périls)</label>
+                                            <div class="col-lg-3">
+                                                <input type="checkbox"  class="configKey form-control" data-l1key="market::showToValidateMarket" />
+                                            </div>
+                                        </div>
                                     </fieldset>
                                 </form>
                             </div>
