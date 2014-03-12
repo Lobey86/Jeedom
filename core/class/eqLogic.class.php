@@ -513,6 +513,41 @@ class eqLogic {
         }
     }
 
+    public function batteryStatus($_pourcent) {
+        if ($_pourcent >= 20) {
+            foreach (message::byPluginLogicalId($this->getEqType_name(), 'lowBattery' . $this->getId()) as $message) {
+                $message->remove();
+            }
+            foreach (message::byPluginLogicalId($this->getEqType_name(), 'noBattery' . $this->getId()) as $message) {
+                $message->remove();
+            }
+        } elseif ($_pourcent > 0) {
+            $logicalId = 'lowBattery' . $this->getId();
+            if (count(message::byPluginLogicalId($this->getEqType_name(), $logicalId)) == 0) {
+                $message = 'Le module ' . $this->getEqType_name() . ' ';
+                $object = $this->getObject();
+                if (is_object($object)) {
+                    $message .= '[' . $object->getName() . ']';
+                }
+                $message .= $this->getHumanName() . ' à moins de ' . $_pourcent . '% de batterie';
+                message::add($this->getEqType_name(), $message, '', $logicalId);
+            }
+        } else {
+            foreach (message::byPluginLogicalId($this->getEqType_name(), 'lowBattery' . $this->getId()) as $message) {
+                $message->remove();
+            }
+            $logicalId = 'noBattery' . $this->getId();
+            $message = 'Le module ' . $this->getEqType_name() . ' ';
+            $object = $this->getObject();
+            if (is_object($object)) {
+                $message .= '[' . $object->getName() . ']';
+            }
+            $message .= $this->getHumanName() . ' a été désactivé car il n\'a plus de batterie';
+            $action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getId() . '" data-isEnable="1">Ré-activer</a>';
+            message::add($this->getEqType_name(), $message, $action, $logicalId);
+        }
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {
