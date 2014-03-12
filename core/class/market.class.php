@@ -173,6 +173,7 @@ class market {
     }
 
     public static function getInfo($_logicalId) {
+       
         $return = array();
         if ($_logicalId == '' || config::byKey('market::address') == '') {
             $return['market'] = 0;
@@ -223,6 +224,7 @@ class market {
                 }
             }
         } catch (Exception $e) {
+            // echo '**********'.$e->getMessage()."\n";
             $return['status'] = 'ok';
         }
         return $return;

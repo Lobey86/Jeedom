@@ -12,7 +12,7 @@ try {
         $market = market::byLogicalId(init('logicalId'));
     }
 } catch (Exception $e) {
-    
+    $market = null;
 }
 if (is_object($market)) {
     if ($market->getApi_author() != config::byKey('market::apikey') || $market->getApi_author() == '') {
@@ -25,7 +25,10 @@ if (init('type') == 'plugin') {
     if (!is_object($plugin)) {
         throw new Exception('Le plugin : ' . init('logicalId') . ' est introuvable');
     }
-    sendVarToJS('market_display_info', utils::o2a($plugin));
+    $plugin_info = utils::o2a($plugin);
+    $plugin_info['logicalId'] = $plugin_info['id'];
+    unset($plugin_info['id']);
+    sendVarToJS('market_display_info', $plugin_info);
 }
 ?>
 
@@ -150,11 +153,11 @@ if (is_object($market)) {
                     return;
                 }
                 if (market.id == undefined || market.id == '') {
-                  /*  bootbox.confirm('Votre objet a été envoyé avec succès sur le market. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
-                        if (result) {*/
-                            window.location.reload();
-                   /*     }
-                    });*/
+                    /*  bootbox.confirm('Votre objet a été envoyé avec succès sur le market. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
+                     if (result) {*/
+                    window.location.reload();
+                    /*     }
+                     });*/
                 } else {
                     $('#div_alertMarketSend').showAlert({message: 'Votre objet a été envoyé avec succès sur le market', level: 'success'});
                 }

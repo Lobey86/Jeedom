@@ -43,6 +43,7 @@ cmd.changeType = function(_cmd, _subType) {
     if (isset(_subType)) {
         _cmd.find('.cmdAttr[data-l1key=subType]').value(_subType);
     }
+    cmd.changeSubType(_cmd);
 }
 
 cmd.changeSubType = function(_cmd) {
