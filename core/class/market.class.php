@@ -224,7 +224,6 @@ class market {
                 }
             }
         } catch (Exception $e) {
-            // echo '**********'.$e->getMessage()."\n";
             $return['status'] = 'ok';
         }
         return $return;
