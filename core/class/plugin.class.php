@@ -34,6 +34,7 @@ class plugin {
     private $filepath;
     private $icon;
     private $index;
+    private $display;
     private $include = array();
 
     /*     * ***********************Methode static*************************** */
@@ -61,6 +62,7 @@ class plugin {
         $this->category = (string) $plugin->category;
         $this->filepath = $_id;
         $this->index = (isset($plugin->index)) ? (string) $plugin->index : $plugin->id;
+        $this->display = (isset($plugin->display)) ? (string) $plugin->display : '';
         if (isset($plugin->include)) {
             $this->include = array(
                 'file' => (string) $plugin->include,
@@ -291,6 +293,14 @@ class plugin {
 
     public function getInclude() {
         return $this->include;
+    }
+
+    public function getDisplay() {
+        return $this->display;
+    }
+
+    public function setDisplay($display) {
+        $this->display = $display;
     }
 
 }

@@ -23,6 +23,7 @@ if ($plugin != '') {
         $title = $plugin->getName();
     }
 }
+$plugins_list = plugin::listPlugin();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -101,6 +102,14 @@ if ($plugin != '') {
                                     <ul class="dropdown-menu">
                                         <li><a href="index.php?v=d&p=dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                                         <li><a href="index.php?v=d&p=view"><i class="fa fa-picture-o"></i> Vue</a></li>
+
+                                        <?php
+                                        foreach ($plugins_list as $pluginList) {
+                                            if ($pluginList->isActive() == 1 && $pluginList->getDisplay() != '') {
+                                                echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getDisplay() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
+                                            }
+                                        }
+                                        ?>
                                     </ul>
                                 </li>
                                 <li><a href="index.php?v=d&p=history"><i class="fa fa-bar-chart-o"></i> Historique</a></li>
@@ -124,7 +133,7 @@ if ($plugin != '') {
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> Plugins <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <?php
-                                            foreach (plugin::listPlugin() as $pluginList) {
+                                            foreach ($plugins_list as $pluginList) {
                                                 if ($pluginList->isActive() == 1) {
                                                     echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
                                                 }
