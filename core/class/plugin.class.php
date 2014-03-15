@@ -165,17 +165,23 @@ class plugin {
                 $eqLogic->save();
             }
         }
-        if (file_exists(dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php')) {
-            require_once dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php';
-            ob_start();
-            if ($_state == 1) {
-                install();
-            } else {
-                remove();
+        try {
+            if (file_exists(dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php')) {
+                require_once dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php';
+                ob_start();
+                if ($_state == 1) {
+                    install();
+                } else {
+                    remove();
+                }
+                $out = ob_get_clean();
+                log::add($this->id, 'info', $out);
             }
-            $out = ob_get_clean();
-            log::add($this->id, 'info', $out);
+        } catch (Exception $e) {
+            config::save('active', $alreadyActive, $this->id);
+            throw $e;
         }
+
         if ($alreadyActive == 0) {
             $this->start();
         }
