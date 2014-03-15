@@ -528,10 +528,6 @@ class eqLogic {
             $logicalId = 'lowBattery' . $this->getId();
             if (count(message::byPluginLogicalId($this->getEqType_name(), $logicalId)) == 0) {
                 $message = 'Le module ' . $this->getEqType_name() . ' ';
-                $object = $this->getObject();
-                if (is_object($object)) {
-                    $message .= '[' . $object->getName() . ']';
-                }
                 $message .= $this->getHumanName() . ' à moins de ' . $_pourcent . '% de batterie';
                 message::add($this->getEqType_name(), $message, '', $logicalId);
             }
@@ -541,11 +537,7 @@ class eqLogic {
             }
             $logicalId = 'noBattery' . $this->getId();
             $message = 'Le module ' . $this->getEqType_name() . ' ';
-            $object = $this->getObject();
-            if (is_object($object)) {
-                $message .= '[' . $object->getName() . ']';
-            }
-            $message .= $this->getHumanName() . ' a été désactivé car il n\'a plus de batterie ('.$_pourcent.' %)';
+            $message .= $this->getHumanName() . ' a été désactivé car il n\'a plus de batterie (' . $_pourcent . ' %)';
             $action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getId() . '" data-isEnable="1">Ré-activer</a>';
             message::add($this->getEqType_name(), $message, $action, $logicalId);
         }
