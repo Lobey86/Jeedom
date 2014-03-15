@@ -5,7 +5,16 @@ $startLoadTime = getmicrotime();
 include_file("core", "pageDescriptor", "config");
 global $PAGE_DESCRIPTOR_DESKTOP;
 if (isConnect() && init('p') == '') {
-    redirect('index.php?v=d&p=' . $_SESSION['user']->getOptions('homePage', 'dashboard'));
+    $homePage = explode('::', $_SESSION['user']->getOptions('homePage', 'core::dashboard'));
+    if (count($homePage) == 2) {
+        if ($homePage[0] == 'core') {
+            redirect('index.php?v=d&p=' . $homePage[1]);
+        } else {
+            redirect('index.php?v=d&m=' . $homePage[0] . '&p=' . $homePage[1]);
+        }
+    } else {
+        redirect('index.php?v=d&p=dashboard');
+    }
 }
 $page = 'Connexion';
 if (isConnect() && init('p') != '') {
@@ -85,7 +94,7 @@ $plugins_list = plugin::listPlugin();
                 <header class="navbar navbar-fixed-top navbar-default">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <a class="navbar-brand" href="index.php?v=d&p=<?php echo $_SESSION['user']->getOptions('homePage', 'dashboard'); ?>" style="font-size: 1.7em;">
+                            <a class="navbar-brand" href="index.php?v=d" style="font-size: 1.7em;">
                                 <img src="core/img/jeedom_ico.png" height="19" width="20"/>eedom
                             </a>
                             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">

@@ -14,9 +14,14 @@ $notifyTheme = array(
 );
 
 $homePage = array(
-    'dashboard' => 'Dashboard',
-    'view' => 'Vue',
+    'core::dashboard' => 'Dashboard',
+    'core::view' => 'Vue',
 );
+foreach (plugin::listPlugin() as $pluginList) {
+    if ($pluginList->isActive() == 1 && $pluginList->getDisplay() != '') {
+        $homePage[$pluginList->getId() . '::' . $pluginList->getDisplay()] = $pluginList->getName();
+    }
+}
 ?>
 <legend>Profile</legend>
 
