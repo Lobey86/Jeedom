@@ -34,7 +34,9 @@ include_file('core', 'js.inc', 'php');
 
     mod_insertCmd.options = {};
     mod_insertCmd.options.cmd = {};
-    
+    mod_insertCmd.options.eqLogic = {};
+    mod_insertCmd.options.object = {};
+
 
     $("#table_mod_insertCmdValue_valueEqLogicToMessage").delegate("td.mod_insertCmdValue_object select", 'change', function() {
         mod_insertCmd.changeObjectCmd($('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select'), mod_insertCmd.options);
@@ -44,6 +46,15 @@ include_file('core', 'js.inc', 'php');
         mod_insertCmd.options = _options;
         if (!isset(mod_insertCmd.options.cmd)) {
             mod_insertCmd.options.cmd = {};
+        }
+        if (!isset(mod_insertCmd.options.eqLogic)) {
+            mod_insertCmd.options.eqLogic = {};
+        }
+        if (!isset(mod_insertCmd.options.object)) {
+            mod_insertCmd.options.object = {};
+        }
+        if (isset(mod_insertCmd.options.object.id)) {
+            $('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select').value(mod_insertCmd.options.object.id);
         }
         mod_insertCmd.changeObjectCmd($('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select'), mod_insertCmd.options);
     }
@@ -70,6 +81,9 @@ include_file('core', 'js.inc', 'php');
         _select.closest('tr').find('.mod_insertCmdValue_eqLogic select').change(function() {
             mod_insertCmd.changeEqLogic($(this), mod_insertCmd.options);
         });
+        if (isset(mod_insertCmd.options.object.id)) {
+            _select.closest('tr').find('.mod_insertCmdValue_eqLogic select').value(mod_insertCmd.options.eqLogic.id);
+        }
         mod_insertCmd.changeEqLogic(_select.closest('tr').find('.mod_insertCmdValue_eqLogic select'), mod_insertCmd.options);
     }
 
@@ -80,6 +94,6 @@ include_file('core', 'js.inc', 'php');
         selectCmd += '</select>';
         _select.closest('tr').find('.mod_insertCmdValue_cmd').append(selectCmd);
     }
-    
+
     mod_insertCmd.changeObjectCmd($('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select'), mod_insertCmd.options);
 </script>

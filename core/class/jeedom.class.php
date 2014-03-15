@@ -280,6 +280,14 @@ class jeedom {
         return $cache->getValue();
     }
 
+    public static function toHumanReadable($_input) {
+        return eqLogic::toHumanReadable(cmd::cmdToHumanReadable($_input));
+    }
+
+    public static function fromHumanReadable($_input) {
+        return eqLogic::fromHumanReadable(cmd::humanReadableToCmd($_input));
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     /*     * **********************Getteur Setteur*************************** */
