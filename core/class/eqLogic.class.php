@@ -545,7 +545,7 @@ class eqLogic {
             if (is_object($object)) {
                 $message .= '[' . $object->getName() . ']';
             }
-            $message .= $this->getHumanName() . ' a été désactivé car il n\'a plus de batterie';
+            $message .= $this->getHumanName() . ' a été désactivé car il n\'a plus de batterie ('.$_pourcent.' %)';
             $action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getId() . '" data-isEnable="1">Ré-activer</a>';
             message::add($this->getEqType_name(), $message, $action, $logicalId);
         }
