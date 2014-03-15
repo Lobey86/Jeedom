@@ -224,6 +224,7 @@ class jeedom {
             if ($cache->getValue(0) == 0) {
                 cache::restore();
                 cache::set('jeedom::startOK', 1, 0);
+                scenario::check('start');
                 plugin::start();
                 log::add('core', 'info', 'Démarrage de Jeedom OK');
             }

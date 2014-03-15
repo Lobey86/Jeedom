@@ -47,7 +47,7 @@ try {
     if (($scenario->getIsActive() == 1 || init('force') == 1) && $scenario->getState() != 'in progress') {
         $scenario->setPID(getmypid());
         $scenario->save();
-        log::add('scenario', 'info', 'Verification du scenario : ' . $scenario->getName() . ' avec le PID : ' . getmypid());
+        log::add('scenario', 'info', 'Verification du scenario ' . $scenario->getHumanName() . ' avec le PID : ' . getmypid());
         $scenario->execute();
         $scenario->setState('stop');
     } else {

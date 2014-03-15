@@ -118,15 +118,19 @@ class scenario {
                 if ($scenario->getMode() == 'schedule') {
                     unset($scenarios[$key]);
                 } else {
-                    $scenario_list .= $scenario->getName() . ' / ';
+                    $scenario_list .= $scenario->getHumanName() . ' ';
                 }
             }
             if ($scenario_list != '') {
-                $cmd = cmd::byId($_event_id);
-                if (is_object($cmd)) {
-                    log::add('scenario', 'info', 'Evènement venant de ' . $cmd->getHumanName() . '(' . $cmd->getId() . ') vérification des scénarios :' . $scenario_list);
+                if (is_numeric($_event_id)) {
+                    $cmd = cmd::byId($_event_id);
+                    if (is_object($cmd)) {
+                        log::add('scenario', 'info', 'Evènement venant de ' . $cmd->getHumanName() . ' (' . $cmd->getId() . ') vérification du/des scénario(s) : ' . $scenario_list);
+                    } else {
+                        return;
+                    }
                 } else {
-                    return;
+                    log::add('scenario', 'info', 'Evènement : #' . $_event_id . '# vérification du/des scénario(s) : ' . $scenario_list);
                 }
             }
         } else {
@@ -176,7 +180,7 @@ class scenario {
     public function execute() {
         $this->clearLog();
         $initialState = $this->getState();
-        $this->setLog('Début exécution du scénario : ' . $this->getName());
+        $this->setLog('Début exécution du scénario : ' . $this->getHumanName());
         $this->setState('in progress');
         $this->setLastLaunch(date('Y-m-d H:i:s'));
         $this->save();
@@ -443,7 +447,7 @@ class scenario {
         if (is_numeric($this->getObject_id())) {
             $return .= '[' . $this->getObject()->getName() . ']';
         }
-        $return .= $this->getName();
+        $return .= '[' . $this->getName() . ']';
         return $return;
     }
 

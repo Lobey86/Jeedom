@@ -436,12 +436,12 @@ function printScenario(_id) {
             $('#table_scenarioCondition tbody').empty();
             $('#table_scenarioAction tbody').empty();
             $('#table_trigger tbody').empty();
-            $('.scenarioAttr[data-l1key=object_id] option:first').prop('selected',true);
+            $('.scenarioAttr[data-l1key=object_id] option:first').prop('selected', true);
             $('body').setValues(data.result, '.scenarioAttr');
             $('#span_type').text(data.result.type);
             data.result.lastLaunch = (data.result.lastLaunch == null) ? 'Jamais' : data.result.lastLaunch;
             $('#span_lastLaunch').text(data.result.lastLaunch);
-           
+
 
             $('#div_scenarioElement').empty();
             $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> Ajouter Elément</a>');
@@ -481,20 +481,24 @@ function printScenario(_id) {
 
             if ($.isArray(data.result.trigger)) {
                 for (var i in data.result.trigger) {
-                    addTrigger(data.result.trigger[i]);
+                    if (data.result.trigger[i] != '' && data.result.trigger[i] != null) {
+                        addTrigger(data.result.trigger[i]);
+                    }
                 }
             } else {
-                if (data.result.trigger != '') {
+                if (data.result.trigger != '' && data.result.trigger != null) {
                     addTrigger(data.result.trigger);
                 }
             }
 
             if ($.isArray(data.result.schedule)) {
                 for (var i in data.result.schedule) {
-                    addSchedule(data.result.schedule[i]);
+                    if (data.result.schedule[i] != '' && data.result.schedule[i] != null) {
+                        addSchedule(data.result.schedule[i]);
+                    }
                 }
             } else {
-                if (data.result.schedule != '') {
+                if (data.result.schedule != '' && data.result.schedule != null) {
                     addSchedule(data.result.schedule);
                 }
             }
