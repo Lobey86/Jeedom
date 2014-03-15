@@ -175,6 +175,23 @@ class eqLogic {
         return $return;
     }
 
+    public static function byCategorie($_category) {
+        $values = array(
+            'category' => '%"' . $_category . '":1%'
+        );
+   
+        $sql = 'SELECT id
+                FROM eqLogic
+                WHERE category LIKE :category
+                ORDER BY name';
+        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
+        $return = array();
+        foreach ($results as $result) {
+            $return[] = self::byId($result['id']);
+        }
+        return $return;
+    }
+
     public static function byTypeAndSearhConfiguration($_eqType_name, $_configuration) {
         $values = array(
             'eqType_name' => $_eqType_name,

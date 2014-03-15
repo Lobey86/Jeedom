@@ -432,11 +432,11 @@ function printScenario(_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('input.scenarioAttr').value('');
+            $('.scenarioAttr').value('');
             $('#table_scenarioCondition tbody').empty();
             $('#table_scenarioAction tbody').empty();
             $('#table_trigger tbody').empty();
-            $('.scenarioAttr[data-l1key=object_id] option:first').prop('selected', true);
+            //$('.scenarioAttr[data-l1key=object_id] option:first').prop('selected', true);
             $('body').setValues(data.result, '.scenarioAttr');
             $('#span_type').text(data.result.type);
             data.result.lastLaunch = (data.result.lastLaunch == null) ? 'Jamais' : data.result.lastLaunch;

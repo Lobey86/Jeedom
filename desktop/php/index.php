@@ -267,7 +267,7 @@ $plugins_list = plugin::listPlugin();
                 if ($version['needUpdate']) {
                     echo '<span class="label label-danger">Mise à jour disponible</span>';
                 }
-                echo ')';
+                echo ') ';
                 echo date('Y');
                 $pageLoadTime = round(getmicrotime() - $startLoadTime, 3);
                 echo ' - Page générée en ' . $pageLoadTime . 's';
