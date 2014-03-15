@@ -121,7 +121,7 @@ class eqLogic {
         return $return;
     }
 
-    public static function byObjectId($_object_id) {
+    public static function byObjectId($_object_id, $_onlyEnable = true) {
         $values = array();
         $sql = 'SELECT id
                 FROM eqLogic';
@@ -130,6 +130,9 @@ class eqLogic {
         } else {
             $values['object_id'] = $_object_id;
             $sql .= ' WHERE object_id=:object_id';
+        }
+        if ($_onlyEnable) {
+            $sql .= ' AND isEnable = 1';
         }
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();

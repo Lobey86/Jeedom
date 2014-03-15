@@ -62,14 +62,29 @@ if (!is_object($object)) {
             }
         }
         echo '</div>';
-
         ?>
     </div>
     <div class="col-lg-2">
         <legend>Scénarios</legend>
         <?php
-        foreach (scenario::all() as $scenario) {
-            echo $scenario->toHtml('dashboard');
+        foreach ($object->getScenario() as $scenario) {
+            if ($scenario->getIsVisible() == 1) {
+                echo $scenario->toHtml('dashboard');
+            }
+        }
+        foreach ($object->getChilds() as $child) {
+            foreach ($child->getScenario() as $scenario) {
+                if ($scenario->getIsVisible() == 1) {
+                    echo $scenario->toHtml('dashboard');
+                }
+            }
+        }
+        if (init('object_id') == 'global') {
+            foreach (scenario::byObjectId(null) as $scenario) {
+                if ($scenario->getIsVisible() == 1) {
+                    echo $scenario->toHtml('dashboard');
+                }
+            }
         }
         ?>
     </div>     

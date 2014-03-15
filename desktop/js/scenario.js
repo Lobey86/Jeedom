@@ -436,10 +436,12 @@ function printScenario(_id) {
             $('#table_scenarioCondition tbody').empty();
             $('#table_scenarioAction tbody').empty();
             $('#table_trigger tbody').empty();
+            $('.scenarioAttr[data-l1key=object_id] option:first').prop('selected',true);
             $('body').setValues(data.result, '.scenarioAttr');
             $('#span_type').text(data.result.type);
             data.result.lastLaunch = (data.result.lastLaunch == null) ? 'Jamais' : data.result.lastLaunch;
             $('#span_lastLaunch').text(data.result.lastLaunch);
+           
 
             $('#div_scenarioElement').empty();
             $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> Ajouter Elément</a>');
