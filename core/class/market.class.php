@@ -173,7 +173,63 @@ class market {
     }
 
     public static function getInfo($_logicalId) {
-        return market::getInfo($_logicalId);
+        $return = array();
+        if ($_logicalId == '' || config::byKey('market::address') == '') {
+            $return['market'] = 0;
+            $return['market_owner'] = 0;
+            $return['status'] = 'ok';
+            return $return;
+        }
+
+        if (config::byKey('market::apikey') != '') {
+            $return['market_owner'] = 1;
+        } else {
+            $return['market_owner'] = 0;
+        }
+        $return['market'] = 0;
+
+        try {
+            $market = market::byLogicalId($_logicalId);
+
+            if (!is_object($market)) {
+                $return['status'] = 'depreciated';
+            } else {
+                $return['market'] = 1;
+                if ($market->getApi_author() == config::byKey('market::apikey') && $market->getApi_author() != '') {
+                    $return['market_owner'] = 1;
+                } else {
+                    $return['market_owner'] = 0;
+                }
+            }
+
+            if ($market->getType() == 'plugin') {
+                $updateDateTime = config::byKey('installVersionDate', $market->getLogicalId());
+            } else {
+                $updateDateTime = config::byKey($market->getLogicalId() . '::installVersionDate', $market->getType());
+            }
+
+
+            if ($market->getStatus() == 'Refusé') {
+                $return['status'] = 'depreciated';
+            }
+            if ($market->getStatus() == 'A valider') {
+                if ($updateDateTime < $market->getDatetime()) {
+                    $return['status'] = 'update';
+                } else {
+                    $return['status'] = 'ok';
+                }
+            }
+            if ($market->getStatus() == 'Validé') {
+                if ($updateDateTime < $market->getDatetime()) {
+                    $return['status'] = 'update';
+                } else {
+                    $return['status'] = 'ok';
+                }
+            }
+        } catch (Exception $e) {
+            $return['status'] = 'ok';
+        }
+        return $return;
     }
 
     public static function sendBackup($_path) {
@@ -207,7 +263,7 @@ class market {
         if (!file_exists($backup_path)) {
             throw new Exception('Impossible de trouver le fichier : ' . $backup_path . '.');
         }
-        jeedom::restore('backup/' . $_backup, true);
+        jeedom::restore('backup/'.$_backup, true);
     }
 
     /*     * *********************Methode d'instance************************* */

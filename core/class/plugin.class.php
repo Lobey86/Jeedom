@@ -189,45 +189,7 @@ class plugin {
     }
 
     public function status() {
-        $return = array();
-        $return['market_owner'] = 1;
-        $return['market'] = 0;
-        $updateDateTime = config::byKey('installVersionDate', $this->getId());
-
-        try {
-            $market = market::byLogicalId($this->getId());
-  
-            if (!is_object($market)) {
-                $return['status'] = 'depreciated';
-            } else {
-                $return['market'] = 1;
-                if ($market->getApi_author() == config::byKey('market::apikey')) {
-                    $return['market_owner'] = 1;
-                } else {
-                    $return['market_owner'] = 0;
-                }
-            }
-            if ($market->getStatus() == 'Refusé') {
-                $return['status'] = 'depreciated';
-            }
-            if ($market->getStatus() == 'A valider') {
-                $return['status'] = 'ok';
-            }
-            if ($market->getStatus() == 'Validé') {
-                if ($updateDateTime < $market->getDatetime()) {
-                    $return['status'] = 'update';
-                } else {
-                    $return['status'] = 'ok';
-                }
-            }
-        } catch (Exception $e) {
-            $return['status'] = 'ok';
-        }
-
-        if (!$this->isActive()) {
-            $return['status'] = 'disable';
-        }
-        return $return;
+        return market::getInfo($_logicalId);
     }
 
     public function launch($_function) {
