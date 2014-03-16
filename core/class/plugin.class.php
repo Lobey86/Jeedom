@@ -196,7 +196,7 @@ class plugin {
 
         try {
             $market = market::byLogicalId($this->getId());
-
+  
             if (!is_object($market)) {
                 $return['status'] = 'depreciated';
             } else {

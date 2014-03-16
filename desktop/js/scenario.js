@@ -247,7 +247,7 @@ $(function() {
     /***********************LOG*****************************/
 
     $('#bt_logScenario').on('click', function() {
-        $('#md_modal').dialog({title: "Log d\'éxécution du scénario"});
+        $('#md_modal').dialog({title: "Log d\'exécution du scénario"});
         $("#md_modal").load('index.php?v=d&modal=scenario.log.execution&scenario_id=' + $('.scenarioAttr[data-l1key=id]').value()).dialog('open');
     });
 
