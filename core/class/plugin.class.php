@@ -189,7 +189,7 @@ class plugin {
     }
 
     public function status() {
-        return market::getInfo($_logicalId);
+        return market::getInfo($this->getId());
     }
 
     public function launch($_function) {
