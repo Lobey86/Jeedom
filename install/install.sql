@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 15 Mars 2014 à 11:08
+-- Généré le: Dim 16 Mars 2014 à 10:51
 -- Version du serveur: 5.5.33a-MariaDB-1~saucy-log
 -- Version de PHP: 5.5.3-1ubuntu2.2
 
@@ -356,7 +356,7 @@ CREATE TABLE IF NOT EXISTS `scenario` (
   `isVisible` tinyint(1) DEFAULT '1',
   `object_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `name` (`name`,`group`,`object_id`),
   KEY `group` (`group`),
   KEY `fk_scenario_object1_idx` (`object_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
