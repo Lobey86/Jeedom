@@ -214,7 +214,11 @@ class market {
                 $return['status'] = 'depreciated';
             }
             if ($market->getStatus() == 'A valider') {
-                $return['status'] = 'ok';
+                if ($updateDateTime < $market->getDatetime()) {
+                    $return['status'] = 'update';
+                } else {
+                    $return['status'] = 'ok';
+                }
             }
             if ($market->getStatus() == 'Validé') {
                 if ($updateDateTime < $market->getDatetime()) {
