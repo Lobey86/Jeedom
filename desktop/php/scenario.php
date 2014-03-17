@@ -29,7 +29,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                     <i class="fa fa-plus-circle pull-right cursor" id="bt_addScenario" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
                 <li> 
-                    <select style="width: 100%;margin-bottom: 5px;" id="sel_group" class="form-control">
+                    <select style="width: 100%;margin-bottom: 5px;" id="sel_group" class="form-control input-sm">
                         <option value=''>Tous</option>
                         <?php
                         foreach (scenario::listGroup() as $group) {
@@ -43,14 +43,10 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                         }
                         ?>            
                     </select></li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control" placeholder="Rechercher"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher"/></li>
 
                 <?php
                 foreach (scenario::all(init('group')) as $scenario) {
-                    $group = '';
-                    if ($scenario->getGroup() != '') {
-                        $group = '[' . $scenario->getGroup() . '] ';
-                    }
                     if ($scenario->getIsActive() == 1) {
                         switch ($scenario->getState()) {
                             case 'in progress':
@@ -67,7 +63,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                         $state = 'grey';
                     }
                     echo '<li class="cursor li_scenario" id="scenario' . $scenario->getId() . '" data-scenario_id="' . $scenario->getId() . '">';
-                    echo '<a> <span class="binary ' . $state . ' pull-right binary" style="width : 15px;"></span>' . $group . $scenario->getName() . '</a>';
+                    echo '<a> <span class="binary ' . $state . ' pull-right binary" style="width : 15px;"></span>' . $scenario->getHumanName() . '</a>';
                     echo '</li>';
                 }
                 ?>
@@ -88,25 +84,42 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                         <div class="form-group">
                             <label class="col-lg-6 control-label" >Nom du scénario</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr" data-l1key="name" type="text" placeholder="Nom du scénario"/>
+                                <input class="form-control scenarioAttr input-sm" data-l1key="name" type="text" placeholder="Nom du scénario"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-6 control-label" >Groupe</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr" data-l1key="group" type="text" placeholder="Groupe du scénario"/>
+                                <input class="form-control scenarioAttr input-sm" data-l1key="group" type="text" placeholder="Groupe du scénario"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-6 control-label">Actif</label>
+                            <div class="col-lg-1">
+                                <input type="checkbox" class="form-control scenarioAttr input-sm" data-l1key="isActive">
+                            </div>
+                            <label class="col-lg-4 control-label">Visible</label>
+                            <div class="col-lg-1">
+                                <input type="checkbox" class="form-control scenarioAttr input-sm" data-l1key="isVisible">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label" >Objet parent</label>
                             <div class="col-lg-6">
-                                <input type="checkbox" class="form-control scenarioAttr" data-l1key="isActive">
+                                <select class="scenarioAttr form-control input-sm" data-l1key="object_id">
+                                    <option value="">Aucun</option>
+                                    <?php
+                                    foreach (object::all() as $object) {
+                                        echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group expertModeHidden">
                             <label class="col-lg-6 control-label">Timeout secondes (0 = illimité)</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr" data-l1key="timeout">
+                                <input class="form-control scenarioAttr input-sm" data-l1key="timeout">
                             </div>
                         </div>
                     </fieldset>
@@ -117,7 +130,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                     <div class="form-group">
                         <label class="col-lg-3 control-label" >Mode du scénario</label>
                         <div class="col-lg-3">
-                            <select class="form-control scenarioAttr" data-l1key="mode">
+                            <select class="form-control scenarioAttr input-sm" data-l1key="mode">
                                 <option value="provoke">Provoqué</option>
                                 <option value="schedule">Programmé</option>
                                 <option value="all">Les deux</option>

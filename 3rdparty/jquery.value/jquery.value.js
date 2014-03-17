@@ -63,26 +63,36 @@
 
     $.fn.value = function(_value) {
         if (isset(_value)) {
-            if ($(this).is('input')) {
-                if ($(this).attr('type') == 'checkbox') {
-                    $(this).prop('checked', (init(_value) == 1) ? true : false);
-                } else {
+            if ($(this).length > 1) {
+                $(this).each(function() {
+                    $(this).value(_value);
+                });
+            } else {
+                if ($(this).is('input')) {
+                    if ($(this).attr('type') == 'checkbox') {
+                        $(this).prop('checked', (init(_value) == 1) ? true : false);
+                    } else {
+                        $(this).val(init(_value));
+                    }
+                }
+                if ($(this).is('select')) {
+                    if (init(_value) == '') {
+                        $(this).find('option:first').prop('selected', true);
+                    } else {
+                        $(this).val(init(_value));
+                    }
+                }
+                if ($(this).is('textarea')) {
                     $(this).val(init(_value));
                 }
+                if ($(this).is('span') || $(this).is('div') || $(this).is('p')) {
+                    $(this).html(init(_value));
+                }
+                if ($(this).is('pre')) {
+                    $(this).html(init(_value));
+                }
+                $(this).trigger('change');
             }
-            if ($(this).is('select') && init(_value) != '') {
-                $(this).val(init(_value));
-            }
-            if ($(this).is('textarea')) {
-                $(this).val(init(_value));
-            }
-            if ($(this).is('span') || $(this).is('div') || $(this).is('p')) {
-                $(this).html(init(_value));
-            }
-            if ($(this).is('pre')) {
-                $(this).html(init(_value));
-            }
-            $(this).trigger('change');
         } else {
             var value = '';
             if ($(this).is('input') || $(this).is('select') || $(this).is('textarea')) {
@@ -109,6 +119,7 @@
                 throw('Le champ ' + $(this).attr('key') + ' doit etre un nombre');
             }
             return value;
+
         }
     };
 

@@ -41,7 +41,6 @@ $(function() {
             }
         });
     });
-
 });
 
 function emptyHistory(_cmd_id) {

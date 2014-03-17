@@ -5,7 +5,16 @@ $startLoadTime = getmicrotime();
 include_file("core", "pageDescriptor", "config");
 global $PAGE_DESCRIPTOR_DESKTOP;
 if (isConnect() && init('p') == '') {
-    redirect('index.php?v=d&p=' . $_SESSION['user']->getOptions('homePage', 'dashboard'));
+    $homePage = explode('::', $_SESSION['user']->getOptions('homePage', 'core::dashboard'));
+    if (count($homePage) == 2) {
+        if ($homePage[0] == 'core') {
+            redirect('index.php?v=d&p=' . $homePage[1]);
+        } else {
+            redirect('index.php?v=d&m=' . $homePage[0] . '&p=' . $homePage[1]);
+        }
+    } else {
+        redirect('index.php?v=d&p=dashboard');
+    }
 }
 $page = 'Connexion';
 if (isConnect() && init('p') != '') {
@@ -23,6 +32,7 @@ if ($plugin != '') {
         $title = $plugin->getName();
     }
 }
+$plugins_list = plugin::listPlugin();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -84,7 +94,7 @@ if ($plugin != '') {
                 <header class="navbar navbar-fixed-top navbar-default">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <a class="navbar-brand" href="index.php?v=d&p=<?php echo $_SESSION['user']->getOptions('homePage', 'dashboard'); ?>" style="font-size: 1.7em;">
+                            <a class="navbar-brand" href="index.php?v=d" style="font-size: 1.7em;">
                                 <img src="core/img/jeedom_ico.png" height="19" width="20"/>eedom
                             </a>
                             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
@@ -101,6 +111,14 @@ if ($plugin != '') {
                                     <ul class="dropdown-menu">
                                         <li><a href="index.php?v=d&p=dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                                         <li><a href="index.php?v=d&p=view"><i class="fa fa-picture-o"></i> Vue</a></li>
+
+                                        <?php
+                                        foreach ($plugins_list as $pluginList) {
+                                            if ($pluginList->isActive() == 1 && $pluginList->getDisplay() != '') {
+                                                echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getDisplay() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
+                                            }
+                                        }
+                                        ?>
                                     </ul>
                                 </li>
                                 <li><a href="index.php?v=d&p=history"><i class="fa fa-bar-chart-o"></i> Historique</a></li>
@@ -124,7 +142,7 @@ if ($plugin != '') {
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> Plugins <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <?php
-                                            foreach (plugin::listPlugin() as $pluginList) {
+                                            foreach ($plugins_list as $pluginList) {
                                                 if ($pluginList->isActive() == 1) {
                                                     echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
                                                 }
@@ -249,7 +267,7 @@ if ($plugin != '') {
                 if ($version['needUpdate']) {
                     echo '<span class="label label-danger">Mise à jour disponible</span>';
                 }
-                echo ')';
+                echo ') ';
                 echo date('Y');
                 $pageLoadTime = round(getmicrotime() - $startLoadTime, 3);
                 echo ' - Page générée en ' . $pageLoadTime . 's';

@@ -34,6 +34,7 @@ class plugin {
     private $filepath;
     private $icon;
     private $index;
+    private $display;
     private $include = array();
 
     /*     * ***********************Methode static*************************** */
@@ -61,6 +62,7 @@ class plugin {
         $this->category = (string) $plugin->category;
         $this->filepath = $_id;
         $this->index = (isset($plugin->index)) ? (string) $plugin->index : $plugin->id;
+        $this->display = (isset($plugin->display)) ? (string) $plugin->display : '';
         if (isset($plugin->include)) {
             $this->include = array(
                 'file' => (string) $plugin->include,
@@ -163,17 +165,23 @@ class plugin {
                 $eqLogic->save();
             }
         }
-        if (file_exists(dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php')) {
-            require_once dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php';
-            ob_start();
-            if ($_state == 1) {
-                install();
-            } else {
-                remove();
+        try {
+            if (file_exists(dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php')) {
+                require_once dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php';
+                ob_start();
+                if ($_state == 1) {
+                    install();
+                } else {
+                    remove();
+                }
+                $out = ob_get_clean();
+                log::add($this->id, 'info', $out);
             }
-            $out = ob_get_clean();
-            log::add($this->id, 'info', $out);
+        } catch (Exception $e) {
+            config::save('active', $alreadyActive, $this->id);
+            throw $e;
         }
+
         if ($alreadyActive == 0) {
             $this->start();
         }
@@ -181,45 +189,7 @@ class plugin {
     }
 
     public function status() {
-        $return = array();
-        $return['market_owner'] = 1;
-        $return['market'] = 0;
-        $updateDateTime = config::byKey('installVersionDate', $this->getId());
-
-        try {
-            $market = market::byLogicalId($this->getId());
-
-            if (!is_object($market)) {
-                $return['status'] = 'depreciated';
-            } else {
-                $return['market'] = 1;
-                if ($market->getApi_author() == config::byKey('market::apikey')) {
-                    $return['market_owner'] = 1;
-                } else {
-                    $return['market_owner'] = 0;
-                }
-            }
-            if ($market->getStatus() == 'Refusé') {
-                $return['status'] = 'depreciated';
-            }
-            if ($market->getStatus() == 'A valider') {
-                $return['status'] = 'ok';
-            }
-            if ($market->getStatus() == 'Validé') {
-                if ($updateDateTime < $market->getDatetime()) {
-                    $return['status'] = 'update';
-                } else {
-                    $return['status'] = 'ok';
-                }
-            }
-        } catch (Exception $e) {
-            $return['status'] = 'ok';
-        }
-
-        if (!$this->isActive()) {
-            $return['status'] = 'disable';
-        }
-        return $return;
+        return market::getInfo($this->getId());
     }
 
     public function launch($_function) {
@@ -291,6 +261,14 @@ class plugin {
 
     public function getInclude() {
         return $this->include;
+    }
+
+    public function getDisplay() {
+        return $this->display;
+    }
+
+    public function setDisplay($display) {
+        $this->display = $display;
     }
 
 }

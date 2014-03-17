@@ -35,6 +35,8 @@ class scenario {
     private $trigger;
     private $log;
     private $timeout = 0;
+    private $object_id = null;
+    private $isVisible = 1;
 
     /*     * ***********************Methode static*************************** */
 
@@ -92,6 +94,22 @@ class scenario {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function byObjectId($_object_id, $_onlyEnable = true) {
+        $values = array();
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '  
+                FROM scenario';
+        if ($_object_id == null) {
+            $sql .= ' WHERE object_id IS NULL';
+        } else {
+            $values['object_id'] = $_object_id;
+            $sql .= ' WHERE object_id=:object_id';
+        }
+        if ($_onlyEnable) {
+            $sql .= ' AND isActive = 1';
+        }
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+    }
+
     public static function check($_event_id = null) {
         if ($_event_id != null) {
             $scenarios = self::byTrigger($_event_id);
@@ -100,15 +118,19 @@ class scenario {
                 if ($scenario->getMode() == 'schedule') {
                     unset($scenarios[$key]);
                 } else {
-                    $scenario_list .= $scenario->getName() . ' / ';
+                    $scenario_list .= $scenario->getHumanName() . ' ';
                 }
             }
             if ($scenario_list != '') {
-                $cmd = cmd::byId($_event_id);
-                if (is_object($cmd)) {
-                    log::add('scenario', 'info', 'Evènement venant de ' . $cmd->getHumanName() . '(' . $cmd->getId() . ') vérification des scénarios :' . $scenario_list);
+                if (is_numeric($_event_id)) {
+                    $cmd = cmd::byId($_event_id);
+                    if (is_object($cmd)) {
+                        log::add('scenario', 'info', 'Evènement venant de ' . $cmd->getHumanName() . ' (' . $cmd->getId() . ') vérification du/des scénario(s) : ' . $scenario_list);
+                    } else {
+                        return;
+                    }
                 } else {
-                    return;
+                    log::add('scenario', 'info', 'Evènement : #' . $_event_id . '# vérification du/des scénario(s) : ' . $scenario_list);
                 }
             }
         } else {
@@ -158,7 +180,7 @@ class scenario {
     public function execute() {
         $this->clearLog();
         $initialState = $this->getState();
-        $this->setLog('Début exécution du scénario : ' . $this->getName());
+        $this->setLog('Début exécution du scénario : ' . $this->getHumanName());
         $this->setState('in progress');
         $this->setLastLaunch(date('Y-m-d H:i:s'));
         $this->save();
@@ -191,15 +213,11 @@ class scenario {
     }
 
     public function toHtml($_version) {
-        $group = '';
-        if ($this->getGroup() != '') {
-            $group = '[' . $this->getGroup() . '] ';
-        }
         $replace = array(
             '#id#' => $this->getId(),
             '#state#' => $this->getState(),
             '#isActive#' => $this->getIsActive(),
-            '#name#' => $group . $this->getName(),
+            '#name#' => $this->getHumanName(),
             '#lastLaunch#' => $this->getLastLaunch(),
             '#scenarioLink#' => $this->getLinkToConfiguration(),
         );
@@ -417,6 +435,22 @@ class scenario {
         return $return;
     }
 
+    public function getObject() {
+        return object::byId($this->object_id);
+    }
+
+    public function getHumanName() {
+        $return = '';
+        if ($this->getGroup() != '') {
+            $return .= '[' . $this->getGroup() . ']';
+        }
+        if (is_numeric($this->getObject_id())) {
+            $return .= '[' . $this->getObject()->getName() . ']';
+        }
+        $return .= '[' . $this->getName() . ']';
+        return $return;
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {
@@ -551,6 +585,22 @@ class scenario {
 
     public function setTimeout($timeout) {
         $this->timeout = $timeout;
+    }
+
+    public function getObject_id() {
+        return $this->object_id;
+    }
+
+    public function getIsVisible() {
+        return $this->isVisible;
+    }
+
+    public function setObject_id($object_id = null) {
+        $this->object_id = (!is_numeric($object_id)) ? null : $object_id;
+    }
+
+    public function setIsVisible($isVisible) {
+        $this->isVisible = $isVisible;
     }
 
 }

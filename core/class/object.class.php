@@ -118,21 +118,11 @@ class object {
     }
 
     public function getEqLogic($_onlyEnable = true) {
-        $values = array(
-            'id' => $this->id
-        );
-        $sql = 'SELECT id
-                FROM eqLogic
-                WHERE object_id=:id';
-        if ($_onlyEnable) {
-            $sql .= ' AND isEnable = 1';
-        }
-        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
-        $return = array();
-        foreach ($results as $result) {
-            $return[] = eqLogic::byId($result['id']);
-        }
-        return $return;
+        return eqLogic::byObjectId($this->getId(), $_onlyEnable);
+    }
+    
+    public function getScenario($_onlyEnable = true) {
+        return scenario::byObjectId($this->getId(), $_onlyEnable);
     }
 
     public function preRemove() {

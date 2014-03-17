@@ -121,7 +121,7 @@ class eqLogic {
         return $return;
     }
 
-    public static function byObjectId($_object_id) {
+    public static function byObjectId($_object_id, $_onlyEnable = true) {
         $values = array();
         $sql = 'SELECT id
                 FROM eqLogic';
@@ -130,6 +130,9 @@ class eqLogic {
         } else {
             $values['object_id'] = $_object_id;
             $sql .= ' WHERE object_id=:object_id';
+        }
+        if ($_onlyEnable) {
+            $sql .= ' AND isEnable = 1';
         }
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
@@ -163,6 +166,23 @@ class eqLogic {
         $sql = 'SELECT id
                 FROM eqLogic
                 WHERE eqType_name=:eqType_name
+                ORDER BY name';
+        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
+        $return = array();
+        foreach ($results as $result) {
+            $return[] = self::byId($result['id']);
+        }
+        return $return;
+    }
+
+    public static function byCategorie($_category) {
+        $values = array(
+            'category' => '%"' . $_category . '":1%'
+        );
+   
+        $sql = 'SELECT id
+                FROM eqLogic
+                WHERE category LIKE :category
                 ORDER BY name';
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
@@ -525,10 +545,6 @@ class eqLogic {
             $logicalId = 'lowBattery' . $this->getId();
             if (count(message::byPluginLogicalId($this->getEqType_name(), $logicalId)) == 0) {
                 $message = 'Le module ' . $this->getEqType_name() . ' ';
-                $object = $this->getObject();
-                if (is_object($object)) {
-                    $message .= '[' . $object->getName() . ']';
-                }
                 $message .= $this->getHumanName() . ' à moins de ' . $_pourcent . '% de batterie';
                 message::add($this->getEqType_name(), $message, '', $logicalId);
             }
@@ -538,11 +554,7 @@ class eqLogic {
             }
             $logicalId = 'noBattery' . $this->getId();
             $message = 'Le module ' . $this->getEqType_name() . ' ';
-            $object = $this->getObject();
-            if (is_object($object)) {
-                $message .= '[' . $object->getName() . ']';
-            }
-            $message .= $this->getHumanName() . ' a été désactivé car il n\'a plus de batterie';
+            $message .= $this->getHumanName() . ' a été désactivé car il n\'a plus de batterie (' . $_pourcent . ' %)';
             $action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getId() . '" data-isEnable="1">Ré-activer</a>';
             message::add($this->getEqType_name(), $message, $action, $logicalId);
         }

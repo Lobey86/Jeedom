@@ -224,6 +224,7 @@ class jeedom {
             if ($cache->getValue(0) == 0) {
                 cache::restore();
                 cache::set('jeedom::startOK', 1, 0);
+                scenario::check('start');
                 plugin::start();
                 log::add('core', 'info', 'Démarrage de Jeedom OK');
             }
@@ -277,6 +278,14 @@ class jeedom {
         }
 
         return $cache->getValue();
+    }
+
+    public static function toHumanReadable($_input) {
+        return eqLogic::toHumanReadable(cmd::cmdToHumanReadable($_input));
+    }
+
+    public static function fromHumanReadable($_input) {
+        return eqLogic::fromHumanReadable(cmd::humanReadableToCmd($_input));
     }
 
     /*     * *********************Methode d'instance************************* */

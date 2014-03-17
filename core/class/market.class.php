@@ -173,7 +173,6 @@ class market {
     }
 
     public static function getInfo($_logicalId) {
-       
         $return = array();
         if ($_logicalId == '' || config::byKey('market::address') == '') {
             $return['market'] = 0;
@@ -214,7 +213,11 @@ class market {
                 $return['status'] = 'depreciated';
             }
             if ($market->getStatus() == 'A valider') {
-                $return['status'] = 'ok';
+                if ($updateDateTime < $market->getDatetime()) {
+                    $return['status'] = 'update';
+                } else {
+                    $return['status'] = 'ok';
+                }
             }
             if ($market->getStatus() == 'Validé') {
                 if ($updateDateTime < $market->getDatetime()) {

@@ -15,16 +15,22 @@
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #jqueryLoadingDiv{
     position: fixed;
     top:0px;
     left:0px; 
     width: 100%;
     height: 100%;
+    z-index: 99998;
+}
+
+#jqueryLoadingDiv .overlay{
+    top:0px;
+    left:0px; 
+    width: 100%;
+    height: 100%;
     opacity:0.4;
     filter:alpha(opacity=40);
-    display: none;
     background-image: url(gritter.png);
     background-repeat:repeat;
     z-index: 99998;
@@ -33,6 +39,8 @@
 #jqueryLoadingDiv .loadingImg{
     width: 128px;
     height: 128px;
+    opacity:2;
+    filter:alpha(opacity=200);
     background-image: url(loading.gif);
     position: absolute;
     top: 48%; 
