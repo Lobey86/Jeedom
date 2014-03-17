@@ -26,12 +26,13 @@ if (!is_object($object)) {
                 } else {
                     echo '<li class="cursor li_object"><a href="index.php?v=d&p=dashboard&object_id=global">Global</a></li>';
                 }
-                $allObject = object::all();
+                $allObject = object::buildTree();
                 foreach ($allObject as $object_li) {
+                    $margin = 15 * $object_li->parentNumber();
                     if ($object_li->getId() == init('object_id')) {
-                        echo '<li class="cursor li_object active"><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '">' . $object_li->getName() . '</a></li>';
+                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
                     } else {
-                        echo '<li class="cursor li_object"><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '">' . $object_li->getName() . '</a></li>';
+                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
                     }
                 }
                 ?>
@@ -48,7 +49,7 @@ if (!is_object($object)) {
                 echo $eqLogic->toHtml('dashboard');
             }
         }
-        foreach ($object->getChilds() as $child) {
+        foreach (object::buildTree($object) as $child) {
             if (count($child->getEqLogic()) > 0) {
                 $margin = 40 * $child->parentNumber();
                 echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
@@ -62,7 +63,6 @@ if (!is_object($object)) {
             }
         }
         echo '</div>';
-
         ?>
     </div>
     <div class="col-lg-2">

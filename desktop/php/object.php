@@ -14,9 +14,10 @@ sendVarToJS('select_id', init('id', '-1'));
                 </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
-                $allObject = object::all();
+                $allObject = object::buildTree();
                 foreach ($allObject as $object) {
-                    echo '<li class="cursor li_object" data-object_id="' . $object->getId() . '"><a>' . $object->getName() . '</a></li>';
+                    $margin = 15 * $object->parentNumber();
+                    echo '<li class="cursor li_object" data-object_id="' . $object->getId() . '"><a style="position:relative;left:' . $margin . 'px;">' . $object->getName() . '</a></li>';
                 }
                 ?>
             </ul>

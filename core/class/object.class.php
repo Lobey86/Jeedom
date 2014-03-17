@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
@@ -46,13 +46,39 @@ class object {
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function rootObject() {
+    public static function rootObject($_all = false) {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM object
                 WHERE father_id IS NULL
-                ORDER BY name
-                LIMIT 1';
-        return DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+                ORDER BY name';
+        if($_all === false){
+           $sql .= ' LIMIT 1';
+           return DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+        }
+        return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+    }
+
+    public static function buildTree($_object = null) {
+        $return = array();
+        if ($_object == null) {
+            $object_list = self::rootObject(true);
+        } else {
+            if (is_object($_object)) {
+                $object_list = $_object->getChild();
+            } else {
+                return array();
+            }
+        }
+        foreach ($object_list as $object) {
+            if (is_object($object)) {
+                $return[] = $object;
+                $childs = self::buildTree($object);
+                if (count($childs) > 0) {
+                    $return = array_merge($return,$childs);
+                }
+            }
+        }
+        return $return;
     }
 
     /*     * *********************Methode d'instance************************* */
@@ -98,8 +124,8 @@ class object {
         $sql = 'SELECT id
                 FROM eqLogic
                 WHERE object_id=:id';
-        if($_onlyEnable){
-           $sql .= ' AND isEnable = 1'; 
+        if ($_onlyEnable) {
+            $sql .= ' AND isEnable = 1';
         }
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
