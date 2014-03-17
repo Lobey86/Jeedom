@@ -137,9 +137,9 @@ class market {
         }
     }
 
-    public static function getJeedomCurrentVersion() {
+    public static function getJeedomCurrentVersion($_refresh = false) {
         $cache = cache::byKey('jeedom::lastVersion');
-        if ($cache->getValue('') != '') {
+        if (!$_refresh && $cache->getValue('') != '') {
             return $cache->getValue();
         }
         $market = self::getJsonRpc();

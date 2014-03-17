@@ -206,9 +206,9 @@ class jeedom {
         return $result;
     }
 
-    public static function needUpdate() {
+    public static function needUpdate($_refresh = false) {
         $return = array();
-        $return['currentVersion'] = market::getJeedomCurrentVersion();
+        $return['currentVersion'] = market::getJeedomCurrentVersion($_refresh);
         $return['version'] = getVersion('jeedom');
         if (version_compare($return['currentVersion'], $return['version'], '>')) {
             $return['needUpdate'] = true;
