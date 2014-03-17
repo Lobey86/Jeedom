@@ -138,15 +138,19 @@ class market {
     }
 
     public static function getJeedomCurrentVersion($_refresh = false) {
-        $cache = cache::byKey('jeedom::lastVersion');
-        if (!$_refresh && $cache->getValue('') != '') {
-            return $cache->getValue();
-        }
-        $market = self::getJsonRpc();
-        if ($market->sendRequest('jeedom::getCurrentVersion')) {
-            $version = trim($market->getResult());
-            cache::set('jeedom::lastVersion', $version, 86400);
-            return $version;
+        try {
+            $cache = cache::byKey('jeedom::lastVersion');
+            if (!$_refresh && $cache->getValue('') != '') {
+                return $cache->getValue();
+            }
+            $market = self::getJsonRpc();
+            if ($market->sendRequest('jeedom::getCurrentVersion')) {
+                $version = trim($market->getResult());
+                cache::set('jeedom::lastVersion', $version, 86400);
+                return $version;
+            }
+        } catch (Exception $e) {
+            
         }
         return null;
     }
@@ -263,7 +267,7 @@ class market {
         if (!file_exists($backup_path)) {
             throw new Exception('Impossible de trouver le fichier : ' . $backup_path . '.');
         }
-        jeedom::restore('backup/'.$_backup, true);
+        jeedom::restore('backup/' . $_backup, true);
     }
 
     /*     * *********************Methode d'instance************************* */
