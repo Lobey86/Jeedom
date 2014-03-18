@@ -158,6 +158,10 @@ class object {
             }
         }
     }
+    
+    public function getHumanName() {
+        return $this->name;
+    }
 
     /*     * **********************Getteur Setteur*************************** */
 
