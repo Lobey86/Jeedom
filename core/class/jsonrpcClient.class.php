@@ -58,7 +58,7 @@ class jsonrpcClient {
         }
     }
 
-    private function send($_request, $_timeout = 2, $_file = null) {
+    private function send($_request, $_timeout = 1, $_file = null) {
         $ch = curl_init();
         if ($_file !== null) {
             $_request = array_merge($_request, $_file);

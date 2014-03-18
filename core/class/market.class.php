@@ -177,6 +177,10 @@ class market {
     }
 
     public static function getInfo($_logicalId) {
+        $cache = cache::byKey('market::info::' . $_logicalId);
+        if ($cache->getValue('') != '') {
+            return json_decode($cache->getValue(), true);
+        }
         $return = array();
         if ($_logicalId == '' || config::byKey('market::address') == '') {
             $return['market'] = 0;
@@ -231,8 +235,10 @@ class market {
                 }
             }
         } catch (Exception $e) {
+            cache::set('market::info::' . $_logicalId, json_encode($return), 3600);
             $return['status'] = 'ok';
         }
+        cache::set('market::info::' . $_logicalId, json_encode($return), 3600);
         return $return;
     }
 
