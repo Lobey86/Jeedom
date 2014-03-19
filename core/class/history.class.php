@@ -304,6 +304,18 @@ class history {
                             AND `datetime`=:datetime';
                 $old = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
                 if (is_object($old) && $old->getValue() !== '') {
+                    if ($this->getValue() === 0) {
+                        $values = array(
+                            'cmd_id' => $this->getCmd_id(),
+                            'datetime' => date('Y-m-d H:i:00', strtotime($this->getDatetime()) + 300),
+                            'value' => $this->getValue(),
+                        );
+                        $sql = 'REPLACE INTO ' . $this->getTableName() . '
+                                SET cmd_id=:cmd_id, 
+                                    `datetime`=:datetime,
+                                    value=:value';
+                        DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+                    }
                     $this->setValue(($old->getValue() + $this->getValue()) / 2);
                 }
             }
