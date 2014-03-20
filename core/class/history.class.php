@@ -282,6 +282,43 @@ class history {
         }
 
         if ($cmd->getSubType() != 'binary') {
+            if ($this->getTableName() == 'history') {
+                $minute = date('i', strtotime($this->getDatetime()));
+                if ($minute != 0) {
+                    $decimal = floor($minute / 10) * 10;
+                    $first = $minute - $decimal;
+                    if ($first >= 5) {
+                        $minute = $decimal + 5;
+                    } else {
+                        $minute = $decimal;
+                    }
+                }
+                $this->setDatetime(date('Y-m-d H:' . $minute . ':00', strtotime($this->getDatetime())));
+                $values = array(
+                    'cmd_id' => $this->getCmd_id(),
+                    'datetime' => $this->getDatetime(),
+                );
+                $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                        FROM history
+                        WHERE cmd_id=:cmd_id 
+                            AND `datetime`=:datetime';
+                $old = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+                if (is_object($old) && $old->getValue() !== '') {
+                    if ($this->getValue() === 0) {
+                        $values = array(
+                            'cmd_id' => $this->getCmd_id(),
+                            'datetime' => date('Y-m-d H:i:00', strtotime($this->getDatetime()) + 300),
+                            'value' => $this->getValue(),
+                        );
+                        $sql = 'REPLACE INTO ' . $this->getTableName() . '
+                                SET cmd_id=:cmd_id, 
+                                    `datetime`=:datetime,
+                                    value=:value';
+                        DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+                    }
+                    $this->setValue(($old->getValue() + $this->getValue()) / 2);
+                }
+            }
             if ($this->getTableName() == 'historyArch') {
                 $this->setDatetime(date('Y-m-d H:00:00', strtotime($this->getDatetime())));
             }
@@ -293,6 +330,8 @@ class history {
                 $this->setValue(0);
             }
         }
+
+
 
         $values = array(
             'cmd_id' => $this->getCmd_id(),
