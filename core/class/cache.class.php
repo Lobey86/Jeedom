@@ -44,7 +44,7 @@ class cache {
             $cache->setDatetime(date('Y-m-d H:i:s'));
         } else {
             if ($cache->hasExpired()) {
-                $cache->delete();
+                $cache->remove();
             }
         }
         return $cache;
@@ -106,7 +106,7 @@ class cache {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
     }
 
-    public function delete() {
+    public function remove() {
         DB::remove($this);
     }
 
