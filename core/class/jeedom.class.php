@@ -260,7 +260,7 @@ class jeedom {
     }
 
     public static function checkOngoingThread($_cmd) {
-        return exec('ps ax | grep "' . $_cmd . '" | grep -v "grep" | wc -l');
+        return exec('ps ax | grep "' . $_cmd . ' " | grep -v "grep" | wc -l');
     }
 
     public static function retrievePidThread($_cmd) {
