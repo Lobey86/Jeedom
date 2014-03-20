@@ -309,7 +309,7 @@ class market {
     }
 
     public function install() {
-        $cache = cache::byKey('market::info::' . $this->getId());
+        $cache = cache::byKey('market::info::' . $this->getLogicalId());
         if (is_object($cache)) {
             $cache->remove();
         }
@@ -358,14 +358,10 @@ class market {
                 config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $type);
                 break;
         }
-        $cache = cache::byKey('market::info::' . $this->getId());
-        if (is_object($cache)) {
-            $cache->remove();
-        }
     }
 
     public function remove() {
-        $cache = cache::byKey('market::info::' . $this->getId());
+        $cache = cache::byKey('market::info::' . $this->getLogicalId());
         if (is_object($cache)) {
             $cache->remove();
         }
@@ -384,10 +380,6 @@ class market {
                 }
                 config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $type);
                 break;
-        }
-        $cache = cache::byKey('market::info::' . $this->getId());
-        if (is_object($cache)) {
-            $cache->remove();
         }
     }
 
