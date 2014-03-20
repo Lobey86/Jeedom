@@ -358,9 +358,17 @@ class market {
                 config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $type);
                 break;
         }
+        $cache = cache::byKey('market::info::' . $this->getId());
+        if (is_object($cache)) {
+            $cache->remove();
+        }
     }
 
     public function remove() {
+        $cache = cache::byKey('market::info::' . $this->getId());
+        if (is_object($cache)) {
+            $cache->remove();
+        }
         switch ($this->getType()) {
             case 'plugin' :
                 $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
@@ -376,6 +384,10 @@ class market {
                 }
                 config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $type);
                 break;
+        }
+        $cache = cache::byKey('market::info::' . $this->getId());
+        if (is_object($cache)) {
+            $cache->remove();
         }
     }
 
