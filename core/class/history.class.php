@@ -315,6 +315,17 @@ class history {
                                     `datetime`=:datetime,
                                     value=:value';
                         DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+                    } else {
+                        $values = array(
+                            'cmd_id' => $this->getCmd_id(),
+                            'datetime' => date('Y-m-d H:i:00', strtotime($this->getDatetime()) + 300),
+                            'value' => 0,
+                        );
+                        $sql = 'DELETE FROM history
+                                WHERE cmd_id=:cmd_id 
+                                    AND `datetime`=:datetime
+                                    AND value=:value';
+                        DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
                     }
                     $this->setValue(($old->getValue() + $this->getValue()) / 2);
                 }
