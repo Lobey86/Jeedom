@@ -309,6 +309,10 @@ class market {
     }
 
     public function install() {
+        $cache = cache::byKey('market::info::' . $this->getId());
+        if (is_object($cache)) {
+            $cache->remove();
+        }
         $tmp_dir = dirname(__FILE__) . '/../../tmp';
         $tmp = $tmp_dir . '/' . $this->getLogicalId() . '.zip';
         if (!is_writable($tmp_dir)) {
