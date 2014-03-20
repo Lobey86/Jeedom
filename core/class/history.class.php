@@ -281,7 +281,7 @@ class history {
             }
         }
 
-        if ($cmd->getSubType() == 'binary') {
+        if ($cmd->getSubType() != 'binary') {
             if ($this->getTableName() == 'historyArch') {
                 $this->setDatetime(date('Y-m-d H:00:00', strtotime($this->getDatetime())));
             }
