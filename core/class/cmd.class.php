@@ -675,9 +675,9 @@ class cmd {
                             if ($this->getIsHistorized()) {
                                 $replace['#displayHistory#'] = '';
                                 $historyStatistique = $this->getStatistique(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculPeriod') . ' hour')), date('Y-m-d H:i:s'));
-                                $replace['#averageHistoryValue#'] = round($historyStatistique['avg'], 1) . $this->getUnite();
-                                $replace['#minHistoryValue#'] = round($historyStatistique['min'], 1) . $this->getUnite();
-                                $replace['#maxHistoryValue#'] = round($historyStatistique['max'], 1) . $this->getUnite();
+                                $replace['#averageHistoryValue#'] = round($historyStatistique['avg'], 1);
+                                $replace['#minHistoryValue#'] = round($historyStatistique['min'], 1);
+                                $replace['#maxHistoryValue#'] = round($historyStatistique['max'], 1);
                                 $tendance = $this->getTendance(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculTendance') . ' hour')), date('Y-m-d H:i:s'));
                                 $replace['#tendance#'] = 'fa fa-minus';
                                 if ($tendance > config::byKey('historyCalculTendanceThresholddMax')) {
