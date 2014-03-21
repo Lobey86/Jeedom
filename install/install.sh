@@ -50,6 +50,7 @@ done
 sudo apt-get install -y nodejs
 nodeJS=$?
 sudo apt-get install -y php5-common php5-fpm php5-cli php5-curl php5-json php5-mysql
+sudo apt-get install -y usb-modeswitch python-serial
 
 
 echo "********************************************************"
