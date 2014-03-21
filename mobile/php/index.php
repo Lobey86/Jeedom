@@ -24,12 +24,16 @@ if ($plugin != '') {
 }
 ?>
 <!DOCTYPE html> 
-<html>
+<html manifest="mobile/php/app.manifest">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"> 
+        <meta name="apple-mobile-web-app-capable" content="yes" >
+        <meta name="mobile-web-app-capable" content="yes" >
         <META HTTP-EQUIV="Pragma" CONTENT="private">
         <META HTTP-EQUIV="Cache-Control" CONTENT="private, max-age=5400, pre-check=5400">
+
+        <link rel="apple-touch-startup-image" href="3rdparty/jquery.mobile/images/ajax-loader.png" />
         <META HTTP-EQUIV="Expires" CONTENT="<?php echo date(DATE_RFC822, strtotime("1 day")); ?>">
         <title>Jeedom</title> 
         <?php
@@ -48,7 +52,7 @@ if ($plugin != '') {
     </head> 
     <body> 
         <div data-role="page" class="type-interior" id="div_container" data-title="Jeedom">
-            <div data-role="header" data-theme="a" data-position="fixed">
+            <div data-role="header" data-theme="a" >
                 <h1 style="margin: 0 10px;">
                     <img src="../../core/img/jeedom_ico.png" height="17" width="18" style="position: relative; top : 3px;"/>eedom
                     <span id="horloge"><?php echo date('H:i:s'); ?></span>
@@ -93,7 +97,7 @@ if ($plugin != '') {
                 </div>
             </div><!-- /content -->
             <br/>
-            <div data-role="footer" data-theme="a" style="padding-top: 8px;padding-bottom: 5px;">
+            <div data-role="footer" data-theme="a" style="padding-top: 8px;padding-bottom: 5px;" >
                 <span style="margin-left: 0px;">&copy; Jeedom (v<?php echo getVersion('jeedom') ?>) <?php echo date('Y') ?> </span>
                 <span style="float: right;">Node JS <span id="span_nodeJsState" class="binary red"></span></span>
             </div><!-- /footer -->

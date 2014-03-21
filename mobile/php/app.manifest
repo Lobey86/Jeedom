@@ -1,0 +1,14 @@
+{
+  "name": "Jeedom",
+  "description": "Application de gestion domotique",
+  "launch_path": "index.php",
+  "icons": {
+    "128": "core/img/jeedom_ico.png"
+  },
+  "developer": {
+    "name": "Loïc Gevrey",
+    "url": "http://jeeodm.fr"
+  },
+  "default_locale": "fr",
+  "fullscreen": "true"
+}
