@@ -5,11 +5,15 @@ if (!isConnect()) {
 if (init('object_id') == '') {
     $_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject', 'global');
 }
-$object = object::byId(init('object_id'));
-if (!is_object($object)) {
-    $object = object::rootObject();
+$objects = object::byId(init('object_id'));
+if (!is_object($objects)) {
+    $objects = object::rootObject(true);
+    
 }
-if (!is_object($object)) {
+if (!is_array($objects)) {
+    $objects = array($objects);
+}
+if (!is_array($objects)) {
     throw new Exception('Aucun objet racine trouvé');
 }
 ?>
@@ -42,48 +46,52 @@ if (!is_object($object)) {
 
     <div class="col-lg-8">
         <?php
-        echo '<div object_id="' . $object->getId() . '">';
-        echo '<legend>' . $object->getName() . '</legend>';
-        foreach ($object->getEqLogic() as $eqLogic) {
-            if ($eqLogic->getIsVisible() == '1') {
-                echo $eqLogic->toHtml('dashboard');
-            }
-        }
-        foreach (object::buildTree($object) as $child) {
-            if (count($child->getEqLogic()) > 0) {
-                $margin = 40 * $child->parentNumber();
-                echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
-                echo '<legend>' . $child->getName() . '</legend>';
-                foreach ($child->getEqLogic() as $eqLogic) {
-                    if ($eqLogic->getIsVisible() == '1') {
-                        echo $eqLogic->toHtml('dashboard');
-                    }
+        foreach ($objects as $object) {
+            echo '<div object_id="' . $object->getId() . '">';
+            echo '<legend>' . $object->getName() . '</legend>';
+            foreach ($object->getEqLogic() as $eqLogic) {
+                if ($eqLogic->getIsVisible() == '1') {
+                    echo $eqLogic->toHtml('dashboard');
                 }
-                echo '</div>';
             }
+            foreach (object::buildTree($object) as $child) {
+                if (count($child->getEqLogic()) > 0) {
+                    $margin = 40 * $child->parentNumber();
+                    echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
+                    echo '<legend>' . $child->getName() . '</legend>';
+                    foreach ($child->getEqLogic() as $eqLogic) {
+                        if ($eqLogic->getIsVisible() == '1') {
+                            echo $eqLogic->toHtml('dashboard');
+                        }
+                    }
+                    echo '</div>';
+                }
+            }
+            echo '</div>';
         }
-        echo '</div>';
         ?>
     </div>
     <div class="col-lg-2">
         <legend>Scénarios</legend>
         <?php
-        foreach ($object->getScenario() as $scenario) {
-            if ($scenario->getIsVisible() == 1) {
-                echo $scenario->toHtml('dashboard');
-            }
-        }
-        foreach ($object->getChilds() as $child) {
-            foreach ($child->getScenario() as $scenario) {
+        foreach ($objects as $object) {
+            foreach ($object->getScenario() as $scenario) {
                 if ($scenario->getIsVisible() == 1) {
                     echo $scenario->toHtml('dashboard');
                 }
             }
-        }
-        if (init('object_id') == 'global') {
-            foreach (scenario::byObjectId(null) as $scenario) {
-                if ($scenario->getIsVisible() == 1) {
-                    echo $scenario->toHtml('dashboard');
+            foreach ($object->getChilds() as $child) {
+                foreach ($child->getScenario() as $scenario) {
+                    if ($scenario->getIsVisible() == 1) {
+                        echo $scenario->toHtml('dashboard');
+                    }
+                }
+            }
+            if (init('object_id') == 'global') {
+                foreach (scenario::byObjectId(null) as $scenario) {
+                    if ($scenario->getIsVisible() == 1) {
+                        echo $scenario->toHtml('dashboard');
+                    }
                 }
             }
         }
