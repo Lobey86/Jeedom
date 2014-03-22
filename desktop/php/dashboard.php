@@ -25,17 +25,17 @@ if (!is_array($objects)) {
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 if (init('object_id') == 'global') {
-                    echo '<li class="cursor li_object active"><a href="index.php?v=d&p=dashboard&object_id=global">Global</a></li>';
+                    echo '<li class="cursor li_object active"><a href="index.php?v=d&p=dashboard&object_id=global&category=' . init('category','all') . '">Global</a></li>';
                 } else {
-                    echo '<li class="cursor li_object"><a href="index.php?v=d&p=dashboard&object_id=global">Global</a></li>';
+                    echo '<li class="cursor li_object"><a href="index.php?v=d&p=dashboard&object_id=global&category=' . init('category','all') . '">Global</a></li>';
                 }
                 $allObject = object::buildTree();
                 foreach ($allObject as $object_li) {
                     $margin = 15 * $object_li->parentNumber();
                     if ($object_li->getId() == init('object_id')) {
-                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
+                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category','all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
                     } else {
-                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
+                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category','all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
                     }
                 }
                 ?>
