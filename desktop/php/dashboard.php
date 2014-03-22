@@ -8,7 +8,6 @@ if (init('object_id') == '') {
 $objects = object::byId(init('object_id'));
 if (!is_object($objects)) {
     $objects = object::rootObject(true);
-    
 }
 if (!is_array($objects)) {
     $objects = array($objects);
@@ -45,26 +44,48 @@ if (!is_array($objects)) {
     </div>
 
     <div class="col-lg-8">
+
+        <center>
+            <div class="btn-group">
+
+                <?php
+                if (init('category', 'all') == 'all') {
+                    echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-primary categoryAction">Toutes</a>';
+                } else {
+                    echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-default categoryAction">Toutes</a>';
+                }
+                foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+                    if (init('category', 'all') == $key) {
+                        echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-primary categoryAction" data-l1key="' . $key . '">' . $value['name'] . '</a>';
+                    } else {
+                        echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-default categoryAction" data-l1key="' . $key . '">' . $value['name'] . '</a>';
+                    }
+                }
+                ?>
+            </div>
+        </center>
+
+
         <?php
         foreach ($objects as $object) {
             echo '<div object_id="' . $object->getId() . '">';
             echo '<legend>' . $object->getName() . '</legend>';
             foreach ($object->getEqLogic() as $eqLogic) {
-                if ($eqLogic->getIsVisible() == '1') {
+                if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
                     echo $eqLogic->toHtml('dashboard');
                 }
             }
             foreach (object::buildTree($object) as $child) {
                 //if (count($child->getEqLogic()) > 0) {
-                    $margin = 40 * $child->parentNumber();
-                    echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
-                    echo '<legend>' . $child->getName() . '</legend>';
-                    foreach ($child->getEqLogic() as $eqLogic) {
-                        if ($eqLogic->getIsVisible() == '1') {
-                            echo $eqLogic->toHtml('dashboard');
-                        }
+                $margin = 40 * $child->parentNumber();
+                echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
+                echo '<legend>' . $child->getName() . '</legend>';
+                foreach ($child->getEqLogic() as $eqLogic) {
+                    if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
+                        echo $eqLogic->toHtml('dashboard');
                     }
-                    echo '</div>';
+                }
+                echo '</div>';
                 //}
             }
             echo '</div>';
