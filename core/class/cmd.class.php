@@ -512,7 +512,7 @@ class cmd {
      * @throws Exception
      */
     public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
-        log::add('cmd', 'debug', 'Execution de la commande : ' . $this->getHumanName() . ' avec comme option : ' . print_r($_options, true) . ' et cache  : ' . $cache);
+        log::add('cmd', 'debug', 'Demande pour la commande : ' . $this->getHumanName() . ' avec comme option : ' . print_r($_options, true) . ' et cache  : ' . $cache);
         if ($this->getEqLogic()->getIsEnable() != 1) {
             throw new Exception('Cet équipement est désactivé : ' . $this->getEqLogic()->getHumanName());
         }
@@ -529,7 +529,7 @@ class cmd {
                         $this->save();
                         log::add('collect', 'info', 'La commande : ' . $this->getHumanName() . ' est marquée à collecter');
                     }
-                    log::add('cmd', 'debug', 'Renvoi de la valuer en cache pour la commande : ' . $this->getHumanName());
+                    log::add('cmd', 'debug', 'Renvoi de la valeur en cache pour la commande : ' . $this->getHumanName());
                     return $mc->getValue();
                 }
             }
@@ -537,6 +537,7 @@ class cmd {
                 return null;
             }
         }
+        log::add('cmd', 'debug', 'Exécution de la commande : ' . $this->getHumanName());
 
         $eqLogic = $this->getEqLogic();
         $type = $eqLogic->getEqType_name();
