@@ -24,6 +24,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
             'security' => array('name' => 'Sécurité', 'color' => '#CEE3F6'),
             'energy' => array('name' => 'Energie', 'color' => '#CEF6CE'),
             'light' => array('name' => 'Lumière', 'color' => '#F7F8E0'),
+            'automatism' => array('name' => 'Automatisme', 'color' => '#F781D8'),
         ),
     ),
     'cmd' => array(
