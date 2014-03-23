@@ -520,16 +520,17 @@ class cmd {
         if ($this->getEventOnly() && $cache == 0) {
             $cache = 1;
         }
-        log::add('cmd', 'info', 'Temps préparation exécution de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
+        log::add('cmd', 'debug', 'Temps préparation exécution de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId());
-            log::add('cmd', 'info', 'Temps récupération du cache de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
+            log::add('cmd', 'debug', 'Temps récupération du cache de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
             if (!$mc->hasExpired() || $cache == 2) {
+                log::add('cmd', 'debug', 'Temps calcul validité du cache de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
                 if ($mc->hasExpired()) {
                     $this->setCollect(1);
                     $this->save();
                     log::add('collect', 'info', 'La commande : ' . $this->getHumanName() . ' est marquée à collecter');
-                    log::add('cmd', 'info', 'Temps demande de collect de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
+                    log::add('cmd', 'debug', 'Temps demande de collect de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
                 }
                 log::add('cmd', 'debug', 'Renvoi de la valeur en cache pour la commande : ' . $this->getHumanName() . ' en ' . round(getmicrotime() - $startTime, 3));
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
