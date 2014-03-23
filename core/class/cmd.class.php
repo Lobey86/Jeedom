@@ -522,7 +522,6 @@ class cmd {
                 log::add('cmd', 'debug', 'Temps calcul validité du cache de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
                 if ($mc->hasExpired()) {
                     $this->setCollect(1);
-                    $this->save();
                     log::add('collect', 'info', 'La commande : ' . $this->getHumanName() . ' est marquée à collecter');
                     log::add('cmd', 'debug', 'Temps demande de collect de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
                 }
@@ -604,7 +603,6 @@ class cmd {
                 $this->setCollectDate(date('Y-m-d H:i:s'));
             }
             $this->setCollect(0);
-            $this->save();
             if ($_sendNodeJsEvent) {
                 nodejs::pushUpdate('eventCmd', $this->getId());
                 foreach (self::byValue($this->getId()) as $cmd) {
