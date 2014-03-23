@@ -512,6 +512,7 @@ class cmd {
      * @throws Exception
      */
     public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
+        $startTime = getmicrotime();
         log::add('cmd', 'debug', 'Demande pour la commande : ' . $this->getHumanName() . ' avec comme option : ' . print_r($_options, true) . ' et cache  : ' . $cache);
         if ($this->getEqLogic()->getIsEnable() != 1) {
             throw new Exception('Cet équipement est désactivé : ' . $this->getEqLogic()->getHumanName());
@@ -519,8 +520,10 @@ class cmd {
         if ($this->getEventOnly() && $cache == 0) {
             $cache = 1;
         }
+        log::add('collect', 'info', 'Temps préparation exécution de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId());
+            log::add('collect', 'info', 'Temps récupération du cache de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
             if ($mc->getValue() !== '') {
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
                 if (!$mc->hasExpired() || $cache == 2) {
