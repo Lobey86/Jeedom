@@ -27,6 +27,7 @@ class cache {
     private $lifetime = 1;
     private $datetime;
     private $options = null;
+    private $_hasExpired = null;
 
     /*     * ***********************Methode static*************************** */
 
@@ -76,7 +77,7 @@ class cache {
         DB::Prepare('REPLACE `cache_persist` SELECT * FROM `cache`', array(), DB::FETCH_TYPE_ROW);
         return true;
     }
-    
+
     public static function restore() {
         DB::Prepare('TRUNCATE TABLE `cache', array(), DB::FETCH_TYPE_ROW);
         DB::Prepare('REPLACE `cache` SELECT * FROM `cache_persist`', array(), DB::FETCH_TYPE_ROW);
@@ -111,13 +112,20 @@ class cache {
     }
 
     public function hasExpired() {
-        if ($this->getValue() === false) {
+        if ($this->_hasExpired !== null) {
+            return $this->_hasExpired;
+        } else {
+            if ($this->getValue() === false) {
+                $this->_hasExpired = false;
+                return false;
+            }
+            if ($this->getLifetime() != 0 && (strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime(date('Y-m-d H:i:s'))) {
+                $this->_hasExpired = true;
+                return true;
+            }
+            $this->_hasExpired = false;
             return false;
         }
-        if ($this->getLifetime() != 0 && (strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime(date('Y-m-d H:i:s'))) {
-            return true;
-        }
-        return false;
     }
 
     /*     * **********************Getteur Setteur*************************** */
