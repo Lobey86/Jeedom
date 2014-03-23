@@ -742,8 +742,7 @@ class cmd {
                     $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
                     $this->addHistoryValue($_value);
                 }
-                $message = 'Message venant de ' . $this->getHumanName() . ' : ' . $_value;
-                log::add($eqLogic->getEqType_name(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
+                log::add($eqLogic->getEqType_name(), 'Event', 'Message venant de ' . $this->getHumanName() . ' : ' . $_value . ' / cache lifetime => ' . $this->getCacheLifetime());
                 cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
                 $this->setCollect(0);
                 nodejs::pushUpdate('eventCmd', $this->getId());
