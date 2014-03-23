@@ -653,7 +653,8 @@ class cmd {
         log::add('cmd', 'debug', 'Temps récuperation template :  ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
         switch ($this->getType()) {
             case "info":
-                $replace['#unite#'] = ($this->getUnite() != '') ? $this->getUnite() : '';
+                log::add('cmd', 'debug', 'Temps debut prépation replace :  ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
+                $replace['#unite#'] = $this->getUnite();
                 $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
                 $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
                 $replace['#state#'] = '';
