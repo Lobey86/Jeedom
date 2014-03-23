@@ -67,7 +67,6 @@ if (!is_array($objects)) {
 
 
         <?php
-        $startDashboardTime = getmicrotime();
         foreach ($objects as $object) {
             echo '<div object_id="' . $object->getId() . '">';
             echo '<legend>' . $object->getName() . '</legend>';
@@ -89,13 +88,11 @@ if (!is_array($objects)) {
             }
             echo '</div>';
         }
-        log::add('dashboard', 'debug', 'Temps genération commande dashboard  : ' . round(getmicrotime() - $startDashboardTime, 3));
         ?>
     </div>
     <div class="col-lg-2">
         <legend>Scénarios</legend>
         <?php
-        $startDashboardTime = getmicrotime();
         foreach ($objects as $object) {
             foreach ($object->getScenario() as $scenario) {
                 if ($scenario->getIsVisible() == 1) {
@@ -117,7 +114,6 @@ if (!is_array($objects)) {
                 }
             }
         }
-        log::add('dashboard', 'debug', 'Temps genération scénario dashboard  : ' . round(getmicrotime() - $startDashboardTime, 3));
         ?>
     </div>     
 </div>

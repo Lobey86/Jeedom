@@ -36,6 +36,7 @@ class eqLogic {
     protected $category;
     protected $_internalEvent = 0;
     protected $_debug = false;
+    private static $_templateArray;
 
     /*     * ***********************Methode static*************************** */
 
@@ -179,7 +180,7 @@ class eqLogic {
         $values = array(
             'category' => '%"' . $_category . '":1%'
         );
-   
+
         $sql = 'SELECT id
                 FROM eqLogic
                 WHERE category LIKE :category
@@ -437,8 +438,13 @@ class eqLogic {
             '#object_name#' => (is_object($object)) ? $object->getName() . ' - ' : '',
             '#background_color#' => $this->getBackgroundColor(),
         );
-
-        $html = template_replace($replace, getTemplate('core', $_version, 'eqLogic'));
+        if (!isset(self::$_templateArray)) {
+            self::$_templateArray = array();
+        }
+        if (!isset(self::$_templateArray[$_version])) {
+            self::$_templateArray[$_version] = getTemplate('core', $_version, 'eqLogic');
+        }
+        $html = template_replace($replace, self::$_templateArray[$_version]);
         return $html;
     }
 
