@@ -42,7 +42,6 @@ class log {
             $log = fopen($path, "a+");
             fputs($log, $message);
             fclose($log);
-            self::chunk($_log);
             if (config::byKey('addMessageForErrorLog') == 1 && $_type == 'error') {
                 @message::add($_log, $_message);
             }

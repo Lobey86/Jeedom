@@ -344,12 +344,12 @@ class eqLogic {
             return $_input;
         }
         $text = $_input;
-        preg_match_all("/#([0-9]*)#/", $text, $matches);
+        preg_match_all("/#eqLogic([0-9]*)#/", $text, $matches);
         foreach ($matches[1] as $eqLogic_id) {
             if (is_numeric($eqLogic_id)) {
                 $eqLogic = self::byId($eqLogic_id);
                 if (is_object($eqLogic)) {
-                    $text = str_replace('#' . $eqLogic_id . '#', '#' . $eqLogic->getHumanName() . '#', $text);
+                    $text = str_replace('#eqLogic' . $eqLogic_id . '#', '#' . $eqLogic->getHumanName() . '#', $text);
                 }
             }
         }
@@ -395,7 +395,7 @@ class eqLogic {
                 if (isset($matches[1][$i]) && isset($matches[2][$i])) {
                     $eqLogic = self::byObjectNameEqLogicName($matches[1][$i], $matches[2][$i]);
                     if (is_object($eqLogic)) {
-                        $text = str_replace($matches[0][$i], '#' . $eqLogic->getId() . '#', $text);
+                        $text = str_replace($matches[0][$i], '#eqLogic' . $eqLogic->getId() . '#', $text);
                     }
                 }
             }
