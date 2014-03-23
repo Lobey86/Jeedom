@@ -531,8 +531,9 @@ class cmd {
                         $this->setCollect(1);
                         $this->save();
                         log::add('collect', 'info', 'La commande : ' . $this->getHumanName() . ' est marquée à collecter');
+                        log::add('cmd', 'info', 'Temps demande de collect de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
                     }
-                    log::add('cmd', 'debug', 'Renvoi de la valeur en cache pour la commande : ' . $this->getHumanName());
+                    log::add('cmd', 'debug', 'Renvoi de la valeur en cache pour la commande : ' . $this->getHumanName() . ' en ' . round(getmicrotime() - $startTime, 3));
                     return $mc->getValue();
                 }
             }
