@@ -39,6 +39,7 @@ class cmd {
     protected $value = null;
     protected $isVisible = 1;
     protected $_internalEvent = 0;
+    private static $_templateArray;
 
     /*     * ***********************Methode static*************************** */
 
@@ -619,22 +620,29 @@ class cmd {
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType();
         $template_name .= '.' . $this->getTemplate($_version, 'default');
         $template = '';
-        try {
-            $template = getTemplate('core', $_version, $template_name);
-        } catch (Exception $e) {
-            if ($template == '') {
-                foreach (plugin::listPlugin(true) as $plugin) {
-                    try {
-                        $template = getTemplate('core', $_version, $template_name, $plugin->getId());
-                    } catch (Exception $e) {
-                        
+        if (!is_array(self::$_templateArray)) {
+            self::$_templateArray == array();
+        }
+        if (!isset(self::$_templateArray[$_version . '::' . $template_name])) {
+            try {
+                $template = getTemplate('core', $_version, $template_name);
+            } catch (Exception $e) {
+                if ($template == '') {
+                    foreach (plugin::listPlugin(true) as $plugin) {
+                        try {
+                            $template = getTemplate('core', $_version, $template_name, $plugin->getId());
+                        } catch (Exception $e) {
+                            
+                        }
                     }
                 }
             }
-        }
-        if ($template == '') {
-            $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
-            $template = getTemplate('core', $_version, $template_name);
+            if ($template == '') {
+                $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
+                $template = getTemplate('core', $_version, $template_name);
+            }
+        } else {
+            self::$_templateArray[$_version . '::' . $template_name] = $template;
         }
         $replace = array(
             '#id#' => $this->getId(),
