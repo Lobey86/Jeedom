@@ -51,6 +51,22 @@ class cache {
         return $cache;
     }
 
+    public static function search($_search) {
+        $values = array(
+            'key' => '%' . $_search . '%'
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM cache
+                WHERE `key` LIKE key';
+        $caches = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+        foreach ($caches as $cache) {
+            if ($cache->hasExpired()) {
+                $cache->remove();
+            }
+        }
+        return $caches;
+    }
+
     public static function flush() {
         $sql = 'TRUNCATE TABLE cache';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);

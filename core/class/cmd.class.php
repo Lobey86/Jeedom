@@ -35,7 +35,6 @@ class cmd {
     protected $configuration;
     protected $template;
     protected $display;
-    protected $collect = 0;
     protected $_collectDate = '';
     protected $value = null;
     protected $isVisible = 1;
@@ -242,15 +241,10 @@ class cmd {
     }
 
     public static function collect() {
-        $sql = 'SELECT id
-                FROM cmd
-                WHERE collect=1
-                    AND eventOnly=0
-                ORDER BY eqLogic_id';
-        $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
+        $caches = cache::search('collect');
         $cmd = null;
-        foreach ($results as $result) {
-            $cmd = self::byId($result['id']);
+        foreach ($caches as $cache) {
+            $cmd = self::byId($cache->getValue());
             if (is_object($cmd)) {
                 if ($cmd->getEqLogic()->getIsEnable() == 1) {
                     $cmd->execCmd(null, 1, false);
@@ -758,10 +752,7 @@ class cmd {
                 $message = 'Message venant de ' . $this->getHumanName() . ' : ' . $_value;
                 log::add($eqLogic->getEqType_name(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
                 cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
-                if ($this->getCollect() == 1) {
-                    $this->setCollect(0);
-                    $this->save();
-                }
+                $this->setCollect(0);
                 nodejs::pushUpdate('eventCmd', $this->getId());
                 foreach (self::byValue($this->getId()) as $cmd) {
                     nodejs::pushUpdate('eventCmd', $cmd->getId());
@@ -832,6 +823,15 @@ class cmd {
 
     public function getHistory($_dateStart = null, $_dateEnd = null) {
         return history::all($this->id, $_dateStart, $_dateEnd);
+    }
+
+    public function setCollect($collect) {
+        if ($collect == 1) {
+            cache::set('collect' . $this->getId(), $this->getId());
+        } else {
+            $cache = cache::byKey('collect' . $this->getId());
+            $cache->remove();
+        }
     }
 
     /*     * **********************Getteur Setteur*************************** */
@@ -946,14 +946,6 @@ class cmd {
 
     public function setDisplay($_key, $_value) {
         $this->display = utils::setJsonAttr($this->display, $_key, $_value);
-    }
-
-    public function getCollect() {
-        return $this->collect;
-    }
-
-    public function setCollect($collect) {
-        $this->collect = $collect;
     }
 
     public function getCollectDate() {
