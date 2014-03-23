@@ -647,6 +647,7 @@ class cmd {
         );
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
+        log::add('cmd', 'debug', 'Temps récuperation template :  ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
         switch ($this->getType()) {
             case "info":
                 $replace['#unite#'] = ($this->getUnite() != '') ? $this->getUnite() : '';
@@ -656,6 +657,7 @@ class cmd {
                 $replace['#tendance#'] = '';
                 try {
                     $value = $this->execCmd(null, 2);
+                    log::add('cmd', 'debug', 'Temps execution commande :  ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
                     if ($value === null) {
                         return template_replace($replace, $template);
                     }
