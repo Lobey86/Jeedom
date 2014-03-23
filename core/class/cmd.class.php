@@ -520,10 +520,10 @@ class cmd {
         if ($this->getEventOnly() && $cache == 0) {
             $cache = 1;
         }
-        log::add('collect', 'info', 'Temps préparation exécution de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
+        log::add('cmd', 'info', 'Temps préparation exécution de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId());
-            log::add('collect', 'info', 'Temps récupération du cache de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
+            log::add('cmd', 'info', 'Temps récupération du cache de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
             if ($mc->getValue() !== '') {
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
                 if (!$mc->hasExpired() || $cache == 2) {
