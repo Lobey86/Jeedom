@@ -658,6 +658,7 @@ class cmd {
                 $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
                 $replace['#state#'] = '';
                 $replace['#tendance#'] = '';
+                log::add('cmd', 'debug', 'Temps prépation replace :  ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
                 try {
                     $value = $this->execCmd(null, 2);
                     log::add('cmd', 'debug', 'Temps execution commande :  ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
