@@ -507,7 +507,6 @@ class cmd {
      * @throws Exception
      */
     public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
-        $startTime = getmicrotime();
         log::add('cmd', 'debug', 'Demande pour la commande : ' . $this->getHumanName() . ' avec comme option : ' . print_r($_options, true) . ' et cache  : ' . $cache);
         if ($this->getEqLogic()->getIsEnable() != 1) {
             throw new Exception('Cet équipement est désactivé : ' . $this->getEqLogic()->getHumanName());
@@ -515,18 +514,13 @@ class cmd {
         if ($this->getEventOnly() && $cache == 0) {
             $cache = 1;
         }
-        log::add('cmd', 'debug', 'Temps préparation exécution de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId());
-            log::add('cmd', 'debug', 'Temps récupération du cache de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
             if (!$mc->hasExpired() || $cache == 2) {
-                log::add('cmd', 'debug', 'Temps calcul validité du cache de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
                 if ($mc->hasExpired()) {
                     $this->setCollect(1);
                     log::add('collect', 'info', 'La commande : ' . $this->getHumanName() . ' est marquée à collecter');
-                    log::add('cmd', 'debug', 'Temps demande de collect de ' . $this->getHumanName() . ' : ' . round(getmicrotime() - $startTime, 3));
                 }
-                log::add('cmd', 'debug', 'Renvoi de la valeur en cache pour la commande : ' . $this->getHumanName() . ' en ' . round(getmicrotime() - $startTime, 3));
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
                 return $mc->getValue();
             }
@@ -615,7 +609,6 @@ class cmd {
     }
 
     public function toHtml($_version = 'dashboard', $options = '') {
-        $startTime = getmicrotime();
         $html = '';
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType();
         $template_name .= '.' . $this->getTemplate($_version, 'default');
@@ -650,19 +643,15 @@ class cmd {
         );
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
-        log::add('cmd', 'debug', 'Temps récuperation template :  ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
         switch ($this->getType()) {
             case "info":
-                log::add('cmd', 'debug', 'Temps debut prépation replace :  ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
                 $replace['#unite#'] = $this->getUnite();
                 $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
                 $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
                 $replace['#state#'] = '';
                 $replace['#tendance#'] = '';
-                log::add('cmd', 'debug', 'Temps prépation replace :  ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
                 try {
                     $value = $this->execCmd(null, 2);
-                    log::add('cmd', 'debug', 'Temps execution commande :  ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
                     if ($value === null) {
                         return template_replace($replace, $template);
                     }
@@ -741,7 +730,6 @@ class cmd {
                 }
                 break;
         }
-        log::add('cmd', 'debug', 'Temps de génération de ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
         return $html;
     }
 
