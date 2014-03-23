@@ -518,7 +518,7 @@ class cmd {
         if ($this->getEventOnly() && $cache == 0) {
             $cache = 1;
         }
-        if ($this->getType() == 'info' && ($cache != 0)) {
+        if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId());
             if ($mc->getValue() !== '') {
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
@@ -526,7 +526,7 @@ class cmd {
                     if ($mc->hasExpired()) {
                         $this->setCollect(1);
                         $this->save();
-                        log::add('collect', 'info', 'la commande : ' . $this->getHumanName() . ' est marquée à collecter');
+                        log::add('collect', 'info', 'La commande : ' . $this->getHumanName() . ' est marquée à collecter');
                     }
                     return $mc->getValue();
                 }

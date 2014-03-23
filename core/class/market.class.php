@@ -331,7 +331,9 @@ class market {
                 }
                 $zip = new ZipArchive;
                 if ($zip->open($tmp) === TRUE) {
-                    $zip->extractTo($cibDir . '/');
+                    if(!$zip->extractTo($cibDir . '/')){
+                        throw new Exception('Impossible d\'installer le plugin. Les fichiers n\'ont pu etre décompressés');
+                    }
                     $zip->close();
                     try {
                         $plugin = new plugin($this->getLogicalId());
