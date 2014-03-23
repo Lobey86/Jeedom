@@ -57,7 +57,7 @@ class cache {
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cache
-                WHERE `key` LIKE key';
+                WHERE `key` LIKE :key';
         $caches = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
         foreach ($caches as $cache) {
             if ($cache->hasExpired()) {
