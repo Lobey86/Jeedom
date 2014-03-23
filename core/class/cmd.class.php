@@ -616,6 +616,7 @@ class cmd {
     }
 
     public function toHtml($_version = 'dashboard', $options = '') {
+        $startTime = getmicrotime();
         $html = '';
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType();
         $template_name .= '.' . $this->getTemplate($_version, 'default');
@@ -730,6 +731,7 @@ class cmd {
                 }
                 break;
         }
+        log::add('cmd','debug','Temps de génération de '.$this->getHumanName().'  : '.round(getmicrotime() - $startTime, 3).'s');
         return $html;
     }
 
