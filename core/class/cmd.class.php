@@ -507,7 +507,6 @@ class cmd {
      * @throws Exception
      */
     public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
-        log::add('cmd', 'debug', 'Demande pour la commande : ' . $this->getHumanName() . ' avec comme option : ' . print_r($_options, true) . ' et cache  : ' . $cache);
         if ($this->getEqLogic()->getIsEnable() != 1) {
             throw new Exception('Cet équipement est désactivé : ' . $this->getEqLogic()->getHumanName());
         }
@@ -519,7 +518,6 @@ class cmd {
             if (!$mc->hasExpired() || $cache == 2) {
                 if ($mc->hasExpired()) {
                     $this->setCollect(1);
-                    log::add('collect', 'info', 'La commande : ' . $this->getHumanName() . ' est marquée à collecter');
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
                 return $mc->getValue();
@@ -528,7 +526,6 @@ class cmd {
                 return null;
             }
         }
-        log::add('cmd', 'debug', 'Exécution de la commande : ' . $this->getHumanName());
 
         $eqLogic = $this->getEqLogic();
         $type = $eqLogic->getEqType_name();
