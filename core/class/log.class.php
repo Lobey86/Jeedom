@@ -35,14 +35,13 @@ class log {
     public static function add($_log, $_type, $_message) {
         $_type = strtolower($_type);
         if (self::isTypeLog($_type)) {
-            $_message = str_replace("\n", '<br/>', $_message);
-            $_message = str_replace(";", ',', $_message);
+            $_message = str_replace(";", ',', str_replace("\n", '<br/>', $_message));
             $path = self::getPathToLog($_log);
             $message = date("d-m-Y H:i:s") . ' | ' . $_type . ' | ' . $_message . "\r\n";
             $log = fopen($path, "a+");
             fputs($log, $message);
             fclose($log);
-            if (config::byKey('addMessageForErrorLog') == 1 && $_type == 'error') {
+            if ($_type == 'error' && config::byKey('addMessageForErrorLog') == 1) {
                 @message::add($_log, $_message);
             }
         }
