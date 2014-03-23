@@ -512,6 +512,7 @@ class cmd {
      * @throws Exception
      */
     public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
+        log::add('cmd', 'debug', 'Execution de la commande : ' . $this->getHumanName() . ' avec comme option : ' . print_r($_options, true) . ' et cache  : ' . $cache);
         if ($this->getEqLogic()->getIsEnable() != 1) {
             throw new Exception('Cet équipement est désactivé : ' . $this->getEqLogic()->getHumanName());
         }
@@ -528,6 +529,7 @@ class cmd {
                         $this->save();
                         log::add('collect', 'info', 'La commande : ' . $this->getHumanName() . ' est marquée à collecter');
                     }
+                    log::add('cmd', 'debug', 'Renvoi de la valuer en cache pour la commande : ' . $this->getHumanName());
                     return $mc->getValue();
                 }
             }
@@ -731,7 +733,7 @@ class cmd {
                 }
                 break;
         }
-        log::add('cmd','debug','Temps de génération de '.$this->getHumanName().'  : '.round(getmicrotime() - $startTime, 3).'s');
+        log::add('cmd', 'debug', 'Temps de génération de ' . $this->getHumanName() . '  : ' . round(getmicrotime() - $startTime, 3) . 's');
         return $html;
     }
 
