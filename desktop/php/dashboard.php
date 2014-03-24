@@ -76,7 +76,6 @@ if (!is_array($objects)) {
                 }
             }
             foreach (object::buildTree($object) as $child) {
-                //if (count($child->getEqLogic()) > 0) {
                 $margin = 40 * $child->parentNumber();
                 echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
                 echo '<legend>' . $child->getName() . '</legend>';
@@ -86,7 +85,6 @@ if (!is_array($objects)) {
                     }
                 }
                 echo '</div>';
-                //}
             }
             echo '</div>';
         }

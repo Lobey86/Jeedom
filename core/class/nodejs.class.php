@@ -28,9 +28,8 @@ class nodejs {
         $url = self::baseUrl() . 'type=notify&category=' . $_category . '&title=' . urlencode($_title) . '&text=' . urlencode($_text);
         try {
             self::send($url);
-            log::add('nodejs', 'info', 'Message categorie : ' . $_category . ' / Titre : ' . $_title . ' / Message : ' . $_text);
         } catch (Exception $e) {
-            //log::add('nodejs', 'error', 'Erreur curl (push sur client) : ' . $e->getMessage());
+            
         }
         return true;
     }
@@ -42,9 +41,8 @@ class nodejs {
         $url = self::baseUrl() . 'type=' . urlencode($_event) . '&options=' . urlencode($_option);
         try {
             self::send($url);
-            log::add('nodejs', 'info', 'Event : ' . $_event . ' / Options : ' . $_option);
         } catch (Exception $e) {
-            //log::add('nodejs', 'error', 'Erreur curl (push sur client : ' . $_event . ' : ' . $_eqLogic_id . ') : ' . $e->getMessage());
+            
         }
     }
 
@@ -53,7 +51,7 @@ class nodejs {
         try {
             self::send($url);
         } catch (Exception $e) {
-            //log::add('nodejs', 'error', 'Erreur curl (push sur client : newChatMessage : ' . $_userFromId . ' : ' . $_userDestId . ' : ' . $_message . ') : ' . $e->getMessage());
+            
         }
     }
 

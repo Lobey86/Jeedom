@@ -37,6 +37,7 @@ class scenario {
     private $timeout = 0;
     private $object_id = null;
     private $isVisible = 1;
+    private static $_templateArray;
 
     /*     * ***********************Methode static*************************** */
 
@@ -221,7 +222,13 @@ class scenario {
             '#lastLaunch#' => $this->getLastLaunch(),
             '#scenarioLink#' => $this->getLinkToConfiguration(),
         );
-        $html = template_replace($replace, getTemplate('core', $_version, 'scenario'));
+        if (!isset(self::$_templateArray)) {
+            self::$_templateArray = array();
+        }
+        if (!isset(self::$_templateArray[$_version])) {
+            self::$_templateArray[$_version] = getTemplate('core', $_version, 'scenario');
+        }
+        $html = template_replace($replace, self::$_templateArray[$_version]);
         return $html;
     }
 

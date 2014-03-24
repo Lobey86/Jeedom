@@ -230,7 +230,6 @@ class jeedom {
             }
             $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
             if ($c->isDue()) {
-                log::add('cache', 'debug', 'Persistance du cache');
                 cache::persist();
             }
         } catch (Exception $e) {

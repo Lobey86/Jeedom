@@ -240,7 +240,6 @@ class history {
      * les mets dans la BDD et archive celle-ci
      */
     public static function historize() {
-        $logMessage = 'Lancement de jeeHistory à ' . date('H:i:s');
         $listHistorizedCmd = cmd::allHistoryCmd(true);
         foreach ($listHistorizedCmd as $cmd) {
             try {
@@ -254,7 +253,6 @@ class history {
                 
             }
         }
-        log::add('history', 'Info', $logMessage . ' fin à ' . date('H:i:s'));
     }
 
     public static function emptyHistory($_cmd_id) {

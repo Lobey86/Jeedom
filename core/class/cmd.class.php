@@ -35,11 +35,11 @@ class cmd {
     protected $configuration;
     protected $template;
     protected $display;
-    protected $collect = 0;
     protected $_collectDate = '';
     protected $value = null;
     protected $isVisible = 1;
     protected $_internalEvent = 0;
+    private static $_templateArray;
 
     /*     * ***********************Methode static*************************** */
 
@@ -242,15 +242,10 @@ class cmd {
     }
 
     public static function collect() {
-        $sql = 'SELECT id
-                FROM cmd
-                WHERE collect=1
-                    AND eventOnly=0
-                ORDER BY eqLogic_id';
-        $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
+        $caches = cache::search('collect');
         $cmd = null;
-        foreach ($results as $result) {
-            $cmd = self::byId($result['id']);
+        foreach ($caches as $cache) {
+            $cmd = self::byId($cache->getValue());
             if (is_object($cmd)) {
                 if ($cmd->getEqLogic()->getIsEnable() == 1) {
                     $cmd->execCmd(null, 1, false);
@@ -520,16 +515,12 @@ class cmd {
         }
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId());
-            if ($mc->getValue() !== '') {
-                $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
-                if (!$mc->hasExpired() || $cache == 2) {
-                    if ($mc->hasExpired()) {
-                        $this->setCollect(1);
-                        $this->save();
-                        log::add('collect', 'info', 'La commande : ' . $this->getHumanName() . ' est marquée à collecter');
-                    }
-                    return $mc->getValue();
+            if (!$mc->hasExpired() || $cache == 2) {
+                if ($mc->hasExpired()) {
+                    $this->setCollect(1);
                 }
+                $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
+                return $mc->getValue();
             }
             if ($this->getEventOnly() == 1) {
                 return null;
@@ -604,7 +595,6 @@ class cmd {
                 $this->setCollectDate(date('Y-m-d H:i:s'));
             }
             $this->setCollect(0);
-            $this->save();
             if ($_sendNodeJsEvent) {
                 nodejs::pushUpdate('eventCmd', $this->getId());
                 foreach (self::byValue($this->getId()) as $cmd) {
@@ -620,22 +610,29 @@ class cmd {
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType();
         $template_name .= '.' . $this->getTemplate($_version, 'default');
         $template = '';
-        try {
-            $template = getTemplate('core', $_version, $template_name);
-        } catch (Exception $e) {
-            if ($template == '') {
-                foreach (plugin::listPlugin(true) as $plugin) {
-                    try {
-                        $template = getTemplate('core', $_version, $template_name, $plugin->getId());
-                    } catch (Exception $e) {
-                        
+        if (!is_array(self::$_templateArray)) {
+            self::$_templateArray == array();
+        }
+        if (!isset(self::$_templateArray[$_version . '::' . $template_name])) {
+            try {
+                $template = getTemplate('core', $_version, $template_name);
+            } catch (Exception $e) {
+                if ($template == '') {
+                    foreach (plugin::listPlugin(true) as $plugin) {
+                        try {
+                            $template = getTemplate('core', $_version, $template_name, $plugin->getId());
+                        } catch (Exception $e) {
+                            
+                        }
                     }
                 }
             }
-        }
-        if ($template == '') {
-            $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
-            $template = getTemplate('core', $_version, $template_name);
+            if ($template == '') {
+                $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
+                $template = getTemplate('core', $_version, $template_name);
+            }
+        } else {
+            self::$_templateArray[$_version . '::' . $template_name] = $template;
         }
         $replace = array(
             '#id#' => $this->getId(),
@@ -645,7 +642,7 @@ class cmd {
         $replace['#displayHistory#'] = 'display : none;';
         switch ($this->getType()) {
             case "info":
-                $replace['#unite#'] = ($this->getUnite() != '') ? $this->getUnite() : '';
+                $replace['#unite#'] = $this->getUnite();
                 $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
                 $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
                 $replace['#state#'] = '';
@@ -745,13 +742,9 @@ class cmd {
                     $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
                     $this->addHistoryValue($_value);
                 }
-                $message = 'Message venant de ' . $this->getHumanName() . ' : ' . $_value;
-                log::add($eqLogic->getEqType_name(), 'Event', $message . ' / cache lifetime => ' . $this->getCacheLifetime());
+                log::add($eqLogic->getEqType_name(), 'Event', 'Message venant de ' . $this->getHumanName() . ' : ' . $_value . ' / cache lifetime => ' . $this->getCacheLifetime());
                 cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
-                if ($this->getCollect() == 1) {
-                    $this->setCollect(0);
-                    $this->save();
-                }
+                $this->setCollect(0);
                 nodejs::pushUpdate('eventCmd', $this->getId());
                 foreach (self::byValue($this->getId()) as $cmd) {
                     nodejs::pushUpdate('eventCmd', $cmd->getId());
@@ -822,6 +815,15 @@ class cmd {
 
     public function getHistory($_dateStart = null, $_dateEnd = null) {
         return history::all($this->id, $_dateStart, $_dateEnd);
+    }
+
+    public function setCollect($collect) {
+        if ($collect == 1) {
+            cache::set('collect' . $this->getId(), $this->getId());
+        } else {
+            $cache = cache::byKey('collect' . $this->getId());
+            $cache->remove();
+        }
     }
 
     /*     * **********************Getteur Setteur*************************** */
@@ -936,14 +938,6 @@ class cmd {
 
     public function setDisplay($_key, $_value) {
         $this->display = utils::setJsonAttr($this->display, $_key, $_value);
-    }
-
-    public function getCollect() {
-        return $this->collect;
-    }
-
-    public function setCollect($collect) {
-        $this->collect = $collect;
     }
 
     public function getCollectDate() {

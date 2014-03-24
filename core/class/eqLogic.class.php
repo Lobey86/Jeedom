@@ -36,6 +36,7 @@ class eqLogic {
     protected $category;
     protected $_internalEvent = 0;
     protected $_debug = false;
+    private static $_templateArray;
 
     /*     * ***********************Methode static*************************** */
 
@@ -179,7 +180,7 @@ class eqLogic {
         $values = array(
             'category' => '%"' . $_category . '":1%'
         );
-   
+
         $sql = 'SELECT id
                 FROM eqLogic
                 WHERE category LIKE :category
@@ -344,12 +345,12 @@ class eqLogic {
             return $_input;
         }
         $text = $_input;
-        preg_match_all("/#([0-9]*)#/", $text, $matches);
+        preg_match_all("/#eqLogic([0-9]*)#/", $text, $matches);
         foreach ($matches[1] as $eqLogic_id) {
             if (is_numeric($eqLogic_id)) {
                 $eqLogic = self::byId($eqLogic_id);
                 if (is_object($eqLogic)) {
-                    $text = str_replace('#' . $eqLogic_id . '#', '#' . $eqLogic->getHumanName() . '#', $text);
+                    $text = str_replace('#eqLogic' . $eqLogic_id . '#', '#' . $eqLogic->getHumanName() . '#', $text);
                 }
             }
         }
@@ -395,7 +396,7 @@ class eqLogic {
                 if (isset($matches[1][$i]) && isset($matches[2][$i])) {
                     $eqLogic = self::byObjectNameEqLogicName($matches[1][$i], $matches[2][$i]);
                     if (is_object($eqLogic)) {
-                        $text = str_replace($matches[0][$i], '#' . $eqLogic->getId() . '#', $text);
+                        $text = str_replace($matches[0][$i], '#eqLogic' . $eqLogic->getId() . '#', $text);
                     }
                 }
             }
@@ -437,8 +438,13 @@ class eqLogic {
             '#object_name#' => (is_object($object)) ? $object->getName() . ' - ' : '',
             '#background_color#' => $this->getBackgroundColor(),
         );
-
-        $html = template_replace($replace, getTemplate('core', $_version, 'eqLogic'));
+        if (!isset(self::$_templateArray)) {
+            self::$_templateArray = array();
+        }
+        if (!isset(self::$_templateArray[$_version])) {
+            self::$_templateArray[$_version] = getTemplate('core', $_version, 'eqLogic');
+        }
+        $html = template_replace($replace, self::$_templateArray[$_version]);
         return $html;
     }
 
