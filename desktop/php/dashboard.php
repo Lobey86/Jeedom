@@ -45,7 +45,7 @@ if (!is_array($objects)) {
 
     <div class="col-lg-8">
 
-        <div style="position: fixed;width: 100%;z-index: 9999;top : 50px;left : 35%">
+        <div style="position: fixed;width: 100%;z-index: 1029;top : 50px;left : 35%">
             <div class="btn-group">
                 <?php
                 if (init('category', 'all') == 'all') {
