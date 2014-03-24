@@ -25,17 +25,17 @@ if (!is_array($objects)) {
                 <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 if (init('object_id') == 'global') {
-                    echo '<li class="cursor li_object active"><a href="index.php?v=d&p=dashboard&object_id=global&category=' . init('category','all') . '">Global</a></li>';
+                    echo '<li class="cursor li_object active"><a href="index.php?v=d&p=dashboard&object_id=global&category=' . init('category', 'all') . '">Global</a></li>';
                 } else {
-                    echo '<li class="cursor li_object"><a href="index.php?v=d&p=dashboard&object_id=global&category=' . init('category','all') . '">Global</a></li>';
+                    echo '<li class="cursor li_object"><a href="index.php?v=d&p=dashboard&object_id=global&category=' . init('category', 'all') . '">Global</a></li>';
                 }
                 $allObject = object::buildTree();
                 foreach ($allObject as $object_li) {
                     $margin = 15 * $object_li->parentNumber();
                     if ($object_li->getId() == init('object_id')) {
-                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category','all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
+                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
                     } else {
-                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category','all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
+                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
                     }
                 }
                 ?>
@@ -45,9 +45,8 @@ if (!is_array($objects)) {
 
     <div class="col-lg-8">
 
-        <center>
+        <div style="position: fixed;width: 100%;z-index: 9999;top : 50px;left : 35%">
             <div class="btn-group">
-
                 <?php
                 if (init('category', 'all') == 'all') {
                     echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-primary categoryAction">Toutes</a>';
@@ -63,7 +62,8 @@ if (!is_array($objects)) {
                 }
                 ?>
             </div>
-        </center>
+        </div>
+        <div style="height: 10px;width: 100%;"></div>
 
 
         <?php
