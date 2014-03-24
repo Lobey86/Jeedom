@@ -93,6 +93,13 @@ if (!is_array($objects)) {
     <div class="col-lg-2">
         <legend>Scénarios</legend>
         <?php
+        if (init('object_id') == 'global') {
+            foreach (scenario::byObjectId(null) as $scenario) {
+                if ($scenario->getIsVisible() == 1) {
+                    echo $scenario->toHtml('dashboard');
+                }
+            }
+        }
         foreach ($objects as $object) {
             foreach ($object->getScenario() as $scenario) {
                 if ($scenario->getIsVisible() == 1) {
@@ -101,13 +108,6 @@ if (!is_array($objects)) {
             }
             foreach ($object->getChilds() as $child) {
                 foreach ($child->getScenario() as $scenario) {
-                    if ($scenario->getIsVisible() == 1) {
-                        echo $scenario->toHtml('dashboard');
-                    }
-                }
-            }
-            if (init('object_id') == 'global') {
-                foreach (scenario::byObjectId(null) as $scenario) {
                     if ($scenario->getIsVisible() == 1) {
                         echo $scenario->toHtml('dashboard');
                     }
