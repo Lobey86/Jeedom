@@ -49,9 +49,9 @@ if (!is_array($objects)) {
             <div class="btn-group">
                 <?php
                 if (init('category', 'all') == 'all') {
-                    echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-primary categoryAction">Toutes</a>';
+                    echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-primary categoryAction">Tous</a>';
                 } else {
-                    echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-default categoryAction">Toutes</a>';
+                    echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-default categoryAction">Tous</a>';
                 }
                 foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
                     if (init('category', 'all') == $key) {
