@@ -26,15 +26,22 @@ if ($plugin != '') {
 <!DOCTYPE html> 
 <html manifest="mobile/php/app.manifest">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"> 
-        <meta name="apple-mobile-web-app-capable" content="yes" >
-        <meta name="mobile-web-app-capable" content="yes" >
-        <META HTTP-EQUIV="Pragma" CONTENT="private">
-        <META HTTP-EQUIV="Cache-Control" CONTENT="private, max-age=5400, pre-check=5400">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" /> 
+        <meta HTTP-EQUIV="Pragma" CONTENT="private">
+        <meta HTTP-EQUIV="Cache-Control" CONTENT="private, max-age=5400, pre-check=5400" />
+        <meta HTTP-EQUIV="Expires" CONTENT="<?php echo date(DATE_RFC822, strtotime("1 day")); ?>" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="apple-touch-icon" href="apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-startup-image" href="apple-touch-startup-image-320x460.png" />
+        <link rel="apple-touch-startup-image" sizes="768x1004" href="apple-touch-startup-image-768x1004.png" />
+        <link rel="shortcut icon" sizes="196x196" href="icon-196x196.png">
 
-        <link rel="apple-touch-startup-image" href="3rdparty/jquery.mobile/images/ajax-loader.png" />
-        <META HTTP-EQUIV="Expires" CONTENT="<?php echo date(DATE_RFC822, strtotime("1 day")); ?>">
+
         <title>Jeedom</title> 
         <?php
         include_file('3rdparty', 'jquery.mobile/jquery.mobile', 'css');
