@@ -331,7 +331,7 @@ class market {
                 }
                 $zip = new ZipArchive;
                 if ($zip->open($tmp) === TRUE) {
-                    if(!$zip->extractTo($cibDir . '/')){
+                    if (!$zip->extractTo($cibDir . '/')) {
                         throw new Exception('Impossible d\'installer le plugin. Les fichiers n\'ont pu etre décompressés');
                     }
                     $zip->close();
@@ -396,6 +396,11 @@ class market {
             case 'plugin' :
                 $cibDir = realpath(dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId());
                 $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getLogicalId() . '.zip';
+                if (file_exists($tmp)) {
+                    if (!unlink($tmp)) {
+                        throw new Exception('Impossible de supprimer : ' . $tmp . '. Vérifiez les droits');
+                    }
+                }
                 if (!create_zip($cibDir, $tmp)) {
                     throw new Exception('Echec de création du zip');
                 }

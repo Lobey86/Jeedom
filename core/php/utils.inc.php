@@ -349,8 +349,7 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
                 if ($pattern !== '*') {
                     if (in_array($this_folder, $matching_folders))
                         array_push($all, $this_folder);
-                }
-                else
+                } else
                     array_push($all, $this_folder);
             }
 
@@ -371,15 +370,15 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
         global $current_dir;
         $current_dir = $folder;
         usort($all, function($a, $b) {
-                    return filemtime($GLOBALS['current_dir'] . '/' . $a) < filemtime($GLOBALS['current_dir'] . '/' . $b);
-                });
+            return filemtime($GLOBALS['current_dir'] . '/' . $a) < filemtime($GLOBALS['current_dir'] . '/' . $b);
+        });
     }
     if (in_array('datetime_desc', $options)) {
         global $current_dir;
         $current_dir = $folder;
         usort($all, function($a, $b) {
-                    return filemtime($GLOBALS['current_dir'] . '/' . $a) > filemtime($GLOBALS['current_dir'] . '/' . $b);
-                });
+            return filemtime($GLOBALS['current_dir'] . '/' . $a) > filemtime($GLOBALS['current_dir'] . '/' . $b);
+        });
     }
 
     return $all;
@@ -416,12 +415,15 @@ function rcopy($src, $dst, $_emptyDest = true, $_exclude = array()) {
         $files = scandir($src);
         foreach ($files as $file) {
             if ($file != "." && $file != ".." && !in_array($file, $_exclude)) {
-                rcopy("$src/$file", "$dst/$file", $_exclude);
+                if (!rcopy("$src/$file", "$dst/$file", $_exclude)) {
+                    return false;
+                }
             }
         }
     } else if (file_exists($src)) {
-        copy($src, $dst);
+        return copy($src, $dst);
     }
+    return true;
 }
 
 // removes files and non-empty directories
@@ -433,10 +435,13 @@ function rrmdir($dir) {
                 rrmdir("$dir/$file");
             }
         }
-        rmdir($dir);
+        if (!rmdir($dir)) {
+            return false;
+        }
     } else if (file_exists($dir)) {
-        unlink($dir);
+        return unlink($dir);
     }
+    return true;
 }
 
 function convertDayEnToFr($_day) {
@@ -492,18 +497,17 @@ function convertDayEnToFr($_day) {
     return $_day;
 }
 
-
 function create_zip($source_arr, $destination) {
     if (is_string($source_arr))
         $source_arr = array($source_arr); // convert it to array
 
     if (!extension_loaded('zip')) {
-        return false;
+        throw new Exception('Extension php ZIP non chargée');
     }
 
     $zip = new ZipArchive();
     if (!$zip->open($destination, ZIPARCHIVE::CREATE)) {
-        return false;
+        throw new Exception('Impossible de creer l\'archive ZIP dans le dossier de destination : ' . $destination);
     }
 
     foreach ($source_arr as $source) {
@@ -515,13 +519,13 @@ function create_zip($source_arr, $destination) {
             $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
 
             foreach ($files as $file) {
-                if(strpos($file, $source) === false){
+                if (strpos($file, $source) === false) {
                     continue;
                 }
-                if($file == $source.'/..'){
+                if ($file == $source . '/..') {
                     continue;
                 }
-                if($file == $source.'/.'){
+                if ($file == $source . '/.') {
                     continue;
                 }
                 $file = str_replace('\\', '/', realpath($file));
