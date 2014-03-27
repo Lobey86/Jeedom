@@ -22,6 +22,22 @@ $(document).on('pagecontainershow', function() {
     $(document).ajaxStop(function() {
         $.hideLoading();
     });
+
+
+    if ($('.rightpanel').length > 0) {
+        if (window.innerWidth > 800) {
+            setTimeout(function() {
+                $(".rightpanel").panel("open")
+            }, 10);
+        }
+    } else {
+        $('.bt_rightpanel').remove();
+        if (window.innerWidth > 800) {
+            setTimeout(function() {
+                $(".leftpanel").panel("open")
+            }, 10);
+        }
+    }
 });
 
 /*! Normalized address bar hiding for iOS & Android (c) @scottjehl MIT License */
@@ -57,33 +73,6 @@ $(document).on('pagecontainershow', function() {
         }, false);
     }
 })(this);
-
-/*
- $("#leftpanel").panel({
- create: function(event, ui) {
- if ($('#rightpanel').length == 0) {
- $('a[href=#rightpanel]').remove();
- if (window.innerWidth > 800) {
- setTimeout(function() {
- $("#leftpanel").panel("open")
- }, 10);
- }
- }
- },
- });
- 
- $("#rightpanel").panel({
- create: function(event, ui) {
- if ($('#rightpanel').length != 0) {
- if (window.innerWidth > 800) {
- setTimeout(function() {
- $("#rightpanel").panel("open")
- }, 10);
- }
- }
- },
- });*/
-
 
 function refreshMessageNumber() {
     $.ajax({// fonction permettant de faire de l'ajax

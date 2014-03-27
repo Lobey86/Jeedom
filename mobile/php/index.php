@@ -22,6 +22,7 @@ if ($plugin != '') {
         $title = $plugin->getName();
     }
 }
+$uniquePhpId = time();
 ?>
 <!DOCTYPE html> 
 <html manifest="mobile/php/app.manifest">
@@ -64,9 +65,9 @@ if ($plugin != '') {
                     <img src="../../core/img/jeedom_ico.png" height="17" width="18" style="position: relative; top : 3px;"/>eedom
                     <span class="horloge"><?php echo date('H:i:s'); ?></span>
                 </h1>
-                <a href="#leftpanel" data-icon="bars" data-iconpos="notext">Menu</a>
+                <a href="#leftpanel<?php echo $uniquePhpId ?>" class="bt_leftpanel" data-icon="bars" data-iconpos="notext">Menu</a>
 
-                <a href="#rightpanel" data-icon="gear" data-iconpos="notext">Options</a>
+                <a href="#rightpanel<?php echo $uniquePhpId ?>" class="bt_rightpanel" data-icon="gear" data-iconpos="notext">Options</a>
             </div><!-- /header -->
             <br/>
             <div data-role="content" id='pagecontainer'>
@@ -111,7 +112,7 @@ if ($plugin != '') {
             </div><!-- /footer -->
 
 
-            <div data-role="panel" id="leftpanel" data-position="left" data-display="push" data-theme="b" data-position-fixed="true" data-animate="false" class="ui-icon-alt">
+            <div data-role="panel" id="leftpanel<?php echo $uniquePhpId ?>" data-position="left" data-display="push" data-theme="b" data-position-fixed="true" data-animate="false" class="ui-icon-alt">
                 <ul data-role="listview">
                     <li><a href="index.php?v=m&p=home" data-icon="home"><i class="fa fa-home"></i> Accueil</a></li>
                     <li><a href="index.php?v=m&p=equipment" data-theme="a"><i class="fa fa fa-tachometer" ></i> Equipements </a></li>
@@ -130,7 +131,7 @@ if ($plugin != '') {
             </div>
 
             <?php if (isset($rightPanel)) { ?>
-                <div data-role="panel" id="rightpanel" data-position="right" data-display="push" data-dismissible="false" data-animate="false" data-position-fixed="true" data-theme="a" class="ui-icon-alt" >
+                <div data-role="panel" id="rightpanel<?php echo $uniquePhpId ?>" class='rightpanel' data-position="right" data-display="push" data-dismissible="false" data-animate="false" data-position-fixed="true" data-theme="a" class="ui-icon-alt" >
                     <?php echo $rightPanel; ?>
                 </div>
             <?php } ?>
