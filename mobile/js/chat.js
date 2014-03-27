@@ -19,7 +19,7 @@ chat.client.sendMessage = function(_message) {
 };
 
 $(document).on('pagecontainershow', function() {
-    $("#rightpanel").panel().panel("open");
+    $(".rightpanel").panel().panel("open");
 
     $("#messageText").keypress(function(e) {
         if (e.which == 13) {

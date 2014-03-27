@@ -3,6 +3,7 @@ if (!isConnect()) {
     include_file('mobile', '401', 'php');
     die();
 }
+$uniquePhpId = time();
 ?>
 <div class="ui-grid-a">
     <div class="ui-block-a">
