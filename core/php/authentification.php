@@ -87,14 +87,6 @@ function logout() {
     $_SESSION['user'] == null;
     session_unset();
     session_destroy();
-
-    if ($_GET['v'] != 'm') {
-        if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
-            header("location:../../index.php");
-        } else {
-            header("location:../../index.php");
-        }
-    }
     return;
 }
 
