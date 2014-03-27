@@ -20,6 +20,7 @@ function jeedom() {
 
 jeedom.cache = Array();
 jeedom.nodeJs  = {state : -1};
+jeedom.chat  = {state : false};
 
 jeedom.init = function() {
     Highcharts.setOptions({

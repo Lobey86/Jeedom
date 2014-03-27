@@ -18,11 +18,8 @@ chat.client.sendMessage = function(_message) {
     });
 };
 
-$(document).on('pagecontainershow',function(){
-    
-    if (getUrlVars('p') == 'chat' && otherUserId == '') {
-        $("#rightpanel").panel().panel("open");
-    }
+$(document).on('pagecontainershow', function() {
+    $("#rightpanel").panel().panel("open");
 
     $("#messageText").keypress(function(e) {
         if (e.which == 13) {
@@ -39,8 +36,13 @@ $(document).on('pagecontainershow',function(){
     });
 
     $('body').one('nodeJsConnect', function() {
-        chatAdapter = new jeedomChatAdapter();
-        chatAdapter.init(chat, chatInitFinish);
+        if (jeedom.chat.state === false) {
+            chatAdapter = new jeedomChatAdapter();
+            chatAdapter.init(chat, chatInitFinish);
+            jeedom.chat.state = true;
+        }else{
+            chatInitFinish();
+        }
         socket.on('refreshUserList', function(_connectUserList) {
             if (_connectUserList != null) {
                 $.ajax({// fonction permettant de faire de l'ajax

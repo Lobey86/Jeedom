@@ -147,11 +147,6 @@ if ($plugin != '') {
             include_file('core', 'js.inc', 'php');
             include_file('core', 'core', 'js');
             include_file('3rdparty', 'jquery.include/jquery.include', 'js');
-
-            if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
-                include_file('mobile', 'chat', 'js');
-                include_file('core', 'chatAdapter', 'js');
-            }
         }
         ?>
         <script>
