@@ -1,4 +1,5 @@
-$(function() {
+$(document).on('pagecontainershow', function() {
+
     /*********************Gestion de l'heure********************************/
     setInterval(function() {
         var date = new Date();
@@ -11,7 +12,7 @@ $(function() {
         horloge += (minute < 10) ? '0' + minute : minute;
         horloge += ':';
         horloge += (seconde < 10) ? '0' + seconde : seconde;
-        $('#horloge').text(horloge);
+        $('.horloge').text(horloge);
     }, 1000);
 
     // Ajax Loading Screen
@@ -21,19 +22,6 @@ $(function() {
     $(document).ajaxStop(function() {
         $.hideLoading();
     });
-
-    $("body").fixedtoolbar({tapToggle: false});
-
-    if (navigator.userAgent.match(/Android/i)) {
-        window.scrollTo(0, 0); // reset in case prev not scrolled  
-        var nPageH = $(document).height();
-        var nViewH = window.outerHeight;
-        if (nViewH > nPageH) {
-            nViewH -= 250;
-            $('body').css('height', nViewH + 'px');
-        }
-        window.scrollTo(0, 1);
-    }
 });
 
 /*! Normalized address bar hiding for iOS & Android (c) @scottjehl MIT License */
@@ -70,31 +58,31 @@ $(function() {
     }
 })(this);
 
-
-$("#leftpanel").panel({
-    create: function(event, ui) {
-        if ($('#rightpanel').length == 0) {
-            $('a[href=#rightpanel]').remove();
-            if (window.innerWidth > 800) {
-                setTimeout(function() {
-                    $("#leftpanel").panel("open")
-                }, 10);
-            }
-        }
-    },
-});
-
-$("#rightpanel").panel({
-    create: function(event, ui) {
-        if ($('#rightpanel').length != 0) {
-            if (window.innerWidth > 800) {
-                setTimeout(function() {
-                    $("#rightpanel").panel("open")
-                }, 10);
-            }
-        }
-    },
-});
+/*
+ $("#leftpanel").panel({
+ create: function(event, ui) {
+ if ($('#rightpanel').length == 0) {
+ $('a[href=#rightpanel]').remove();
+ if (window.innerWidth > 800) {
+ setTimeout(function() {
+ $("#leftpanel").panel("open")
+ }, 10);
+ }
+ }
+ },
+ });
+ 
+ $("#rightpanel").panel({
+ create: function(event, ui) {
+ if ($('#rightpanel').length != 0) {
+ if (window.innerWidth > 800) {
+ setTimeout(function() {
+ $("#rightpanel").panel("open")
+ }, 10);
+ }
+ }
+ },
+ });*/
 
 
 function refreshMessageNumber() {

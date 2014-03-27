@@ -49,7 +49,7 @@ if (init('login') != '' && init('login') != '') {
     login(init('login'), init('mdp'));
 }
 
-if (isset($_GET['logout'])) {
+if (init('logout') == 1) {
     logout();
 }
 
@@ -66,19 +66,35 @@ function login($_login, $_password) {
         foreach ($_GET AS $var => $value) {
             $getParams.= $var . '=' . $value . '&';
         }
-        header('Location: ../../index.php?' . trim($getParams, '&'));
+        if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
+            header('Location:../../index.php?' . trim($getParams, '&'));
+        } else {
+            header('Location:index.php?' . trim($getParams, '&'));
+        }
         return;
     }
     sleep(5);
-    header('Location:../../index.php?v=' . $_GET['v'] . '&error=1');
+    if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
+        header('Location:../../index.php?v=' . $_GET['v'] . '&error=1');
+    } else {
+        header('Location:index.php?v=' . $_GET['v'] . '&error=1');
+    }
     return;
 }
 
 function logout() {
     setcookie('sess_id', '', time() - 3600, "/", '', false, true);
+    $_SESSION['user'] == null;
     session_unset();
     session_destroy();
-    header("location: ../../index.php");
+
+    if ($_GET['v'] != 'm') {
+        if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
+            header("location:../../index.php");
+        } else {
+            header("location:../../index.php");
+        }
+    }
     return;
 }
 

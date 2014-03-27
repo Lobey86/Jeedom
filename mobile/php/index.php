@@ -53,22 +53,23 @@ if ($plugin != '') {
         include_file('3rdparty', 'jquery.mobile/jquery.mobile.min', 'js');
         include_file('3rdparty', 'highstock/highstock', 'js');
         include_file('3rdparty', 'highstock/highcharts-more', 'js');
-        include_file('core', 'core', 'js');
         ?>
 
     </head> 
     <body> 
         <div data-role="page" class="type-interior" id="div_container" data-title="Jeedom">
             <div data-role="header" data-theme="a" >
+                <!-- <a href="#" data-icon="back" data-rel="back" title="Retour" data-iconpos="notext">Retour</a> -->
                 <h1 style="margin: 0 10px;">
                     <img src="../../core/img/jeedom_ico.png" height="17" width="18" style="position: relative; top : 3px;"/>eedom
-                    <span id="horloge"><?php echo date('H:i:s'); ?></span>
+                    <span class="horloge"><?php echo date('H:i:s'); ?></span>
                 </h1>
                 <a href="#leftpanel" data-icon="bars" data-iconpos="notext">Menu</a>
+
                 <a href="#rightpanel" data-icon="gear" data-iconpos="notext">Options</a>
             </div><!-- /header -->
             <br/>
-            <div data-role="content">
+            <div data-role="content" id='pagecontainer'>
                 <a href="#div_alert" data-rel="popup" data-position-to="window"></a>
                 <div data-role="popup" id="div_alert"></div>
                 <?php
@@ -106,25 +107,25 @@ if ($plugin != '') {
             <br/>
             <div data-role="footer" data-theme="a" style="padding-top: 8px;padding-bottom: 5px;" >
                 <span style="margin-left: 0px;">&copy; Jeedom (v<?php echo getVersion('jeedom') ?>) <?php echo date('Y') ?> </span>
-                <span style="float: right;">Node JS <span id="span_nodeJsState" class="binary red"></span></span>
+                <span style="float: right;">Node JS <span class="span_nodeJsState binary red"></span></span>
             </div><!-- /footer -->
 
 
             <div data-role="panel" id="leftpanel" data-position="left" data-display="push" data-theme="b" data-position-fixed="true" data-animate="false" class="ui-icon-alt">
                 <ul data-role="listview">
-                    <li><a href="index.php?v=m" data-icon="home" data-ajax="false"><i class="fa fa-home"></i> Accueil</a></li>
-                    <li><a href="index.php?v=m&p=equipment" data-ajax="false" data-theme="a"><i class="fa fa fa-tachometer" ></i> Equipements </a></li>
-                    <li><a href="index.php?v=m&p=scenario" data-ajax="false" data-theme="a"><i class="fa fa-cogs"></i> Scénario</a></li>
-                    <li><a href="index.php?v=m&p=view" data-ajax="false" data-theme="a"><i class="fa fa-picture-o"></i> Vues</a></li>
+                    <li><a href="index.php?v=m&p=home" data-icon="home"><i class="fa fa-home"></i> Accueil</a></li>
+                    <li><a href="index.php?v=m&p=equipment" data-theme="a"><i class="fa fa fa-tachometer" ></i> Equipements </a></li>
+                    <li><a href="index.php?v=m&p=scenario" data-theme="a"><i class="fa fa-cogs"></i> Scénario</a></li>
+                    <li><a href="index.php?v=m&p=view" data-theme="a"><i class="fa fa-picture-o"></i> Vues</a></li>
                     <?php if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) { ?>
-                        <li><a href="index.php?v=m&p=chat" data-ajax="false" data-theme="a"><i class="fa fa-comment-o"></i> Chat</a></li>
+                        <li><a href="index.php?v=m&p=chat" data-theme="a"><i class="fa fa-comment-o"></i> Chat</a></li>
                     <?php } ?>
-                    <li><a href="index.php?v=m&p=message" data-ajax="false" data-theme="a"><i class="fa fa-envelope"></i> <span id="span_nbMessage"><?php echo message::nbMessage(); ?></span> Message(s)</a></li>
-                    <li><a href="index.php?v=m&p=log" data-ajax="false" data-theme="a"><i class="fa fa-file-o"></i> Log</a></li>
+                    <li><a href="index.php?v=m&p=message" data-theme="a"><i class="fa fa-envelope"></i> <span id="span_nbMessage"><?php echo message::nbMessage(); ?></span> Message(s)</a></li>
+                    <li><a href="index.php?v=m&p=log" data-theme="a"><i class="fa fa-file-o"></i> Log</a></li>
                     <?php if (isConnect('admin')) { ?>
-                        <li><a href="index.php?v=m&p=cron" data-ajax="false" data-theme="a"><i class="fa fa-tasks"></i> Cron</a></li>
+                        <li><a href="index.php?v=m&p=cron" data-theme="a"><i class="fa fa-tasks"></i> Cron</a></li>
                     <?php } ?>
-                    <li><a href="/core/php/authentification.php?logout=1" data-rel="dialog" data-ajax="false" data-theme="a"><i class="fa fa-sign-out"></i> Se deconnecter</a></li>
+                    <li><a href="index.php?v=m&logout=1" data-theme="a"><i class="fa fa-sign-out"></i> Se deconnecter</a></li>
                 </ul>
             </div>
 
@@ -141,9 +142,12 @@ if ($plugin != '') {
         include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
+        include_file('mobile', 'utils', 'js');
         if (isConnect()) {
+            include_file('core', 'js.inc', 'php');
+            include_file('core', 'core', 'js');
             include_file('3rdparty', 'jquery.include/jquery.include', 'js');
-            include_file('mobile', 'utils', 'js');
+
             if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
                 include_file('mobile', 'chat', 'js');
                 include_file('core', 'chatAdapter', 'js');

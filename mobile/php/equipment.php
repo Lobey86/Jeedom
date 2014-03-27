@@ -7,7 +7,7 @@ if (!isConnect()) {
 global $rightPanel;
 $rightPanel = '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ul_object ui-icon-alt">';
 foreach (object::all() as $object) {
-    $rightPanel .= '<li class="li_object"><a data-ajax="false" href="index.php?v=m&p=equipment&object_id=' . $object->getId() . '" object_id="' . $object->getId() . '" father_id="' . $object->getFather_id() . '">' . $object->getName() . '</a></li>';
+    $rightPanel .= '<li class="li_object"><a href="index.php?v=m&p=equipment&object_id=' . $object->getId() . '" object_id="' . $object->getId() . '" father_id="' . $object->getFather_id() . '">' . $object->getName() . '</a></li>';
 }
 $rightPanel .= '</ul>';
 

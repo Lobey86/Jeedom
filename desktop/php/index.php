@@ -181,7 +181,7 @@ $plugins_list = plugin::listPlugin();
                                         }
                                         ?>
                                         <li class="divider"></li>
-                                        <li><a href="core/php/authentification.php?logout"><i class="fa fa-sign-out"></i> Se déconnecter</a></li>
+                                        <li><a href="core/php/authentification.php?v=d&logout=1"><i class="fa fa-sign-out"></i> Se déconnecter</a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -260,7 +260,7 @@ $plugins_list = plugin::listPlugin();
         }
         ?>
         <footer>
-            <span class="pull-left">Node JS <span id="span_nodeJsState" class="binary red tooltips"></span> - </span>
+            <span class="pull-left">Node JS <span class="span_nodeJsState binary red tooltips"></span> - </span>
             <span class="pull-left">&copy; <a id="bt_jeedomAbout" class="cursor">Jeedom</a> (v<?php echo getVersion('jeedom') ?> 
                 <?php
                 $version = jeedom::needUpdate();

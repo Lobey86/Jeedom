@@ -18,84 +18,34 @@
 
 var CORE_chart = [];
 var socket = null;
-var chatAlreadyLoad = false;
 $(function() {
-    Highcharts.setOptions({
-        lang: {
-            months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-                'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-            shortMonths: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-                'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-            weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
-        }
-    });
-    if (nodeJsKey != '') {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "/nodeJS/socket.io/socket.io.js", // url du fichier php
-            data: {},
-            dataType: 'script',
-            statusCode: {
-                200: function() {
-                    $("head").append("<script type='text/javascript' src='/nodeJS/socket.io/socket.io.js'></script>");
-                    socket = io.connect();
-
-                    socket.on('error', function(reason) {
-                        console.log('Unable to connect Socket.IO', reason);
-                    });
-                    socket.on('connect', function() {
-                        socket.emit('authentification', nodeJsKey, user_id);
-                        $('#span_nodeJsState').removeClass('red').addClass('green');
-                        $('body').trigger('nodeJsConnect');
-                    });
-                    socket.on('authentification_failed', function() {
-                        notify('Node JS erreur', 'Erreur d\'authentification sur node JS, clef invalide', 'gritter-red');
-                        $('#span_nodeJsState').removeClass('green').addClass('red');
-                    });
-                    socket.on('eventCmd', function(cmd_id) {
-                        refreshCmdValue(cmd_id);
-                    });
-                    socket.on('eventScenario', function(scenario_id) {
-                        refreshScenarioValue(scenario_id);
-                    });
-                    socket.on('eventHistory', function(cmd_id) {
-                        refreshGraph(cmd_id);
-                    });
-                    socket.on('notify', function(title, text, category) {
-                        var theme = '';
-                        switch (init(category)) {
-                            case 'event' :
-                                if (init(userProfils.notifyEvent) == 'none') {
-                                    return;
-                                } else {
-                                    theme = userProfils.notifyEvent;
-                                }
-                                break;
-                            case 'scenario' :
-                                if (init(userProfils.notifyLaunchScenario) == 'none') {
-                                    return;
-                                } else {
-                                    theme = userProfils.notifyLaunchScenario;
-                                }
-                                break;
-                            case 'message' :
-                                if (init(userProfils.notifyNewMessage) == 'none') {
-                                    return;
-                                } else {
-                                    theme = userProfils.notifyNewMessage;
-                                }
-                                refreshMessageNumber();
-                                break;
-                        }
-                        notify(title, text, theme);
-                    });
-                }
-            }
-        });
-    } else {
-        $('#span_nodeJsState').removeClass('red').addClass('grey');
+    if (!$.mobile) {
+        jeedom.init();
     }
 });
+
+
+$(document).on('pagecontainershow', function() {
+    if ($.mobile) {
+        if (jeedom.nodeJs.state === null) {
+            $('.span_nodeJsState').removeClass('red').addClass('grey');
+        }
+        if (jeedom.nodeJs.state === true) {
+            setTimeout(function() {
+                $('body').trigger('nodeJsConnect');
+            }, 500);
+            $('.span_nodeJsState').removeClass('red').addClass('green');
+        }
+        if (jeedom.nodeJs.state === false) {
+            $('.span_nodeJsState').removeClass('green').addClass('red');
+        }
+        if (jeedom.nodeJs.state == -1) {
+            jeedom.init();
+        }
+    }
+});
+
+
 
 function execCmd(_id, _value, _cache) {
     if (init(_value) != '' && (is_array(_value) || is_object(_value))) {

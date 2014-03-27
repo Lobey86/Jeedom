@@ -1,4 +1,4 @@
-$(function() {
+$(document).on('pagecontainershow',function(){
 
     $("#bt_clearMessage").on('click', function(event) {
         $.ajax({// fonction permettant de faire de l'ajax

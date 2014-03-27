@@ -25,11 +25,11 @@ $rightPanel .= '<li><a id="bt_clearLog" href="#"><i class="fa fa-trash-o"></i> V
 $rightPanel .= '<li><a id="bt_removeLog" href="#"><i class="fa fa-times"></i> Supprimer</a></li>';
 $rightPanel .= '</ul>';
 $rightPanel .= '<br/><br/><br/>';
-$rightPanel .= '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt" data-ajax="false">';
+$rightPanel .= '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
 $rightPanel .= '<li data-role="list-divider">Logfile</li>';
 
 foreach ($list_logfile as $file) {
-    $rightPanel .= '<li><a href="index.php?v=m&p=log&logfile=' . $file . '" data-ajax="false">' . $file . '</a></li>';
+    $rightPanel .= '<li><a href="index.php?v=m&p=log&logfile=' . $file . '">' . $file . '</a></li>';
 }
 $rightPanel .= '</ul>';
 

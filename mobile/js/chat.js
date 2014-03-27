@@ -18,7 +18,8 @@ chat.client.sendMessage = function(_message) {
     });
 };
 
-$(function() {
+$(document).on('pagecontainershow',function(){
+    
     if (getUrlVars('p') == 'chat' && otherUserId == '') {
         $("#rightpanel").panel().panel("open");
     }
@@ -89,9 +90,9 @@ function printUserList(_userList) {
     for (var i in _userList) {
         if (_userList[i].Id != user_id) {
             if (_userList[i].Status == 1) {
-                ul += '<li><a href="index.php?v=m&p=chat&chat_user_id=' + _userList[i].Id + '" data-ajax="false"><i class="fa fa-circle pull-left"></i>' + _userList[i].Name + '</a></li>';
+                ul += '<li><a href="index.php?v=m&p=chat&chat_user_id=' + _userList[i].Id + '"><i class="fa fa-circle pull-left"></i>' + _userList[i].Name + '</a></li>';
             } else {
-                ul += '<li><a href="index.php?v=m&p=chat&chat_user_id=' + _userList[i].Id + '" data-ajax="false"><i class="fa fa-circle-o"></i>' + _userList[i].Name + '</a></li>';
+                ul += '<li><a href="index.php?v=m&p=chat&chat_user_id=' + _userList[i].Id + '"><i class="fa fa-circle-o"></i>' + _userList[i].Name + '</a></li>';
             }
         }
     }

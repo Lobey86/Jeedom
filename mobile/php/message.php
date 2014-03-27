@@ -18,10 +18,10 @@ $rightPanel .= '</ul>';
 $rightPanel .= '<br/><br/><br/>';
 $rightPanel .= '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
 $rightPanel .= '<li data-role="list-divider">Logfile</li>';
-$rightPanel .= '<li><a href="index.php?v=m&p=message" data-ajax="false">Tout</a></li>';
+$rightPanel .= '<li><a href="index.php?v=m&p=message">Tout</a></li>';
 
 foreach (message::listPlugin() as $plugin) {
-    $rightPanel .= '<li><a href="index.php?v=m&p=message&plugin=' . $plugin['plugin'] . '" data-ajax="false">' . $plugin['plugin'] . '</a></li>';
+    $rightPanel .= '<li><a href="index.php?v=m&p=message&plugin=' . $plugin['plugin'] . '">' . $plugin['plugin'] . '</a></li>';
 }
 $rightPanel .= '</ul>';
 ?>

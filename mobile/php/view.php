@@ -20,7 +20,7 @@ if (!is_object($view)) {
 global $rightPanel;
 $rightPanel = '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ul_object ui-icon-alt">';
 foreach (view::all() as $view_info) {
-    $rightPanel .= '<li class="li_view"><a data-ajax="false" href="index.php?v=m&p=view&id=' . $view_info->getId() . '">' . $view_info->getName() . '</a></li>';
+    $rightPanel .= '<li class="li_view"><a href="index.php?v=m&p=view&id=' . $view_info->getId() . '">' . $view_info->getName() . '</a></li>';
 }
 $rightPanel .= '</ul>';
 ?>

@@ -1,38 +1,11 @@
-<div style="width:160px; height:175px;display: inline-block;" class="#history# cmd" data-type="info" data-subtype="numeric" data-cmd_id="#id#" >
+<div class="cmd" data-type="info" data-subtype="string" data-cmd_id="#id#">
 
-    <span style="width:140px;height:140px;display: inline-block;vertical-align: top;">
-        <div id="cmd#id#"></div>
+    <span style="display : inline;white-space: nowrap;">
+        <a href="#tooltipsCmd#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline" style="margin-top: -20px;"></a>
+        <span class='ui-bar ui-bar-a' style="font-size: 1.3em;display: inline-block;">#name# : #state# #unite#</span>
     </span>
-    <span style="vertical-align: top; display : inline;white-space: nowrap;" >
-        <a href="#tooltipsCmd#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline" style="margin-right: 0em;"></a>
-        <span class="collectDate" style="font-size: 0.75em; #displayHistory#">
-            <span>#minHistoryValue#</span>|<span>#averageHistoryValue#</span>|<span>#maxHistoryValue#</span> <i class="#tendance#"></i>
-        </span>
-    </span>
+
     <div data-role="popup" id="tooltipsCmd#id#" class="ui-content" data-theme="a" style="max-width:350px;">
         #collectDate#
     </div>
-
-
-    <script>
-        $(function() {
-            $.include(['3rdparty/justGage/justgage.1.0.1.min.js', '3rdparty/justGage/raphael.2.1.0.min.js'], function() {
-                if (is_numeric('#state#')) {
-                    new JustGage({
-                        id: "cmd#id#",
-                        value: '#state#',
-                        min: '#minValue#',
-                        max: '#maxValue#',
-                        title: "#name#",
-                        label: "#unite#",
-                        decimals: 1,
-                        humanFriendly: true,
-                        startAnimationTime: 0
-                    });
-                } else {
-                    $('#cmd#id#').append('<span class="label label-danger">#state#</span>');
-                }
-            });
-        });
-    </script>
 </div>

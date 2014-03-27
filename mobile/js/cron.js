@@ -1,4 +1,4 @@
-$(function() {
+$(document).on('pagecontainershow',function(){
     printCron();
     $("#bt_refreshCron").on('click', function() {
         printCron();

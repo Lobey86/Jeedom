@@ -6,6 +6,8 @@ if (!isConnect()) {
 }
 
 foreach (scenario::all() as $scenario) {
-    echo $scenario->toHtml('mobile');
+    if ($scenario->getIsVisible() == 1) {
+        echo $scenario->toHtml('mobile');
+    }
 }
 ?>
