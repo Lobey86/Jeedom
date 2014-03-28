@@ -540,29 +540,26 @@ class eqLogic {
     }
 
     public function batteryStatus($_pourcent) {
-        if ($_pourcent >= 20) {
-            foreach (message::byPluginLogicalId($this->getEqType_name(), 'lowBattery' . $this->getId()) as $message) {
-                $message->remove();
-            }
-            foreach (message::byPluginLogicalId($this->getEqType_name(), 'noBattery' . $this->getId()) as $message) {
-                $message->remove();
-            }
-        } elseif ($_pourcent > 0) {
+        foreach (message::byPluginLogicalId($this->getEqType_name(), 'lowBattery' . $this->getId()) as $message) {
+            $message->remove();
+        }
+        foreach (message::byPluginLogicalId($this->getEqType_name(), 'noBattery' . $this->getId()) as $message) {
+            $message->remove();
+        }
+        if ($_pourcent > 0 && $_pourcent <= 20) {
             $logicalId = 'lowBattery' . $this->getId();
             if (count(message::byPluginLogicalId($this->getEqType_name(), $logicalId)) == 0) {
                 $message = 'Le module ' . $this->getEqType_name() . ' ';
                 $message .= $this->getHumanName() . ' à moins de ' . $_pourcent . '% de batterie';
                 message::add($this->getEqType_name(), $message, '', $logicalId);
             }
-        } else {
-            foreach (message::byPluginLogicalId($this->getEqType_name(), 'lowBattery' . $this->getId()) as $message) {
-                $message->remove();
-            }
+        }
+        if ($_pourcent <= 0) {
             $logicalId = 'noBattery' . $this->getId();
             $message = 'Le module ' . $this->getEqType_name() . ' ';
             $message .= $this->getHumanName() . ' a été désactivé car il n\'a plus de batterie (' . $_pourcent . ' %)';
-            $action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getId() . '" data-isEnable="1">Ré-activer</a>';
-            message::add($this->getEqType_name(), $message, $action, $logicalId);
+            //$action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getId() . '" data-isEnable="1">Ré-activer</a>';
+            message::add($this->getEqType_name(), $message, '', $logicalId);
         }
     }
 
