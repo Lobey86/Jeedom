@@ -425,7 +425,7 @@ class market {
         if ($this->getType() == 'plugin') {
             config::save('installVersionDate', date('Y-m-d H:i:s'), $this->getLogicalId());
         } else {
-            config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $this->getType());
+            config::save($this->getLogicalId() . '::installVersionDate', date('Y-m-d H:i:s'), $this->getType());
         }
     }
 
