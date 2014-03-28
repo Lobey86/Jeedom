@@ -235,6 +235,7 @@ class market {
                 }
             }
         } catch (Exception $e) {
+            log::add('market', 'debug', 'Erreur market::getinfo : ' . $e->getMessage());
             cache::set('market::info::' . $_logicalId, json_encode($return), 3600);
             $return['status'] = 'ok';
         }
