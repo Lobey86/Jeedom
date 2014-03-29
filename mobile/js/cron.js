@@ -1,8 +1,10 @@
-$(document).on('pagecontainershow',function(){
+$(document).on('pagecontainershow', function() {
     printCron();
     $("#bt_refreshCron").on('click', function() {
         printCron();
-        $(".rightpanel").panel().panel("close");
+        if (window.innerWidth < 800) {
+            $(".rightpanel").panel().panel("close");
+        }
     });
 
     $("#table_cron").delegate(".stop", 'click', function() {
@@ -26,11 +28,11 @@ function changeStateCron(_state, _id) {
         },
         dataType: 'json',
         error: function(request, status, error) {
-            handleAjaxError(request, status, error);
+            handleAjaxError(request, status, error, $('.ui-page-active #div_alert'));
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                $('.ui-page-active #div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
             printCron();
@@ -48,18 +50,18 @@ function printCron() {
         },
         dataType: 'json',
         error: function(request, status, error) {
-            handleAjaxError(request, status, error);
+            handleAjaxError(request, status, error, $('.ui-page-active #div_alert'));
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                $('.ui-page-active #div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
             $('#table_cron tbody').empty();
             for (var i in data.result.crons) {
                 addCron(data.result.crons[i]);
             }
-            $('#table_cron').table( "refresh" );
+            $('#table_cron').table("refresh");
         }
     });
 }

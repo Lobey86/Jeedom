@@ -17,11 +17,11 @@ function printEqLogicviewZone(_viewZone_id) {
         },
         dataType: 'json',
         error: function(request, status, error) {
-            handleAjaxError(request, status, error);
+            handleAjaxError(request, status, error, $('.ui-page-active #div_alert'));
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                $('.ui-page-active #div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
             var result = data.result;

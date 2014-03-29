@@ -54,6 +54,7 @@ $uniquePhpId = time();
         include_file('3rdparty', 'jquery.mobile/jquery.mobile.min', 'js');
         include_file('3rdparty', 'highstock/highstock', 'js');
         include_file('3rdparty', 'highstock/highcharts-more', 'js');
+        include_file('3rdparty', 'jquery.include/jquery.include', 'js');
         ?>
 
     </head> 
@@ -147,7 +148,6 @@ $uniquePhpId = time();
         if (isConnect()) {
             include_file('core', 'js.inc', 'php');
             include_file('core', 'core', 'js');
-            include_file('3rdparty', 'jquery.include/jquery.include', 'js');
         }
         ?>
         <script>

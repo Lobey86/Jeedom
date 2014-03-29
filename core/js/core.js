@@ -70,7 +70,7 @@ function execCmd(_id, _value, _cache) {
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                notify('Commande', data.result, 'gritter-red')
+                notify('Commande', data.result, 'gritter-red');
                 return;
             }
             notify('Commande', 'La commande a été executée avec succès', 'gritter-green', true);

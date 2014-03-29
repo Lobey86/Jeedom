@@ -1,4 +1,4 @@
-$(document).on('pagecontainershow',function(){
+$(document).on('pagecontainershow', function() {
 
     $("#bt_clearMessage").on('click', function(event) {
         $.ajax({// fonction permettant de faire de l'ajax
@@ -10,11 +10,11 @@ $(document).on('pagecontainershow',function(){
             },
             dataType: 'json',
             error: function(request, status, error) {
-                handleAjaxError(request, status, error);
+                handleAjaxError(request, status, error, $('.ui-page-active #div_alert'));
             },
             success: function(data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    $('.ui-page-active #div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
                 window.location.reload();
@@ -34,11 +34,11 @@ $(document).on('pagecontainershow',function(){
             },
             dataType: 'json',
             error: function(request, status, error) {
-                handleAjaxError(request, status, error);
+                handleAjaxError(request, status, error, $('.ui-page-active #div_alert'));
             },
             success: function(data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    $('.ui-page-active #div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
                 tr.remove();

@@ -24,14 +24,14 @@ $(document).on('pagecontainershow', function() {
     });
 
 
-    if ($('.rightpanel').length > 0) {
+    if ($('.ui-page-active .rightpanel').length > 0) {
         if (window.innerWidth > 800) {
             setTimeout(function() {
                 $(".rightpanel").panel("open")
             }, 10);
         }
     } else {
-        $('.bt_rightpanel').remove();
+        $('.ui-page-active .bt_rightpanel').remove();
         if (window.innerWidth > 800) {
             setTimeout(function() {
                 $(".leftpanel").panel("open")
@@ -40,20 +40,15 @@ $(document).on('pagecontainershow', function() {
     }
 });
 
-/*! Normalized address bar hiding for iOS & Android (c) @scottjehl MIT License */
+
 (function(win) {
     var doc = win.document;
-
-// If there's a hash, or addEventListener is undefined, stop here
     if (!win.navigator.standalone && !location.hash && win.addEventListener) {
-
-//scroll to 1
         win.scrollTo(0, 1);
         var scrollTop = 1,
                 getScrollTop = function() {
                     return win.pageYOffset || doc.compatMode === "CSS1Compat" && doc.documentElement.scrollTop || doc.body.scrollTop || 0;
                 },
-//reset to 0 on bodyready, if needed
                 bodycheck = setInterval(function() {
                     if (doc.body) {
                         clearInterval(bodycheck);
@@ -61,12 +56,9 @@ $(document).on('pagecontainershow', function() {
                         win.scrollTo(0, scrollTop === 1 ? 0 : 1);
                     }
                 }, 15);
-
         win.addEventListener("load", function() {
             setTimeout(function() {
-//at load, if user hasn't scrolled more than 20 or so...
                 if (getScrollTop() < 20) {
-//reset to hide addr bar at onload
                     win.scrollTo(0, scrollTop === 1 ? 0 : 1);
                 }
             }, 0);
@@ -84,14 +76,14 @@ function refreshMessageNumber() {
         dataType: 'json',
         global: false,
         error: function(request, status, error) {
-            handleAjaxError(request, status, error);
+            handleAjaxError(request, status, error, $('.ui-page-active #div_alert'));
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                $('.ui-page-active {div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#span_nbMessage').html(data.result);
+            $('.ui-page-active #span_nbMessage').html(data.result);
             $(document).ajaxStart(function() {
                 $.mobile.loading('show', {
                     text: 'Chargement...',
@@ -106,8 +98,8 @@ function notify(_title, _text) {
     if (_title == '' && _text == '') {
         return true;
     }
-    $('#div_alert').html("<center><b>" + _title + "</b></center>" + _text).popup("open", {y: 0});
+    $('.ui-page-active #div_alert').html("<center><b>" + _title + "</b></center>" + _text).popup("open", {y: 0});
     setTimeout(function() {
-        $('#div_alert').popup("close");
+        $('.ui-page-active #div_alert').popup("close");
     }, 1000)
 }
