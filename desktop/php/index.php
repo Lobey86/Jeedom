@@ -238,6 +238,7 @@ $plugins_list = plugin::listPlugin();
         include_file('core', 'core', 'js');
         include_file('3rdparty', 'bootstrap/bootstrap.min', 'js');
         include_file('3rdparty', 'jquery.ui/jquery-ui.min', 'js');
+        include_file('3rdparty', 'jquery.ui/jquery.ui.datepicker.fr', 'js');
         if (isConnect()) {
             include_file('core', 'js.inc', 'php');
             include_file('3rdparty', 'jquery.value/jquery.value', 'js');
