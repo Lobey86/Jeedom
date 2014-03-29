@@ -74,7 +74,7 @@ $(function() {
     /**************************CMD*********************************************/
     $('.cmdAction[data-action=add]').on('click', function() {
         addCmdToTable();
-        $('.cmd .cmdAttr[data-l1key=type]').trigger('change');
+        $('.cmd:last .cmdAttr[data-l1key=type]').trigger('change');
     });
 
     $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
