@@ -40,7 +40,7 @@ $uniquePhpId = time();
         <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114x114.png" />
         <link rel="apple-touch-startup-image" href="apple-touch-startup-image-320x460.png" />
         <link rel="apple-touch-startup-image" sizes="768x1004" href="apple-touch-startup-image-768x1004.png" />
-        <link rel="shortcut icon" sizes="196x196" href="icon-196x196.png">
+        <link rel="shortcut icon" sizes="128x128" href="core/img/jeedom_128x128.png">
 
 
         <title>Jeedom</title> 
