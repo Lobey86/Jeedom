@@ -4,7 +4,7 @@ include_file('core', 'authentification', 'php');
 include_file("core", "pageDescriptor", "config");
 global $PAGE_DESCRIPTOR_MOBILE;
 $page = 'Connection';
-if (isConnect() && init('p') == '') {
+if (isConnect() && init('p') == '' || init('p') == 'connection') {
     redirect('index.php?v=m&p=home');
 }
 if (isConnect() && init('p') != '') {
@@ -68,7 +68,7 @@ $uniquePhpId = time();
             <div data-role="header" data-theme="a" data-position="fixed">
                 <!-- <a href="#" data-icon="back" data-rel="back" title="Retour" data-iconpos="notext">Retour</a> -->
                 <h1 style="margin: 0 10px;">
-                    <img src="../../core/img/jeedom_ico.png" height="17" width="18" style="position: relative; top : 3px;"/>eedom
+                    <img src="core/img/jeedom_ico.png" height="17" width="18" style="position: relative; top : 3px;"/>eedom
                     <span class="horloge"><?php echo date('H:i:s'); ?></span>
                 </h1>
                 <a href="#leftpanel<?php echo $uniquePhpId ?>" class="bt_leftpanel" data-icon="bars" data-iconpos="notext">Menu</a>
