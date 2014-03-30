@@ -44,7 +44,6 @@ if (!is_array($objects)) {
     </div>
 
     <div class="col-lg-8">
-
         <div style="position: fixed;width: 100%;z-index: 1029;top : 51px;left : 35%">
             <div class="btn-group tooltips" title="Filtre sur les catégories d'équipement">
                 <?php
@@ -64,7 +63,6 @@ if (!is_array($objects)) {
             </div>
         </div>
         <div style="height: 10px;width: 100%;"></div>
-
 
         <?php
         foreach ($objects as $object) {

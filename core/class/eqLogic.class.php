@@ -152,12 +152,8 @@ class eqLogic {
                 FROM eqLogic
                 WHERE logicalId=:logicalId
                     AND eqType_name=:eqType_name';
-        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
-        $return = array();
-        foreach ($results as $result) {
-            $return[] = self::byId($result['id']);
-        }
-        return $return;
+        $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+        return self::byId($result['id']);
     }
 
     public static function byType($_eqType_name) {
@@ -597,8 +593,8 @@ class eqLogic {
         return $this->isEnable;
     }
 
-    public function getCmd() {
-        return cmd::byEqLogicId($this->id);
+    public function getCmd($_type = null) {
+        return cmd::byEqLogicId($this->id, $_type);
     }
 
     public function getEqReal_id() {

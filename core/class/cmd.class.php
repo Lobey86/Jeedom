@@ -119,14 +119,18 @@ class cmd {
         return $return;
     }
 
-    public static function byEqLogicId($_eqLogic_id) {
+    public static function byEqLogicId($_eqLogic_id, $_type = null) {
         $values = array(
             'eqLogic_id' => $_eqLogic_id
         );
         $sql = 'SELECT id
                 FROM cmd
-                WHERE eqLogic_id=:eqLogic_id
-                ORDER BY `order`';
+                WHERE eqLogic_id=:eqLogic_id';
+        if ($_type != null) {
+            $values['type'] = $_type;
+            $sql .= ' AND `type`=:type';
+        }
+        $sql .= ' ORDER BY `order`';
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
         foreach ($results as $result) {
