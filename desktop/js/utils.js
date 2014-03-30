@@ -50,7 +50,16 @@ $(function() {
         autoOpen: false,
         modal: true,
         height: (jQuery(window).height() - 150),
-        width: 1000
+        width: 1500,
+        open: function() {
+            if ((jQuery(window).width() - 50) < 1500) {
+                $('#md_modal').dialog({width: jQuery(window).width() - 50});
+            }
+            $("body").css({overflow: 'hidden'})
+        },
+        beforeClose: function(event, ui) {
+            $("body").css({overflow: 'inherit'})
+        }
     });
 
     $("#md_modal").dialog({
@@ -80,7 +89,7 @@ $(function() {
             if ((jQuery(window).width() - 50) < 1500) {
                 $('#md_modal2').dialog({width: jQuery(window).width() - 50});
             }
-             $("body").css({overflow: 'hidden'})
+            $("body").css({overflow: 'hidden'})
         },
         beforeClose: function(event, ui) {
             $("body").css({overflow: 'inherit'})
@@ -171,11 +180,14 @@ function initTableSorter() {
 }
 
 function showHelpModal(_name, _plugin) {
-    var plugin = '';
     if (init(_plugin) != '' && _plugin != undefined) {
-        plugin = init(_plugin);
+        $('#div_helpWebsite').load('index.php?v=d&modal=help.website&page=doc_plugin_' + _plugin + '.php #primary');
+        $('#div_helpSpe').load('index.php?v=d&plugin=' + _plugin + '&modal=help.' + init(_name));
+    } else {
+        $('#div_helpWebsite').load('index.php?v=d&modal=help.website&page=doc_' + init(_name) + '.php #primary');
+        $('#div_helpSpe').load('index.php?v=d&modal=help.' + init(_name));
     }
-    $('#md_pageHelp').load('index.php?v=d&plugin=' + plugin + '&modal=help.' + init(_name)).dialog('open');
+    $('#md_pageHelp').dialog('open');
 }
 
 function refreshMessageNumber() {

@@ -230,7 +230,16 @@ $plugins_list = plugin::listPlugin();
                     ?>
                     <div id="md_modal"></div>
                     <div id="md_modal2"></div>
-                    <div id="md_pageHelp"></div>
+                    <div id="md_pageHelp">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#div_helpWebsite" data-toggle="tab">Générale</a></li>
+                            <li><a href="#div_helpSpe" data-toggle="tab">Spécifique</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="div_helpWebsite" ></div>
+                            <div class="tab-pane" id="div_helpSpe" ></div>
+                        </div>
+                    </div>
                 </main>
             </div>
         <?php } ?>
