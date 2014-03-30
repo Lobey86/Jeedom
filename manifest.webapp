@@ -1,9 +1,8 @@
 {
   "name": "Jeedom",
   "description": "Application de gestion domotique",
-  "launch_path": "index.php",
   "icons": {
-    "128": "core/img/jeedom_ico.png"
+    "128": "core/img/jeedom_128x128.png"
   },
   "developer": {
     "name": "Loïc Gevrey",
