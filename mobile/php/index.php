@@ -25,7 +25,7 @@ if ($plugin != '') {
 $uniquePhpId = time();
 ?>
 <!DOCTYPE html> 
-<html manifest="manifest.webapp">
+<html>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" /> 
@@ -83,7 +83,8 @@ $uniquePhpId = time();
                     sendVarToJS('user_login', $_SESSION['user']->getLogin());
                     sendVarToJS('nodeJsKey', config::byKey('nodeJsKey'));
                     sendVarToJS('otherUserId', init('otherUserId '));
-
+                    include_file('core', 'js.inc', 'php');
+                    include_file('core', 'core', 'js');
                     try {
                         if (isset($PAGE_DESCRIPTOR_MOBILE[$page])) {
                             include_file('mobile', $PAGE_DESCRIPTOR_MOBILE[$page]['pageName'], 'php');
@@ -145,10 +146,6 @@ $uniquePhpId = time();
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
         include_file('mobile', 'utils', 'js');
-        if (isConnect()) {
-            include_file('core', 'js.inc', 'php');
-            include_file('core', 'core', 'js');
-        }
         ?>
         <script>
             var clientDatetime = new Date();

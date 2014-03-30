@@ -45,8 +45,6 @@ $(document).on('pagecontainershow', function() {
     }
 });
 
-
-
 function execCmd(_id, _value, _cache) {
     if (init(_value) != '' && (is_array(_value) || is_object(_value))) {
         _value = json_encode(_value);
