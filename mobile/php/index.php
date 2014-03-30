@@ -35,12 +35,17 @@ $uniquePhpId = time();
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta name="mobile-web-app-capable" content="yes">
-        <link rel="apple-touch-icon" href="apple-touch-icon-57x57.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72x72.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114x114.png" />
-        <link rel="apple-touch-startup-image" href="apple-touch-startup-image-320x460.png" />
-        <link rel="apple-touch-startup-image" sizes="768x1004" href="apple-touch-startup-image-768x1004.png" />
+        <link rel="apple-touch-icon" sizes="128x128" href="core/img/jeedom_128x128.png" />
+        <link rel="apple-touch-startup-image" sizes="256x256" href="core/img/jeedom_256x256.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="256x256" href="core/img/jeedom_256x256.png">
         <link rel="shortcut icon" sizes="128x128" href="core/img/jeedom_128x128.png">
+        <link rel="apple-touch-icon" href="core/img/jeedom_128x128.png" />
+        <link rel="apple-touch-startup-image" href="core/img/jeedom_256x256.png" />
+        <link rel="apple-touch-icon-precomposed" href="core/img/jeedom_256x256.png">
+         <link rel="touch-icon" href="core/img/jeedom_128x128.png" />
+        <link rel="touch-startup-image" href="core/img/jeedom_256x256.png" />
+        <link rel="touch-icon-precomposed" href="core/img/jeedom_256x256.png">
+        <link rel="shortcut icon" href="core/img/jeedom_128x128.png">
 
 
         <title>Jeedom</title> 
@@ -60,7 +65,7 @@ $uniquePhpId = time();
     </head> 
     <body> 
         <div data-role="page" class="type-interior" id="div_container" data-title="Jeedom">
-            <div data-role="header" data-theme="a" >
+            <div data-role="header" data-theme="a" data-position="fixed">
                 <!-- <a href="#" data-icon="back" data-rel="back" title="Retour" data-iconpos="notext">Retour</a> -->
                 <h1 style="margin: 0 10px;">
                     <img src="../../core/img/jeedom_ico.png" height="17" width="18" style="position: relative; top : 3px;"/>eedom
@@ -108,7 +113,7 @@ $uniquePhpId = time();
                 </div>
             </div><!-- /content -->
             <br/>
-            <div data-role="footer" data-theme="a" style="padding-top: 8px;padding-bottom: 5px;" >
+            <div data-role="footer" data-theme="a" data-position="fixed">
                 <span style="margin-left: 0px;">&copy; Jeedom (v<?php echo getVersion('jeedom') ?>) <?php echo date('Y') ?> </span>
                 <span style="float: right;">Node JS <span class="span_nodeJsState binary red"></span></span>
             </div><!-- /footer -->
