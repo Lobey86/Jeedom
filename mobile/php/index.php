@@ -4,7 +4,7 @@ include_file('core', 'authentification', 'php');
 include_file("core", "pageDescriptor", "config");
 global $PAGE_DESCRIPTOR_MOBILE;
 $page = 'Connection';
-if (isConnect() && init('p') == '' || init('p') == 'connection') {
+if (isConnect() && (init('p') == '' || init('p') == 'connection')) {
     redirect('index.php?v=m&p=home');
 }
 if (isConnect() && init('p') != '') {
@@ -25,7 +25,7 @@ if ($plugin != '') {
 $uniquePhpId = time();
 ?>
 <!DOCTYPE html> 
-<html>
+<html  manifest="site.manifest">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" /> 
@@ -40,12 +40,20 @@ $uniquePhpId = time();
         <link rel="apple-touch-icon-precomposed" sizes="256x256" href="core/img/jeedom_256x256.png">
         <link rel="shortcut icon" sizes="128x128" href="core/img/jeedom_128x128.png">
         <link rel="apple-touch-icon" href="core/img/jeedom_128x128.png" />
-        <link rel="apple-touch-startup-image" href="core/img/jeedom_256x256.png" />
         <link rel="apple-touch-icon-precomposed" href="core/img/jeedom_256x256.png">
-         <link rel="touch-icon" href="core/img/jeedom_128x128.png" />
-        <link rel="touch-startup-image" href="core/img/jeedom_256x256.png" />
-        <link rel="touch-icon-precomposed" href="core/img/jeedom_256x256.png">
-        <link rel="shortcut icon" href="core/img/jeedom_128x128.png">
+
+        <!-- iPhone SPLASHSCREEN-->
+        <link href="core/img/jeedom_320x460.png" media="(device-width: 320px)" rel="apple-touch-startup-image">
+        <!-- iPhone (Retina) SPLASHSCREEN-->
+        <link href="core/img/jeedom_640x920.png" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+        <!-- iPad (portrait) SPLASHSCREEN-->
+        <link href="core/img/jeedom_768x1004.png" media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image">
+        <!-- iPad (landscape) SPLASHSCREEN-->
+        <link href="core/img/jeedom_748x1024.png" media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image">
+        <!-- iPad (Retina, portrait) SPLASHSCREEN-->
+        <link href="core/img/jeedom_1536x2008.png" media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+        <!-- iPad (Retina, landscape) SPLASHSCREEN-->
+        <link href="core/img/jeedom_2048x1496.png" media="(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
 
 
         <title>Jeedom</title> 
@@ -54,12 +62,14 @@ $uniquePhpId = time();
         include_file('3rdparty', 'font-awesome/css/font-awesome.min', 'css');
         include_file('mobile', 'commun', 'css');
         include_file('core', 'core', 'css');
+        include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
         include_file('3rdparty', 'jquery/jquery.min', 'js');
         include_file('3rdparty', 'php.js/php.min', 'js');
         include_file('3rdparty', 'jquery.mobile/jquery.mobile.min', 'js');
         include_file('3rdparty', 'highstock/highstock', 'js');
         include_file('3rdparty', 'highstock/highcharts-more', 'js');
         include_file('3rdparty', 'jquery.include/jquery.include', 'js');
+        include_file('core', 'js.inc', 'php');
         ?>
 
     </head> 
@@ -88,7 +98,6 @@ $uniquePhpId = time();
                     sendVarToJS('user_login', $_SESSION['user']->getLogin());
                     sendVarToJS('nodeJsKey', config::byKey('nodeJsKey'));
                     sendVarToJS('otherUserId', init('otherUserId '));
-                    include_file('core', 'js.inc', 'php');
                     include_file('core', 'core', 'js');
                     try {
                         if (isset($PAGE_DESCRIPTOR_MOBILE[$page])) {
@@ -148,7 +157,6 @@ $uniquePhpId = time();
         <?php
         include_file('3rdparty', 'jquery.value/jquery.value', 'js');
         include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
-        include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
         include_file('mobile', 'utils', 'js');
         ?>

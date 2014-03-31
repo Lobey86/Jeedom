@@ -1,0 +1,40 @@
+CACHE MANIFEST
+ 
+# Version 0.8
+
+CACHE:
+3rdparty/jquery.include/jquery.include.js
+3rdparty/highstock/highcharts-more.js
+3rdparty/highstock/highstock.js
+3rdparty/jquery.mobile/jquery.mobile.css
+3rdparty/font-awesome/css/font-awesome.min.css
+3rdparty/jquery/jquery.min.js
+3rdparty/php.js/php.min.js
+3rdparty/jquery.mobile/jquery.mobile.min.js
+mobile/css/commun.css
+3rdparty/jquery.value/jquery.value.js
+3rdparty/jquery.alert/jquery.alert.js
+3rdparty/jquery.loading/jquery.loading.css
+3rdparty/jquery.loading/jquery.loading.js
+mobile/js/utils.js
+mobile/js/chat.js
+mobile/js/equipement.js
+mobile/js/view.js
+mobile/js/message.js
+mobile/js/cron.js
+core/js/chatAdapter.js
+core/js/cmd.class.js
+core/js/core.js
+core/js/eqLogic.class.js
+core/js/jeedom.class.js
+core/js/object.class.js
+core/css/core.css
+core/img/jeedom_ico.png
+3rdparty/font-awesome/fonts/fontawesome-webfont.woff
+3rdparty/jquery.mobile/images/ajax-loader.gif
+
+NETWORK:
+*
+
+FALLBACK:
+/ mobile/php/fallback.html

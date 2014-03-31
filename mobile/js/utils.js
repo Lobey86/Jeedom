@@ -1,5 +1,4 @@
 $(document).on('pagecontainershow', function() {
-
     /*********************Gestion de l'heure********************************/
     setInterval(function() {
         var date = new Date();

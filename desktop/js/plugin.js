@@ -28,7 +28,7 @@ $(function() {
         togglePlugin($(this).attr('data-plugin_id'), $(this).attr('data-state'));
     });
 
-    if (is_numeric(getUrlVars('id'))) {
+    if (getUrlVars('id') != '') {
         if ($('#ul_plugin .li_plugin[data-plugin_id=' + getUrlVars('id') + ']').length != 0) {
             $('#ul_plugin .li_plugin[data-plugin_id=' + getUrlVars('id') + ']').click();
         } else {
@@ -52,12 +52,12 @@ $(function() {
         $('#md_modal2').dialog({title: "Market Jeedom Display"});
         $('#md_modal2').load('index.php?v=d&modal=market.display&type=plugin&logicalId=' + $(this).attr('data-market_logicalId')).dialog('open');
     });
-    
+
     $('body').delegate('.sendOnMarket', 'click', function() {
         $('#md_modal2').dialog({title: "Envoyer sur le market"});
         $('#md_modal2').load('index.php?v=d&modal=market.send&type=plugin&logicalId=' + $(this).attr('data-market_logicalId')).dialog('open');
     });
-    
+
     $('body').delegate('.configKey', 'change', function() {
         modifyWithoutSave = true;
     });
@@ -87,20 +87,14 @@ function togglePlugin(_id, _state) {
 }
 
 function savePluginConfig() {
-    try {
-        var configuration = $('#div_plugin_configuration').getValues('.configKey');
-        configuration = configuration[0];
-    } catch (e) {
-        $('#div_alert').showAlert({message: e, level: 'danger'});
-        return false;
-    }
+    var configuration = $('#div_plugin_configuration').getValues('.configKey');
 
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/config.ajax.php", // url du fichier php
         data: {
             action: "addKey",
-            value: json_encode(configuration),
+            value: json_encode(configuration[0]),
             plugin: $('.li_plugin.active').attr('data-plugin_id')
         },
         dataType: 'json',
@@ -119,19 +113,14 @@ function savePluginConfig() {
 }
 
 function loadPluginConfig() {
-    try {
-        var configuration = $('#div_plugin_configuration').getValues('.configKey');
-        configuration = configuration[0];
-    } catch (e) {
-        $('#div_alert').showAlert({message: e, level: 'danger'});
-        return false;
-    }
+    var configuration = $('#div_plugin_configuration').getValues('.configKey');
+
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/config.ajax.php", // url du fichier php
         data: {
             action: "getKey",
-            key: json_encode(configuration),
+            key: json_encode(configuration[0]),
             plugin: $('.li_plugin.active').attr('data-plugin_id')
         },
         dataType: 'json',
@@ -180,7 +169,7 @@ function printPlugin(_id, _pluginPath) {
             if (data.result.status.market == 1) {
                 $('#span_plugin_market').append('<a class="btn btn-default btn-xs viewOnMarket" data-market_logicalId="' + data.result.id + '" style="margin-right : 5px;"><i class="fa fa-cloud-download"></i> Voir sur le market</a>')
             }
-            
+
             if (data.result.status.market_owner == 1) {
                 $('#span_plugin_market').append('<a class="btn btn-warning btn-xs sendOnMarket" data-market_logicalId="' + data.result.id + '"><i class="fa fa-cloud-upload"></i> Envoyer sur le market</a>')
             }
