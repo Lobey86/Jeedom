@@ -45,10 +45,13 @@ set_time_limit($scenario->getTimeout(config::byKey('maxExecTimeScript', 1) * 60)
 
 try {
     if (($scenario->getIsActive() == 1 || init('force') == 1)) {
-        if ($scenario->getState() != 'in progress') {
+        if ($scenario->getState() == 'in progress') {
             sleep(1);
         }
-        if ($scenario->getState() != 'in progress') {
+        if ($scenario->getState() == 'in progress') {
+            sleep(1);
+        }
+        if ($scenario->getState() == 'in progress') {
             $scenario->setLog('Impossible de lancer le scenario car déja en cours');
             die('Impossible de lancer le scenario car deja en cours');
         }
