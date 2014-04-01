@@ -66,10 +66,6 @@ $PAGE_DESCRIPTOR_DESKTOP = array(
         'pageName' => 'scenario',
         'title' => 'Scénario',
     ),
-    'scenario2' => array(
-        'pageName' => 'scenario2',
-        'title' => 'Scénario',
-    ),
     'speech' => array(
         'pageName' => 'speech',
         'title' => 'Reconnaissance vocale',

@@ -44,15 +44,22 @@ if (!is_object($scenario)) {
 set_time_limit($scenario->getTimeout(config::byKey('maxExecTimeScript', 1) * 60));
 
 try {
-    if (($scenario->getIsActive() == 1 || init('force') == 1) && $scenario->getState() != 'in progress') {
+    if (($scenario->getIsActive() == 1 || init('force') == 1)) {
+        if ($scenario->getState() != 'in progress') {
+            sleep(1);
+        }
+        if ($scenario->getState() != 'in progress') {
+            $scenario->setLog('Impossible de lancer le scenario car déja en cours');
+            die('Impossible de lancer le scenario car deja en cours');
+        }
         $scenario->setPID(getmypid());
         $scenario->save();
         log::add('scenario', 'info', 'Verification du scenario ' . $scenario->getHumanName() . ' avec le PID : ' . getmypid());
         $scenario->execute();
         $scenario->setState('stop');
     } else {
-        $scenario->setLog('Impossible de lancer le scenario car deja en cours ou inactif');
-        die('Impossible de lancer le scenario car deja en cours ou inactif');
+        $scenario->setLog('Impossible de lancer le scenario car désactivé');
+        die('Impossible de lancer le scenario car desactivé');
     }
 } catch (Exception $e) {
     log::add('scenario', 'error', 'Scenario  : ' . $scenario->getName() . '. ' . 'Erreur : ' . $e->getMessage());
