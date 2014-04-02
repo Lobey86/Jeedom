@@ -92,20 +92,20 @@ if (!is_array($objects)) {
         <legend>Scénarios</legend>
         <?php
         if (init('object_id') == 'global') {
-            foreach (scenario::byObjectId(null) as $scenario) {
+            foreach (scenario::byObjectId(null, false) as $scenario) {
                 if ($scenario->getIsVisible() == 1) {
                     echo $scenario->toHtml('dashboard');
                 }
             }
         }
         foreach ($objects as $object) {
-            foreach ($object->getScenario() as $scenario) {
+            foreach ($object->getScenario(false) as $scenario) {
                 if ($scenario->getIsVisible() == 1) {
                     echo $scenario->toHtml('dashboard');
                 }
             }
             foreach ($object->getChilds() as $child) {
-                foreach ($child->getScenario() as $scenario) {
+                foreach ($child->getScenario(false) as $scenario) {
                     if ($scenario->getIsVisible() == 1) {
                         echo $scenario->toHtml('dashboard');
                     }
