@@ -3,12 +3,13 @@ require_once dirname(__FILE__) . "/../../core/php/core.inc.php";
 include_file('core', 'authentification', 'php');
 include_file("core", "pageDescriptor", "config");
 global $PAGE_DESCRIPTOR_MOBILE;
-$page = 'Connection';
-if (isConnect() && (init('p') == '' || init('p') == 'connection')) {
-    redirect('index.php?v=m&p=home');
-}
-if (isConnect() && init('p') != '') {
-    $page = init('p');
+$page = 'connection';
+if (isConnect()) {
+    if (init('p') == '' || init('p') == 'connection') {
+        $page = 'home';
+    } else {
+        $page = init('p');
+    }
 }
 if (isset($PAGE_DESCRIPTOR_MOBILE[$page])) {
     $title = $PAGE_DESCRIPTOR_MOBILE[$page]['title'];
@@ -22,7 +23,6 @@ if ($plugin != '') {
         $title = $plugin->getName();
     }
 }
-$uniquePhpId = time();
 ?>
 <!DOCTYPE html> 
 <html  manifest="site.manifest">
@@ -81,11 +81,10 @@ $uniquePhpId = time();
                     <img src="core/img/jeedom_ico.png" height="17" width="18" style="position: relative; top : 3px;"/>eedom
                     <span class="horloge"><?php echo date('H:i:s'); ?></span>
                 </h1>
-                <a href="#leftpanel<?php echo $uniquePhpId ?>" class="bt_leftpanel" data-icon="bars" data-iconpos="notext">Menu</a>
+                <a href="#leftpanel" class="bt_leftpanel" data-icon="bars" data-iconpos="notext">Menu</a>
 
-                <a href="#rightpanel<?php echo $uniquePhpId ?>" class="bt_rightpanel" data-icon="gear" data-iconpos="notext">Options</a>
+                <a href="#rightpanel" class="bt_rightpanel" data-icon="gear" data-iconpos="notext">Options</a>
             </div><!-- /header -->
-            <br/>
             <div data-role="content" id='pagecontainer'>
                 <a href="#div_alert" data-rel="popup" data-position-to="window"></a>
                 <div data-role="popup" id="div_alert"></div>
@@ -116,20 +115,17 @@ $uniquePhpId = time();
                     }
                 }
                 ?>
-
                 <div id="div_loading" style="position: absolute; top: 45%;left: 45%;display: none">
                     <img src="3rdparty/jquery.mobile/images/ajax-loader.gif" />
                 </div>
             </div><!-- /content -->
-            <br/>
             <div data-role="footer" data-theme="a" data-position="fixed">
                 <span style="margin-left: 0px;">&copy; Jeedom (v<?php echo getVersion('jeedom') ?>) <?php echo date('Y') ?> </span>
                 <span style="float: right;">Node JS <span class="span_nodeJsState binary red"></span></span>
             </div><!-- /footer -->
 
-
-            <div data-role="panel" id="leftpanel<?php echo $uniquePhpId ?>" data-position="left" data-display="push" data-theme="b" data-position-fixed="true" data-animate="false" class="ui-icon-alt">
-                <ul data-role="listview">
+            <div data-role="panel" id="leftpanel" data-position="left" data-display="push" data-theme="b" data-position-fixed="true" data-animate="false" class="ui-icon-alt">
+                 <ul data-role="listview">
                     <li><a href="index.php?v=m&p=home" data-icon="home"><i class="fa fa-home"></i> Accueil</a></li>
                     <li><a href="index.php?v=m&p=equipment" data-theme="a"><i class="fa fa fa-tachometer" ></i> Equipements </a></li>
                     <li><a href="index.php?v=m&p=scenario" data-theme="a"><i class="fa fa-cogs"></i> Scénario</a></li>
@@ -145,14 +141,11 @@ $uniquePhpId = time();
                     <li><a href="index.php?v=m&logout=1" data-theme="a"><i class="fa fa-sign-out"></i> Se deconnecter</a></li>
                 </ul>
             </div>
-
             <?php if (isset($rightPanel)) { ?>
-                <div data-role="panel" id="rightpanel<?php echo $uniquePhpId ?>" class='rightpanel' data-position="right" data-display="push" data-dismissible="false" data-animate="false" data-position-fixed="true" data-theme="a" class="ui-icon-alt" >
+                <div data-role="panel" id="rightpanel" class='rightpanel' data-position="right" data-display="push" data-dismissible="false" data-animate="false" data-position-fixed="true" data-theme="a" class="ui-icon-alt" >
                     <?php echo $rightPanel; ?>
                 </div>
             <?php } ?>
-
-
         </div><!-- /page -->
         <?php
         include_file('3rdparty', 'jquery.value/jquery.value', 'js');

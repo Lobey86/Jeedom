@@ -3,15 +3,14 @@ if (!isConnect()) {
     include_file('mobile', '401', 'php');
     die();
 }
-$uniquePhpId = time();
 ?>
 <div class="ui-grid-a">
     <div class="ui-block-a">
         <center>
-            <a href="#equipmentMenu<?php echo $uniquePhpId; ?>" data-rel="popup" data-transition="slideup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
+            <a href="#equipmentMenu" data-rel="popup" data-transition="slideup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
                 <i class="fa fa fa-tachometer" style="font-size: 6em;"></i><br/>Equipements
             </a>
-            <div data-role="popup" id="equipmentMenu<?php echo $uniquePhpId; ?>" data-theme="b">
+            <div data-role="popup" id="equipmentMenu" data-theme="b">
                 <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Fermer</a>
                 <ul data-role="listview" data-inset="true" style="min-width:210px;">
                     <li data-role="list-divider">Selectionner la vue</li>
@@ -43,10 +42,10 @@ $uniquePhpId = time();
 
     <div class="ui-block-b">
         <center>
-            <a href="#vueMenu<?php echo $uniquePhpId; ?>" data-rel="popup" data-transition="slideup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
+            <a href="#vueMenu" data-rel="popup" data-transition="slideup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
                 <i class="fa fa-picture-o" style="font-size: 6em;"></i><br/>Vues
             </a>
-            <div data-role="popup" id="vueMenu<?php echo $uniquePhpId; ?>" data-theme="b">
+            <div data-role="popup" id="vueMenu" data-theme="b">
                 <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Fermer</a>
                 <ul data-role="listview" data-inset="true" style="min-width:210px;">
                     <li data-role="list-divider">Selectionner la vue</li>

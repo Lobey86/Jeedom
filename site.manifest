@@ -1,6 +1,6 @@
 CACHE MANIFEST
  
-# Version 0.8
+# Version 0.91
 
 CACHE:
 3rdparty/jquery.include/jquery.include.js
@@ -38,3 +38,4 @@ NETWORK:
 
 FALLBACK:
 / mobile/php/fallback.html
+index.php mobile/php/fallback.html

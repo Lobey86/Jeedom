@@ -1,4 +1,5 @@
 <?php
+
 if (!isConnect()) {
     include_file('mobile', '401', 'php');
     die();
@@ -18,23 +19,15 @@ if (init('object_id') != '') {
         throw new Exception('Object ID non trouvé');
     }
 }
-?>
-
-<h2 style="position: relative; top : -10px;margin-top: 0px;margin-bottom: 0px;text-align: center;">
-    <span id="span_objectName"></span>
-</h2>
-
-
-<?php if (init('object_id') != '') { ?>
-    <div id="div_equipmentList" style="margin-top : 5px;">
-        <?php
-        foreach ($object->getEqLogic() as $eqLogic) {
-            if ($eqLogic->getIsVisible() == '1') {
-                echo $eqLogic->toHtml('mobile');
-            }
+if (init('object_id') != '') {
+    echo '<div id="div_equipmentList">';
+    foreach ($object->getEqLogic() as $eqLogic) {
+        if ($eqLogic->getIsVisible() == '1') {
+            echo $eqLogic->toHtml('mobile');
         }
-        ?>
-    </div>
-<?php } ?>
+    }
 
-<?php include_file('mobile', 'equipement', 'js'); ?>
+    echo '</div>';
+}
+include_file('mobile', 'equipement', 'js');
+?>

@@ -52,6 +52,12 @@ try {
             sleep(1);
         }
         if ($scenario->getState() == 'in progress') {
+            sleep(1);
+        }
+        if ($scenario->getState() == 'in progress') {
+            sleep(1);
+        }
+        if ($scenario->getState() == 'in progress') {
             $scenario->setLog('Impossible de lancer le scenario car déja en cours');
             die('Impossible de lancer le scenario car deja en cours');
         }

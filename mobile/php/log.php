@@ -24,7 +24,7 @@ $rightPanel .= '<li data-role="list-divider">Action</li>';
 $rightPanel .= '<li><a id="bt_clearLog" href="#"><i class="fa fa-trash-o"></i> Vider</a></li>';
 $rightPanel .= '<li><a id="bt_removeLog" href="#"><i class="fa fa-times"></i> Supprimer</a></li>';
 $rightPanel .= '</ul>';
-$rightPanel .= '<br/><br/><br/>';
+$rightPanel .= '<br/>';
 $rightPanel .= '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
 $rightPanel .= '<li data-role="list-divider">Logfile</li>';
 

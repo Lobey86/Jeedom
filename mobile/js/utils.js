@@ -1,3 +1,10 @@
+$(document).on('pagehide', function(e) {
+    var page = $(e.target);
+    if (!page.attr('data-dom-cache') || page.attr('data-dom-cache') == "false") {
+        page.remove();
+    }
+});
+
 $(document).on('pagecontainershow', function() {
     /*********************Gestion de l'heure********************************/
     setInterval(function() {
@@ -23,7 +30,7 @@ $(document).on('pagecontainershow', function() {
     });
 
 
-    if ($('.ui-page-active .rightpanel').length > 0) {
+   /* if ($('.ui-page-active .rightpanel').length > 0) {
         if (window.innerWidth > 800) {
             setTimeout(function() {
                 $(".rightpanel").panel("open")
@@ -36,12 +43,7 @@ $(document).on('pagecontainershow', function() {
                 $(".leftpanel").panel("open")
             }, 10);
         }
-    }
-
-    $('.ui-page-active #bt_installApp').on('click', function() {
-        alert('couou');
-        window.navigator.mozApps.install();
-    });
+    }*/
 });
 
 function refreshMessageNumber() {
