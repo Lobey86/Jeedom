@@ -155,6 +155,7 @@ $(function() {
 
     initTableSorter();
     initExpertMode();
+    $.initTableFilter();
 });
 
 function initExpertMode() {

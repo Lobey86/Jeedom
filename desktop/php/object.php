@@ -12,7 +12,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <li class="nav-header">Liste objects 
                     <i class="fa fa-plus-circle pull-right cursor" id="bt_addObject" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="form-control" class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 $allObject = object::buildTree();
                 foreach ($allObject as $object) {

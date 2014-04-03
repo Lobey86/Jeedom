@@ -8,7 +8,7 @@ if (!isConnect()) {
     <div class="col-lg-3 bs-sidebar">
         <ul id="ul_history" class="nav nav-list bs-sidenav">
             <li class="nav-header">Historique</li>
-            <li class="filter"><input class="form-control" class="filter form-control" placeholder="Rechercher" /></li>
+            <li class="filter"><input class="filter form-control input-sm" placeholder="Rechercher" /></li>
             <?php
             foreach (cmd::allHistoryCmd() as $cmd) {
                 echo '<li class="cursor li_history" data-cmd_id="' . $cmd->getId() . '"><a class="history">' . $cmd->getHumanName() . '<i class="fa fa-trash-o remove pull-right"></i></a></li>';

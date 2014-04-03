@@ -59,6 +59,10 @@ $plugins_list = plugin::listPlugin();
                 padding: 9px 0;
             }
         </style>
+         <script>
+            var clientDatetime = new Date();
+            var clientServerDiffDatetime = (<?php echo strtotime(date('Y-m-d H:i:s')); ?> * 1000) - clientDatetime.getTime();
+        </script>
 
         <?php
         include_file('3rdparty', 'font-awesome/css/font-awesome', 'css');
@@ -248,25 +252,24 @@ $plugins_list = plugin::listPlugin();
         include_file('3rdparty', 'bootstrap/bootstrap.min', 'js');
         include_file('3rdparty', 'jquery.ui/jquery-ui.min', 'js');
         include_file('3rdparty', 'jquery.ui/jquery.ui.datepicker.fr', 'js');
-        if (isConnect()) {
-            include_file('core', 'js.inc', 'php');
-            include_file('3rdparty', 'jquery.value/jquery.value', 'js');
-            include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
-            include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
-            include_file('3rdparty', 'jquery.include/jquery.include', 'js');
-            include_file('3rdparty', 'bootbox/bootbox.min', 'js');
-            include_file('3rdparty', 'highstock/highstock', 'js');
-            include_file('3rdparty', 'highstock/highcharts-more', 'js');
-            include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
-            include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'js');
-            include_file('desktop', 'utils', 'js');
-            include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
-            if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
-                include_file('core', 'chatAdapter', 'js');
-                include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'js');
-                include_file('3rdparty', 'jquery.chatjs/jquery.autosize.min', 'js');
-                include_file("desktop", "chat", "js");
-            }
+        include_file('core', 'js.inc', 'php');
+        include_file('3rdparty', 'jquery.value/jquery.value', 'js');
+        include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
+        include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
+        include_file('3rdparty', 'jquery.include/jquery.include', 'js');
+        include_file('3rdparty', 'bootbox/bootbox.min', 'js');
+        include_file('3rdparty', 'highstock/highstock', 'js');
+        include_file('3rdparty', 'highstock/highcharts-more', 'js');
+        include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
+        include_file('3rdparty', 'jquery.tableUtils/jquery.tableUtils', 'js');
+        include_file('desktop', 'utils', 'js');
+        include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
+        nclude_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
+        if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
+            include_file('core', 'chatAdapter', 'js');
+            include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'js');
+            include_file('3rdparty', 'jquery.chatjs/jquery.autosize.min', 'js');
+            include_file("desktop", "chat", "js");
         }
         ?>
         <footer>
@@ -284,10 +287,7 @@ $plugins_list = plugin::listPlugin();
                 ?>
             </span>
         </footer>
-        <script>
-            var clientDatetime = new Date();
-            var clientServerDiffDatetime = (<?php echo strtotime(date('Y-m-d H:i:s')); ?> * 1000) - clientDatetime.getTime();
-        </script>
+       
     </body>
 </html>
 

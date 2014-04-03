@@ -30,7 +30,7 @@ if (init('id') != '') {
         <div class="bs-sidebar affix">
             <ul id="ul_view" class="nav nav-list bs-sidenav">
                 <li class="nav-header">Liste des vues</li>
-                <li class="filter"><input class="filter form-control" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="filter"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
                 <?php
                 foreach (view::all() as $view_info) {
                     if ($view->getId() == $view_info->getId()) {
