@@ -96,11 +96,11 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                         <div class="form-group">
                             <label class="col-lg-6 control-label">Actif</label>
                             <div class="col-lg-1">
-                                <input type="checkbox" class="form-control scenarioAttr" data-l1key="isActive">
+                                <input type="checkbox" class="scenarioAttr" data-l1key="isActive">
                             </div>
                             <label class="col-lg-4 control-label">Visible</label>
                             <div class="col-lg-1">
-                                <input type="checkbox" class="form-control scenarioAttr" data-l1key="isVisible">
+                                <input type="checkbox" class="scenarioAttr" data-l1key="isVisible">
                             </div>
                         </div>
                         <div class="form-group">
