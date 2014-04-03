@@ -17,7 +17,6 @@
 
 
 var CORE_chart = [];
-var socket = null;
 $(function() {
     if (!$.mobile) {
         jeedom.init();

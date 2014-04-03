@@ -23,6 +23,7 @@ jeedom.nodeJs  = {state : -1};
 jeedom.chat  = {state : false};
 
 jeedom.init = function() {
+    socket = null;
     Highcharts.setOptions({
         lang: {
             months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
