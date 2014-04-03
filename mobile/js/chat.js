@@ -19,7 +19,9 @@ chat.client.sendMessage = function(_message) {
 };
 
 $(document).on('pagecontainershow', function() {
-    $(".rightpanel").panel().panel("open");
+    if (!is_numeric(otherUserId)) {
+        $(".rightpanel").panel().panel("open");
+    }
 
     $("#messageText").keypress(function(e) {
         if (e.which == 13) {
@@ -40,7 +42,7 @@ $(document).on('pagecontainershow', function() {
             chatAdapter = new jeedomChatAdapter();
             chatAdapter.init(chat, chatInitFinish);
             jeedom.chat.state = true;
-        }else{
+        } else {
             chatInitFinish();
         }
         socket.on('refreshUserList', function(_connectUserList) {
@@ -55,7 +57,7 @@ $(document).on('pagecontainershow', function() {
                     global: false,
                     dataType: 'json',
                     error: function(request, status, error) {
-                        handleAjaxError(request, status, error,$('.ui-page-active #div_alert'));
+                        handleAjaxError(request, status, error, $('.ui-page-active #div_alert'));
                     },
                     success: function(data) { // si l'appel a bien fonctionné
                         if (data.state != 'ok') {
@@ -79,7 +81,7 @@ function chatInitFinish() {
                     if (_history[i].UserFromId == user_id) {
                         color = 'red';
                     }
-                    $('#ul_messageList').append('<li><img src="' + userInfo.ProfilePictureUrl + '" /> <span style="color : ' + color + ';">' + _history[i].Message + '</span></li>');
+                    $('#ul_messageList').append('<li><img src="' + userInfo.ProfilePictureUrl + '"  height="30" width="30"/> <span style="color : ' + color + ';">' + _history[i].Message + '</span></li>');
                 });
             }
             $('#ul_messageList').scrollTop($("#ul_messageList").prop('scrollHeight'));

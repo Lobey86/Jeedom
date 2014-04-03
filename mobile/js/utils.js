@@ -30,7 +30,7 @@ $(document).on('pagecontainershow', function() {
     });
 
 
-   /* if ($('.ui-page-active .rightpanel').length > 0) {
+    if ($('.ui-page-active .rightpanel').length > 0) {
         if (window.innerWidth > 800) {
             setTimeout(function() {
                 $(".rightpanel").panel("open")
@@ -43,7 +43,7 @@ $(document).on('pagecontainershow', function() {
                 $(".leftpanel").panel("open")
             }, 10);
         }
-    }*/
+    }
 });
 
 function refreshMessageNumber() {
