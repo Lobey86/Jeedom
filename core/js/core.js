@@ -39,7 +39,7 @@ $(document).on('pagecontainershow', function() {
         if (jeedom.nodeJs.state === false) {
             $('.span_nodeJsState').removeClass('green').addClass('red');
         }
-        if (jeedom.nodeJs.state == -1) {
+        if (jeedom.nodeJs.state == -1 || socket == null) {
             jeedom.init();
         }
     }

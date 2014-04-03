@@ -5,14 +5,15 @@ if (!isConnect()) {
 if (init('id') == '') {
     if ($_SESSION['user']->getOptions('defaultMobileView') != '') {
         $view = view::byId($_SESSION['user']->getOptions('defaultMobileView'));
-        if (is_object($view)) {
-            redirect('index.php?v=m&p=view&id=' . $view->getId());
-        }
     }
-    $list_view = view::all();
-    redirect('index.php?v=m&p=view&id=' . $list_view[0]->getId());
+    if (!is_object($view)) {
+        $list_view = view::all();
+        $view = $list_view[0];
+    }
 }
-$view = view::byId(init('id'));
+if (init('id') != '') {
+    $view = view::byId(init('id'));
+}
 if (!is_object($view)) {
     throw new Exception('Vue inconnue. Verifier l\'id');
 }

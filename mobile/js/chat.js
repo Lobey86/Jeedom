@@ -10,7 +10,7 @@ chat.client.usersListChanged = function(userList) {
 chat.client.sendMessage = function(_message) {
     chatAdapter.server.getUserInfo(_message.UserFromId, function(userInfo) {
         if (_message.UserFromId == otherUserId) {
-            $('#ul_messageList').append('<li><img src="' + userInfo.ProfilePictureUrl + '" /> <span style="color : green;">' + _message.Message + '</span></li>');
+            $('#ul_messageList').append('<li><img src="' + userInfo.ProfilePictureUrl + '" height="30" width="30" /> <span style="color : green;">' + _message.Message + '</span></li>');
             $('#ul_messageList').scrollTop($("#ul_messageList").prop('scrollHeight'));
         } else {
             notify(userInfo.Name, _message.Message);
@@ -30,7 +30,7 @@ $(document).on('pagecontainershow', function() {
             var message = $('#messageText').value();
             $('#messageText').value('');
             chatAdapter.server.getUserInfo(user_id, function(userInfo) {
-                $('#ul_messageList').append('<li><img src="' + userInfo.ProfilePictureUrl + '" /> <span style="color : red;">' + message + '</span></li>');
+                $('#ul_messageList').append('<li><img src="' + userInfo.ProfilePictureUrl + '" height="30" width="30" /> <span style="color : red;">' + message + '</span></li>');
                 $('#ul_messageList').scrollTop($("#ul_messageList").prop('scrollHeight'));
             });
             chatAdapter.server.sendMessage(otherUserId, message);

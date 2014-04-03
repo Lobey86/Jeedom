@@ -126,7 +126,7 @@ if ($plugin != '') {
 
             <div data-role="panel" id="leftpanel" data-position="left" data-display="push" data-theme="b" data-position-fixed="true" data-animate="false" class="ui-icon-alt">
                  <ul data-role="listview">
-                    <li><a href="index.php?v=m&p=home" data-icon="home"><i class="fa fa-home"></i> Accueil</a></li>
+                    <li><a href="index.php?v=m&p=home" data-theme="a"><i class="fa fa-home"></i> Accueil</a></li>
                     <li><a href="index.php?v=m&p=equipment" data-theme="a"><i class="fa fa fa-tachometer" ></i> Equipements </a></li>
                     <li><a href="index.php?v=m&p=scenario" data-theme="a"><i class="fa fa-cogs"></i> Scénario</a></li>
                     <li><a href="index.php?v=m&p=view" data-theme="a"><i class="fa fa-picture-o"></i> Vues</a></li>
