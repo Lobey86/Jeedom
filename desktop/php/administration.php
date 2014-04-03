@@ -55,7 +55,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <div class="form-group">
                                     <label class="col-lg-4 control-label">Envoyer les sauvegardes dans le cloud</label>
                                     <div class="col-lg-4">
-                                        <input type="checkbox" class="configKey form-control" data-l1key="backup::cloudUpload" />
+                                        <input type="checkbox" class="configKey" data-l1key="backup::cloudUpload" />
                                     </div>
                                 </div>
                             <?php } ?>
@@ -166,7 +166,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <div class="form-group expertModeHidden">
                                     <label class="col-lg-2 control-label">Faire une sauvegarde avant la mise à jour</label>
                                     <div class="col-lg-1">
-                                        <input type="checkbox" class="configKey form-control" data-l1key="update::backupBefore"/>
+                                        <input type="checkbox" class="configKey" data-l1key="update::backupBefore"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -442,7 +442,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Ajouter un message à chaque erreur dans les logs </label>
                                         <div class="col-lg-1">
-                                            <input type="checkbox" class="configKey form-control" data-l1key="addMessageForErrorLog" checked/>
+                                            <input type="checkbox" class="configKey" data-l1key="addMessageForErrorLog" checked/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -497,13 +497,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Activer l'authentificaiton LDAP</label>
                                         <div class="col-lg-1">
-                                            <input type="checkbox" class="configKey form-control" data-l1key="ldap::enable"/>
+                                            <input type="checkbox" class="configKey" data-l1key="ldap::enable"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Hôte</label>
                                         <div class="col-lg-3">
-                                            <input type="text"  class="configKey form-control" data-l1key="ldap:host" />
+                                            <input type="text"  class="configKey" data-l1key="ldap:host" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -622,13 +622,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <div class="form-group expertModeHidden">
                                             <label class="col-lg-2 control-label">Activer nodeJS</label>
                                             <div class="col-lg-1">
-                                                <input type="checkbox" class="configKey form-control" data-l1key="enableNodeJs"/>
+                                                <input type="checkbox" class="configKey" data-l1key="enableNodeJs"/>
                                             </div>
                                         </div>
                                         <div class="form-group expertModeHidden">
                                             <label class="col-lg-2 control-label">Port interne NodeJS</label>
                                             <div class="col-lg-3">
-                                                <input type="text"  class="configKey form-control" data-l1key="nodeJsInternalPort" />
+                                                <input type="text"  class="configKey" data-l1key="nodeJsInternalPort" />
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -670,7 +670,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                           <div class="form-group alert alert-danger">
                                             <label class="col-lg-2 control-label">Voir modules non validés (à vos risques et périls)</label>
                                             <div class="col-lg-3">
-                                                <input type="checkbox"  class="configKey form-control" data-l1key="market::showToValidateMarket" />
+                                                <input type="checkbox"  class="configKey" data-l1key="market::showToValidateMarket" />
                                             </div>
                                         </div>
                                     </fieldset>

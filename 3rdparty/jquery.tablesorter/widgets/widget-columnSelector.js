@@ -1,4 +1,4 @@
-/* Column Selector/Responsive table widget (beta) for TableSorter 12/17/2013 (v2.14.6)
+/* Column Selector/Responsive table widget (beta) for TableSorter 3/31/2014 (v2.15.12)
  * Requires tablesorter v2.8+ and jQuery 1.7+
  * by Justin Hallett & Rob Garrison
  */
@@ -15,22 +15,35 @@ tsColSel = ts.columnSelector = {
 	queryBreak : '@media screen and (min-width: [size]) { [columns] { display: table-cell; } }',
 
 	init: function(table, c, wo) {
-		var colSel;
+		var $t, colSel;
+
+		// abort if no input is contained within the layout
+		$t = $(wo.columnSelector_layout);
+		if (!$t.find('input').add( $t.filter('input') ).length) {
+			if (c.debug) {
+				ts.log('*** ERROR: Column Selector aborting, no input found in the layout! ***');
+			}
+			return;
+		}
 
 		// unique table class name
 		c.tableId = 'tablesorter' + new Date().getTime();
 		c.$table.addClass( c.tableId );
 
 		// build column selector/state array
-		colSel = c.selector = { $container : $(wo.columnSelector_container) };
+		colSel = c.selector = { $container : $(wo.columnSelector_container || '<div>') };
+		colSel.$style = $('<style></style>').prop('disabled', true).appendTo('head');
+		colSel.$breakpoints = $('<style></style>').prop('disabled', true).appendTo('head');
+
+		colSel.isInitializing = true;
 		tsColSel.setupSelector(table, c, wo);
 
 		if (wo.columnSelector_mediaquery) {
 			tsColSel.setupBreakpoints(c, wo);
 		}
 
+		colSel.isInitializing = false;
 		if (colSel.$container.length) {
-			colSel.$style = $('<style></style>').prop('disabled', true).appendTo('head');
 			tsColSel.updateCols(c, wo);
 		}
 
@@ -40,10 +53,13 @@ tsColSel = ts.columnSelector = {
 		var name,
 			colSel = c.selector,
 			$container = colSel.$container,
+			useStorage = wo.columnSelector_saveColumns && ts.storage,
 			// get stored column states
-			saved = wo.columnSelector_saveColumns && ts.storage ? ts.storage( table, 'tablesorter-columnSelector' ) : [];
+			saved = useStorage ? ts.storage( table, 'tablesorter-columnSelector' ) : [],
+			state = useStorage ? ts.storage( table, 'tablesorter-columnSelector-auto') : {};
 
 		// initial states
+		colSel.auto = $.isEmptyObject(state) || $.type(state.auto) !== "boolean" ? wo.columnSelector_mediaqueryState : state.auto;
 		colSel.states = [];
 		colSel.$column = [];
 		colSel.$wrapper = [];
@@ -53,18 +69,21 @@ tsColSel = ts.columnSelector = {
 			var $this = $(this),
 				// if no data-priority is assigned, default to 1, but don't remove it from the selector list
 				priority = $this.attr(wo.columnSelector_priority) || 1,
-				colId = $this.attr('data-column');
+				colId = $this.attr('data-column'),
+				state = ts.getData(this, c.headers[colId], 'columnSelector');
+
 
 			// if this column not hidable at all
 			// include getData check (includes "columnSelector-false" class, data attribute, etc)
-			if ( isNaN(priority) && priority.length > 0 || ts.getData(this, c.headers[colId], 'columnSelector') == 'false' ||
+			if ( isNaN(priority) && priority.length > 0 || state === 'disable' ||
 				( wo.columnSelector_columns[colId] && wo.columnSelector_columns[colId] === 'disable') ) {
 				return true; // goto next
 			}
 
-			// set default state
+			// set default state; storage takes priority
 			colSel.states[colId] = saved && typeof(saved[colId]) !== 'undefined' ?
-				saved[colId] : typeof(wo.columnSelector_columns[colId]) !== 'undefined' ? wo.columnSelector_columns[colId] : true;
+				saved[colId] : typeof(wo.columnSelector_columns[colId]) !== 'undefined' ?
+				wo.columnSelector_columns[colId] : (state === 'true' || !(state === 'false'));
 			colSel.$column[colId] = $(this);
 
 			// set default col title
@@ -73,10 +92,11 @@ tsColSel = ts.columnSelector = {
 			if ($container.length) {
 				colSel.$wrapper[colId] = $(wo.columnSelector_layout.replace(/\{name\}/g, name)).appendTo($container);
 				colSel.$checkbox[colId] = colSel.$wrapper[colId]
-					.find('input')
+					// input may not be wrapped within the layout template
+					.find('input').add( colSel.$wrapper[colId].filter('input') )
 					.attr('data-column', colId)
 					.prop('checked', colSel.states[colId])
-					.bind('change', function(){
+					.on('change', function(){
 						colSel.states[colId] = this.checked;
 						tsColSel.updateCols(c, wo);
 					}).change();
@@ -93,9 +113,8 @@ tsColSel = ts.columnSelector = {
 			// used by window resize function
 			colSel.lastIndex = -1;
 			wo.columnSelector_breakpoints.sort();
-			colSel.$breakpoints = $('<style></style>').prop('disabled', true).appendTo('head');
 			tsColSel.updateBreakpoints(c, wo);
-			c.$table.unbind('updateAll' + namespace).bind('updateAll' + namespace, function(){
+			c.$table.off('updateAll' + namespace).on('updateAll' + namespace, function(){
 				tsColSel.updateBreakpoints(c, wo);
 				tsColSel.updateCols(c, wo);
 			});
@@ -103,38 +122,53 @@ tsColSel = ts.columnSelector = {
 
 		if (colSel.$container.length) {
 			// Add media queries toggle
-			if (wo.columnSelector_mediaquery && wo.columnSelector_mediaquery) {
-				$( wo.columnSelector_layout.replace(/\{name\}/g, wo.columnSelector_mediaqueryName) )
-					.prependTo(colSel.$container)
-					.find('input')
-					.prop('checked', wo.columnSelector_mediaqueryState)
-					.bind('change', function(){
-						wo.columnSelector_mediaqueryState = this.checked;
+			if (wo.columnSelector_mediaquery) {
+				colSel.$auto = $( wo.columnSelector_layout.replace(/\{name\}/g, wo.columnSelector_mediaqueryName) ).prependTo(colSel.$container);
+				colSel.$auto
+					// needed in case the input in the layout is not wrapped
+					.find('input').add( colSel.$auto.filter('input') )
+					.attr('data-column', 'auto')
+					.prop('checked', colSel.auto)
+					.on('change', function(){
+						colSel.auto = this.checked;
 						$.each( colSel.$checkbox, function(i, $cb){
 							if ($cb) {
-								$cb[0].disabled = wo.columnSelector_mediaqueryState;
-								colSel.$wrapper[i].toggleClass('disabled', wo.columnSelector_mediaqueryState);
+								$cb[0].disabled = colSel.auto;
+								colSel.$wrapper[i].toggleClass('disabled', colSel.auto);
 							}
 						});
-						tsColSel.updateBreakpoints(c, wo);
+						if (wo.columnSelector_mediaquery) {
+							tsColSel.updateBreakpoints(c, wo);
+						}
 						tsColSel.updateCols(c, wo);
+						// copy the column selector to a popup/tooltip
+						if (c.selector.$popup) {
+							c.selector.$popup.find('.tablesorter-column-selector')
+								.html( colSel.$container.html() )
+								.find('input').each(function(){
+									var indx = $(this).attr('data-column');
+									$(this).prop( 'checked', indx === 'auto' ? colSel.auto : colSel.states[indx] );
+								});
+						}
+						if (wo.columnSelector_saveColumns && ts.storage) {
+							ts.storage( c.$table[0], 'tablesorter-columnSelector-auto', { auto : colSel.auto } );
+						}
 					}).change();
 			}
 			// Add a bind on update to re-run col setup
-			c.$table.unbind('update' + namespace).bind('update' + namespace, function() {
+			c.$table.off('update' + namespace).on('update' + namespace, function() {
 				tsColSel.updateCols(c, wo);
 			});
 		}
 	},
 
-
-	updateBreakpoints: function(c, wo){
+	updateBreakpoints: function(c, wo) {
 		var priority, column, breaks,
 			colSel = c.selector,
 			prefix = '.' + c.tableId,
 			mediaAll = [],
 			breakpts = '';
-		if (wo.columnSelector_mediaquery && !wo.columnSelector_mediaqueryState) {
+		if (wo.columnSelector_mediaquery && !colSel.auto) {
 			colSel.$breakpoints.prop('disabled', true);
 			colSel.$style.prop('disabled', false);
 			return;
@@ -156,20 +190,23 @@ tsColSel = ts.columnSelector = {
 					.replace(/\[columns\]/g, breaks.join(','));
 			}
 		}
-		if (colSel.$style) { colSel.$style.prop('disabled', true); }
-		colSel.$breakpoints.prop('disabled', false)
+		if (colSel.$style) {
+			colSel.$style.prop('disabled', true);
+		}
+		colSel.$breakpoints
+			.prop('disabled', false)
 			.html( tsColSel.queryAll.replace(/\[columns\]/g, mediaAll.join(',')) + breakpts );
-
 	},
 
 	updateCols: function(c, wo) {
-		if (wo.columnSelector_mediaquery && wo.columnSelector_mediaqueryState) {
+		if (wo.columnSelector_mediaquery && c.selector.auto || c.selector.isInitializing) {
 			return;
 		}
 		var column,
+			colSel = c.selector,
 			styles = [],
 			prefix = '.' + c.tableId;
-		c.selector.$container.find('input[data-column]').each(function(){
+		colSel.$container.find('input[data-column]').filter('[data-column!="auto"]').each(function(){
 			if (!this.checked) {
 				column = parseInt( $(this).attr('data-column'), 10 ) + 1;
 				styles.push(prefix + ' tr th:nth-child(' + column + ')');
@@ -177,13 +214,42 @@ tsColSel = ts.columnSelector = {
 			}
 		});
 		if (wo.columnSelector_mediaquery){
-			c.selector.$breakpoints.prop('disabled', true);
+			colSel.$breakpoints.prop('disabled', true);
 		}
-		if (c.selector.$style) {
-			c.selector.$style.prop('disabled', false).html( styles.join(',') + ' { display: none; }' );
+		if (colSel.$style) {
+			colSel.$style.prop('disabled', false).html( styles.length ? styles.join(',') + ' { display: none; }' : '' );
 		}
 		if (wo.columnSelector_saveColumns && ts.storage) {
-			ts.storage( c.$table[0], 'tablesorter-columnSelector', c.selector.states );
+			ts.storage( c.$table[0], 'tablesorter-columnSelector', colSel.states );
+		}
+	},
+
+	attachTo : function(table, elm) {
+		table = $(table)[0];
+		var colSel, wo, indx,
+			c = table.config,
+			$popup = $(elm);
+		if ($popup.length && c) {
+			if (!$popup.find('.tablesorter-column-selector').length) {
+				// add a wrapper to add the selector into, in case the popup has other content
+				$popup.append('<span class="tablesorter-column-selector"></span>');
+			}
+			colSel = c.selector;
+			wo = c.widgetOptions;
+			$popup.find('.tablesorter-column-selector')
+				.html( colSel.$container.html() )
+				.find('input').each(function(){
+					var indx = $(this).attr('data-column');
+					$(this).prop( 'checked', indx === 'auto' ? colSel.auto : colSel.states[indx] );
+				});
+			colSel.$popup = $popup.on('change', 'input', function(){
+				// data input
+				indx = $(this).attr('data-column');
+				// update original popup
+				colSel.$container.find('input[data-column="' + indx + '"]')
+					.prop('checked', this.checked)
+					.trigger('change');
+			});
 		}
 	}
 
@@ -229,9 +295,10 @@ ts.addWidget({
 	remove: function(table, c){
 		var csel = c.selector;
 		csel.$container.empty();
+		csel.$popup.empty();
 		csel.$style.remove();
 		csel.$breakpoints.remove();
-		c.$table.unbind('updateAll' + namespace + ',update' + namespace);
+		c.$table.off('updateAll' + namespace + ' update' + namespace);
 	}
 
 });

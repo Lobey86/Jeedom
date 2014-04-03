@@ -204,7 +204,7 @@ if (!isConnect()) {
                     $object = $eqLogic->getObject();
                     echo '<tr data-link_id="' . $eqLogic->getId() . '" data-type="widget" data-viewDataType="eqLogic">';
                     echo '<td>';
-                    echo '<input type="checkbox" class="enable form-control" />';
+                    echo '<input type="checkbox" class="enable" />';
                     echo '<input class="viewDataOption" data-l1key="type" value="eqLogic" hidden/>';
                     echo '<input class="viewDataOption" data-l1key="link_id" value="' . $eqLogic->getId() . '" hidden/>';
                     echo '</td>';
@@ -226,7 +226,7 @@ if (!isConnect()) {
             foreach (scenario::all() as $scenario) {
                 echo '<tr data-link_id="' . $scenario->getId() . '" data-type="widget" data-viewDataType="scenario">';
                 echo '<td>';
-                echo '<input type="checkbox" class="enable form-control" />';
+                echo '<input type="checkbox" class="enable" />';
                 echo '<input class="viewDataOption" data-l1key="type" value="scenario" hidden/>';
                 echo '<input class="viewDataOption" data-l1key="link_id" value="' . $scenario->getId() . '" hidden/>';
                 echo '</td>';
