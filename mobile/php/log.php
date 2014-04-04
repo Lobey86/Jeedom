@@ -102,7 +102,7 @@ if (isset($log[0][0]) && $log[0][0] == '') {
 </table>
 
 <script>
-    $(function() {
+    $(document).on("pagecontainershow", function() {
         $('#sel_page').on('change', function() {
             var page = $(this).value();
             window.location = 'index.php?v=m&p=log&page=' + page + '&logfile=' + logfile;

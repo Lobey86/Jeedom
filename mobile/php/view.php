@@ -45,7 +45,7 @@ $rightPanel .= '</ul>';
         if ($viewZone->getType() == 'graph') {
             echo '<div id="' . $div_id . '">';
             echo '<script>';
-            echo '$(function() {';
+            echo '$(document).on("pagecontainershow", function() {';
             foreach ($viewZone->getViewData() as $viewData) {
                 echo 'drawChart(' . $viewData->getLink_id() . ',"' . $div_id . '","' . $viewZone->getConfiguration('dateRange') . '",jQuery.parseJSON("' . addslashes(json_encode($viewData->getConfiguration())) . '"));';
             }
