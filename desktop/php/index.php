@@ -264,7 +264,7 @@ $plugins_list = plugin::listPlugin();
         include_file('3rdparty', 'jquery.tableUtils/jquery.tableUtils', 'js');
         include_file('desktop', 'utils', 'js');
         include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
-        nclude_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
+        include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
         if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
             include_file('core', 'chatAdapter', 'js');
             include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'js');

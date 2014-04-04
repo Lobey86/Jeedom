@@ -2,6 +2,7 @@
 if (!isConnect()) {
     throw new Exception('401 - Unauthorized access to page');
 }
+$view = null;
 if (init('id') == '') {
     if ($_SESSION['user']->getOptions('defaultMobileView') != '') {
         $view = view::byId($_SESSION['user']->getOptions('defaultMobileView'));
@@ -10,8 +11,7 @@ if (init('id') == '') {
         $list_view = view::all();
         $view = $list_view[0];
     }
-}
-if (init('id') != '') {
+} else {
     $view = view::byId(init('id'));
 }
 if (!is_object($view)) {
@@ -45,7 +45,7 @@ $rightPanel .= '</ul>';
         if ($viewZone->getType() == 'graph') {
             echo '<div id="' . $div_id . '">';
             echo '<script>';
-            echo '$(function() {';
+            echo '$(document).on("pagecontainershow", function() {';
             foreach ($viewZone->getViewData() as $viewData) {
                 echo 'drawChart(' . $viewData->getLink_id() . ',"' . $div_id . '","' . $viewZone->getConfiguration('dateRange') . '",jQuery.parseJSON("' . addslashes(json_encode($viewData->getConfiguration())) . '"));';
             }
