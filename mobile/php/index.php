@@ -29,9 +29,12 @@ if ($plugin != '') {
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" /> 
-        <meta HTTP-EQUIV="Pragma" CONTENT="private">
-        <meta HTTP-EQUIV="Cache-Control" CONTENT="private, max-age=5400, pre-check=5400" />
-        <meta HTTP-EQUIV="Expires" CONTENT="<?php echo date(DATE_RFC822, strtotime("1 day")); ?>" />
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
+        
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta name="mobile-web-app-capable" content="yes">
@@ -125,7 +128,7 @@ if ($plugin != '') {
             </div><!-- /footer -->
 
             <div data-role="panel" id="leftpanel" data-position="left" data-display="push" data-theme="b" data-position-fixed="true" data-animate="false" class="ui-icon-alt">
-                 <ul data-role="listview">
+                <ul data-role="listview">
                     <li><a href="index.php?v=m&p=home" data-theme="a"><i class="fa fa-home"></i> Accueil</a></li>
                     <li><a href="index.php?v=m&p=equipment" data-theme="a"><i class="fa fa fa-tachometer" ></i> Equipements </a></li>
                     <li><a href="index.php?v=m&p=scenario" data-theme="a"><i class="fa fa-cogs"></i> Scénario</a></li>
