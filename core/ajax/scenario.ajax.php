@@ -39,7 +39,7 @@ try {
         }
         switch (init('state')) {
             case 'start':
-                $scenario->launch();
+                $scenario->launch(init('force', false));
                 break;
             case 'stop':
                 $scenario->stop();
@@ -53,19 +53,6 @@ try {
                 $scenario->save();
                 break;
         }
-        ajax::success();
-    }
-
-    if (init('action') == 'stopScenario') {
-        $scenario = scenario::byId(init('id'));
-        if (!is_object($scenario)) {
-            throw new Exception('Scénario ID inconnu : ' . init('id'));
-        }
-        if (!$scenario->stop()) {
-            throw new Exception('Impossible d\'arreter le scenario PID : ' . $scenario->getPID());
-        }
-        $scenario->setState('stop');
-        $scenario->save();
         ajax::success();
     }
 
@@ -95,15 +82,6 @@ try {
             throw new Exception('Scénario ID inconnu');
         }
         $scenario->remove();
-        ajax::success();
-    }
-
-    if (init('action') == 'execScenario') {
-        $scenario = scenario::byId(init('id'));
-        if (!is_object($scenario)) {
-            throw new Exception('Scénario ID inconnu');
-        }
-        $scenario->launch(true);
         ajax::success();
     }
 

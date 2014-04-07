@@ -373,8 +373,9 @@ function stopScenario(_scenario_id) {
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
         data: {
-            action: "stopScenario",
+            action: "changeState",
             id: _scenario_id,
+            state: 'stop',
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -583,8 +584,10 @@ function execScenario(_scenario_id) {
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
         data: {
-            action: "execScenario",
-            id: _scenario_id
+            action: "changeState",
+            id: _scenario_id,
+            state: 'start',
+            force: true
         },
         dataType: 'json',
         error: function(request, status, error) {
