@@ -57,16 +57,20 @@ if (init('cron_id') != '') {
         $cron->setServer(gethostname());
         $cron->setLastRun($datetime);
         $cron->save();
+        $option = null;
+        if (count($cron->getOption()) > 0) {
+            $option = $cron->getOption();
+        }
         if ($cron->getClass() != '') {
             $class = $cron->getClass();
             $function = $cron->getFunction();
             if (class_exists($class)) {
                 if (method_exists($class, $function)) {
                     if ($cron->getDeamon() == 0) {
-                        $class::$function();
+                        $class::$function($option);
                     } else {
                         while (true) {
-                            $class::$function();
+                            $class::$function($option);
                             sleep($cron->getDeamonSleepTime());
                             if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
                                 die();
@@ -94,10 +98,10 @@ if (init('cron_id') != '') {
             $function = $cron->getFunction();
             if (function_exists($function)) {
                 if ($cron->getDeamon() == 0) {
-                    $function();
+                    $function($option);
                 } else {
                     while (true) {
-                        $function();
+                        $function($option);
                         sleep($cron->getDeamonSleepTime());
                         if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
                             die();
@@ -114,12 +118,16 @@ if (init('cron_id') != '') {
                 die();
             }
         }
-        $cron->setState('stop');
-        $cron->setPID();
-        $cron->setServer('');
-        $cron->setDuration(convertDuration(strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)));
-        $cron->save();
         log::add('cron', 'info', 'Fin de ' . $cron->getName());
+        if ($cron->getOnce() == 1) {
+            $cron->remove();
+        } else {
+            $cron->setState('stop');
+            $cron->setPID();
+            $cron->setServer('');
+            $cron->setDuration(convertDuration(strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)));
+            $cron->save();
+        }
         die();
     } catch (Exception $e) {
         $cron->setState('error');

@@ -35,6 +35,8 @@ class cron {
     private $timeout;
     private $deamon = 0;
     private $deamonSleepTime;
+    private $option;
+    private $once = 0;
 
     /*     * ***********************Methode static*************************** */
 
@@ -54,7 +56,7 @@ class cron {
         return DB::Prepare($sql, $value, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function byClassAndFunction($_class, $_function) {
+    public static function byClassAndFunction($_class, $_function, $_option = '') {
         $value = array(
             'class' => $_class,
             'function' => $_function,
@@ -63,6 +65,11 @@ class cron {
                 FROM cron
                 WHERE class=:class
                     AND function=:function';
+        if ($_option != '') {
+            $_option = json_encode($_option);
+            $value['option'] = $_option;
+            $sql .= ' AND `option`=:option';
+        }
         return DB::Prepare($sql, $value, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -273,17 +280,24 @@ class cron {
         }
         try {
             $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
-            if ($c->isDue()) {
-                return true;
-            }
-
-            $lastCheck = new DateTime($this->getLastRun());
-            $prev = $c->getPreviousRunDate();
-            if ($lastCheck < $prev) {
-                if ($lastCheck->diff($prev)->format('%i') > 5) {
-                    log::add('cron', 'error', 'Retard de ' . ( $lastCheck->diff($prev)->format('%i min')) . ': ' . $this->getClass() . '::' . $this->getFunction() . '(). Rattrapage en cours...');
+            try {
+                if ($c->isDue()) {
+                    return true;
                 }
-                return true;
+            } catch (Exception $e) {
+                
+            }
+            try {
+                $prev = $c->getPreviousRunDate();
+                $lastCheck = new DateTime($this->getLastRun());
+                if ($lastCheck < $prev) {
+                    if ($lastCheck->diff($prev)->format('%i') > 5) {
+                        log::add('cron', 'error', 'Retard de ' . ( $lastCheck->diff($prev)->format('%i min')) . ': ' . $this->getClass() . '::' . $this->getFunction() . '(). Rattrapage en cours...');
+                    }
+                    return true;
+                }
+            } catch (Exception $e) {
+                
             }
         } catch (Exception $e) {
             log::add('cron', 'error', 'Expression cron non valide : ' . $this->getSchedule() . '. Détails : ' . $e->getMessage());
@@ -411,6 +425,22 @@ class cron {
 
     public function setDeamonSleepTime($deamonSleepTime) {
         $this->deamonSleepTime = $deamonSleepTime;
+    }
+
+    public function getOption() {
+        return json_decode($this->option, true);
+    }
+
+    public function getOnce() {
+        return $this->once;
+    }
+
+    public function setOption($option) {
+        $this->option = json_encode($option);
+    }
+
+    public function setOnce($once) {
+        $this->once = $once;
     }
 
 }

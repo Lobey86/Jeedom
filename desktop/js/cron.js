@@ -170,6 +170,7 @@ function saveCron() {
 function addCron(_cron) {
     $.hideAlert();
     var tr = '<tr id="' + init(_cron.id) + '">';
+    tr += '<td class="option"><span class="cronAttr" data-l1key="id"></span></td>';
     tr += '<td>';
     if (init(_cron.state) == 'run') {
         tr += '<a class="btn btn-danger btn-sm stop"><i class="fa fa-stop"></i></a>';
@@ -179,7 +180,6 @@ function addCron(_cron) {
     }
     tr += '</td>';
     tr += '<td class="enable"><center>';
-    tr += '<input class="cronAttr" data-l1key="id" hidden/>';
     tr += '<input type="checkbox" class="cronAttr" data-l1key="enable" checked/>';
     tr += '</center></td>';
     tr += '<td>';
@@ -191,6 +191,9 @@ function addCron(_cron) {
     tr += '<td class="deamons">';
     tr += '<input type="checkbox" class="cronAttr" data-l1key="deamon" /></span> ';
     tr += '<input class="cronAttr form-control" data-l1key="deamonSleepTime" style="width : 50px; display : inline-block;"/>';
+    tr += '</td>';
+    tr += '<td class="once">';
+    tr += '<input type="checkbox" class="cronAttr" data-l1key="once" /></span> ';
     tr += '</td>';
     tr += '<td class="class"><input class="form-control cronAttr" data-l1key="class" /></td>';
     tr += '<td class="function"><input class="form-control cronAttr" data-l1key="function" /></td>';

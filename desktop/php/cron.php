@@ -24,14 +24,16 @@ if (config::byKey('enableCron') == 0) {
 <table id="table_cron" class="table table-bordered table-condensed tablesorter" >
     <thead>
         <tr>
+            <th class="id" style="width: 40px;">#</th>
             <th class="" style="width: 50px;" data-sorter="false" data-filter="false"></th>
             <th class="enable" style="width: 80px;">Actif</th>
             <th class="server" style="width: 100px;">Serveur</th>
             <th class="pid" style="width: 100px;">PID</th>
             <th class="deamons" style="width: 80px;">Démon</th>
-            <th class="class">Classe</th>
-            <th class="function">Fonction</th>
-            <th class="schedule"><i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe' style="position: relative; width: 10px;"></i> Programation</th>
+            <th class="once" style="width: 80px;">Unique</th>
+            <th class="class" style="width: 120px;">Classe</th>
+            <th class="function" style="width: 120px;">Fonction</th>
+            <th class="schedule" style="width: 170px;"><i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe' style="position: relative; width: 10px;"></i> Programation</th>
             <th class="timeout" style="width: 150px;">Timeout (min)</th>
             <th class="lastRun" style="width: 200px;">Dernier lancement</th>
             <th class="duration" style="width: 80px;">Durée</th>
