@@ -126,14 +126,6 @@ try {
         $return['maxValue'] = '';
         $return['minValue'] = '';
         foreach ($cmd->getHistory($dateStart, $dateEnd) as $history) {
-            if ($cmd->getSubType() != 'binary' && count($data) > 0) {
-                if (($data[count($data) - 1][0] + 7200000) < (floatval(strtotime($history->getDatetime() . " UTC")) * 1000)) {
-                    $info_history = array();
-                    $info_history[] = floatval($data[count($data) - 1][0] + 3600000);
-                    $info_history[] = null;
-                    $data[] = $info_history;
-                }
-            }
             $info_history = array();
             $info_history[] = floatval(strtotime($history->getDatetime() . " UTC")) * 1000;
             $info_history[] = floatval($history->getValue());
