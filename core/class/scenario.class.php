@@ -401,11 +401,18 @@ class scenario {
     public function stop() {
         if ($this->running()) {
             exec('kill ' . $this->getPID());
-            sleep(3);
-            if ($this->running()) {
+            $retry = 0;
+            while ($this->running() && $retry < 10) {
+                sleep(1);
                 exec('kill -9 ' . $this->getPID());
+                $retry++;
+            }
+            if ($this->running()) {
+                throw new Exception('Impossible d\'arreter le scénario : ' . $this->getHumanName() . '. PID : ' . $this->getPID());
             }
         }
+        $this->setState('stop');
+        $this->save();
         return true;
     }
 
