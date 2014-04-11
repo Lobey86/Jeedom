@@ -87,6 +87,12 @@ try {
         ajax::success();
     }
 
+    if (init('action') == 'sendReportBug') {
+        $ticket = json_decode(init('ticket'), true);
+        market::saveTicket($ticket);
+        ajax::success(array('url' => config::byKey('market::address') . '/index.php?v=d&p=ticket'));
+    }
+
     throw new Exception('Aucune methode correspondante à : ' . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

@@ -137,6 +137,37 @@ class market {
         }
     }
 
+    public static function saveTicket($_ticket) {
+        $jsonrpc = self::getJsonRpc();
+        $_ticket['user_plugin'] = '';
+        foreach (plugin::listPlugin() as $plugin) {
+            $_ticket['user_plugin'] .= $plugin->getId() . ',';
+        }
+        $cibDir = realpath(dirname(__FILE__) . '/../../log');
+        $tmp = dirname(__FILE__) . '/../../tmp/log.zip';
+        if (file_exists($tmp)) {
+            if (!unlink($tmp)) {
+                throw new Exception('Impossible de supprimer : ' . $tmp . '. Vérifiez les droits');
+            }
+        }
+        if (!create_zip($cibDir, $tmp)) {
+            throw new Exception('Echec de création du zip');
+        }
+        if (isset($_ticket['options']['page'])) {
+            $_ticket['options']['page'] = substr($_ticket['options']['page'], strpos($_ticket['options']['page'], 'index.php'));
+        }
+
+
+        $file = array(
+            'file' => '@' . realpath($tmp)
+        );
+        $_ticket['messages'][0]['message'] .= "\n\n Version de Jeedom : " . getVersion('jeedom');
+        if (!$jsonrpc->sendRequest('ticket::save', array('ticket' => $_ticket), 600, $file)) {
+            throw new Exception($jsonrpc->getErrorMessage());
+        }
+        return $jsonrpc->getResult();
+    }
+
     public static function getJeedomCurrentVersion($_refresh = false) {
         try {
             $cache = cache::byKey('jeedom::lastVersion');
@@ -215,7 +246,6 @@ class market {
             } else {
                 $updateDateTime = config::byKey($market->getLogicalId() . '::installVersionDate', $market->getType());
             }
-
 
             if ($market->getStatus() == 'Refusé') {
                 $return['status'] = 'depreciated';

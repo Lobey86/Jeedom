@@ -45,6 +45,19 @@ $(function() {
 
     /************************Help*************************/
 
+    //Display report bug
+    $("#md_reportBug").dialog({
+        autoOpen: false,
+        modal: true,
+        width:600,
+        open: function() {
+            $("body").css({overflow: 'hidden'})
+        },
+        beforeClose: function(event, ui) {
+            $("body").css({overflow: 'inherit'})
+        }
+    });
+
     //Display help
     $("#md_pageHelp").dialog({
         autoOpen: false,
@@ -145,6 +158,11 @@ $(function() {
 
     $('body').delegate('.bt_pageHelp', 'click', function() {
         showHelpModal($(this).attr('data-name'), $(this).attr('data-plugin'));
+    });
+
+    $('body').delegate('.bt_reportBug', 'click', function() {
+        $('#md_reportBug').load('index.php?v=d&modal=report.bug');
+        $('#md_reportBug').dialog('open');
     });
 
     $(window).bind('beforeunload', function(e) {
