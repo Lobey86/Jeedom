@@ -105,14 +105,28 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
     if ($_plugin != '') {
         $_folder = 'plugins/' . $_plugin . '/' . $_folder;
     }
+    $language = 'fr_FR';
+    if (session_status() != PHP_SESSION_NONE && isset($_SESSION['user']) && is_object($_SESSION['user'])) {
+        $language = $_SESSION['user']->getOptions('language', 'fr_FR');
+    }
+
     $path = dirname(__FILE__) . "/../../$_folder/$_fn";
     if (file_exists($path)) {
-        if ($_type == PHP || $_folder == AJAX || $_type == 'class' || $_type == COM || $_type == CONFIG || $_type == MODAL || $_type == API)
-            require_once($path);
-        else if ($_type == CSS)
-            echo "<link href=\"$_folder/$_fn?v=".  getVersion('jeedom')."\" rel=\"stylesheet\" />";
-        else if ($_type == JS || $_type == CLASSJS)
-            echo "<script type=\"text/javascript\" src=\"core/php/getJS.php?file=$_folder/$_fn&v=".  getVersion('jeedom')."\"></script>";
+        if ($_type == PHP || $_folder == AJAX || $_type == 'class' || $_type == COM || $_type == CONFIG || $_type == MODAL || $_type == API) {
+            if ($language != null) {
+                ob_start();
+                require_once($path);
+                $content = ob_get_clean();
+                $name = basename($path);
+                echo translate::exec($content, $name, $language);
+            } else {
+                require_once($path);
+            }
+        } else if ($_type == CSS) {
+            echo "<link href=\"$_folder/$_fn?v=" . getVersion('jeedom') . "\" rel=\"stylesheet\" />";
+        } else if ($_type == JS || $_type == CLASSJS) {
+            echo "<script type=\"text/javascript\" src=\"core/php/getJS.php?file=$_folder/$_fn&v=" . getVersion('jeedom') . "&language=$language\"></script>";
+        }
     } else {
         throw new Exception("File not found : $_fn at $_folder : $path");
     }

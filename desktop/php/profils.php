@@ -1,21 +1,21 @@
 <?php
 if (!isConnect()) {
-    throw new Exception('Error 401 Unauthorized');
+    throw new Exception('{{Error 401 Unauthorized');
 }
 
 $notifyTheme = array(
-    'none' => 'Aucune',
-    '' => 'Noir',
-    'gritter-light' => 'Blanc',
-    'gritter-red' => 'Rouge',
-    'gritter-green' => 'Vert',
-    'gritter-blue' => 'Bleu',
-    'gritter-yellow' => 'Jaune',
+    'none' => '{{Aucune}}',
+    '' => '{{Noir}}',
+    'gritter-light' => '{{Blanc}}',
+    'gritter-red' => '{{Rouge}}',
+    'gritter-green' => '{{Vert}}',
+    'gritter-blue' => '{{Bleu}}',
+    'gritter-yellow' => '{{Jaune}}',
 );
 
 $homePage = array(
-    'core::dashboard' => 'Dashboard',
-    'core::view' => 'Vue',
+    'core::dashboard' => '{{Dashboard}}',
+    'core::view' => '{{Vue}}',
 );
 foreach (plugin::listPlugin() as $pluginList) {
     if ($pluginList->isActive() == 1 && $pluginList->getDisplay() != '') {
@@ -23,7 +23,7 @@ foreach (plugin::listPlugin() as $pluginList) {
     }
 }
 ?>
-<legend>Profile</legend>
+<legend>{{Profile}}</legend>
 
 <div class="panel-group" id="accordionConfiguration">
     <input style="display: none;" class="userAttr form-control" data-l1key="id" />
@@ -31,7 +31,7 @@ foreach (plugin::listPlugin() as $pluginList) {
         <div class="panel-heading">
             <h3 class="panel-title">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_notification">
-                    Notifications
+                    {{Notifications}}
                 </a>
             </h3>
         </div>
@@ -40,7 +40,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">Notifier des évenements</label>
+                            <label class="col-lg-1 control-label">{{Notifier des évenements}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="notifyEvent">
                                     <?php
@@ -52,7 +52,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">Notifier du lancement des scénarios</label>
+                            <label class="col-lg-1 control-label">{{Notifier du lancement des scénarios}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="notifyLaunchScenario">
                                     <?php
@@ -64,7 +64,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">Notifier nouveau message</label>
+                            <label class="col-lg-1 control-label">{{Notifier nouveau message}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="notifyNewMessage">
                                     <?php
@@ -94,7 +94,16 @@ foreach (plugin::listPlugin() as $pluginList) {
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">Page d'accueils</label>
+                            <label class="col-lg-1 control-label">{{Langue}}</label>
+                            <div class="col-lg-3">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="language">
+                                    <option value="fr_FR">{{Français}}</option>
+                                    <option value="en_US">{{Anglais}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label">{{Page d'accueils}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="homePage">
                                     <?php
@@ -108,7 +117,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">Vue par default(desktop)</label>
+                            <label class="col-lg-1 control-label">{{Vue par default(desktop)}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDesktopView">
                                     <?php
@@ -121,13 +130,12 @@ foreach (plugin::listPlugin() as $pluginList) {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">Objet par default(desktop)</label>
+                            <label class="col-lg-1 control-label">{{Objet par default(desktop)}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardObject">
                                     <?php
-                                    echo "<option value='global'>Global</option>";
+                                    echo "<option value='global'>{{Global}}</option>";
                                     foreach (object::all() as $object) {
-
                                         echo "<option value='" . $object->getId() . "'>" . $object->getName() . "</option>";
                                     }
                                     ?>
@@ -144,7 +152,7 @@ foreach (plugin::listPlugin() as $pluginList) {
         <div class="panel-heading">
             <h3 class="panel-title">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_other">
-                    Autres
+                    {{Autres}}
                 </a>
             </h3>
         </div>
@@ -154,7 +162,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                     <fieldset>
 
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">Mot de passe</label>
+                            <label class="col-lg-1 control-label">{{Mot de passe}}</label>
                             <div class="col-lg-3">
                                 <input type="password" class="userAttr form-control" data-l1key="password" />
                             </div>
@@ -167,7 +175,7 @@ foreach (plugin::listPlugin() as $pluginList) {
 
     <br/> 
     <div class="form-actions">
-        <a class="btn btn-success" id="bt_saveProfils"><i class="fa fa-check-circle icon-white"></i>Sauvegarder</a>
+        <a class="btn btn-success" id="bt_saveProfils"><i class="fa fa-check-circle icon-white"></i>{{Sauvegarder}}</a>
     </div>
 </div>
 <?php include_file("desktop", "profils", "js"); ?>

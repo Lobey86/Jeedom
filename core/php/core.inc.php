@@ -17,7 +17,7 @@
  */
 
 date_default_timezone_set('Europe/Amsterdam');
-
+require_once dirname(__FILE__) . '/../class/translate.class.php';
 require_once dirname(__FILE__) . '/utils.inc.php';
 include_file('core', 'common', 'config');
 include_file('core', 'version', 'config');
@@ -25,6 +25,7 @@ include_file('core', 'jeedom', 'config');
 include_file('core', 'plugin', 'class');
 include_file('core', 'config', 'class');
 include_file('core', 'DB', 'class');
+include_file('core', 'utils', 'class');
 
 function jeedomCoreAutoload($classname) {
     try {

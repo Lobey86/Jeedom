@@ -18,7 +18,8 @@
 
 require_once dirname(__FILE__) . "/core.inc.php";
 $file = dirname(__FILE__) . "/../../" . init('file');
-if (substr($file, -3) != '.js') {
+$pathinfo = pathinfo($file);
+if ($pathinfo['extension'] != 'js') {
     die();
 }
 if (file_exists($file)) {
@@ -34,7 +35,12 @@ if (file_exists($file)) {
         header("HTTP/1.1 304 Not Modified");
         exit;
     }
-    readfile($file);
+    if (init('language', null) != null) {
+        $content = file_get_contents($file);
+        echo translate::exec($content, $pathinfo['basename'], init('language'), true);
+    } else {
+        readfile($file);
+    }
     exit;
 }
 
