@@ -161,7 +161,7 @@ class market {
         $file = array(
             'file' => '@' . realpath($tmp)
         );
-        $_ticket['messages'][0]['message'] .= "\n\n Version de Jeedom : " . getVersion('jeedom');
+        $_ticket['options']['jeedom_version'] = getVersion('jeedom');
         if (!$jsonrpc->sendRequest('ticket::save', array('ticket' => $_ticket), 600, $file)) {
             throw new Exception($jsonrpc->getErrorMessage());
         }
