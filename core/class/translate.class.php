@@ -68,66 +68,38 @@ class translate {
     }
 
     public static function loadTranslation($_language) {
+        $return = array();
         if ($_language != 'fr_FR') {
             if (file_exists(self::getPathTranslationFile($_language))) {
-                $content = file_get_contents(self::getPathTranslationFile($_language));
-                return self::print_r_reverse($content);
+                $return = jeedom::print_r_reverse(file_get_contents(self::getPathTranslationFile($_language)));
+                foreach (plugin::listPlugin(true) as $plugin) {
+                    $return = array_merge($return, $plugin->getTranslation($_language));
+                }
             }
         }
-        return array();
+        return $return;
     }
 
     public static function saveTranslation($_language) {
-        file_put_contents(self::getPathTranslationFile($_language), print_r(self::getTranslation($_language), true));
-    }
-
-    private static function print_r_reverse(&$output) {
-        $expecting = 0; // 0=nothing in particular, 1=array open paren '(', 2=array element or close paren ')'
-        $lines = explode("\n", $output);
-        $result = null;
-        $topArray = null;
-        $arrayStack = array();
-        $matches = null;
-        while (!empty($lines) && $result === null) {
-            $line = array_shift($lines);
-            $trim = trim($line);
-            if ($trim == 'Array') {
-                if ($expecting == 0) {
-                    $topArray = array();
-                    $expecting = 1;
-                } else {
-                    trigger_error("Unknown array.");
+        $core = array();
+        $plugins = array();
+        foreach (self::getTranslation($_language) as $page => $translation) {
+            if (strpos($page, 'plugins/') === false) {
+                $core[$page] = $translation;
+            } else {
+                $plugin = substr($page, strpos($page, 'plugins/') + 8);
+                $plugin = substr($plugin, 0, strpos($plugin, '/'));
+                if (!isset($plugins[$plugin])) {
+                    $plugins[$plugin] = array();
                 }
-            } else if ($expecting == 1 && $trim == '(') {
-                $expecting = 2;
-            } else if ($expecting == 2 && preg_match('/^\[(.+?)\] \=\> (.+)$/', $trim, $matches)) { // array element
-                list ($fullMatch, $key, $element) = $matches;
-                if (trim($element) == 'Array') {
-                    $topArray[$key] = array();
-                    $newTopArray = & $topArray[$key];
-                    $arrayStack[] = & $topArray;
-                    $topArray = & $newTopArray;
-                    $expecting = 1;
-                } else {
-                    $topArray[$key] = $element;
-                }
-            } else if ($expecting == 2 && $trim == ')') { // end current array
-                if (empty($arrayStack)) {
-                    $result = $topArray;
-                } else { // pop into parent array
-                    // safe array pop
-                    $keys = array_keys($arrayStack);
-                    $lastKey = array_pop($keys);
-                    $temp = & $arrayStack[$lastKey];
-                    unset($arrayStack[$lastKey]);
-                    $topArray = & $temp;
-                }
-            } else if (!empty($trim)) {
-                $result = $line;
+                $plugins[$plugin][$page] = $translation;
             }
         }
-        $output = implode("\n", $lines);
-        return $result;
+        file_put_contents(self::getPathTranslationFile($_language), print_r($core, true));
+        foreach ($plugins as $plugin_name => $translation) {
+            $plugin = new plugin($plugin_name);
+            $plugin->saveTranslation($_language, $translation);
+        }
     }
 
     /*     * *********************Methode d'instance************************* */

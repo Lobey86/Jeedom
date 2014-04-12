@@ -209,6 +209,25 @@ class plugin {
         return true;
     }
 
+    public function getTranslation($_language) {
+        $dir = dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/core/i18n';
+        if (!file_exists($dir)) {
+            mkdir($dir, 0775, true);
+        }
+        if (file_exists($dir . '/' . $_language . '.php')) {
+            return jeedom::print_r_reverse(file_get_contents($dir . '/' . $_language . '.php'));
+        }
+        return array();
+    }
+
+    public function saveTranslation($_language, $_translation) {
+        $dir = dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/core/i18n';
+        if (!file_exists($dir)) {
+            mkdir($dir, 0775, true);
+        }
+        file_put_contents($dir . '/' . $_language . '.php', print_r($_translation, true));
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {

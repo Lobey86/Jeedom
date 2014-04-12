@@ -23,7 +23,6 @@ $(function() {
     });
     
     loadProfil();
-    
     $('body').delegate('.userAttr', 'change', function() {
         modifyWithoutSave = true;
     });

@@ -118,7 +118,7 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
                 require_once($path);
                 $content = ob_get_clean();
                 $name = basename($path);
-                echo translate::exec($content, $name, $language);
+                echo translate::exec($content, "$_folder/$_fn", $language);
             } else {
                 require_once($path);
             }
