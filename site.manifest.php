@@ -1,6 +1,10 @@
+<?php
+header('Content-type: ');
+require_once dirname(__FILE__) . "/core/php/core.inc.php";
+?>
 CACHE MANIFEST
  
-# Version 0.99
+# Version <?php echo getVersion('jeedom'); ?>
 
 CACHE:
 3rdparty/jquery.include/jquery.include.js

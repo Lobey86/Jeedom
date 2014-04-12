@@ -110,9 +110,9 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
         if ($_type == PHP || $_folder == AJAX || $_type == 'class' || $_type == COM || $_type == CONFIG || $_type == MODAL || $_type == API)
             require_once($path);
         else if ($_type == CSS)
-            echo "<link href=\"$_folder/$_fn\" rel=\"stylesheet\" />";
+            echo "<link href=\"$_folder/$_fn?v=".  getVersion('jeedom')."\" rel=\"stylesheet\" />";
         else if ($_type == JS || $_type == CLASSJS)
-            echo "<script type=\"text/javascript\" src=\"$_folder/$_fn\"></script>";
+            echo "<script type=\"text/javascript\" src=\"core/php/getJS.php?file=$_folder/$_fn&v=".  getVersion('jeedom')."\"></script>";
     } else {
         throw new Exception("File not found : $_fn at $_folder : $path");
     }

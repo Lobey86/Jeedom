@@ -25,7 +25,7 @@ if ($plugin != '') {
 }
 ?>
 <!DOCTYPE html> 
-<html  manifest="site.manifest">
+<html  manifest="site.manifest.php">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" /> 
