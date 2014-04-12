@@ -350,6 +350,39 @@ function refreshGraph(_cmd_id) {
     }
 }
 
+function changeHistoryPoint(_cmd_id, _datetime, _value) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/cmd.ajax.php", // url du fichier php
+        data: {
+            action: "changeHistoryPoint",
+            cmd_id: _cmd_id,
+            datetime: _datetime,
+            value: _value
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            $('#div_alert').showAlert({message: 'La valeur a été éditée avec succes', level: 'success'});
+            var serie = null;
+            for (var i in CORE_chart) {
+                serie = CORE_chart[i].chart.get(intval(_cmd_id));
+                if (serie != null && serie != undefined) {
+                    serie.remove();
+                    serie = null;
+                    drawChart(_cmd_id, i, CORE_chart[i].cmd[intval(_cmd_id)].dateRange, CORE_chart[i].cmd[intval(_cmd_id)].option);
+                }
+            }
+        }
+    });
+}
+
 function drawChart(_cmd_id, _el, _dateRange, _option) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -397,8 +430,12 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
             }
 
             var series = {
+                dataGrouping: {
+                    enabled: false
+                },
                 type: _option.graphType,
                 id: intval(_cmd_id),
+                cursor: 'pointer',
                 name: data.result.history_name,
                 data: data.result.data,
                 color: _option.graphColor,
@@ -407,6 +444,22 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 yAxis: _option.graphScale,
                 tooltip: {
                     valueDecimals: 2
+                },
+                point: {
+                    events: {
+                        click: function(event) {
+                            if (!$.mobile) {
+                                var id = this.series.userOptions.id;
+                                var datetime = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x);
+                                var value = this.y;
+                                bootbox.prompt("Edition de la série : <b>" + this.series.name + "</b> et du point de <b>" + datetime + "</b> (valeur : <b>" + value + "</b>) ? Ne rien mettre pour supprimer la valeur", function(result) {
+                                    if (result !== null) {
+                                        changeHistoryPoint(id, datetime, result);
+                                    }
+                                });
+                            }
+                        }
+                    }
                 }
             };
 
@@ -554,7 +607,7 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 CORE_chart[_el].chart.xAxis[0].setExtremes(extremeAxisX.dataMax - (86400000 * 7), extremeAxisX.dataMax);
             }
 
-            CORE_chart[_el].cmd[intval(_cmd_id)] = {option: _option};
+            CORE_chart[_el].cmd[intval(_cmd_id)] = {option: _option, dateRange: _dateRange};
             CORE_chart[_el].color++;
             if (CORE_chart[_el].color > 9) {
                 CORE_chart[_el].color = 0;
@@ -562,3 +615,16 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
         }
     });
 }
+
+function timeConverter(UNIX_timestamp) {
+    var a = new Date(UNIX_timestamp * 1000);
+    var year = a.getFullYear();
+    var month = a.getMonth();
+    var day = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec;
+    return time;
+}
+

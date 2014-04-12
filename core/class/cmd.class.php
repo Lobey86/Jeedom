@@ -437,13 +437,15 @@ class cmd {
             $files = ls($path, 'cmd.*', false, array('files', 'quiet'));
             foreach ($files as $file) {
                 $informations = explode('.', $file);
-                if (!isset($return[$informations[1]])) {
-                    $return[$informations[1]] = array();
+                if (count($informations) > 3) {
+                    if (!isset($return[$informations[1]])) {
+                        $return[$informations[1]] = array();
+                    }
+                    if (!isset($return[$informations[1]][$informations[2]])) {
+                        $return[$informations[1]][$informations[2]] = array();
+                    }
+                    $return[$informations[1]][$informations[2]][] = array('name' => $informations[3]);
                 }
-                if (!isset($return[$informations[1]][$informations[2]])) {
-                    $return[$informations[1]][$informations[2]] = array();
-                }
-                $return[$informations[1]][$informations[2]][] = array('name' => $informations[3]);
             }
         }
         return $return;
@@ -744,6 +746,7 @@ class cmd {
                 if (strpos($_value, 'error') === false) {
                     $eqLogic->setStatus('numberTryWithoutSuccess', 0);
                     $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
+                    $eqLogic->save();
                     $this->addHistoryValue($_value);
                 }
                 log::add($eqLogic->getEqType_name(), 'Event', 'Message venant de ' . $this->getHumanName() . ' : ' . $_value . ' / cache lifetime => ' . $this->getCacheLifetime());

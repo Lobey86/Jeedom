@@ -29,6 +29,31 @@ class history {
 
     /*     * ***********************Methode static*************************** */
 
+    public static function byCmdIdDatetime($_cmd_id, $_datetime) {
+        $values = array(
+            'cmd_id' => $_cmd_id,
+            'datetime' => $_datetime,
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM history
+                WHERE cmd_id=:cmd_id
+                    AND `datetime`=:datetime';
+        $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+        if (!is_object($result)) {
+            $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                    FROM historyArch
+                    WHERE cmd_id=:cmd_id
+                        AND `datetime`=:datetime';
+            $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+            if (is_object($result)) {
+                $result->setTableName('historyArch');
+            }
+        } else {
+            $result->setTableName('history');
+        }
+        return $result;
+    }
+
     /**
      * Archive les données de history dans historyArch 
      */
@@ -161,10 +186,10 @@ class history {
                         $newHistory = new history();
                         $newHistory->setCmd_id($cmd->getId());
                         $newHistory->setDatetime($prevDatetime);
-                        if ($cmd->getConfiguration('historyDefaultValue', 0) === '#previsous#') {
+                        if ($cmd->getConfiguration('historyDefaultValue', null) === '#previsous#') {
                             $newHistory->setValue($prevValue);
                         } else {
-                            $newHistory->setValue($cmd->getConfiguration('historyDefaultValue', 0));
+                            $newHistory->setValue($cmd->getConfiguration('historyDefaultValue', null));
                         }
                         $newHistory->setTableName('historyArch');
                         $newHistory->save();
@@ -430,9 +455,6 @@ class history {
                 $this->setValue(0);
             }
         }
-
-
-
         $values = array(
             'cmd_id' => $this->getCmd_id(),
             'datetime' => $this->getDatetime(),

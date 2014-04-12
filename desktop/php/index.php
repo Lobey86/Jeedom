@@ -160,7 +160,7 @@ $plugins_list = plugin::listPlugin();
                             <ul class="nav navbar-nav navbar-right">
                                 <?php $displayMessage = (message::nbMessage() > 0) ? '' : 'display : none;'; ?>
                                 <li><a href="index.php?v=d&p=message">
-                                        <span class="label label-danger" id="span_nbMessage" style="<?php echo $displayMessage; ?>">
+                                        <span class="label label-warning" id="span_nbMessage" style="<?php echo $displayMessage; ?>">
                                             <i class="fa fa-envelope"></i> <?php echo message::nbMessage(); ?> message(s)
                                         </span>
                                     </a>
