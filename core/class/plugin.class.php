@@ -217,9 +217,9 @@ class plugin {
         if (file_exists($dir . '/' . $_language . '.php')) {
             $return = file_get_contents($dir . '/' . $_language . '.php');
             if (is_json($return)) {
-                $return = json_decode($return, true);
+                return json_decode($return, true);
             } else {
-                $return = array();
+                return array();
             }
         }
         return array();

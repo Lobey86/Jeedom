@@ -82,7 +82,6 @@ class translate {
                     $replace .= "\n";
                 }
             }
-
             $_content = str_replace("{{" . $text . "}}", $replace, $_content);
         }
         if ($modify && self::getLanguage() != 'fr_FR') {
