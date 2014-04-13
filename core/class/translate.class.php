@@ -70,6 +70,10 @@ class translate {
             }
             if ($replace === false) {
                 $replace = $text;
+            } else {
+                if (substr($text, -1) == ' ' && substr($replace, -1) != ' ') {
+                    $replace .= ' ';
+                }
             }
 
             $_content = str_replace('{{' . $text . '}}', $replace, $_content);
