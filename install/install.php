@@ -38,7 +38,7 @@ $update = false;
 $backup_ok = false;
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
-    echo "***************Installation/Mise à jour de Jeedom " . getVersion('jeedom') . "***************\n";
+    echo translate::sentence("***************Installation/Mise à jour de Jeedom " . getVersion('jeedom') . "***************\n", __FILE__);
 
 
     try {
@@ -61,21 +61,21 @@ try {
                 if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                     throw $e;
                 } else {
-                    echo '***ERREUR*** ' . $e->getMessage();
+                    echo translate::sentence('***ERREUR*** ', __FILE__) . $e->getMessage();
                 }
             }
             $backup_ok = true;
         }
         if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
-            echo "/!\ Mise à jour en mode forcée /!\ \n";
+            echo translate::sentence("/!\ Mise à jour en mode forcée /!\ \n", __FILE__);
         }
         jeedom::stop();
         if (!isset($_GET['v'])) {
             try {
-                echo "Verification des mises à jour (git pull)\n";
+                echo translate::sentence("Verification des mises à jour (git pull)\n", __FILE__);
                 $repo = getGitRepo();
                 if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
-                    echo "Reset du dépot git (mise à jour forcée)\n";
+                    echo translate::sentence("Reset du dépot git (mise à jour forcée)\n", __FILE__);
                     echo $repo->run('reset --hard HEAD');
                 }
                 echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
@@ -83,7 +83,7 @@ try {
                 if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                     throw $e;
                 } else {
-                    echo '***ERREUR*** ' . $e->getMessage();
+                    echo translate::sentence('***ERREUR*** ', __FILE__) . $e->getMessage();
                 }
             }
         }
@@ -91,14 +91,14 @@ try {
 
         if (version_compare(getVersion('jeedom'), $curentVersion, '=') && !isset($_GET['v'])) {
             jeedom::start();
-            echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
+            echo translate::sentence("***************Jeedom est à jour en version ", __FILE__) . getVersion('jeedom') . "***************\n";
             echo "[END UPDATE SUCCESS]\n";
             exit();
         }
         if (isset($_GET['v'])) {
-            echo "La mise à jour " . $_GET['v'] . " va être reapliquée. Voulez vous continuer  ? [o/N] ";
-            if (trim(fgets(STDIN)) !== 'o') {
-                echo "Mise à jour forcee de Jeedom est annulée\n";
+            echo translate::sentence("La mise à jour ", __FILE__) . $_GET['v'] . translate::sentence(" va être reapliquée. Voulez vous continuer  ? [o/N] ", __FILE__);
+            if (trim(fgets(STDIN)) !== 'o' ) {
+                echo translate::sentence("Mise à jour forcee de Jeedom est annulée\n", __FILE__);
                 jeedom::start();
                 echo "[END UPDATE SUCCESS]\n";
                 exit(0);
@@ -106,7 +106,7 @@ try {
             $updateSql = dirname(__FILE__) . '/update/' . $_GET['v'] . '.sql';
             if (file_exists($updateSql)) {
                 try {
-                    echo "Mise a jour BDD en version : " . $_GET['v'] . "\n";
+                    echo translate::sentence("Mise a jour BDD en version : ", __FILE__) . $_GET['v'] . "\n";
                     $sql = file_get_contents($updateSql);
                     DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
                     echo "OK\n";
@@ -114,21 +114,21 @@ try {
                     if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                         throw $e;
                     } else {
-                        echo '***ERREUR*** ' . $e->getMessage();
+                        echo translate::sentence('***ERREUR*** ', __FILE__) . $e->getMessage();
                     }
                 }
             }
             $updateScript = dirname(__FILE__) . '/update/' . $_GET['v'] . '.php';
             if (file_exists($updateScript)) {
                 try {
-                    echo "Mise à jour systeme en version : " . $_GET['v'] . "\n";
+                    echo translate::sentence("Mise à jour systeme en version : ", __FILE__) . $_GET['v'] . "\n";
                     require_once $updateScript;
-                    echo "OK\n";
+                    echo translate::sentence("OK\n", __FILE__);
                 } catch (Exception $e) {
                     if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                         throw $e;
                     } else {
-                        echo '***ERREUR*** ' . $e->getMessage();
+                        echo translate::sentence('***ERREUR*** ', __FILE__) . $e->getMessage();
                     }
                 }
             }
@@ -138,7 +138,7 @@ try {
                 $updateSql = dirname(__FILE__) . '/update/' . $nextVersion . '.sql';
                 if (file_exists($updateSql)) {
                     try {
-                        echo "Mise à jour BDD en version : " . $nextVersion . "\n";
+                        echo translate::sentence("Mise à jour BDD en version : ", __FILE__) . $nextVersion . "\n";
                         $sql = file_get_contents($updateSql);
                         DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
                         echo "OK\n";
@@ -153,14 +153,14 @@ try {
                 $updateScript = dirname(__FILE__) . '/update/' . $nextVersion . '.php';
                 if (file_exists($updateScript)) {
                     try {
-                        echo "Mise à jour systeme en version : " . $nextVersion . "\n";
+                        echo translate::sentence("Mise à jour systeme en version : ", __FILE__) . $nextVersion . "\n";
                         require_once $updateScript;
-                        echo "OK\n";
+                        echo translate::sentence("OK\n", __FILE__);
                     } catch (Exception $e) {
                         if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                             throw $e;
                         } else {
-                            echo '***ERREUR*** ' . $e->getMessage();
+                            echo translate::sentence('***ERREUR*** ', __FILE__) . $e->getMessage();
                         }
                     }
                 }
@@ -168,25 +168,25 @@ try {
             }
         }
         jeedom::start();
-        echo "***************Jeedom est à jour en version " . getVersion('jeedom') . "***************\n";
+        echo translate::sentence("***************Jeedom est à jour en version ", __FILE__) . getVersion('jeedom') . "***************\n";
     } else {
         if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
-            echo "Jeedom va être installé voulez vous continuer ? [o/N] ";
+            echo translate::sentence("Jeedom va être installé voulez vous continuer ? [o/N] ", __FILE__);
             if (trim(fgets(STDIN)) !== 'o') {
-                echo "Installation de Jeedom est annulée\n";
+                echo translate::sentence("Installation de Jeedom est annulée\n", __FILE__);
                 echo "[END UPDATE SUCCESS]\n";
                 exit(0);
             }
         }
-        echo "\nInstallation de Jeedom " . getVersion('jeedom') . "\n";
+        echo translate::sentence("\nInstallation de Jeedom ", __FILE__) . getVersion('jeedom') . "\n";
         $sql = file_get_contents(dirname(__FILE__) . '/install.sql');
-        echo "Installation de la base de données...";
+        echo translate::sentence("Installation de la base de données...", __FILE__);
         DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
-        echo "OK\n";
-        echo "Post installe...\n";
+        echo translate::sentence("OK\n", __FILE__);
+        echo translate::sentence("Post installe...\n", __FILE__);
         nodejs::updateKey();
         config::save('api', config::genKey());
-        echo "Ajout des taches cron\n";
+        echo translate::sentence("Ajout des taches cron\n", __FILE__);
         $cron = new cron();
         $cron->setClass('history');
         $cron->setFunction('historize');
@@ -230,7 +230,7 @@ try {
         $cron->setTimeout(5);
         $cron->save();
 
-        echo "Ajout de l\'utilisateur (admin,admin)\n";
+        echo translate::sentence("Ajout de l\'utilisateur (admin,admin)\n", __FILE__);
         $user = new user();
         $user->setLogin('admin');
         $user->setPassword(sha1('admin'));
@@ -238,7 +238,7 @@ try {
         $user->save();
 
         if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
-            echo "Jeedom est-il installé sur un Rasberry PI ? [o/N] ";
+            echo translate::sentence("Jeedom est-il installé sur un Rasberry PI ? [o/N] ", __FILE__);
             if (trim(fgets(STDIN)) === 'o') {
                 config::save('cronSleepTime', 60);
                 $logLevel = array('info' => 0, 'debug' => 0, 'event' => 0, 'error' => 1);
@@ -261,8 +261,8 @@ try {
         }
         jeedom::start();
     }
-    echo 'Erreur durant l\'installation : ' . $e->getMessage();
-    echo 'Détails : ' . print_r($e->getTrace());
+    echo translate::sentence('Erreur durant l\'installation : ', __FILE__) . $e->getMessage();
+    echo translate::sentence('Détails : ', __FILE__) . print_r($e->getTrace());
     echo "[END UPDATE ERROR]\n";
     throw $e;
 }

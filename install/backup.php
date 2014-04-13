@@ -54,19 +54,19 @@ try {
 
     echo translate::sentence('Sauvegarde des fichiers : ', __FILE__);
     rcopy(dirname(__FILE__) . '/..', $tmp, true, array('tmp', 'backup', 'log'));
-    echo "OK\n";
+    echo translate::sentence("OK\n", __FILE__);
 
     echo translate::sentence('Sauvegarde de la base de données : ', __FILE__);
     system("mysqldump --host=" . $CONFIG['db']['host'] . " --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'] . "  > " . $tmp . "/DB_backup.sql");
-    echo "OK\n";
+    echo translate::sentence("OK\n", __FILE__);
 
     echo translate::sentence('Création de l\'archive : ', __FILE__);
     system('cd ' . $tmp . '; tar cfz ' . $backup_dir . '/' . $bakcup_name . ' * > /dev/null 2>&1');
-    echo "OK\n";
+    echo translate::sentence("OK\n", __FILE__);
 
     echo translate::sentence('Nettoyage des anciens backup : ', __FILE__);
     system('find ' . $backup_dir . ' -mtime +' . config::byKey('backup::keepDays') . ' -print | xargs -r rm');
-    echo "OK\n";
+    echo translate::sentence("OK\n", __FILE__);
 
     if (config::byKey('backup::cloudUpload') == 1) {
         echo translate::sentence('Envoie de la sauvegarde dans le cloud : ', __FILE__);
@@ -76,7 +76,7 @@ try {
             log::add('backup', 'error', $e->getMessage());
             echo '/!\ ' . $e->getMessage() . ' /!\\';
         }
-        echo "OK\n";
+        echo translate::sentence("OK\n", __FILE__);
     }
 
     echo translate::sentence("***************Fin du backup de Jeedom***************\n", __FILE__);

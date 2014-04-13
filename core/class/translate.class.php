@@ -40,12 +40,15 @@ class translate {
                 if (strpos($_name, 'core') !== false) {
                     $_name = substr($_name, strpos($_name, 'core'));
                 }
+                if (strpos($_name, 'install') !== false) {
+                    $_name = substr($_name, strpos($_name, 'install'));
+                }
             }
         }
         $language = self::getLanguage();
         $modify = false;
         $translate = self::getTranslation();
-        preg_match_all("/{{(.*?)}}/", $_content, $matches);
+        preg_match_all("/{{(.*?)}}/s", $_content, $matches);
         foreach ($matches[1] as $text) {
             $replace = false;
             if (isset($translate[$_name])) {
@@ -74,9 +77,12 @@ class translate {
                 if (substr($text, -1) == ' ' && substr($replace, -1) != ' ') {
                     $replace .= ' ';
                 }
+                if (substr($text, -1) == "\n" && substr($replace, -1) != "\n") {
+                    $replace .= "\n";
+                }
             }
 
-            $_content = str_replace('{{' . $text . '}}', $replace, $_content);
+            $_content = str_replace("{{" . $text . "}}", $replace, $_content);
         }
         if ($modify && self::getLanguage() != 'fr_FR') {
             static::$translation[self::getLanguage()] = $translate;
