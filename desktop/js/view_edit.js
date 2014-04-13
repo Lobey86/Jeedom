@@ -63,7 +63,7 @@ $(function() {
 
     $("#bt_removeView").on('click', function(event) {
         $.hideAlert();
-        bootbox.confirm('Etez-vous sûr de vouloir supprimer la vue <span style="font-weight: bold ;">' + $(".li_view.active a").text() + '</span> ?', function(result) {
+        bootbox.confirm('{{Etez-vous sûr de vouloir supprimer la vue}} <span style="font-weight: bold ;">' + $(".li_view.active a").text() + '</span> ?', function(result) {
             if (result) {
                 removeView($(".li_view.active").attr('data-view_id'));
             }
@@ -303,34 +303,34 @@ function addEditviewZone(_viewZone) {
         if (init(_viewZone.type, 'widget') == 'graph') {
             div += '<select class="pull-right viewZoneAttr form-control input-sm" data-l1key="configuration" data-l2key="dateRange" style="width : 200px;">';
             if (init(_viewZone.configuration.dateRange) == "30 min") {
-                div += '<option value="30 min" selected>30min</option>';
+                div += '<option value="30 min" selected>{{30min}}</option>';
             } else {
-                div += '<option value="30 min">30min</option>';
+                div += '<option value="30 min">{{30min}}</option>';
             }
             if (init(_viewZone.configuration.dateRange) == "1 day") {
-                div += '<option value="1 day" selected>Jour</option>';
+                div += '<option value="1 day" selected>{{Jour}}</option>';
             } else {
-                div += '<option value="1 day">Jour</option>';
+                div += '<option value="1 day">{{Jour}}</option>';
             }
             if (init(_viewZone.configuration.dateRange, '7 days') == "7 days") {
-                div += '<option value="7 days" selected>Semaine</option>';
+                div += '<option value="7 days" selected>{{Semaine}}</option>';
             } else {
-                div += '<option value="7 days">Semaine</option>';
+                div += '<option value="7 days">{{Semaine}}</option>';
             }
             if (init(_viewZone.configuration.dateRange) == "1 month") {
-                div += '<option value="1 month" selected>Mois</option>';
+                div += '<option value="1 month" selected>{{Mois}}</option>';
             } else {
-                div += '<option value="1 month">Mois</option>';
+                div += '<option value="1 month">{{Mois}}</option>';
             }
             if (init(_viewZone.configuration.dateRange) == "1 year") {
-                div += '<option value="1 year" selected>Années</option>';
+                div += '<option value="1 year" selected>{{Années}}</option>';
             } else {
-                div += '<option value="1 year">Années</option>';
+                div += '<option value="1 year">{{Années}}</option>';
             }
             if (init(_viewZone.configuration.dateRange) == "all") {
-                div += '<option value="all" selected>Tous</option>';
+                div += '<option value="all" selected>{{Tous}}</option>';
             } else {
-                div += '<option value="all">Tous</option>';
+                div += '<option value="all">{{Tous}}</option>';
             }
             div += '</select>';
         }
@@ -414,7 +414,7 @@ function saveView(_view_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Modification enregistré', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Modification enregistré}}', level: 'success'});
             modifyWithoutSave = false;
         }
     });

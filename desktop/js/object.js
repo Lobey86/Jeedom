@@ -17,11 +17,11 @@
 
 $(function() {
     if (getUrlVars('saveSuccessFull') == 1) {
-        $('#div_alert').showAlert({message: 'Sauvegarde effectuée avec succès', level: 'success'});
+        $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
     }
 
     if (getUrlVars('removeSuccessFull') == 1) {
-        $('#div_alert').showAlert({message: 'Suppression effectuée avec succès', level: 'success'});
+        $('#div_alert').showAlert({message: '{{Suppression effectuée avec succès}}', level: 'success'});
     }
 
     $(".li_object").on('click', function(event) {
@@ -46,7 +46,7 @@ $(function() {
             var object = $('.object').getValues('.objectAttr');
             saveObject(object[0]);
         } else {
-            $('#div_alert').showAlert({message: 'Veuillez d\'abord sélectionner un objet', level: 'danger'});
+            $('#div_alert').showAlert({message: '{{Veuillez d\'abord sélectionner un objet}}', level: 'danger'});
         }
         return false;
     });
@@ -54,13 +54,13 @@ $(function() {
     $("#bt_removeObject").on('click', function(event) {
         if ($('.li_object.active').attr('data-object_id') != undefined) {
             $.hideAlert();
-            bootbox.confirm('Etez-vous sûr de vouloir supprimer l\'objet <span style="font-weight: bold ;">' + $('.li_object.active a').text() + '</span> ?', function(result) {
+            bootbox.confirm('{{Etez-vous sûr de vouloir supprimer l\'objet} <span style="font-weight: bold ;">' + $('.li_object.active a').text() + '</span> ?', function(result) {
                 if (result) {
                     removeObject($('.li_object.active').attr('data-object_id'));
                 }
             });
         } else {
-            $('#div_alert').showAlert({message: 'Veuillez d\'abord sélectionner un objet', level: 'danger'});
+            $('#div_alert').showAlert({message: '{{Veuillez d\'abord sélectionner un objet}}', level: 'danger'});
         }
         return false;
     });
@@ -146,7 +146,7 @@ function  saveObject(object) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Objet sauvegardé', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Objet sauvegardé}}', level: 'success'});
             modifyWithoutSave = false;
             window.location.replace('index.php?v=d&p=object&id=' + data.result.id + '&saveSuccessFull=1');
         }

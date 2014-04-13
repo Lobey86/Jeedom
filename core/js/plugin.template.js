@@ -26,11 +26,11 @@ $(function() {
     });
 
     if (getUrlVars('saveSuccessFull') == 1) {
-        $('#div_alert').showAlert({message: 'Sauvegarde effectuée avec succès', level: 'success'});
+        $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
     }
 
     if (getUrlVars('removeSuccessFull') == 1) {
-        $('#div_alert').showAlert({message: 'Suppression effectuée avec succès', level: 'success'});
+        $('#div_alert').showAlert({message: '{{Suppression effectuée avec succès}}', level: 'success'});
     }
 
     /**************************EqLogic*********************************************/
@@ -52,19 +52,19 @@ $(function() {
 
     $('.eqLogicAction[data-action=remove]').on('click', function() {
         if ($('.li_eqLogic.active').attr('data-eqLogic_id') != undefined) {
-            bootbox.confirm('Etes-vous sûr de vouloir supprimer l\'équipement ' + eqType + ' <span style="font-weight: bold ;">' + $('.li_eqLogic.active a:first').text() + '</span> ?', function(result) {
+            bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'équipement}} ' + eqType + ' <b>' + $('.li_eqLogic.active a:first').text() + '</b> ?', function(result) {
                 if (result) {
                     eqLogic.remove(eqType);
                 }
             });
         } else {
-            $('#div_alert').showAlert({message: 'Veuillez d\'abord sélectionner un ' + eqType, level: 'danger'});
+            $('#div_alert').showAlert({message: '{{Veuillez d\'abord sélectionner un}} ' + eqType, level: 'danger'});
         }
     });
 
 
     $('.eqLogicAction[data-action=add]').on('click', function() {
-        bootbox.prompt("Nom de l'équipement ?", function(result) {
+        bootbox.prompt("{{Nom de l'équipement ?}}", function(result) {
             if (result !== null) {
                 eqLogic.save(eqType, [{name: result}]);
             }
@@ -105,7 +105,7 @@ $(function() {
             var id = $(this).closest('.cmd').attr('data-cmd_id');
             cmd_test(id);
         } else {
-            $('#div_alert').showAlert({message: 'Veuillez activer l\'équipement avant de tester une de ses commandes', level: 'warning'});
+            $('#div_alert').showAlert({message: '{{Veuillez activer l\'équipement avant de tester une de ses commandes}}', level: 'warning'});
         }
     });
 

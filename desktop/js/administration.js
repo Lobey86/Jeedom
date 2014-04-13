@@ -79,7 +79,7 @@ $(function() {
 
     $(".bt_updateJeedom").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('Etez-vous sûr de vouloir mettre à jour Jeedom ? Une fois lancée cette opération ne peut etre annulée', function(result) {
+        bootbox.confirm('{{Etez-vous sûr de vouloir mettre à jour Jeedom ? Une fois lancée cette opération ne peut etre annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -107,7 +107,7 @@ $(function() {
 
     $("#bt_backupJeedom").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('Etez-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut etre annulée', function(result) {
+        bootbox.confirm('{{Etez-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut etre annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -134,7 +134,7 @@ $(function() {
 
     $("#bt_restoreJeedom").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('Etez-vous sûr de vouloir restaurer Jeedom avec <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ? Une fois lancée cette opération ne peut etre annulée', function(result) {
+        bootbox.confirm('{{Etez-vous sûr de vouloir restaurer Jeedom avec}} <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut etre annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -162,7 +162,7 @@ $(function() {
 
     $("#bt_removeBackup").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('Etez-vous sûr de vouloir supprimer la sauvegarde <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ?', function(result) {
+        bootbox.confirm('{{Etez-vous sûr de vouloir supprimer la sauvegarde}} <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ?', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -182,7 +182,7 @@ $(function() {
                             return;
                         }
                         updateListBackup();
-                        $('#div_alert').showAlert({message: 'Sauvegarde supprimé avec succès', level: 'success'});
+                        $('#div_alert').showAlert({message: '{{Sauvegarde supprimé avec succès}}', level: 'success'});
                     }
                 });
             }
@@ -195,7 +195,7 @@ $(function() {
 
     $("#bt_restoreCloudJeedom").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('Etez-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud <b>' + $('#sel_restoreCloudBackup option:selected').text() + '</b> ? Une fois lancée cette opération ne peut etre annulée', function(result) {
+        bootbox.confirm('{{Etez-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud}} <b>' + $('#sel_restoreCloudBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut etre annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -235,10 +235,10 @@ $(function() {
             },
             success: function(data) {
                 if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: 'Connection échoué : ' + data.result, level: 'danger'});
+                    $('#div_alert').showAlert({message: '{{Connection échoué :}} ' + data.result, level: 'danger'});
                     return;
                 }
-                $('#div_alert').showAlert({message: 'Connection réussie', level: 'success'});
+                $('#div_alert').showAlert({message: '{{Connection réussie}}', level: 'success'});
             }
         });
         return false;
@@ -247,7 +247,7 @@ $(function() {
     $("#table_user").delegate(".del_user", 'click', function(event) {
         $.hideAlert();
         var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value()};
-        bootbox.confirm('Etez-vous sûr de vouloir supprimer cet utilisateur ?', function(result) {
+        bootbox.confirm('{{Etez-vous sûr de vouloir supprimer cet utilisateur ?}}', function(result) {
             if (result) {
                 delUser(user);
             }
@@ -257,7 +257,7 @@ $(function() {
     $("#table_user").delegate(".change_mdp_user", 'click', function(event) {
         $.hideAlert();
         var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value(), login: $(this).closest('tr').find('.userAttr[data-l1key=login]').value()};
-        bootbox.prompt("Quel est le nouveau mot de passe", function(result) {
+        bootbox.prompt("{{Quel est le nouveau mot de passe ?}}", function(result) {
             if (result !== null) {
                 user.password = result;
                 addEditUser(user);
@@ -307,11 +307,11 @@ function getJeedomLog(_autoUpdate, _log) {
             for (var i in data.result.reverse()) {
                 log += data.result[i][2];
                 if ($.trim(data.result[i][2]) == '[END ' + _log.toUpperCase() + ' SUCCESS]') {
-                    $('#div_alert').showAlert({message: 'L\'opération est réussie', level: 'success'});
+                    $('#div_alert').showAlert({message: '{{L\'opération est réussie}}', level: 'success'});
                     _autoUpdate = 0;
                 }
                 if ($.trim(data.result[i][2]) == '[END ' + _log.toUpperCase() + ' ERROR]') {
-                    $('#div_alert').showAlert({message: 'L\'opération a échoué', level: 'danger'});
+                    $('#div_alert').showAlert({message: '{{L\'opération a échoué}}', level: 'danger'});
                     _autoUpdate = 0;
                 }
             }
@@ -383,8 +383,8 @@ function printUsers() {
                 ligne += '</td>';
                 ligne += '<td>';
                 if (ldapEnable != '1') {
-                    ligne += '<a class="btn btn-xs btn-danger pull-right del_user"><i class="fa fa-trash-o"></i> Supprimer</a>';
-                    ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user"><i class="fa fa-pencil"></i> Changer le mot de passe</a>';
+                    ligne += '<a class="btn btn-xs btn-danger pull-right del_user"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>';
+                    ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user"><i class="fa fa-pencil"></i> {{Changer le mot de passe}}</a>';
                 }
                 ligne += '</td>';
                 ligne += '<td>';
@@ -419,7 +419,7 @@ function delUser(_user) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'L\'utilisateur a bien été supprimé', level: 'success'});
+            $('#div_alert').showAlert({message: '{{L\'utilisateur a bien été supprimé}}', level: 'success'});
         }
     });
 }
@@ -443,7 +443,7 @@ function saveUser(_users) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Sauvegarde effetuée', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
             modifyWithoutSave = false;
         }
     });
@@ -509,7 +509,7 @@ function flushMemcache() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Cache vidé', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Cache vidé}}', level: 'success'});
         }
     });
 }
@@ -538,7 +538,7 @@ function saveConfiguration(_el) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Sauvegarde effetuée', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
             modifyWithoutSave = false;
             loadConfiguration(_el);
         }

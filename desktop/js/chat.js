@@ -24,9 +24,9 @@ $(function() {
                 Name: user_login,
                 ProfilePictureUrl: 'core/img/noPicture.gif'
             },
-            typingText: ' en train d\'écrire...',
+            typingText: ' {{en train d\'écrire...}}',
             titleText: 'Jeedom chat',
-            emptyRoomText: "Il n'y a personne",
+            emptyRoomText: "{{Il n'y a personne}}",
             adapter: new jeedomChatAdapter()
         });
 

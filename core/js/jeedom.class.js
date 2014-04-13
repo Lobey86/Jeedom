@@ -54,7 +54,7 @@ jeedom.init = function() {
                         $('body').trigger('nodeJsConnect');
                     });
                     socket.on('authentification_failed', function() {
-                        notify('Node JS erreur', 'Erreur d\'authentification sur node JS, clef invalide', 'gritter-red');
+                        notify('Node JS erreur', '{{Erreur d\'authentification sur node JS, clef invalide}}', 'gritter-red');
                         $('.span_nodeJsState').removeClass('green').addClass('red');
                         jeedom.nodeJs.state = false;
                     });

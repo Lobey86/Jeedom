@@ -35,7 +35,7 @@ $(function() {
     $(".li_history .remove").on('click', function() {
         var bt_remove = $(this);
         $.hideAlert();
-        bootbox.confirm('Etez-vous sûr de vouloir supprimer l\'historique de <span style="font-weight: bold ;">' + bt_remove.closest('.li_history').find('.history').text() + '</span> ?', function(result) {
+        bootbox.confirm('{{Etez-vous sûr de vouloir supprimer l\'historique de} <span style="font-weight: bold ;">' + bt_remove.closest('.li_history').find('.history').text() + '</span> ?', function(result) {
             if (result) {
                 emptyHistory(bt_remove.closest('.li_history').attr('data-cmd_id'));
             }
@@ -60,7 +60,7 @@ function emptyHistory(_cmd_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Historique supprimé avec succes', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Historique supprimé avec succes}}', level: 'success'});
             li = $('li[data-cmd_id=' + _cmd_id + ']');
             if (li.hasClass('active')) {
                 li.find('.history').click();

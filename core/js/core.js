@@ -70,7 +70,7 @@ function execCmd(_id, _value, _cache) {
                 notify('Commande', data.result, 'gritter-red');
                 return;
             }
-            notify('Commande', 'La commande a été executée avec succès', 'gritter-green', true);
+            notify('Commande', '{{La commande a été executée avec succès}}', 'gritter-green', true);
             retour = data.result;
         }
     });
@@ -98,7 +98,7 @@ function changeScenarioState(_id, _state) {
                 notify('Commande', data.result, 'gritter-red')
                 return;
             }
-            notify('Scénario', 'Mise à jour de l\état du scénario réussi', 'gritter-green', true);
+            notify('Scénario', '{{Mise à jour de l\état du scénario réussi}}', 'gritter-green', true);
         }
     });
 }
@@ -143,8 +143,8 @@ function cmd_test(_id) {
                             break;
                         case 'message' :
                             var message = new Object();
-                            message['title'] = '[Jeedom] Message de test';
-                            message['message'] = 'Ceci est un test de message pour la commande ' + result.name;
+                            message['title'] = '{{[Jeedom] Message de test}}';
+                            message['message'] = '{{Ceci est un test de message pour la commande}} ' + result.name;
                             execCmd(_id, message, 0);
                             break;
                     }
@@ -369,7 +369,7 @@ function changeHistoryPoint(_cmd_id, _datetime, _value) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'La valeur a été éditée avec succes', level: 'success'});
+            $('#div_alert').showAlert({message: '{{La valeur a été éditée avec succes}}', level: 'success'});
             var serie = null;
             for (var i in CORE_chart) {
                 serie = CORE_chart[i].chart.get(intval(_cmd_id));
@@ -402,7 +402,7 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 return;
             }
             if (data.result.data.length < 1) {
-                $('#div_alert').showAlert({message: 'Il n\'existe encore aucun historique pour cette commande : ' + data.result.history_name, level: 'danger'});
+                $('#div_alert').showAlert({message: '{{Il n\'existe encore aucun historique pour cette commande :}} ' + data.result.history_name, level: 'danger'});
                 return;
             }
             if (isset(CORE_chart[_el]) && isset(CORE_chart[_el].cmd[intval(_cmd_id)])) {
@@ -455,7 +455,7 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                                 var id = this.series.userOptions.id;
                                 var datetime = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x);
                                 var value = this.y;
-                                bootbox.prompt("Edition de la série : <b>" + this.series.name + "</b> et du point de <b>" + datetime + "</b> (valeur : <b>" + value + "</b>) ? Ne rien mettre pour supprimer la valeur", function(result) {
+                                bootbox.prompt("{{Edition de la série :}} <b>" + this.series.name + "</b> {{et du point de}} <b>" + datetime + "</b> ({{valeur :}} <b>" + value + "</b>) ? {{Ne rien mettre pour supprimer la valeur}}", function(result) {
                                     if (result !== null) {
                                         changeHistoryPoint(id, datetime, result);
                                     }

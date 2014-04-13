@@ -35,7 +35,7 @@ $(function() {
     autoCompleteAction = ['sleep', 'var', 'scenario'];
 
     if (getUrlVars('saveSuccessFull') == 1) {
-        $('#div_alert').showAlert({message: 'Sauvegarde effectuée avec succès', level: 'success'});
+        $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
     }
 
     $(".li_scenario").on('click', function(event) {
@@ -95,7 +95,7 @@ $(function() {
 
     $("#bt_delScenario").on('click', function(event) {
         $.hideAlert();
-        bootbox.confirm('Etes-vous sûr de vouloir supprimer le scénario <span style="font-weight: bold ;">' + $('.scenarioAttr[data-l1key=name]').value() + '</span> ?', function(result) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer le scénario}} <span style="font-weight: bold ;">' + $('.scenarioAttr[data-l1key=name]').value() + '</span> ?', function(result) {
             if (result) {
                 removeScenario($('.scenarioAttr[data-l1key=id]').value());
             }
@@ -125,7 +125,7 @@ $(function() {
 
     $('#bt_displayScenarioVariable').on('click', function() {
         $('#md_modal').closest('.ui-dialog').css('z-index', '1030');
-        $('#md_modal').dialog({title: "Variable des scénarios"});
+        $('#md_modal').dialog({title: "{{Variable des scénarios}}"});
         $("#md_modal").load('index.php?v=d&modal=dataStore.management&type=scenario').dialog('open');
 
     });
@@ -247,7 +247,7 @@ $(function() {
     /***********************LOG*****************************/
 
     $('#bt_logScenario').on('click', function() {
-        $('#md_modal').dialog({title: "Log d\'exécution du scénario"});
+        $('#md_modal').dialog({title: "{{Log d\'exécution du scénario}}"});
         $("#md_modal").load('index.php?v=d&modal=scenario.log.execution&scenario_id=' + $('.scenarioAttr[data-l1key=id]').value()).dialog('open');
     });
 
@@ -440,12 +440,12 @@ function printScenario(_id) {
             //$('.scenarioAttr[data-l1key=object_id] option:first').prop('selected', true);
             $('body').setValues(data.result, '.scenarioAttr');
             $('#span_type').text(data.result.type);
-            data.result.lastLaunch = (data.result.lastLaunch == null) ? 'Jamais' : data.result.lastLaunch;
+            data.result.lastLaunch = (data.result.lastLaunch == null) ? '{{Jamais}}' : data.result.lastLaunch;
             $('#span_lastLaunch').text(data.result.lastLaunch);
 
 
             $('#div_scenarioElement').empty();
-            $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> Ajouter Elément</a>');
+            $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a>');
             $('.provokeMode').empty();
             $('.scheduleMode').empty();
             $('.scenarioAttr[data-l1key=mode]').trigger('change');
@@ -598,14 +598,14 @@ function execScenario(_scenario_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Exécution réussie', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Exécution réussie}}', level: 'success'});
         }
     });
 }
 
 function addTrigger(_trigger) {
     var div = '<div class="form-group trigger">';
-    div += '<label class="col-lg-3 control-label">Evènement</label>';
+    div += '<label class="col-lg-3 control-label">{{Evènement}}</label>';
     div += '<div class="col-lg-7">';
     div += '<input class="scenarioAttr input-sm form-control" data-l1key="trigger" value="' + _trigger + '">';
     div += '</div>';
@@ -621,7 +621,7 @@ function addTrigger(_trigger) {
 
 function addSchedule(_schedule) {
     var div = '<div class="form-group schedule">';
-    div += '<label class="col-lg-3 control-label">Programmation</label>';
+    div += '<label class="col-lg-3 control-label">{{Programmation}}</label>';
     div += '<div class="col-lg-7">';
     div += '<input class="scenarioAttr input-sm form-control" data-l1key="schedule" value="' + _schedule + '">';
     div += '</div>';
@@ -701,7 +701,7 @@ function addSubElement(_subElement) {
     switch (_subElement.type) {
         case 'if' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
-            retour += '<legend>SI ';
+            retour += '<legend>{{SI}} ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -713,9 +713,9 @@ function addSubElement(_subElement) {
             break;
         case 'then' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;">ALORS';
-            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
-            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
+            retour += '<legend style="margin-top : 8px;">{{ALORS}}';
+            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
+            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
             if (isset(_subElement.expressions)) {
@@ -727,9 +727,9 @@ function addSubElement(_subElement) {
             break;
         case 'else' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;">SINON';
-            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
-            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
+            retour += '<legend style="margin-top : 8px;">{{SINON}}';
+            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
+            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
             if (isset(_subElement.expressions)) {
@@ -741,7 +741,7 @@ function addSubElement(_subElement) {
             break;
         case 'for' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
-            retour += '<legend style="margin-top : 8px;">DE 1 A ';
+            retour += '<legend style="margin-top : 8px;">{{DE 1 A}} ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -754,8 +754,8 @@ function addSubElement(_subElement) {
         case 'do' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
             retour += '<legend style="margin-top : 8px;">FAIRE';
-            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
-            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
+            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
+            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
             if (isset(_subElement.expressions)) {
@@ -767,7 +767,7 @@ function addSubElement(_subElement) {
             break;
         case 'code' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;">CODE';
+            retour += '<legend style="margin-top : 8px;">{{CODE}}';
             retour += '</legend>';
             retour += '<div class="expressions">';
             var expression = {type: 'code'};
@@ -779,9 +779,9 @@ function addSubElement(_subElement) {
             break;
         case 'action' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;">ACTION';
-            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> Ajouter élément</a>';
-            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a>';
+            retour += '<legend style="margin-top : 8px;">{{ACTION}}';
+            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
+            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
             if (isset(_subElement.expressions)) {

@@ -83,8 +83,8 @@ cmd.changeSubType = function(_cmd) {
 
 cmd.availableType = function() {
     var selType = '<select style="width : 120px; margin-bottom : 3px;" class="cmdAttr form-control input-sm" data-l1key="type">';
-    selType += '<option value="info">Info</option>';
-    selType += '<option value="action">Action</option>';
+    selType += '<option value="info">{{Info}}</option>';
+    selType += '<option value="action">{{Action}}</option>';
     selType += '</select>';
     return selType;
 }
@@ -94,7 +94,7 @@ cmd.getSelectModal = function(_options, callback) {
         _options = {};
     }
     if ($("#mod_insertCmdValue").length == 0) {
-        $('body').append('<div id="mod_insertCmdValue" title="Sélectionner la commande" ></div>');
+        $('body').append('<div id="mod_insertCmdValue" title="{{Sélectionner la commande}}" ></div>');
 
         $("#mod_insertCmdValue").dialog({
             autoOpen: false,

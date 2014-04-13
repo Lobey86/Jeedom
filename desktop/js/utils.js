@@ -152,7 +152,7 @@ $(function() {
     });
 
     $('.bt_pluginUpdate').on('click', function() {
-        $('#md_modal2').dialog({title: "Market Jeedom Display"});
+        $('#md_modal2').dialog({title: "{{Market Jeedom}}"});
         $('#md_modal2').load('index.php?v=d&modal=market.display&type=plugin&logicalId=' + $(this).attr('data-logicalId')).dialog('open');
     });
 
@@ -167,7 +167,7 @@ $(function() {
 
     $(window).bind('beforeunload', function(e) {
         if (modifyWithoutSave) {
-            return 'Attention vous quittez une page ayant des données modifiées non sauvegardé. Voulez-vous continuer ?';
+            return '{{Attention vous quittez une page ayant des données modifiées non sauvegardé. Voulez-vous continuer ?}}';
         }
     });
 

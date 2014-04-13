@@ -161,7 +161,7 @@ function saveCron() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Sauvegarde réussie', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
             modifyWithoutSave = false;
         }
     });

@@ -20,7 +20,7 @@ $(function() {
 
     $('#table_interactDef tbody').delegate('.displayInteracQuery', 'click', function() {
         var tr = $(this).closest('tr');
-        $('#md_modal').dialog({title: "Liste des interactions"});
+        $('#md_modal').dialog({title: "{{Liste des interactions}}"});
         $('#md_modal').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + tr.find('.interactDefAttr[data-l1key=id]').value()).dialog('open');
     });
 
@@ -81,7 +81,7 @@ function saveIntercDef() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Sauvegarde réussie', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
             printInteractDef();
             modifyWithoutSave = false;
         }
@@ -124,7 +124,7 @@ function addInteractDefToTable(_interactDef) {
     tr += '<input class="interactDefAttr hide" data-l1key="id" />';
     tr += '<div class="form-group">';
     tr += '<div class="col-lg-4">';
-    tr += '<select class="interactDefAttr tooltips form-control input-sm" data-l1key="filtres" data-l2key="cmd_type" title="Limiter aux commande de type">';
+    tr += '<select class="interactDefAttr tooltips form-control input-sm" data-l1key="filtres" data-l2key="cmd_type" title="{{Limiter aux commande de type}}">';
     var types = jeedom.getConfiguration('cmd:type');
     for (var i in types) {
         tr += '<option value="' + i + '">' + types[i].name + '</option>';
@@ -132,8 +132,8 @@ function addInteractDefToTable(_interactDef) {
     tr += '</select>';
     tr += '</div>';
     tr += '<div class="col-lg-4">';
-    tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'subtype\' title=\'Limiter aux commandes ayant pour sous-type\'>';
-    tr += '<option value=\'all\' >Tous</option>';
+    tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'subtype\' title=\'{{Limiter aux commandes ayant pour sous-type}}\'>';
+    tr += '<option value=\'all\' >{{Tous<}}/option>';
     for (var i in types) {
         for (var j in types[i].subtype) {
             tr += '<option value="' + j + '">' + types[i].subtype[j].name + '</option>';
@@ -146,8 +146,8 @@ function addInteractDefToTable(_interactDef) {
     tr += '</div>';
     tr += '<div class="col-lg-4">';
     var objects = object.all();
-    tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'object_id\' title=\'Limiter aux commandes appartenant à l objet\' style=\'margin-top : 5px;\'>';
-    tr += '<option value=\'all\' >Tous</option>';
+    tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'object_id\' title=\'{{Limiter aux commandes appartenant à l objet}}\' style=\'margin-top : 5px;\'>';
+    tr += '<option value=\'all\' >{{Tous}}</option>';
     for (var i in objects) {
         tr += '<option value=' + objects[i].id + '>' + objects[i].name + '</option>';
     }
@@ -161,16 +161,16 @@ function addInteractDefToTable(_interactDef) {
     tr += '<td>';
     tr += '<div class="form-group">';
     tr += '<div class="col-lg-6 has-warning">';
-    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="query" placeholder="Demande" />';
+    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="query" placeholder="{{Demande}}" />';
     tr += '</div>';
     tr += '<div class="col-lg-6 has-success">';
-    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="reply" placeholder="Réponse"/>';
+    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="reply" placeholder="{{Réponse}}"/>';
     tr += '</div>';
     tr += '<div class="col-lg-6">';
-    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="convertBinary" placeholder="Conversion binaire : faux|vrai" title="Convertir les commandes binaire" style="margin-top : 5px;" />';
+    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="convertBinary" placeholder="{{Conversion binaire : faux|vrai}}" title="{{Convertir les commandes binaire}}" style="margin-top : 5px;" />';
     tr += '</div>';
     tr += '<div class="col-lg-6">';
-    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="synonymes" placeholder="Synonyne" title="Remplace les mots par leur synonyme lors de la generation des commandes" style="margin-top : 5px;" />';
+    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="synonymes" placeholder="{{Synonyne}}" title="{{Remplace les mots par leur synonyme lors de la generation des commandes}" style="margin-top : 5px;" />';
     tr += '</div>';
     tr += '</div>';
     tr += '</td>';
@@ -178,8 +178,8 @@ function addInteractDefToTable(_interactDef) {
     tr += '<div class="form-group">';
     tr += '<div class="col-lg-12">';
     tr += '<select class="interactDefAttr form-control input-sm" data-l1key="link_type">';
-    tr += '<option value="cmd">Commande</option>';
-    tr += '<option value="whatDoYouKnow">Que sais tu ?</option>';
+    tr += '<option value="cmd">{{Commande}}</option>';
+    tr += '<option value="whatDoYouKnow">{{Que sais tu ?}}</option>';
     tr += '</select>';
     tr += '</div>';
     tr += '<div class="col-lg-9">';
@@ -194,8 +194,8 @@ function addInteractDefToTable(_interactDef) {
     tr += '</td>';
     tr += '<td>';
     tr += '<span class="displayInteracQuery cursor">';
-    tr += '<span class="label label-success interactDefAttr tooltips" data-l1key="nbEnableInteractQuery" title="Nombre de requetes active"></span> / ';
-    tr += '<span class="label label-default interactDefAttr tooltips" data-l1key="nbInteractQuery" title="Nombre de requetes totales"></span>';
+    tr += '<span class="label label-success interactDefAttr tooltips" data-l1key="nbEnableInteractQuery" title="{{Nombre de requetes active}}"></span> / ';
+    tr += '<span class="label label-default interactDefAttr tooltips" data-l1key="nbInteractQuery" title="{{Nombre de requetes totales}}"></span>';
     tr += '</span>';
     tr += '<i class="fa fa-minus-circle remove pull-right cursor"></i>';
     tr += '</td>';
