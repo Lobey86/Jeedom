@@ -215,7 +215,12 @@ class plugin {
             mkdir($dir, 0775, true);
         }
         if (file_exists($dir . '/' . $_language . '.php')) {
-            return jeedom::print_r_reverse(file_get_contents($dir . '/' . $_language . '.php'));
+            $return = file_get_contents($dir . '/' . $_language . '.php');
+            if (is_json($return)) {
+                $return = json_decode($return, true);
+            } else {
+                $return = array();
+            }
         }
         return array();
     }
@@ -225,7 +230,7 @@ class plugin {
         if (!file_exists($dir)) {
             mkdir($dir, 0775, true);
         }
-        file_put_contents($dir . '/' . $_language . '.php', print_r($_translation, true));
+        file_put_contents($dir . '/' . $_language . '.php', json_encode($_translation, JSON_PRETTY_PRINT));
     }
 
     /*     * **********************Getteur Setteur*************************** */

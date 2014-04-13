@@ -45,6 +45,7 @@ class translate {
                 }
             }
         }
+
         $language = self::getLanguage();
         $modify = false;
         $translate = self::getTranslation();
@@ -99,7 +100,12 @@ class translate {
         $return = array();
         if (self::getLanguage() != 'fr_FR') {
             if (file_exists(self::getPathTranslationFile(self::getLanguage()))) {
-                $return = jeedom::print_r_reverse(file_get_contents(self::getPathTranslationFile(self::getLanguage())));
+                $return = file_get_contents(self::getPathTranslationFile(self::getLanguage()));
+                if (is_json($return)) {
+                    $return = json_decode($return, true);
+                } else {
+                    $return = array();
+                }
                 foreach (plugin::listPlugin(true) as $plugin) {
                     $return = array_merge($return, $plugin->getTranslation(self::getLanguage()));
                 }
@@ -123,7 +129,7 @@ class translate {
                 $plugins[$plugin][$page] = $translation;
             }
         }
-        file_put_contents(self::getPathTranslationFile(self::getLanguage()), print_r($core, true));
+        file_put_contents(self::getPathTranslationFile(self::getLanguage()), json_encode($core, JSON_PRETTY_PRINT));
         foreach ($plugins as $plugin_name => $translation) {
             $plugin = new plugin($plugin_name);
             $plugin->saveTranslation(self::getLanguage(), $translation);
