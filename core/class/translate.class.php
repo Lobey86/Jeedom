@@ -12,21 +12,23 @@ class translate {
     /*     * *************************Attributs****************************** */
 
     protected static $translation;
+    protected static $language;
 
     /*     * ***********************Methode static*************************** */
 
-    public static function getTranslation($_language) {
-        if (!isset(static::$translation) || !isset(static::$translation[$_language])) {
+    public static function getTranslation() {
+        if (!isset(static::$translation) || !isset(static::$translation[self::getLanguage()])) {
             static::$translation = array(
-                $_language => self::loadTranslation($_language),
+                self::getLanguage() => self::loadTranslation(),
             );
         }
-        return static::$translation[$_language];
+        return static::$translation[self::getLanguage()];
     }
 
-    public static function exec($_content, $_name, $_language = 'fr_FR', $_backslash = false) {
+    public static function exec($_content, $_name, $_backslash = false) {
+        $language = self::getLanguage();
         $modify = false;
-        $translate = self::getTranslation($_language);
+        $translate = self::getTranslation();
         preg_match_all("/{{(.*?)}}/", $_content, $matches);
         foreach ($matches[1] as $text) {
             $replace = false;
@@ -56,9 +58,9 @@ class translate {
 
             $_content = str_replace('{{' . $text . '}}', $replace, $_content);
         }
-        if ($modify && $_language != 'fr_FR') {
-            static::$translation[$_language] = $translate;
-            self::saveTranslation($_language);
+        if ($modify && self::getLanguage() != 'fr_FR') {
+            static::$translation[self::getLanguage()] = $translate;
+            self::saveTranslation($language);
         }
         return $_content;
     }
@@ -67,23 +69,23 @@ class translate {
         return dirname(__FILE__) . '/../i18n/' . $_language . '.php';
     }
 
-    public static function loadTranslation($_language) {
+    public static function loadTranslation() {
         $return = array();
-        if ($_language != 'fr_FR') {
-            if (file_exists(self::getPathTranslationFile($_language))) {
-                $return = jeedom::print_r_reverse(file_get_contents(self::getPathTranslationFile($_language)));
+        if (self::getLanguage() != 'fr_FR') {
+            if (file_exists(self::getPathTranslationFile(self::getLanguage()))) {
+                $return = jeedom::print_r_reverse(file_get_contents(self::getPathTranslationFile(self::getLanguage())));
                 foreach (plugin::listPlugin(true) as $plugin) {
-                    $return = array_merge($return, $plugin->getTranslation($_language));
+                    $return = array_merge($return, $plugin->getTranslation(self::getLanguage()));
                 }
             }
         }
         return $return;
     }
 
-    public static function saveTranslation($_language) {
+    public static function saveTranslation() {
         $core = array();
         $plugins = array();
-        foreach (self::getTranslation($_language) as $page => $translation) {
+        foreach (self::getTranslation(self::getLanguage()) as $page => $translation) {
             if (strpos($page, 'plugins/') === false) {
                 $core[$page] = $translation;
             } else {
@@ -95,11 +97,18 @@ class translate {
                 $plugins[$plugin][$page] = $translation;
             }
         }
-        file_put_contents(self::getPathTranslationFile($_language), print_r($core, true));
+        file_put_contents(self::getPathTranslationFile(self::getLanguage()), print_r($core, true));
         foreach ($plugins as $plugin_name => $translation) {
             $plugin = new plugin($plugin_name);
-            $plugin->saveTranslation($_language, $translation);
+            $plugin->saveTranslation(self::getLanguage(), $translation);
         }
+    }
+
+    public static function getLanguage() {
+        if (!isset(static::$language)) {
+            static::$language = config::byKey('language', 'core', 'fr_FR');
+        }
+        return static::$language;
     }
 
     /*     * *********************Methode d'instance************************* */

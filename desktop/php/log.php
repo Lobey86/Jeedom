@@ -1,6 +1,6 @@
 <?php
 if (!isConnect('admin')) {
-    throw new Exception('Error 401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 $nbLinePerPage = 500;
@@ -26,8 +26,8 @@ if ($logfile == '') {
     throw new Exception('No log file');
 }
 ?>
-<a class="btn btn-danger pull-right" id="bt_removeLog"><i class="fa fa-trash-o"></i> Supprimer</a>
-<a class="btn btn-warning pull-right" id="bt_clearLog"><i class="fa fa-times"></i> Vider</a>
+<a class="btn btn-danger pull-right" id="bt_removeLog"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>
+<a class="btn btn-warning pull-right" id="bt_clearLog"><i class="fa fa-times"></i> {{Vider}}</a>
 <select id="sel_log" class="pull-left form-control" style="width: 200px;">
     <?php
     foreach ($list_logfile as $file) {
@@ -86,7 +86,7 @@ if (isset($log[0][0]) && $log[0][0] == '') {
 <table class="table table-condensed table-bordered tablesorter">
     <thead>
         <tr>
-            <th style="width: 150px;">Date et heure</th><th style="width: 70px;">Type</th><th>Message</th>
+            <th style="width: 150px;">{{Date et heure}}</th><th style="width: 70px;">{{Type}}</th><th>{{Message}}</th>
         </tr>
     </thead>
     <tbody>

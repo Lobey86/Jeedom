@@ -1,6 +1,6 @@
 <?php
 if (!isConnect()) {
-    throw new Exception('Error 401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 $selectPlugin = init('plugin');
 if ($selectPlugin != '') {
@@ -9,9 +9,9 @@ if ($selectPlugin != '') {
     $listMessage = message::all();
 }
 ?>
-<a class="btn btn-danger pull-right" id="bt_clearMessage"><i class="fa fa-trash-o icon-white"></i> Vider</a>
+<a class="btn btn-danger pull-right" id="bt_clearMessage"><i class="fa fa-trash-o icon-white"></i> {{Vider}}</a>
 <select id="sel_plugin" class="form-control" style="width: 200px;">
-    <option value="" selected>Tout</option>
+    <option value="" selected>{{Tout}}</option>
     <?php
     foreach (message::listPlugin() as $plugin) {
         if ($selectPlugin == $plugin['plugin']) {
@@ -26,7 +26,7 @@ if ($selectPlugin != '') {
 <table class="table table-condensed table-bordered tablesorter" id="table_message" style="margin-top: 5px;">
     <thead>
         <tr>
-            <th data-sorter="false" data-filter="false"></th><th>Date et heure</th><th>Plugin</th><th>Description</th><th data-sorter="false" data-filter="false">Action</th>
+            <th data-sorter="false" data-filter="false"></th><th>{{Date et heure}}</th><th>{{Plugin}}</th><th>{{Description}}</th><th data-sorter="false" data-filter="false">{{Action}}</th>
         </tr>
     </thead>
     <tbody>

@@ -1,11 +1,11 @@
 <?php
 if (!isConnect()) {
-    throw new Exception('401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 $scenario = scenario::byId(init('scenario_id'));
 if (!is_object($scenario)) {
-    throw new Exception('Scenario introuvable');
+    throw new Exception('{{Scenario introuvable}}');
 }
 ?>
 <pre>

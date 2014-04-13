@@ -1,19 +1,19 @@
 <?php
 if (!isConnect()) {
-    throw new Exception('401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 sendVarToJS('dataStore_type', init('type'));
 sendVarToJS('dataStore_link_id', init('link_id', -1));
 ?>
 <div style="display: none;" id="div_dataStoreManagementAlert"></div>
-<a class="btn btn-default pull-right" id="bt_dataStoreManagementAdd" style="margin-bottom: 5px;"><i class="fa fa-plus"></i> Ajouter</a>
+<a class="btn btn-default pull-right" id="bt_dataStoreManagementAdd" style="margin-bottom: 5px;"><i class="fa fa-plus"></i> {{Ajouter}}</a>
 <table id="table_dataStore" class="tablesorter">
     <thead>
         <tr>
-            <th>Nom</th>
-            <th>Valeur</th>
-            <th data-sorter="false" data-filter="false">Action</th>
+            <th>{{Nom}}</th>
+            <th>{{Valeur}}</th>
+            <th data-sorter="false" data-filter="false">{{Action}}</th>
         </tr>
     </thead>
     <tbody>
@@ -47,7 +47,7 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
                                 $('#div_dataStoreManagementAlert').showAlert({message: data.result, level: 'danger'});
                                 return;
                             }
-                            $('#div_dataStoreManagementAlert').showAlert({message: 'Data store supprimé', level: 'success'});
+                            $('#div_dataStoreManagementAlert').showAlert({message: '{{Data store supprimé}}', level: 'success'});
                             refreshDataStoreMangementTable();
                         }
                     });
@@ -80,7 +80,7 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
                         $('#div_dataStoreManagementAlert').showAlert({message: data.result, level: 'danger'});
                         return;
                     }
-                    $('#div_dataStoreManagementAlert').showAlert({message: 'Data store sauvegardé', level: 'success'});
+                    $('#div_dataStoreManagementAlert').showAlert({message: '{{Data store sauvegardé}}', level: 'success'});
                     refreshDataStoreMangementTable();
                 }
             });
@@ -95,8 +95,8 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
             tr += '<input class="form-control input-sm value" value="" />';
             tr += '</td>';
             tr += '<td>';
-            tr += '<a class="btn btn-success pull-right btn-xs bt_saveDataStore" style="color : white"><i class="fa fa-check"></i> Enregistrer</a>';
-            tr += '<a class="btn btn-danger pull-right btn-xs bt_removeDataStore" style="color : white"><i class="fa fa-trash-o"></i> Supprimer</a>';
+            tr += '<a class="btn btn-success pull-right btn-xs bt_saveDataStore" style="color : white"><i class="fa fa-check"></i> {{Enregistrer}}</a>';
+            tr += '<a class="btn btn-danger pull-right btn-xs bt_removeDataStore" style="color : white"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>';
             tr += '</td>';
             tr += '</tr>';
             $('#table_dataStore tbody').append(tr);
@@ -131,8 +131,8 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
                         tr += '<span style="display : none;">' + data.result[i].value + '</span><input class="form-control input-sm value" value="' + data.result[i].value + '" />';
                         tr += '</td>';
                         tr += '<td>';
-                        tr += '<a class="btn btn-success pull-right btn-xs bt_saveDataStore" style="color : white"><i class="fa fa-check"></i> Enregistrer</a>';
-                        tr += '<a class="btn btn-danger pull-right btn-xs bt_removeDataStore" style="color : white"><i class="fa fa-trash-o"></i> Supprimer</a>';
+                        tr += '<a class="btn btn-success pull-right btn-xs bt_saveDataStore" style="color : white"><i class="fa fa-check"></i> {{Enregistrer</a>';
+                        tr += '<a class="btn btn-danger pull-right btn-xs bt_removeDataStore" style="color : white"><i class="fa fa-trash-o"></i> {{Supprimer</a>';
                         tr += '</td>';
                         tr += '</tr>';
                     }

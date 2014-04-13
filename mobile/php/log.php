@@ -1,6 +1,6 @@
 <?php
 if (!isConnect()) {
-    throw new Exception('Error 401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 $nbLinePerPage = 50;

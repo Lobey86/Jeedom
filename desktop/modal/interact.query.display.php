@@ -1,14 +1,14 @@
 <?php
 if (!isConnect('admin')) {
-    throw new Exception('401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 if (init('interactDef_id') == '') {
-    throw new Exception('Interact Def ID ne peut etre vide');
+    throw new Exception('{{Interact Def ID ne peut etre vide}}');
 }
 
 $interactQueries = interactQuery::byInteractDefId(init('interactDef_id'));
 if (count($interactQueries) == 0) {
-    throw new Exception('Aucune phrase trouvée');
+    throw new Exception('{{Aucune phrase trouvée}}');
 }
 ?>
 
@@ -17,9 +17,9 @@ if (count($interactQueries) == 0) {
 <table class="table table-bordered table-condensed tablesorter" id="table_interactQuery">
     <thead>
         <tr>
-            <th>Phrase</th>
-            <th>Commande</th>
-            <th>Action</th>
+            <th>{{Phrase}}</th>
+            <th>{{Commande}}</th>
+            <th>{{Action}}</th>
         </tr>
     </thead>
     <tbody>
@@ -35,9 +35,9 @@ if (count($interactQueries) == 0) {
             echo '</td>';
             echo '<td>';
             if ($interactQuery->getEnable() == 1) {
-                echo '<a class="btn btn-danger btn-xs changeEnable" data-state="0" style="color : white;">Désactiver</a>';
+                echo '<a class="btn btn-danger btn-xs changeEnable" data-state="0" style="color : white;">{{Désactiver}}</a>';
             } else {
-                echo '<a class="btn btn-success btn-xs changeEnable" data-state="1" style="color : white;">Activer</a>';
+                echo '<a class="btn btn-success btn-xs changeEnable" data-state="1" style="color : white;">{{Activer}}</a>';
             }
             echo '</td>';
             echo '</tr>';

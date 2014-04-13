@@ -94,15 +94,6 @@ foreach (plugin::listPlugin() as $pluginList) {
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Langue}}</label>
-                            <div class="col-lg-3">
-                                <select class="userAttr form-control" data-l1key="options" data-l2key="language">
-                                    <option value="fr_FR">{{Français}}</option>
-                                    <option value="en_US">{{Anglais}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="col-lg-1 control-label">{{Page d'accueils}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="homePage">

@@ -1,6 +1,6 @@
 <?php
 if (!isConnect('admin')) {
-    throw new Exception('Error 401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 include_file('3rdparty', 'jquery.tree/themes/default/style.min', 'css');
@@ -11,12 +11,12 @@ sendVarToJS('cmd_widgetMobile', cmd::availableWidget('mobile'));
 ?>
 <div class="row">
     <div class="col-lg-4" >
-        <legend>Arbre des commandes</legend>
+        <legend>{{Arbre des commandes}}</legend>
         <div id='div_tree'>
             <ul id='ul_rootTree'>
                 <?php if (count(eqLogic::byObjectId(null)) > 0) { ?>
                     <li>
-                        <a>Sans objet</a>
+                        <a>{{Sans objet}}</a>
                         <ul>
                             <?php
                             foreach (eqLogic::byObjectId(null) as $eqLogic) {
@@ -60,7 +60,7 @@ sendVarToJS('cmd_widgetMobile', cmd::availableWidget('mobile'));
         </div>
     </div>
     <div class="col-lg-8">
-        <legend>Informations</legend>
+        <legend>{{Informations}}</legend>
         <div id='div_displayInfo'></div>
     </div>
 </div>

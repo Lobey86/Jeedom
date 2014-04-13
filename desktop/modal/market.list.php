@@ -1,6 +1,6 @@
 <?php
 if (!isConnect('admin')) {
-    throw new Exception('401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 $markets = market::byStatusAndType('Validé', init('type'));
@@ -21,13 +21,13 @@ if (config::byKey('market::showToValidateMarket') == 1) {
 <table id="table_market" class="table table-bordered table-condensed tablesorter">
     <thead>
         <tr>
-            <th>Type</th>
-            <th>Catégorie</th>
-            <th>Nom</th>
-            <th>Description</th>
-            <th>Statut</th>
-            <th>Auteur</th>
-            <th style="width: 80px;">Nombre de téléchargements</th>
+            <th>{{Type}}</th>
+            <th>{{Catégorie}}</th>
+            <th>{{Nom}}</th>
+            <th>{{Description}}</th>
+            <th>{{Statut}}</th>
+            <th>{{Auteur}}</th>
+            <th style="width: 80px;">{{Nombre de téléchargements}}</th>
         </tr>
     </thead>
     <tbody>
@@ -52,7 +52,7 @@ if (config::byKey('market::showToValidateMarket') == 1) {
 
     initTableSorter();
     $('#table_market tbody tr').on('click', function() {
-        $('#md_modal2').dialog({title: "Market Jeedom Display"});
+        $('#md_modal2').dialog({title: "{{Market Jeedom}}"});
         $('#md_modal2').load('index.php?v=d&modal=market.display&type=' + $(this).attr('data-market_type') + '&id=' + $(this).attr('data-market_id')).dialog('open');
     });
 </script>

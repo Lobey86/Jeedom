@@ -1,6 +1,6 @@
 <?php
 if (!isConnect()) {
-    throw new Exception('401 - Unauthorized access to page');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 $view = null;
 if (init('id') == '') {

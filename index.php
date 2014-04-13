@@ -20,22 +20,21 @@
 if (!isset($_GET['v'])) {
     $useragent = $_SERVER["HTTP_USER_AGENT"];
     echo $useragent;
-    if (stristr($useragent, "Android") || strpos($useragent, "iPod") || strpos($useragent, "iPhone") || strpos($useragent, "Mobile") || strpos($useragent, "WebOS") || strpos($useragent, "mobile") || strpos($useragent, "hp-tablet")
-    ) {
+    if (stristr($useragent, "Android") || strpos($useragent, "iPod") || strpos($useragent, "iPhone") || strpos($useragent, "Mobile") || strpos($useragent, "WebOS") || strpos($useragent, "mobile") || strpos($useragent, "hp-tablet")) {
         header("location: index.php?v=m");
     } else {
         header("location: index.php?v=d");
     }
 } else {
+    require_once dirname(__FILE__) . "/core/php/core.inc.php";
     if ($_GET['v'] == "m") {
-        require_once dirname(__FILE__) . "/mobile/php/index.php";
+        include_file('mobile', 'index', 'php');
     } elseif ($_GET['v'] == "d") {
         if (isset($_GET['modal'])) {
-            require_once dirname(__FILE__) . "/core/php/core.inc.php";
             include_file('core', 'authentification', 'php');
             try {
                 if (!isConnect()) {
-                    throw new Exception('401 - Unauthorized access to page');
+                    throw new Exception('{{401 - Accès non autorisé}}');
                 }
                 include_file('desktop', init('modal'), 'modal', init('plugin'));
             } catch (Exception $e) {
@@ -45,7 +44,7 @@ if (!isset($_GET['v'])) {
                 echo '</div>';
             }
         } else {
-            require_once dirname(__FILE__) . "/desktop/php/index.php";
+            include_file('desktop', 'index', 'php');
         }
     } else {
         echo "Erreur veuillez contacter l'administrateur";

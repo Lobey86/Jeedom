@@ -1,16 +1,16 @@
 <div id="div_alertComment"></div>
 <?php
 if (!isConnect('admin')) {
-    throw new Exception('401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 if (config::byKey('market::apikey') == '') {
-    throw new Exception('401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 $market = market::byId(init('id'));
 if (!is_object($market)) {
-    throw new Exception('404 not found');
+    throw new Exception('{{404  - Objet non trouvé sur le market}}');
 }
 sendVarToJS('market_id', init('id'));
 echo '<div style="height : 80%; overflow : auto;">';
@@ -23,7 +23,7 @@ foreach ($market->getComment() as $comment) {
     echo '<div class="' . $alert . '">';
     echo '<b>' . $comment['login'] . '</b> - ' . $comment['datetime'];
     if ($comment['apikey'] == config::byKey('market::apikey') && config::byKey('market::apikey') != '') {
-        echo '<i class="fa fa-times pull-right tooltips bt_removeComment cursor" title="Supprimer mon commentaire" data-order="' . $comment['order'] . '"></i>';
+        echo '<i class="fa fa-times pull-right tooltips bt_removeComment cursor" title="{{Supprimer mon commentaire}}" data-order="' . $comment['order'] . '"></i>';
     }
     echo '<br/>' . $comment['comment'];
     echo '</div>';
@@ -31,7 +31,7 @@ foreach ($market->getComment() as $comment) {
 echo '</div>';
 if (isConnect()) {
     echo '<textarea class="form-control" id="ta_comment"></textarea>';
-    echo '<a class="btn btn-success pull-right" style="color : white;margin-top : 5px;" id="bt_sendComment"><i class="fa fa-comment"></i> Envoyer</a>';
+    echo '<a class="btn btn-success pull-right" style="color : white;margin-top : 5px;" id="bt_sendComment"><i class="fa fa-comment"></i> {{Envoyer}}</a>';
 }
 ?>
 

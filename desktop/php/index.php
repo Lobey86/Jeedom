@@ -16,7 +16,7 @@ if (isConnect() && init('p') == '') {
         redirect('index.php?v=d&p=dashboard');
     }
 }
-$page = 'Connexion';
+$page = '{{Connexion}}';
 if (isConnect() && init('p') != '') {
     $page = init('p');
 }
@@ -83,7 +83,7 @@ $plugins_list = plugin::listPlugin();
     <body>
         <?php
         if (!isConnect()) {
-            require_once dirname(__FILE__) . "/connection.php";
+            include_file('desktop', 'connection', 'php');
         } else {
             sendVarToJS('userProfils', $_SESSION['user']->getOptions());
             sendVarToJS('user_id', $_SESSION['user']->getId());
@@ -102,7 +102,7 @@ $plugins_list = plugin::listPlugin();
                                 <img src="core/img/jeedom_ico.png" height="19" width="20"/>eedom
                             </a>
                             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="sr-only">Toggle navigation</span>
+                                <span class="sr-only">{{Toggle navigation}}</span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
@@ -111,10 +111,10 @@ $plugins_list = plugin::listPlugin();
                         <nav class="navbar-collapse collapse">
                             <ul class="nav navbar-nav">
                                 <li class="dropdown cursor">
-                                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-home"></i> Accueil <b class="caret"></b></a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-home"></i> {{Accueil}} <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="index.php?v=d&p=dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                                        <li><a href="index.php?v=d&p=view"><i class="fa fa-picture-o"></i> Vue</a></li>
+                                        <li><a href="index.php?v=d&p=dashboard"><i class="fa fa-dashboard"></i> {{Dashboard}}</a></li>
+                                        <li><a href="index.php?v=d&p=view"><i class="fa fa-picture-o"></i> {{Vue}}</a></li>
 
                                         <?php
                                         foreach ($plugins_list as $pluginList) {
@@ -125,25 +125,25 @@ $plugins_list = plugin::listPlugin();
                                         ?>
                                     </ul>
                                 </li>
-                                <li><a href="index.php?v=d&p=history"><i class="fa fa-bar-chart-o"></i> Historique</a></li>
+                                <li><a href="index.php?v=d&p=history"><i class="fa fa-bar-chart-o"></i> {{Historique}}</a></li>
                                 <?php if (isConnect('admin')) { ?>
                                     <li class="dropdown cursor">
-                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> Général <b class="caret"></b></a>
+                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> {{Général}} <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> Administration</a></li>
-                                            <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> Interaction</a></li>
-                                            <li class='expertModeHidden'><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> Affichage</a></li>
-                                            <li class="expertModeHidden"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> Moteur de taches</a></li>
-                                            <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> Objet</a></li>
-                                            <li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> Plugins</a></li>
-                                            <li class='expertModeHidden'><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> Log</a></li>
+                                            <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> {{Administration}}</a></li>
+                                            <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> {{Interaction}}</a></li>
+                                            <li class='expertModeHidden'><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
+                                            <li class="expertModeHidden"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de taches}}</a></li>
+                                            <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> {{Objet}}</a></li>
+                                            <li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> {{Plugins}}</a></li>
+                                            <li class='expertModeHidden'><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> {{Log}}</a></li>
                                         </ul>
                                     </li>
                                 <?php } ?>
-                                <li><a href="index.php?v=d&p=scenario"><i class="fa fa-cogs"></i> Scénario</a></li>
+                                <li><a href="index.php?v=d&p=scenario"><i class="fa fa-cogs"></i> {{Scénario}}</a></li>
                                 <?php if (isConnect('admin')) { ?>
                                     <li class="dropdown cursor">
-                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> Plugins <b class="caret"></b></a>
+                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> {{Plugins}} <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <?php
                                             foreach ($plugins_list as $pluginList) {
@@ -161,7 +161,7 @@ $plugins_list = plugin::listPlugin();
                                 <?php $displayMessage = (message::nbMessage() > 0) ? '' : 'display : none;'; ?>
                                 <li><a href="index.php?v=d&p=message">
                                         <span class="label label-warning" id="span_nbMessage" style="<?php echo $displayMessage; ?>">
-                                            <i class="fa fa-envelope"></i> <?php echo message::nbMessage(); ?> message(s)
+                                            <i class="fa fa-envelope"></i> <?php echo message::nbMessage(); ?> {{message(s)}}
                                         </span>
                                     </a>
                                 </li>
@@ -176,20 +176,20 @@ $plugins_list = plugin::listPlugin();
                                         <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="index.php?v=d&p=profils"><i class="fa fa-briefcase"></i> Profil</a></li>
+                                        <li><a href="index.php?v=d&p=profils"><i class="fa fa-briefcase"></i> {{Profil}}</a></li>
                                         <?php
                                         if ($_SESSION['user']->getOptions('expertMode') == 1) {
-                                            echo '<li class="cursor"><a id="bt_expertMode" state="1"><i class="fa fa-check-square-o"></i> Mode expert</a></li>';
+                                            echo '<li class="cursor"><a id="bt_expertMode" state="1"><i class="fa fa-check-square-o"></i> {{Mode expert}}</a></li>';
                                         } else {
-                                            echo '<li class="cursor"><a id="bt_expertMode" state="0"><i class="fa fa-square-o"></i> Mode expert</a></li>';
+                                            echo '<li class="cursor"><a id="bt_expertMode" state="0"><i class="fa fa-square-o"></i> {{Mode expert}}</a></li>';
                                         }
                                         ?>
                                         <li class="divider"></li>
-                                        <li><a href="index.php?v=d&logout=1"><i class="fa fa-sign-out"></i> Se déconnecter</a></li>
+                                        <li><a href="index.php?v=d&logout=1"><i class="fa fa-sign-out"></i> {{Se déconnecter}}</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a class="bt_pageHelp cursor tooltips" title="Aide sur la page en cours"
+                                    <a class="bt_pageHelp cursor tooltips" title="{{Aide sur la page en cours}}"
                                     <?php
                                     echo 'data-name="' . init('p') . '"';
                                     if (isset($plugin) && is_object($plugin)) {
@@ -200,7 +200,7 @@ $plugins_list = plugin::listPlugin();
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="bt_reportBug cursor tooltips" title="Envoyé un rapport de bugs">
+                                    <a class="bt_reportBug cursor tooltips" title="{{Envoyé un rapport de bugs}}">
                                         <i class="fa fa-exclamation-circle" ></i>
                                     </a>
                                 </li>
@@ -221,14 +221,14 @@ $plugins_list = plugin::listPlugin();
                                 echo '<div class="row">';
                                 echo '<div class="col-lg-2"></div>';
                                 echo '<div class="col-lg-10">';
-                                echo '<div class="alert alert-warning">Une nouvelle <a class="cursor bt_pluginUpdate" data-logicalId="' . $plugin->getId() . '">mise à jour</a> existe pour ' . $plugin->getName() . '</div>';
+                                echo '<div class="alert alert-warning">{{Une nouvelle}} <a class="cursor bt_pluginUpdate" data-logicalId="' . $plugin->getId() . '">{{mise à jour}}</a> {{existe pour}} ' . $plugin->getName() . '</div>';
                                 echo '</div>';
                                 echo '</div>';
                             }
                             include_file('desktop', $page, 'php', $plugin->getId());
                         } else {
                             echo '<div class="alert alert-danger div_alert">';
-                            echo '404 - Request page not found';
+                            echo '{{404 - Page non trouvée}}';
                             echo '</div>';
                         }
                     } catch (Exception $e) {
@@ -241,15 +241,15 @@ $plugins_list = plugin::listPlugin();
                     <div id="md_modal2"></div>
                     <div id="md_pageHelp">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#div_helpWebsite" data-toggle="tab">Générale</a></li>
-                            <li><a href="#div_helpSpe" data-toggle="tab">Spécifique</a></li>
+                            <li class="active"><a href="#div_helpWebsite" data-toggle="tab">{{Générale}}</a></li>
+                            <li><a href="#div_helpSpe" data-toggle="tab">{{Spécifique}}</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="div_helpWebsite" ></div>
                             <div class="tab-pane" id="div_helpSpe" ></div>
                         </div>
                     </div>
-                    <div id="md_reportBug" title="Ouverture d'un ticket"></div>
+                    <div id="md_reportBug" title="{{Ouverture d'un ticket}}"></div>
                         
                 </main>
             </div>
@@ -285,7 +285,7 @@ $plugins_list = plugin::listPlugin();
                 <?php
                 $version = jeedom::needUpdate();
                 if ($version['needUpdate']) {
-                    echo '<span class="label label-danger">Mise à jour disponible</span>';
+                    echo '<span class="label label-danger">{{Mise à jour disponible}}</span>';
                 }
                 echo ') ';
                 echo date('Y');

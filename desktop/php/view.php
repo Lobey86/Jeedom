@@ -1,6 +1,6 @@
 <?php
 if (!isConnect()) {
-    throw new Exception('401 - Unauthorized access to page');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 if (init('id') == '') {
@@ -18,7 +18,7 @@ if (init('id') == '') {
 if (init('id') != '') {
     $view = view::byId(init('id'));
     if (!is_object($view)) {
-        throw new Exception('Vue inconnue. Verifier l\'id');
+        throw new Exception('{{Vue inconnue. Verifier l\'id}}');
     }
 } else {
     redirect('index.php?v=d&p=view_edit');
@@ -29,8 +29,8 @@ if (init('id') != '') {
     <div class="col-lg-2">
         <div class="bs-sidebar affix">
             <ul id="ul_view" class="nav nav-list bs-sidenav">
-                <li class="nav-header">Liste des vues</li>
-                <li class="filter"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="nav-header">{{Liste des vues}}</li>
+                <li class="filter"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
                 foreach (view::all() as $view_info) {
                     if ($view->getId() == $view_info->getId()) {
@@ -45,7 +45,7 @@ if (init('id') != '') {
     </div>
 
     <div class="col-lg-10" role="main">
-        <legend style="height: 35px;color : #563d7c;">Vue <?php echo $view->getName() ?> <a href="index.php?v=d&p=view_edit&id=<?php echo $view->getId(); ?>" class="btn btn-warning btn-xs pull-right" id="bt_addviewZone"><i class="fa fa-pencil"></i> Editer</a></legend>
+        <legend style="height: 35px;color : #563d7c;">Vue <?php echo $view->getName() ?> <a href="index.php?v=d&p=view_edit&id=<?php echo $view->getId(); ?>" class="btn btn-warning btn-xs pull-right" id="bt_addviewZone"><i class="fa fa-pencil"></i> {{Editer}}</a></legend>
         <?php
         foreach ($view->getviewZone() as $viewZone) {
             echo '<div>';

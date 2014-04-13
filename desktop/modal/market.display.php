@@ -1,6 +1,6 @@
 <?php
 if (!isConnect('admin')) {
-    throw new Exception('401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 if (init('id') != '') {
@@ -23,13 +23,13 @@ sendVarToJS('market_display_info', $market_array);
 
 
 if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config::byKey('installVersionDate', $market->getLogicalId()) < $market->getDatetime()) {
-    echo '<div style="width : 100%" class="alert alert-warning" id="div_pluginUpdate">Une mise à jour est disponible. Cliquez sur installer pour l\'effectuer</div>';
+    echo '<div style="width : 100%" class="alert alert-warning" id="div_pluginUpdate">{{Une mise à jour est disponible. Cliquez sur installer pour l\'effectuer}}</div>';
 }
 ?>
 
 <div style="display: none;width : 100%" id="div_alertMarketDisplay"></div>
 <?php if ($market->getPurchase() == 1) { ?>
-    <a class="btn btn-warning pull-right" style="color : white;" id="bt_installFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-plus-circle"></i> Installer</a>
+    <a class="btn btn-warning pull-right" style="color : white;" id="bt_installFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-plus-circle"></i> {{Installer}}</a>
     <?php
 } else if (config::byKey('market::apikey') != '') {
     $purchase_info = market::getPurchaseInfo();
@@ -50,134 +50,134 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
             <input name="lc" type="hidden" value="FR" />
             <input name="bn" type="hidden" value="PP-BuyNowBF" />
             <input name="custom" type="hidden" value="<?php echo $purchase_info['user_id'] . ':' . $market->getId() ?>" />
-            <input class="pull-right" id='bt_paypalClick' alt="Effectuez vos paiements via PayPal : une solution rapide, gratuite et sécurisée" name="submit" src="https://www.paypal.com/fr_FR/FR/i/btn/btn_buynow_LG.gif" type="image" style="display: inline-block;"/><img class="pull-right" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" border="0" alt="" width="1" height="1" style="display: inline-block;"/>
+            <input class="pull-right" id='bt_paypalClick' alt="{{Effectuez vos paiements via PayPal : une solution rapide, gratuite et sécurisée}}" name="submit" src="https://www.paypal.com/fr_FR/FR/i/btn/btn_buynow_LG.gif" type="image" style="display: inline-block;"/><img class="pull-right" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" border="0" alt="" width="1" height="1" style="display: inline-block;"/>
         </form>
         <?php
     }
 }
 ?>
 <?php if (config::byKey('installVersionDate', $market->getLogicalId()) != '') { ?>
-    <a class="btn btn-danger pull-right" style="color : white;" id="bt_removeFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-minus-circle"></i> Supprimer</a>
+    <a class="btn btn-danger pull-right" style="color : white;" id="bt_removeFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
 <?php } ?>
-<a class="btn btn-default pull-right" id="bt_viewComment"><i class="fa fa-comments-o"></i> Commentaires</a>
+<a class="btn btn-default pull-right" id="bt_viewComment"><i class="fa fa-comments-o"></i> {{Commentaires}}</a>
 <br/><br/><br/>
 <form class="form-horizontal" role="form">
     <div class="row">
         <div class="col-md-6">
             <?php if (config::byKey('market::apikey') != '') { ?>
                 <div class="form-group">
-                    <label class="col-lg-4 control-label">Ma Note</label>
+                    <label class="col-lg-4 control-label">{{Ma Note}}</label>
                     <div class="col-lg-8">
                         <span><input type="number" class="rating" id="in_myRating" data-max="5" data-empty-value="0" data-min="1" data-clearable="Effacer" value="<?php echo $rating['user'] ?>" /></span>
                     </div>
                 </div>
             <?php } ?>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Note</label>
+                <label class="col-lg-4 control-label">{{Note}}</label>
                 <div class="col-lg-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <span class="label label-primary marketAttr" data-l1key="rating" style="font-size: 1.2em;"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Prix</label>
+                <label class="col-lg-4 control-label">{{Prix}}</label>
                 <div class="col-lg-8">
                     <?php
                     if ($market->getCost() > 0) {
                         echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">' . $market->getRealcost() . ' €</span>';
                     } else {
-                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">Gratuit</span>';
+                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">{{Gratuit</span>';
                     }
                     ?>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">ID</label>
+                <label class="col-lg-4 control-label">{{ID}}</label>
                 <div class="col-lg-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
-                    <span class="label label-success marketAttr" data-l1key="logicalId" placeholder="Nom"></span>
+                    <span class="label label-success marketAttr" data-l1key="logicalId" placeholder="{{Nom}}"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Nom</label>
+                <label class="col-lg-4 control-label">{{Nom}}</label>
                 <div class="col-lg-8">
-                    <span class="label label-success marketAttr" data-l1key="name" placeholder="Nom"></span>
+                    <span class="label label-success marketAttr" data-l1key="name" placeholder="{{Nom}}"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Type</label>
+                <label class="col-lg-4 control-label">{{Type}}</label>
                 <div class="col-lg-8">
                     <select class="form-control marketAttr" data-l1key="type" disabled>
-                        <option value="plugin">Plugin</option>
-                        <option value="widget">Widget</option>
-                        <option value="zwave_module">[Zwave] Configuration module</option>
+                        <option value="plugin">{{Plugin}}</option>
+                        <option value="widget">{{Widget}}</option>
+                        <option value="zwave_module">{{[Zwave] Configuration module}}</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Auteur</label>
+                <label class="col-lg-4 control-label">{{Auteur}}</label>
                 <div class="col-lg-8">
                     <span class="label label-success" ><?php echo $market->getAuthor() ?></span>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-lg-4 control-label">Description</label>
+                <label class="col-lg-4 control-label">{{Description}}</label>
                 <div class="col-lg-8">
                     <pre class="marketAttr" data-l1key="description" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Utilisation</label>
+                <label class="col-lg-4 control-label">{{Utilisation}}</label>
                 <div class="col-lg-8">
                     <pre class="marketAttr" data-l1key="utilization" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Changelog</label>
+                <label class="col-lg-4 control-label">{{Changelog}}</label>
                 <div class="col-lg-8">
                     <pre class="marketAttr" data-l1key="changelog" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Statut</label>
+                <label class="col-lg-4 control-label">{{Statut}}</label>
                 <div class="col-lg-8">
                     <select class="form-control marketAttr" data-l1key="status" disabled>
-                        <option>A valider</option>
-                        <option>Validé</option>
-                        <option>Refusé</option>
+                        <option>{{A valider}}</option>
+                        <option>{{Validé}}</option>
+                        <option>{{Refusé}}</option>
                     </select>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-lg-4 control-label">Catégorie</label>
+                <label class="col-lg-4 control-label">{{Catégorie}}</label>
                 <div class="col-lg-8">
-                    <span class="label label-warning marketAttr" data-l1key="categorie" placeholder="Catégorie"></span>
+                    <span class="label label-warning marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Version</label>
+                <label class="col-lg-4 control-label">{{Version}}</label>
                 <div class="col-lg-8">
-                    <span class="label label-success marketAttr" data-l1key="version" placeholder="Version" ></span>
+                    <span class="label label-success marketAttr" data-l1key="version" placeholder="{{Version}}" ></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Dernière modification de l'archive</label>
+                <label class="col-lg-4 control-label">{{Dernière modification de l'archive}}</label>
                 <div class="col-lg-6">
                     <span class="marketAttr label label-info" data-l1key="datetime"></span>
                 </div>
             </div>
             <?php if (config::byKey('installVersionDate', $market->getName()) != '') { ?>
                 <div class="form-group">
-                    <label class="col-lg-4 control-label">Version utilisé actuelement</label>
+                    <label class="col-lg-4 control-label">{{Version utilisé actuelement}}</label>
                     <div class="col-lg-6">
                         <span class="marketAttr label label-info" ><?php echo config::byKey('installVersionDate', $market->getLogicalId()); ?></span>
                     </div>
                 </div>
             <?php } ?>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Nombre de téléchargements</label>
+                <label class="col-lg-4 control-label">{{Nombre de téléchargements}}</label>
                 <div class="col-lg-8">
                     <span class="marketAttr label label-info" data-l1key="downloaded"></span>
                 </div>
@@ -198,7 +198,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
     </div> 
 </form>
 
-<div id="div_comments" title="Commentaires"></div>
+<div id="div_comments" title="{{Commentaires}}"></div>
 
 <script>
     $('body').setValues(market_display_info, '.marketAttr');

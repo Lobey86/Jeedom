@@ -1,22 +1,22 @@
 <?php
 if (!isConnect()) {
-    throw new Exception('401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 include_file('core', 'js.inc', 'php');
 ?>
 <table class="table table-condensed table-bordered" id="table_mod_insertCmdValue_valueEqLogicToMessage">
     <thead>
         <tr>
-            <th style="width: 150px;">Object</th>
-            <th style="width: 150px;">Equipement</th>
-            <th style="width: 150px;">Commande</th>
+            <th style="width: 150px;">{{Object}}</th>
+            <th style="width: 150px;">{{Equipement}}</th>
+            <th style="width: 150px;">{{Commande}}</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td class="mod_insertCmdValue_object">
                 <select class='form-control'>
-                    <option value="-1">Aucun</option>
+                    <option value="-1">{{Aucun}}</option>
                     <?php
                     foreach (object::all() as $object)
                         echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';

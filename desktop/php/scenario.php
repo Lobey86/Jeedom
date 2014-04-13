@@ -1,6 +1,6 @@
 <?php
 if (!isConnect()) {
-    throw new Exception('Error 401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 include_file('3rdparty', 'jquery.sew/jquery.sew', 'css');
@@ -19,18 +19,18 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
             <ul id="ul_scenario" class="nav nav-list bs-sidenav fixnav">                  
                 <?php
                 if (config::byKey('enableScenario') == 0) {
-                    echo '<a class="btn btn-sm btn-success" id="bt_changeAllScenarioState" data-state="1" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-check"></i></a>';
+                    echo '<a class="btn btn-sm btn-success" id="bt_changeAllScenarioState" data-state="1" style="display: inline-block;" title="{{Désactiver le système de scénario}}"><i class="fa fa-check"></i></a>';
                 } else {
-                    echo '<a class="btn btn-sm btn-danger" id="bt_changeAllScenarioState" data-state="0" style="display: inline-block;" title="Activer/Désactiver le système de scénario"><i class="fa fa-times"></i> </a>';
+                    echo '<a class="btn btn-sm btn-danger" id="bt_changeAllScenarioState" data-state="0" style="display: inline-block;" title="{{Activer le système de scénario}}"><i class="fa fa-times"></i> </a>';
                 }
                 ?>
-                <a class="btn btn-default btn-sm tooltips" id="bt_displayScenarioVariable" title="Voir toutes les variables de scénario" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
-                <li class="nav-header">Liste scénarios 
+                <a class="btn btn-default btn-sm tooltips" id="bt_displayScenarioVariable" title="{{Voir toutes les variables de scénario}}" style="display: inline-block;"><i class="fa fa fa-eye"></i></a>
+                <li class="nav-header">{{Liste scénarios}} 
                     <i class="fa fa-plus-circle pull-right cursor" id="bt_addScenario" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>
                 <li> 
                     <select style="width: 100%;margin-bottom: 5px;" id="sel_group" class="form-control input-sm">
-                        <option value=''>Tous</option>
+                        <option value=''>{{Tous}}</option>
                         <?php
                         foreach (scenario::listGroup() as $group) {
                             if ($group['group'] != '') {
@@ -43,7 +43,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                         }
                         ?>            
                     </select></li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}"/></li>
 
                 <?php
                 foreach (scenario::all(init('group')) as $scenario) {
@@ -72,42 +72,42 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
     </div>
     <div class="col-lg-10" id="div_editScenario" style="display: none; border-left: solid 1px #EEE; padding-left: 25px;">
         <input class="scenarioAttr" data-l1key="id" hidden/>
-        <legend style="height: 35px;">Scénario
-            <a class="btn btn-default btn-xs pull-right" id="bt_copyScenario"><i class="fa fa-copy"></i> Dupliquer</a>
-            <a class="btn btn-default btn-xs pull-right" id="bt_logScenario"><i class="fa fa-file-text-o"></i> Log</a>
-            <a class="btn btn-danger btn-xs pull-right" id="bt_stopScenario"><i class="fa fa-stop"></i> Arrêter</a>
+        <legend style="height: 35px;">{{Scénario}}
+            <a class="btn btn-default btn-xs pull-right" id="bt_copyScenario"><i class="fa fa-copy"></i> {{Dupliquer}}</a>
+            <a class="btn btn-default btn-xs pull-right" id="bt_logScenario"><i class="fa fa-file-text-o"></i> {{Log}}</a>
+            <a class="btn btn-danger btn-xs pull-right" id="bt_stopScenario"><i class="fa fa-stop"></i> {{Arrêter}}</a>
         </legend>
         <div class="row">
             <div class="col-lg-3">
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-6 control-label" >Nom du scénario</label>
+                            <label class="col-lg-6 control-label" >{{Nom du scénario}}</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr input-sm" data-l1key="name" type="text" placeholder="Nom du scénario"/>
+                                <input class="form-control scenarioAttr input-sm" data-l1key="name" type="text" placeholder="{{Nom du scénario}}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-6 control-label" >Groupe</label>
+                            <label class="col-lg-6 control-label" >{{Groupe}}</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr input-sm" data-l1key="group" type="text" placeholder="Groupe du scénario"/>
+                                <input class="form-control scenarioAttr input-sm" data-l1key="group" type="text" placeholder="{{Groupe du scénario}}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-6 control-label">Actif</label>
+                            <label class="col-lg-6 control-label">{{Actif}}</label>
                             <div class="col-lg-1">
                                 <input type="checkbox" class="scenarioAttr" data-l1key="isActive">
                             </div>
-                            <label class="col-lg-4 control-label">Visible</label>
+                            <label class="col-lg-4 control-label">{{Visible}}</label>
                             <div class="col-lg-1">
                                 <input type="checkbox" class="scenarioAttr" data-l1key="isVisible">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-6 control-label" >Objet parent</label>
+                            <label class="col-lg-6 control-label" >{{Objet parent}}</label>
                             <div class="col-lg-6">
                                 <select class="scenarioAttr form-control input-sm" data-l1key="object_id">
-                                    <option value="">Aucun</option>
+                                    <option value="">{{Aucun}}</option>
                                     <?php
                                     foreach (object::all() as $object) {
                                         echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
@@ -117,7 +117,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                             </div>
                         </div>
                         <div class="form-group expertModeHidden">
-                            <label class="col-lg-6 control-label">Timeout secondes (0 = illimité)</label>
+                            <label class="col-lg-6 control-label">{{Timeout secondes (0 = illimité)}}</label>
                             <div class="col-lg-6">
                                 <input class="form-control scenarioAttr input-sm" data-l1key="timeout">
                             </div>
@@ -128,24 +128,24 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
             <div class="col-lg-5">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-lg-3 control-label" >Mode du scénario</label>
+                        <label class="col-lg-3 control-label" >{{Mode du scénario}}</label>
                         <div class="col-lg-3">
                             <select class="form-control scenarioAttr input-sm" data-l1key="mode">
-                                <option value="provoke">Provoqué</option>
-                                <option value="schedule">Programmé</option>
-                                <option value="all">Les deux</option>
+                                <option value="provoke">{{Provoqué}}</option>
+                                <option value="schedule">{{Programmé}}</option>
+                                <option value="all">{{Les deux}}</option>
                             </select>
                         </div>
                         <div class="col-lg-6">
-                            <a class="btn btn-default" id="bt_addTrigger"><i class="fa fa-plus-square"></i> Evènement</a>
-                            <a class="btn btn-default" id="bt_addSchedule"><i class="fa fa-plus-square"></i> Programmation</a>
+                            <a class="btn btn-default" id="bt_addTrigger"><i class="fa fa-plus-square"></i> {{Evènement}}</a>
+                            <a class="btn btn-default" id="bt_addSchedule"><i class="fa fa-plus-square"></i> {{Programmation}}</a>
                         </div>
                     </div>
                     <div class="scheduleDisplay" style="display: none;">
                         <div class="form-group">
-                            <label class="col-lg-3 control-label" >Précédent</label>
+                            <label class="col-lg-3 control-label" >{{Précédent}}</label>
                             <div class="col-lg-3" ><span class="scenarioAttr label label-primary" data-l1key="forecast" data-l2key="prevDate" data-l3key="date"></span></div>
-                            <label class="col-lg-3 control-label" >Prochain</label>
+                            <label class="col-lg-3 control-label" >{{Prochain}}</label>
                             <div class="col-lg-3"><span class="scenarioAttr label label-success" data-l1key="forecast" data-l2key="nextDate" data-l3key="date"></span></div> 
                         </div>
                         <div class="scheduleMode"></div>
@@ -158,13 +158,13 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
             <div class="col-lg-3">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-lg-6 control-label" for="span_lastCheck">Dernièr lancement</label>
+                        <label class="col-lg-6 control-label" for="span_lastCheck">{{Dernièr lancement}}</label>
                         <div class="col-lg-6">
                             <div><span id="span_lastLaunch" class="label label-info" style="position: relative; top: 4px;"></span></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-6 control-label" for="span_ongoing">Etat</label>
+                        <label class="col-lg-6 control-label" for="span_ongoing">{{Etat}}</label>
                         <div class="col-lg-6">
                             <div><span id="span_ongoing" class="label" style="position: relative; top: 4px;"></span></div>
                         </div>
@@ -180,9 +180,9 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
 
 
         <div class="form-actions">
-            <a class="btn btn-warning tooltips" id="bt_testScenario" title='Veuillez sauvegarder avant de tester. Ceci peut ne pas aboutir.'><i class="fa fa-gamepad"></i> Exécuter</a>
-            <a class="btn btn-danger" id="bt_delScenario"><i class="fa fa-minus-circle"></i> Supprimer</a>
-            <a class="btn btn-success" id="bt_saveScenario"><i class="fa fa-check-circle"></i> Sauvegarder</a>
+            <a class="btn btn-warning tooltips" id="bt_testScenario" title='{{Veuillez sauvegarder avant de tester. Ceci peut ne pas aboutir.}}'><i class="fa fa-gamepad"></i> Exécuter</a>
+            <a class="btn btn-danger" id="bt_delScenario"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+            <a class="btn btn-success" id="bt_saveScenario"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
         </div>
 
     </div>
@@ -193,17 +193,17 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
-                <h3>Dupliquer le scénario</h3>
+                <h3>{{Dupliquer le scénario}}</h3>
             </div>
             <div class="modal-body">
                 <div style="display: none;" id="div_copyScenarioAlert"></div>
                 <center>
-                    <input class="form-control" type="text"  id="in_copyScenarioName" size="16" placeholder="Nom du scénario"/><br/><br/>
+                    <input class="form-control" type="text"  id="in_copyScenarioName" size="16" placeholder="{{Nom du scénario}}"/><br/><br/>
                 </center>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> Annuler</a>
-                <a class="btn btn-success" id="bt_copyScenarioSave"><i class="fa fa-check-circle"></i> Enregistrer</a>
+                <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> {{Annuler}}</a>
+                <a class="btn btn-success" id="bt_copyScenarioSave"><i class="fa fa-check-circle"></i> {{Enregistrer}}</a>
             </div>
         </div>
     </div>
@@ -214,22 +214,22 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
-                <h3>Ajouter élément</h3>
+                <h3>{{Ajouter élément}}</h3>
             </div>
             <div class="modal-body">
                 <div style="display: none;" id="div_addElementAlert"></div>
                 <center>
                     <select id="in_addElementType" class="form-control">
-                        <option value="if">Si/Alors/Sinon</option>
-                        <option value="action">Action</option>
-                        <option value="for">Boucle</option>
-                        <option value="code">Code</option>
+                        <option value="if">{{Si/Alors/Sinon}}</option>
+                        <option value="action">{{Action}}</option>
+                        <option value="for">{{Boucle}}</option>
+                        <option value="code">{{Code}}</option>
                     </select>
                 </center>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> Annuler</a>
-                <a class="btn btn-success" id="bt_addElementSave"><i class="fa fa-check-circle"></i> Enregistrer</a>
+                <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> {{Annuler}}</a>
+                <a class="btn btn-success" id="bt_addElementSave"><i class="fa fa-check-circle"></i> {{Enregistrer}}</a>
             </div>
         </div>
     </div>

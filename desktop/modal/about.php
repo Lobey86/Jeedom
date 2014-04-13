@@ -1,9 +1,9 @@
 <?php
 if (!isConnect()) {
-    throw new Exception('401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 ?>
-<h3>Auteur(s)</h3>
+<h3>{{Auteur(s)}}</h3>
 <div class="row">
     <div class="col-md-12">
         <lu>

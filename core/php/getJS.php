@@ -37,7 +37,7 @@ if (file_exists($file)) {
     }
     if (init('language', null) != null) {
         $content = file_get_contents($file);
-        echo translate::exec($content, init('file'), init('language'), true);
+        echo translate::exec($content, init('file'),true);
     } else {
         readfile($file);
     }

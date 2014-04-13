@@ -1,6 +1,6 @@
 <?php
 if (!isConnect('admin')) {
-    throw new Exception('401 Unauthorized');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 sendVarToJS('market_display_info', array(
     'logicalId' => init('logicalId'),
@@ -16,14 +16,14 @@ try {
 }
 if (is_object($market)) {
     if ($market->getApi_author() != config::byKey('market::apikey') || $market->getApi_author() == '') {
-        throw new Exception('Vous n\'etez pas l\'autheur du plugin');
+        throw new Exception('{{Vous n\'etez pas l\'autheur du plugin}}');
     }
 }
 
 if (init('type') == 'plugin') {
     $plugin = new plugin(init('logicalId'));
     if (!is_object($plugin)) {
-        throw new Exception('Le plugin : ' . init('logicalId') . ' est introuvable');
+        throw new Exception('{{Le plugin :}} ' . init('logicalId') . ' {{est introuvable}}');
     }
     $plugin_info = utils::o2a($plugin);
     $plugin_info['logicalId'] = $plugin_info['id'];
@@ -35,61 +35,61 @@ if (init('type') == 'plugin') {
 <div style="display: none;width : 100%" id="div_alertMarketSend"></div>
 
 
-<a class="btn btn-success pull-right" style="color : white;" id="bt_sendToMarket"><i class="fa fa-cloud-upload"></i> Envoyer</a>
+<a class="btn btn-success pull-right" style="color : white;" id="bt_sendToMarket"><i class="fa fa-cloud-upload"></i> {{Envoyer}}</a>
 
 <br/><br/><br/>
 <form class="form-horizontal" role="form" id="form_sendToMarket">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="col-lg-4 control-label">ID</label>
+                <label class="col-lg-4 control-label">{{ID}}</label>
                 <div class="col-lg-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
-                    <input class="form-control marketAttr" data-l1key="logicalId" placeholder="ID" disabled/>
+                    <input class="form-control marketAttr" data-l1key="logicalId" placeholder="{{ID}}" disabled/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Nom</label>
+                <label class="col-lg-4 control-label">{{Nom}}</label>
                 <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="name" placeholder="Nom" />
+                    <input class="form-control marketAttr" data-l1key="name" placeholder="{{Nom}}" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Type</label>
+                <label class="col-lg-4 control-label">{{Type}}</label>
                 <div class="col-lg-6">
                     <select class="form-control marketAttr" data-l1key="type" disabled>
-                        <option value="plugin">Plugin</option>
-                        <option value="widget">Widget</option>
-                        <option value="zwave">[Zwave] Configuration module</option>
-                        <option value="script">Script</option>
+                        <option value="plugin">{{Plugin}}</option>
+                        <option value="widget">{{Widget}}</option>
+                        <option value="zwave">{{[Zwave] Configuration module}}</option>
+                        <option value="script">{{Script}}</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Statut</label>
+                <label class="col-lg-4 control-label">{{Statut}}</label>
                 <div class="col-lg-6">
                     <select class="form-control marketAttr" data-l1key="status" >
-                        <option>A valider</option>
-                        <option>Validé</option>
-                        <option>Refusé</option>
+                        <option>{{A valider}}</option>
+                        <option>{{Validé}}</option>
+                        <option>{{Refusé}}</option>
                     </select>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-lg-4 control-label">Catégorie</label>
+                <label class="col-lg-4 control-label">{{Catégorie}}</label>
                 <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="categorie" placeholder="Catégorie">
+                    <input class="form-control marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Version</label>
+                <label class="col-lg-4 control-label">{{Version}}</label>
                 <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="version" placeholder="Version">
+                    <input class="form-control marketAttr" data-l1key="version" placeholder="{{Version}}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">Dernière modification de l'archive</label>
+                <label class="col-lg-4 control-label">{{Dernière modification de l'archive}}</label>
                 <div class="col-lg-6">
                     <span class="marketAttr label label-info" data-l1key="datetime"></span>
                 </div>
@@ -99,21 +99,21 @@ if (init('type') == 'plugin') {
             <div class="form-group">
 
                 <div class="form-group">
-                    <label class="col-lg-4 control-label">Description</label>
+                    <label class="col-lg-4 control-label">{{Description}}</label>
                     <div class="col-lg-6">
-                        <textarea class="form-control marketAttr" data-l1key="description" placeholder="Description" style="height: 150px;"></textarea>
+                        <textarea class="form-control marketAttr" data-l1key="description" placeholder="{{Description}}" style="height: 150px;"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-4 control-label">Utilisation</label>
+                    <label class="col-lg-4 control-label">{{Utilisation}}</label>
                     <div class="col-lg-6">
-                        <textarea class="form-control marketAttr" data-l1key="utilization" placeholder="Utilisation" style="height: 150px;"></textarea>
+                        <textarea class="form-control marketAttr" data-l1key="utilization" placeholder="{{Utilisation}}" style="height: 150px;"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-4 control-label">Changelog</label>
+                    <label class="col-lg-4 control-label">{{Changelog}}</label>
                     <div class="col-lg-6">
-                        <textarea class="form-control marketAttr" data-l1key="changelog" placeholder="Changelog" style="height: 150px;"></textarea>
+                        <textarea class="form-control marketAttr" data-l1key="changelog" placeholder="{{Changelog}}" style="height: 150px;"></textarea>
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@ if (is_object($market)) {
                     /*     }
                      });*/
                 } else {
-                    $('#div_alertMarketSend').showAlert({message: 'Votre objet a été envoyé avec succès sur le market', level: 'success'});
+                    $('#div_alertMarketSend').showAlert({message: '{{Votre objet a été envoyé avec succès sur le market}}', level: 'success'});
                 }
 
             }
