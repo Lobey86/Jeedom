@@ -26,7 +26,7 @@ class translate {
     }
 
     public static function sentence($_content, $_name, $_backslash = false) {
-        echo self::exec("{{" . $_content . "}}", $_name, $_backslash);
+        return self::exec("{{" . $_content . "}}", $_name, $_backslash);
     }
 
     public static function exec($_content, $_name, $_backslash = false) {
@@ -42,8 +42,6 @@ class translate {
                 }
             }
         }
-
-
         $language = self::getLanguage();
         $modify = false;
         $translate = self::getTranslation();
@@ -124,7 +122,11 @@ class translate {
 
     public static function getLanguage() {
         if (!isset(static::$language)) {
-            static::$language = config::byKey('language', 'core', 'fr_FR');
+            try {
+                static::$language = config::byKey('language', 'core', 'fr_FR');
+            } catch (Exception $e) {
+                static::$language = 'fr_FR';
+            }
         }
         return static::$language;
     }
