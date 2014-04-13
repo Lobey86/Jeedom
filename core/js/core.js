@@ -405,6 +405,9 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 $('#div_alert').showAlert({message: 'Il n\'existe encore aucun historique pour cette commande : ' + data.result.history_name, level: 'danger'});
                 return;
             }
+            if (isset(CORE_chart[_el]) && isset(CORE_chart[_el].cmd[intval(_cmd_id)])) {
+                CORE_chart[_el].cmd[intval(_cmd_id)] = null;
+            }
             _option = init(_option, {});
             _option.graphType = init(_option.graphType, 'line');
             if (isset(CORE_chart[_el])) {
