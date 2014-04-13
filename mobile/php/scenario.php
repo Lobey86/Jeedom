@@ -1,8 +1,6 @@
 <?php
-
 if (!isConnect()) {
-    include_file('mobile', '401', 'php');
-    die();
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 foreach (scenario::all() as $scenario) {

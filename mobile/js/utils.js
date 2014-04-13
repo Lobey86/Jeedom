@@ -29,7 +29,6 @@ $(document).on('pagecontainershow', function() {
         $.hideLoading();
     });
 
-
     if ($('.ui-page-active .rightpanel').length > 0) {
         if (window.innerWidth > 800) {
             setTimeout(function() {
@@ -64,12 +63,6 @@ function refreshMessageNumber() {
                 return;
             }
             $('.ui-page-active #span_nbMessage').html(data.result);
-            $(document).ajaxStart(function() {
-                $.mobile.loading('show', {
-                    text: 'Chargement...',
-                    textVisible: true,
-                });
-            });
         }
     });
 }

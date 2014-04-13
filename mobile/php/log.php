@@ -20,13 +20,13 @@ if ($logfile == '') {
 sendVarToJS('logfile', $logfile);
 global $rightPanel;
 $rightPanel = '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
-$rightPanel .= '<li data-role="list-divider">Action</li>';
-$rightPanel .= '<li><a id="bt_clearLog" href="#"><i class="fa fa-trash-o"></i> Vider</a></li>';
-$rightPanel .= '<li><a id="bt_removeLog" href="#"><i class="fa fa-times"></i> Supprimer</a></li>';
+$rightPanel .= '<li data-role="list-divider">{{Action}}</li>';
+$rightPanel .= '<li><a id="bt_clearLog" href="#"><i class="fa fa-trash-o"></i> {{Vider}}</a></li>';
+$rightPanel .= '<li><a id="bt_removeLog" href="#"><i class="fa fa-times"></i> {{Supprimer}}</a></li>';
 $rightPanel .= '</ul>';
 $rightPanel .= '<br/>';
 $rightPanel .= '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
-$rightPanel .= '<li data-role="list-divider">Logfile</li>';
+$rightPanel .= '<li data-role="list-divider">{{Logfile}}</li>';
 
 foreach ($list_logfile as $file) {
     $rightPanel .= '<li><a href="index.php?v=m&p=log&logfile=' . $file . '">' . $file . '</a></li>';
@@ -68,9 +68,9 @@ if (isset($log[0][0]) && $log[0][0] == '') {
 <table data-role="table" id="table_log" data-mode="columntoggle" class="ui-responsive table-stroke">
     <thead>
         <tr>
-            <th data-priority="1">Date</th>
-            <th data-priority="3">Type</th>
-            <th data-priority="1">Message</th>
+            <th data-priority="1">{{Date}}</th>
+            <th data-priority="3">{{Type}}</th>
+            <th data-priority="1">{{Message}}</th>
         </tr>
     </thead>
     <tbody>

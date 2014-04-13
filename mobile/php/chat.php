@@ -1,7 +1,6 @@
 <?php
 if (!isConnect()) {
-    include_file('mobile', '401', 'php');
-    die();
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 sendVarToJS('otherUserId', init('chat_user_id'));
 global $rightPanel;
@@ -13,7 +12,7 @@ $rightPanel .= '</ul>';
 if (init('chat_user_id') != '') {
     $chatUser = chat::getUserInfo(init('chat_user_id'));
     if (is_array($chatUser)) {
-        echo '<h2 style="position: relative; top : -10px;margin-top: 0px;margin-bottom: 0px;text-align: center;">Chat avec ' . $chatUser['Name'] . '</h2>';
+        echo '<h2 style="position: relative; top : -10px;margin-top: 0px;margin-bottom: 0px;text-align: center;">{{Chat avec}} ' . $chatUser['Name'] . '</h2>';
     }
 }
 ?>
@@ -23,7 +22,7 @@ if (init('chat_user_id') != '') {
 </ul>
 <br/>
 <div style="position: fixed; bottom: 20px;width : 100%;left:0px;background: white;">
-    <label for="messageText"><strong>Message:</strong></label>
+    <label for="messageText"><strong>{{Message:}}</strong></label>
     <input id="messageText"/>
 </div>
 <?php

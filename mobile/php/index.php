@@ -34,7 +34,7 @@ if ($plugin != '') {
         <meta http-equiv="expires" content="0" />
         <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
         <meta http-equiv="pragma" content="no-cache" />
-        
+
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta name="mobile-web-app-capable" content="yes">
@@ -84,9 +84,9 @@ if ($plugin != '') {
                     <img src="core/img/jeedom_ico.png" height="17" width="18" style="position: relative; top : 3px;"/>eedom
                     <span class="horloge"><?php echo date('H:i:s'); ?></span>
                 </h1>
-                <a href="#leftpanel" class="bt_leftpanel" data-icon="bars" data-iconpos="notext">Menu</a>
+                <a href="#leftpanel" class="bt_leftpanel" data-icon="bars" data-iconpos="notext">{{Menu}}</a>
 
-                <a href="#rightpanel" class="bt_rightpanel" data-icon="gear" data-iconpos="notext">Options</a>
+                <a href="#rightpanel" class="bt_rightpanel" data-icon="gear" data-iconpos="notext">{{Options}}</a>
             </div><!-- /header -->
             <div data-role="content" id='pagecontainer'>
                 <a href="#div_alert" data-rel="popup" data-position-to="window"></a>
@@ -129,22 +129,25 @@ if ($plugin != '') {
 
             <div data-role="panel" id="leftpanel" data-position="left" data-display="push" data-theme="b" data-position-fixed="true" data-animate="false" class="ui-icon-alt">
                 <ul data-role="listview">
-                    <li><a href="index.php?v=m&p=home" data-theme="a"><i class="fa fa-home"></i> Accueil</a></li>
-                    <li><a href="index.php?v=m&p=equipment" data-theme="a"><i class="fa fa fa-tachometer" ></i> Equipements </a></li>
-                    <li><a href="index.php?v=m&p=scenario" data-theme="a"><i class="fa fa-cogs"></i> Scénario</a></li>
-                    <li><a href="index.php?v=m&p=view" data-theme="a"><i class="fa fa-picture-o"></i> Vues</a></li>
+                    <li><a href="index.php?v=m&p=home" data-theme="a"><i class="fa fa-home"></i> {{Accueil}}</a></li>
+                    <li><a href="index.php?v=m&p=equipment" data-theme="a"><i class="fa fa fa-tachometer" ></i> {{Equipements}}</a></li>
+                    <li><a href="index.php?v=m&p=scenario" data-theme="a"><i class="fa fa-cogs"></i> {{Scénario}}</a></li>
+                    <li><a href="index.php?v=m&p=view" data-theme="a"><i class="fa fa-picture-o"></i> {{Vues}}</a></li>
                     <?php if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) { ?>
-                        <li><a href="index.php?v=m&p=chat" data-theme="a"><i class="fa fa-comment-o"></i> Chat</a></li>
+                        <li><a href="index.php?v=m&p=chat" data-theme="a"><i class="fa fa-comment-o"></i> {{Chat}}</a></li>
                     <?php } ?>
-                    <li><a href="index.php?v=m&p=message" data-theme="a"><i class="fa fa-envelope"></i> <span id="span_nbMessage"><?php echo message::nbMessage(); ?></span> Message(s)</a></li>
-                    <li><a href="index.php?v=m&p=log" data-theme="a"><i class="fa fa-file-o"></i> Log</a></li>
+                    <li><a href="index.php?v=m&p=message" data-theme="a"><i class="fa fa-envelope"></i> <span id="span_nbMessage"><?php echo message::nbMessage(); ?></span> {{Message(s)}}</a></li>
+                    <li><a href="index.php?v=m&p=log" data-theme="a"><i class="fa fa-file-o"></i> {{Log}}</a></li>
                     <?php if (isConnect('admin')) { ?>
-                        <li><a href="index.php?v=m&p=cron" data-theme="a"><i class="fa fa-tasks"></i> Cron</a></li>
+                        <li><a href="index.php?v=m&p=cron" data-theme="a"><i class="fa fa-tasks"></i> {{Cron}}</a></li>
                     <?php } ?>
-                    <li><a href="index.php?v=m&logout=1" data-theme="a"><i class="fa fa-sign-out"></i> Se deconnecter</a></li>
+                    <li><a href="index.php?v=m&logout=1" data-theme="a"><i class="fa fa-sign-out"></i> {{Se deconnecter}}</a></li>
                 </ul>
             </div>
-            <?php if (isset($rightPanel)) { ?>
+            <?php
+            global $rightPanel;
+            if (isset($rightPanel)) {
+                ?>
                 <div data-role="panel" id="rightpanel" class='rightpanel' data-position="right" data-display="push" data-dismissible="false" data-animate="false" data-position-fixed="true" data-theme="a" class="ui-icon-alt" >
                     <?php echo $rightPanel; ?>
                 </div>

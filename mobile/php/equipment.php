@@ -1,8 +1,6 @@
 <?php
-
 if (!isConnect()) {
-    include_file('mobile', '401', 'php');
-    die();
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 global $rightPanel;
@@ -12,11 +10,12 @@ foreach (object::all() as $object) {
 }
 $rightPanel .= '</ul>';
 
+
 sendVarToJS('object_id', init('object_id', -1));
 if (init('object_id') != '') {
     $object = object::byId(init('object_id'));
     if (!is_object($object)) {
-        throw new Exception('Object ID non trouvé');
+        throw new Exception('{{Object ID non trouvé}}');
     }
 }
 if (init('object_id') != '') {

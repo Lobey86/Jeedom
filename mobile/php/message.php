@@ -12,13 +12,13 @@ if ($plugin != '') {
 sendVarToJS('plugin', $plugin);
 global $rightPanel;
 $rightPanel = '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
-$rightPanel .= '<li data-role="list-divider">Action</li>';
-$rightPanel .= '<li><a id="bt_clearMessage" href="#"><i class="fa fa-trash-o"></i> Vider</a></li>';
+$rightPanel .= '<li data-role="list-divider">{{Action}}</li>';
+$rightPanel .= '<li><a id="bt_clearMessage" href="#"><i class="fa fa-trash-o"></i> {{Vider}}</a></li>';
 $rightPanel .= '</ul>';
 $rightPanel .= '<br/><br/><br/>';
 $rightPanel .= '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
-$rightPanel .= '<li data-role="list-divider">Logfile</li>';
-$rightPanel .= '<li><a href="index.php?v=m&p=message">Tout</a></li>';
+$rightPanel .= '<li data-role="list-divider">{{Logfile}}</li>';
+$rightPanel .= '<li><a href="index.php?v=m&p=message">{{Tout}}</a></li>';
 
 foreach (message::listPlugin() as $plugin) {
     $rightPanel .= '<li><a href="index.php?v=m&p=message&plugin=' . $plugin['plugin'] . '">' . $plugin['plugin'] . '</a></li>';
@@ -35,9 +35,9 @@ $rightPanel .= '</ul>';
     <thead>
         <tr>
             <th data-priority="1"></th>
-            <th data-priority="2">Date</th>
-            <th data-priority="3">Plugin</th>
-            <th data-priority="1">Description</th>
+            <th data-priority="2">{{Date}}</th>
+            <th data-priority="3">{{Plugin}}</th>
+            <th data-priority="1">{{Description}}</th>
         </tr>
     </thead>
     <tbody>

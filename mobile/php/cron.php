@@ -1,8 +1,6 @@
 <?php
-
 if (!isConnect('admin')) {
-    include_file('mobile', '401', 'php');
-    die();
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 
 global $rightPanel;
@@ -16,15 +14,15 @@ $rightPanel .= '</ul>';
     <thead>
         <tr>
             <th data-priority="1">#</th>
-            <th data-priority="6">Actif</th>
-            <th data-priority="5">Serveur</th>
-            <th data-priority="4">PID</th>
-            <th data-priority="6">Demon</th>
-            <th data-priority="1">Classe</th>
-            <th data-priority="1">Fonction</th>
-            <th data-priority="3">Dernier lancement</th>
-            <th data-priority="2">Durée</th>
-            <th data-priority="1">Satut</th>
+            <th data-priority="6">{{Actif}}</th>
+            <th data-priority="5">{{Serveur}}</th>
+            <th data-priority="4">{{PID}}</th>
+            <th data-priority="6">{{Demon}}</th>
+            <th data-priority="1">{{Classe}}</th>
+            <th data-priority="1">{{Fonction}}</th>
+            <th data-priority="3">{{Dernier lancement}}</th>
+            <th data-priority="2">{{Durée}}</th>
+            <th data-priority="1">{{Satut}}</th>
         </tr>
     </thead>
     <tbody></tbody>
