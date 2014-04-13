@@ -27,7 +27,7 @@ if (isset($_COOKIE['sess_id'])) {
 setcookie('sess_id', session_id(), time() + 24 * 3600, "/", '', false, true);
 
 if (ini_get('register_globals') == '1') {
-    echo 'Vous devriez mettre <b>register_globals</b> à <b>Off</b><br/>';
+    echo translate::sentence('Vous devriez mettre <b>register_globals</b> à <b>Off</b><br/>', __FILE__);
 }
 
 if (isConnect() && (!isset($_SESSION['userHash']) || getUserHash() != $_SESSION['userHash'])) {
@@ -60,7 +60,7 @@ function login($_login, $_password) {
     if (is_object($user)) {
         $_SESSION['user'] = $user;
         $_SESSION['userHash'] = getUserHash();
-        log::add('connection', 'info', 'Connexion de l\'utilisateur : ' . $_login);
+        log::add('connection', 'info', translate::sentence('Connexion de l\'utilisateur : ', __FILE__) . $_login);
         $getParams = '';
         unset($_GET['auth']);
         foreach ($_GET AS $var => $value) {

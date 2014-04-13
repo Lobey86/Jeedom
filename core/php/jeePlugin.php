@@ -40,21 +40,21 @@ try {
 
     $plugin_id = init('plugin_id');
     if ($plugin_id == '') {
-        throw new Exception('Le plugin ID ne peut etre vide');
+        throw new Exception(translate::sentence('Le plugin ID ne peut etre vide', __FILE__));
     }
     $plugin = new plugin($plugin_id);
     if (!is_object($plugin)) {
-        throw new Exception('Plugin non trouvé : ' . init('plugin_id'));
+        throw new Exception(translate::sentence('Plugin non trouvé : ', __FILE__) . init('plugin_id'));
     }
     $function = init('function');
     if ($function == '') {
-        throw new Exception('La fonction ne peut etre vide');
+        throw new Exception(translate::sentence('La fonction ne peut etre vide', __FILE__));
     }
 
     if (!class_exists($plugin_id) || !method_exists($plugin_id, $function)) {
-        throw new Exception('Il n\'existe aucune méthode : ' . $plugin_id . '::' . $function);
+        throw new Exception(translate::sentence('Il n\'existe aucune méthode : ', __FILE__) . $plugin_id . '::' . $function);
     }
-    log::add(init('plugin_id', 'plugin'), 'info', 'Lancement de ' . $plugin_id . '::' . $function . '()');
+    log::add(init('plugin_id', 'plugin'), 'info', translate::sentence('Lancement de ', __FILE__) . $plugin_id . '::' . $function . '()');
     $plugin_id::$function();
 } catch (Exception $e) {
     log::add(init('plugin_id', 'plugin'), 'error', $e->getMessage());
