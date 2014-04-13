@@ -21,7 +21,7 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect('admin')) {
-        throw new Exception('401 Unauthorized');
+        throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
     }
 
     if (init('action') == 'update') {
@@ -38,9 +38,9 @@ try {
         jeedom::restore(init('backup'), true);
         ajax::success();
     }
-    
-      if (init('action') == 'restoreCloud') {
-          market::retoreBackup(init('backup'));
+
+    if (init('action') == 'restoreCloud') {
+        market::retoreBackup(init('backup'));
         ajax::success();
     }
 
@@ -69,7 +69,13 @@ try {
         ajax::success(jeedom::getConfiguration(init('key')));
     }
 
-    throw new Exception('Aucune methode correspondante à : ' . init('action'));
+    if (init('action') == 'flushcache') {
+        cache::flush();
+        cache::set('jeedom::startOK', 1, 0);
+        ajax::success();
+    }
+
+    throw new Exception(translate::sentence('Aucune methode correspondante à : ',__FILE__). init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

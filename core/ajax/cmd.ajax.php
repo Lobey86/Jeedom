@@ -21,13 +21,13 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception('401 Unauthorized');
+        throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'toHtml') {
         $cmd = cmd::byId(init('id'));
         if (!is_object($cmd)) {
-            throw new Exception('Cmd inconnu verifié l\'id');
+            throw new Exception(translate::sentence('Cmd inconnu verifié l\'id', __FILE__));
         }
         $info_cmd = array();
         $info_cmd['id'] = $cmd->getId();
@@ -38,7 +38,7 @@ try {
     if (init('action') == 'execCmd') {
         $cmd = cmd::byId(init('id'));
         if (!is_object($cmd)) {
-            throw new Exception('Cmd ID inconnu : ' . init('id'));
+            throw new Exception(translate::sentence('Cmd ID inconnu : ', __FILE__) . init('id'));
         }
         ajax::success($cmd->execCmd(init('value'), init('cache', 1)));
     }
@@ -46,7 +46,7 @@ try {
     if (init('action') == 'getByObjectNameEqNameCmdName') {
         $cmd = cmd::byObjectNameEqLogicNameCmdName(init('object_name'), init('eqLogic_name'), init('cmd_name'));
         if (!is_object($cmd)) {
-            throw new Exception('Cmd inconnu : ' . init('object_name') . '/' . init('eqLogic_name') . '/' . init('cmd_name'));
+            throw new Exception(translate::sentence('Cmd inconnu : ', __FILE__) . init('object_name') . '/' . init('eqLogic_name') . '/' . init('cmd_name'));
         }
         ajax::success($cmd->getId());
     }
@@ -54,7 +54,7 @@ try {
     if (init('action') == 'getByObjectNameCmdName') {
         $cmd = cmd::byObjectNameCmdName(init('object_name'), init('cmd_name'));
         if (!is_object($cmd)) {
-            throw new Exception('Cmd inconnu : ' . init('object_name') . '/' . init('cmd_name'), 9999);
+            throw new Exception(translate::sentence('Cmd inconnu : ', __FILE__) . init('object_name') . '/' . init('cmd_name'), 9999);
         }
         ajax::success(utils::o2a($cmd));
     }
@@ -62,7 +62,7 @@ try {
     if (init('action') == 'getById') {
         $cmd = cmd::byId(init('id'));
         if (!is_object($cmd)) {
-            throw new Exception('Cmd inconnu : ' . init('id'), 9999);
+            throw new Exception(translate::sentence('Cmd inconnu : ', __FILE__) . init('id'), 9999);
         }
         ajax::success(utils::o2a($cmd));
     }
@@ -78,7 +78,7 @@ try {
     if (init('action') == 'getCmd') {
         $cmd = cmd::byId(init('id'));
         if (!is_object($cmd)) {
-            throw new Exception('Cmd ID inconnu : ' . init('id'));
+            throw new Exception(translate::sentence('Cmd ID inconnu : ', __FILE__) . init('id'));
         }
         $return = utils::o2a($cmd);
         $eqLogic = $cmd->getEqLogic();
@@ -92,7 +92,7 @@ try {
 
     if (init('action') == 'save') {
         if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
+            throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
         }
         $cmd_ajax = json_decode(init('cmd'), true);
         $cmd = cmd::byId($cmd_ajax['id']);
@@ -106,11 +106,11 @@ try {
 
     if (init('action') == 'changeHistoryPoint') {
         if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
+            throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
         }
         $history = history::byCmdIdDatetime(init('cmd_id'), init('datetime'));
         if (!is_object($history)) {
-            throw new Exception('Aucun point ne correspond pour l\'historique : ' . init('cmd_id') . ' - ' . init('datetime'));
+            throw new Exception(translate::sentence('Aucun point ne correspond pour l\'historique : ', __FILE__) . init('cmd_id') . ' - ' . init('datetime'));
         }
         $history->setValue(init('value', null));
         $history->save();
@@ -120,7 +120,7 @@ try {
     if (init('action') == 'getHistory') {
         $cmd = cmd::byId(init('id'));
         if (!is_object($cmd)) {
-            throw new Exception('Cmd ID inconnu : ' . init('id'));
+            throw new Exception(translate::sentence('Cmd ID inconnu : ', __FILE__) . init('id'));
         }
         $return = array();
         $data = array();
@@ -162,14 +162,14 @@ try {
     if (init('action') == 'emptyHistory') {
         $cmd = cmd::byId(init('id'));
         if (!is_object($cmd)) {
-            throw new Exception('Cmd ID inconnu : ' . init('id'));
+            throw new Exception(translate::sentence('Cmd ID inconnu : ', __FILE__) . init('id'));
         }
         $cmd->emptyHistory();
         ajax::success();
     }
 
 
-    throw new Exception('Aucune methode correspondante à : ' . init('action'));
+    throw new Exception(translate::sentence('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

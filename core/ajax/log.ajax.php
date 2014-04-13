@@ -21,7 +21,7 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect('admin')) {
-        throw new Exception('401 Unauthorized');
+        throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
     }
 
     if (init('action') == 'clear') {
@@ -38,7 +38,7 @@ try {
         ajax::success(log::get(init('logfile'), 0, 3000));
     }
 
-    throw new Exception('Aucune methode correspondante à : ' . init('action'));
+    throw new Exception(translate::sentence('Aucune methode correspondante à : ',__FILE__). init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

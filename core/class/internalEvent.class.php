@@ -81,7 +81,7 @@ class internalEvent {
 
     public static function getNewInternalEvent($_plugin) {
         if ($_plugin == '') {
-            throw new Exception('Le nom du plugin ne peut etre vide');
+            throw new Exception(translate::sentence('Le nom du plugin ne peut etre vide', __FILE__));
         }
         $now = strtotime(date('Y-m-d H:i:s', strtotime('-1 second', strtotime(date('Y-m-d H:i:s')))));
         self::cleanEvent();
@@ -89,7 +89,7 @@ class internalEvent {
         $cache = cache::byKey($key);
         $lastDatetime = $cache->getValue(0);
         cache::set($key, $now, 0);
-        return self::byDatetime(date('Y-m-d H:i:s',$lastDatetime));
+        return self::byDatetime(date('Y-m-d H:i:s', $lastDatetime));
     }
 
     /*     * *********************Methode d'instance************************* */

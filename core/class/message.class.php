@@ -39,7 +39,7 @@ class message {
         $message->setDate(date('Y-m-d H:i:m'));
         $message->setLogicalId($_logicalId);
         $message->save();
-        @nodejs::pushNotification('Message de ' . $_type, $_message, 'message');
+        @nodejs::pushNotification(translate::sentence('Message de ', __FILE__) . $_type, $_message, 'message');
     }
 
     public static function removeAll($_plugin = '') {

@@ -64,7 +64,7 @@ class scenarioSubElement {
 
     public function execute(&$_scenario) {
         $return = true;
-        $this->setLog('Exécution du sous-élément de type : ' . $this->getType());
+        $this->setLog(translate::sentence('Exécution du sous-élément de type : ',__FILE__) . $this->getType());
         if ($this->getSubtype() == 'condition') {
             foreach ($this->getExpression() as $expression) {
                 return $expression->execute($_scenario);

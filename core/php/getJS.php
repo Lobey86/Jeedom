@@ -36,7 +36,7 @@ if (file_exists($file)) {
         exit;
     }
     $content = file_get_contents($file);
-    echo translate::exec($content, init('file'), true);
+    echo translate::exec($content, init('file'));
     exit;
 }
 

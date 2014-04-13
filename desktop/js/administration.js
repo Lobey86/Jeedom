@@ -496,9 +496,9 @@ function genNodeJsKey() {
 function flushMemcache() {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/mc.ajax.php", // url du fichier php
+        url: "core/ajax/jeedom.ajax.php", // url du fichier php
         data: {
-            action: "flush"
+            action: "flushcache"
         },
         dataType: 'json',
         error: function(request, status, error) {

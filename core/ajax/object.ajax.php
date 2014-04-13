@@ -21,16 +21,16 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception('401 Unauthorized');
+        throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
     }
 
     if (init('action') == 'removeObject') {
         if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
+            throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
         }
         $object = object::byId(init('id'));
         if (!is_object($object)) {
-            throw new Exception('Objet inconnu verifié l\'id');
+            throw new Exception(translate::sentence('Objet inconnu verifié l\'id', __FILE__));
         }
         $object->remove();
         ajax::success();
@@ -39,7 +39,7 @@ try {
     if (init('action') == 'byId') {
         $object = object::byId(init('id'));
         if (!is_object($object)) {
-            throw new Exception('Objet inconnu verifié l\'id : ' . init('id'));
+            throw new Exception(translate::sentence('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
         }
         ajax::success(utils::o2a($object));
     }
@@ -50,7 +50,7 @@ try {
 
     if (init('action') == 'saveObject') {
         if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
+            throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
         }
         $object_json = json_decode(init('object'), true);
         $object = object::byId($object_json['id']);
@@ -65,13 +65,13 @@ try {
     if (init('action') == 'getChild') {
         $object = object::byId(init('id'));
         if (!is_object($object)) {
-            throw new Exception('Objet inconnu verifié l\'id');
+            throw new Exception(translate::sentence('Objet inconnu verifié l\'id', __FILE__));
         }
         $return = utils::o2a($object->getChild());
         ajax::success($return);
     }
 
-    throw new Exception('Aucune methode correspondante à : ' . init('action'));
+    throw new Exception(translate::sentence('Aucune methode correspondante à : ',__FILE__). init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

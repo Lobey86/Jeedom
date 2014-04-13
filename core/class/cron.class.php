@@ -114,10 +114,10 @@ class cron {
 
     public function preSave() {
         if ($this->getFunction() == '') {
-            throw new Exception('Function of cron task can not be empty');
+            throw new Exception(translate::sentence('La fonction ne peut etre vide', __FILE__));
         }
         if ($this->getSchedule() == '') {
-            throw new Exception('Schedules of cron task can not be empty : ' . print_r($this, true));
+            throw new Exception(translate::sentence('La programmation ne peut etre vide : ', __FILE__) . print_r($this, true));
         }
     }
 
@@ -164,7 +164,7 @@ class cron {
             if ($this->getNbRun() == 0) {
                 shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
             } else {
-                throw new Exception('Impossible de lancer la tache car elle est déjà en cours (' . $this->getNbRun() . ') : ' . $cmd);
+                throw new Exception(translate::sentence('Impossible de lancer la tache car elle est déjà en cours (', __FILE__) . $this->getNbRun() . ') : ' . $cmd);
             }
         }
     }
@@ -211,7 +211,7 @@ class cron {
             return true;
         }
         if ($this->getServer() == gethostname()) {
-            log::add('cron', 'info', 'Arret de ' . $this->getClass() . '::' . $this->getFunction() . '()');
+            log::add('cron', 'info', translate::sentence('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '()');
             exec('kill ' . $this->getPID());
             $check = $this->running();
             $retry = 0;
@@ -242,7 +242,7 @@ class cron {
                 $this->setServer('');
                 $this->setPID();
                 $this->save();
-                throw new Exception($this->getClass() . '::' . $this->getFunction() . '() : Impossible d\'arreter la tache');
+                throw new Exception($this->getClass() . '::' . $this->getFunction() . translate::sentence('() : Impossible d\'arreter la tache', __FILE__));
             } else {
                 $this->setState('stop');
                 $this->setDuration(-1);
@@ -292,7 +292,7 @@ class cron {
                 $lastCheck = new DateTime($this->getLastRun());
                 if ($lastCheck < $prev) {
                     if ($lastCheck->diff($prev)->format('%i') > 5) {
-                        log::add('cron', 'error', 'Retard de ' . ( $lastCheck->diff($prev)->format('%i min')) . ': ' . $this->getClass() . '::' . $this->getFunction() . '(). Rattrapage en cours...');
+                        log::add('cron', 'error', translate::sentence('Retard de ', __FILE__) . ( $lastCheck->diff($prev)->format('%i min')) . ': ' . $this->getClass() . '::' . $this->getFunction() . translate::sentence('(). Rattrapage en cours...', __FILE__));
                     }
                     return true;
                 }
@@ -300,7 +300,7 @@ class cron {
                 
             }
         } catch (Exception $e) {
-            log::add('cron', 'error', 'Expression cron non valide : ' . $this->getSchedule() . '. Détails : ' . $e->getMessage());
+            log::add('cron', 'error', translate::sentence('Expression cron non valide : ', __FILE__) . $this->getSchedule() . translate::sentence('. Détails : ', __FILE__) . $e->getMessage());
             return false;
         }
         return false;

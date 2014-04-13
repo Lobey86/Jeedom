@@ -126,12 +126,12 @@ class scenario {
                 if (is_numeric($_event_id)) {
                     $cmd = cmd::byId($_event_id);
                     if (is_object($cmd)) {
-                        log::add('scenario', 'info', 'Evènement venant de ' . $cmd->getHumanName() . ' (' . $cmd->getId() . ') vérification du/des scénario(s) : ' . $scenario_list);
+                        log::add('scenario', 'info', translate::sentence('Evènement venant de ',__FILE__) . $cmd->getHumanName() . ' (' . $cmd->getId() . translate::sentence(') vérification du/des scénario(s) : ',__FILE__) . $scenario_list);
                     } else {
                         return;
                     }
                 } else {
-                    log::add('scenario', 'info', 'Evènement : #' . $_event_id . '# vérification du/des scénario(s) : ' . $scenario_list);
+                    log::add('scenario', 'info', translate::sentence('Evènement : #',__FILE__) . $_event_id . translate::sentence('# vérification du/des scénario(s) : ',__FILE__) . $scenario_list);
                 }
             }
         } else {
@@ -247,7 +247,7 @@ class scenario {
 
     public function save() {
         if (($this->getMode() == 'schedule' || $this->getMode() == 'all') && $this->getSchedule() == '') {
-            throw new Exception('Le scénario est de type programmé mais la programmation est vide');
+            throw new Exception(translate::sentence('Le scénario est de type programmé mais la programmation est vide',__FILE__));
         }
         if ($this->getLastLaunch() == '' && ($this->getMode() == 'schedule' || $this->getMode() == 'all')) {
             $calculateScheduleDate = $this->calculateScheduleDate();
@@ -357,12 +357,12 @@ class scenario {
                     $prev = $c->getPreviousRunDate();
                     if ($lastCheck < $prev) {
                         if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
-                            log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . '. Retard de : ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                            log::add('scenario', 'error', translate::sentence('Retard lancement prévu à ',__FILE__) . $prev->format('Y-m-d H:i:s') . translate::sentence(' dernier lancement à ',__FILE__) . $lastCheck->format('Y-m-d H:i:s') . translate::sentence('. Retard de : ',__FILE__) . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . translate::sentence('. Rattrapage en cours...',__FILE__));
                         }
                         return true;
                     }
                 } catch (Exception $exc) {
-                    log::add('scenario', 'error', 'Expression cron non valide : ' . $schedule);
+                    log::add('scenario', 'error', translate::sentence('Expression cron non valide : ',__FILE__) . $schedule);
                     return false;
                 }
             }
@@ -376,12 +376,12 @@ class scenario {
                 $prev = $c->getPreviousRunDate();
                 if ($lastCheck < $prev) {
                     if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
-                        log::add('scenario', 'error', 'Retard lancement prévu à ' . $prev->format('Y-m-d H:i:s') . ' dernier lancement à ' . $lastCheck->format('Y-m-d H:i:s') . '. Retard de : ' . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . '. Rattrapage en cours...');
+                        log::add('scenario', 'error', translate::sentence('Retard lancement prévu à ',__FILE__) . $prev->format('Y-m-d H:i:s') . translate::sentence(' dernier lancement à ',__FILE__) . $lastCheck->format('Y-m-d H:i:s') . translate::sentence('. Retard de : ',__FILE__) . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . translate::sentence('. Rattrapage en cours...',__FILE__));
                     }
                     return true;
                 }
             } catch (Exception $exc) {
-                log::add('scenario', 'error', 'Expression cron non valide : ' . $this->getSchedule());
+                log::add('scenario', 'error', translate::sentence('Expression cron non valide : ',__FILE__) . $this->getSchedule());
                 return false;
             }
         }
@@ -408,7 +408,7 @@ class scenario {
                 $retry++;
             }
             if ($this->running()) {
-                throw new Exception('Impossible d\'arreter le scénario : ' . $this->getHumanName() . '. PID : ' . $this->getPID());
+                throw new Exception(translate::sentence('Impossible d\'arreter le scénario : ',__FILE__) . $this->getHumanName() . translate::sentence('. PID : ',__FILE__) . $this->getPID());
             }
         }
         $this->setState('stop');

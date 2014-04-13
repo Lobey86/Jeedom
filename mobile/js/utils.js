@@ -71,8 +71,8 @@ function notify(_title, _text) {
     if (_title == '' && _text == '') {
         return true;
     }
-    $('.ui-page-active #div_alert').html("<center><b>" + _title + "</b></center>" + _text).popup("open", {y: 0});
+    $('#div_alert').html("<center><b>" + _title + "</b></center>" + _text).popup("open", {y: 0});
     setTimeout(function() {
-        $('.ui-page-active #div_alert').popup("close");
+        $('#div_alert').popup("close");
     }, 1000)
 }

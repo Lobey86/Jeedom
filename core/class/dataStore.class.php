@@ -81,13 +81,13 @@ class dataStore {
     public function preSave() {
         $allowType = array('cmd', 'object', 'eqLogic', 'scenario', 'eqReal');
         if (!in_array($this->getType(), $allowType)) {
-            throw new Exception('Le type doit être un des suivants : ' . print_r($allowType, true));
+            throw new Exception(translate::sentence('Le type doit être un des suivants : ',__FILE__) . print_r($allowType, true));
         }
         if (!is_numeric($this->getLink_id())) {
-            throw new Exception('Link_id doit etre un chiffre');
+            throw new Exception(translate::sentence('Link_id doit etre un chiffre',__FILE__));
         }
         if ($this->getKey() == '') {
-            throw new Exception('La clef ne peut etre vide');
+            throw new Exception(translate::sentence('La clef ne peut etre vide',__FILE__));
         }
         if ($this->getId() == '') {
             $dataStore = self::byTypeLinkIdKey($this->getType(), $this->getLink_id(), $this->getKey());

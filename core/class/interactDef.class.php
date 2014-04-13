@@ -127,7 +127,7 @@ class interactDef {
 
     public function save() {
         if ($this->getQuery() == '') {
-            throw new Exception('La commande (demande) ne peut etre vide');
+            throw new Exception(translate::sentence('La commande (demande) ne peut etre vide',__FILE__));
         }
         return DB::save($this);
     }
@@ -347,4 +347,5 @@ class interactDef {
     }
 
 }
+
 ?>

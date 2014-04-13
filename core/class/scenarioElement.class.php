@@ -48,7 +48,7 @@ class scenarioElement {
             $element_db = new scenarioElement();
         }
         if (!isset($element_db) || !is_object($element_db)) {
-            throw new Exception('Elément inconnue verifié l\'id : ' . $element_ajax['id']);
+            throw new Exception(translate::sentence('Elément inconnue verifié l\'id : ',__FILE__) . $element_ajax['id']);
         }
         utils::a2o($element_db, $element_ajax);
         $element_db->save();
@@ -62,7 +62,7 @@ class scenarioElement {
                 $subElement_db = new scenarioSubElement();
             }
             if (!isset($subElement_db) || !is_object($subElement_db)) {
-                throw new Exception('Elément inconnu vérifié l\'id : ' . $subElement_ajax['id']);
+                throw new Exception(translate::sentence('Elément inconnu vérifié l\'id : ',__FILE__) . $subElement_ajax['id']);
             }
             utils::a2o($subElement_db, $subElement_ajax);
             $subElement_db->setScenarioElement_id($element_db->getId());
@@ -81,7 +81,7 @@ class scenarioElement {
                     $expression_db = new scenarioExpression();
                 }
                 if (!isset($expression_db) || !is_object($expression_db)) {
-                    throw new Exception('Elément inconnu vérifié l\'id : ' . $expression_ajax['id']);
+                    throw new Exception(translate::sentence('Elément inconnu vérifié l\'id : ',__FILE__) . $expression_ajax['id']);
                 }
                 utils::a2o($expression_db, $expression_ajax);
                 $expression_db->setScenarioSubElement_id($subElement_db->getId());
@@ -124,7 +124,7 @@ class scenarioElement {
 
     public function execute(&$_scenario) {
         $return = false;
-        $this->setLog('Exécution de l\'élément : ' . $this->getType());
+        $this->setLog(translate::sentence('Exécution de l\'élément : ',__FILE__) . $this->getType());
         switch ($this->getType()) {
             case 'if':
                 if ($this->getSubElement('if')->execute($_scenario)) {
@@ -138,8 +138,8 @@ class scenarioElement {
                 $limits = $for->getExpression();
                 $limits = scenarioExpression::setTags($limits[0]->getExpression());
                 if (!is_numeric($limits)) {
-                    $this->setLog('[ERREUR] La condition pour une boucle doit être un numérique : ' . $limits);
-                    throw new Exception('La condition pour une boucle doit être un numérique : ' . $limits);
+                    $this->setLog(translate::sentence('[ERREUR] La condition pour une boucle doit être un numérique : ',__FILE__) . $limits);
+                    throw new Exception(translate::sentence('La condition pour une boucle doit être un numérique : ',__FILE__) . $limits);
                 }
                 for ($i = 1; $i <= $limits; $i++) {
                     $return = $this->getSubElement('do')->execute($_scenario);

@@ -21,12 +21,12 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception('401 Unauthorized');
+        throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'getPluginConf') {
         if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
+            throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
         }
         $plugin = new plugin(init('pluginPath'));
 
@@ -40,18 +40,18 @@ try {
 
     if (init('action') == 'togglePlugin') {
         if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
+            throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
         }
         $plugin = new plugin(init('id'));
         if (!is_object($plugin)) {
-            throw new Exception('Plugin introuvable : ' . init('id'));
+            throw new Exception(translate::sentence('Plugin introuvable : ', __FILE__) . init('id'));
         }
         $plugin->setIsEnable(init('state'));
         ajax::success();
     }
 
 
-    throw new Exception('Aucune methode correspondante à : ' . init('action'));
+    throw new Exception(translate::sentence('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

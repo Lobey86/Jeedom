@@ -127,7 +127,7 @@ class interactQuery {
         $results = jeedom::whatDoYouKnow($_object);
         $reply = '';
         foreach ($results as $object) {
-            $reply .= '*** Je sais que pour ' . $object['name'] . " : \n";
+            $reply .= translate::sentence('*** Je sais que pour ',__FILE__) . $object['name'] . " : \n";
             foreach ($object['eqLogic'] as $eqLogic) {
                 foreach ($eqLogic['cmd'] as $cmd) {
                     $reply.= $eqLogic['name'] . ' ' . $cmd['name'] . ' = ' . $cmd['value'] . ' ' . $cmd['unite'] . "\n";
@@ -147,7 +147,7 @@ class interactQuery {
         if (!is_object($interactQuery)) {
             $interactQuery = interactQuery::recognize($_query);
         }
-        
+
         if (is_object($interactQuery)) {
             $reply = $interactQuery->executeAndReply($_parameters);
         }
@@ -190,14 +190,14 @@ class interactQuery {
 
     public static function dontUnderstand($_parameters) {
         $notUnderstood = array(
-            'Désolé je n\'ai pas compris',
-            'Désolé je n\'ai pas compris la demande',
-            'Désolé je ne comprends pas la demande',
-            'Je ne comprends pas',
+            translate::sentence('Désolé je n\'ai pas compris',__FILE__),
+            translate::sentence('Désolé je n\'ai pas compris la demande',__FILE__),
+            translate::sentence('Désolé je ne comprends pas la demande',__FILE__),
+            translate::sentence('Je ne comprends pas',__FILE__),
         );
         if (isset($_parameters['profile'])) {
-            $notUnderstood[] = 'Désolé ' . $_parameters['profile'] . ' je n\'ai pas compris';
-            $notUnderstood[] = 'Désolé ' . $_parameters['profile'] . ' je n\'ai pas compris ta demande';
+            $notUnderstood[] = translate::sentence('Désolé ',__FILE__) . $_parameters['profile'] . translate::sentence(' je n\'ai pas compris',__FILE__);
+            $notUnderstood[] = translate::sentence('Désolé ',__FILE__) . $_parameters['profile'] . translate::sentence(' je n\'ai pas compris ta demande',__FILE__);
         }
         $random = rand(0, count($notUnderstood) - 1);
         return $notUnderstood[$random];
@@ -207,13 +207,13 @@ class interactQuery {
 
     public function save() {
         if ($this->getQuery() == '') {
-            throw new Exception('La commande vocale ne peut etre vide');
+            throw new Exception(translate::sentence('La commande vocale ne peut etre vide',__FILE__));
         }
         if ($this->getInteractDef_id() == '') {
-            throw new Exception('SarahDef_id ne peut etre vide');
+            throw new Exception(translate::sentence('SarahDef_id ne peut etre vide',__FILE__));
         }
         if ($this->getLink_id() == '' && $this->getLink_type() != 'whatDoYouKnow') {
-            throw new Exception('Cette ordre vocale n\'est associé à aucune commande : ' . $this->getQuery());
+            throw new Exception(translate::sentence('Cette ordre vocale n\'est associé à aucune commande : ',__FILE__) . $this->getQuery());
         }
         $checksum = DB::checksum('interactQuery');
         DB::save($this);
@@ -235,21 +235,21 @@ class interactQuery {
     public function executeAndReply($_parameters) {
         $interactDef = interactDef::byId($this->getInteractDef_id());
         if (!is_object($interactDef)) {
-            return 'Inconsistance de la base de données';
+            return translate::sentence('Inconsistance de la base de données',__FILE__);
         }
         if (isset($_parameters['profile']) && $interactDef->getPerson() != '') {
             $person = $interactDef->getPerson();
             $person = explode('|', $person);
             if (!in_array($_parameters['profile'], $person)) {
-                return 'Tu n\es pas autorisé à executer cette action';
+                return translate::sentence('Tu n\es pas autorisé à executer cette action',__FILE__);
             }
         }
         if ($this->getLink_type() == 'whatDoYouKnow') {
             $object = object::byId($this->getLink_id());
             if (is_object($object)) {
                 $reply = self::whatDoYouKnow($object);
-                if(trim($reply) == ''){
-                    return 'Je ne sais rien sur '.$object->getName();
+                if (trim($reply) == '') {
+                    return translate::sentence('Je ne sais rien sur ',__FILE__) . $object->getName();
                 }
                 return $reply;
             }
@@ -266,8 +266,8 @@ class interactQuery {
         if ($this->getLink_type() == 'cmd') {
             $cmd = cmd::byId($this->getLink_id());
             if (!is_object($cmd)) {
-                log::add('interact', 'error', 'Commande : ' . $this->getLink_id() . ' introuvable veuillez renvoyer les listes des commandes');
-                return 'Commande introuvable verifier qu\'elle existe toujours';
+                log::add('interact', 'error', translate::sentence('Commande : ',__FILE__) . $this->getLink_id() . translate::sentence(' introuvable veuillez renvoyer les listes des commandes',__FILE__));
+                return translate::sentence('Commande introuvable verifier qu\'elle existe toujours',__FILE__);
             }
 
             $replace['#objet#'] = '';
@@ -289,7 +289,7 @@ class interactQuery {
                 $matches = $matches[1];
                 if (count($matches) > 0) {
                     if (!isset($_parameters['dictation'])) {
-                        return 'Erreur aucune phrase envoyé. Impossible de remplir les trous';
+                        return translate::sentence('Erreur aucune phrase envoyé. Impossible de remplir les trous',__FILE__);
                     }
                     $dictation = $_parameters['dictation'];
                     $options = array();
@@ -321,7 +321,7 @@ class interactQuery {
                 }
                 try {
                     if ($cmd->execCmd($options) === false) {
-                        return 'Impossible d\'executer la commande';
+                        return translate::sentence('Impossible d\'executer la commande',__FILE__);
                     }
                 } catch (Exception $exc) {
                     return $exc->getMessage();
@@ -335,7 +335,7 @@ class interactQuery {
             if ($cmd->getType() == 'info') {
                 $value = $cmd->execCmd();
                 if ($value === null) {
-                    return 'Impossible de recuperer la valeur de la commande';
+                    return translate::sentence('Impossible de recuperer la valeur de la commande',__FILE__);
                 } else {
                     $replace['#valeur#'] = $value;
                     if ($cmd->getSubType() == 'binary' && $interactDef->getOptions('convertBinary') != '') {

@@ -386,7 +386,7 @@ class history {
     public function save() {
         $cmd = $this->getCmd();
         if ($cmd->getType() != 'info') {
-            throw new Exception('Impossible d\'historiser une commande qui n\'est pas de type info');
+            throw new Exception(translate::sentence('Impossible d\'historiser une commande qui n\'est pas de type info', __FILE__));
         }
         if ($this->getDatetime() == '') {
             $this->setDatetime(date('Y-m-d H:i:s'));

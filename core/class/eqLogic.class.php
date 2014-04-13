@@ -282,8 +282,8 @@ class eqLogic {
                     $noReponseTimeLimit = $eqLogic->getTimeout();
                     if (count(message::byPluginLogicalId('core', $logicalId)) == 0) {
                         if ($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')) < date('Y-m-d H:i:s', strtotime('-' . $noReponseTimeLimit . ' minutes' . date('Y-m-d H:i:s')))) {
-                            $message = 'Attention <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getHumanName();
-                            $message .= '</a> n\'a pas envoyé de message depuis plus de ' . $noReponseTimeLimit . ' min (vérifier les piles)';
+                            $message = translate::sentence('Attention',__FILE__) . ' <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getHumanName();
+                            $message .= '</a>' . translate::sentence(' n\'a pas envoyé de message depuis plus de ',__FILE__) . $noReponseTimeLimit . translate::sentence(' min (vérifier les piles)',__FILE__);
                             message::add('core', $message, '', $logicalId);
                             foreach ($cmds as $cmd) {
                                 if ($cmd->getEventOnly() == 1) {
@@ -463,7 +463,7 @@ class eqLogic {
 
     public function save() {
         if ($this->getName() == '') {
-            throw new Exception('Le nom de l\'équipement ne peut etre vide');
+            throw new Exception(translate::sentence('Le nom de l\'équipement ne peut etre vide',__FILE__));
         }
         if ($this->getInternalEvent() == 1) {
             $internalEvent = new internalEvent();
@@ -552,8 +552,8 @@ class eqLogic {
         }
         if ($_pourcent <= 0) {
             $logicalId = 'noBattery' . $this->getId();
-            $message = 'Le module ' . $this->getEqType_name() . ' ';
-            $message .= $this->getHumanName() . ' a été désactivé car il n\'a plus de batterie (' . $_pourcent . ' %)';
+            $message = translate::sentence('Le module ',__FILE__) . $this->getEqType_name() . ' ';
+            $message .= $this->getHumanName() . translate::sentence(' a été désactivé car il n\'a plus de batterie (',__FILE__) . $_pourcent . ' %)';
             //$action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getId() . '" data-isEnable="1">Ré-activer</a>';
             message::add($this->getEqType_name(), $message, '', $logicalId);
         }

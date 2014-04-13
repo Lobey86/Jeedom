@@ -122,7 +122,7 @@ class scenarioExpression {
             if ($this->getType() == 'element') {
                 $element = scenarioElement::byId($this->getExpression());
                 if (is_object($element)) {
-                    $this->setLog('Exécution d\'un bloc élément : ' . $this->getExpression());
+                    $this->setLog(translate::sentence('Exécution d\'un bloc élément : ',__FILE__) . $this->getExpression());
                     return $element->execute($scenario);
                 }
             }
@@ -141,24 +141,24 @@ class scenarioExpression {
                     case 'scenario':
                         $actionScenario = scenario::byId($this->getOptions('scenario_id'));
                         if (!is_object($actionScenario)) {
-                            throw new Exception('Action sur scénario impossible. Scénario introuvable vérifier l\'id : ' . $this->getOptions('scenario_id'));
+                            throw new Exception(translate::sentence('Action sur scénario impossible. Scénario introuvable vérifier l\'id : ',__FILE__) . $this->getOptions('scenario_id'));
                         }
                         switch ($this->getOptions('action')) {
                             case 'start':
-                                $this->setLog('Lancement du scénario : ' . $actionScenario->getName());
+                                $this->setLog(translate::sentence('Lancement du scénario : ',__FILE__) . $actionScenario->getName());
                                 $actionScenario->launch();
                                 break;
                             case 'stop':
-                                $this->setLog('Arrêt forcer du scénario : ' . $actionScenario->getName());
+                                $this->setLog(translate::sentence('Arrêt forcer du scénario : ',__FILE__) . $actionScenario->getName());
                                 $actionScenario->stop();
                                 break;
                             case 'deactivate':
-                                $this->setLog('Désactivation du scénario : ' . $actionScenario->getName());
+                                $this->setLog(translate::sentence('Désactivation du scénario : ',__FILE__) . $actionScenario->getName());
                                 $actionScenario->setIsActive(0);
                                 $actionScenario->save();
                                 break;
                             case 'activate':
-                                $this->setLog('Activation du scénario : ' . $actionScenario->getName());
+                                $this->setLog(translate::sentence('Activation du scénario : ',__FILE__) . $actionScenario->getName());
                                 $actionScenario->setIsActive(1);
                                 $actionScenario->save();
                                 break;
@@ -167,7 +167,7 @@ class scenarioExpression {
                         break;
                     case 'var':
                         $value = self::setTags($this->getOptions('value'));
-                        $message = 'Affectation de la variable ' . $this->getOptions('name') . ' à [' . $value . '] = ';
+                        $message = translate::sentence('Affectation de la variable ',__FILE__) . $this->getOptions('name') . translate::sentence(' à [',__FILE__) . $value . '] = ';
                         try {
                             $test = new evaluate();
                             $result = $test->Evaluer($value);
@@ -186,13 +186,13 @@ class scenarioExpression {
                         $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
                         if (is_object($cmd)) {
                             if (count($options) != 0) {
-                                $this->setLog('Exécution de la commande ' . $cmd->getHumanName() . " avec comme option(s) : \n" . print_r($options, true));
+                                $this->setLog(translate::sentence('Exécution de la commande ',__FILE__) . $cmd->getHumanName() . translate::sentence(" avec comme option(s) : \n",__FILE__) . print_r($options, true));
                             } else {
-                                $this->setLog('Exécution de la commande ' . $cmd->getHumanName());
+                                $this->setLog(translate::sentence('Exécution de la commande ',__FILE__) . $cmd->getHumanName());
                             }
                             return $cmd->execCmd($options);
                         }
-                        $this->setLog('[Erreur] Aucune commande trouvée pour ' . $this->getExpression());
+                        $this->setLog(translate::sentence('[Erreur] Aucune commande trouvée pour ',__FILE__) . $this->getExpression());
                         return;
                         break;
                 }
@@ -200,13 +200,13 @@ class scenarioExpression {
             if ($this->getType() == 'condition') {
                 $test = new evaluate();
                 $expression = self::setTags($this->getExpression());
-                $message = 'Evaluation de la condition : [' . $expression . '] = ';
+                $message = translate::sentence('Evaluation de la condition : [',__FILE__) . $expression . '] = ';
                 $result = $test->Evaluer($expression);
                 if (is_bool($result)) {
                     if ($result) {
-                        $message .= 'Vrai';
+                        $message .= translate::sentence('Vrai',__FILE__);
                     } else {
-                        $message .= 'Faux';
+                        $message .= translate::sentence('Faux',__FILE__);
                     }
                 } else {
                     $message .= $result;
@@ -215,7 +215,7 @@ class scenarioExpression {
                 return $result;
             }
             if ($this->getType() == 'code') {
-                $this->setLog('Exécution d\'un bloc code');
+                $this->setLog(translate::sentence('Exécution d\'un bloc code',__FILE__));
                 return eval($this->getExpression());
             }
         } catch (Exception $e) {

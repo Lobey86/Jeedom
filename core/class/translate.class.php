@@ -25,7 +25,25 @@ class translate {
         return static::$translation[self::getLanguage()];
     }
 
+    public static function sentence($_content, $_name, $_backslash = false) {
+        echo self::exec("{{" . $_content . "}}", $_name, $_backslash);
+    }
+
     public static function exec($_content, $_name, $_backslash = false) {
+        if ($_content == '') {
+            return '';
+        }
+        if (substr($_name, 0, 1) == '/') {
+            if (strpos($_name, 'plugins') !== false) {
+                $_name = substr($_name, strpos($_name, 'plugins'));
+            } else {
+                if (strpos($_name, 'core') !== false) {
+                    $_name = substr($_name, strpos($_name, 'core'));
+                }
+            }
+        }
+
+
         $language = self::getLanguage();
         $modify = false;
         $translate = self::getTranslation();

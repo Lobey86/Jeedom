@@ -21,12 +21,12 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception('401 Unauthorized');
+        throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'genKeyAPI') {
         if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
+            throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
         }
         config::save('api', config::genKey());
         ajax::success(config::byKey('api'));
@@ -35,7 +35,7 @@ try {
     if (init('action') == 'getKey') {
         $keys = init('key');
         if ($keys == '') {
-            throw new Exception('Aucune clef demandée');
+            throw new Exception(translate::sentence('Aucune clef demandée', __FILE__));
         }
         if (is_json($keys)) {
             $keys = json_decode($keys, true);
@@ -51,7 +51,7 @@ try {
 
     if (init('action') == 'genNodeJsKey') {
         if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
+            throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
         }
         nodejs::updateKey();
         ajax::success(config::byKey('nodeJsKey'));
@@ -59,7 +59,7 @@ try {
 
     if (init('action') == 'addKey') {
         if (!isConnect('admin')) {
-            throw new Exception('401 Unauthorized');
+            throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
         }
         $values = json_decode(init('value'), true);
         foreach ($values as $key => $value) {
@@ -69,7 +69,7 @@ try {
     }
 
 
-    throw new Exception('Aucune methode correspondante à : ' . init('action'));
+    throw new Exception(translate::sentence('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

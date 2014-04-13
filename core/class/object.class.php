@@ -51,9 +51,9 @@ class object {
                 FROM object
                 WHERE father_id IS NULL
                 ORDER BY name';
-        if($_all === false){
-           $sql .= ' LIMIT 1';
-           return DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+        if ($_all === false) {
+            $sql .= ' LIMIT 1';
+            return DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
         }
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
@@ -74,7 +74,7 @@ class object {
                 $return[] = $object;
                 $childs = self::buildTree($object);
                 if (count($childs) > 0) {
-                    $return = array_merge($return,$childs);
+                    $return = array_merge($return, $childs);
                 }
             }
         }
@@ -120,7 +120,7 @@ class object {
     public function getEqLogic($_onlyEnable = true) {
         return eqLogic::byObjectId($this->getId(), $_onlyEnable);
     }
-    
+
     public function getScenario($_onlyEnable = true) {
         return scenario::byObjectId($this->getId(), $_onlyEnable);
     }
@@ -154,11 +154,11 @@ class object {
                 return $fatherNumber;
             }
             if ($fatherNumber > 50) {
-                throw new Exception('Erreur boucle dans les relation entre objects');
+                throw new Exception(translate::sentence('Erreur boucle dans les relation entre objects', __FILE__));
             }
         }
     }
-    
+
     public function getHumanName() {
         return $this->name;
     }

@@ -21,7 +21,7 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception('401 Unauthorized');
+        throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
     }
 
     if (init('action') == 'addScenario') {
@@ -35,7 +35,7 @@ try {
     if (init('action') == 'changeState') {
         $scenario = scenario::byId(init('id'));
         if (!is_object($scenario)) {
-            throw new Exception('Scénario ID inconnu : ' . init('id'));
+            throw new Exception(translate::sentence('Scénario ID inconnu : ',__FILE__) . init('id'));
         }
         switch (init('state')) {
             case 'start':
@@ -79,7 +79,7 @@ try {
     if (init('action') == 'removeScenario') {
         $scenario = scenario::byId(init('id'));
         if (!is_object($scenario)) {
-            throw new Exception('Scénario ID inconnu');
+            throw new Exception(translate::sentence('Scénario ID inconnu',__FILE__));
         }
         $scenario->remove();
         ajax::success();
@@ -88,7 +88,7 @@ try {
     if (init('action') == 'copyScenario') {
         $scenario = scenario::byId(init('id'));
         if (!is_object($scenario)) {
-            throw new Exception('Scénario ID inconnu');
+            throw new Exception(translate::sentence('Scénario ID inconnu',__FILE__));
         }
         ajax::success(utils::o2a($scenario->copy(init('name'))));
     }
@@ -96,7 +96,7 @@ try {
     if (init('action') == 'getScenario') {
         $scenario = scenario::byId(init('id'));
         if (!is_object($scenario)) {
-            throw new Exception('Scénario ID inconnu');
+            throw new Exception(translate::sentence('Scénario ID inconnu',__FILE__));
         }
         $return = utils::o2a($scenario);
         $return['trigger'] = cmd::cmdToHumanReadable($return['trigger']);
@@ -115,7 +115,7 @@ try {
             $scenario_db = scenario::byId($scenario_ajax['id']);
         }
         if (!isset($scenario_db) || !is_object($scenario_db)) {
-            throw new Exception('Scénario inconnue verifié l\'id : ' . $scenario_ajax['id']);
+            throw new Exception(translate::sentence('Scénario inconnue verifié l\'id : ',__FILE__) . $scenario_ajax['id']);
         }
         utils::a2o($scenario_db, $scenario_ajax);
         $scenario_db->save();
@@ -132,7 +132,7 @@ try {
         ajax::success(scenarioExpression::getExpressionOptions(init('expression'), init('option')));
     }
 
-    throw new Exception('Aucune methode correspondante à : ' . init('action'));
+    throw new Exception(translate::sentence('Aucune methode correspondante à : ',__FILE__). init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

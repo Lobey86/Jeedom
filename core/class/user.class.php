@@ -55,11 +55,11 @@ class user {
                 ldap_set_option($ad, LDAP_OPT_PROTOCOL_VERSION, 3);
                 ldap_set_option($ad, LDAP_OPT_REFERRALS, 0);
                 if (!ldap_bind($ad, 'uid=' . $_login . ',' . config::byKey('ldap:basedn'), $_mdp)) {
-                    log::add("connection", "info", 'Mot de passe erroné (' . $_login . ')');
+                    log::add("connection", "info", translate::sentence('Mot de passe erroné (',__FILE__) . $_login . ')');
                     return false;
                 }
                 $result = ldap_search($ad, 'uid=' . $_login . ',' . config::byKey('ldap:basedn'), config::byKey('ldap:filter'));
-                log::add("connection", "debug", 'Recherche LDAP (' . $_login . ')');
+                log::add("connection", "debug", translate::sentence('Recherche LDAP (',__FILE__) . $_login . ')');
                 if ($result) {
                     $entries = ldap_get_entries($ad, $result);
                     if ($entries['count'] > 0) {
@@ -73,14 +73,14 @@ class user {
                         $user->setLogin($_login);
                         $user->setPassword(sha1($_mdp));
                         $user->save();
-                        log::add("connection", "INFO", 'Utilisateur creer depuis le LDAP : ' . $_login);
+                        log::add("connection", "INFO", translate::sentence('Utilisateur creer depuis le LDAP : ',__FILE__) . $_login);
                         return $user;
                     } else {
                         $user = self::byLogin($_login);
                         if (is_object($user)) {
                             $user->remove();
                         }
-                        log::add("connection", "info", 'Utilisateur non autorisé à acceder à Jeedom (' . $_login . ')');
+                        log::add("connection", "info", translate::sentence('Utilisateur non autorisé à acceder à Jeedom (',__FILE__) . $_login . ')');
                         return false;
                     }
                 } else {
@@ -88,7 +88,7 @@ class user {
                     if (is_object($user)) {
                         $user->remove();
                     }
-                    log::add("connection", "info", 'Utilisateur non autorisé à acceder à Jeedom (' . $_login . ')');
+                    log::add("connection", "info", translate::sentence('Utilisateur non autorisé à acceder à Jeedom (',__FILE__) . $_login . ')');
                     return false;
                 }
                 return false;
@@ -139,7 +139,7 @@ class user {
 
     public function presave() {
         if ($this->getLogin() == '') {
-            throw new Exception('Le nom d\'utilisateur ne peut être vide');
+            throw new Exception(translate::sentence('Le nom d\'utilisateur ne peut être vide',__FILE__));
         }
     }
 
