@@ -58,8 +58,8 @@ if (!isConnect()) {
 {{#semaine# : numéro de la semaine (ex : 51)}}
 {{#sjour# : pour le nom du jour de la semaine (ex : Samedi)}}
 {{#rand[1-10]# : pour un nombre aléatoire de 1 à 10}}
-{{#var[mavariable-valeur par default]# : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut}}
-    {{Ex : #var[plop-10]# renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas}}
+{{#var[mavariable-valeur par default]# : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut
+    Ex : #var[plop-10]# renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas}}
                 </pre>
             </div>
         </div>
@@ -76,9 +76,9 @@ if (!isConnect()) {
             <div class="panel-body">
                 {{En plus des commandes domotiques vous avez accès aux fonctions suivantes : }}
                 <pre>
-{{sleep : pause de x seconde(s)}}
-{{var : création/modification d'une ou de la valeur d'une variable}}
-{{scenario : permet le controle des scénarios}}
+{{sleep : pause de x seconde(s)
+var : création/modification d'une ou de la valeur d'une variable
+scenario : permet le controle des scénarios}}
                 </pre>
                 {{Vous pouvez aussi utiliser les tags suivants dans les options : }}
                 <pre>
@@ -92,8 +92,8 @@ if (!isConnect()) {
 {{#semaine# : numéro de la semaine (ex : 51)}}
 {{#sjour# : pour le nom du jour de la semaine en anglais (ex : sunday)}}
 {{#rand[1-10]# : pour un nombre aléatoire de 1 à 10}}
-{{#var[mavariable-valeur par default]# : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut}}
-    {{Ex : #var[plop-10]# renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas}}
+{{#var[mavariable-valeur par default]# : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut
+    Ex : #var[plop-10]# renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas}}
                 </pre>
             </div>
         </div>
@@ -124,23 +124,23 @@ if (!isConnect()) {
                             <div class="panel-body">
                                 <pre>
 <h5 style='display: inline;'>cmd::byString($string);</h5>
-    {{Retourne l'objet commande correspondant}} 
-    {{$string => lien vers la commande voulue : [type].[nom de l'équipement].[nom de la commande] (ex : [weather].[Villeurbanne].[Température])}}
+    {{Retourne l'objet commande correspondant
+    $string => lien vers la commande voulue : [type].[nom de l'équipement].[nom de la commande] (ex : [weather].[Villeurbanne].[Température])}}
                                 </pre>  
                                 <pre>
 <h5 style='display: inline;'>cmd::byId($id);</h5>
-    {{Retourne l'objet commande correspondant}} 
-    {{$string => Id de la commande voulue (voir Général => Affichage)}}
+    {{Retourne l'objet commande correspondant
+    $string => Id de la commande voulue (voir Général => Affichage)}}
                                 </pre> 
                                 <pre>
 <h5 style='display: inline;'>$cmd->execCmd($options = null, $cache = 1);</h5>
-    {{Exécute la commande et retourne le résultat}}
-    {{$options => Options pour l'exécution de la commande (peut être spécifique au plugin), option de base : }}
-          {{Sous-type de la commande : message => $option = array('title' => 'titre du message , 'message' => 'Mon message');}}
-                                     {{color => $option = array('color' => 'couleur en hexadécimal');}}
-                                     {{value => $option = array('color' => 'valeur voulue');}}
-                                     {{slider => $option = array('slider' => 'valeur voulue de 0 à 100');}}
-    {{$cache  => 0 = ignorer le cache , 1 = mode normal, 2 = cache utilisé même si expiré (puis marqué à recollecter)}}
+    {{Exécute la commande et retourne le résultat
+    $options => Options pour l'exécution de la commande (peut être spécifique au plugin), option de base : 
+          Sous-type de la commande : message => $option = array('title' => 'titre du message , 'message' => 'Mon message');
+                                     color => $option = array('color' => 'couleur en hexadécimal');
+                                     value => $option = array('color' => 'valeur voulue');
+                                     slider => $option = array('slider' => 'valeur voulue de 0 à 100');
+    $cache  => 0 = ignorer le cache , 1 = mode normal, 2 = cache utilisé même si expiré (puis marqué à recollecter)}}
                                 </pre>                
 
 
@@ -162,9 +162,9 @@ if (!isConnect()) {
                             <div class="panel-body">
                                 <pre>
 <h5 style='display: inline;'>log::add('filename','level','message');</h5>
-    {{filename => nom du fichier de log}}
-    {{level => [debug],[info],[error],[event]}}
-    {{message => message à écrire dans les logs}}
+    {{filename => nom du fichier de log
+    level => [debug],[info],[error],[event]
+    message => message à écrire dans les logs}}
                                 </pre>
                             </div>
                         </div>
@@ -195,13 +195,13 @@ if (!isConnect()) {
                                 </pre>
                                 <pre>
 <h5 style='display: inline;'>$scenario->setIsActive($active);</h5>
-    {{Permet d'activer ou non du scénario}}
-    {{$active => 1 actif , 0 non actif}}
+    {{Permet d'activer ou non du scénario
+    $active => 1 actif , 0 non actif}}
                                 </pre> 
                                 <pre>
 <h5 style='display: inline;'>$scenario->setOnGoing($onGoing);</h5>
-    {{Permet de dire si le scénario est en cours ou non}}
-    {{$onGoing => 1 en cours , 0 arrêter}}
+    {{Permet de dire si le scénario est en cours ou non
+    $onGoing => 1 en cours , 0 arrêter}}
                                 </pre>
                                 <pre>
 <h5 style='display: inline;'>$scenario->save();</h5>
@@ -209,14 +209,14 @@ if (!isConnect()) {
                                 </pre>
                                 <pre>
 <h5 style='display: inline;'>$scenario->setData($key, $value);</h5>
-    {{Sauvegarde une donnée}}
-    {{$key => clef de la valeur (int ou string)}}
-    {{$value => valeur à stocker (int, string, array ou object)}}
+    {{Sauvegarde une donnée
+    $key => clef de la valeur (int ou string)
+    $value => valeur à stocker (int, string, array ou object)}}
                                 </pre>
                                 <pre>
 <h5 style='display: inline;'>$scenario->getData($key);</h5>
-    {{Récupère une donnée}}
-    {{$key => clef de la valeur (int ou string)}}
+    {{Récupère une donnée
+    $key => clef de la valeur (int ou string)}}
                                 </pre>
                                 <pre>
 <h5 style='display: inline;'>$scenario->removeData($key);</h5>

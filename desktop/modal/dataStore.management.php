@@ -53,9 +53,6 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
                     });
                 }
             });
-
-
-
         });
 
         $('#table_dataStore').delegate('.bt_saveDataStore', 'click', function() {
