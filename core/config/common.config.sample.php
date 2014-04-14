@@ -31,4 +31,6 @@ $CONFIG = array(
         'password' => '#PASSWORD#',
     )
 );
+
+define('TRANSLATION_AUTODISCOVERY' , 0);
 ?>
