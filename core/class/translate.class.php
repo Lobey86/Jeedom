@@ -52,15 +52,11 @@ class translate {
         preg_match_all("/{{(.*?)}}/s", $_content, $matches);
         foreach ($matches[1] as $text) {
             $replace = false;
-            if (isset($translate[$_name])) {
-                if (isset($translate[$_name][$text])) {
-                    $replace = $translate[$_name][$text];
-                }
+            if (isset($translate[$_name]) && isset($translate[$_name][$text])) {
+                $replace = $translate[$_name][$text];
             }
-            if ($replace === false && isset($translate['common'])) {
-                if (isset($translate['common'][$text])) {
-                    $replace = $translate['common'][$text];
-                }
+            if ($replace === false && isset($translate['common']) && isset($translate['common'][$text])) {
+                $replace = $translate['common'][$text];
             }
             if ($replace === false) {
                 $modify = true;
@@ -142,7 +138,7 @@ class translate {
     /*     * *********************Methode d'instance************************* */
 }
 
-function __($_content, $_name, $_backslash = false){
+function __($_content, $_name, $_backslash = false) {
     return translate::sentence($_content, $_name, $_backslash = false);
 }
 

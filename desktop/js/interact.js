@@ -170,7 +170,7 @@ function addInteractDefToTable(_interactDef) {
     tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="convertBinary" placeholder="{{Conversion binaire : faux|vrai}}" title="{{Convertir les commandes binaire}}" style="margin-top : 5px;" />';
     tr += '</div>';
     tr += '<div class="col-lg-6">';
-    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="synonymes" placeholder="{{Synonyne}}" title="{{Remplace les mots par leur synonyme lors de la generation des commandes}" style="margin-top : 5px;" />';
+    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="synonymes" placeholder="{{Synonyne}}" title="{{Remplace les mots par leur synonyme lors de la generation des commandes}}" style="margin-top : 5px;" />';
     tr += '</div>';
     tr += '</div>';
     tr += '</td>';
