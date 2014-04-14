@@ -19,6 +19,7 @@ echo "********************************************************"
 echo "*             Installation des dépendances             *"
 echo "********************************************************"
 sudo apt-get update
+sudo apt-get install -y ntp
 sudo apt-get install -y git git-core git-man
 sudo apt-get install -y nginx-common nginx-full
 sudo apt-get install -y mysql-client mysql-common mysql-server mysql-server-core-5.5
