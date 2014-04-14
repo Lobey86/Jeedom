@@ -38,8 +38,8 @@ if (isset($argv)) {
 
 $scenario = scenario::byId(init('scenario_id'));
 if (!is_object($scenario)) {
-    log::add('scenario', 'info', translate::sentence('Scenario non trouvé verifier id : ', __FILE__) . init('scenario_id'));
-    die(translate::sentence('Scenario non trouvé verifier id : ', __FILE__) . init('scenario_id'));
+    log::add('scenario', 'info', __('Scenario non trouvé verifier id : ', __FILE__) . init('scenario_id'));
+    die(__('Scenario non trouvé verifier id : ', __FILE__) . init('scenario_id'));
 }
 set_time_limit($scenario->getTimeout(config::byKey('maxExecTimeScript', 1) * 60));
 
@@ -58,20 +58,20 @@ try {
             sleep(1);
         }
         if ($scenario->getState() == 'in progress') {
-            $scenario->setLog(translate::sentence('Impossible de lancer le scenario car déja en cours', __FILE__));
-            die(translate::sentence('Impossible de lancer le scenario car deja en cours', __FILE__));
+            $scenario->setLog(__('Impossible de lancer le scenario car déja en cours', __FILE__));
+            die(__('Impossible de lancer le scenario car deja en cours', __FILE__));
         }
         $scenario->setPID(getmypid());
         $scenario->save();
-        log::add('scenario', 'info', translate::sentence('Verification du scenario ', __FILE__) . $scenario->getHumanName() . translate::sentence(' avec le PID : ', __FILE__) . getmypid());
+        log::add('scenario', 'info', __('Verification du scenario ', __FILE__) . $scenario->getHumanName() . __(' avec le PID : ', __FILE__) . getmypid());
         $scenario->execute();
         $scenario->setState('stop');
     } else {
-        $scenario->setLog(translate::sentence('Impossible de lancer le scenario car désactivé', __FILE__));
-        die(translate::sentence('Impossible de lancer le scenario car desactivé', __FILE__));
+        $scenario->setLog(__('Impossible de lancer le scenario car désactivé', __FILE__));
+        die(__('Impossible de lancer le scenario car desactivé', __FILE__));
     }
 } catch (Exception $e) {
-    log::add('scenario', 'error', translate::sentence('Scenario  : ', __FILE__) . $scenario->getName() . '. ' . translate::sentence('Erreur : ', __FILE__) . $e->getMessage());
+    log::add('scenario', 'error', __('Scenario  : ', __FILE__) . $scenario->getName() . '. ' . __('Erreur : ', __FILE__) . $e->getMessage());
     $scenario->setState('error');
     $scenario->setPID('');
     $scenario->save();

@@ -21,7 +21,7 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect('admin')) {
-        throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
+        throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'all') {
@@ -60,7 +60,7 @@ try {
     if (init('action') == 'changeState') {
         $interactQuery = interactQuery::byId(init('id'));
         if (!is_object($interactQuery)) {
-            throw new Exception(translate::sentence('InteractQuery ID inconnu', __FILE__));
+            throw new Exception(__('InteractQuery ID inconnu', __FILE__));
         }
         $interactQuery->setEnable(init('enable'));
         $interactQuery->save();
@@ -71,7 +71,7 @@ try {
         ajax::success(interactQuery::tryToReply(init('message'), null));
     }
 
-    throw new Exception(translate::sentence('Aucune methode correspondante à : ', __FILE__) . init('action'));
+    throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

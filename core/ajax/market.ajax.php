@@ -21,13 +21,13 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect('admin')) {
-        throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
+        throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'install') {
         $market = market::byId(init('id'));
         if (!is_object($market)) {
-            throw new Exception(translate::sentence('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
+            throw new Exception(__('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
         }
         $market->install();
         ajax::success();
@@ -36,7 +36,7 @@ try {
     if (init('action') == 'remove') {
         $market = market::byId(init('id'));
         if (!is_object($market)) {
-            throw new Exception(translate::sentence('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
+            throw new Exception(__('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
         }
         $market->remove();
         ajax::success();
@@ -64,7 +64,7 @@ try {
     if (init('action') == 'setRating') {
         $market = market::byId(init('id'));
         if (!is_object($market)) {
-            throw new Exception(translate::sentence('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
+            throw new Exception(__('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
         }
         $market->setRating(init('rating'));
         ajax::success();
@@ -73,7 +73,7 @@ try {
     if (init('action') == 'getRating') {
         $market = market::byId(init('id'));
         if (!is_object($market)) {
-            throw new Exception(translate::sentence('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
+            throw new Exception(__('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
         }
         ajax::success($market->getRating());
     }
@@ -81,7 +81,7 @@ try {
     if (init('action') == 'setComment') {
         $market = market::byId(init('id'));
         if (!is_object($market)) {
-            throw new Exception(translate::sentence('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
+            throw new Exception(__('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
         }
         $market->setComment(init('comment', null), init('order', null));
         ajax::success();
@@ -93,7 +93,7 @@ try {
         ajax::success(array('url' => config::byKey('market::address') . '/index.php?v=d&p=ticket'));
     }
 
-    throw new Exception(translate::sentence('Aucune methode correspondante à : ', __FILE__) . init('action'));
+    throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

@@ -36,7 +36,7 @@ if (isset($argv)) {
 
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
-    echo translate::sentence("***************Lancement du backup de Jeedom***************\n", __FILE__);
+    echo __("***************Lancement du backup de Jeedom***************\n", __FILE__);
     global $CONFIG;
     $tmp = dirname(__FILE__) . '/../tmp/backup';
     if (!file_exists($tmp)) {
@@ -52,38 +52,38 @@ try {
     }
     $bakcup_name = 'backup-' . date("d-m-Y-H\hi") . '.tar.gz';
 
-    echo translate::sentence('Sauvegarde des fichiers : ', __FILE__);
+    echo __('Sauvegarde des fichiers : ', __FILE__);
     rcopy(dirname(__FILE__) . '/..', $tmp, true, array('tmp', 'backup', 'log'));
-    echo translate::sentence("OK\n", __FILE__);
+    echo __("OK\n", __FILE__);
 
-    echo translate::sentence('Sauvegarde de la base de données : ', __FILE__);
+    echo __('Sauvegarde de la base de données : ', __FILE__);
     system("mysqldump --host=" . $CONFIG['db']['host'] . " --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'] . "  > " . $tmp . "/DB_backup.sql");
-    echo translate::sentence("OK\n", __FILE__);
+    echo __("OK\n", __FILE__);
 
-    echo translate::sentence('Création de l\'archive : ', __FILE__);
+    echo __('Création de l\'archive : ', __FILE__);
     system('cd ' . $tmp . '; tar cfz ' . $backup_dir . '/' . $bakcup_name . ' * > /dev/null 2>&1');
-    echo translate::sentence("OK\n", __FILE__);
+    echo __("OK\n", __FILE__);
 
-    echo translate::sentence('Nettoyage des anciens backup : ', __FILE__);
+    echo __('Nettoyage des anciens backup : ', __FILE__);
     system('find ' . $backup_dir . ' -mtime +' . config::byKey('backup::keepDays') . ' -print | xargs -r rm');
-    echo translate::sentence("OK\n", __FILE__);
+    echo __("OK\n", __FILE__);
 
     if (config::byKey('backup::cloudUpload') == 1) {
-        echo translate::sentence('Envoie de la sauvegarde dans le cloud : ', __FILE__);
+        echo __('Envoie de la sauvegarde dans le cloud : ', __FILE__);
         try {
             market::sendBackup($backup_dir . '/' . $bakcup_name);
         } catch (Exception $e) {
             log::add('backup', 'error', $e->getMessage());
             echo '/!\ ' . $e->getMessage() . ' /!\\';
         }
-        echo translate::sentence("OK\n", __FILE__);
+        echo __("OK\n", __FILE__);
     }
 
-    echo translate::sentence("***************Fin du backup de Jeedom***************\n", __FILE__);
-    echo translate::sentence("[END BACKUP SUCCESS]\n", __FILE__);
+    echo __("***************Fin du backup de Jeedom***************\n", __FILE__);
+    echo __("[END BACKUP SUCCESS]\n", __FILE__);
 } catch (Exception $e) {
-    echo translate::sentence('Erreur durant le backup : ', __FILE__) . $e->getMessage();
-    echo translate::sentence('Détails : ', __FILE__) . print_r($e->getTrace());
+    echo __('Erreur durant le backup : ', __FILE__) . $e->getMessage();
+    echo __('Détails : ', __FILE__) . print_r($e->getTrace());
     echo "[END BACKUP ERROR]\n";
     throw $e;
 }

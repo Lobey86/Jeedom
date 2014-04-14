@@ -81,7 +81,7 @@ class internalEvent {
 
     public static function getNewInternalEvent($_plugin) {
         if ($_plugin == '') {
-            throw new Exception(translate::sentence('Le nom du plugin ne peut etre vide', __FILE__));
+            throw new Exception(__('Le nom du plugin ne peut etre vide', __FILE__));
         }
         $now = strtotime(date('Y-m-d H:i:s', strtotime('-1 second', strtotime(date('Y-m-d H:i:s')))));
         self::cleanEvent();

@@ -21,14 +21,14 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
+        throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'getEqLogicObject') {
         $object = object::byId(init('object_id'));
 
         if (!is_object($object)) {
-            throw new Exception(translate::sentence('Objet inconnu verifié l\'id', __FILE__));
+            throw new Exception(__('Objet inconnu verifié l\'id', __FILE__));
         }
         $return = utils::o2a($object);
         $return['eqLogic'] = array();
@@ -48,7 +48,7 @@ try {
     if (init('action') == 'byId') {
         $eqLogic = eqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new Exception(translate::sentence('EqLogic inconnu verifié l\'id', __FILE__));
+            throw new Exception(__('EqLogic inconnu verifié l\'id', __FILE__));
         }
         ajax::success(utils::o2a($eqLogic));
     }
@@ -56,7 +56,7 @@ try {
     if (init('action') == 'toHtml') {
         $eqLogic = eqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new Exception(translate::sentence('Eqlogic inconnu verifié l\'id', __FILE__));
+            throw new Exception(__('Eqlogic inconnu verifié l\'id', __FILE__));
         }
         $info_eqLogic = array();
         $info_eqLogic['id'] = $eqLogic->getId();
@@ -100,11 +100,11 @@ try {
 
     if (init('action') == 'setIsEnable') {
         if (!isConnect('admin')) {
-            throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
         $eqLogic = eqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new Exception(translate::sentence('EqLogic inconnu verifié l\'id', __FILE__));
+            throw new Exception(__('EqLogic inconnu verifié l\'id', __FILE__));
         }
         $eqLogic->setIsEnable(init('isEnable'));
         $eqLogic->save();
@@ -115,11 +115,11 @@ try {
 
     if (init('action') == 'remove') {
         if (!isConnect('admin')) {
-            throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
         $eqLogic = eqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new Exception(translate::sentence('EqLogic inconnu verifié l\'id', __FILE__));
+            throw new Exception(__('EqLogic inconnu verifié l\'id', __FILE__));
         }
         $eqLogic->remove();
         ajax::success();
@@ -128,11 +128,11 @@ try {
     if (init('action') == 'get') {
         $typeEqLogic = init('type');
         if ($typeEqLogic == '' || !class_exists($typeEqLogic)) {
-            throw new Exception(translate::sentence('Type incorrect (classe équipement inexistante) : ', __FILE__) . $typeEqLogic);
+            throw new Exception(__('Type incorrect (classe équipement inexistante) : ', __FILE__) . $typeEqLogic);
         }
         $eqLogic = $typeEqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new Exception(translate::sentence('EqLogic inconnu verifié l\'id : ', __FILE__) . init('id'));
+            throw new Exception(__('EqLogic inconnu verifié l\'id : ', __FILE__) . init('id'));
         }
         $return = utils::o2a($eqLogic);
         $return['cmd'] = utils::o2a($eqLogic->getCmd());
@@ -141,18 +141,18 @@ try {
 
     if (init('action') == 'save') {
         if (!isConnect('admin')) {
-            throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
         $eqLogicsSave = json_decode(init('eqLogic'), true);
 
         foreach ($eqLogicsSave as $eqLogicSave) {
             if (!is_array($eqLogicSave)) {
-                throw new Exception(translate::sentence('Informations recues incorrecte', __FILE__));
+                throw new Exception(__('Informations recues incorrecte', __FILE__));
             }
             $typeEqLogic = init('type');
             $typeCmd = $typeEqLogic . 'Cmd';
             if ($typeEqLogic == '' || !class_exists($typeEqLogic) || !class_exists($typeCmd)) {
-                throw new Exception(translate::sentence('Type incorrect (classe commande inexistante)', __FILE__) . $typeCmd);
+                throw new Exception(__('Type incorrect (classe commande inexistante)', __FILE__) . $typeCmd);
             }
             $eqLogic = null;
             if (isset($eqLogicSave['id'])) {
@@ -198,7 +198,7 @@ try {
     }
 
 
-    throw new Exception(translate::sentence('Aucune methode correspondante à : ', __FILE__) . init('action'));
+    throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

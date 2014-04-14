@@ -21,7 +21,7 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect('admin')) {
-        throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
+        throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'save') {
@@ -32,7 +32,7 @@ try {
     if (init('action') == 'remove') {
         $cron = cron::byId(init('id'));
         if (!is_object($cron)) {
-            throw new Exception(translate::sentence('Cron id inconnu', __FILE__));
+            throw new Exception(__('Cron id inconnu', __FILE__));
         }
         $cron->remove();
         ajax::success();
@@ -51,7 +51,7 @@ try {
     if (init('action') == 'start') {
         $cron = cron::byId(init('id'));
         if (!is_object($cron)) {
-            throw new Exception(translate::sentence('Cron id inconnu', __FILE__));
+            throw new Exception(__('Cron id inconnu', __FILE__));
         }
         $cron->start();
         ajax::success();
@@ -60,13 +60,13 @@ try {
     if (init('action') == 'stop') {
         $cron = cron::byId(init('id'));
         if (!is_object($cron)) {
-            throw new Exception(translate::sentence('Cron id inconnu', __FILE__));
+            throw new Exception(__('Cron id inconnu', __FILE__));
         }
         $cron->stop();
         ajax::success();
     }
 
-    throw new Exception(translate::sentence('Aucune methode correspondante à : ', __FILE__) . init('action'));
+    throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
 
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

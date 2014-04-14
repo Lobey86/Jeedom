@@ -21,33 +21,33 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
+        throw new Exception(__('401 - Accès non autorisé',__FILE__));
     }
 
     if (init('action') == 'all') {
         if (!isConnect('admin')) {
-            throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
+            throw new Exception(__('401 - Accès non autorisé',__FILE__));
         }
         ajax::success(utils::o2a(user::all()));
     }
 
     if (init('action') == 'save') {
         if (!isConnect('admin')) {
-            throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
+            throw new Exception(__('401 - Accès non autorisé',__FILE__));
         }
         $users = json_decode(init('users'), true);
         foreach ($users as $user_json) {
             $user = user::byId($user_json['id']);
             if (!is_object($user)) {
                 if (config::byKey('ldap::enable') == '1') {
-                    throw new Exception(translate::sentence('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur',__FILE__));
+                    throw new Exception(__('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur',__FILE__));
                 }
                 $user = new user();
             }
             utils::a2o($user, $user_json);
             if (isset($user_json['password'])) {
                 if (config::byKey('ldap::enable') == '1') {
-                    throw new Exception(translate::sentence('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur',__FILE__));
+                    throw new Exception(__('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur',__FILE__));
                 }
                 $user->setPassword(sha1($user_json['password']));
             }
@@ -58,10 +58,10 @@ try {
 
     if (init('action') == 'delUser') {
         if (!isConnect('admin')) {
-            throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
+            throw new Exception(__('401 - Accès non autorisé',__FILE__));
         }
         if (config::byKey('ldap::enable') == '1') {
-            throw new Exception(translate::sentence('Vous devez desactiver l\'authentification LDAP pour pouvoir supprimer un utilisateur',__FILE__));
+            throw new Exception(__('Vous devez desactiver l\'authentification LDAP pour pouvoir supprimer un utilisateur',__FILE__));
         }
         $user = user::byId(init('id'));
         if (!is_object($user)) {
@@ -73,7 +73,7 @@ try {
 
     if (init('action') == 'saveUser') {
         if (!isConnect()) {
-            throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
+            throw new Exception(__('401 - Accès non autorisé',__FILE__));
         }
         $user_json = json_decode(init('user'), true);
         if (isset($user_json['id']) && $user_json['id'] != $_SESSION['user']->getId()) {
@@ -96,14 +96,14 @@ try {
 
     if (init('action') == 'getUser') {
         if (!isConnect()) {
-            throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
+            throw new Exception(__('401 - Accès non autorisé',__FILE__));
         }
         ajax::success(utils::o2a($_SESSION['user']));
     }
 
     if (init('action') == 'testLdapConneciton') {
         if (!isConnect('admin')) {
-            throw new Exception(translate::sentence('401 - Accès non autorisé',__FILE__));
+            throw new Exception(__('401 - Accès non autorisé',__FILE__));
         }
         $connection = user::connectToLDAP();
         if ($connection === false) {
@@ -112,7 +112,7 @@ try {
         ajax::success();
     }
 
-    throw new Exception(translate::sentence('Aucune methode correspondante à : ',__FILE__). init('action'));
+    throw new Exception(__('Aucune methode correspondante à : ',__FILE__). init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

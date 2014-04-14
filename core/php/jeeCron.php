@@ -41,15 +41,15 @@ if (init('cron_id') != '') {
     $datetime = date('Y-m-d H:i:s');
     $cron = cron::byId(init('cron_id'));
     if (!is_object($cron)) {
-        echo translate::sentence('Cron job non trouvé : ', __FILE__) . init('cron_id');
-        log::add('cron', 'Error', translate::sentence('Cron job non trouvé : ', __FILE__) . init('cron_id'));
+        echo __('Cron job non trouvé : ', __FILE__) . init('cron_id');
+        log::add('cron', 'Error', __('Cron job non trouvé : ', __FILE__) . init('cron_id'));
         die();
     }
     if ($cron->getNbRun() > 1) {
-        log::add('cron', 'Error', translate::sentence('Le cron : ', __FILE__) . $cron->getName() . translate::sentence(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
-        die('Le cron : ' . $cron->getName() . translate::sentence(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
+        log::add('cron', 'Error', __('Le cron : ', __FILE__) . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
+        die('Le cron : ' . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
     }
-    log::add('cron', 'info', translate::sentence('Lancement de ', __FILE__) . $cron->getName() . translate::sentence(' avec le PID : ', __FILE__) . getmypid());
+    log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' avec le PID : ', __FILE__) . getmypid());
     try {
         $cron->setState('run');
         $cron->setDuration('0s');
@@ -83,7 +83,7 @@ if (init('cron_id') != '') {
                     $cron->setServer('');
                     $cron->setEnable(0);
                     $cron->save();
-                    log::add('cron', 'error', translate::sentence('[Erreur] Fonction non trouvée ', __FILE__) . $cron->getName());
+                    log::add('cron', 'error', __('[Erreur] Fonction non trouvée ', __FILE__) . $cron->getName());
                     die();
                 }
             } else {
@@ -91,7 +91,7 @@ if (init('cron_id') != '') {
                 $cron->setPID();
                 $cron->setServer('');
                 $cron->save();
-                log::add('cron', 'error', translate::sentence('[Erreur] Classe non trouvée ', __FILE__) . $cron->getName());
+                log::add('cron', 'error', __('[Erreur] Classe non trouvée ', __FILE__) . $cron->getName());
                 die();
             }
         } else {
@@ -114,7 +114,7 @@ if (init('cron_id') != '') {
                 $cron->setServer('');
                 $cron->save();
                 $cron->setEnable(0);
-                log::add('cron', 'error', translate::sentence('[Erreur] Non trouvée ', __FILE__) . $cron->getName());
+                log::add('cron', 'error', __('[Erreur] Non trouvée ', __FILE__) . $cron->getName());
                 die();
             }
         }
@@ -136,19 +136,19 @@ if (init('cron_id') != '') {
         $cron->setDuration(-1);
         $cron->save();
         echo '[Erreur] ' . $cron->getName() . ' : ' . $e->getMessage();
-        log::add('cron', 'error', translate::sentence('Erreur sur ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage());
+        log::add('cron', 'error', __('Erreur sur ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage());
     }
 } else {
     if (config::byKey('enableCron') == 0) {
-        die(translate::sentence('Tous les crons sont actuellement désactivés', __FILE__));
+        die(__('Tous les crons sont actuellement désactivés', __FILE__));
     }
 
     $retry = 0;
     while (true) {
         $retry++;
         if ($retry > 20) {
-            echo translate::sentence("Il y a deja un jeeCron qui tourne : ", __FILE__) . cron::getPidFile() . "\n";
-            log::add('cron', 'info', '[' . getmypid() . translate::sentence('] Lancement de Jeecron annulé car il y a deja un en cours : ', __FILE__) . cron::getPidFile());
+            echo __("Il y a deja un jeeCron qui tourne : ", __FILE__) . cron::getPidFile() . "\n";
+            log::add('cron', 'info', '[' . getmypid() . __('] Lancement de Jeecron annulé car il y a deja un en cours : ', __FILE__) . cron::getPidFile());
             die();
         }
         if (cron::jeeCronRun()) {
@@ -163,7 +163,7 @@ if (init('cron_id') != '') {
     cron::setPidFile();
     while (true) {
         if (config::byKey('enableCron') == 0) {
-            die(translate::sentence('Tous les crons sont actuellement désactivés', __FILE__));
+            die(__('Tous les crons sont actuellement désactivés', __FILE__));
         }
         foreach (cron::all() as $cron) {
             try {
@@ -180,9 +180,9 @@ if (init('cron_id') != '') {
                 }
                 if ($cron->running() && (strtotime($datetime) - strtotime($cron->getLastRun())) / 60 >= $cron->getTimeout()) {
                     if ($cron->getDeamon() == 0) {
-                        log::add('cron', 'error', translate::sentence('[Timeout] ', __FILE__) . $cron->getName());
+                        log::add('cron', 'error', __('[Timeout] ', __FILE__) . $cron->getName());
                     } else {
-                        log::add('cron', 'info', translate::sentence('Arrêt/relance du demon : ', __FILE__) . $cron->getName());
+                        log::add('cron', 'info', __('Arrêt/relance du demon : ', __FILE__) . $cron->getName());
                     }
                     $cron->stop();
                 }
@@ -206,8 +206,8 @@ if (init('cron_id') != '') {
                 $cron->setServer('');
                 $cron->setDuration(-1);
                 $cron->save();
-                echo translate::sentence('[Erreur] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage();
-                log::add('cron', 'error', translate::sentence('[Erreur] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage());
+                echo __('[Erreur] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage();
+                log::add('cron', 'error', __('[Erreur] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage());
             }
         }
         if ($sleepTime > 59) {

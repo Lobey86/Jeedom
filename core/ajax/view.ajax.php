@@ -21,7 +21,7 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
+        throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'editView') {
@@ -37,7 +37,7 @@ try {
     if (init('action') == 'removeView') {
         $view = view::byId(init('id'));
         if (!is_object($view)) {
-            throw new Exception(translate::sentence('Vue non trouvé. Vérifier l\'id', __FILE__));
+            throw new Exception(__('Vue non trouvé. Vérifier l\'id', __FILE__));
         }
         $view->remove();
         ajax::success();
@@ -46,7 +46,7 @@ try {
     if (init('action') == 'getView') {
         $view = view::byId(init('id'));
         if (!is_object($view)) {
-            throw new Exception(translate::sentence('Vue non trouvé. Vérifier l\'id', __FILE__));
+            throw new Exception(__('Vue non trouvé. Vérifier l\'id', __FILE__));
         }
 
         $return = utils::o2a($view);
@@ -75,7 +75,7 @@ try {
                     case 'scenario':
                         $scenario = $viewData->getLinkObject();
                         if (is_object($scenario)) {
-                            $viewData_info['name'] = translate::sentence('[Scénario][', __FILE__) . $scenario->getName() . ']';
+                            $viewData_info['name'] = __('[Scénario][', __FILE__) . $scenario->getName() . ']';
                         }
                         break;
                 }
@@ -90,7 +90,7 @@ try {
     if (init('action') == 'saveView') {
         $view = view::byId(init('view_id'));
         if (!is_object($view)) {
-            throw new Exception(translate::sentence('Vue non trouvé. Vérifier l\'id', __FILE__));
+            throw new Exception(__('Vue non trouvé. Vérifier l\'id', __FILE__));
         }
         $view->removeviewZone();
         $viewZones = json_decode(init('viewZones'), true);
@@ -115,7 +115,7 @@ try {
     if (init('action') == 'getEqLogicviewZone') {
         $viewZone = viewZone::byId(init('viewZone_id'));
         if (!is_object($viewZone)) {
-            throw new Exception(translate::sentence('Vue non trouvé. Vérifier l\'id', __FILE__));
+            throw new Exception(__('Vue non trouvé. Vérifier l\'id', __FILE__));
         }
         $return = utils::o2a($viewZone);
         $return['eqLogic'] = array();
@@ -127,7 +127,7 @@ try {
         ajax::success($return);
     }
 
-    throw new Exception(translate::sentence('Aucune methode correspondante à : ', __FILE__) . init('action'));
+    throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

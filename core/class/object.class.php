@@ -154,7 +154,7 @@ class object {
                 return $fatherNumber;
             }
             if ($fatherNumber > 50) {
-                throw new Exception(translate::sentence('Erreur boucle dans les relation entre objects', __FILE__));
+                throw new Exception(__('Erreur boucle dans les relation entre objects', __FILE__));
             }
         }
     }

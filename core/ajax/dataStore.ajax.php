@@ -21,13 +21,13 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception(translate::sentence('401 - Accès non autorisé', __FILE__));
+        throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'remove') {
         $dataStore = dataStore::byId(init('id'));
         if (!is_object($dataStore)) {
-            throw new Exception(translate::sentence('Data store inconnu vérifer l\'id : ', __FILE__) . init('id'));
+            throw new Exception(__('Data store inconnu vérifer l\'id : ', __FILE__) . init('id'));
         }
         $dataStore->remove();
         ajax::success();
@@ -43,7 +43,7 @@ try {
             $dataStore = dataStore::byId(init('id'));
         }
         if (!is_object($dataStore)) {
-            throw new Exception(translate::sentence('Data store inconnu vérifer l\'id : ', __FILE__) . init('id'));
+            throw new Exception(__('Data store inconnu vérifer l\'id : ', __FILE__) . init('id'));
         }
         $dataStore->setValue(init('value'));
         $dataStore->save();
@@ -54,7 +54,7 @@ try {
         ajax::success(utils::o2a(dataStore::byTypeLinkId(init('type'))));
     }
 
-    throw new Exception(translate::sentence('Aucune methode correspondante à : ', __FILE__) . init('action'));
+    throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

@@ -74,13 +74,6 @@ class translate {
             }
             if ($replace === false) {
                 $replace = $text;
-            } else {
-                if (substr($text, -1) == ' ' && substr($replace, -1) != ' ') {
-                    $replace .= ' ';
-                }
-                if (substr($text, -1) == "\n" && substr($replace, -1) != "\n") {
-                    $replace .= "\n";
-                }
             }
             $_content = str_replace("{{" . $text . "}}", $replace, $_content);
         }
@@ -147,6 +140,10 @@ class translate {
     }
 
     /*     * *********************Methode d'instance************************* */
+}
+
+function __($_content, $_name, $_backslash = false){
+    return translate::sentence($_content, $_name, $_backslash = false);
 }
 
 ?>
