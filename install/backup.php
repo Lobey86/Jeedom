@@ -80,7 +80,7 @@ try {
     }
 
     echo __("***************Fin du backup de Jeedom***************\n", __FILE__);
-    echo __("[END BACKUP SUCCESS]\n", __FILE__);
+    echo "[END BACKUP SUCCESS]\n";
 } catch (Exception $e) {
     echo __('Erreur durant le backup : ', __FILE__) . $e->getMessage();
     echo __('Détails : ', __FILE__) . print_r($e->getTrace());

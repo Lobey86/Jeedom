@@ -163,11 +163,14 @@
         "Envoy\u00e9 un rapport de bugs": "Envoy\u00e9 un rapport de bugs",
         "G\u00e9n\u00e9rale": "G\u00e9n\u00e9rale",
         "Sp\u00e9cifique": "Sp\u00e9cifique",
-        "Ouverture d'un ticket": "Ouverture d'un ticket"
+        "Ouverture d'un ticket": "Ouverture d'un ticket",
+        "Connexion": "Connexion"
     },
     "core\/php\/jeeScenario.php": {
         "Verification du scenario ": "Verification du scenario ",
-        " avec le PID : ": " avec le PID : "
+        " avec le PID : ": " avec le PID : ",
+        "Impossible de lancer le scenario car d\u00e9ja en cours": "Impossible de lancer le scenario car d\u00e9ja en cours",
+        "Impossible de lancer le scenario car deja en cours": "Impossible de lancer le scenario car deja en cours"
     },
     "core\/class\/scenarioElement.class.php": {
         "Ex\u00e9cution de l'\u00e9l\u00e9ment : ": "Ex\u00e9cution de l'\u00e9l\u00e9ment : "
@@ -181,11 +184,15 @@
         "Ex\u00e9cution d'un bloc \u00e9l\u00e9ment : ": "Ex\u00e9cution d'un bloc \u00e9l\u00e9ment : ",
         "Vrai": "Vrai",
         "Ex\u00e9cution de la commande ": "Ex\u00e9cution de la commande ",
-        " avec comme option(s) : \n": " avec comme option(s) : \n"
+        " avec comme option(s) : \n": " avec comme option(s) : \n",
+        "[Erreur] Aucune commande trouv\u00e9e pour ": "[Erreur] Aucune commande trouv\u00e9e pour ",
+        "Affectation de la variable ": "Affectation de la variable ",
+        " \u00e0 [": " \u00e0 ["
     },
     "core\/com\/http.com.php": {
         "Url : ": "Url : ",
-        "\nReponse : ": "\nReponse : "
+        "\nReponse : ": "\nReponse : ",
+        "Echec de la requete http : ": "Echec de la requete http : "
     },
     "desktop\/php\/dashboard.php": {
         "Liste objects": "Liste objects",
@@ -242,7 +249,8 @@
     },
     "core\/php\/jeeCron.php": {
         "Lancement de ": "Lancement de ",
-        " avec le PID : ": " avec le PID : "
+        " avec le PID : ": " avec le PID : ",
+        "Arr\u00eat\/relance du demon : ": "Arr\u00eat\/relance du demon : "
     },
     "core\/php\/jeePlugin.php": {
         "Lancement de ": "Lancement de "
@@ -411,5 +419,56 @@
     },
     "desktop\/js\/profils.js": {
         "Sauvegarde effectu\u00e9e": "Sauvegarde effectu\u00e9e"
+    },
+    "core\/class\/cron.class.php": {
+        "Arret de ": "Arret de "
+    },
+    "mobile\/php\/connection.php": {
+        "Nom d'utilisateur": "Nom d'utilisateur",
+        "Mot de passe": "Mot de passe",
+        "Connexion": "Connexion"
+    },
+    "mobile\/php\/index.php": {
+        "Menu": "Menu",
+        "Options": "Options",
+        "Accueil": "Accueil",
+        "Equipements": "Equipements",
+        "Vues": "Vues",
+        "Chat": "Chat",
+        "Message(s)": "Message(s)",
+        "Se deconnecter": "Se deconnecter",
+        "Cron": "Cron",
+        "Logfile": "Logfile",
+        "Tout": "Tout"
+    },
+    "core\/class\/message.class.php": {
+        "Message de ": "Message de "
+    },
+    "install\/backup.php": {
+        "***************Lancement du backup de Jeedom***************\n": "***************Lancement du backup de Jeedom***************\n",
+        "Sauvegarde des fichiers : ": "Sauvegarde des fichiers : ",
+        "OK\n": "OK\n",
+        "Sauvegarde de la base de donn\u00e9es : ": "Sauvegarde de la base de donn\u00e9es : ",
+        "Cr\u00e9ation de l'archive : ": "Cr\u00e9ation de l'archive : ",
+        "Nettoyage des anciens backup : ": "Nettoyage des anciens backup : ",
+        "Envoie de la sauvegarde dans le cloud : ": "Envoie de la sauvegarde dans le cloud : ",
+        "***************Fin du backup de Jeedom***************\n": "***************Fin du backup de Jeedom***************\n",
+        "[END BACKUP SUCCESS]\n": "[END BACKUP SUCCESS]\n"
+    },
+    "desktop\/php\/connection.php": {
+        "Connectez-vous": "Connectez-vous",
+        "Nom d'utilisateur": "Nom d'utilisateur",
+        "Mot de passe": "Mot de passe",
+        "Connexion": "Connexion"
+    },
+    "core\/class\/user.class.php": {
+        "Recherche LDAP (": "Recherche LDAP ("
+    },
+    "core\/php\/authentification.php": {
+        "Connexion de l'utilisateur : ": "Connexion de l'utilisateur : "
+    },
+    "mobile\/php\/message.php": {
+        "Date": "Date",
+        "Plugin": "Plugin"
     }
 }
