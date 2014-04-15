@@ -149,11 +149,13 @@ CREATE TABLE IF NOT EXISTS `cron` (
   `timeout` int(11) DEFAULT NULL,
   `deamon` int(11) DEFAULT '0',
   `deamonSleepTime` int(11) DEFAULT NULL,
+  `option` varchar(255) DEFAULT NULL,
+  `once` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `class_function` (`class`,`function`),
+  UNIQUE KEY `class_function` (`class`,`function`,`option`),
   KEY `type` (`class`),
   KEY `logicalId_Type` (`class`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=280 ;
 
 -- --------------------------------------------------------
 
