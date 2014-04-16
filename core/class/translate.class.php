@@ -81,7 +81,7 @@ class translate {
     }
 
     public static function getPathTranslationFile($_language) {
-        return dirname(__FILE__) . '/../i18n/' . $_language . '.php';
+        return dirname(__FILE__) . '/../i18n/' . $_language . '.json';
     }
 
     public static function loadTranslation() {
