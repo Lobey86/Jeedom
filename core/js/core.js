@@ -517,6 +517,7 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                     plotOptions: {
                         series: {
                             stacking: 'normal',
+                            connectNulls: true,
                             dataGrouping: {
                                 enable: false
                             }
