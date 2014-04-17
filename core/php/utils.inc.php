@@ -124,16 +124,15 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
 }
 
 function getTemplate($_folder, $_version, $_filename, $_plugin = '') {
-    $path = dirname(__FILE__) . '/../../';
     if (trim($_plugin) == '') {
-        $path .= $_folder . '/template/' . $_version . '/' . $_filename . '.html';
+        $path = $_folder . '/template/' . $_version . '/' . $_filename . '.html';
     } else {
-        $path .= 'plugins/' . $_plugin . '/core/template/' . $_version . '/' . $_filename . '.html';
+        $path = 'plugins/' . $_plugin . '/core/template/' . $_version . '/' . $_filename . '.html';
     }
-    if (file_exists($path)) {
-        return file_get_contents($path);
+    if (file_exists(dirname(__FILE__) . '/../../' . $path)) {
+        return translate::exec(file_get_contents(dirname(__FILE__) . '/../../' . $path), $path);
     } else {
-        throw new Exception("Fichier non trouvé : $_filename à $_folder / $_version (" . trim($_plugin) . ") : $path");
+        throw new Exception("Fichier non trouvé : $_filename à $_folder / $_version (" . trim($_plugin) . ") : " . dirname(__FILE__) . '/../../' . "$path");
     }
 }
 
