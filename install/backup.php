@@ -74,7 +74,7 @@ try {
             market::sendBackup($backup_dir . '/' . $bakcup_name);
         } catch (Exception $e) {
             log::add('backup', 'error', $e->getMessage());
-            echo '/!\ ' . $e->getMessage() . ' /!\\';
+            echo '/!\ ' . br2nl($e->getMessage()) . ' /!\\';
         }
         echo __("OK\n", __FILE__);
     }
@@ -82,7 +82,7 @@ try {
     echo __("***************Fin du backup de Jeedom***************\n", __FILE__);
     echo "[END BACKUP SUCCESS]\n";
 } catch (Exception $e) {
-    echo __('Erreur durant le backup : ', __FILE__) . $e->getMessage();
+    echo __('Erreur durant le backup : ', __FILE__) . br2nl($e->getMessage());
     echo __('Détails : ', __FILE__) . print_r($e->getTrace());
     echo "[END BACKUP ERROR]\n";
     throw $e;

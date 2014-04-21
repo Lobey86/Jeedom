@@ -546,3 +546,7 @@ function create_zip($source_arr, $destination) {
 
     return $zip->close();
 }
+
+function br2nl($string) {
+    return preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
+}
