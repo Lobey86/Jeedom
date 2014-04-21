@@ -25,7 +25,7 @@ class jsonrpcClient {
         $this->options = $_options;
     }
 
-    public function sendRequest($_method, $_params = null, $_timeout = 2, $_file = null) {
+    public function sendRequest($_method, $_params = null, $_timeout = 1, $_file = null) {
         $_params['apikey'] = $this->apikey;
         $_params = array_merge($_params, $this->options);
         $request = array(
