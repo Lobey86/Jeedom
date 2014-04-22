@@ -43,13 +43,21 @@ $(function() {
         $.hideLoading();
     });
 
+    $.fn.modal.Constructor.prototype.enforceFocus = function() {
+    };
+
+    $('body').delegate(".modal", "show", function() {
+        document.activeElement.blur();
+        $(this).find(".modal-body :input:visible:first").focus();
+    });
+
     /************************Help*************************/
 
     //Display report bug
     $("#md_reportBug").dialog({
         autoOpen: false,
         modal: true,
-        width:600,
+        width: 600,
         open: function() {
             $("body").css({overflow: 'hidden'})
         },
