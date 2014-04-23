@@ -477,8 +477,6 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 var legend = {};
             }
 
-            var maxDatetime = new Date().getTime();
-
             if (!isset(CORE_chart[_el])) {
                 CORE_chart[_el] = {};
                 CORE_chart[_el].cmd = new Array();
@@ -589,7 +587,6 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                     xAxis: {
                         type: 'datetime',
                         ordinal: false,
-                        max: maxDatetime,
                         plotBands: generatePlotBand(data.result.data[0][0], data.result.data[data.result.data.length - 1][0])
                     },
                     scrollbar: {
@@ -618,17 +615,5 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
             }
         }
     });
-}
-
-function timeConverter(UNIX_timestamp) {
-    var a = new Date(UNIX_timestamp * 1000);
-    var year = a.getFullYear();
-    var month = a.getMonth();
-    var day = a.getDate();
-    var hour = a.getHours();
-    var min = a.getMinutes();
-    var sec = a.getSeconds();
-    var time = year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec;
-    return time;
 }
 
