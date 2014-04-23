@@ -199,7 +199,7 @@ function initTableSorter() {
         theme: "bootstrap",
         widthFixed: true,
         headerTemplate: '{content} {icon}',
-        widgets: ["uitheme", "filter", "zebra"],
+        widgets: ["uitheme", 'filter', "zebra"],
         widgetOptions: {
             zebra: ["even", "odd"],
         }
