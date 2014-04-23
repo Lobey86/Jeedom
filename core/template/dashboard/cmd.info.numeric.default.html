@@ -13,12 +13,16 @@
         $('.cmd[data-cmd_id=#id#] .gauge').highcharts({
         chart: {
         type: 'solidgauge',
-                height : 130,
+                height : 110,
                 plotBackgroundColor: null,
                 plotBackgroundImage: null,
                 backgroundColor: null,
                 plotBorderWidth: 0,
                 plotShadow: false,
+                spacingTop: 0,
+                spacingLeft: 0,
+                spacingRight: 0,
+                spacingBottom: 0
         },
                 title: null,
                 pane: {
@@ -39,10 +43,10 @@
                 // the value axis
                 yAxis: {
                 stops: [
-                            [0.1, '#55BF3B'], // green
-                            [0.5, '#DDDF0D'], // yellow
-                            [0.9, '#DF5353'] // red
-                        ],
+                        [0.1, '#55BF3B'], // green
+                        [0.5, '#DDDF0D'], // yellow
+                        [0.9, '#DF5353'] // red
+                ],
                         lineWidth: 0,
                         minorTickInterval: null,
                         tickPixelInterval: 400,
@@ -51,7 +55,7 @@
                         title: {
                         y: - 70
                         },
-                         min: #minValue#,
+                        min: #minValue#,
                         max: #maxValue#,
                         title: {
                         text: ''
@@ -79,7 +83,7 @@
                 }]
         });
         } else {
-        $('.cmd[data-cmd_id=#id#] .gauge').append('<span class="label label-danger" style="vertical-align: top;">#state#</span>');
+        $('.cmd[data-cmd_id=#id#] .gauge').append('<center><span class="label label-danger" style="margin-top : 5px;">#state#</span></center>');
         }
         });
     </script>
