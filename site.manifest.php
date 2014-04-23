@@ -7,7 +7,6 @@ CACHE MANIFEST
 # Version <?php echo getVersion('jeedom'); ?>
 
 
-
 CACHE:
 /core/php/getJS.php?file=3rdparty/jquery.include/jquery.include.js&v=<?php echo getVersion('jeedom'); ?>
 

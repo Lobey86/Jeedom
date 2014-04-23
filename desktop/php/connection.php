@@ -2,7 +2,7 @@
 <div id="wrap">
     <div class="container">
         <center>
-            <img src="core/img/jeedom_ico.png" /><br/><br/>
+            <img src="core/img/logo-jeedom-grand-nom-couleur.svg"/><br/><br/>
             <?php
             if (init('error') == 1) {
                 echo '<div class="alert alert-danger">{{Nom d\'utilisateur ou mot de passe inccorect !}}</div>';

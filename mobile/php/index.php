@@ -81,7 +81,7 @@ if ($plugin != '') {
             <div data-role="header" data-theme="a" data-position="fixed">
                 <!-- <a href="#" data-icon="back" data-rel="back" title="Retour" data-iconpos="notext">Retour</a> -->
                 <h1 style="margin: 0 10px;">
-                    <img src="core/img/jeedom_ico.png" height="17" width="18" style="position: relative; top : 3px;"/>eedom
+                    <img src="core/img/logo-jeedom-grand-nom-couleur.svg" height="20"/>
                     <span class="horloge"><?php echo date('H:i:s'); ?></span>
                 </h1>
                 <a href="#leftpanel" class="bt_leftpanel" data-icon="bars" data-iconpos="notext">{{Menu}}</a>
