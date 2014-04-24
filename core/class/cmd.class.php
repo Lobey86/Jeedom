@@ -253,7 +253,7 @@ class cmd {
             if (is_object($cmd)) {
                 if ($cmd->getEqLogic()->getIsEnable() == 1) {
                     $cmd->execCmd(null, 1, false);
-                    log::add('collect', 'info', __('La commande :',__FILE__) . $cmd->getHumanName() . __(' est collectée',__FILE__));
+                    log::add('collect', 'info', __('La commande :', __FILE__) . $cmd->getHumanName() . __(' est collectée', __FILE__));
                     nodejs::pushUpdate('eventCmd', $cmd->getId());
                     foreach (self::byValue($cmd->getId()) as $cmd_link) {
                         nodejs::pushUpdate('eventCmd', $cmd_link->getId());
@@ -415,7 +415,7 @@ class cmd {
         if (isset($colors[$_color])) {
             return $colors[$_color];
         }
-        throw new Exception(__('Impossible de traduire la couleur en code hexadecimal :',__FILE__) . $_color);
+        throw new Exception(__('Impossible de traduire la couleur en code hexadecimal :', __FILE__) . $_color);
     }
 
     public static function availableWidget($_version) {
@@ -467,13 +467,13 @@ class cmd {
 
     public function save() {
         if ($this->getName() == '') {
-            throw new Exception(__('Le nom de la commande ne peut etre vide :',__FILE__) . print_r($this, true));
+            throw new Exception(__('Le nom de la commande ne peut etre vide :', __FILE__) . print_r($this, true));
         }
         if ($this->getType() == '') {
-            throw new Exception(__('Le type de la commande ne peut etre vide :',__FILE__) . print_r($this, true));
+            throw new Exception(__('Le type de la commande ne peut etre vide :', __FILE__) . print_r($this, true));
         }
         if ($this->getSubType() == '') {
-            throw new Exception(__('Le sous-type de la commande ne peut etre vide :',__FILE__) . print_r($this, true));
+            throw new Exception(__('Le sous-type de la commande ne peut etre vide :', __FILE__) . print_r($this, true));
         }
         if ($this->getInternalEvent() == 1) {
             $internalEvent = new internalEvent();
@@ -514,7 +514,7 @@ class cmd {
      */
     public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
         if ($this->getEqLogic()->getIsEnable() != 1) {
-            throw new Exception(__('Cet équipement est désactivé :',__FILE__) . $this->getEqLogic()->getHumanName());
+            throw new Exception(__('Cet équipement est désactivé :', __FILE__) . $this->getEqLogic()->getHumanName());
         }
         if ($this->getEventOnly() && $cache == 0) {
             $cache = 1;
@@ -564,7 +564,7 @@ class cmd {
                 $eqLogic->setIsEnable(0);
                 $eqLogic->save();
             }
-            log::add($type, 'error', __('Erreur sur',__FILE__) . $eqLogic->getName() . ' : ' . $e->getMessage());
+            log::add($type, 'error', __('Erreur sur', __FILE__) . $eqLogic->getName() . ' : ' . $e->getMessage());
             throw $e;
         }
         if (strpos($value, 'error') === false) {
@@ -681,6 +681,15 @@ class cmd {
                                 $replace['#averageHistoryValue#'] = round($historyStatistique['avg'], 1);
                                 $replace['#minHistoryValue#'] = round($historyStatistique['min'], 1);
                                 $replace['#maxHistoryValue#'] = round($historyStatistique['max'], 1);
+                                if ($replace['#averageHistoryValue#'] > 99) {
+                                    $replace['#averageHistoryValue#'] = round($replace['#averageHistoryValue#'], 0);
+                                }
+                                if ($replace['#minHistoryValue#'] > 99) {
+                                    $replace['#minHistoryValue#'] = round($replace['#minHistoryValue#'], 0);
+                                }
+                                if ($replace['#maxHistoryValue#'] > 99) {
+                                    $replace['#maxHistoryValue#'] = round($replace['#maxHistoryValue#'], 0);
+                                }
                                 $tendance = $this->getTendance(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculTendance') . ' hour')), date('Y-m-d H:i:s'));
                                 $replace['#tendance#'] = 'fa fa-minus';
                                 if ($tendance > config::byKey('historyCalculTendanceThresholddMax')) {
@@ -749,7 +758,7 @@ class cmd {
                     $eqLogic->save();
                     $this->addHistoryValue($_value);
                 }
-                log::add($eqLogic->getEqType_name(), 'Event', __('Message venant de',__FILE__) . $this->getHumanName() . ' : ' . $_value . __(' /cache lifetime =>',__FILE__) . $this->getCacheLifetime());
+                log::add($eqLogic->getEqType_name(), 'Event', __('Message venant de', __FILE__) . $this->getHumanName() . ' : ' . $_value . __(' /cache lifetime =>', __FILE__) . $this->getCacheLifetime());
                 cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
                 $this->setCollect(0);
                 nodejs::pushUpdate('eventCmd', $this->getId());
@@ -764,7 +773,7 @@ class cmd {
                 scenario::check($this->getId());
             }
         } else {
-            log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id',__FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :',__FILE__) . print_r($this, true));
+            log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . print_r($this, true));
         }
     }
 
