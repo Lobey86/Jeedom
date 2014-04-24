@@ -23,6 +23,11 @@ if ($pathinfo['extension'] != 'js') {
     die();
 }
 if (file_exists($file)) {
+    if (extension_loaded("zlib") && (ini_get("output_handler") != "ob_gzhandler")) {
+        ini_set("zlib.output_compression", 1);
+    }
+
+
     header('Content-Type: application/javascript');
     $lastModified = filemtime($file);
     $etagFile = md5_file($file);
@@ -32,8 +37,8 @@ if (file_exists($file)) {
     header("Etag: $etagFile");
     header('Cache-Control: public');
     if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-       // header("HTTP/1.1 304 Not Modified");
-       // exit;
+        // header("HTTP/1.1 304 Not Modified");
+        // exit;
     }
     $content = file_get_contents($file);
     echo translate::exec($content, init('file'));
