@@ -1,4 +1,4 @@
-<span style="width:120px;display: inline-block;" class="#history# tooltips cmd" data-type="info" data-subtype="numeric" data-cmd_id="#id#" title="#collectDate#" >
+<span style="width:90px;display: inline-block;" class="#history# tooltips cmd" data-type="info" data-subtype="numeric" data-cmd_id="#id#" title="#collectDate#" >
     <div class="gauge" ></div>
     <center>
         <span style="#displayHistory#" class="label label-default">
@@ -13,7 +13,7 @@
         $('.cmd[data-cmd_id=#id#] .gauge').highcharts({
         chart: {
         type: 'solidgauge',
-                height : 110,
+                height : 85,
                 plotBackgroundColor: null,
                 plotBackgroundImage: null,
                 backgroundColor: null,
@@ -79,7 +79,7 @@
                 name: '',
                         data: [parseInt('#state#')],
                         dataLabels: {
-                        format: '{y} <span style="font-size:12px;color:silver">#unite#</span>'
+                        format: '{y} <span style="font-size:10px;color:silver">#unite#</span>'
                         },
                 }]
         });

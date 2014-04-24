@@ -195,14 +195,24 @@ function initExpertMode() {
 }
 
 function initTableSorter() {
-    $(".tablesorter").tablesorter({
-        theme: "bootstrap",
-        widthFixed: true,
-        headerTemplate: '{content} {icon}',
-        widgets: ["uitheme", 'filter', "zebra"],
-        widgetOptions: {
-            zebra: ["even", "odd"],
+    $(".tablesorter").each(function() {
+        var widgets = ['uitheme', 'filter', 'zebra', 'resizable'];
+        if ($(this).hasClass('tablefixheader')) {
+            widgets.push("stickyHeaders");
         }
+        $(".tablesorter").tablesorter({
+            theme: "bootstrap",
+            widthFixed: true,
+            headerTemplate: '{content} {icon}',
+            widgets: widgets,
+            widgetOptions: {
+                filter_ignoreCase: true,
+                filter_saveFilters: true,
+                resizable: true,
+                stickyHeaders_offset: $('header.navbar-fixed-top').height(),
+                zebra: ["ui-widget-content even", "ui-state-default odd"],
+            }
+        });
     });
 }
 
