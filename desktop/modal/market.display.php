@@ -86,7 +86,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                     if ($market->getCost() > 0) {
                         echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">' . $market->getRealcost() . ' €</span>';
                     } else {
-                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">{{Gratuit</span>';
+                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">{{Gratuit}}</span>';
                     }
                     ?>
                 </div>
