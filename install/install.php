@@ -106,6 +106,7 @@ try {
                     throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp);
                 }
                 rcopy($cibDir.'/core.git', dirname(__FILE__) . '/../', false);
+                rrmdir($cibDir);
                 echo __("OK\n", __FILE__);
             } catch (Exception $e) {
                 if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
