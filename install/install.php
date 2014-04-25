@@ -79,7 +79,11 @@ try {
                     throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
                 }
                 $url = config::byKey('git::address') . "/repository/archive.zip?ref=" . config::byKey('git::branch');
-                file_put_contents($tmp, fopen($url, 'r'));
+                try {
+                    file_put_contents($tmp, fopen($url, 'r'));
+                } catch (Exception $e) {
+                    file_put_contents($tmp, fopen($url, 'r'));
+                }
                 if (!file_exists($tmp)) {
                     throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?', __FILE__));
                 }
