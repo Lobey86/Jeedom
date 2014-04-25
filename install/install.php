@@ -80,7 +80,7 @@ try {
                 }
                 $url = config::byKey('git::address') . "/repository/archive.zip?ref=" . config::byKey('git::branch');
                 try {
-                    @file_put_contents($tmp, fopen($url, 'r'));
+                    @file_put_contents($tmp, @fopen($url, 'r'));
                 } catch (Exception $e) {
                     file_put_contents($tmp, fopen($url, 'r'));
                 }
