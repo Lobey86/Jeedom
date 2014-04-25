@@ -81,6 +81,7 @@ mv core.git jeedom
 sudo mkdir /usr/share/nginx/www/jeedom/tmp
 sudo chmod 775 -R /usr/share/nginx/www
 sudo chown -R www-data:www-data /usr/share/nginx/www
+rm -rf jeedom.zip
 cd jeedom
 
 if [ ${nodeJS} -ne 0 ] ; then
@@ -97,7 +98,7 @@ echo "********************************************************"
 echo "*          Configuration de la base de données         *"
 echo "********************************************************"
 bdd_password=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 15)
-echo "DROP USER 'jeedom'@'localhost'" | mysql -uroot -p${MySQL_root} 2>&1 > /dev/null
+echo "DROP USER 'jeedom'@'localhost'" | mysql -uroot -p${MySQL_root}
 echo "CREATE USER 'jeedom'@'localhost' IDENTIFIED BY '${bdd_password}';" | mysql -uroot -p${MySQL_root}
 echo "DROP DATABASE IF EXISTS jeedom;" | mysql -uroot -p${MySQL_root}
 echo "CREATE DATABASE jeedom;" | mysql -uroot -p${MySQL_root}
@@ -136,7 +137,7 @@ fi
 sudo service nginx restart
 sudo adduser www-data dialout
 sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
-sudo php5-fpm restart
+sudo service php5-fpm restart
 
 echo "********************************************************"
 echo "*             Mise en place service nodeJS             *"
