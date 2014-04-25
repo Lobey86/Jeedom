@@ -118,7 +118,7 @@ try {
                 } else {
                     throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp);
                 }
-                rcopy($cibDir . '/core.git', dirname(__FILE__) . '/../', false);
+                @rcopy($cibDir . '/core.git', dirname(__FILE__) . '/../', false);
                 rrmdir($cibDir);
                 unlink($tmp);
                 echo __("OK\n", __FILE__);
