@@ -72,6 +72,7 @@ try {
         jeedom::stop();
         if (!isset($_GET['v'])) {
             try {
+                echo __("Téléchagement en cours...", __FILE__);
                 $tmp_dir = dirname(__FILE__) . '/../../tmp';
                 $tmp = $tmp_dir . '/jeedom_update.zip';
                 if (!is_writable($tmp_dir)) {
@@ -86,6 +87,8 @@ try {
                 if (!file_exists($cibDir) && !mkdir($cibDir, 0775, true)) {
                     throw new Exception(__('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?', __FILE__));
                 }
+                echo __("OK\n", __FILE__);
+                echo __("Installation en cours...", __FILE__);
                 $zip = new ZipArchive;
                 if ($zip->open($tmp) === TRUE) {
                     if (!$zip->extractTo($cibDir)) {
@@ -95,6 +98,7 @@ try {
                 } else {
                     throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp);
                 }
+                echo __("OK\n", __FILE__);
             } catch (Exception $e) {
                 if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                     throw $e;
