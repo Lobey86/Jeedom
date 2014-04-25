@@ -72,13 +72,29 @@ try {
         jeedom::stop();
         if (!isset($_GET['v'])) {
             try {
-                echo __("Verification des mises à jour (git pull)\n", __FILE__);
-                $repo = getGitRepo();
-                if (isset($_GET['mode']) && $_GET['mode'] == 'force') {
-                    echo __("Reset du dépot git (mise à jour forcée)\n", __FILE__);
-                    echo $repo->run('reset --hard HEAD');
+                $tmp_dir = dirname(__FILE__) . '/../../tmp';
+                $tmp = $tmp_dir . '/jeedom_update.zip';
+                if (!is_writable($tmp_dir)) {
+                    throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
                 }
-                echo $repo->pull(config::byKey('git::remote'), config::byKey('git::branch'));
+                $url = config::byKey('git::address') . "/repository/archive.zip?ref=" . config::byKey('git::branch');
+                file_put_contents($tmp, fopen($url, 'r'));
+                if (!file_exists($tmp)) {
+                    throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?', __FILE__));
+                }
+                $cibDir = dirname(__FILE__) . '/../';
+                if (!file_exists($cibDir) && !mkdir($cibDir, 0775, true)) {
+                    throw new Exception(__('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?', __FILE__));
+                }
+                $zip = new ZipArchive;
+                if ($zip->open($tmp) === TRUE) {
+                    if (!$zip->extractTo($cibDir)) {
+                        throw new Exception(__('Impossible d\'installer le plugin. Les fichiers n\'ont pu etre décompressés', __FILE__));
+                    }
+                    $zip->close();
+                } else {
+                    throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp);
+                }
             } catch (Exception $e) {
                 if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                     throw $e;
@@ -97,7 +113,7 @@ try {
         }
         if (isset($_GET['v'])) {
             echo __("La mise à jour ", __FILE__) . $_GET['v'] . __(" va être reapliquée. Voulez vous continuer  ? [o/N] ", __FILE__);
-            if (trim(fgets(STDIN)) !== 'o' ) {
+            if (trim(fgets(STDIN)) !== 'o') {
                 echo __("Mise à jour forcee de Jeedom est annulée\n", __FILE__);
                 jeedom::start();
                 echo "[END UPDATE SUCCESS]\n";
@@ -271,13 +287,13 @@ echo "[END UPDATE SUCCESS]\n";
 function incrementVersion($_version) {
     $version = explode('.', $_version);
     if ($version[2] < 99) {
-        $version[2]++;
+        $version[2] ++;
     } else {
         if ($version[1] < 99) {
-            $version[1]++;
+            $version[1] ++;
             $version[2] = 0;
         } else {
-            $version[0]++;
+            $version[0] ++;
             $version[1] = 0;
             $version[2] = 0;
         }
