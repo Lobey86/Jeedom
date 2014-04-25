@@ -79,6 +79,9 @@ try {
                     throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
                 }
                 $url = config::byKey('git::address') . "/repository/archive.zip?ref=" . config::byKey('git::branch');
+                if(file_exist($tmp)){
+                    unlink($tmp);
+                }
                 try {
                     @file_put_contents($tmp, @fopen($url, 'r'));
                 } catch (Exception $e) {
