@@ -120,6 +120,7 @@ try {
                 }
                 rcopy($cibDir . '/core.git', dirname(__FILE__) . '/../', false);
                 rrmdir($cibDir);
+                unlink($tmp);
                 echo __("OK\n", __FILE__);
             } catch (Exception $e) {
                 if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
