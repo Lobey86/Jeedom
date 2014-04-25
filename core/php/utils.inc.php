@@ -21,6 +21,7 @@ define('CSS', 'css');
 define('JS', 'js');
 define('CLASSJS', 'class.js');
 define('AJAX', 'ajax');
+define('HTML', 'html');
 define('COM', 'com');
 define('CONFIG', 'config');
 define('PLUGINS', 'plugins');
@@ -74,6 +75,10 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
             $_folder .= '/api';
             $_fn = $_fn . '.api.php';
         }
+        if ($_type == HTML) {
+            $_folder .= '/html';
+            $_fn = $_fn . '.html';
+        }
     }
 
     if (!$found) {
@@ -101,6 +106,10 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
             $_folder .= '/api';
             $_fn = $_fn . '.api.php';
         }
+        if ($_type == HTML) {
+            $_folder .= '/html';
+            $_fn = $_fn . '.html';
+        }
     }
     if ($_plugin != '') {
         $_folder = 'plugins/' . $_plugin . '/' . $_folder;
@@ -108,7 +117,7 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
 
     $path = dirname(__FILE__) . "/../../$_folder/$_fn";
     if (file_exists($path)) {
-        if ($_type == PHP || $_folder == AJAX || $_type == 'class' || $_type == COM || $_type == CONFIG || $_type == MODAL || $_type == API) {
+        if ($_type == PHP || $_folder == AJAX || $_type == 'class' || $_type == COM || $_type == CONFIG || $_type == MODAL || $_type == API || $_type == HTML) {
             ob_start();
             require_once($path);
             $content = ob_get_clean();
