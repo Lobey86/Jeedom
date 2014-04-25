@@ -95,7 +95,10 @@ class cron {
 
     public static function getPidFile() {
         $path = dirname(__FILE__) . '/../../jeeCron.pid';
-        return file_get_contents($path);
+        if (file_exists($path)) {
+            return file_get_contents($path);
+        }
+        return '';
     }
 
     public static function jeeCronRun() {
