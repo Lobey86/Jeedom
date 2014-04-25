@@ -72,7 +72,7 @@ try {
         jeedom::stop();
         if (!isset($_GET['v'])) {
             try {
-                echo __("Téléchagement en cours...", __FILE__);
+                echo __("Téléchargement en cours...", __FILE__);
                 $tmp_dir = dirname(__FILE__) . '/../tmp';
                 $tmp = $tmp_dir . '/jeedom_update.zip';
                 if (!is_writable($tmp_dir)) {
