@@ -343,10 +343,17 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
     $both = array();
     $folders = array();
     // Get the all files and folders in the given directory.
-    if ($get_files)
-        $both = glob($pattern, GLOB_BRACE + GLOB_MARK);
-    if ($recursivly or $get_folders)
+    if ($get_files) {
+        $both = array();
+        foreach (glob($pattern, GLOB_BRACE + GLOB_MARK) as $file) {
+            if(!is_dir($folder.'/'.$file)){
+               $both[] = $file;
+            }
+        }
+    }
+    if ($recursivly or $get_folders) {
         $folders = glob("*", GLOB_ONLYDIR + GLOB_MARK);
+    }
 
     //If a pattern is specified, make sure even the folders match that pattern.
     $matching_folders = array();
