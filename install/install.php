@@ -89,7 +89,7 @@ try {
                 }
                 $cibDir = dirname(__FILE__) . '/../tmp/jeedom';
                 if (file_exists($cibDir)) {
-                    rmdir($cibDir);
+                    rrmdir($cibDir);
                 }
                 if (!file_exists($cibDir) && !mkdir($cibDir, 0775, true)) {
                     throw new Exception(__('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?', __FILE__));
