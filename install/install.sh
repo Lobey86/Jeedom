@@ -66,6 +66,13 @@ echo "********************************************************"
 echo "*             Copie des fichiers de Jeedom             *"
 echo "********************************************************"
 wget -O jeedom.zip http://git.jeedom.fr/jeedom/core/repository/archive.zip?ref=stable
+if [  $? -ne 0 ] ; then
+    wget -O jeedom.zip http://git.jeedom.fr/jeedom/core/repository/archive.zip?ref=stable
+    if [  $? -ne 0 ] ; then
+        echo "Impossible de télécharger le fichier";
+        exit 0
+    fi
+fi
 unzip jeedom.zip
 mv core.git jeedom
 sudo mkdir /usr/share/nginx/www/jeedom/tmp
@@ -89,7 +96,8 @@ echo "********************************************************"
 bdd_password=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 15)
 echo "DROP USER 'jeedom'@'localhost'" | mysql -uroot -p${MySQL_root} 2>&1 > /dev/null
 echo "CREATE USER 'jeedom'@'localhost' IDENTIFIED BY '${bdd_password}';" | mysql -uroot -p${MySQL_root}
-echo "DROP DATABASE IF EXIST jeedom; CREATE DATABASE jeedom;" | mysql -uroot -p${MySQL_root}
+echo "DROP DATABASE IF EXISTS jeedom;" | mysql -uroot -p${MySQL_root}
+echo "CREATE DATABASE jeedom;" | mysql -uroot -p${MySQL_root}
 echo "GRANT ALL PRIVILEGES ON jeedom.* TO 'jeedom'@'localhost';" | mysql -uroot -p${MySQL_root}
 
 
