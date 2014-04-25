@@ -21,6 +21,7 @@ echo "********************************************************"
 sudo apt-get update
 sudo apt-get install -y ntp
 sudo apt-get install -y git git-core git-man
+sudo apt-get install -y unzip
 sudo apt-get install -y nginx-common nginx-full
 sudo apt-get install -y mysql-client mysql-common mysql-server mysql-server-core-5.5
 echo "Quel mot de passe venez vous de taper (mot de passe root de la MySql) ?"
