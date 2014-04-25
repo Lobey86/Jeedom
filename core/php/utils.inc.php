@@ -404,10 +404,6 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
     return $all;
 }
 
-function getGitRepo() {
-    return Git::open(dirname(__FILE__) . '/../..');
-}
-
 function removeCR($_string) {
     $_string = str_replace("\n", '', $_string);
     $_string = str_replace("\r\n", '', $_string);

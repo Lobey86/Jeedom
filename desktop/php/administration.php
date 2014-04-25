@@ -147,77 +147,62 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
         </div>
         <!--********************Onglet mise à jour********************************-->
         <div class="tab-pane" id="update">
-            <?php
-            try {
-                $repo = getGitRepo();
-                ?>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <legend>{{Mise à jour :}}</legend>
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label">{{Mise à jour}}</label>
-                                    <div class="col-lg-5">
-                                        <a class="btn btn-default bt_updateJeedom" data-mode="normal"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-github"></i> {{Mettre à jour</a>
-                                                <a class="btn btn-warning bt_updateJeedom" data-mode="force"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-github"></i> {{Forcer la mise à jour</a>
-                                            </div>
-                                        </div>
-                                        <div class="form-group expertModeHidden">
-                                            <label class="col-lg-2 control-label">{{Faire une sauvegarde avant la mise à jour}}</label>
-                                            <div class="col-lg-1">
-                                                <input type="checkbox" class="configKey" data-l1key="update::backupBefore"/>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">{{Adresse git}}</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="configKey form-control" data-l1key="git::remote" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">{{Branche}}</label>
-                                        <div class="col-lg-3">
-                                            <select class="configKey form-control" data-l1key="git::branch">
-                                                <?php
-                                                foreach ($repo->list_remote_branches() as $branch) {
-                                                    echo '<option value="' . str_replace('origin/', '', $branch) . '">' . $branch . '</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">{{Dernière version}}</label>
-                                        <div class="col-lg-4">
-                                            <?php
-                                            $update = jeedom::needUpdate(true);
-                                            $label = 'label-success';
-                                            if ($update['needUpdate']) {
-                                                $label = 'label-danger';
-                                            }
-                                            ?>
-                                            <span class='label <?php echo $label ?>'> <?php echo $update['currentVersion'] ?> </span>
-                                        </div>
-                                    </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <div class="col-lg-6">
-                        <legend>{{Informations :}}</legend>
-                        <pre id="pre_updateInfo"></pre>
-                    </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <legend>{{Mise à jour :}}</legend>
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">{{Mise à jour}}</label>
+                                <div class="col-lg-5">
+                                    <a class="btn btn-default bt_updateJeedom" data-mode="normal"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-github"></i> {{Mettre à jour}}</a>
+                                </div>
+                            </div>
+                            <div class="form-group expertModeHidden">
+                                <label class="col-lg-2 control-label">{{Faire une sauvegarde avant la mise à jour}}</label>
+                                <div class="col-lg-1">
+                                    <input type="checkbox" class="configKey" data-l1key="update::backupBefore"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">{{Adresse git}}</label>
+                                <div class="col-lg-4">
+                                    <input type="text" class="configKey form-control" data-l1key="git::address" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">{{Branche}}</label>
+                                <div class="col-lg-3">
+                                    <select class="configKey form-control" data-l1key="git::branch">
+                                        <option value="stable">Stable</option>
+                                        <option value="master">Developpement</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">{{Dernière version}}</label>
+                                <div class="col-lg-4">
+                                    <?php
+                                    $update = jeedom::needUpdate(true);
+                                    $label = 'label-success';
+                                    if ($update['needUpdate']) {
+                                        $label = 'label-danger';
+                                    }
+                                    ?>
+                                    <span class='label <?php echo $label ?>'> <?php echo $update['currentVersion'] ?> </span>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
-                <div class="form-actions" style="height: 20px;">
-                    <a class="btn btn-success" id="bt_saveUpdate"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
+                <div class="col-lg-6">
+                    <legend>{{Informations :}}</legend>
+                    <pre id="pre_updateInfo"></pre>
                 </div>
-                <?php
-            } catch (Exception $e) {
-                echo '<br/><div class="alert alert-danger">';
-                echo 'Aucun dépôt git trouvé';
-                echo '</div>';
-            }
-            ?>
+            </div>
+            <div class="form-actions" style="height: 20px;">
+                <a class="btn btn-success" id="bt_saveUpdate"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
+            </div>
         </div>
 
         <!--********************Onglet utilisateur********************************-->
