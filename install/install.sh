@@ -65,6 +65,9 @@ chown www-data:www-data -R /usr/share/nginx/www
 echo "********************************************************"
 echo "*             Copie des fichiers de Jeedom             *"
 echo "********************************************************"
+if [ -d "jeedom" ] ; then
+    rm -rf jeedom
+fi
 wget -O jeedom.zip http://git.jeedom.fr/jeedom/core/repository/archive.zip?ref=stable
 if [  $? -ne 0 ] ; then
     wget -O jeedom.zip http://git.jeedom.fr/jeedom/core/repository/archive.zip?ref=stable
