@@ -79,7 +79,7 @@ try {
                     throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
                 }
                 $url = config::byKey('git::address') . "/repository/archive.zip?ref=" . config::byKey('git::branch');
-                if(file_exists($tmp)){
+                if (file_exists($tmp)) {
                     unlink($tmp);
                 }
                 try {
@@ -90,6 +90,16 @@ try {
                 if (!file_exists($tmp)) {
                     throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?', __FILE__));
                 }
+                if (filesize($tmp) < 10) {
+                    file_put_contents($tmp, fopen($url, 'r'));
+                    if (!file_exists($tmp)) {
+                        throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?', __FILE__));
+                    }
+                }
+                if (filesize($tmp) < 10) {
+                    throw new Exception(__('Echec lors du téléchargement du fichier veuillez réessayer plus tard (taile inferieur à 10 octets)', __FILE__));
+                }
+
                 $cibDir = dirname(__FILE__) . '/../tmp/jeedom';
                 if (file_exists($cibDir)) {
                     rrmdir($cibDir);
@@ -108,7 +118,7 @@ try {
                 } else {
                     throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp);
                 }
-                rcopy($cibDir.'/core.git', dirname(__FILE__) . '/../', false);
+                rcopy($cibDir . '/core.git', dirname(__FILE__) . '/../', false);
                 rrmdir($cibDir);
                 echo __("OK\n", __FILE__);
             } catch (Exception $e) {
