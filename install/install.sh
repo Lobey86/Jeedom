@@ -64,7 +64,9 @@ chown www-data:www-data -R /usr/share/nginx/www
 echo "********************************************************"
 echo "*             Copie des fichiers de Jeedom             *"
 echo "********************************************************"
-sudo -u www-data -H git clone --depth=1 -b stable http://git.jeedom.fr/jeedom/core.git jeedom
+wget  http://git.jeedom.fr/jeedom/core/repository/archive.zip?ref=stable -O jeedom.zip
+unzip jeedom.zip
+mv core.git jeedom
 sudo mkdir /usr/share/nginx/www/jeedom/tmp
 sudo chmod 775 -R /usr/share/nginx/www
 sudo chown -R www-data:www-data /usr/share/nginx/www

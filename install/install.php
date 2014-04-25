@@ -73,7 +73,7 @@ try {
         if (!isset($_GET['v'])) {
             try {
                 echo __("Téléchagement en cours...", __FILE__);
-                $tmp_dir = dirname(__FILE__) . '/../../tmp';
+                $tmp_dir = dirname(__FILE__) . '/../tmp';
                 $tmp = $tmp_dir . '/jeedom_update.zip';
                 if (!is_writable($tmp_dir)) {
                     throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
@@ -83,7 +83,10 @@ try {
                 if (!file_exists($tmp)) {
                     throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?', __FILE__));
                 }
-                $cibDir = dirname(__FILE__) . '/../';
+                $cibDir = dirname(__FILE__) . '/../tmp/jeedom';
+                if (file_exists($cibDir)) {
+                    rmdir($cibDir);
+                }
                 if (!file_exists($cibDir) && !mkdir($cibDir, 0775, true)) {
                     throw new Exception(__('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?', __FILE__));
                 }
@@ -98,6 +101,7 @@ try {
                 } else {
                     throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp);
                 }
+                rcopy($cibDir, dirname(__FILE__) . '/../', false);
                 echo __("OK\n", __FILE__);
             } catch (Exception $e) {
                 if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
