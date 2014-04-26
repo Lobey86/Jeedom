@@ -57,9 +57,11 @@ if (!isConnect()) {
 {{#date# : jour et mois courant (ex : 1215 pour le 15 decembre)}}
 {{#semaine# : numéro de la semaine (ex : 51)}}
 {{#sjour# : pour le nom du jour de la semaine (ex : Samedi)}}
-{{#rand[1-10]# : pour un nombre aléatoire de 1 à 10}}
-{{#var[mavariable-valeur par default]# : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut
-    Ex : #var[plop-10]# renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas}}
+{{rand(1,10) : pour un nombre aléatoire de 1 à 10}}
+{{tendance(commande,period) : donne la tendance de la commande sur la period 
+    Ex : tendance(#[Salle de bain][Hydrometrie][Humidité]#,1 hour) : Renvoi 1 si en augmentation, 0 si constant et -1 si en diminution}}
+{{variable(mavariable,valeur par default) : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut
+    Ex : variable(plop,10) renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas}}
                 </pre>
             </div>
         </div>
@@ -77,7 +79,7 @@ if (!isConnect()) {
                 {{En plus des commandes domotiques vous avez accès aux fonctions suivantes : }}
                 <pre>
 {{sleep : pause de x seconde(s)
-var : création/modification d'une ou de la valeur d'une variable
+variable : création/modification d'une ou de la valeur d'une variable
 scenario : permet le controle des scénarios}}
                 </pre>
                 {{Vous pouvez aussi utiliser les tags suivants dans les options : }}
@@ -91,9 +93,9 @@ scenario : permet le controle des scénarios}}
 {{#date# : jour et mois courant (ex : 1215 pour le 15 decembre)}}
 {{#semaine# : numéro de la semaine (ex : 51)}}
 {{#sjour# : pour le nom du jour de la semaine en anglais (ex : sunday)}}
-{{#rand[1-10]# : pour un nombre aléatoire de 1 à 10}}
-{{#var[mavariable-valeur par default]# : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut
-    Ex : #var[plop-10]# renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas}}
+{{rand[1-10] : pour un nombre aléatoire de 1 à 10}}
+{{variablemavariable,valeur par default) : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut
+    Ex : variable(plop,10) renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas}}
                 </pre>
             </div>
         </div>

@@ -81,8 +81,38 @@ class scenarioExpression {
         return $return;
     }
 
+    public static function rand($_min, $_max) {
+        return rand($_min, $_max);
+    }
+
+    public static function variable($_name, $_default = '') {
+        $dataStore = dataStore::byTypeLinkIdKey('scenario', -1, $_name);
+        if (is_object($dataStore)) {
+            return $dataStore->getValue($_default);
+        }
+    }
+
+    public static function tendance($_cmd_id, $_period = '1 hour') {
+        $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
+        if (!is_object($cmd)) {
+            return null;
+        }
+        if ($cmd->getIsHistorized() == 0) {
+            return null;
+        }
+        $endTime = date('Y-m-d H:i:s');
+        $startTime = date('Y-m-d H:i:s', strtotime('-' . $_period . '' . $endTime));
+        $tendance = $cmd->getTendance($startTime, $endTime);
+        if ($tendance > config::byKey('historyCalculTendanceThresholddMax')) {
+            return 1;
+        }
+        if ($tendance < config::byKey('historyCalculTendanceThresholddMin')) {
+            return -1;
+        }
+        return 0;
+    }
+
     public static function setTags($_expression) {
-        $_expression = cmd::cmdToValue($_expression);
         $replace = array(
             '#heure#' => date('H'),
             '#minute#' => date('i'),
@@ -94,6 +124,23 @@ class scenarioExpression {
             '#semaine#' => date('W'),
             '#sjour#' => convertDayEnToFr(date('l')),
         );
+        $_expression = str_replace(array_keys($replace), array_values($replace), $_expression);
+        $replace = array();
+
+        preg_match_all("/([a-z]*?)\((.*?)\)/", $_expression, $matches, PREG_SET_ORDER);
+        foreach ($matches as $match) {
+            $function = $match[1];
+            $arguments = explode(',', $match[2]);
+            if (method_exists(__CLASS__, $function)) {
+                $result = call_user_func_array(__CLASS__ . "::" . $function, $arguments);
+                $replace[$match[0]] = $result;
+            }
+        }
+        $_expression = str_replace(array_keys($replace), array_values($replace), $_expression);
+        $_expression = cmd::cmdToValue($_expression);
+        $replace = array();
+
+        /*         * ***************A supprimer en 1.60*********************** */
         preg_match_all("/#rand\[([0-9]*)\-([0-9]*)\]#/", $_expression, $matches);
         if (isset($matches[1]) && isset($matches[2]) && isset($matches[1][0]) && isset($matches[2][0])) {
             $replace['#rand[' . $matches[1][0] . '-' . $matches[2][0] . ']#'] = rand($matches[1][0], $matches[2][0]);
@@ -111,6 +158,8 @@ class scenarioExpression {
                 $replace['#var[' . $matches[1][0] . ']#'] = $dataStore->getValue($default);
             }
         }
+        /*         * ***************A supprimer en 1.60*********************** */
+
         return str_replace(array_keys($replace), array_values($replace), $_expression);
     }
 
@@ -122,7 +171,7 @@ class scenarioExpression {
             if ($this->getType() == 'element') {
                 $element = scenarioElement::byId($this->getExpression());
                 if (is_object($element)) {
-                    $this->setLog(__('Exécution d\'un bloc élément : ',__FILE__) . $this->getExpression());
+                    $this->setLog(__('Exécution d\'un bloc élément : ', __FILE__) . $this->getExpression());
                     return $element->execute($scenario);
                 }
             }
@@ -141,24 +190,24 @@ class scenarioExpression {
                     case 'scenario':
                         $actionScenario = scenario::byId($this->getOptions('scenario_id'));
                         if (!is_object($actionScenario)) {
-                            throw new Exception(__('Action sur scénario impossible. Scénario introuvable vérifier l\'id : ',__FILE__) . $this->getOptions('scenario_id'));
+                            throw new Exception(__('Action sur scénario impossible. Scénario introuvable vérifier l\'id : ', __FILE__) . $this->getOptions('scenario_id'));
                         }
                         switch ($this->getOptions('action')) {
                             case 'start':
-                                $this->setLog(__('Lancement du scénario : ',__FILE__) . $actionScenario->getName());
+                                $this->setLog(__('Lancement du scénario : ', __FILE__) . $actionScenario->getName());
                                 $actionScenario->launch();
                                 break;
                             case 'stop':
-                                $this->setLog(__('Arrêt forcer du scénario : ',__FILE__) . $actionScenario->getName());
+                                $this->setLog(__('Arrêt forcer du scénario : ', __FILE__) . $actionScenario->getName());
                                 $actionScenario->stop();
                                 break;
                             case 'deactivate':
-                                $this->setLog(__('Désactivation du scénario : ',__FILE__) . $actionScenario->getName());
+                                $this->setLog(__('Désactivation du scénario : ', __FILE__) . $actionScenario->getName());
                                 $actionScenario->setIsActive(0);
                                 $actionScenario->save();
                                 break;
                             case 'activate':
-                                $this->setLog(__('Activation du scénario : ',__FILE__) . $actionScenario->getName());
+                                $this->setLog(__('Activation du scénario : ', __FILE__) . $actionScenario->getName());
                                 $actionScenario->setIsActive(1);
                                 $actionScenario->save();
                                 break;
@@ -167,7 +216,7 @@ class scenarioExpression {
                         break;
                     case 'var':
                         $value = self::setTags($this->getOptions('value'));
-                        $message = __('Affectation de la variable ',__FILE__) . $this->getOptions('name') . __(' à [',__FILE__) . $value . '] = ';
+                        $message = __('Affectation de la variable ', __FILE__) . $this->getOptions('name') . __(' à [', __FILE__) . $value . '] = ';
                         try {
                             $test = new evaluate();
                             $result = $test->Evaluer($value);
@@ -186,13 +235,13 @@ class scenarioExpression {
                         $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
                         if (is_object($cmd)) {
                             if (count($options) != 0) {
-                                $this->setLog(__('Exécution de la commande ',__FILE__) . $cmd->getHumanName() . __(" avec comme option(s) : \n",__FILE__) . print_r($options, true));
+                                $this->setLog(__('Exécution de la commande ', __FILE__) . $cmd->getHumanName() . __(" avec comme option(s) : \n", __FILE__) . print_r($options, true));
                             } else {
-                                $this->setLog(__('Exécution de la commande ',__FILE__) . $cmd->getHumanName());
+                                $this->setLog(__('Exécution de la commande ', __FILE__) . $cmd->getHumanName());
                             }
                             return $cmd->execCmd($options);
                         }
-                        $this->setLog(__('[Erreur] Aucune commande trouvée pour ',__FILE__) . $this->getExpression());
+                        $this->setLog(__('[Erreur] Aucune commande trouvée pour ', __FILE__) . $this->getExpression());
                         return;
                         break;
                 }
@@ -200,13 +249,13 @@ class scenarioExpression {
             if ($this->getType() == 'condition') {
                 $test = new evaluate();
                 $expression = self::setTags($this->getExpression());
-                $message = __('Evaluation de la condition : [',__FILE__) . $expression . '] = ';
+                $message = __('Evaluation de la condition : [', __FILE__) . $expression . '] = ';
                 $result = $test->Evaluer($expression);
                 if (is_bool($result)) {
                     if ($result) {
-                        $message .= __('Vrai',__FILE__);
+                        $message .= __('Vrai', __FILE__);
                     } else {
-                        $message .= __('Faux',__FILE__);
+                        $message .= __('Faux', __FILE__);
                     }
                 } else {
                     $message .= $result;
@@ -215,7 +264,7 @@ class scenarioExpression {
                 return $result;
             }
             if ($this->getType() == 'code') {
-                $this->setLog(__('Exécution d\'un bloc code',__FILE__));
+                $this->setLog(__('Exécution d\'un bloc code', __FILE__));
                 return eval($this->getExpression());
             }
         } catch (Exception $e) {

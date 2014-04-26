@@ -19,17 +19,18 @@ $(function() {
     editor = [];
 
     autoCompleteCondition = [
-        {val: 'rand[MIN-MAX]#'},
-        {val: 'heure#'},
-        {val: 'jour#'},
-        {val: 'mois#'},
-        {val: 'annee#'},
-        {val: 'date#'},
-        {val: 'time#'},
-        {val: 'semaine#'},
-        {val: 'sjour#'},
-        {val: 'minute#'},
-        {val: 'var[mavariable-defaut]#'},
+        {val: 'rand(MIN,MAX)'},
+        {val: '#heure#'},
+        {val: '#jour#'},
+        {val: '#mois#'},
+        {val: '#annee#'},
+        {val: '#date#'},
+        {val: '#time#'},
+        {val: '#semaine#'},
+        {val: '#sjour#'},
+        {val: '#minute#'},
+        {val: 'variable(mavariable,defaut)'},
+        {val: 'tendance(commande,periode)'},
     ];
 
     autoCompleteAction = ['sleep', 'var', 'scenario'];
@@ -300,7 +301,7 @@ function setEditor() {
 function setAutocomplete() {
     $('.expression').each(function() {
         if ($(this).find('.expressionAttr[data-l1key=type]').value() == 'condition') {
-            $(this).find('.expressionAttr[data-l1key=expression]').sew({values: autoCompleteCondition, token: '#'}); // pass in the values
+            $(this).find('.expressionAttr[data-l1key=expression]').sew({values: autoCompleteCondition}); // pass in the values
         }
         if ($(this).find('.expressionAttr[data-l1key=type]').value() == 'action') {
             $(this).find('.expressionAttr[data-l1key=expression]').autocomplete({

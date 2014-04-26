@@ -49,7 +49,7 @@
         "Filtre": "Filter",
         "Phrase": "Sentence",
         "Personne": "Person",
-        "Actif": "Enable", 
+        "Actif": "Enable",
         "Serveur": "Server",
         "Statut": "State",
         "Aucun": "None",
@@ -77,7 +77,7 @@
         "Que sais tu ?": "What do you know ?",
         "V\u00e9rification du sc\u00e9nario ": "Check on scenario ",
         "Historique": "History",
-  "S\u00e9lectionner la commande": "Select command",
+        "S\u00e9lectionner la commande": "Select command",
         "Lancement de ": "Launching of ",
         "Enregistrer": "Save",
         "Sauvegarde r\u00e9ussie": "Save complete",
@@ -110,18 +110,18 @@
         "Hardware key": "Hardware key",
         "Email admin": "Admin email",
         "Configuration cache": "Cache configuration",
-        "Dur\u00e9e de vie memcache (secondes)": "Lifespan of memcache (seconds)", 
-        "Vider toutes les donn\u00e9es en cache": "Empty all cache data", 
+        "Dur\u00e9e de vie memcache (secondes)": "Lifespan of memcache (seconds)",
+        "Vider toutes les donn\u00e9es en cache": "Empty all cache data",
         "Cron persistance du cache": "Cron persistence of cache",
-        "Configuration historique": "History configuration",
-        "P\u00e9riode de calcul pour min, max, moyenne (en heure)": "Calculation period for min, max, average (hour)", 
-        "P\u00e9riode de calcul pour la tendance (en heure)": " Calculation period for the trend (hour)", 
-        "D\u00e9lai avant archivage (heure)": "Period before archiving (hour)", 
+        "Configuration historique": "Chronicle configuration",
+        "P\u00e9riode de calcul pour min, max, moyenne (en heure)": "Calculation period for min, max, average (hour)",
+        "P\u00e9riode de calcul pour la tendance (en heure)": " Calculation period for the trend (hour)",
+        "D\u00e9lai avant archivage (heure)": "Period before archiving (hour)",
         "Archiver par paquet de (heure)": "Archive by batch of (hour)",
         "Seuil de calcul de tendance": "Threshold of trend calculation",
         "Configuration crontask, scripts & deamons": "Crontask, scripts & deamons configuration",
-        "Crontask : temps ex\u00e9cution max (min)": "Crontask : max of running time (min)", 
-        "Script : temps ex\u00e9cution max (min)": "Script : max of running time (min)", 
+        "Crontask : temps ex\u00e9cution max (min)": "Crontask : max of running time (min)",
+        "Script : temps ex\u00e9cution max (min)": "Script : max of running time (min)",
         "Jeecron sleep time": "Jeecron sleep time",
         "Deamons sleep time": "Deamons sleep time",
         "Configuration des logs & messages": "Logs & message configuration",
@@ -143,8 +143,8 @@
         "NodeJS \/ Chat": "NodeJS \/ Chat",
         "Activer NodeJS": "Enable NodeJS",
         "Port interne NodeJS": "NodeJS internal port",
-        "Activer le chat": "Enable IM", 
-        "IM" : "instantaneous message",
+        "Activer le chat": "Enable IM",
+        "IM": "instantaneous message",
         "Voir modules non valid\bsu00e9s (\u00e0 vos risques et p\u00e9rils)": "View unapproved modules (at your own risk)",
         "Ajouter un utilisateur": "Add a user",
         "Enregistrer": "Save"
@@ -154,23 +154,24 @@
         "Accueil": "Home",
         "Dashboard": "Dashboard",
         "Vue": "View",
-        "Historique": "History", 
+        "Historique": "Chronicle",
         "G\u00e9n\u00e9ral": "Main",
         "Administration": "Management",
         "Interaction": "Interaction",
         "Affichage": "Display",
         "Objet": "Object",
         "Plugins": "Plugins",
-        "message(s)": "message(s)", 
+        "message(s)": "message(s)",
         "Profil": "Profile",
         "Mode expert": "Expert mode",
         "Se d\u00e9connecter": "Log off",
         "Aide sur la page en cours": "Help on current page",
         "Envoy\u00e9 un rapport de bugs": "Send a bugs report",
         "Sp\u00e9cifique": "Specific",
-        "Ouverture d'un ticket": "New issue" 
+        "Ouverture d'un ticket": "New issue",
+        "Moteur de t\u00e2ches": "Moteur de t\u00e2ches"
     },
-    "core\/php\/jeeScenario.php": { 
+    "core\/php\/jeeScenario.php": {
         " avec le PID : ": " with PID : ",
         "Impossible de lancer le sc\u00e9nario car d\u00e9j\u00e0 en cours": "Enable to launch scenario because it is already launched"
     },
@@ -209,7 +210,8 @@
         " \/cache lifetime =>": " \/cache lifetime =>"
     },
     "core\/class\/scenario.class.php": {
-        "Ev\u00e8nement venant de ": "Event from "
+        "Ev\u00e8nement venant de ": "Event from ",
+        ") v\u00e9rification du\/des sc\u00e9nario(s) : ": ") v\u00e9rification du\/des sc\u00e9nario(s) : "
     },
     "desktop\/php\/history.php": {
         "Ligne": "Line",
@@ -217,16 +219,16 @@
         "Barre": "Bar"
     },
     "desktop\/js\/history.js": {
-        "Etes-vous s\u00fbr de vouloir supprimer l\\'historique de": "Are you agree to delete the history of",
+        "Etes-vous s\u00fbr de vouloir supprimer l\\'historique de": "Are you agree to delete the chronicle of",
         "Historique supprim\u00e9 avec succes": "History successfully removed"
     },
     "core\/js\/core.js": {
-        "La commande a \u00e9t\u00e9 ex\u00e9cut\u00e9e avec succ\u00e8s": "The command was successfully run", 
+        "La commande a \u00e9t\u00e9 ex\u00e9cut\u00e9e avec succ\u00e8s": "The command was successfully run",
         "Mise \u00e0 jour de l\\\u00e9tat du sc\u00e9nario r\u00e9ussi": "Successful scenario state update",
         "[Jeedom] Message de test": "[Jeedom] Test message",
         "Ceci est un test de message pour la commande": "This is a test message for the command",
-        "La valeur a \u00e9t\u00e9 \u00e9dit\u00e9e avec succ\u00e8s": "The value was successfully edited", 
-        "Il n\\'existe encore aucun historique pour cette commande :": "For instance there is no history for this command",
+        "La valeur a \u00e9t\u00e9 \u00e9dit\u00e9e avec succ\u00e8s": "The value was successfully edited",
+        "Il n\\'existe encore aucun historique pour cette commande :": "For instance there is no chronicle for this command",
         "Edition de la s\u00e9rie :": "Edit curve :",
         "et du point de": "and point of",
         "Ne rien mettre pour supprimer la valeur": "Do not insert something to remove the value"
@@ -235,7 +237,7 @@
         "Erreur d\\'authentification sur node JS, clef invalide": " NodeJS authentication error, unvalided key"
     },
     "desktop\/js\/utils.js": {
-        "Attention vous quittez une page ayant des donn\u00e9es modifi\u00e9es non sauvegard\u00e9. Voulez-vous continuer ?": "Warning you’re closing a page with unsaved data. Are you sure to want to continue?"
+        "Attention vous quittez une page ayant des donn\u00e9es modifi\u00e9es non sauvegard\u00e9. Voulez-vous continuer ?": "Warning you\u2019re closing a page with unsaved data. Are you sure to want to continue?"
     },
     "desktop\/js\/chat.js": {
         "en train d\\'\u00e9crire...": "Writting...",
@@ -243,19 +245,19 @@
     },
     "core\/php\/jeeCron.php": {
         " avec le PID : ": " with PID : ",
-        "Arr\u00eat\/relance du deamon : ": "Stop/launch again the deamon: "
+        "Arr\u00eat\/relance du deamon : ": "Stop\/launch again the deamon: "
     },
     "desktop\/js\/administration.js": {
         "Etes-vous s\u00fbr de vouloir mettre \u00e0 jour Jeedom ? Une fois lanc\u00e9e cette op\u00e9ration ne peut etre annul\u00e9e": "Are you agree to update Jeedom? When it is launched, this operation could not be cancelled.",
-        "Etes-vous s\u00fbr de vouloir faire une sauvegarde de Jeedom ? Une fois lanc\u00e9e cette op\u00e9ration ne peut etre annul\u00e9e": " Are you agree to backup Jeedom? When it is launched, this operation could not be cancelled.", 
-        "Etes-vous s\u00fbr de vouloir restaurer Jeedom avec": "Are you agree to restore Jeedom with", 
-        "Une fois lanc\u00e9e cette op\u00e9ration ne peut etre annul\u00e9e": "When it is launched, this operation could not be cancelled.",        
-        "Etes-vous s\u00fbr de vouloir supprimer la  sauvegarde": "Are you agree to delete this back-up?", 
+        "Etes-vous s\u00fbr de vouloir faire une sauvegarde de Jeedom ? Une fois lanc\u00e9e cette op\u00e9ration ne peut etre annul\u00e9e": " Are you agree to backup Jeedom? When it is launched, this operation could not be cancelled.",
+        "Etes-vous s\u00fbr de vouloir restaurer Jeedom avec": "Are you agree to restore Jeedom with",
+        "Une fois lanc\u00e9e cette op\u00e9ration ne peut etre annul\u00e9e": "When it is launched, this operation could not be cancelled.",
+        "Etes-vous s\u00fbr de vouloir supprimer la  sauvegarde": "Are you agree to delete this back-up?",
         "Sauvegarde supprim\u00e9 avec succ\u00e8s": "Back-up succesfully removed",
-        "Etes-vous s\u00fbr de vouloir restaurer Jeedom avec la sauvergarde Cloud": "Are you agree to restore Jeedom with the Cloud back-up?", 
+        "Etes-vous s\u00fbr de vouloir restaurer Jeedom avec la sauvergarde Cloud": "Are you agree to restore Jeedom with the Cloud back-up?",
         "Connexion \u00e9chou\u00e9 :": "Connection failed :",
         "Connexion r\u00e9ussie": "Connection successful",
-        "Etes-vous s\u00fbr de vouloir supprimer cet utilisateur ?": "Are you agree to delete this user?", 
+        "Etes-vous s\u00fbr de vouloir supprimer cet utilisateur ?": "Are you agree to delete this user?",
         "Quel est le nouveau mot de passe ?": "What is the new password?",
         "L\\'op\u00e9ration est r\u00e9ussie": "Operation complete",
         "L\\'op\u00e9ration a \u00e9chou\u00e9": "Operation failed",
@@ -264,13 +266,12 @@
         "Cache vid\u00e9": "Empty cache"
     },
     "desktop\/php\/interact.php": {
-        "Limiter aux \u00e9quipement de type": "Limit to devices of type", 
+        "Limiter aux \u00e9quipement de type": "Limit to devices of type",
         "Limiter aux commandes ayant pour unit\u00e9": "Limit to commands having as unit"
-        
     },
     "desktop\/js\/interact.js": {
         "Liste des interactions": "Interactions list",
-        "Limiter aux commande de type": "Limit to commands of type", 
+        "Limiter aux commande de type": "Limit to commands of type",
         "Limiter aux commandes ayant pour sous-type": "Limit to commands having as under-type",
         "Tous": "All",
         "Limiter aux commandes appartenant \u00e0 l objet": "Limit to commands owning by object",
@@ -278,10 +279,10 @@
         "R\u00e9ponse": "Answer",
         "Conversion binaire : faux|vrai": "Binary conversion : false|true",
         "Convertir les commandes binaire": "Convert binary commands",
-        "Synonyme": "Synonym", 
+        "Synonyme": "Synonym",
         "Remplace les mots par leur synonymes lors de la g\u00e9n\u00e9ration des commandes": "Replace words with their synonyms during commands creation",
-        "Nombre de requetes active": "Number of active request(s)", 
-        "Nombre de requetes totales": "Total number of request(s)" 
+        "Nombre de requetes active": "Number of active request(s)",
+        "Nombre de requetes totales": "Total number of request(s)"
     },
     "desktop\/php\/display.php": {
         "Arbre des commandes": "Commands tree",
@@ -295,7 +296,7 @@
         "Memcache": "Memcache",
         "Dur\u00e9e du cache": "Duration of cache",
         "seconde(s)": "second(s)",
-        "Historis\u00e9": "History",
+        "Historis\u00e9": "Chronicle",
         "Evenement seulement": "Only event",
         "Dashboard widget": "Dashboard widget",
         "Mobile widget": "Mobile widget",
@@ -355,13 +356,13 @@
         "Groupe du sc\u00e9nario": "Scenario group",
         "Timeout secondes (0 = illimit\u00e9)": "Timeout seconds (0 = unlimited)",
         "Mode du sc\u00e9nario": "Scenario mode",
-        "Provoqu\u00e9": "Event",
+        "Provoqu\u00e9": "Prompted",
         "Programm\u00e9": "Scheduled",
         "Les deux": "Both",
         "Dernier lancement": "Last running",
         "Veuillez sauvegarder avant de tester. Ceci peut ne pas aboutir.": "Please save before test. This could not work.",
         "Dupliquer le sc\u00e9nario": "Duplicate this scenario",
-        "Enregistrer": "Save", 
+        "Enregistrer": "Save",
         "Si\/Alors\/Sinon": "If\/Then\/Else"
     },
     "desktop\/js\/scenario.js": {
@@ -375,7 +376,9 @@
         "SINON": "ELSE",
         "DE 1 A": "FROM 1 TO",
         "CODE": "CODE",
-        "ACTION": "ACTION"
+        "ACTION": "ACTION",
+        "Sauvegarde effectu\u00e9e avec succ\u00e8s": "Sauvegarde effectu\u00e9e avec succ\u00e8s",
+        "Ajouter El\u00e9ment": "Ajouter El\u00e9ment"
     },
     "desktop\/php\/profils.php": {
         "Profile": "Profile",
@@ -433,5 +436,23 @@
     },
     "core\/php\/authentification.php": {
         "Connexion de l'utilisateur : ": "Connection of user : "
+    },
+    "core\/template\/dashboard\/cmd.info.history.default.html": {
+        "Aire": "Aire",
+        "Colonne": "Colonne",
+        "Ligne": "Ligne"
+    },
+    "core\/template\/scenario\/cmd.action.color.default.html": {
+        "Rechercher \u00e9quipement": "Rechercher \u00e9quipement"
+    },
+    "core\/template\/scenario\/cmd.action.message.default.html": {
+        "Rechercher \u00e9quipement": "Rechercher \u00e9quipement"
+    },
+    "core\/template\/scenario\/var.default.html": {
+        "Rechercher \u00e9quipement": "Rechercher \u00e9quipement"
+    },
+    "core\/template\/scenario\/scenario.default.html": {
+        "Start": "Start",
+        "Stop": "Stop"
     }
 }
