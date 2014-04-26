@@ -78,7 +78,7 @@ try {
                 if (!is_writable($tmp_dir)) {
                     throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
                 }
-                $url = config::byKey('git::address') . "/repository/archive.zip?ref=" . config::byKey('git::branch');
+                $url = config::byKey('market::address')."/jeedom/".config::byKey('market::branch').'/jeedom.zip';
                 if (file_exists($tmp)) {
                     unlink($tmp);
                 }
