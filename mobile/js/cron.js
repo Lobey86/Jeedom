@@ -1,10 +1,9 @@
-$(document).on('pagecontainershow', function() {
+
+function initLocalPage() {
+    panel('<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt"><li data-role="list-divider">Action</li><li><a id="bt_refreshCron" href="#"><i class="fa fa-refresh"></i> Rafraîchir</a></li></ul>');
     printCron();
     $("#bt_refreshCron").on('click', function() {
         printCron();
-        if (window.innerWidth < 800) {
-            $(".rightpanel").panel().panel("close");
-        }
     });
 
     $("#table_cron").delegate(".stop", 'click', function() {
@@ -14,8 +13,7 @@ $(document).on('pagecontainershow', function() {
     $("#table_cron").delegate(".start", 'click', function() {
         changeStateCron('start', $(this).closest('tr').attr('id'));
     });
-
-});
+}
 
 function changeStateCron(_state, _id) {
     $.hideAlert();

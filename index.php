@@ -28,7 +28,15 @@ if (!isset($_GET['v'])) {
 } else {
     require_once dirname(__FILE__) . "/core/php/core.inc.php";
     if ($_GET['v'] == "m") {
-        include_file('mobile', 'index', 'php');
+        if (isset($_GET['modal'])) {
+            include_file('mobile', init('modal'), 'modal', init('plugin'));
+        } else {
+            if (isset($_GET['p'])) {
+                include_file('mobile', $_GET['p'], 'html');
+            } else {
+                include_file('mobile', 'index', 'html');
+            }
+        }
     } elseif ($_GET['v'] == "d") {
         if (isset($_GET['modal'])) {
             include_file('core', 'authentification', 'php');
