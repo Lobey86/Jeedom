@@ -165,15 +165,9 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Adresse git}}</label>
-                                <div class="col-lg-4">
-                                    <input type="text" class="configKey form-control" data-l1key="git::address" />
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label class="col-lg-2 control-label">{{Branche}}</label>
                                 <div class="col-lg-3">
-                                    <select class="configKey form-control" data-l1key="git::branch">
+                                    <select class="configKey form-control" data-l1key="market::branch">
                                         <option value="stable">Stable</option>
                                         <option value="master">Developpement</option>
                                     </select>

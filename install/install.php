@@ -72,13 +72,15 @@ try {
         jeedom::stop();
         if (!isset($_GET['v'])) {
             try {
+                $url = config::byKey('market::address') . "/jeedom/" . config::byKey('market::branch') . '/jeedom.zip';
+                echo __("Adresse de téléchargement : " . $url . "\n", __FILE__);
                 echo __("Téléchargement en cours...", __FILE__);
                 $tmp_dir = dirname(__FILE__) . '/../tmp';
                 $tmp = $tmp_dir . '/jeedom_update.zip';
                 if (!is_writable($tmp_dir)) {
                     throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
                 }
-                $url = config::byKey('market::address')."/jeedom/".config::byKey('market::branch').'/jeedom.zip';
+                $url = config::byKey('market::address') . "/jeedom/" . config::byKey('market::branch') . '/jeedom.zip';
                 if (file_exists($tmp)) {
                     unlink($tmp);
                 }
