@@ -21,7 +21,7 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);
     }
 
     if (init('action') == 'genKeyAPI') {
@@ -54,6 +54,10 @@ try {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
         nodejs::updateKey();
+        ajax::success(config::byKey('nodeJsKey'));
+    }
+
+    if (init('action') == 'getNodeJsKey') {
         ajax::success(config::byKey('nodeJsKey'));
     }
 

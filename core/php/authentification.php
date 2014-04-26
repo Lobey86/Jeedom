@@ -55,7 +55,7 @@ if (init('logout') == 1) {
 
 /* * **************************Definition des function************************** */
 
-function login($_login, $_password) {
+function login($_login, $_password, $_ajax = false) {
     $user = user::connect($_login, $_password);
     if (is_object($user)) {
         $_SESSION['user'] = $user;
@@ -66,20 +66,24 @@ function login($_login, $_password) {
         foreach ($_GET AS $var => $value) {
             $getParams.= $var . '=' . $value . '&';
         }
-        if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
-            header('Location:../../index.php?' . trim($getParams, '&'));
-        } else {
-            header('Location:index.php?' . trim($getParams, '&'));
+        if (!$_ajax) {
+            if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
+                header('Location:../../index.php?' . trim($getParams, '&'));
+            } else {
+                header('Location:index.php?' . trim($getParams, '&'));
+            }
         }
-        return;
+        return true;
     }
     sleep(5);
-    if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
-        header('Location:../../index.php?v=' . $_GET['v'] . '&error=1');
-    } else {
-        header('Location:index.php?v=' . $_GET['v'] . '&error=1');
+    if (!$_ajax) {
+        if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
+            header('Location:../../index.php?v=' . $_GET['v'] . '&error=1');
+        } else {
+            header('Location:index.php?v=' . $_GET['v'] . '&error=1');
+        }
     }
-    return;
+    return false;
 }
 
 function logout() {

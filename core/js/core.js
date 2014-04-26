@@ -24,25 +24,25 @@ $(function() {
 });
 
 
-$(document).on('pagecontainershow', function() {
-    if ($.mobile) {
-        if (jeedom.nodeJs.state === null) {
-            $('.span_nodeJsState').removeClass('red').addClass('grey');
-        }
-        if (jeedom.nodeJs.state === true) {
-            setTimeout(function() {
-                $('body').trigger('nodeJsConnect');
-            }, 500);
-            $('.span_nodeJsState').removeClass('red').addClass('green');
-        }
-        if (jeedom.nodeJs.state === false) {
-            $('.span_nodeJsState').removeClass('green').addClass('red');
-        }
-        if (jeedom.nodeJs.state == -1 || socket == null) {
-            jeedom.init();
-        }
+
+if ($.mobile) {
+    if (jeedom.nodeJs.state === null) {
+        $('.span_nodeJsState').removeClass('red').addClass('grey');
     }
-});
+    if (jeedom.nodeJs.state === true) {
+        setTimeout(function() {
+            $('body').trigger('nodeJsConnect');
+        }, 500);
+        $('.span_nodeJsState').removeClass('red').addClass('green');
+    }
+    if (jeedom.nodeJs.state === false) {
+        $('.span_nodeJsState').removeClass('green').addClass('red');
+    }
+    if (jeedom.nodeJs.state == -1 || socket == null) {
+        jeedom.init();
+    }
+}
+
 
 function execCmd(_id, _value, _cache) {
     if (init(_value) != '' && (is_array(_value) || is_object(_value))) {
