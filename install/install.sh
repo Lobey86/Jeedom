@@ -67,16 +67,15 @@ echo "********************************************************"
 if [ -d "jeedom" ] ; then
     rm -rf jeedom
 fi
-wget -O jeedom.zip http://git.jeedom.fr/jeedom/core/repository/archive.zip?ref=stable
+wget -O jeedom.zip http://market.jeedom.fr/jeedom/stable/jeedom.zip
 if [  $? -ne 0 ] ; then
-    wget -O jeedom.zip http://git.jeedom.fr/jeedom/core/repository/archive.zip?ref=stable
+    wget -O jeedom.zip http://market.jeedom.fr/jeedom/stable/jeedom.zip
     if [  $? -ne 0 ] ; then
         echo "Impossible de télécharger le fichier";
         exit 0
     fi
 fi
-unzip jeedom.zip
-mv core.git jeedom
+unzip jeedom.zip -d jeedom
 sudo mkdir /usr/share/nginx/www/jeedom/tmp
 sudo chmod 775 -R /usr/share/nginx/www
 sudo chown -R www-data:www-data /usr/share/nginx/www
