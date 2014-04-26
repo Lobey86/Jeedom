@@ -18,6 +18,7 @@ $(function() {
 
 
 function initApplication() {
+   
     modal(false);
     panel(false);
     $('#panel_left').panel('close');

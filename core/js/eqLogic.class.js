@@ -117,11 +117,11 @@ eqLogic.print = function(_type, _eqLogic_id) {
             $('body .eqLogicAttr').value('');
             $('body').setValues(data.result, '.eqLogicAttr');
 
-            if ('function' == typeof(printEqLogic)) {
+            if ('function' == typeof (printEqLogic)) {
                 printEqLogic(data.result);
             }
 
-            if ('function' == typeof(addCmdToTable)) {
+            if ('function' == typeof (addCmdToTable)) {
                 $('.cmd').remove();
                 for (var i in data.result.cmd) {
                     addCmdToTable(data.result.cmd[i]);
@@ -136,6 +136,34 @@ eqLogic.print = function(_type, _eqLogic_id) {
             modifyWithoutSave = false;
         }
     });
+}
+
+eqLogic.toHtml = function(_eqLogic_id, _version) {
+    var result = '';
+    $.showLoading();
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/eqLogic.ajax.php", // url du fichier php
+        data: {
+            action: "toHtml",
+            id: _eqLogic_id,
+            version: _version
+        },
+        dataType: 'json',
+        async: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $.hideLoading();
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            result = data.result;
+        }
+    });
+    return result;
 }
 
 eqLogic.getCmd = function(_eqLogic_id) {
