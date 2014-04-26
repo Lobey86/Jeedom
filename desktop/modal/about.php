@@ -12,6 +12,15 @@ if (!isConnect()) {
     </div>
 </div>
 
+<h3>{{Traducteur(s)}}</h3>
+<div class="row">
+    <div class="col-md-12">
+        <lu>
+            <li><a class="cursor" href="#" target="_blank">Marie Corbiere (US)</a></li>
+        </lu>
+    </div>
+</div>
+
 <h3>{{Remerciements}}</h3>
 <div class="row">
     <div class="col-md-4">
