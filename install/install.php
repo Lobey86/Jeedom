@@ -84,19 +84,9 @@ try {
                 if (file_exists($tmp)) {
                     unlink($tmp);
                 }
-                try {
-                    @file_put_contents($tmp, @fopen($url, 'r'));
-                } catch (Exception $e) {
-                    file_put_contents($tmp, fopen($url, 'r'));
-                }
+                file_put_contents($tmp, fopen($url, 'r'));
                 if (!file_exists($tmp)) {
                     throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?', __FILE__));
-                }
-                if (filesize($tmp) < 10) {
-                    file_put_contents($tmp, fopen($url, 'r'));
-                    if (!file_exists($tmp)) {
-                        throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?', __FILE__));
-                    }
                 }
                 if (filesize($tmp) < 10) {
                     throw new Exception(__('Echec lors du téléchargement du fichier veuillez réessayer plus tard (taile inferieur à 10 octets)', __FILE__));
