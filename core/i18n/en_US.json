@@ -113,7 +113,7 @@
         "Dur\u00e9e de vie memcache (secondes)": "Lifespan of memcache (seconds)", 
         "Vider toutes les donn\u00e9es en cache": "Empty all cache data", 
         "Cron persistance du cache": "Cron persistence of cache",
-        "Configuration historique": "Chronicle configuration",
+        "Configuration historique": "History configuration",
         "P\u00e9riode de calcul pour min, max, moyenne (en heure)": "Calculation period for min, max, average (hour)", 
         "P\u00e9riode de calcul pour la tendance (en heure)": " Calculation period for the trend (hour)", 
         "D\u00e9lai avant archivage (heure)": "Period before archiving (hour)", 
@@ -154,7 +154,7 @@
         "Accueil": "Home",
         "Dashboard": "Dashboard",
         "Vue": "View",
-        "Historique": "Chronicle", 
+        "Historique": "History", 
         "G\u00e9n\u00e9ral": "Main",
         "Administration": "Management",
         "Interaction": "Interaction",
@@ -217,7 +217,7 @@
         "Barre": "Bar"
     },
     "desktop\/js\/history.js": {
-        "Etes-vous s\u00fbr de vouloir supprimer l\\'historique de": "Are you agree to delete the chronicle of",
+        "Etes-vous s\u00fbr de vouloir supprimer l\\'historique de": "Are you agree to delete the history of",
         "Historique supprim\u00e9 avec succes": "History successfully removed"
     },
     "core\/js\/core.js": {
@@ -226,7 +226,7 @@
         "[Jeedom] Message de test": "[Jeedom] Test message",
         "Ceci est un test de message pour la commande": "This is a test message for the command",
         "La valeur a \u00e9t\u00e9 \u00e9dit\u00e9e avec succ\u00e8s": "The value was successfully edited", 
-        "Il n\\'existe encore aucun historique pour cette commande :": "For instance there is no chronicle for this command",
+        "Il n\\'existe encore aucun historique pour cette commande :": "For instance there is no history for this command",
         "Edition de la s\u00e9rie :": "Edit curve :",
         "et du point de": "and point of",
         "Ne rien mettre pour supprimer la valeur": "Do not insert something to remove the value"
@@ -295,7 +295,7 @@
         "Memcache": "Memcache",
         "Dur\u00e9e du cache": "Duration of cache",
         "seconde(s)": "second(s)",
-        "Historis\u00e9": "Chronicle",
+        "Historis\u00e9": "History",
         "Evenement seulement": "Only event",
         "Dashboard widget": "Dashboard widget",
         "Mobile widget": "Mobile widget",
@@ -355,7 +355,7 @@
         "Groupe du sc\u00e9nario": "Scenario group",
         "Timeout secondes (0 = illimit\u00e9)": "Timeout seconds (0 = unlimited)",
         "Mode du sc\u00e9nario": "Scenario mode",
-        "Provoqu\u00e9": "Prompted",
+        "Provoqu\u00e9": "Event",
         "Programm\u00e9": "Scheduled",
         "Les deux": "Both",
         "Dernier lancement": "Last running",
