@@ -182,7 +182,7 @@ if (init('cron_id') != '') {
                     if ($cron->getDeamon() == 0) {
                         log::add('cron', 'error', __('[Timeout] ', __FILE__) . $cron->getName());
                     } else {
-                        log::add('cron', 'info', __('Arrêt/relance du demon : ', __FILE__) . $cron->getName());
+                        log::add('cron', 'info', __('Arrêt/relance du deamon : ', __FILE__) . $cron->getName());
                     }
                     $cron->stop();
                 }

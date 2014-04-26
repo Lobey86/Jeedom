@@ -70,7 +70,7 @@ function execCmd(_id, _value, _cache) {
                 notify('Commande', data.result, 'gritter-red');
                 return;
             }
-            notify('Commande', '{{La commande a été executée avec succès}}', 'gritter-green', true);
+            notify('Commande', '{{La commande a été exécutée avec succès}}', 'gritter-green', true);
             retour = data.result;
         }
     });
@@ -369,7 +369,7 @@ function changeHistoryPoint(_cmd_id, _datetime, _value) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: '{{La valeur a été éditée avec succes}}', level: 'success'});
+            $('#div_alert').showAlert({message: '{{La valeur a été éditée avec succès}}', level: 'success'});
             var serie = null;
             for (var i in CORE_chart) {
                 serie = CORE_chart[i].chart.get(intval(_cmd_id));

@@ -392,13 +392,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <form class="form-horizontal">
                                 <fieldset>
                                     <div class="form-group">
-                                        <label class="col-lg-2 control-label">{{Crontask : temps execution max (min)}}</label>
+                                        <label class="col-lg-2 control-label">{{Crontask : temps exécution max (min)}}</label>
                                         <div class="col-lg-3">
                                             <input type="text" class="configKey form-control" data-l1key="maxExecTimeCrontask"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-lg-2 control-label">{{Script : temps execution max (min)}}</label>
+                                        <label class="col-lg-2 control-label">{{Script : temps exécution max (min)}}</label>
                                         <div class="col-lg-3">
                                             <input type="text" class="configKey form-control" data-l1key="maxExecTimeScript"/>
                                         </div>
@@ -489,7 +489,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <form class="form-horizontal">
                                 <fieldset>
                                     <div class="form-group">
-                                        <label class="col-lg-2 control-label">{{Activer l'authentificaiton LDAP}}</label>
+                                        <label class="col-lg-2 control-label">{{Activer l'authentification LDAP}}</label>
                                         <div class="col-lg-1">
                                             <input type="checkbox" class="configKey" data-l1key="ldap::enable"/>
                                         </div>
@@ -538,7 +538,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     </div>
                                 </fieldset>
                             </form>
-                            <a class='btn btn-default' id='bt_testLdapConnection'>{{Tester la connection}}</a>
+                            <a class='btn btn-default' id='bt_testLdapConnection'>{{Tester la connexion}}</a>
                         </div>
                     </div>
                 </div>
@@ -589,7 +589,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <form class="form-horizontal">
                                 <fieldset>
                                     <div class="form-group">
-                                        <label class="col-lg-2 control-label">{{Nombre d'échec avant desactivation de l'équipement}}</label>
+                                        <label class="col-lg-2 control-label">{{Nombre d'échec avant désactivation de l'équipement}}</label>
                                         <div class="col-lg-3">
                                             <input type="text"  class="configKey form-control" data-l1key="numberOfTryBeforeEqLogicDisable" />
                                         </div>
@@ -613,7 +613,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <form class="form-horizontal">
                                     <fieldset>
                                         <div class="form-group expertModeHidden">
-                                            <label class="col-lg-2 control-label">{{Activer nodeJS}}</label>
+                                            <label class="col-lg-2 control-label">{{Activer NodeJS}}</label>
                                             <div class="col-lg-1">
                                                 <input type="checkbox" class="configKey" data-l1key="enableNodeJs"/>
                                             </div>
@@ -655,7 +655,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 control-label">{{API key}}</label>
+                                            <label class="col-lg-2 control-label">{{Clef API}}</label>
                                             <div class="col-lg-3">
                                                 <input type="text"  class="configKey form-control" data-l1key="market::apikey" />
                                             </div>

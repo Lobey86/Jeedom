@@ -54,7 +54,7 @@ $(function() {
     $("#bt_removeObject").on('click', function(event) {
         if ($('.li_object.active').attr('data-object_id') != undefined) {
             $.hideAlert();
-            bootbox.confirm('{{Etez-vous sûr de vouloir supprimer l\'objet}} <span style="font-weight: bold ;">' + $('.li_object.active a').text() + '</span> ?', function(result) {
+            bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'objet}} <span style="font-weight: bold ;">' + $('.li_object.active a').text() + '</span> ?', function(result) {
                 if (result) {
                     removeObject($('.li_object.active').attr('data-object_id'));
                 }

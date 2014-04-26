@@ -158,7 +158,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
             <div class="col-lg-3">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-lg-6 control-label" for="span_lastCheck">{{Dernièr lancement}}</label>
+                        <label class="col-lg-6 control-label" for="span_lastCheck">{{Dernier lancement}}</label>
                         <div class="col-lg-6">
                             <div><span id="span_lastLaunch" class="label label-info" style="position: relative; top: 4px;"></span></div>
                         </div>

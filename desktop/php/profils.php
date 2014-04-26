@@ -23,7 +23,7 @@ foreach (plugin::listPlugin() as $pluginList) {
     }
 }
 ?>
-<legend>{{Profile}}</legend>
+<legend>{{Profil}}</legend>
 
 <div class="panel-group" id="accordionConfiguration">
     <input style="display: none;" class="userAttr form-control" data-l1key="id" />
@@ -94,7 +94,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Page d'accueils}}</label>
+                            <label class="col-lg-1 control-label">{{Page d'accueil}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="homePage">
                                     <?php
@@ -108,7 +108,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Vue par default(desktop)}}</label>
+                            <label class="col-lg-1 control-label">{{Vue par défault(desktop)}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDesktopView">
                                     <?php
@@ -121,7 +121,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Objet par default(desktop)}}</label>
+                            <label class="col-lg-1 control-label">{{Objet par défault(desktop)}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardObject">
                                     <?php
@@ -143,7 +143,7 @@ foreach (plugin::listPlugin() as $pluginList) {
         <div class="panel-heading">
             <h3 class="panel-title">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_other">
-                    {{Autres}}
+                    {{Autre}}
                 </a>
             </h3>
         </div>

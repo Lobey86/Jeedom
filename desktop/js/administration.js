@@ -79,7 +79,7 @@ $(function() {
 
     $(".bt_updateJeedom").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('{{Etez-vous sûr de vouloir mettre à jour Jeedom ? Une fois lancée cette opération ne peut etre annulée}}', function(result) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir mettre à jour Jeedom ? Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -107,7 +107,7 @@ $(function() {
 
     $("#bt_backupJeedom").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('{{Etez-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut etre annulée}}', function(result) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -134,7 +134,7 @@ $(function() {
 
     $("#bt_restoreJeedom").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('{{Etez-vous sûr de vouloir restaurer Jeedom avec}} <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut etre annulée}}', function(result) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir restaurer Jeedom avec}} <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -162,7 +162,7 @@ $(function() {
 
     $("#bt_removeBackup").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('{{Etez-vous sûr de vouloir supprimer la sauvegarde}} <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ?', function(result) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer la sauvegarde}} <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ?', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -195,7 +195,7 @@ $(function() {
 
     $("#bt_restoreCloudJeedom").on('click', function(event) {
         var el = $(this);
-        bootbox.confirm('{{Etez-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud}} <b>' + $('#sel_restoreCloudBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut etre annulée}}', function(result) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud}} <b>' + $('#sel_restoreCloudBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
                 $.ajax({
@@ -235,10 +235,10 @@ $(function() {
             },
             success: function(data) {
                 if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: '{{Connection échoué :}} ' + data.result, level: 'danger'});
+                    $('#div_alert').showAlert({message: '{{Connexion échoué :}} ' + data.result, level: 'danger'});
                     return;
                 }
-                $('#div_alert').showAlert({message: '{{Connection réussie}}', level: 'success'});
+                $('#div_alert').showAlert({message: '{{Connexion réussie}}', level: 'success'});
             }
         });
         return false;
@@ -247,7 +247,7 @@ $(function() {
     $("#table_user").delegate(".del_user", 'click', function(event) {
         $.hideAlert();
         var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value()};
-        bootbox.confirm('{{Etez-vous sûr de vouloir supprimer cet utilisateur ?}}', function(result) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer cet utilisateur ?}}', function(result) {
             if (result) {
                 delUser(user);
             }

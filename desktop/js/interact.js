@@ -124,7 +124,7 @@ function addInteractDefToTable(_interactDef) {
     tr += '<input class="interactDefAttr hide" data-l1key="id" />';
     tr += '<div class="form-group">';
     tr += '<div class="col-lg-4">';
-    tr += '<select class="interactDefAttr tooltips form-control input-sm" data-l1key="filtres" data-l2key="cmd_type" title="{{Limiter aux commande de type}}">';
+    tr += '<select class="interactDefAttr tooltips form-control input-sm" data-l1key="filtres" data-l2key="cmd_type" title="{{Limiter aux commandes de type}}">';
     var types = jeedom.getConfiguration('cmd:type');
     for (var i in types) {
         tr += '<option value="' + i + '">' + types[i].name + '</option>';
@@ -133,7 +133,7 @@ function addInteractDefToTable(_interactDef) {
     tr += '</div>';
     tr += '<div class="col-lg-4">';
     tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'subtype\' title=\'{{Limiter aux commandes ayant pour sous-type}}\'>';
-    tr += '<option value=\'all\' >{{Tous<}}/option>';
+    tr += '<option value=\'all\' >{{Tous}}</option>';
     for (var i in types) {
         for (var j in types[i].subtype) {
             tr += '<option value="' + j + '">' + types[i].subtype[j].name + '</option>';
@@ -170,7 +170,7 @@ function addInteractDefToTable(_interactDef) {
     tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="convertBinary" placeholder="{{Conversion binaire : faux|vrai}}" title="{{Convertir les commandes binaire}}" style="margin-top : 5px;" />';
     tr += '</div>';
     tr += '<div class="col-lg-6">';
-    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="synonymes" placeholder="{{Synonyne}}" title="{{Remplace les mots par leur synonyme lors de la generation des commandes}}" style="margin-top : 5px;" />';
+    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="synonymes" placeholder="{{Synonyme}}" title="{{Remplace les mots par leur synonymes lors de la génération des commandes}}" style="margin-top : 5px;" />';
     tr += '</div>';
     tr += '</div>';
     tr += '</td>';
@@ -194,8 +194,8 @@ function addInteractDefToTable(_interactDef) {
     tr += '</td>';
     tr += '<td>';
     tr += '<span class="displayInteracQuery cursor">';
-    tr += '<span class="label label-success interactDefAttr tooltips" data-l1key="nbEnableInteractQuery" title="{{Nombre de requetes active}}"></span> / ';
-    tr += '<span class="label label-default interactDefAttr tooltips" data-l1key="nbInteractQuery" title="{{Nombre de requetes totales}}"></span>';
+    tr += '<span class="label label-success interactDefAttr tooltips" data-l1key="nbEnableInteractQuery" title="{{Nombre de requête(s) active(s)}}"></span> / ';
+    tr += '<span class="label label-default interactDefAttr tooltips" data-l1key="nbInteractQuery" title="{{Nombre de requête(s) totale(s)}}"></span>';
     tr += '</span>';
     tr += '<i class="fa fa-minus-circle remove pull-right cursor"></i>';
     tr += '</td>';

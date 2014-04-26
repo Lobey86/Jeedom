@@ -4,7 +4,7 @@ if (!isConnect('admin')) {
 }
 ?>
 
-{{Processus Jeecron :}} <span class="label label-default"><span class="tooltips" id="span_jeecronMasterRuns" title="{{Nombre de Jeecron master, doit toujours etre inférieur à 2}}"></span> | 
+{{Processus Jeecron :}} <span class="label label-default"><span class="tooltips" id="span_jeecronMasterRuns" title="{{Nombre de Jeecron master, doit toujours être inférieur à 2}}"></span> | 
     <span id="span_jeecronRuns" class="tooltips" title="{{Nombre total de processus Jeedom en cours}}"></span> | 
     <span id="span_nbProcess" class="tooltips" title="{{Nombre total de processus en cours sur la machine}}"></span></span>
 <span style="margin-left: 100px;">{{Load avg}} <span class="label label-default"><span id="span_loadAvg1" class="tooltips" title="{{Charge moyenne du système sur la dernière minute}}"></span> | 
@@ -33,7 +33,7 @@ if (config::byKey('enableCron') == 0) {
             <th class="once" style="width: 80px;">{{Unique}}</th>
             <th class="class" style="width: 120px;">{{Classe}}</th>
             <th class="function" style="width: 120px;">{{Fonction}}</th>
-            <th class="schedule" style="width: 170px;"><i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe' style="position: relative; width: 10px;"></i> {{Programation}}</th>
+            <th class="schedule" style="width: 170px;"><i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe' style="position: relative; width: 10px;"></i> {{Programmation}}</th>
             <th class="timeout" style="width: 150px;">{{Timeout (min)}}</th>
             <th class="lastRun" style="width: 200px;">{{Dernier lancement}}</th>
             <th class="duration" style="width: 80px;">{{Durée}}</th>

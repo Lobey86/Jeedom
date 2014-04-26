@@ -21,7 +21,7 @@ if (!is_array($objects)) {
     <div class="col-lg-2">
         <div class="bs-sidebar affix">
             <ul id="ul_object" class="nav nav-list bs-sidenav">
-                <li class="nav-header">{{Liste objects}} </li>
+                <li class="nav-header">{{Liste objets}} </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
                 if (init('object_id') == 'global') {
