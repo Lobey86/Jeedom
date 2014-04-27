@@ -39,7 +39,7 @@ internalServer.get('/', function(req, res) {
 });
 
 io.configure('development', function() {
-    //io.set('transports', ['xhr-polling']);
+    io.set('transports', ['xhr-polling']);
     io.set('log level', 0);
     io.set('browser client minification', true);  // send minified client
     io.set('browser client etag', true);
