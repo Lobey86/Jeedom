@@ -3,16 +3,13 @@ if (!isConnect()) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
 if (init('object_id') == '') {
-    $_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject', 'global');
+    $_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject');
 }
-$objects = object::byId(init('object_id'));
-if (!is_object($objects)) {
-    $objects = object::rootObject(true);
+$object = object::byId(init('object_id'));
+if (!is_object($object)) {
+    $object = object::rootObject();
 }
-if (!is_array($objects)) {
-    $objects = array($objects);
-}
-if (!is_array($objects)) {
+if (!is_object($object)) {
     throw new Exception('{{Aucun objet racine trouvé}}');
 }
 ?>
@@ -24,15 +21,10 @@ if (!is_array($objects)) {
                 <li class="nav-header">{{Liste objets}} </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
-                if (init('object_id') == 'global') {
-                    echo '<li class="cursor li_object active"><a href="index.php?v=d&p=dashboard&object_id=global&category=' . init('category', 'all') . '">{{Global}}</a></li>';
-                } else {
-                    echo '<li class="cursor li_object"><a href="index.php?v=d&p=dashboard&object_id=global&category=' . init('category', 'all') . '">{{Global}}</a></li>';
-                }
                 $allObject = object::buildTree();
                 foreach ($allObject as $object_li) {
                     $margin = 15 * $object_li->parentNumber();
-                    if ($object_li->getId() == init('object_id')) {
+                    if ($object_li->getId() == $object->getId()) {
                         echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
                     } else {
                         echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
@@ -65,27 +57,25 @@ if (!is_array($objects)) {
         <div style="height: 10px;width: 100%;"></div>
 
         <?php
-        foreach ($objects as $object) {
-            echo '<div object_id="' . $object->getId() . '">';
-            echo '<legend>' . $object->getName() . '</legend>';
-            foreach ($object->getEqLogic() as $eqLogic) {
+        echo '<div object_id="' . $object->getId() . '">';
+        echo '<legend>' . $object->getName() . '</legend>';
+        foreach ($object->getEqLogic() as $eqLogic) {
+            if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
+                echo $eqLogic->toHtml('dashboard');
+            }
+        }
+        foreach (object::buildTree($object) as $child) {
+            $margin = 40 * $child->parentNumber();
+            echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
+            echo '<legend>' . $child->getName() . '</legend>';
+            foreach ($child->getEqLogic() as $eqLogic) {
                 if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
                     echo $eqLogic->toHtml('dashboard');
                 }
             }
-            foreach (object::buildTree($object) as $child) {
-                $margin = 40 * $child->parentNumber();
-                echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
-                echo '<legend>' . $child->getName() . '</legend>';
-                foreach ($child->getEqLogic() as $eqLogic) {
-                    if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
-                        echo $eqLogic->toHtml('dashboard');
-                    }
-                }
-                echo '</div>';
-            }
             echo '</div>';
         }
+        echo '</div>';
         ?>
     </div>
     <div class="col-lg-2">
@@ -98,17 +88,16 @@ if (!is_array($objects)) {
                 }
             }
         }
-        foreach ($objects as $object) {
-            foreach ($object->getScenario(false) as $scenario) {
+
+        foreach ($object->getScenario(false) as $scenario) {
+            if ($scenario->getIsVisible() == 1) {
+                echo $scenario->toHtml('dashboard');
+            }
+        }
+        foreach ($object->getChilds() as $child) {
+            foreach ($child->getScenario(false) as $scenario) {
                 if ($scenario->getIsVisible() == 1) {
                     echo $scenario->toHtml('dashboard');
-                }
-            }
-            foreach ($object->getChilds() as $child) {
-                foreach ($child->getScenario(false) as $scenario) {
-                    if ($scenario->getIsVisible() == 1) {
-                        echo $scenario->toHtml('dashboard');
-                    }
                 }
             }
         }
