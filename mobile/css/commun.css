@@ -41,8 +41,9 @@ legend{
     display: inline-block;
     font-size: 13px;
     line-height: 20px;
-    background-color: #f5f5f5;
+    background-color: #616154;
     margin-bottom: 5px;
+    color : white;
 }
 
 .dashboard-widget .collectDate{
