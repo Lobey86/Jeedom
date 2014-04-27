@@ -125,7 +125,6 @@ foreach (plugin::listPlugin() as $pluginList) {
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardObject">
                                     <?php
-                                    echo "<option value='global'>{{Global}}</option>";
                                     foreach (object::all() as $object) {
                                         echo "<option value='" . $object->getId() . "'>" . $object->getName() . "</option>";
                                     }
