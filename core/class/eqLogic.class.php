@@ -432,7 +432,7 @@ class eqLogic {
             '#eqLink#' => $this->getLinkToConfiguration(),
             '#action#' => (isset($action)) ? $action : '',
             '#object_name#' => (is_object($object)) ? $object->getName() . ' - ' : '',
-            '#background_color#' => $this->getBackgroundColor(),
+            '#background_color#' => $this->getBackgroundColor($_version),
         );
         if (!isset(self::$_templateArray)) {
             self::$_templateArray = array();
