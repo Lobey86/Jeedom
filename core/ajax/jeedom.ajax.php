@@ -31,8 +31,6 @@ try {
         $return['user_id'] = $_SESSION['user']->getId();
         $return['expertMode'] = $_SESSION['user']->getOptions('expertMode');
         $return['nodeJsKey'] = config::byKey('nodeJsKey');
-        $return['version'] = getVersion('jeedom');
-        $return['year'] = date('Y');
         ajax::success($return);
     }
 

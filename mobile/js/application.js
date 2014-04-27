@@ -80,8 +80,6 @@ function initApplication() {
                 nodeJsKey = data.result.nodeJsKey;
                 user_id = data.result.user_id;
                 expertMode = data.result.expertMode;
-                $('#span_version').append(data.result.version);
-                $('#span_year').append(data.result.year);
                 var include = [
                     'core/php/getJS.php?file=core/js/cmd.class.js',
                     'core/php/getJS.php?file=core/js/eqLogic.class.js',
