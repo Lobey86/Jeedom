@@ -47,6 +47,7 @@ index.php?v=m
 index.php?v=m&p=message
 index.php?v=m&p=scenario
 index.php?v=m&p=cron
+index.php?v=m&modal=login
 
 NETWORK:
 *
