@@ -21,4 +21,5 @@ include_file('core', 'eqLogic', 'class.js');
 include_file('core', 'cmd', 'class.js');
 include_file('core', 'object', 'class.js');
 include_file('core', 'jeedom', 'class.js');
+include_file('core', 'scenario', 'class.js');
 ?>

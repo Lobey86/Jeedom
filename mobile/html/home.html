@@ -13,7 +13,7 @@
 
     <div class="ui-block-b">
         <center>
-            <a href="index.php?v=m&p=scenario" data-role="button" data-theme="a" style="margin: 5px;">
+            <a href="#" class="link" data-page="scenario" data-title="{{Scénarios}}" data-role="button" data-theme="a" style="margin: 5px;">
                 <i class="fa fa-cogs" style="font-size: 6em;"></i><br/>{{Scénario}}
             </a>
         </center>
@@ -33,8 +33,8 @@
 
     <div class="ui-block-b">
         <center>
-            <a href="index.php?v=m&p=message" data-role="button" data-theme="a" style="margin: 5px;">
-                <i class="fa fa-envelope-o" style="font-size: 6em;"></i><br/><?php echo message::nbMessage(); ?> {{Message(s)}}
+            <a href="#" class="link" data-page="message" data-title="{{Messages}}" data-role="button" data-theme="a" style="margin: 5px;">
+                <i class="fa fa-envelope-o" style="font-size: 6em;"></i><br/><span class="span_nbMessage"></span> {{Message(s)}}
             </a>
         </center>
     </div>
