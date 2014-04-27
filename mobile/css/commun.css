@@ -50,18 +50,6 @@ legend{
     margin-bottom: 5px;
 }
 
-@media all and (max-width: 38em){
-    .dashboard-widget{
-        width : 100%;
-    }
-}
-@media all and (min-width: 38em){
-    .dashboard-widget{
-        padding: 9.5px;
-        margin: 0 5px 5px;
-    }
-}
-
 .dashboard-widget .collectDate{
     padding: 3px;
     background-color: #CBCBCB;
@@ -70,40 +58,4 @@ legend{
 
 .cursor{
     cursor : pointer;
-}
-
-@media ( min-width: 38em ) {
-
-	/* wrap on wide viewports once open */
-
-	.ui-panel-page-content-open.ui-panel-page-content-position-left {
-		margin-right: 17em;
-	}
-	.ui-panel-page-content-open.ui-panel-page-content-position-right {
-		margin-left: 17em;
-	}
-	.ui-panel-page-content-open {
-		width: auto;
-	}
-
-	/* disable "dismiss" on wide viewports */
-	.ui-panel-dismiss {
-		display: none;
-	}
-
-	/* same as the above but for panels with display mode "push" only */
-
-	.ui-panel-page-content-open.ui-panel-page-content-position-left.ui-panel-page-content-display-push {
-		margin-right: 17em;
-	}
-	.ui-panel-page-content-open.ui-panel-page-content-position-right.ui-panel-page-content-display-push {
-		margin-left: 17em;
-	}
-	.ui-panel-page-content-open.ui-panel-page-content-display-push {
-		width: auto;
-	}
-
-	.ui-panel-dismiss-display-push {
-		display: none;
-	}
 }
