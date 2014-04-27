@@ -37,7 +37,6 @@ core/php/getJS.php?file=mobile/js/equipment.js
 core/css/core.css
 3rdparty/jquery.loading/jquery.loading.css
 mobile/css/commun.css
-core/img/jeedom_ico.png
 3rdparty/font-awesome/fonts/fontawesome-webfont.woff?v=4.0.3
 3rdparty/jquery.mobile/images/ajax-loader.gif
 
