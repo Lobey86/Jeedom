@@ -47,15 +47,15 @@ function initApplication() {
                 $('#span_version').append(data.result.version);
                 $('#span_year').append(data.result.year);
                 var include = [
-                    '/core/php/getJS.php?file=core/js/cmd.class.js',
-                    '/core/php/getJS.php?file=core/js/eqLogic.class.js',
-                    '/core/php/getJS.php?file=core/js/jeedom.class.js',
-                    '/core/php/getJS.php?file=core/js/object.class.js',
-                    '/core/php/getJS.php?file=core/js/scenario.class.js',
-                    '/core/php/getJS.php?file=core/js/plugin.class.js',
-                    '/core/php/getJS.php?file=core/js/message.class.js',
-                    '/core/php/getJS.php?file=core/js/view.class.js',
-                    '/core/php/getJS.php?file=core/js/core.js',
+                    'core/php/getJS.php?file=core/js/cmd.class.js',
+                    'core/php/getJS.php?file=core/js/eqLogic.class.js',
+                    'core/php/getJS.php?file=core/js/jeedom.class.js',
+                    'core/php/getJS.php?file=core/js/object.class.js',
+                    'core/php/getJS.php?file=core/js/scenario.class.js',
+                    'core/php/getJS.php?file=core/js/plugin.class.js',
+                    'core/php/getJS.php?file=core/js/message.class.js',
+                    'core/php/getJS.php?file=core/js/view.class.js',
+                    'core/php/getJS.php?file=core/js/core.js',
                 ];
                 $.include(include, function() {
                     refreshMessageNumber();
@@ -68,16 +68,32 @@ function initApplication() {
 
 function page(_page, _title, _option) {
     $('#page').empty();
+
+    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+        if (options.dataType == 'script' || originalOptions.dataType == 'script') {
+            options.cache = true;
+        }
+    });
+
     $('#page').load(_page, function() {
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+            if (options.dataType == 'script' || originalOptions.dataType == 'script') {
+                options.cache = false;
+            }
+        });
         if (isset(_title)) {
             $('#pageTitle').empty().append(_title);
         }
         $('#page').trigger('create');
         if (isset(_option)) {
-
             initLocalPage(_option);
         } else {
             initLocalPage();
+        }
+    });
+    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+        if (options.dataType == 'script' || originalOptions.dataType == 'script') {
+            options.cache = false;
         }
     });
 }
