@@ -38,6 +38,16 @@ $(function() {
     });
 });
 
+function initExpertMode() {
+    if (expertMode == 1) {
+        $('.expertModeDisable').attr('disabled', true);
+        $('.expertModeHidden').show();
+    } else {
+        $('.expertModeDisable').attr('disabled', false);
+        $('.expertModeHidden').hide();
+    }
+}
+
 
 function initApplication() {
     modal(false);
@@ -69,6 +79,7 @@ function initApplication() {
                 /*************Initialisation environement********************/
                 nodeJsKey = data.result.nodeJsKey;
                 user_id = data.result.user_id;
+                expertMode = data.result.expertMode;
                 $('#span_version').append(data.result.version);
                 $('#span_year').append(data.result.year);
                 var include = [
@@ -93,13 +104,6 @@ function initApplication() {
 
 function page(_page, _title, _option) {
     $('#page').empty();
-
-    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-        if (options.dataType == 'script' || originalOptions.dataType == 'script') {
-            options.cache = true;
-        }
-    });
-
     $('#page').load(_page, function() {
         $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
             if (options.dataType == 'script' || originalOptions.dataType == 'script') {
@@ -122,11 +126,7 @@ function page(_page, _title, _option) {
                 window[functionName](_option);
             }
         }
-    });
-    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-        if (options.dataType == 'script' || originalOptions.dataType == 'script') {
-            options.cache = false;
-        }
+        initExpertMode();
     });
 }
 
