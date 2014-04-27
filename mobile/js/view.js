@@ -1,5 +1,6 @@
 function initLocalPage(_view_id) {
     if (isset(_view_id) && is_numeric(_view_id)) {
+        CORE_chart = [];
         var html = view.toHtml(_view_id, 'mobile');
         $('#div_displayView').empty().html(html).trigger('create');
     }
