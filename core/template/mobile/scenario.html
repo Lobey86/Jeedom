@@ -1,5 +1,4 @@
-<div class="scenario dashboard-widget" data-scenario_id="#id#" data-version="mobile" style="min-width: 250px;">
-    <a href="#tooltipsScenario#id#" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-info ui-btn-inline" style="margin: 8px 8px;"></a>
+<div class="scenario dashboard-widget" data-scenario_id="#id#" data-version="mobile" style="min-width: 350px;padding : 5px;">
     <span style="font-weight:bold;">#name#</span>
     <span class="state pull-right binary" style="width : 15px;margin: 8px 8px;"></span>
 
@@ -7,11 +6,6 @@
     <a class="ui-btn ui-btn-b changeScenarioState" data-state="stop" style="display: none;margin: 8px 8px;">Arrêt</a>
     <a class="ui-btn ui-btn-a changeScenarioState" data-state="activate" style="display: none;margin: 8px 8px;">Activer</a>
     <a class="ui-btn ui-btn-b changeScenarioState" data-state="deactivate" style="display: none;margin: 8px 8px;">Desactiver</a>
-
-    <div data-role="popup" id="tooltipsScenario#id#" class="ui-content" data-theme="a" style="max-width:350px;">
-        Dernier lancement : #lastLaunch#
-    </div>
-
     <script>
         $('.scenario[data-scenario_id=#id#] .changeScenarioState').on('click', function() {
             changeScenarioState($(this).closest('.scenario').attr('data-scenario_id'), $(this).attr('data-state'));

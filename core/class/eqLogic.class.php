@@ -282,8 +282,8 @@ class eqLogic {
                     $noReponseTimeLimit = $eqLogic->getTimeout();
                     if (count(message::byPluginLogicalId('core', $logicalId)) == 0) {
                         if ($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')) < date('Y-m-d H:i:s', strtotime('-' . $noReponseTimeLimit . ' minutes' . date('Y-m-d H:i:s')))) {
-                            $message = __('Attention',__FILE__) . ' <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getHumanName();
-                            $message .= '</a>' . __(' n\'a pas envoyé de message depuis plus de ',__FILE__) . $noReponseTimeLimit . __(' min (vérifier les piles)',__FILE__);
+                            $message = __('Attention', __FILE__) . ' <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getHumanName();
+                            $message .= '</a>' . __(' n\'a pas envoyé de message depuis plus de ', __FILE__) . $noReponseTimeLimit . __(' min (vérifier les piles)', __FILE__);
                             message::add('core', $message, '', $logicalId);
                             foreach ($cmds as $cmd) {
                                 if ($cmd->getEventOnly() == 1) {
@@ -463,7 +463,7 @@ class eqLogic {
 
     public function save() {
         if ($this->getName() == '') {
-            throw new Exception(__('Le nom de l\'équipement ne peut etre vide',__FILE__));
+            throw new Exception(__('Le nom de l\'équipement ne peut etre vide', __FILE__));
         }
         if ($this->getInternalEvent() == 1) {
             $internalEvent = new internalEvent();
@@ -513,18 +513,22 @@ class eqLogic {
         return $name;
     }
 
-    public function getBackgroundColor() {
+    public function getBackgroundColor($_version = 'dashboard') {
+        $vcolor = 'color';
+        if ($_version == 'mobile') {
+            $vcolor = 'mcolor';
+        }
         if ($this->getCategory('security', 0) == 1) {
-            return jeedom::getConfiguration('eqLogic:category:security:color');
+            return jeedom::getConfiguration('eqLogic:category:security:' . $vcolor);
         }
         if ($this->getCategory('heating', 0) == 1) {
-            return jeedom::getConfiguration('eqLogic:category:heating:color');
+            return jeedom::getConfiguration('eqLogic:category:heating:' . $vcolor);
         }
         if ($this->getCategory('energy', 0) == 1) {
-            return jeedom::getConfiguration('eqLogic:category:energy:color');
+            return jeedom::getConfiguration('eqLogic:category:energy:' . $vcolor);
         }
         if ($this->getCategory('light', 0) == 1) {
-            return jeedom::getConfiguration('eqLogic:category:light:color');
+            return jeedom::getConfiguration('eqLogic:category:light:' . $vcolor);
         }
         return '#F5F5F5';
     }
@@ -552,8 +556,8 @@ class eqLogic {
         }
         if ($_pourcent <= 0) {
             $logicalId = 'noBattery' . $this->getId();
-            $message = __('Le module ',__FILE__) . $this->getEqType_name() . ' ';
-            $message .= $this->getHumanName() . __(' a été désactivé car il n\'a plus de batterie (',__FILE__) . $_pourcent . ' %)';
+            $message = __('Le module ', __FILE__) . $this->getEqType_name() . ' ';
+            $message .= $this->getHumanName() . __(' a été désactivé car il n\'a plus de batterie (', __FILE__) . $_pourcent . ' %)';
             //$action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getId() . '" data-isEnable="1">Ré-activer</a>';
             message::add($this->getEqType_name(), $message, '', $logicalId);
         }
