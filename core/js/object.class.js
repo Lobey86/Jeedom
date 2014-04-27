@@ -81,3 +81,31 @@ object.all = function() {
     object.cache.all = result;
     return result;
 }
+
+object.toHtml = function(_id, _version) {
+    var result = '';
+    $.showLoading();
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/object.ajax.php", // url du fichier php
+        data: {
+            action: "toHtml",
+            id: _id,
+            version: _version
+        },
+        dataType: 'json',
+        async: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $.hideLoading();
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            result = data.result;
+        }
+    });
+    return result;
+}

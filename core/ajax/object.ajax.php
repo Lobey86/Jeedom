@@ -21,12 +21,12 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect()) {
-        throw new Exception(__('401 - Accès non autorisé',__FILE__));
+        throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'removeObject') {
         if (!isConnect('admin')) {
-            throw new Exception(__('401 - Accès non autorisé',__FILE__));
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
         $object = object::byId(init('id'));
         if (!is_object($object)) {
@@ -50,7 +50,7 @@ try {
 
     if (init('action') == 'saveObject') {
         if (!isConnect('admin')) {
-            throw new Exception(__('401 - Accès non autorisé',__FILE__));
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
         $object_json = json_decode(init('object'), true);
         $object = object::byId($object_json['id']);
@@ -71,7 +71,19 @@ try {
         ajax::success($return);
     }
 
-    throw new Exception(__('Aucune methode correspondante à : ',__FILE__). init('action'));
+    if (init('action') == 'toHtml') {
+        $object = object::byId(init('id'));
+        if (!is_object($object)) {
+            throw new Exception(__('Objet inconnu verifié l\'id', __FILE__));
+        }
+        $html = '';
+        foreach ($object->getEqLogic() as $eqLogic) {
+            $html .= $eqLogic->toHtml(init('version'));
+        }
+        ajax::success($html);
+    }
+
+    throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());

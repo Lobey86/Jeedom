@@ -1,11 +1,6 @@
 function initLocalPage(_object_id) {
     if (isset(_object_id) && is_numeric(_object_id)) {
-        var equipements = object.getEqLogic(_object_id);
-        var html = '';
-        for (var i in equipements) {
-            var result = eqLogic.toHtml(equipements[i].id, 'mobile');
-            html += result.html;
-        }
+        var html = object.toHtml(_object_id, 'mobile');
         $('#div_displayEquipement').empty().html(html).trigger('create');
     }
     var objects = object.all();

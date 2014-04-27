@@ -6,7 +6,6 @@ CACHE MANIFEST
 
 # Version <?php echo getVersion('jeedom'); ?>
 
-
 CACHE:
 core/php/getJS.php?file=3rdparty/jquery.include/jquery.include.js
 core/php/getJS.php?file=3rdparty/highstock/highcharts-more.js
@@ -54,4 +53,4 @@ NETWORK:
 
 
 FALLBACK:
-/ mobile/php/fallback.html
+/ mobile/html/fallback.html

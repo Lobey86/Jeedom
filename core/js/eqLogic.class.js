@@ -138,7 +138,7 @@ eqLogic.print = function(_type, _eqLogic_id) {
     });
 }
 
-eqLogic.toHtml = function(_eqLogic_id, _version) {
+eqLogic.toHtml = function(_id, _version) {
     var result = '';
     $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
@@ -146,7 +146,7 @@ eqLogic.toHtml = function(_eqLogic_id, _version) {
         url: "core/ajax/eqLogic.ajax.php", // url du fichier php
         data: {
             action: "toHtml",
-            id: _eqLogic_id,
+            id: _id,
             version: _version
         },
         dataType: 'json',
