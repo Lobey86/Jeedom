@@ -86,6 +86,37 @@ function login($_login, $_password, $_ajax = false) {
     return false;
 }
 
+function loginByKey($_key, $_ajax = false) {
+    $user = user::byKey($_key);
+    if (is_object($user)) {
+        $_SESSION['user'] = $user;
+        $_SESSION['userHash'] = getUserHash();
+        log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $_login);
+        $getParams = '';
+        unset($_GET['auth']);
+        foreach ($_GET AS $var => $value) {
+            $getParams.= $var . '=' . $value . '&';
+        }
+        if (!$_ajax) {
+            if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
+                header('Location:../../index.php?' . trim($getParams, '&'));
+            } else {
+                header('Location:index.php?' . trim($getParams, '&'));
+            }
+        }
+        return true;
+    }
+    sleep(5);
+    if (!$_ajax) {
+        if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
+            header('Location:../../index.php?v=' . $_GET['v'] . '&error=1');
+        } else {
+            header('Location:index.php?v=' . $_GET['v'] . '&error=1');
+        }
+    }
+    return false;
+}
+
 function logout() {
     setcookie('sess_id', '', time() - 3600, "/", '', false, true);
     $_SESSION['user'] == null;

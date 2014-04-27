@@ -21,15 +21,35 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (init('action') == 'login') {
-        if (!login(init('username'), init('password'), true)) {
-            throw new Exception('Mot de passe ou nom d\'utilisateur incorrecteur');
+        $return = array();
+        if (init('key') != '') {
+            if (!loginByKey(init('key'), true)) {
+                throw new Exception('Appareil inconnu');
+            }
+            $return['deviceKey'] = config::genKey(255);
+            $_SESSION['user']->setOptions('registerDevice', $return['deviceKey']);
+            $_SESSION['user']->save();
+        } else {
+            if (!login(init('username'), init('password'), true)) {
+                throw new Exception('Mot de passe ou nom d\'utilisateur incorrecteur');
+            }
         }
-        ajax::success();
+        if (init('storeConnection') == 1) {
+            $return['deviceKey'] = config::genKey(255);
+            $_SESSION['user']->setOptions('registerDevice', $return['deviceKey']);
+            $_SESSION['user']->save();
+        }
+        ajax::success($return);
     }
 
 
     if (!isConnect()) {
         throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);
+    }
+
+    if (init('action') == 'logout') {
+        logout();
+        ajax::success();
     }
 
     if (init('action') == 'all') {

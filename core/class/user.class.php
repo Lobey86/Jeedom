@@ -55,11 +55,11 @@ class user {
                 ldap_set_option($ad, LDAP_OPT_PROTOCOL_VERSION, 3);
                 ldap_set_option($ad, LDAP_OPT_REFERRALS, 0);
                 if (!ldap_bind($ad, 'uid=' . $_login . ',' . config::byKey('ldap:basedn'), $_mdp)) {
-                    log::add("connection", "info", __('Mot de passe erroné (',__FILE__) . $_login . ')');
+                    log::add("connection", "info", __('Mot de passe erroné (', __FILE__) . $_login . ')');
                     return false;
                 }
                 $result = ldap_search($ad, 'uid=' . $_login . ',' . config::byKey('ldap:basedn'), config::byKey('ldap:filter'));
-                log::add("connection", "debug", __('Recherche LDAP (',__FILE__) . $_login . ')');
+                log::add("connection", "debug", __('Recherche LDAP (', __FILE__) . $_login . ')');
                 if ($result) {
                     $entries = ldap_get_entries($ad, $result);
                     if ($entries['count'] > 0) {
@@ -73,14 +73,14 @@ class user {
                         $user->setLogin($_login);
                         $user->setPassword(sha1($_mdp));
                         $user->save();
-                        log::add("connection", "INFO", __('Utilisateur creer depuis le LDAP : ',__FILE__) . $_login);
+                        log::add("connection", "INFO", __('Utilisateur creer depuis le LDAP : ', __FILE__) . $_login);
                         return $user;
                     } else {
                         $user = self::byLogin($_login);
                         if (is_object($user)) {
                             $user->remove();
                         }
-                        log::add("connection", "info", __('Utilisateur non autorisé à acceder à Jeedom (',__FILE__) . $_login . ')');
+                        log::add("connection", "info", __('Utilisateur non autorisé à acceder à Jeedom (', __FILE__) . $_login . ')');
                         return false;
                     }
                 } else {
@@ -88,7 +88,7 @@ class user {
                     if (is_object($user)) {
                         $user->remove();
                     }
-                    log::add("connection", "info", __('Utilisateur non autorisé à acceder à Jeedom (',__FILE__) . $_login . ')');
+                    log::add("connection", "info", __('Utilisateur non autorisé à acceder à Jeedom (', __FILE__) . $_login . ')');
                     return false;
                 }
                 return false;
@@ -125,6 +125,22 @@ class user {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function byKey($_key) {
+        $values = array(
+            'key' => '%' . $_key . '%',
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM user 
+                WHERE options LIKE :key';
+        $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+        if (is_object($result)) {
+            if ($result->getOptions('registerDevice') == $_key) {
+                return $result;
+            }
+        }
+        return null;
+    }
+
     /**
      *
      * @return array de tous les utilisateurs 
@@ -139,7 +155,7 @@ class user {
 
     public function presave() {
         if ($this->getLogin() == '') {
-            throw new Exception(__('Le nom d\'utilisateur ne peut être vide',__FILE__));
+            throw new Exception(__('Le nom d\'utilisateur ne peut être vide', __FILE__));
         }
     }
 

@@ -14,11 +14,31 @@ $(function() {
         $('#panel_left').panel('close');
         page("index.php?v=m&p=" + $(this).attr('data-page'), $(this).attr('data-title'), $(this).attr('data-option'));
     });
+
+    $('#bt_logout').on('click', function() {
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "core/ajax/user.ajax.php", // url du fichier php
+            data: {
+                action: "logout",
+            },
+            dataType: 'json',
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error, $('#div_alert'));
+            },
+            success: function(data) { // si l'appel a bien fonctionné
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                initApplication();
+            }
+        });
+    });
 });
 
 
 function initApplication() {
-
     modal(false);
     panel(false);
     $('#panel_left').panel('close');
@@ -35,7 +55,11 @@ function initApplication() {
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 if (data.code == -1234) {
-                    modal('index.php?v=m&modal=login');
+                    if (sessionStorage.getItem("deviceKey") != '' && sessionStorage.getItem("deviceKey") != undefined && sessionStorage.getItem("deviceKey") != null) {
+                        autoLogin(sessionStorage.getItem("deviceKey"));
+                    } else {
+                        modal('index.php?v=m&modal=login');
+                    }
                 } else {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 }
@@ -154,4 +178,28 @@ function notify(_title, _text) {
     setTimeout(function() {
         $('#div_alert').popup("close");
     }, 1000)
+}
+
+function autoLogin(_key) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
+        data: {
+            action: "login",
+            key: _key
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error, $('#div_alert'));
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                sessionStorage.setItem("deviceKey", '');
+                initApplication();
+                return;
+            }
+            sessionStorage.setItem("deviceKey", data.result.deviceKey);
+            initApplication();
+        }
+    });
 }
