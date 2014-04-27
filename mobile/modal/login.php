@@ -38,7 +38,7 @@
                             return;
                         }
                         if ($('#cb_storeConnection').val() == 1) {
-                            sessionStorage.setItem("deviceKey", data.result.deviceKey);
+                            localStorage.setItem("deviceKey", data.result.deviceKey);
                         }
                         initApplication();
                     }

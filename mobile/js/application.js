@@ -55,8 +55,8 @@ function initApplication() {
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 if (data.code == -1234) {
-                    if (sessionStorage.getItem("deviceKey") != '' && sessionStorage.getItem("deviceKey") != undefined && sessionStorage.getItem("deviceKey") != null) {
-                        autoLogin(sessionStorage.getItem("deviceKey"));
+                    if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
+                        autoLogin(localStorage.getItem("deviceKey"));
                     } else {
                         modal('index.php?v=m&modal=login');
                     }
@@ -194,11 +194,11 @@ function autoLogin(_key) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                sessionStorage.setItem("deviceKey", '');
+                localStorage.setItem("deviceKey", '');
                 initApplication();
                 return;
             }
-            sessionStorage.setItem("deviceKey", data.result.deviceKey);
+            localStorage.setItem("deviceKey", data.result.deviceKey);
             initApplication();
         }
     });
