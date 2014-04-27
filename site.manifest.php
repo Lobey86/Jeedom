@@ -30,6 +30,7 @@ core/php/getJS.php?file=core/js/view.class.js
 core/php/getJS.php?file=core/js/message.class.js
 core/php/getJS.php?file=core/js/scenario.class.js
 core/php/getJS.php?file=mobile/js/application.js
+core/php/getJS.php?file=mobile/js/equipment.js
 
 3rdparty/jquery.mobile/jquery.mobile.css
 3rdparty/font-awesome/css/font-awesome.min.css
@@ -51,7 +52,6 @@ index.php?v=m&modal=login
 
 NETWORK:
 *
-
 
 FALLBACK:
 / mobile/html/fallback.html

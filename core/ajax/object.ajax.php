@@ -78,7 +78,9 @@ try {
         }
         $html = '';
         foreach ($object->getEqLogic() as $eqLogic) {
-            $html .= $eqLogic->toHtml(init('version'));
+            if ($eqLogic->getIsVisible() == '1') {
+                $html .= $eqLogic->toHtml(init('version'));
+            }
         }
         ajax::success($html);
     }
