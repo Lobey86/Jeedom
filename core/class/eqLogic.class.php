@@ -515,8 +515,10 @@ class eqLogic {
 
     public function getBackgroundColor($_version = 'dashboard') {
         $vcolor = 'color';
+        $default = '#F5F5F5';
         if ($_version == 'mobile') {
             $vcolor = 'mcolor';
+            $default = '#000000';
         }
         if ($this->getCategory('security', 0) == 1) {
             return jeedom::getConfiguration('eqLogic:category:security:' . $vcolor);
@@ -530,7 +532,7 @@ class eqLogic {
         if ($this->getCategory('light', 0) == 1) {
             return jeedom::getConfiguration('eqLogic:category:light:' . $vcolor);
         }
-        return '#F5F5F5';
+        return $default;
     }
 
     public function displayDebug($_message) {
