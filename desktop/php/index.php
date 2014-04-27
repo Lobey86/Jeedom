@@ -270,6 +270,7 @@ $plugins_list = plugin::listPlugin();
         include_file('3rdparty', 'highstock/highcharts-more', 'js');
         include_file('3rdparty', 'highstock/modules/solid-gauge', 'js');
         include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
+        include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'js');
         include_file('3rdparty', 'jquery.tableUtils/jquery.tableUtils', 'js');
         include_file('desktop', 'utils', 'js');
         include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
