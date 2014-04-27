@@ -43,39 +43,43 @@ try {
         ajax::success();
     }
 
+    if (init('action') == 'all') {
+        ajax::success(utils::o2a(view::all()));
+    }
+
     if (init('action') == 'getView') {
         $view = view::byId(init('id'));
         if (!is_object($view)) {
             throw new Exception(__('Vue non trouvé. Vérifier l\'id', __FILE__));
         }
-
         $return = utils::o2a($view);
         $return['viewZone'] = array();
-
-        foreach ($view->getviewZone() as $viewZone) {
+        foreach ($view->getViewZone() as $viewZone) {
             $viewZone_info = utils::o2a($viewZone);
             $viewZone_info['viewData'] = array();
-            foreach ($viewZone->getviewData() as $viewData) {
+            foreach ($viewZone->getViewData() as $viewData) {
                 $viewData_info = utils::o2a($viewData);
                 $viewData_info['name'] = '';
-
                 switch ($viewData->getType()) {
                     case 'cmd':
                         $cmd = $viewData->getLinkObject();
                         if (is_object($cmd)) {
                             $viewData_info['name'] = $cmd->getHumanName();
+                            $viewData_info['html'] = $cmd->toHtml(init('version', 'dashboard'));
                         }
                         break;
                     case 'eqLogic':
                         $eqLogic = $viewData->getLinkObject();
                         if (is_object($eqLogic)) {
                             $viewData_info['name'] = $eqLogic->getHumanName();
+                            $viewData_info['html'] = $eqLogic->toHtml(init('version', 'dashboard'));
                         }
                         break;
                     case 'scenario':
                         $scenario = $viewData->getLinkObject();
                         if (is_object($scenario)) {
-                            $viewData_info['name'] = __('[Scénario][', __FILE__) . $scenario->getName() . ']';
+                            $viewData_info['name'] = $scenario->getHumanName();
+                            $viewData_info['html'] = $scenario->toHtml(init('version', 'dashboard'));
                         }
                         break;
                 }

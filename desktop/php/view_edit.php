@@ -175,9 +175,9 @@ if (!isConnect()) {
                     echo '</div> ';
                     echo '<div class="form-group">';
                     echo ' <label>Type :</label> <select class="viewDataOption form-control" data-l1key="configuration" data-l2key="graphType" style="width : 100px;">';
-                    echo '<option value="line">{{Ligne</option>';
-                    echo '<option value="area">{{Aire</option>';
-                    echo '<option value="column">{{Colonne</option>';
+                    echo '<option value="line">{{Ligne}}</option>';
+                    echo '<option value="area">{{Aire}}</option>';
+                    echo '<option value="column">{{Colonne}}</option>';
                     echo '</select> ';
                     echo '</div> ';
                     echo '<div class="form-group">';

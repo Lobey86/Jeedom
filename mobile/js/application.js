@@ -54,6 +54,7 @@ function initApplication() {
                     '/core/php/getJS.php?file=core/js/scenario.class.js',
                     '/core/php/getJS.php?file=core/js/plugin.class.js',
                     '/core/php/getJS.php?file=core/js/message.class.js',
+                    '/core/php/getJS.php?file=core/js/view.class.js',
                     '/core/php/getJS.php?file=core/js/core.js',
                 ];
                 $.include(include, function() {
