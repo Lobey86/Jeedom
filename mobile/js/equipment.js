@@ -1,4 +1,4 @@
-function initLocalPage(_object_id) {
+function initEquipment(_object_id) {
     var objects = object.all();
     var li = ' <ul data-role="listview">';
     for (var i in objects) {

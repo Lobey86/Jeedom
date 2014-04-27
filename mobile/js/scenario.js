@@ -1,4 +1,4 @@
-function initLocalPage() {
+function initScenario() {
     var scenarios = scenario.all();
     var html = '';
     for (var i in scenarios) {

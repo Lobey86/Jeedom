@@ -1,4 +1,4 @@
-function initLocalPage() {
+function initMessage() {
     var rightPanel = '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
     rightPanel += '<li data-role="list-divider">{{Action}}</li>';
     rightPanel += '<li><a id="bt_clearMessage" href="#"><i class="fa fa-trash-o"></i> {{Vider}}</a></li>';

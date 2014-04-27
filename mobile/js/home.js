@@ -1,6 +1,4 @@
-
-
-function initLocalPage() {
+function initHome() {
     var objects = object.all();
     var li = '';
     for (var i in objects) {

@@ -110,10 +110,17 @@ function page(_page, _title, _option) {
             $('#pageTitle').empty().append(_title);
         }
         $('#page').trigger('create');
-        if (isset(_option)) {
-            initLocalPage(_option);
-        } else {
-            initLocalPage();
+        var functionName = _page.substring(_page.indexOf('p=') + 2);
+        if (functionName.indexOf('&') > 0) {
+            functionName = functionName.substring(0, functionName.indexOf('&'));
+        }
+        functionName = 'init' + functionName.charAt(0).toUpperCase() + functionName.substring(1).toLowerCase();
+        if ('function' == typeof (window[functionName])) {
+            if (isset(_option)) {
+                window[functionName](_option);
+            } else {
+                window[functionName](_option);
+            }
         }
     });
     $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
@@ -133,14 +140,13 @@ function modal(_name) {
         $('#div_popup').load(_name, function() {
             $('#div_popup').trigger('create');
             $("#div_popup").popup("open");
-
         });
     }
 }
 
 function panel(_content) {
     if (_content === false) {
-        $('#panel_right').empty();
+        $('#panel_right').empty().trigger('create');
         $('#bt_panel_right').hide();
         $('#panel_right').panel('close');
     } else {

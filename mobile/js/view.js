@@ -1,4 +1,4 @@
-function initLocalPage(_view_id) {
+function initView(_view_id) {
     var views = view.all();
     var li = ' <ul data-role="listview">';
     for (var i in views) {

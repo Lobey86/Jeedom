@@ -1,5 +1,5 @@
 
-function initLocalPage() {
+function initCron() {
     panel('<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt"><li data-role="list-divider">Action</li><li><a id="bt_refreshCron" href="#"><i class="fa fa-refresh"></i> Rafraîchir</a></li></ul>');
     printCron();
     $("#bt_refreshCron").on('click', function() {
