@@ -23,6 +23,8 @@ if (init('id') != '') {
 } else {
     redirect('index.php?v=d&p=view_edit');
 }
+
+sendVarToJS('view_id', $view->getId());
 ?>
 
 <div class="row">
@@ -46,35 +48,9 @@ if (init('id') != '') {
 
     <div class="col-lg-10" role="main">
         <legend style="height: 35px;color : #563d7c;">Vue <?php echo $view->getName() ?> <a href="index.php?v=d&p=view_edit&id=<?php echo $view->getId(); ?>" class="btn btn-warning btn-xs pull-right" id="bt_addviewZone"><i class="fa fa-pencil"></i> {{Editer}}</a></legend>
-        <?php
-        foreach ($view->getviewZone() as $viewZone) {
-            echo '<div>';
-            echo '<legend style="color : #716b7a">' . $viewZone->getName() . '</legend>';
-            $div_id = 'div_viewZone' . $viewZone->getId();
-            /*             * *****************viewZone widget***************** */
-            if ($viewZone->getType() == 'widget') {
-                echo '<div id="' . $div_id . '">';
-                foreach ($viewZone->getViewData() as $viewData) {
-                    echo $viewData->getLinkObject()->toHtml('dashboard');
-                }
-                echo '</div>';
-            }
-
-            /*             * *****************viewZone graph***************** */
-            if ($viewZone->getType() == 'graph') {
-                echo '<div id="' . $div_id . '">';
-                echo '<script>';
-                echo '$(function() {';
-                foreach ($viewZone->getViewData() as $viewData) {
-                    echo 'drawChart(' . $viewData->getLink_id() . ',"' . $div_id . '","' . $viewZone->getConfiguration('dateRange') . '",jQuery.parseJSON("' . addslashes(json_encode($viewData->getConfiguration())) . '"));';
-                }
-                echo '});';
-                echo '</script>';
-                echo '</div>';
-            }
-            echo '</div>';
-        }
-        ?>
+        <div id="div_displayView"></div>
     </div>
 
 </div>
+
+<?php include_file('desktop', 'view', 'js'); ?>
