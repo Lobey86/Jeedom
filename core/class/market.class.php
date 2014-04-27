@@ -438,7 +438,7 @@ class market {
                 break;
             default :
                 $type = $this->getType();
-                if (class_exists($type) && method_exists(${type}, 'shareOnMarket')) {
+                if (class_exists($type) && method_exists($type, 'shareOnMarket')) {
                     $tmp = $type::shareOnMarket($this);
                 }
                 break;
