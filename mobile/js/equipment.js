@@ -9,7 +9,25 @@ function initEquipment(_object_id) {
     if (isset(_object_id) && is_numeric(_object_id)) {
         var html = object.toHtml(_object_id, 'mobile');
         $('#div_displayEquipement').empty().html(html).trigger('create');
-    }else{
+        setEqLogicSize();
+    } else {
         $('#panel_right').panel('open');
     }
+
+}
+
+function setEqLogicSize() {
+    $('.eqLogic').each(function() {
+        var width = $(this).width();
+        var height = $(this).height();
+        if (width > 150 && width < 312) {
+            $(this).width(312)
+        }
+        if (height > 150 && height < 312) {
+            $(this).height(312)
+        }
+    });
+
+    $('#div_displayEquipement').masonry();
+
 }
