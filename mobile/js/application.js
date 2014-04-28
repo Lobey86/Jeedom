@@ -101,6 +101,7 @@ function initApplication() {
 }
 
 function page(_page, _title, _option) {
+    $('.ui-popup').popup('close');
     $('#page').empty();
     $('#page').load(_page, function() {
         $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
