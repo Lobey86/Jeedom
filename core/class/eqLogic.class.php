@@ -518,7 +518,7 @@ class eqLogic {
         $default = '#F5F5F5';
         if ($_version == 'mobile') {
             $vcolor = 'mcolor';
-            $default = '#616154';
+            $default = '#2496d4';
         }
         if ($this->getCategory('security', 0) == 1) {
             return jeedom::getConfiguration('eqLogic:category:security:' . $vcolor);
