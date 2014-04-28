@@ -10,14 +10,28 @@ function initEquipment(_object_id) {
     if (isset(_object_id) && is_numeric(_object_id)) {
         var html = object.toHtml(_object_id, 'mobile');
         $('#div_displayEquipement').empty().html(html).trigger('create');
+
+        var bSize = 150;
+        if (!isTablet) {
+            bSize = (screen.width / 2) - 28;
+        }
+
         $('.eqLogic').each(function() {
             var width = $(this).width();
             var height = $(this).height();
-            if (width > 150 && width < 312) {
-                $(this).width(312);
+            if (width < bSize) {
+                $(this).width((bSize));
+            } else {
+                if (width > bSize && width < (bSize * 2 + 12)) {
+                    $(this).width((bSize * 2 + 12));
+                }
             }
-            if (height > 150 && height < 312) {
-                $(this).height(312);
+            if (height < bSize) {
+                $(this).height((bSize));
+            } else {
+                if (height > bSize && height < (bSize * 2 + 12)) {
+                    $(this).height((bSize * 2 + 12));
+                }
             }
         });
         $('#div_displayEquipement').masonry();
