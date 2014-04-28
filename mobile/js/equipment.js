@@ -20,9 +20,7 @@ function initEquipment(_object_id) {
                 $(this).height(312);
             }
         });
-        setTimeout(function() {
-            $('#div_displayEquipement').masonry();
-        }, 100);
+        $('#div_displayEquipement').masonry();
     } else {
         $('#panel_right').panel('open');
     }
