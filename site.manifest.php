@@ -32,6 +32,11 @@ core/php/getJS.php?file=core/js/scenario.class.js
 core/php/getJS.php?file=mobile/js/application.js
 core/php/getJS.php?file=mobile/js/equipment.js
 core/php/getJS.php?file=3rdparty/jquery.masonry/jquery.masonry.js
+core/php/getJS.php?file=3rdparty/jquery.farbtastic/farbtastic.js
+core/php/getJS.php?file=mobile/css/farbtastic.css
+core/php/getJS.php?file=mobile/css/market.png
+core/php/getJS.php?file=mobile/css/mask.png
+core/php/getJS.php?file=mobile/css/wheel.png
 
 3rdparty/jquery.mobile/jquery.mobile.css
 3rdparty/font-awesome/css/font-awesome.min.css
