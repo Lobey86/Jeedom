@@ -9,6 +9,7 @@ $(function() {
 
     isTablet = navigator.userAgent.match(/(ipad)/gi) || (navigator.userAgent.match(/(android)/gi) && (screen.width > 899 || screen.height > 899));
 
+
     initApplication();
 
     $('body').delegate('a.link', 'click', function() {
