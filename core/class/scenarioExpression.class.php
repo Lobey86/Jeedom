@@ -214,7 +214,7 @@ class scenarioExpression {
                         }
                         return;
                         break;
-                    case 'var':
+                    case 'variable':
                         $value = self::setTags($this->getOptions('value'));
                         $message = __('Affectation de la variable ', __FILE__) . $this->getOptions('name') . __(' à [', __FILE__) . $value . '] = ';
                         try {
