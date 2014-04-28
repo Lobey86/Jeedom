@@ -55,26 +55,30 @@ if (!is_object($object)) {
             </div>
         </div>
         <div style="height: 10px;width: 100%;"></div>
-
         <?php
         echo '<div object_id="' . $object->getId() . '">';
         echo '<legend>' . $object->getName() . '</legend>';
+        echo '<div class="div_displayEquipement" style="width: 100%;">';
         foreach ($object->getEqLogic() as $eqLogic) {
             if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
                 echo $eqLogic->toHtml('dashboard');
             }
         }
+        echo '</div>';
         foreach (object::buildTree($object) as $child) {
             $margin = 40 * $child->parentNumber();
             echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
             echo '<legend>' . $child->getName() . '</legend>';
+            echo '<div class="div_displayEquipement" style="width: 100%;">';
             foreach ($child->getEqLogic() as $eqLogic) {
                 if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
                     echo $eqLogic->toHtml('dashboard');
                 }
             }
             echo '</div>';
+            echo '</div>';
         }
+
         echo '</div>';
         ?>
     </div>
