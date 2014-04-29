@@ -21,7 +21,6 @@ $(function() {
     });
 
     $("#bt_clearMessage").on('click', function(event) {
-        var tr = $(this).closest('tr');
         if (message.clear($('#sel_plugin').value())) {
             window.location.reload();
         }

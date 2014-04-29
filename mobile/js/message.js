@@ -15,9 +15,8 @@ function initMessage() {
     getAllMessage('');
 
     $("#bt_clearMessage").on('click', function(event) {
-        var tr = $(this).closest('tr');
         if (message.clear('')) {
-            tr.remove();
+            getAllMessage(_plugin);
         }
     });
 
