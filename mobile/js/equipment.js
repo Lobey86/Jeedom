@@ -12,9 +12,9 @@ function initEquipment(_object_id) {
         $('#div_displayEquipement').empty().html(html).trigger('create');
 
         var bSize = 150;
-        if (!isTablet && isTablet !== null) {
+        if (deviceType == 'phone') {
             bSize = (screen.width / 2) - 28;
-            if(bSize > 176){
+            if (bSize > 176) {
                 bSize = 176;
             }
         }

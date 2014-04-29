@@ -7,8 +7,7 @@ $(function() {
         $.hideLoading();
     });
 
-    isTablet = navigator.userAgent.match(/(ipad)/gi) || (navigator.userAgent.match(/(android)/gi) && (screen.width > 899 || screen.height > 899));
-
+    deviceType = getDeviceType();
 
     initApplication();
 
@@ -212,4 +211,20 @@ function autoLogin(_key) {
             initApplication();
         }
     });
+}
+
+function getDeviceType() {
+    if (navigator.userAgent.match(/(ipad)/gi)) {
+        return 'tablet';
+    }
+    if (navigator.userAgent.match(/(iphone)/gi)) {
+        return 'phone';
+    }
+    if (navigator.userAgent.match(/(android)/gi)) {
+        if (screen.width > 899 || screen.height > 899) {
+            return 'tablet';
+        }
+        return 'phone';
+    }
+    return 'desktop';
 }
