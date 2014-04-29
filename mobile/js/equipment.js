@@ -36,8 +36,17 @@ function initEquipment(_object_id) {
                     $(this).height((bSize * 2 + 12));
                 }
             }
+            var verticalAlign = $(this).find('.vertical-align');
+            height = $(this).height();
+            var vAlignHeight = verticalAlign.height();
+            verticalAlign.css('position', 'relative');
+            verticalAlign.css('top', (((height / 2) - (vAlignHeight / 2)) - 20) + 'px');
+
         });
         $('#div_displayEquipement').masonry();
+        $('.vertical-align').each(function() {
+
+        });
     } else {
         $('#panel_right').panel('open');
     }
