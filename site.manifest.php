@@ -2,7 +2,11 @@
 header('Content-type: ');
 require_once dirname(__FILE__) . "/core/php/core.inc.php";
 ?>
+
+
 CACHE MANIFEST
+
+
 
 # Version <?php echo getVersion('jeedom'); ?>
 
@@ -59,4 +63,5 @@ NETWORK:
 *
 
 FALLBACK:
+
 / mobile/html/fallback.html
