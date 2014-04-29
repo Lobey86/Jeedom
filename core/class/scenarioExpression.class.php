@@ -127,7 +127,7 @@ class scenarioExpression {
         $_expression = str_replace(array_keys($replace), array_values($replace), $_expression);
         $replace = array();
 
-        preg_match_all("/([a-z]*?)\((.*?)\)/", $_expression, $matches, PREG_SET_ORDER);
+        preg_match_all("/([a-z][a-z]*?)\((.*?)\)/", $_expression, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
             $function = $match[1];
             $arguments = explode(',', $match[2]);
