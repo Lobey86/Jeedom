@@ -17,24 +17,23 @@ function initEquipment(_object_id) {
             if (bSize > 176) {
                 bSize = 176;
             }
+            if (bSize < 120) {
+                bSize = 120;
+            }
         }
 
         $('.eqLogic').each(function() {
             var width = $(this).width();
             var height = $(this).height();
-            if (width < bSize) {
+            if (width <= bSize) {
                 $(this).width((bSize));
             } else {
-                if (width > bSize && width < (bSize * 2 + 12)) {
-                    $(this).width((bSize * 2 + 12));
-                }
+                $(this).width((bSize * 2 + 12));
             }
-            if (height < bSize) {
+            if (height <= bSize) {
                 $(this).height((bSize));
             } else {
-                if (height > bSize && height < (bSize * 2 + 12)) {
-                    $(this).height((bSize * 2 + 12));
-                }
+                $(this).height((bSize * 2 + 12));
             }
             var verticalAlign = $(this).find('.vertical-align');
             height = $(this).height();
