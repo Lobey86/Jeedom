@@ -214,12 +214,16 @@ function autoLogin(_key) {
 }
 
 function getDeviceType() {
-    if (navigator.userAgent.match(/(ipad)/gi)) {
-        return 'tablet';
+    if (navigator.userAgent.match(/(phone)/gi)) {
+        return 'phone';
     }
     if (navigator.userAgent.match(/(iphone)/gi)) {
         return 'phone';
     }
+    if (navigator.userAgent.match(/(ipad)/gi)) {
+        return 'tablet';
+    }
+
     if (navigator.userAgent.match(/(android)/gi)) {
         if (screen.width > 899 || screen.height > 899) {
             return 'tablet';
