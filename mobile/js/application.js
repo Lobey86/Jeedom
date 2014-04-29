@@ -217,10 +217,10 @@ function getDeviceType() {
     if (navigator.userAgent.match(/(phone)/gi)) {
         return 'phone';
     }
-    if (navigator.userAgent.match(/(iphone)/gi)) {
+    if (navigator.userAgent.match(/(Iphone)/gi)) {
         return 'phone';
     }
-    if (navigator.userAgent.match(/(ipad)/gi)) {
+    if (navigator.userAgent.match(/(Ipad)/gi)) {
         return 'tablet';
     }
 
