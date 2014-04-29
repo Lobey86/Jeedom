@@ -45,6 +45,8 @@ if ($.mobile) {
 
 
 function execCmd(_id, _value, _cache) {
+    var eqLogic = $('.cmd[data-cmd_id=' + _id+']').closest('.eqLogic');
+    eqLogic.find('.statusCmd').empty().append('<i class="fa fa-spinner fa-spin"></i>');
     if (init(_value) != '' && (is_array(_value) || is_object(_value))) {
         _value = json_encode(_value);
     }
@@ -67,10 +69,24 @@ function execCmd(_id, _value, _cache) {
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                notify('Commande', data.result, 'gritter-red');
+                if ($.mobile) {
+                    eqLogic.find('.statusCmd').empty().append('<i class="fa fa-times"></i>');
+                    setTimeout(function() {
+                        eqLogic.find('.statusCmd').empty();
+                    }, 2000);
+                } else {
+                    notify('Commande', data.result, 'gritter-red');
+                }
                 return;
             }
-            notify('Commande', '{{La commande a été exécutée avec succès}}', 'gritter-green', true);
+            if ($.mobile) {
+                eqLogic.find('.statusCmd').empty().append('<i class="fa fa-check"></i>');
+                setTimeout(function() {
+                    eqLogic.find('.statusCmd').empty();
+                }, 2000);
+            } else {
+                notify('Commande', '{{La commande a été exécutée avec succès}}', 'gritter-green', true);
+            }
             retour = data.result;
         }
     });

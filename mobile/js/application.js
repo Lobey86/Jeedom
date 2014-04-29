@@ -223,7 +223,6 @@ function getDeviceType() {
     if (navigator.userAgent.match(/(Ipad)/gi)) {
         return 'tablet';
     }
-
     if (navigator.userAgent.match(/(android)/gi)) {
         if (screen.width > 899 || screen.height > 899) {
             return 'tablet';

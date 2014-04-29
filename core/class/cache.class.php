@@ -89,13 +89,13 @@ class cache {
     }
 
     public static function persist() {
-        DB::Prepare('TRUNCATE TABLE `cache_persist', array(), DB::FETCH_TYPE_ROW);
+        DB::Prepare('TRUNCATE TABLE `cache_persist`', array(), DB::FETCH_TYPE_ROW);
         DB::Prepare('REPLACE `cache_persist` SELECT * FROM `cache`', array(), DB::FETCH_TYPE_ROW);
         return true;
     }
 
     public static function restore() {
-        DB::Prepare('TRUNCATE TABLE `cache', array(), DB::FETCH_TYPE_ROW);
+        DB::Prepare('TRUNCATE TABLE `cache`', array(), DB::FETCH_TYPE_ROW);
         DB::Prepare('REPLACE `cache` SELECT * FROM `cache_persist`', array(), DB::FETCH_TYPE_ROW);
         return true;
     }
