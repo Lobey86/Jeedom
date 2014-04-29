@@ -17,7 +17,7 @@
             </center>
 
 
-            <a id="bt_login_validate" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">{{Connection}}</a>
+            <a id="bt_login_validate" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">{{Connexion}}</a>
         </div>
         <script>
             $('#bt_login_validate').on('click', function() {
