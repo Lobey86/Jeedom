@@ -10,6 +10,7 @@ function initEquipment(_object_id) {
     if (isset(_object_id) && is_numeric(_object_id)) {
         var html = object.toHtml(_object_id, 'mobile');
         $('#div_displayEquipement').empty().html(html).trigger('create');
+        setTileSize('.eqLogic');
         $('#div_displayEquipement').masonry();
     } else {
         $('#panel_right').panel('open');

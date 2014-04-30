@@ -13,7 +13,7 @@ $(function() {
         modal(false);
         panel(false);
         $('#panel_left').panel('close');
-        page("index.php?v=m&p=" + $(this).attr('data-page'), $(this).attr('data-title'), $(this).attr('data-option'));
+        page($(this).attr('data-page'), $(this).attr('data-title'), $(this).attr('data-option'), $(this).attr('data-plugin'));
     });
 
     $('#bt_logout').on('click', function() {
@@ -81,6 +81,7 @@ function initApplication() {
                 nodeJsKey = data.result.nodeJsKey;
                 user_id = data.result.user_id;
                 expertMode = data.result.expertMode;
+                plugins = data.result.plugins;
                 var include = [
                     'core/php/getJS.php?file=core/js/cmd.class.js',
                     'core/php/getJS.php?file=core/js/eqLogic.class.js',
@@ -94,18 +95,21 @@ function initApplication() {
                 ];
                 $.include(include, function() {
                     refreshMessageNumber();
-                    page("index.php?v=m&p=home", 'Acceuil');
-
+                    page("home", 'Acceuil');
                 });
             }
         }
     });
 }
 
-function page(_page, _title, _option) {
+function page(_page, _title, _option, _plugin) {
     $('.ui-popup').popup('close');
     $('#page').empty();
-    $('#page').load(_page, function() {
+    var page = 'index.php?v=m&p=' + _page;
+    if (init(_plugin) != '') {
+        page += '&m=' + _plugin;
+    }
+    $('#page').load(page, function() {
         $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
             if (options.dataType == 'script' || originalOptions.dataType == 'script') {
                 options.cache = false;
@@ -115,16 +119,17 @@ function page(_page, _title, _option) {
             $('#pageTitle').empty().append(_title);
         }
         $('#page').trigger('create');
-        var functionName = _page.substring(_page.indexOf('p=') + 2);
-        if (functionName.indexOf('&') > 0) {
-            functionName = functionName.substring(0, functionName.indexOf('&'));
+        var functionName = '';
+        if (init(_plugin) != '') {
+            functionName = 'init' + _plugin.charAt(0).toUpperCase() + _plugin.substring(1).toLowerCase() + _page.charAt(0).toUpperCase() + _page.substring(1).toLowerCase();
+        } else {
+            functionName = 'init' + _page.charAt(0).toUpperCase() + _page.substring(1).toLowerCase();
         }
-        functionName = 'init' + functionName.charAt(0).toUpperCase() + functionName.substring(1).toLowerCase();
         if ('function' == typeof (window[functionName])) {
-            if (isset(_option)) {
+            if (init(_option) != '') {
                 window[functionName](_option);
             } else {
-                window[functionName](_option);
+                window[functionName]();
             }
         }
         initExpertMode();

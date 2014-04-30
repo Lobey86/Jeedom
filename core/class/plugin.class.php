@@ -35,6 +35,7 @@ class plugin {
     private $icon;
     private $index;
     private $display;
+    private $mobile;
     private $include = array();
 
     /*     * ***********************Methode static*************************** */
@@ -63,6 +64,11 @@ class plugin {
         $this->filepath = $_id;
         $this->index = (isset($plugin->index)) ? (string) $plugin->index : $plugin->id;
         $this->display = (isset($plugin->display)) ? (string) $plugin->display : '';
+
+        $this->mobile = '';
+        if (file_exists(dirname(__FILE__) . '/../../plugins/' . $plugin->id . '/mobile')) {
+            $this->mobile = (isset($plugin->mobile)) ? (string) $plugin->mobile : $plugin->id;
+        }
         if (isset($plugin->include)) {
             $this->include = array(
                 'file' => (string) $plugin->include,
@@ -293,6 +299,14 @@ class plugin {
 
     public function setDisplay($display) {
         $this->display = $display;
+    }
+
+    public function getMobile() {
+        return $this->mobile;
+    }
+
+    public function setMobile($mobile) {
+        $this->mobile = $mobile;
     }
 
 }

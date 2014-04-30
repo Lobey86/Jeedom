@@ -32,7 +32,11 @@ if (!isset($_GET['v'])) {
             include_file('mobile', init('modal'), 'modal', init('plugin'));
         } else {
             if (isset($_GET['p'])) {
-                include_file('mobile', $_GET['p'], 'html');
+                if (isset($_GET['m'])) {
+                    include_file('mobile', $_GET['p'], 'html',$_GET['m']);
+                } else {
+                    include_file('mobile', $_GET['p'], 'html');
+                }
             } else {
                 include_file('mobile', 'index', 'html');
             }

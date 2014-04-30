@@ -24,13 +24,17 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);
     }
 
-
-
     if (init('action') == 'getInfoApplication') {
         $return = array();
         $return['user_id'] = $_SESSION['user']->getId();
         $return['expertMode'] = $_SESSION['user']->getOptions('expertMode');
         $return['nodeJsKey'] = config::byKey('nodeJsKey');
+        $return['plugins'] = array();
+        foreach (plugin::listPlugin(true) as $plugin) {
+            if ($plugin->getMobile() != '') {
+                $return['plugins'][] = utils::o2a($plugin);
+            }
+        }
         ajax::success($return);
     }
 

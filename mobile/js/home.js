@@ -13,6 +13,13 @@ function initHome() {
     }
     $('#ul_viewList').empty().append(li).listview("refresh");
 
+
+    var li = '';
+    for (var i in plugins) {
+        li += '<li><a href="#" class="link" data-page="' + plugins[i].mobile + '&m=' + plugins[i].id + '" data-title="' + plugins[i].name + '">' + plugins[i].name + '</a></li>'
+    }
+    $('#ul_pluginList').empty().append(li).listview("refresh");
+
     refreshMessageNumber();
 }
 
