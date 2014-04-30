@@ -19,25 +19,25 @@
             if ('#state#' == 'in progress') {
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=stop]').show();
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
-                $('.scenario[data-scenario_id=#id#] .state').addClass('fa fa-spinner fa-spin');
+                $('.scenario[data-scenario_id=#id#] .state').empty().append('<i class="fa fa-spinner fa-spin"></i>');
             }
             if ('#state#' == 'error') {
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=start]').show();
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
-                $('.scenario[data-scenario_id=#id#]] .state').addClass('fa fa-exclamation-triangle');
+                $('.scenario[data-scenario_id=#id#]] .state').empty().append('<i class="fa fa-exclamation-triangle"></i>');
             }
             if ('#state#' == 'stop') {
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=start]').show();
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
-                $('.scenario[data-scenario_id=#id#] .state').addClass('fa fa-check');
+                $('.scenario[data-scenario_id=#id#] .state').empty().append('<i class="fa fa-check"></i>');
             }
         } else {
             $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=activate]').show();
-            $('.scenario[data-scenario_id=#id#] .state').addClass('fa fa-times');
+            $('.scenario[data-scenario_id=#id#] .state').empty().append('<i class="fa fa-times"></i>');
         }
 
         if ($.mobile) {
-            setTileSize('.scenario',2);
+            setTileSize('.scenario', 2);
         }
     </script>
 </div>
