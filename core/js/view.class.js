@@ -76,7 +76,7 @@ view.toHtml = function(_id, _version) {
                 var div_id = 'div_viewZone' + viewZone.id;
                 /*         * *****************viewZone widget***************** */
                 if (viewZone.type == 'widget') {
-                    html += '<div id="' + div_id + '">';
+                    html += '<div id="' + div_id + '" class="eqLogicZone">';
                     for (var j in viewZone.viewData) {
                         var viewData = viewZone.viewData[j];
                         html += viewData.html;

@@ -250,7 +250,7 @@ function setTileSize(_filter, _fixWidthSize, _fixHeightSize) {
         var width = $(this).width();
         var height = $(this).height();
         if (init(_fixWidthSize, '') != '') {
-            $(this).width(deviceInfo.bSize * _fixWidthSize);
+            $(this).width((deviceInfo.bSize + 6) * _fixWidthSize);
         } else {
             if (width <= deviceInfo.bSize) {
                 $(this).width(deviceInfo.bSize);
@@ -259,7 +259,7 @@ function setTileSize(_filter, _fixWidthSize, _fixHeightSize) {
             }
         }
         if (init(_fixHeightSize, '') != '') {
-            $(this).width(deviceInfo.bSize * _fixHeightSize);
+            $(this).width((deviceInfo.bSize + 6) * _fixHeightSize);
         } else {
             if (height <= deviceInfo.bSize) {
                 $(this).height(deviceInfo.bSize);
