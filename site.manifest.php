@@ -27,8 +27,8 @@ core/php/getJS.php?file=core/js/message.class.js
 core/php/getJS.php?file=core/js/scenario.class.js
 core/php/getJS.php?file=3rdparty/jquery.masonry/jquery.masonry.js
 core/php/getJS.php?file=3rdparty/jquery.farbtastic/farbtastic.js
-=mobile/css/farbtastic.css
-mobile/css/market.png
+mobile/css/farbtastic.css
+mobile/css/marker.png
 mobile/css/mask.png
 mobile/css/wheel.png
 
