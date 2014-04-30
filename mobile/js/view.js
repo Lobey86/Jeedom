@@ -10,7 +10,7 @@ function initView(_view_id) {
         CORE_chart = [];
         var html = view.toHtml(_view_id, 'mobile');
         $('#div_displayView').empty().html(html).trigger('create');
-    }else{
+    } else {
         $('#panel_right').panel('open');
     }
 

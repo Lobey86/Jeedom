@@ -7,8 +7,6 @@ $(function() {
         $.hideLoading();
     });
 
-    deviceType = getDeviceType();
-
     initApplication();
 
     $('body').delegate('a.link', 'click', function() {
@@ -97,6 +95,7 @@ function initApplication() {
                 $.include(include, function() {
                     refreshMessageNumber();
                     page("index.php?v=m&p=home", 'Acceuil');
+
                 });
             }
         }
@@ -214,20 +213,64 @@ function autoLogin(_key) {
 }
 
 function getDeviceType() {
+    var result = {};
+    result.type = 'dekstop';
+    if (navigator.userAgent.match(/(android)/gi)) {
+        result.type = 'phone';
+        if (screen.width > 899 || screen.height > 899) {
+            result.type = 'tablet';
+        }
+    }
     if (navigator.userAgent.match(/(phone)/gi)) {
-        return 'phone';
+        result.type = 'phone';
     }
     if (navigator.userAgent.match(/(Iphone)/gi)) {
-        return 'phone';
+        result.type = 'phone';
     }
     if (navigator.userAgent.match(/(Ipad)/gi)) {
-        return 'tablet';
+        result.type = 'tablet';
     }
-    if (navigator.userAgent.match(/(android)/gi)) {
-        if (screen.width > 899 || screen.height > 899) {
-            return 'tablet';
+    result.bSize = 150;
+    if (result.type == 'phone') {
+        result.bSize = (screen.width / 2) - 28;
+        if (result.bSize > 176) {
+            result.bSize = 176;
         }
-        return 'phone';
+        if (result.bSize < 120) {
+            result.bSize = 120;
+        }
     }
-    return 'desktop';
+    result.bSize2 = result.bSize * 2 + 12;
+    return result;
+}
+
+function setTileSize(_filter, _fixWidthSize, _fixHeightSize) {
+    var deviceInfo = getDeviceType();
+    $(_filter).each(function() {
+        var width = $(this).width();
+        var height = $(this).height();
+        if (init(_fixWidthSize, '') != '') {
+            $(this).width(deviceInfo.bSize * _fixWidthSize);
+        } else {
+            if (width <= deviceInfo.bSize) {
+                $(this).width(deviceInfo.bSize);
+            } else {
+                $(this).width(deviceInfo.bSize2);
+            }
+        }
+        if (init(_fixHeightSize, '') != '') {
+            $(this).width(deviceInfo.bSize * _fixHeightSize);
+        } else {
+            if (height <= deviceInfo.bSize) {
+                $(this).height(deviceInfo.bSize);
+            } else {
+                $(this).height(deviceInfo.bSize2);
+            }
+        }
+        var verticalAlign = $(this).find('.vertical-align');
+        height = $(this).height();
+        var vAlignHeight = verticalAlign.height();
+        verticalAlign.css('position', 'relative');
+        verticalAlign.css('top', (((height / 2) - (vAlignHeight / 2)) - 20) + 'px');
+    });
 }
