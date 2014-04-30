@@ -73,7 +73,7 @@ function execCmd(_id, _value, _cache) {
                     eqLogic.find('.statusCmd').empty().append('<i class="fa fa-times"></i>');
                     setTimeout(function() {
                         eqLogic.find('.statusCmd').empty();
-                    }, 2000);
+                    }, 3000);
                 } else {
                     notify('Commande', data.result, 'gritter-red');
                 }
@@ -83,7 +83,7 @@ function execCmd(_id, _value, _cache) {
                 eqLogic.find('.statusCmd').empty().append('<i class="fa fa-check"></i>');
                 setTimeout(function() {
                     eqLogic.find('.statusCmd').empty();
-                }, 2000);
+                }, 3000);
             } else {
                 notify('Commande', '{{La commande a été exécutée avec succès}}', 'gritter-green', true);
             }
