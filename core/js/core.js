@@ -45,7 +45,7 @@ if ($.mobile) {
 
 
 function execCmd(_id, _value, _cache) {
-    var eqLogic = $('.cmd[data-cmd_id=' + _id+']').closest('.eqLogic');
+    var eqLogic = $('.cmd[data-cmd_id=' + _id + ']').closest('.eqLogic');
     eqLogic.find('.statusCmd').empty().append('<i class="fa fa-spinner fa-spin"></i>');
     if (init(_value) != '' && (is_array(_value) || is_object(_value))) {
         _value = json_encode(_value);
@@ -267,6 +267,7 @@ function refreshScenarioValue(_scenario_id) {
                 $('.scenario[data-scenario_id=' + _scenario_id + ']').replaceWith(data.result);
                 if ($.mobile) {
                     $('.scenario[data-scenario_id=' + _scenario_id + ']').trigger("create");
+                    setTileSize('.scenario', 2);
                 }
             }
         });
