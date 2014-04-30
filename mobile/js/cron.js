@@ -26,11 +26,11 @@ function changeStateCron(_state, _id) {
         },
         dataType: 'json',
         error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('.ui-page-active #div_alert'));
+            handleAjaxError(request, status, error);
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('.ui-page-active #div_alert').showAlert({message: data.result, level: 'danger'});
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
             printCron();
@@ -48,11 +48,11 @@ function printCron() {
         },
         dataType: 'json',
         error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('.ui-page-active #div_alert'));
+            handleAjaxError(request, status, error);
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('.ui-page-active #div_alert').showAlert({message: data.result, level: 'danger'});
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
             $('#table_cron tbody').empty();
