@@ -39,8 +39,6 @@ legend{
 
 .dashboard-widget{
     display: inline-block;
-    font-size: 13px;
-    line-height: 20px;
     background-color: #616154;
     margin-bottom: 5px;
     color : white;
