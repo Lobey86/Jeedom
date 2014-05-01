@@ -54,7 +54,7 @@ class chat {
         $jeedomBot = array(
             'Id' => 0,
             'Name' => 'Jeedom',
-            'ProfilePictureUrl' => 'core/img/logo-jeedom-petit-nom-couleur-24x25.png',
+            'ProfilePictureUrl' => 'core/img/logo-jeedom-sans-nom-couleur-25x25.png',
             'Status' => 1,
         );
         $return[] = $jeedomBot;
@@ -77,7 +77,7 @@ class chat {
             $user_info = array(
                 'Id' => 0,
                 'Name' => 'Jeedom',
-                'ProfilePictureUrl' => 'core/img/logo-jeedom-petit-nom-couleur-24x25.png',
+                'ProfilePictureUrl' => 'core/img/logo-jeedom-sans-nom-couleur-25x25.png',
                 'Status' => 1,
             );
         } else {
