@@ -1,20 +1,20 @@
 <?php
 
 /* This file is part of Jeedom.
-*
-* Jeedom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Jeedom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
-*/
+ *
+ * Jeedom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
@@ -39,17 +39,18 @@ class message {
         $message->setDate(date('Y-m-d H:i:m'));
         $message->setLogicalId($_logicalId);
         $message->save();
-        @nodejs::pushNotification(__('Message de ', __FILE__) . $_type, $_message, 'message');
     }
 
-    public static function removeAll($_plugin = '') {
+    public static function removeAll($_plugin = '', $_logicalId = '') {
         $values = array();
+        $sql = 'DELETE FROM message';
         if ($_plugin != '') {
             $values['plugin'] = $_plugin;
-            $sql = 'DELETE FROM message
-                    WHERE plugin=:plugin';
-        } else {
-            $sql = 'DELETE FROM message';
+            $sql .= ' WHERE plugin=:plugin';
+            if ($_logicalId != '') {
+                $values['logicalId'] = $_logicalId;
+                $sql .= ' AND logicalId=:logicalId';
+            }
         }
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
     }
@@ -71,7 +72,7 @@ class message {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function byPluginLogicalId($_plugin,$_logicalId) {
+    public static function byPluginLogicalId($_plugin, $_logicalId) {
         $values = array(
             'logicalId' => $_logicalId,
             'plugin' => $_plugin
@@ -110,7 +111,21 @@ class message {
     /*     * *********************Methode d'instance************************* */
 
     public function save() {
-        DB::save($this);
+        $values = array(
+            'message' => $this->getMessage(),
+            'logicalId' => $this->getLogicalId(),
+            'plugin' => $this->getPlugin()
+        );
+        $sql = 'SELECT count(*)
+                FROM message
+                WHERE plugin=:plugin
+                      AND ( logicalId=:logicalId 
+                        OR message=:message ) ';
+        $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+        if ($result['count(*)'] == 0) {
+            DB::save($this);
+            @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
+        }
     }
 
     public function remove() {

@@ -39,7 +39,7 @@ $plugins_list = plugin::listPlugin();
     <head>
         <meta charset="utf-8">
         <title>Jeedom - <?php echo $title; ?></title>
-        <link rel="shortcut icon" href="core/img/logo-jeedom-petit-nom-couleur-25x25.png">
+        <link rel="shortcut icon" href="core/img/logo-jeedom-sans-nom-couleur-25x25.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">

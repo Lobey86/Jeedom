@@ -56,6 +56,7 @@ message.remove = function(_id) {
             id: _id,
         },
         dataType: 'json',
+        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -80,6 +81,7 @@ message.clear = function(_plugin) {
             plugin: init(_plugin, '')
         },
         dataType: 'json',
+        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },

@@ -173,10 +173,10 @@ function addCron(_cron) {
     tr += '<td class="option"><span class="cronAttr" data-l1key="id"></span></td>';
     tr += '<td>';
     if (init(_cron.state) == 'run') {
-        tr += '<a class="btn btn-danger btn-sm stop"><i class="fa fa-stop"></i></a>';
+        tr += '<a class="btn btn-danger btn-sm stop" style="color : white;"><i class="fa fa-stop"></i></a>';
     }
     if (init(_cron.state) != '' && init(_cron.state) != 'starting' && init(_cron.state) != 'run' && init(_cron.state) != 'stoping') {
-        tr += '<a class="btn btn-success btn-sm start"><i class="fa fa-play"></i></a>';
+        tr += '<a class="btn btn-success btn-sm start" style="color : white;"><i class="fa fa-play"></i></a>';
     }
     tr += '</td>';
     tr += '<td class="enable"><center>';

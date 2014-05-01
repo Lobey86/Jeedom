@@ -32,7 +32,7 @@ class log {
      * @param string $_type type du message à mettre dans les log
      * @param string $_message message à mettre dans les logs
      */
-    public static function add($_log, $_type, $_message) {
+    public static function add($_log, $_type, $_message, $_logicalId = '') {
         $_type = strtolower($_type);
         if (self::isTypeLog($_type)) {
             $_message = str_replace(";", ',', str_replace("\n", '<br/>', $_message));
@@ -42,7 +42,7 @@ class log {
             fputs($log, $message);
             fclose($log);
             if ($_type == 'error' && config::byKey('addMessageForErrorLog') == 1) {
-                @message::add($_log, $_message);
+                @message::add($_log, $_message, '', $_logicalId);
             }
         }
     }
