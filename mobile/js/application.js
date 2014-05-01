@@ -1,6 +1,5 @@
 /***************Fonction d'initialisation*********************/
 $(function() {
-    $.mobile.orientationChangeEnabled = false;
     $(document).ajaxStart(function() {
         $.showLoading();
     });
@@ -83,6 +82,7 @@ function initApplication() {
                 user_id = data.result.user_id;
                 expertMode = data.result.expertMode;
                 plugins = data.result.plugins;
+                deviceInfo = getDeviceType();
                 var include = [
                     'core/php/getJS.php?file=core/js/cmd.class.js',
                     'core/php/getJS.php?file=core/js/eqLogic.class.js',
@@ -251,7 +251,6 @@ function getDeviceType() {
 }
 
 function setTileSize(_filter, _fixWidthSize, _fixHeightSize) {
-    var deviceInfo = getDeviceType();
     $(_filter).each(function() {
         var width = $(this).width();
         var height = $(this).height();
