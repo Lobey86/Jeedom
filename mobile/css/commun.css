@@ -47,12 +47,6 @@ legend{
     margin : 3px;
 }
 
-.dashboard-widget .collectDate{
-    padding: 3px;
-    background-color: #CBCBCB;
-    margin-right: 15px;
-}
-
 .cursor{
     cursor : pointer;
 }
