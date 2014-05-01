@@ -277,6 +277,6 @@ function setTileSize(_filter, _fixWidthSize, _fixHeightSize) {
         height = $(this).height();
         var vAlignHeight = verticalAlign.height();
         verticalAlign.css('position', 'relative');
-        verticalAlign.css('top', (((height / 2) - (vAlignHeight / 2)) - 20) + 'px');
+        verticalAlign.css('top', (((height / 2) - (vAlignHeight / 2)) - 10) + 'px');
     });
 }
