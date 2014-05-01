@@ -1,6 +1,6 @@
 /***************Fonction d'initialisation*********************/
 $(function() {
-    $.mobile.orientationChangeEnabled = false
+    $.mobile.orientationChangeEnabled = false;
     $(document).ajaxStart(function() {
         $.showLoading();
     });
