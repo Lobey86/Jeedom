@@ -80,7 +80,7 @@ function execCmd(_id, _value, _cache) {
                 return;
             }
             if ($.mobile) {
-                eqLogic.find('.statusCmd').empty().append('<i class="fa fa-check"></i>');
+                eqLogic.find('.statusCmd').empty().append('<i class="fa fa-rss"></i>');
                 setTimeout(function() {
                     eqLogic.find('.statusCmd').empty();
                 }, 3000);
