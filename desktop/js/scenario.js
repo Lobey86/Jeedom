@@ -33,7 +33,7 @@ $(function() {
         {val: 'tendance(commande,periode)'},
     ];
 
-    autoCompleteAction = ['sleep', 'var', 'scenario'];
+    autoCompleteAction = ['sleep', 'variable', 'scenario'];
 
     if (getUrlVars('saveSuccessFull') == 1) {
         $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
@@ -240,7 +240,7 @@ $(function() {
         $("#div_scenarioElement").sortable({
             axis: "y",
             cursor: "move",
-            items: ".expression",
+            items: ".draggable",
             placeholder: "ui-state-highlight",
             tolerance: "intersect",
             forcePlaceholderSize: true,
@@ -446,12 +446,10 @@ function printScenario(_id) {
             $('#table_scenarioCondition tbody').empty();
             $('#table_scenarioAction tbody').empty();
             $('#table_trigger tbody').empty();
-            //$('.scenarioAttr[data-l1key=object_id] option:first').prop('selected', true);
             $('body').setValues(data.result, '.scenarioAttr');
             $('#span_type').text(data.result.type);
             data.result.lastLaunch = (data.result.lastLaunch == null) ? '{{Jamais}}' : data.result.lastLaunch;
             $('#span_lastLaunch').text(data.result.lastLaunch);
-
 
             $('#div_scenarioElement').empty();
             $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a>');
@@ -521,6 +519,9 @@ function printScenario(_id) {
             $('#div_editScenario').show();
             $.hideLoading();
             modifyWithoutSave = false;
+            setTimeout(function() {
+                modifyWithoutSave = false;
+            }, 1000);
         }
     });
 }
@@ -648,7 +649,7 @@ function addExpression(_expression) {
     if (!isset(_expression.type) || _expression.type == '') {
         return '';
     }
-    var retour = '<div class="expression row">';
+    var retour = '<div class="expression row draggable">';
     retour += '<input class="expressionAttr" data-l1key="id" style="display : none;" value="' + init(_expression.id) + '"/>';
     retour += '<input class="expressionAttr" data-l1key="scenarioSubElement_id" style="display : none;" value="' + init(_expression.scenarioSubElement_id) + '"/>';
     retour += '<input class="expressionAttr" data-l1key="type" style="display : none;" value="' + init(_expression.type) + '"/>';
@@ -727,7 +728,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="expression empty" style="height : 10px;"></div>';
+            retour += '<div class="expression empty draggable" style="height : 10px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -742,7 +743,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="expression empty" style="height : 10px;"></div>';
+            retour += '<div class="expression empty draggable" style="height : 10px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -769,7 +770,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="expression empty" style="height : 10px;"></div>';
+            retour += '<div class="expression empty draggable" style="height : 10px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -782,7 +783,7 @@ function addSubElement(_subElement) {
             retour += '<legend style="margin-top : 8px;">{{CODE}}';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="expression empty" style="height : 10px;"></div>';
+            retour += '<div class="expression empty draggable" style="height : 10px;"></div>';
             var expression = {type: 'code'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
                 expression = _subElement.expressions[0];
@@ -797,7 +798,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="expression empty" style="height : 10px;"></div>';
+            retour += '<div class="expression empty draggable" style="height : 10px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -818,7 +819,8 @@ function addElement(_element) {
     if (!isset(_element.type) || _element.type == '') {
         return '';
     }
-    var div = '<div class="element well well-sm" style="margin-top : 8px;border : 2px solid black;">';
+    var div = '<div class="element well well-sm draggable" style="margin-top : 8px;border : 2px solid black;">';
+    div += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : -7px;margin-left : -6px;"></i>';
     div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
     div += '<i class="fa fa-minus-circle pull-right cursor bt_removeElement"></i>';
