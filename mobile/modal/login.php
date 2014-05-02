@@ -8,16 +8,11 @@
             <h3>{{Connectez-vous}}</h3>
             <input type="text" id="in_login_username" value="" placeholder="{{Nom d'utilisateur}}" data-theme="a" />
             <input type="password" id="in_login_password" value="" placeholder="{{Mot de passe}}" data-theme="a" />
-            <label>{{Enregistrer cet appareil}}</label>
-            <center>
-                <select id="cb_storeConnection" data-role="slider" data-mini="true">
-                    <option value="0">{{Non}}</option>
-                    <option value="1">{{Oui}}</option>
-                </select>
-            </center>
-
-
-            <a id="bt_login_validate" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">{{Connexion}}</a>
+            <form>
+                <input type="checkbox" id="cb_storeConnection" data-mini="true">
+                <label for="cb_storeConnection">{{Enregistrer cet appareil}}</label>
+            </form>
+            <a id="bt_login_validate" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check ui-mini">{{Connexion}}</a>
         </div>
         <script>
             $('#bt_login_validate').on('click', function() {
@@ -28,7 +23,7 @@
                         action: "login",
                         username: $('#in_login_username').val(),
                         password: $('#in_login_password').val(),
-                        storeConnection: $('#cb_storeConnection').val()
+                        storeConnection: $('#cb_storeConnection')..value()
                     },
                     dataType: 'json',
                     error: function(request, status, error) {
