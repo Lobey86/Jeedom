@@ -48,7 +48,7 @@ class scenarioElement {
             $element_db = new scenarioElement();
         }
         if (!isset($element_db) || !is_object($element_db)) {
-            throw new Exception(__('Elément inconnue verifié l\'id : ',__FILE__) . $element_ajax['id']);
+            throw new Exception(__('Elément inconnue verifié l\'id : ', __FILE__) . $element_ajax['id']);
         }
         utils::a2o($element_db, $element_ajax);
         $element_db->save();
@@ -62,7 +62,7 @@ class scenarioElement {
                 $subElement_db = new scenarioSubElement();
             }
             if (!isset($subElement_db) || !is_object($subElement_db)) {
-                throw new Exception(__('Elément inconnu vérifié l\'id : ',__FILE__) . $subElement_ajax['id']);
+                throw new Exception(__('Elément inconnu vérifié l\'id : ', __FILE__) . $subElement_ajax['id']);
             }
             utils::a2o($subElement_db, $subElement_ajax);
             $subElement_db->setScenarioElement_id($element_db->getId());
@@ -74,14 +74,17 @@ class scenarioElement {
             $expression_list = $subElement_db->getExpression();
             $expression_order = 0;
             $enable_expression = array();
-            foreach ($subElement_ajax['expressions'] as $expression_ajax) {
+            foreach ($subElement_ajax['expressions'] as &$expression_ajax) {
+                if (isset($expression_ajax['scenarioSubElement_id']) && $expression_ajax['scenarioSubElement_id'] != $subElement_db->getId() && isset($expression_ajax['id']) && $expression_ajax['id'] != '') {
+                    $expression_ajax['id'] = '';
+                }
                 if (isset($expression_ajax['id']) && $expression_ajax['id'] != '') {
                     $expression_db = scenarioExpression::byId($expression_ajax['id']);
                 } else {
                     $expression_db = new scenarioExpression();
                 }
                 if (!isset($expression_db) || !is_object($expression_db)) {
-                    throw new Exception(__('Elément inconnu vérifié l\'id : ',__FILE__) . $expression_ajax['id']);
+                    throw new Exception(__('Expression inconnue vérifié l\'id : ', __FILE__) . $expression_ajax['id']);
                 }
                 utils::a2o($expression_db, $expression_ajax);
                 $expression_db->setScenarioSubElement_id($subElement_db->getId());
@@ -124,7 +127,7 @@ class scenarioElement {
 
     public function execute(&$_scenario) {
         $return = false;
-        $this->setLog(__('Exécution de l\'élément : ',__FILE__) . $this->getType());
+        $this->setLog(__('Exécution de l\'élément : ', __FILE__) . $this->getType());
         switch ($this->getType()) {
             case 'if':
                 if ($this->getSubElement('if')->execute($_scenario)) {
@@ -138,8 +141,8 @@ class scenarioElement {
                 $limits = $for->getExpression();
                 $limits = scenarioExpression::setTags($limits[0]->getExpression());
                 if (!is_numeric($limits)) {
-                    $this->setLog(__('[ERREUR] La condition pour une boucle doit être un numérique : ',__FILE__) . $limits);
-                    throw new Exception(__('La condition pour une boucle doit être un numérique : ',__FILE__) . $limits);
+                    $this->setLog(__('[ERREUR] La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
+                    throw new Exception(__('La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
                 }
                 for ($i = 1; $i <= $limits; $i++) {
                     $return = $this->getSubElement('do')->execute($_scenario);
