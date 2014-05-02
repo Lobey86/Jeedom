@@ -17,6 +17,7 @@ function initEquipment(_object_id) {
     }
 
     $(window).off().on("orientationchange", function(event) {
+        setTileSize('.eqLogic');
         $('#div_displayEquipement').masonry();
     });
 }

@@ -111,11 +111,6 @@ function page(_page, _title, _option, _plugin) {
         page += '&m=' + _plugin;
     }
     $('#page').load(page, function() {
-        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-            if (options.dataType == 'script' || originalOptions.dataType == 'script') {
-                options.cache = false;
-            }
-        });
         if (isset(_title)) {
             $('#pageTitle').empty().append(_title);
         }
@@ -223,7 +218,7 @@ function getDeviceType() {
     result.type = 'dekstop';
     if (navigator.userAgent.match(/(android)/gi)) {
         result.type = 'phone';
-        if (screen.width > 899 || screen.height > 899) {
+        if ($('#page').width() > 899 || $('#page').height() > 899) {
             result.type = 'tablet';
         }
     }
@@ -238,12 +233,11 @@ function getDeviceType() {
     }
     result.bSize = 150;
     if (result.type == 'phone') {
-        result.bSize = (screen.width / 2) - 28;
-        if (result.bSize > 176) {
-            result.bSize = 176;
-        }
-        if (result.bSize < 120) {
-            result.bSize = 120;
+        var ori = window.orientation
+        if (ori == 90 || ori == -90) {
+            result.bSize = ($('#page').width() / 3) - 12;
+        } else {
+            result.bSize = ($('#page').width() / 2) - 12;
         }
     }
     result.bSize2 = result.bSize * 2 + 12;
@@ -251,7 +245,10 @@ function getDeviceType() {
 }
 
 function setTileSize(_filter, _fixWidthSize, _fixHeightSize) {
+    deviceInfo = getDeviceType();
     $(_filter).each(function() {
+        $(this).css('width', 'auto');
+        $(this).css('height', 'auto');
         var width = $(this).width();
         var height = $(this).height();
         if (init(_fixWidthSize, '') != '') {
