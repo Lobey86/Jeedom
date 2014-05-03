@@ -16,7 +16,7 @@ function initMessage() {
 
     $("#bt_clearMessage").on('click', function(event) {
         if (message.clear('')) {
-            getAllMessage(_plugin);
+            getAllMessage();
         }
     });
 
