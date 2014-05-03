@@ -728,7 +728,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="expression empty draggable" style="height : 10px;"></div>';
+            retour += '<div class="draggable" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -743,7 +743,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="expression empty draggable" style="height : 10px;"></div>';
+            retour += '<div class="draggable" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -770,7 +770,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="expression empty draggable" style="height : 10px;"></div>';
+            retour += '<div class="draggable" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -783,7 +783,7 @@ function addSubElement(_subElement) {
             retour += '<legend style="margin-top : 8px;">{{CODE}}';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="expression empty draggable" style="height : 10px;"></div>';
+            retour += '<div class="draggable" style="height : 30px;"></div>';
             var expression = {type: 'code'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
                 expression = _subElement.expressions[0];
@@ -798,7 +798,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="expression empty draggable" style="height : 10px;"></div>';
+            retour += '<div class="draggable" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -886,20 +886,19 @@ function getElement(_element) {
             expression_dom = $(this).children('legend').children('.expressions');
         }
         expression_dom.children('.expression').each(function() {
-            if (!$(this).hasClass('empty')) {
-                var expression = $(this).getValues('.expressionAttr', 3);
-                expression = expression[0];
-                if (expression.type == 'element') {
-                    expression.element = getElement($(this).findAtDepth('.element', 2));
-                }
-                if (subElement.type == 'code') {
-                    var id = $(this).find('.expressionAttr[data-l1key=expression]').attr('id');
-                    if (id != undefined && isset(editor[id])) {
-                        expression.expression = editor[id].getValue();
-                    }
-                }
-                subElement.expressions.push(expression);
+            var expression = $(this).getValues('.expressionAttr', 3);
+            expression = expression[0];
+            if (expression.type == 'element') {
+                expression.element = getElement($(this).findAtDepth('.element', 2));
             }
+            if (subElement.type == 'code') {
+                var id = $(this).find('.expressionAttr[data-l1key=expression]').attr('id');
+                if (id != undefined && isset(editor[id])) {
+                    expression.expression = editor[id].getValue();
+                }
+            }
+            subElement.expressions.push(expression);
+
         });
         element.subElements.push(subElement);
     });
