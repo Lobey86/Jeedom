@@ -19,7 +19,9 @@ function initHome() {
             li += '<li><a href="#" class="link" data-page="' + plugins[i].mobile + '" data-plugin="' + plugins[i].id + '" data-title="' + plugins[i].name + '">' + plugins[i].name + '</a></li>'
         }
         $('#ul_pluginList').empty().append(li).listview("refresh");
-    } 
+    } else {
+        $('#bt_listPlugin').hide();
+    }
 
     refreshMessageNumber();
 }
