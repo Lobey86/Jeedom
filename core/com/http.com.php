@@ -23,11 +23,15 @@ class com_http {
     /*     * ***********************Attributs************************* */
 
     private $url;
+    private $username;
+    private $password;
 
     /*     * ********************Functions static********************* */
 
-    function __construct($_url) {
+    function __construct($_url, $_username = '', $_password = '') {
         $this->url = $_url;
+        $this->username = $_username;
+        $this->password = $_password;
     }
 
     /*     * ************* Functions ************************************ */
@@ -42,6 +46,10 @@ class com_http {
             curl_setopt($ch, CURLOPT_HEADER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, $_timeout);
+            if ($this->username != '') {
+                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY | CURLAUTH_ANYSAFE);
+                curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
+            }
             $response = curl_exec($ch);
             if (curl_errno($ch)) {
                 if ($nbRetry <= $_maxRetry) {
