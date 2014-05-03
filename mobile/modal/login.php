@@ -23,7 +23,7 @@
                         action: "login",
                         username: $('#in_login_username').val(),
                         password: $('#in_login_password').val(),
-                        storeConnection: $('#cb_storeConnection')..value()
+                        storeConnection: $('#cb_storeConnection').value()
                     },
                     dataType: 'json',
                     error: function(request, status, error) {
