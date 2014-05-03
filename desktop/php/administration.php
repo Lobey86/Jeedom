@@ -386,6 +386,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <form class="form-horizontal">
                                 <fieldset>
                                     <div class="form-group">
+                                        <label class="col-lg-2 control-label">{{Rattrapage maximum autorisé (min, -1 pour infini}}</label>
+                                        <div class="col-lg-3">
+                                            <input type="text" class="configKey form-control" data-l1key="maxCatchAllow"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-lg-2 control-label">{{Crontask : temps exécution max (min)}}</label>
                                         <div class="col-lg-3">
                                             <input type="text" class="configKey form-control" data-l1key="maxExecTimeCrontask"/>
