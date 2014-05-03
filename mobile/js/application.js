@@ -80,9 +80,10 @@ function initApplication() {
                 /*************Initialisation environement********************/
                 nodeJsKey = data.result.nodeJsKey;
                 user_id = data.result.user_id;
-                expertMode = data.result.expertMode;
                 plugins = data.result.plugins;
                 deviceInfo = getDeviceType();
+                userProfils = data.result.userProfils;
+                expertMode = userProfils.expertMode;
                 var include = [
                     'core/php/getJS.php?file=core/js/cmd.class.js',
                     'core/php/getJS.php?file=core/js/eqLogic.class.js',

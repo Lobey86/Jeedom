@@ -27,8 +27,8 @@ try {
     if (init('action') == 'getInfoApplication') {
         $return = array();
         $return['user_id'] = $_SESSION['user']->getId();
-        $return['expertMode'] = $_SESSION['user']->getOptions('expertMode');
         $return['nodeJsKey'] = config::byKey('nodeJsKey');
+        $return['userProfils'] = $_SESSION['user']->getOptions();
         $return['plugins'] = array();
         foreach (plugin::listPlugin(true) as $plugin) {
             if ($plugin->getMobile() != '') {
