@@ -41,12 +41,14 @@
 
     <div class="ui-block-a">
         <center>
-            <a href="#pluginMenu" data-rel="popup" data-transition="none" data-position-to="window" id="bt_listPlugin" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;display : none;">
+            <a href="#pluginMenu" data-rel="popup" data-transition="none" data-position-to="window" id="bt_listPlugin" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
                 <i class="fa fa-tasks" style="font-size: 6em;"></i><br/>{{Plugins}}
             </a>
             <div data-role="popup" id="pluginMenu" data-theme="b">
                 <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">{{Fermer}}</a>
-                <ul data-role="listview" data-inset="true" style="min-width:210px;" id="ul_pluginList"></ul>
+                <ul data-role="listview" data-inset="true" style="min-width:210px;" id="ul_pluginList">
+                    <li><a href="#">Aucun plugin</a></li>
+                </ul>
             </div>
         </center>
     </div>
