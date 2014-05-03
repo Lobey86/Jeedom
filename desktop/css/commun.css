@@ -35,8 +35,8 @@
 .dashboard-widget{
     padding: 9.5px;
     margin: 0 5px 5px;
-    font-size: 13px;
     background-color: #F5F5F5;
+    display: inline-block;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
