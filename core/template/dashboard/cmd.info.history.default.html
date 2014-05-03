@@ -22,7 +22,13 @@
                 modal: true,
                 resizable: false,
                 height: 520,
-                width: 1100
+                width: 1100,
+                open: function() {
+                    $("body").css({overflow: 'hidden'})
+                },
+                beforeClose: function(event, ui) {
+                    $("body").css({overflow: 'inherit'})
+                }
             });
 
 
