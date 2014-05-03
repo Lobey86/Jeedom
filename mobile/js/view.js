@@ -1,5 +1,4 @@
 function initView(_view_id) {
-    $('.eqLogicZone').masonry('destroy');
     var views = view.all();
     var li = ' <ul data-role="listview">';
     for (var i in views) {
@@ -17,7 +16,7 @@ function initView(_view_id) {
         $('#panel_right').panel('open');
     }
 
-    $(window).off().on("orientationchange", function(event) {
+    $(window).on("orientationchange", function(event) {
         $('.eqLogicZone').masonry();
     });
 

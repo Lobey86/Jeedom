@@ -22,7 +22,6 @@ function initHome() {
     } else {
         $('#bt_listPlugin').hide();
     }
-
     refreshMessageNumber();
 }
 

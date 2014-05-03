@@ -1,5 +1,4 @@
 function initEquipment(_object_id) {
-    $('#div_displayEquipement').masonry('destroy');
     var objects = object.all();
     var li = ' <ul data-role="listview">';
     for (var i in objects) {
@@ -16,7 +15,7 @@ function initEquipment(_object_id) {
         $('#panel_right').panel('open');
     }
 
-    $(window).off().on("orientationchange", function(event) {
+    $(window).on("orientationchange", function(event) {
         setTileSize('.eqLogic');
         $('#div_displayEquipement').masonry();
     });
