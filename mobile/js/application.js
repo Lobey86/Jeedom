@@ -219,7 +219,7 @@ function getDeviceType() {
     result.type = 'dekstop';
     if (navigator.userAgent.match(/(android)/gi)) {
         result.type = 'phone';
-        if ($('#page').width() > 899 || $('#page').height() > 899) {
+        if ($('pagecontainer').width() > 899 || $('#pagecontainer').height() > 899) {
             result.type = 'tablet';
         }
     }
@@ -236,9 +236,9 @@ function getDeviceType() {
     if (result.type == 'phone') {
         var ori = window.orientation
         if (ori == 90 || ori == -90) {
-            result.bSize = ($('#page').width() / 3) - 12;
+            result.bSize = ($('#pagecontainer').width() / 3) - 12;
         } else {
-            result.bSize = ($('#page').width() / 2) - 12;
+            result.bSize = ($('#pagecontainer').width() / 2) - 12;
         }
     }
     result.bSize2 = result.bSize * 2 + 12;
