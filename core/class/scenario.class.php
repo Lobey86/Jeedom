@@ -323,13 +323,14 @@ class scenario {
                     $calculatedDate['nextDate'] = $calculatedDate_tmp['nextDate'];
                 }
             }
-        }
-        try {
-            $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
-            $calculatedDate['prevDate'] = $c->getPreviousRunDate();
-            $calculatedDate['nextDate'] = $c->getNextRunDate();
-        } catch (Exception $exc) {
-            //echo $exc->getTraceAsString();
+        } else {
+            try {
+                $c = new Cron\CronExpression($this->getSchedule(), new Cron\FieldFactory);
+                $calculatedDate['prevDate'] = $c->getPreviousRunDate();
+                $calculatedDate['nextDate'] = $c->getNextRunDate();
+            } catch (Exception $exc) {
+                //echo $exc->getTraceAsString();
+            }
         }
         return $calculatedDate;
     }
