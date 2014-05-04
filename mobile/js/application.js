@@ -236,9 +236,9 @@ function getDeviceType() {
     if (result.type == 'phone') {
         var ori = window.orientation
         if (ori == 90 || ori == -90) {
-            result.bSize = ($('#pagecontainer').width() / 3) - 22;
+            result.bSize = ($('#pagecontainer').width() / 3) - 30;
         } else {
-            result.bSize = ($('#pagecontainer').width() / 2) - 22;
+            result.bSize = ($('#pagecontainer').width() / 2) - 30;
         }
     }
     result.bSize2 = result.bSize * 2 + 12;
