@@ -564,7 +564,7 @@ function br2nl($string) {
 }
 
 function calculPath($_path) {
-    if (strpos($_path, '/') !== 0 || strpos($_path, '\\') !== 0) {
+    if (strpos($_path, '/') !== 0) {
         return dirname(__FILE__) . '/../../' . $_path;
     }
     return $_path;

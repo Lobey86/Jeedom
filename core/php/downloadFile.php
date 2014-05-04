@@ -21,7 +21,7 @@ include_file('core', 'authentification', 'php');
 if (!isConnect()) {
     throw new Exception(__('401 - Accès non autorisé', __FILE__));
 }
-$pathfile = dirname(__FILE__) . '/../../' . init('pathfile');
+$pathfile = calculPath(urldecode(init('pathfile')));
 if (!file_exists($pathfile)) {
     throw new Exception(__('Fichier non trouvé : ', __FILE__) . $pathfile);
 }
