@@ -355,11 +355,12 @@ class scenario {
                     }
                     $lastCheck = new DateTime($this->getLastLaunch());
                     $prev = $c->getPreviousRunDate();
-                    if ($lastCheck < $prev) {
-                        if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') > 5) {
+                    if ($lastCheck <= $prev) {
+                        $nowtime = new DateTime();
+                        if ($nowtime->diff($prev, true)->format('%i') < config::byKey('maxCatchAllow') || config::byKey('maxCatchAllow') == -1) {
                             log::add('scenario', 'error', __('Retard lancement prévu à ', __FILE__) . $prev->format('Y-m-d H:i:s') . __(' dernier lancement à ', __FILE__) . $lastCheck->format('Y-m-d H:i:s') . __('. Retard de : ', __FILE__) . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . __('. Rattrapage en cours...', __FILE__));
+                            return true;
                         }
-                        return true;
                     }
                 } catch (Exception $exc) {
                     log::add('scenario', 'error', __('Expression cron non valide : ', __FILE__) . $schedule);
@@ -375,8 +376,9 @@ class scenario {
                 $lastCheck = new DateTime($this->getLastLaunch());
                 $prev = $c->getPreviousRunDate();
                 if ($lastCheck < $prev) {
-                    if ($lastCheck->diff($c->getPreviousRunDate())->format('%i') < config::byKey('maxCatchAllow') || config::byKey('maxCatchAllow') == -1) {
-                        log::add('scenario', 'error', __('Retard lancement prévu à ', __FILE__) . $prev->format('Y-m-d H:i:s') . __(' dernier lancement à ', __FILE__) . $lastCheck->format('Y-m-d H:i:s') . __('. Retard de : ', __FILE__) . ( $lastCheck->diff($c->getPreviousRunDate())->format('%i min')) . ': ' . $this->getName() . __('. Rattrapage en cours...', __FILE__));
+                    $nowtime = new DateTime();
+                    if ($nowtime->diff($prev, true)->format('%i') <= config::byKey('maxCatchAllow') || config::byKey('maxCatchAllow') == -1) {
+                        log::add('scenario', 'error', __('Retard lancement prévu à ', __FILE__) . $prev->format('Y-m-d H:i:s') . __(' dernier lancement à ', __FILE__) . $lastCheck->format('Y-m-d H:i:s') . __('. Retard de : ', __FILE__) . ( $nowtime->diff($prev, true)->format('%i min')) . ': ' . $this->getName() . __('. Rattrapage en cours...', __FILE__));
                         return true;
                     }
                 }

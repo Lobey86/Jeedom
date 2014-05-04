@@ -294,8 +294,9 @@ class cron {
                 $prev = $c->getPreviousRunDate();
                 $lastCheck = new DateTime($this->getLastRun());
                 if ($lastCheck < $prev) {
-                    if ($lastCheck->diff($prev)->format('%i') < config::byKey('maxCatchAllow') || config::byKey('maxCatchAllow') == -1) {
-                        log::add('cron', 'error', __('Retard de ', __FILE__) . ( $lastCheck->diff($prev)->format('%i min')) . ': ' . $this->getClass() . '::' . $this->getFunction() . __('(). Rattrapage en cours...', __FILE__));
+                    $nowtime = new DateTime();
+                    if ($nowtime->diff($prev, true)->format('%i') <= config::byKey('maxCatchAllow') || config::byKey('maxCatchAllow') == -1) {
+                        log::add('cron', 'error', __('Retard de ', __FILE__) . $nowtime->diff($prev, true)->format('%i min') . ': ' . $this->getClass() . '::' . $this->getFunction() . __('(). Rattrapage en cours...', __FILE__));
                         return true;
                     }
                 }
