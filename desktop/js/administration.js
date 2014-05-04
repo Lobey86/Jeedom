@@ -190,7 +190,7 @@ $(function() {
     });
 
     $('#bt_downloadBackup').on('click', function() {
-        window.open('backup/' + $('#sel_restoreBackup option:selected').text(), "_blank", null);
+        window.open('core/php/downloadFile.php?pathfile=backup/' + $('#sel_restoreBackup option:selected').text(), "_blank", null);
     });
 
     $("#bt_restoreCloudJeedom").on('click', function(event) {
@@ -274,11 +274,11 @@ $(function() {
 
     loadConfiguration($('body'));
     updateListBackup();
-    
+
     $('body').delegate('.userAttr', 'change', function() {
         modifyWithoutSave = true;
     });
-    
+
     $('body').delegate('.configKey', 'change', function() {
         modifyWithoutSave = true;
     });
