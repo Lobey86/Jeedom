@@ -256,20 +256,21 @@ function setTileSize(_filter, _fixWidthSize, _fixHeightSize) {
             $(this).width((deviceInfo.bSize + 6) * _fixWidthSize);
         } else {
             /*if (width <= deviceInfo.bSize) {
-                $(this).width(deviceInfo.bSize);
-            } else {
-                $(this).width(deviceInfo.bSize2);
-            }*/
+             $(this).width(deviceInfo.bSize);
+             } else {
+             $(this).width(deviceInfo.bSize2);
+             }*/
             $(this).width(deviceInfo.bSize);
         }
         if (init(_fixHeightSize, '') != '') {
             $(this).width((deviceInfo.bSize + 6) * _fixHeightSize);
         } else {
-            if (height <= deviceInfo.bSize) {
+           /* if (height <= deviceInfo.bSize) {
                 $(this).height(deviceInfo.bSize);
             } else {
                 $(this).height(deviceInfo.bSize2);
-            }
+            }*/
+            $(this).css('height', 'auto');
         }
         var verticalAlign = $(this).find('.vertical-align');
         height = $(this).height();
