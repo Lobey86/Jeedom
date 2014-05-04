@@ -128,8 +128,8 @@ sendVarToJS('dataStore_link_id', init('link_id', -1));
                         tr += '<span style="display : none;">' + data.result[i].value + '</span><input class="form-control input-sm value" value="' + data.result[i].value + '" />';
                         tr += '</td>';
                         tr += '<td>';
-                        tr += '<a class="btn btn-success pull-right btn-xs bt_saveDataStore" style="color : white"><i class="fa fa-check"></i> {{Enregistrer</a>';
-                        tr += '<a class="btn btn-danger pull-right btn-xs bt_removeDataStore" style="color : white"><i class="fa fa-trash-o"></i> {{Supprimer</a>';
+                        tr += '<a class="btn btn-success pull-right btn-xs bt_saveDataStore" style="color : white"><i class="fa fa-check"></i> {{Enregistrer}}</a>';
+                        tr += '<a class="btn btn-danger pull-right btn-xs bt_removeDataStore" style="color : white"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>';
                         tr += '</td>';
                         tr += '</tr>';
                     }

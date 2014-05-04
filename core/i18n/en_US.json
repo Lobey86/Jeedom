@@ -147,7 +147,17 @@
         "IM": "instantaneous message",
         "Voir modules non valid\bsu00e9s (\u00e0 vos risques et p\u00e9rils)": "View unapproved modules (at your own risk)",
         "Ajouter un utilisateur": "Add a user",
-        "Enregistrer": "Save"
+        "Enregistrer": "Save",
+        "Mise \u00e0 jour :": "Mise \u00e0 jour :",
+        "Mettre \u00e0 jour": "Mettre \u00e0 jour",
+        "Faire une sauvegarde avant la mise \u00e0 jour": "Faire une sauvegarde avant la mise \u00e0 jour",
+        "Branche": "Branche",
+        "Derni\u00e8re version": "Derni\u00e8re version",
+        "Informations :": "Informations :",
+        "Clef API": "Clef API",
+        "Voir modules non valid\u00e9s (\u00e0 vos risques et p\u00e9rils)": "Voir modules non valid\u00e9s (\u00e0 vos risques et p\u00e9rils)",
+        "Rattrapage maximum autoris\u00e9 (min, -1 pour infini": "Rattrapage maximum autoris\u00e9 (min, -1 pour infini",
+        "Rattrapage maximum autoris\u00e9 (min, -1 pour infini)": "Rattrapage maximum autoris\u00e9 (min, -1 pour infini)"
     },
     "desktop\/php\/index.php": {
         "Toggle navigation": "Toggle navigation",
@@ -169,14 +179,30 @@
         "Envoy\u00e9 un rapport de bugs": "Send a bugs report",
         "Sp\u00e9cifique": "Specific",
         "Ouverture d'un ticket": "New issue",
-        "Moteur de t\u00e2ches": "Moteur de t\u00e2ches"
+        "Moteur de t\u00e2ches": "Moteur de t\u00e2ches",
+        "Liste objets": "Liste objets",
+        "Filtre sur les cat\u00e9gories d'\u00e9quipement": "Filtre sur les cat\u00e9gories d'\u00e9quipement",
+        "G\u00e9n\u00e9ral<\/legend>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-3 control-label\">Nom de l'\u00e9quipement RFXcom<\/label>\r\n                            <div class=\"col-lg-4\">\r\n                                <input type=\"text\" class=\"eqLogicAttr form-control\" data-l1key=\"id\" style=\"display : none;\" \/>\r\n                                <input type=\"text\" class=\"eqLogicAttr form-control\" data-l1key=\"name\" placeholder=\"Nom de l'\u00e9quipement RFXcom\"\/>\r\n                            <\/div>\r\n                        <\/div>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-3 control-label\">ID<\/label>\r\n                            <div class=\"col-lg-4\">\r\n                                <input type=\"text\" class=\"eqLogicAttr form-control\" data-l1key=\"logicalId\" placeholder=\"Logical ID\"\/>\r\n                            <\/div>\r\n                        <\/div>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-3 control-label\">{{Activer<\/label>\r\n                            <div class=\"col-lg-1\">\r\n                                <input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"isEnable\" checked\/>\r\n                            <\/div>\r\n                            <label class=\"col-lg-1 control-label\">Visible<\/label>\r\n                            <div class=\"col-lg-1\">\r\n                                <input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"isVisible\" checked\/>\r\n                            <\/div>\r\n                        <\/div>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-3 control-label\" >Ascending object<\/label>\r\n                            <div class=\"col-lg-4\">\r\n                                <select class=\"eqLogicAttr form-control\" data-l1key=\"object_id\">\r\n                                    <option value=\"\">Aucun<\/option>\r\n                                    <option value=\"1\">Appartement<\/option><option value=\"35\">Loic<\/option><option value=\"36\">Marie<\/option><option value=\"34\">Balcon<\/option><option value=\"2\">Chambre<\/option><option value=\"4\">Cuisine<\/option><option value=\"7\">Dressing<\/option><option value=\"3\">Salle de bain<\/option><option value=\"5\">Salon<\/option><option value=\"6\">WC<\/option><option value=\"33\">Frigo<\/option>                                <\/select>\r\n                            <\/div>\r\n                        <\/div>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-3 control-label\">Category<\/label>\r\n                            <div class=\"col-lg-9\">\r\n                                <label class=\"checkbox-inline\"><input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"category\" data-l2key=\"heating\" \/>Chauffage<\/label><label class=\"checkbox-inline\"><input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"category\" data-l2key=\"security\" \/>S\u00e9curit\u00e9<\/label><label class=\"checkbox-inline\"><input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"category\" data-l2key=\"energy\" \/>Energie<\/label><label class=\"checkbox-inline\"><input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"category\" data-l2key=\"light\" \/>Lumi\u00e8re<\/label><label class=\"checkbox-inline\"><input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"category\" data-l2key=\"automatism\" \/>Automatisme<\/label>\r\n                            <\/div>\r\n                        <\/div>\r\n                    <\/fieldset> \r\n                <\/form>\r\n            <\/div>\r\n            <div class=\"col-lg-6\">\r\n                <form class=\"form-horizontal\">\r\n                    <fieldset>\r\n                        <legend>Informations<\/legend>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-2 control-label\">Equipement<\/label>\r\n                            <div class=\"col-lg-8\">\r\n                                <select class=\"eqLogicAttr form-control\" data-l1key=\"configuration\" data-l2key=\"device\">\r\n                                    <option value=\"\">None<\/option>\r\n                                    <option value=\"11::00\">T\u00e9l\u00e9commande - Defaut<\/option><option value=\"40::01\">Thermostat 1 - Defaut<\/option><option value=\"20::01\">Securit\u00e9 1 - Defaut<\/option><option value=\"50::01\">Temperature - Defaut<\/option><option value=\"50::02\">Temperature - Defaut<\/option><option value=\"51::01\">Humidit\u00e9 - Defaut<\/option><option value=\"52::01\">Temperature et Humidit\u00e9 - Defaut<\/option><option value=\"52::02\">Temperature et Humidit\u00e9 - Defaut<\/option><option value=\"54::01\">Temperature, Humidit\u00e9 et Pression - Defaut<\/option><option value=\"56::01\">Vent - Defaut<\/option><option value=\"56::04\">Vent - Avec temp\u00e9rature et refroidissement<\/option><option value=\"56::05\">Vent - Sans moyenne<\/option><option value=\"57::01\">UV - Defaut<\/option><option value=\"57::02\">UV - Defaut<\/option><option value=\"57::03\">UV - Avec temp\u00e9rature<\/option><option value=\"59::01\">Courant - Defaut<\/option><option value=\"5A::01\">Energie - Defaut<\/option><option value=\"71::00\">Energie - Defaut<\/option><option value=\"71::01\">Energie - Message<\/option><option value=\"71::02\">Energie - Voltage 2<\/option>                                <\/select>\r\n                            <\/div>\r\n                        <\/div>\r\n                    <\/fieldset> \r\n                <\/form>\r\n            <\/div>\r\n        <\/div>\r\n\r\n        <legend>Commandes<\/legend>\r\n\r\n\r\n        <a class=\"btn btn-success btn-sm cmdAction\" data-action=\"add\"><i class=\"fa fa-plus-circle\"><\/i> Ajouter une commande<\/a><br\/><br\/>\r\n        <table id=\"table_cmd\" class=\"table table-bordered table-condensed\">\r\n            <thead>\r\n                <tr>\r\n                    <th style=\"width: 300px;\">Name<\/th>\r\n                    <th style=\"width: 130px;\" class=\"expertModeHidden\">Type<\/th>\r\n                    <th class=\"expertModeHidden\">Logical ID (info) ou Commande brute (action)<\/th>\r\n                    <th>Param\u00e8tres<\/th>\r\n                    <th style=\"width: 100px;\">Options": "G\u00e9n\u00e9ral<\/legend>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-3 control-label\">Nom de l'\u00e9quipement RFXcom<\/label>\r\n                            <div class=\"col-lg-4\">\r\n                                <input type=\"text\" class=\"eqLogicAttr form-control\" data-l1key=\"id\" style=\"display : none;\" \/>\r\n                                <input type=\"text\" class=\"eqLogicAttr form-control\" data-l1key=\"name\" placeholder=\"Nom de l'\u00e9quipement RFXcom\"\/>\r\n                            <\/div>\r\n                        <\/div>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-3 control-label\">ID<\/label>\r\n                            <div class=\"col-lg-4\">\r\n                                <input type=\"text\" class=\"eqLogicAttr form-control\" data-l1key=\"logicalId\" placeholder=\"Logical ID\"\/>\r\n                            <\/div>\r\n                        <\/div>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-3 control-label\">{{Activer<\/label>\r\n                            <div class=\"col-lg-1\">\r\n                                <input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"isEnable\" checked\/>\r\n                            <\/div>\r\n                            <label class=\"col-lg-1 control-label\">Visible<\/label>\r\n                            <div class=\"col-lg-1\">\r\n                                <input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"isVisible\" checked\/>\r\n                            <\/div>\r\n                        <\/div>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-3 control-label\" >Ascending object<\/label>\r\n                            <div class=\"col-lg-4\">\r\n                                <select class=\"eqLogicAttr form-control\" data-l1key=\"object_id\">\r\n                                    <option value=\"\">Aucun<\/option>\r\n                                    <option value=\"1\">Appartement<\/option><option value=\"35\">Loic<\/option><option value=\"36\">Marie<\/option><option value=\"34\">Balcon<\/option><option value=\"2\">Chambre<\/option><option value=\"4\">Cuisine<\/option><option value=\"7\">Dressing<\/option><option value=\"3\">Salle de bain<\/option><option value=\"5\">Salon<\/option><option value=\"6\">WC<\/option><option value=\"33\">Frigo<\/option>                                <\/select>\r\n                            <\/div>\r\n                        <\/div>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-3 control-label\">Category<\/label>\r\n                            <div class=\"col-lg-9\">\r\n                                <label class=\"checkbox-inline\"><input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"category\" data-l2key=\"heating\" \/>Chauffage<\/label><label class=\"checkbox-inline\"><input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"category\" data-l2key=\"security\" \/>S\u00e9curit\u00e9<\/label><label class=\"checkbox-inline\"><input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"category\" data-l2key=\"energy\" \/>Energie<\/label><label class=\"checkbox-inline\"><input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"category\" data-l2key=\"light\" \/>Lumi\u00e8re<\/label><label class=\"checkbox-inline\"><input type=\"checkbox\" class=\"eqLogicAttr\" data-l1key=\"category\" data-l2key=\"automatism\" \/>Automatisme<\/label>\r\n                            <\/div>\r\n                        <\/div>\r\n                    <\/fieldset> \r\n                <\/form>\r\n            <\/div>\r\n            <div class=\"col-lg-6\">\r\n                <form class=\"form-horizontal\">\r\n                    <fieldset>\r\n                        <legend>Informations<\/legend>\r\n                        <div class=\"form-group\">\r\n                            <label class=\"col-lg-2 control-label\">Equipement<\/label>\r\n                            <div class=\"col-lg-8\">\r\n                                <select class=\"eqLogicAttr form-control\" data-l1key=\"configuration\" data-l2key=\"device\">\r\n                                    <option value=\"\">None<\/option>\r\n                                    <option value=\"11::00\">T\u00e9l\u00e9commande - Defaut<\/option><option value=\"40::01\">Thermostat 1 - Defaut<\/option><option value=\"20::01\">Securit\u00e9 1 - Defaut<\/option><option value=\"50::01\">Temperature - Defaut<\/option><option value=\"50::02\">Temperature - Defaut<\/option><option value=\"51::01\">Humidit\u00e9 - Defaut<\/option><option value=\"52::01\">Temperature et Humidit\u00e9 - Defaut<\/option><option value=\"52::02\">Temperature et Humidit\u00e9 - Defaut<\/option><option value=\"54::01\">Temperature, Humidit\u00e9 et Pression - Defaut<\/option><option value=\"56::01\">Vent - Defaut<\/option><option value=\"56::04\">Vent - Avec temp\u00e9rature et refroidissement<\/option><option value=\"56::05\">Vent - Sans moyenne<\/option><option value=\"57::01\">UV - Defaut<\/option><option value=\"57::02\">UV - Defaut<\/option><option value=\"57::03\">UV - Avec temp\u00e9rature<\/option><option value=\"59::01\">Courant - Defaut<\/option><option value=\"5A::01\">Energie - Defaut<\/option><option value=\"71::00\">Energie - Defaut<\/option><option value=\"71::01\">Energie - Message<\/option><option value=\"71::02\">Energie - Voltage 2<\/option>                                <\/select>\r\n                            <\/div>\r\n                        <\/div>\r\n                    <\/fieldset> \r\n                <\/form>\r\n            <\/div>\r\n        <\/div>\r\n\r\n        <legend>Commandes<\/legend>\r\n\r\n\r\n        <a class=\"btn btn-success btn-sm cmdAction\" data-action=\"add\"><i class=\"fa fa-plus-circle\"><\/i> Ajouter une commande<\/a><br\/><br\/>\r\n        <table id=\"table_cmd\" class=\"table table-bordered table-condensed\">\r\n            <thead>\r\n                <tr>\r\n                    <th style=\"width: 300px;\">Name<\/th>\r\n                    <th style=\"width: 130px;\" class=\"expertModeHidden\">Type<\/th>\r\n                    <th class=\"expertModeHidden\">Logical ID (info) ou Commande brute (action)<\/th>\r\n                    <th>Param\u00e8tres<\/th>\r\n                    <th style=\"width: 100px;\">Options",
+        "Liste des cam\u00e9ra": "Liste des cam\u00e9ra",
+        "Nom de l'\u00e9quipement cam\u00e9ra": "Nom de l'\u00e9quipement cam\u00e9ra",
+        "IP": "IP",
+        "URL du flux": "URL du flux",
+        "Boundary": "Boundary",
+        "Cam\u00e9ra": "Cam\u00e9ra",
+        "Ajouter une commande": "Ajouter une commande",
+        "Requ\u00eate": "Requ\u00eate"
     },
     "core\/php\/jeeScenario.php": {
         " avec le PID : ": " with PID : ",
-        "Impossible de lancer le sc\u00e9nario car d\u00e9j\u00e0 en cours": "Enable to launch scenario because it is already launched"
+        "Impossible de lancer le sc\u00e9nario car d\u00e9j\u00e0 en cours": "Enable to launch scenario because it is already launched",
+        "Scenario  : ": "Scenario  : ",
+        "Erreur : ": "Erreur : "
     },
     "core\/class\/scenarioElement.class.php": {
-        "Ex\u00e9cution de l'\u00e9l\u00e9ment : ": "Running of component : "
+        "Ex\u00e9cution de l'\u00e9l\u00e9ment : ": "Running of component : ",
+        "El\u00e9ment inconnu v\u00e9rifi\u00e9 l'id : ": "El\u00e9ment inconnu v\u00e9rifi\u00e9 l'id : ",
+        "El\u00e9ment inconnu 2 v\u00e9rifi\u00e9 l'id : ": "El\u00e9ment inconnu 2 v\u00e9rifi\u00e9 l'id : ",
+        "Expression inconnue v\u00e9rifi\u00e9 l'id : ": "Expression inconnue v\u00e9rifi\u00e9 l'id : "
     },
     "core\/class\/scenarioSubElement.class.php": {
         "Ex\u00e9cution du sous-\u00e9l\u00e9ment de type : ": " Running of under-component : "
@@ -195,7 +221,11 @@
     "core\/com\/http.com.php": {
         "Url : ": "Url : ",
         "\nReponse : ": "\nAnswer : ",
-        "Echec de la requete http : ": "Failure of request http : "
+        "Echec de la requete http : ": "Failure of request http : ",
+        "Erreur curl : ": "Erreur curl : ",
+        " sur la commande ": " sur la commande ",
+        " apr\u00e8s ": " apr\u00e8s ",
+        " relance(s)": " relance(s)"
     },
     "desktop\/php\/dashboard.php": {
         "Liste objets": "Objects list",
@@ -207,11 +237,17 @@
     },
     "core\/class\/cmd.class.php": {
         "Message venant de": "Message from",
-        " \/cache lifetime =>": " \/cache lifetime =>"
+        " \/cache lifetime =>": " \/cache lifetime =>",
+        "Erreur sur": "Erreur sur",
+        "Le type de la commande ne peut etre vide :": "Le type de la commande ne peut etre vide :"
     },
     "core\/class\/scenario.class.php": {
         "Ev\u00e8nement venant de ": "Event from ",
-        ") v\u00e9rification du\/des sc\u00e9nario(s) : ": ") v\u00e9rification du\/des sc\u00e9nario(s) : "
+        ") v\u00e9rification du\/des sc\u00e9nario(s) : ": ") v\u00e9rification du\/des sc\u00e9nario(s) : ",
+        "Retard lancement pr\u00e9vu \u00e0 ": "Retard lancement pr\u00e9vu \u00e0 ",
+        " dernier lancement \u00e0 ": " dernier lancement \u00e0 ",
+        ". Retard de : ": ". Retard de : ",
+        ". Rattrapage en cours...": ". Rattrapage en cours..."
     },
     "desktop\/php\/history.php": {
         "Ligne": "Line",
@@ -245,7 +281,8 @@
     },
     "core\/php\/jeeCron.php": {
         " avec le PID : ": " with PID : ",
-        "Arr\u00eat\/relance du deamon : ": "Stop\/launch again the deamon: "
+        "Arr\u00eat\/relance du deamon : ": "Stop\/launch again the deamon: ",
+        "Erreur sur ": "Erreur sur "
     },
     "desktop\/js\/administration.js": {
         "Etes-vous s\u00fbr de vouloir mettre \u00e0 jour Jeedom ? Une fois lanc\u00e9e cette op\u00e9ration ne peut etre annul\u00e9e": "Are you agree to update Jeedom? When it is launched, this operation could not be cancelled.",
@@ -263,7 +300,11 @@
         "L\\'op\u00e9ration a \u00e9chou\u00e9": "Operation failed",
         "Changer le mot de passe": "Change password",
         "L\\'utilisateur a bien \u00e9t\u00e9 supprim\u00e9": "User has been removed",
-        "Cache vid\u00e9": "Empty cache"
+        "Cache vid\u00e9": "Empty cache",
+        "Etes-vous s\u00fbr de vouloir mettre \u00e0 jour Jeedom ? Une fois lanc\u00e9e cette op\u00e9ration ne peut \u00eatre annul\u00e9e": "Etes-vous s\u00fbr de vouloir mettre \u00e0 jour Jeedom ? Une fois lanc\u00e9e cette op\u00e9ration ne peut \u00eatre annul\u00e9e",
+        "Etes-vous s\u00fbr de vouloir faire une sauvegarde de Jeedom ? Une fois lanc\u00e9e cette op\u00e9ration ne peut \u00eatre annul\u00e9e": "Etes-vous s\u00fbr de vouloir faire une sauvegarde de Jeedom ? Une fois lanc\u00e9e cette op\u00e9ration ne peut \u00eatre annul\u00e9e",
+        "Une fois lanc\u00e9e cette op\u00e9ration ne peut \u00eatre annul\u00e9e": "Une fois lanc\u00e9e cette op\u00e9ration ne peut \u00eatre annul\u00e9e",
+        "Etes-vous s\u00fbr de vouloir supprimer la sauvegarde": "Etes-vous s\u00fbr de vouloir supprimer la sauvegarde"
     },
     "desktop\/php\/interact.php": {
         "Limiter aux \u00e9quipement de type": "Limit to devices of type",
@@ -282,7 +323,10 @@
         "Synonyme": "Synonym",
         "Remplace les mots par leur synonymes lors de la g\u00e9n\u00e9ration des commandes": "Replace words with their synonyms during commands creation",
         "Nombre de requetes active": "Number of active request(s)",
-        "Nombre de requetes totales": "Total number of request(s)"
+        "Nombre de requetes totales": "Total number of request(s)",
+        "Limiter aux commandes de type": "Limiter aux commandes de type",
+        "Nombre de requ\u00eate(s) active(s)": "Nombre de requ\u00eate(s) active(s)",
+        "Nombre de requ\u00eate(s) totale(s)": "Nombre de requ\u00eate(s) totale(s)"
     },
     "desktop\/php\/display.php": {
         "Arbre des commandes": "Commands tree",
@@ -326,7 +370,8 @@
         "Programmation": "Scheduling",
         "Timeout (min)": "Timeout (min)",
         "Dernier lancement": "Last running",
-        "Dur\u00e9e": "Duration"
+        "Dur\u00e9e": "Duration",
+        "Nombre de Jeecron master, doit toujours \u00eatre inf\u00e9rieur \u00e0 2": "Nombre de Jeecron master, doit toujours \u00eatre inf\u00e9rieur \u00e0 2"
     },
     "desktop\/php\/object.php": {
         "Liste objects": "Objects list",
@@ -402,7 +447,9 @@
         "Autre": "Other"
     },
     "core\/class\/cron.class.php": {
-        "Arret de ": "Stop of "
+        "Arret de ": "Stop of ",
+        "Retard de ": "Retard de ",
+        "(). Rattrapage en cours...": "(). Rattrapage en cours..."
     },
     "mobile\/php\/index.php": {
         "Menu": "Menu",
@@ -454,5 +501,291 @@
     "core\/template\/scenario\/scenario.default.html": {
         "Start": "Start",
         "Stop": "Stop"
+    },
+    "mobile\/js\/message.js": {
+        "Logfile": "Logfile",
+        "Tout": "Tout"
+    },
+    "mobile\/html\/index.html": {
+        "Accueil": "Accueil",
+        "Equipement": "Equipement",
+        "Equipements": "Equipements",
+        "Vues": "Vues",
+        "Message(s)": "Message(s)",
+        "Cron": "Cron",
+        "Se deconnecter": "Se deconnecter",
+        "Menu": "Menu",
+        "Options": "Options"
+    },
+    "mobile\/html\/cron.html": {
+        "PID": "PID",
+        "Demon": "Demon",
+        "Classe": "Classe",
+        "Fonction": "Fonction",
+        "Dernier lancement": "Dernier lancement",
+        "Dur\u00e9e": "Dur\u00e9e",
+        "Satut": "Satut"
+    },
+    "mobile\/html\/home.html": {
+        "Equipements": "Equipements",
+        "Fermer": "Fermer",
+        "Vues": "Vues",
+        "Messages": "Messages",
+        "Message(s)": "Message(s)",
+        "Plugins": "Plugins"
+    },
+    "core\/ajax\/jeedom.ajax.php": {
+        "401 - Acc\u00e8s non autoris\u00e9": "401 - Acc\u00e8s non autoris\u00e9"
+    },
+    "mobile\/modal\/login.php": {
+        "Connectez-vous": "Connectez-vous",
+        "Enregistrer cet appareil": "Enregistrer cet appareil",
+        "Non": "Non",
+        "Oui": "Oui",
+        "Connection": "Connection"
+    },
+    "mobile\/html\/message.html": {
+        "Date": "Date",
+        "Plugin": "Plugin"
+    },
+    "desktop\/modal\/market.send.php": {
+        "Envoyer": "Envoyer",
+        "ID": "ID",
+        "Plugin": "Plugin",
+        "Widget": "Widget",
+        "[Zwave] Configuration module": "[Zwave] Configuration module",
+        "Script": "Script",
+        "A valider": "A valider",
+        "Valid\u00e9": "Valid\u00e9",
+        "Refus\u00e9": "Refus\u00e9",
+        "Version": "Version",
+        "Derni\u00e8re modification de l'archive": "Derni\u00e8re modification de l'archive",
+        "Utilisation": "Utilisation",
+        "Changelog": "Changelog",
+        "Votre objet a \u00e9t\u00e9 envoy\u00e9 avec succ\u00e8s sur le market": "Votre objet a \u00e9t\u00e9 envoy\u00e9 avec succ\u00e8s sur le market",
+        "[Camera] Mod\u00e8le": "[Camera] Mod\u00e8le"
+    },
+    "core\/class\/market.class.php": {
+        "Erreur market::getinfo : ": "Erreur market::getinfo : "
+    },
+    "core\/class\/evaluate.class.php": {
+        "Erreur deux op\u00e9rateurs a la fil\u00e9es": "Erreur deux op\u00e9rateurs a la fil\u00e9es",
+        "Erreur ! Expression attend parametre avant symbole !": "Erreur ! Expression attend parametre avant symbole !"
+    },
+    "core\/template\/scenario\/variable.default.html": {
+        "Rechercher \u00e9quipement": "Rechercher \u00e9quipement"
+    },
+    "core\/ajax\/cmd.ajax.php": {
+        "401 - Acc\u00e8s non autoris\u00e9": "401 - Acc\u00e8s non autoris\u00e9",
+        "Cmd ID inconnu : ": "Cmd ID inconnu : "
+    },
+    "core\/ajax\/message.ajax.php": {
+        "401 - Acc\u00e8s non autoris\u00e9": "401 - Acc\u00e8s non autoris\u00e9"
+    },
+    "core\/class\/eqLogic.class.php": {
+        "Attention": "Attention",
+        " n'a pas envoy\u00e9 de message depuis plus de ": " n'a pas envoy\u00e9 de message depuis plus de ",
+        " min (v\u00e9rifier les piles)": " min (v\u00e9rifier les piles)"
+    },
+    "core\/ajax\/scenario.ajax.php": {
+        "401 - Acc\u00e8s non autoris\u00e9": "401 - Acc\u00e8s non autoris\u00e9"
+    },
+    "desktop\/php\/message.php": {
+        "Tout": "Tout",
+        "Plugin": "Plugin"
+    },
+    "core\/ajax\/chat.ajax.php": {
+        "401 - Acc\u00e8s non autoris\u00e9": "401 - Acc\u00e8s non autoris\u00e9"
+    },
+    "desktop\/modal\/market.display.php": {
+        "Installer": "Installer",
+        "Commentaires": "Commentaires",
+        "Ma Note": "Ma Note",
+        "Note": "Note",
+        "Prix": "Prix",
+        "Gratuit": "Gratuit",
+        "ID": "ID",
+        "Plugin": "Plugin",
+        "Widget": "Widget",
+        "[Zwave] Configuration module": "[Zwave] Configuration module",
+        "Utilisation": "Utilisation",
+        "Changelog": "Changelog",
+        "A valider": "A valider",
+        "Valid\u00e9": "Valid\u00e9",
+        "Refus\u00e9": "Refus\u00e9",
+        "Version": "Version",
+        "Derni\u00e8re modification de l'archive": "Derni\u00e8re modification de l'archive",
+        "Version utilis\u00e9 actuelement": "Version utilis\u00e9 actuelement",
+        "Nombre de t\u00e9l\u00e9chargements": "Nombre de t\u00e9l\u00e9chargements",
+        "Script": "Script",
+        "[Camera] Mod\u00e8le": "[Camera] Mod\u00e8le"
+    },
+    "mobile\/html\/fallback.html": {
+        "Aucune connection r\u00e9seau d\u00e9tect\u00e9. Veuillez vous connecter et relancer l'application": "Aucune connection r\u00e9seau d\u00e9tect\u00e9. Veuillez vous connecter et relancer l'application"
+    },
+    "desktop\/js\/plugin.js": {
+        "Voir sur le market": "Voir sur le market"
+    },
+    "core\/js\/plugin.template.js": {
+        "Sauvegarde effectu\u00e9e avec succ\u00e8s": "Sauvegarde effectu\u00e9e avec succ\u00e8s",
+        "Suppression effectu\u00e9e avec succ\u00e8s": "Suppression effectu\u00e9e avec succ\u00e8s",
+        "Etes-vous s\u00fbr de vouloir supprimer l\\'\u00e9quipement": "Etes-vous s\u00fbr de vouloir supprimer l\\'\u00e9quipement",
+        "Veuillez d\\'abord s\u00e9lectionner un": "Veuillez d\\'abord s\u00e9lectionner un",
+        "Nom de l'\u00e9quipement ?": "Nom de l'\u00e9quipement ?",
+        "Veuillez activer l\\'\u00e9quipement avant de tester une de ses commandes": "Veuillez activer l\\'\u00e9quipement avant de tester une de ses commandes"
+    },
+    "core\/ajax\/object.ajax.php": {
+        "401 - Acc\u00e8s non autoris\u00e9": "401 - Acc\u00e8s non autoris\u00e9"
+    },
+    "desktop\/modal\/dataStore.management.php": {
+        "Valeur": "Valeur",
+        "Data store supprim\u00e9": "Data store supprim\u00e9",
+        "Data store sauvegard\u00e9": "Data store sauvegard\u00e9"
+    },
+    "core\/ajax\/eqLogic.ajax.php": {
+        "Type incorrect (classe commande inexistante)": "Type incorrect (classe commande inexistante)"
+    },
+    "desktop\/modal\/market.list.php": {
+        "Nombre de t\u00e9l\u00e9chargements": "Nombre de t\u00e9l\u00e9chargements"
+    },
+    "\/var\/www\/vhosts\/darkserver.fr\/jeedom.darkserver.fr\/test.php": {
+        "Retard lancement pr\u00e9vu \u00e0 ": "Retard lancement pr\u00e9vu \u00e0 ",
+        " dernier lancement \u00e0 ": " dernier lancement \u00e0 ",
+        ". Retard de : ": ". Retard de : "
+    },
+    "desktop\/modal\/help.scenario.php": {
+        "D\u00e9clencheur": "D\u00e9clencheur",
+        "Il existe des d\u00e9clencheur sp\u00e9cifique (autre que ceux fournis par les commandes) :": "Il existe des d\u00e9clencheur sp\u00e9cifique (autre que ceux fournis par les commandes) :",
+        "#start#  : d\u00e9clench\u00e9 au (re)d\u00e9marrage de Jeedom": "#start#  : d\u00e9clench\u00e9 au (re)d\u00e9marrage de Jeedom",
+        "Condition": "Condition",
+        "Attention \u00e0 bien mettre des ' ou \" (quote ou double quote) lors de l'utilisation de chaine de caract\u00e8re": "Attention \u00e0 bien mettre des ' ou \" (quote ou double quote) lors de l'utilisation de chaine de caract\u00e8re",
+        "Vous pouvez utiliser n'importe lequel des symboles suivant pour les op\u00e9rateurs : ": "Vous pouvez utiliser n'importe lequel des symboles suivant pour les op\u00e9rateurs : ",
+        "= : \u00e9gal": "= : \u00e9gal",
+        "> : sup\u00e9rieur": "> : sup\u00e9rieur",
+        ">= : sup\u00e9rieur ou \u00e9gal": ">= : sup\u00e9rieur ou \u00e9gal",
+        "< : inf\u00e9rieur": "< : inf\u00e9rieur",
+        "<= : inf\u00e9rieur ou \u00e9gal": "<= : inf\u00e9rieur ou \u00e9gal",
+        "!= : diff\u00e9rent": "!= : diff\u00e9rent",
+        "~ : contient": "~ : contient",
+        "!~ : ne contient pas": "!~ : ne contient pas",
+        "Vous pouvez combiner n'importe quelle op\u00e9ration avec les op\u00e9rateurs suivants : ": "Vous pouvez combiner n'importe quelle op\u00e9ration avec les op\u00e9rateurs suivants : ",
+        "&& : et": "&& : et",
+        "|| : ou": "|| : ou",
+        "Vous pouvez aussi utiliser les tags suivants :": "Vous pouvez aussi utiliser les tags suivants :",
+        "#heure#  : heure courante (ex : 17 pour 17h15)": "#heure#  : heure courante (ex : 17 pour 17h15)",
+        "#minute# : minute courante (ex : 15 pour 17h15)": "#minute# : minute courante (ex : 15 pour 17h15)",
+        "#jour# : jour courant": "#jour# : jour courant",
+        "#mois# : mois courant": "#mois# : mois courant",
+        "#annee# : ann\u00e9e courante": "#annee# : ann\u00e9e courante",
+        "#time# : heure et minute courante (ex : 1715 pour 17h15)": "#time# : heure et minute courante (ex : 1715 pour 17h15)",
+        "#date# : jour et mois courant (ex : 1215 pour le 15 decembre)": "#date# : jour et mois courant (ex : 1215 pour le 15 decembre)",
+        "#semaine# : num\u00e9ro de la semaine (ex : 51)": "#semaine# : num\u00e9ro de la semaine (ex : 51)",
+        "#sjour# : pour le nom du jour de la semaine (ex : Samedi)": "#sjour# : pour le nom du jour de la semaine (ex : Samedi)",
+        "rand(1,10) : pour un nombre al\u00e9atoire de 1 \u00e0 10": "rand(1,10) : pour un nombre al\u00e9atoire de 1 \u00e0 10",
+        "tendance(commande,period) : donne la tendance de la commande sur la period \r\n    Ex : tendance(#[Salle de bain][Hydrometrie][Humidit\u00e9]#,1 hour) : Renvoi 1 si en augmentation, 0 si constant et -1 si en diminution": "tendance(commande,period) : donne la tendance de la commande sur la period \r\n    Ex : tendance(#[Salle de bain][Hydrometrie][Humidit\u00e9]#,1 hour) : Renvoi 1 si en augmentation, 0 si constant et -1 si en diminution",
+        "variable(mavariable,valeur par default) : r\u00e9cup\u00e9ration de la valeur d'une variable ou de la valeur souhait\u00e9e par d\u00e9faut\r\n    Ex : variable(plop,10) renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas": "variable(mavariable,valeur par default) : r\u00e9cup\u00e9ration de la valeur d'une variable ou de la valeur souhait\u00e9e par d\u00e9faut\r\n    Ex : variable(plop,10) renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas",
+        "En plus des commandes domotiques vous avez acc\u00e8s aux fonctions suivantes : ": "En plus des commandes domotiques vous avez acc\u00e8s aux fonctions suivantes : ",
+        "sleep : pause de x seconde(s)\r\nvariable : cr\u00e9ation\/modification d'une ou de la valeur d'une variable\r\nscenario : permet le controle des sc\u00e9narios": "sleep : pause de x seconde(s)\r\nvariable : cr\u00e9ation\/modification d'une ou de la valeur d'une variable\r\nscenario : permet le controle des sc\u00e9narios",
+        "Vous pouvez aussi utiliser les tags suivants dans les options : ": "Vous pouvez aussi utiliser les tags suivants dans les options : ",
+        "#sjour# : pour le nom du jour de la semaine en anglais (ex : sunday)": "#sjour# : pour le nom du jour de la semaine en anglais (ex : sunday)",
+        "rand[1-10] : pour un nombre al\u00e9atoire de 1 \u00e0 10": "rand[1-10] : pour un nombre al\u00e9atoire de 1 \u00e0 10",
+        "variablemavariable,valeur par default) : r\u00e9cup\u00e9ration de la valeur d'une variable ou de la valeur souhait\u00e9e par d\u00e9faut\r\n    Ex : variable(plop,10) renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas": "variablemavariable,valeur par default) : r\u00e9cup\u00e9ration de la valeur d'une variable ou de la valeur souhait\u00e9e par d\u00e9faut\r\n    Ex : variable(plop,10) renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas",
+        "Commandes (capteurs et actionneurs)": "Commandes (capteurs et actionneurs)",
+        "Retourne l'objet commande correspondant\r\n    $string => lien vers la commande voulue : [type].[nom de l'\u00e9quipement].[nom de la commande] (ex : [weather].[Villeurbanne].[Temp\u00e9rature])": "Retourne l'objet commande correspondant\r\n    $string => lien vers la commande voulue : [type].[nom de l'\u00e9quipement].[nom de la commande] (ex : [weather].[Villeurbanne].[Temp\u00e9rature])",
+        "Retourne l'objet commande correspondant\r\n    $string => Id de la commande voulue (voir G\u00e9n\u00e9ral => Affichage)": "Retourne l'objet commande correspondant\r\n    $string => Id de la commande voulue (voir G\u00e9n\u00e9ral => Affichage)",
+        "Ex\u00e9cute la commande et retourne le r\u00e9sultat\r\n    $options => Options pour l'ex\u00e9cution de la commande (peut \u00eatre sp\u00e9cifique au plugin), option de base : \r\n          Sous-type de la commande : message => $option = array('title' => 'titre du message , 'message' => 'Mon message');\r\n                                     color => $option = array('color' => 'couleur en hexad\u00e9cimal');\r\n                                     value => $option = array('color' => 'valeur voulue');\r\n                                     slider => $option = array('slider' => 'valeur voulue de 0 \u00e0 100');\r\n    $cache  => 0 = ignorer le cache , 1 = mode normal, 2 = cache utilis\u00e9 m\u00eame si expir\u00e9 (puis marqu\u00e9 \u00e0 recollecter)": "Ex\u00e9cute la commande et retourne le r\u00e9sultat\r\n    $options => Options pour l'ex\u00e9cution de la commande (peut \u00eatre sp\u00e9cifique au plugin), option de base : \r\n          Sous-type de la commande : message => $option = array('title' => 'titre du message , 'message' => 'Mon message');\r\n                                     color => $option = array('color' => 'couleur en hexad\u00e9cimal');\r\n                                     value => $option = array('color' => 'valeur voulue');\r\n                                     slider => $option = array('slider' => 'valeur voulue de 0 \u00e0 100');\r\n    $cache  => 0 = ignorer le cache , 1 = mode normal, 2 = cache utilis\u00e9 m\u00eame si expir\u00e9 (puis marqu\u00e9 \u00e0 recollecter)",
+        "filename => nom du fichier de log\r\n    level => [debug],[info],[error],[event]\r\n    message => message \u00e0 \u00e9crire dans les logs": "filename => nom du fichier de log\r\n    level => [debug],[info],[error],[event]\r\n    message => message \u00e0 \u00e9crire dans les logs",
+        "Retourne le nom du sc\u00e9nario courant": "Retourne le nom du sc\u00e9nario courant",
+        "Retourne le groupe du sc\u00e9nario": "Retourne le groupe du sc\u00e9nario",
+        "Retourne l'\u00e9tat du sc\u00e9nario": "Retourne l'\u00e9tat du sc\u00e9nario",
+        "Permet d'activer ou non du sc\u00e9nario\r\n    $active => 1 actif , 0 non actif": "Permet d'activer ou non du sc\u00e9nario\r\n    $active => 1 actif , 0 non actif",
+        "Permet de dire si le sc\u00e9nario est en cours ou non\r\n    $onGoing => 1 en cours , 0 arr\u00eater": "Permet de dire si le sc\u00e9nario est en cours ou non\r\n    $onGoing => 1 en cours , 0 arr\u00eater",
+        "Sauvegarde les modifications": "Sauvegarde les modifications",
+        "Sauvegarde une donn\u00e9e\r\n    $key => clef de la valeur (int ou string)\r\n    $value => valeur \u00e0 stocker (int, string, array ou object)": "Sauvegarde une donn\u00e9e\r\n    $key => clef de la valeur (int ou string)\r\n    $value => valeur \u00e0 stocker (int, string, array ou object)",
+        "R\u00e9cup\u00e8re une donn\u00e9e\r\n    $key => clef de la valeur (int ou string)": "R\u00e9cup\u00e8re une donn\u00e9e\r\n    $key => clef de la valeur (int ou string)",
+        "Supprime une donn\u00e9e": "Supprime une donn\u00e9e"
+    },
+    "desktop\/modal\/help.website.php": {
+        "Aucune aide n'\u00e9xiste pour le moment sur cette page": "Aucune aide n'\u00e9xiste pour le moment sur cette page"
+    },
+    "desktop\/modal\/help.interact.php": {
+        "Principe": "Principe",
+        "Le principe est le suivant : une phrase de commande declenche une unique commande. Pour simplifier la cr\u00e9ation des phrases il est possible d'utiliser des mots clef afin que jeedom genere automtiquement un liste de phrases.": "Le principe est le suivant : une phrase de commande declenche une unique commande. Pour simplifier la cr\u00e9ation des phrases il est possible d'utiliser des mots clef afin que jeedom genere automtiquement un liste de phrases.",
+        "Demande": "Demande",
+        "Vous pouvez utiliser #commande# et #objet# (les 2 doivent absolument etre utiliser ensemble) pour generer une liste de commande (il est possible de filtrer la g\u00e9n\u00e9ration pour r\u00e9duire la liste).Il est aussi possible d'utiliser #equipement# (utile si plusieurs commandes appartenant au meme objet on le meme nom)": "Vous pouvez utiliser #commande# et #objet# (les 2 doivent absolument etre utiliser ensemble) pour generer une liste de commande (il est possible de filtrer la g\u00e9n\u00e9ration pour r\u00e9duire la liste).Il est aussi possible d'utiliser #equipement# (utile si plusieurs commandes appartenant au meme objet on le meme nom)",
+        "Exemple :": "Exemple :",
+        "Quelle est la #commande# [du |de la |de l']#objet#": "Quelle est la #commande# [du |de la |de l']#objet#",
+        "Lors de la g\u00e9n\u00e9ration des commandes vous pouvez utiliser le champs synonyme (syn1=syn2,syn3|syn4=syn5) pour remplacer le nom des objets, des \u00e9quipements et\/ou des commandes ": "Lors de la g\u00e9n\u00e9ration des commandes vous pouvez utiliser le champs synonyme (syn1=syn2,syn3|syn4=syn5) pour remplacer le nom des objets, des \u00e9quipements et\/ou des commandes ",
+        "Pour les actions vous pouvez utiliser #color# (obligatoire si la commande est de type couleur) pour la valeur d'une couleur ou #slider# (obligatoire si la commande est de type slider) pour la valeur d'un slider.": "Pour les actions vous pouvez utiliser #color# (obligatoire si la commande est de type couleur) pour la valeur d'une couleur ou #slider# (obligatoire si la commande est de type slider) pour la valeur d'un slider.",
+        "Reponse": "Reponse",
+        "Vous pouvez utiliser #valeur# et #unite# dans le retour (ils seront remplac\u00e9s par la valeur et l'unit\u00e9 de la commande).Toutes les valeurs passer dans demande (#mavaleur#) sont accessible. Vous avez aussi #heure#, #date#, #jour# et #datetime#.": "Vous pouvez utiliser #valeur# et #unite# dans le retour (ils seront remplac\u00e9s par la valeur et l'unit\u00e9 de la commande).Toutes les valeurs passer dans demande (#mavaleur#) sont accessible. Vous avez aussi #heure#, #date#, #jour# et #datetime#.",
+        "#valeur# #unite#": "#valeur# #unite#",
+        "Vous pouvez utiliser le champs convertion binaire pour convertir les valeurs binaire (0 et 1) : ": "Vous pouvez utiliser le champs convertion binaire pour convertir les valeurs binaire (0 et 1) : ",
+        "non|oui": "non|oui",
+        "Le champs personne permet de n'autoriser que certain personne \u00e0 executer la commande, vous pouvez mettre plusieurs profile en les separants par |.": "Le champs personne permet de n'autoriser que certain personne \u00e0 executer la commande, vous pouvez mettre plusieurs profile en les separants par |.",
+        "personne1|personne2": "personne1|personne2"
+    },
+    "desktop\/modal\/help.cronSyntaxe.php": {
+        "G\u00e9n\u00e9rateur": "G\u00e9n\u00e9rateur",
+        "Exemples \/ Programmation pr\u00e9definie": "Exemples \/ Programmation pr\u00e9definie",
+        "Entr\u00e9e": "Entr\u00e9e",
+        "Tous les jours 00:01": "Tous les jours 00:01",
+        "toutes les 2 heures (\u00e0 minuit, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22)": "toutes les 2 heures (\u00e0 minuit, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22)",
+        "Une fois par ans a 5h10 le 18 F\u00e9vrier": "Une fois par ans a 5h10 le 18 F\u00e9vrier",
+        "Une fois par mois a 18:14 le second jour du mois": "Une fois par mois a 18:14 le second jour du mois",
+        "Une fois par semaine le mardi \u00e0 12:00": "Une fois par semaine le mardi \u00e0 12:00",
+        "Le premier mardi du mois \u00e0 15h00": "Le premier mardi du mois \u00e0 15h00",
+        "ann\u00e9e [optionel]": "ann\u00e9e [optionel]",
+        "jour de la semaine (0 - 7) (Dimanche=0 or 7)": "jour de la semaine (0 - 7) (Dimanche=0 or 7)",
+        "mois (1 - 12)": "mois (1 - 12)",
+        "jour du mois (1 - 31)": "jour du mois (1 - 31)",
+        "heure (0 - 23)": "heure (0 - 23)",
+        "minute (0 - 59)": "minute (0 - 59)",
+        "Nom du champs": "Nom du champs",
+        "Obligatoire": "Obligatoire",
+        "Valeurs autoris\u00e9es": "Valeurs autoris\u00e9es",
+        "Carateres sp\u00e9ciaux autoris\u00e9s": "Carateres sp\u00e9ciaux autoris\u00e9s",
+        "Minutes": "Minutes",
+        "Oui": "Oui",
+        "Heure": "Heure",
+        "Jour du mois": "Jour du mois",
+        "Mois": "Mois",
+        "1-12 ou JAN-DEC": "1-12 ou JAN-DEC",
+        "Jour de la semaine": "Jour de la semaine",
+        "0-6 ou SUN-SAT": "0-6 ou SUN-SAT",
+        "Ann\u00e9e": "Ann\u00e9e",
+        "Non": "Non",
+        "Source": "Source",
+        "Special characters": "Special characters",
+        "Support pour chaque caract\u00e8re sp\u00e9cial d\u00e9pend de distributions et versions de cron sp\u00e9cifiques": "Support pour chaque caract\u00e8re sp\u00e9cial d\u00e9pend de distributions et versions de cron sp\u00e9cifiques",
+        "Ast\u00e9risque ( * )": "Ast\u00e9risque ( * )",
+        "L'ast\u00e9risque indique que l'expression cron correspond \u00e0 toutes les valeurs du champ. Par exemple, en utilisant un ast\u00e9risque dans le 4\u00e8me domaine (mois) indique chaque mois.": "L'ast\u00e9risque indique que l'expression cron correspond \u00e0 toutes les valeurs du champ. Par exemple, en utilisant un ast\u00e9risque dans le 4\u00e8me domaine (mois) indique chaque mois.",
+        "Slash ( \/ )": "Slash ( \/ )",
+        "Les barres obliques d\u00e9crivent incr\u00e9ments de gammes. Par exemple 3-59\/15 dans le 1er champ (minutes) indiquent la troisi\u00e8me minute de l'heure et toutes les 15 minutes par la suite. La forme \"* \/ ...\" est \u00e9quivalente \u00e0 la forme \u00abpremier-dernier \/ ...\", c'est-\u00e0 une augmentation au cours de la plus large possible du champ.": "Les barres obliques d\u00e9crivent incr\u00e9ments de gammes. Par exemple 3-59\/15 dans le 1er champ (minutes) indiquent la troisi\u00e8me minute de l'heure et toutes les 15 minutes par la suite. La forme \"* \/ ...\" est \u00e9quivalente \u00e0 la forme \u00abpremier-dernier \/ ...\", c'est-\u00e0 une augmentation au cours de la plus large possible du champ.",
+        "Pourcent (&nbsp;% )": "Pourcent (&nbsp;% )",
+        "Pourcent (%) dans la commande, \u00e0 moins \u00e9chapp\u00e9 \u00e0 barre oblique inverse (\\), sont transform\u00e9s en caract\u00e8res de nouvelle ligne, et toutes les donn\u00e9es apr\u00e8s la premi\u00e8re% sont envoy\u00e9s \u00e0 la commande comme entr\u00e9e standard.": "Pourcent (%) dans la commande, \u00e0 moins \u00e9chapp\u00e9 \u00e0 barre oblique inverse (\\), sont transform\u00e9s en caract\u00e8res de nouvelle ligne, et toutes les donn\u00e9es apr\u00e8s la premi\u00e8re% sont envoy\u00e9s \u00e0 la commande comme entr\u00e9e standard.",
+        "Virgule ( , )": "Virgule ( , )",
+        "Les virgules sont utilis\u00e9es pour s\u00e9parer les \u00e9l\u00e9ments d'une liste. Par exemple, en utilisant \"MON,WED,FRI\" dans le 5\u00e8me champs (jour de la semaine) signifie les lundis, mercredis et vendredis.": "Les virgules sont utilis\u00e9es pour s\u00e9parer les \u00e9l\u00e9ments d'une liste. Par exemple, en utilisant \"MON,WED,FRI\" dans le 5\u00e8me champs (jour de la semaine) signifie les lundis, mercredis et vendredis.",
+        "Trait d'union ( - )": "Trait d'union ( - )",
+        "Tirets d\u00e9finissent les plages. Par exemple, 2000-2010 indique chaque ann\u00e9e entre 2000 et 2010 inclus.": "Tirets d\u00e9finissent les plages. Par exemple, 2000-2010 indique chaque ann\u00e9e entre 2000 et 2010 inclus.",
+        "'L' signifie \"dernier\". Lorsqu'il est utilis\u00e9 dans le domaine du jour de la semaine, il vous permet de sp\u00e9cifier des constructions telles que \"le dernier vendredi\" (\"5L1\") d'un mois donn\u00e9. Dans le domaine de jour de mois, il sp\u00e9cifie le dernier jour du mois.": "'L' signifie \"dernier\". Lorsqu'il est utilis\u00e9 dans le domaine du jour de la semaine, il vous permet de sp\u00e9cifier des constructions telles que \"le dernier vendredi\" (\"5L1\") d'un mois donn\u00e9. Dans le domaine de jour de mois, il sp\u00e9cifie le dernier jour du mois.",
+        "Le caract\u00e8re \u00abW\u00bb est autoris\u00e9 pour le champ jour du mois. Ce caract\u00e8re est utilis\u00e9 pour sp\u00e9cifier le jour de la semaine (lundi-vendredi) le plus proche du jour donn\u00e9. Par exemple, si vous \u00e9tiez \u00e0 pr\u00e9ciser \"15W\" comme valeur pour le champ jour de mois, le sens est: \u00abla semaine la plus proche du 15 du mois.\" Donc, si le 15 est un samedi, les feux de d\u00e9clenchement sur \u200b\u200ble vendredi 14. Si le 15 est un dimanche, les feux de d\u00e9clenchement lundi le 16. Si le 15 est un mardi, il d\u00e9clenche le mardi 15. Toutefois, si vous sp\u00e9cifiez \"1W\" comme valeur pour le jour de mois, et le 1er est un samedi, les feux de d\u00e9clenchement lundi la 3e, comme il le fait pas \u00absauter\u00bb sur la limite des jours d'un mois. Le caract\u00e8re \u00abW\u00bb peut \u00eatre d\u00e9fini que lorsque le jour de mois est un jour, pas une plage ou liste des jours.": "Le caract\u00e8re \u00abW\u00bb est autoris\u00e9 pour le champ jour du mois. Ce caract\u00e8re est utilis\u00e9 pour sp\u00e9cifier le jour de la semaine (lundi-vendredi) le plus proche du jour donn\u00e9. Par exemple, si vous \u00e9tiez \u00e0 pr\u00e9ciser \"15W\" comme valeur pour le champ jour de mois, le sens est: \u00abla semaine la plus proche du 15 du mois.\" Donc, si le 15 est un samedi, les feux de d\u00e9clenchement sur \u200b\u200ble vendredi 14. Si le 15 est un dimanche, les feux de d\u00e9clenchement lundi le 16. Si le 15 est un mardi, il d\u00e9clenche le mardi 15. Toutefois, si vous sp\u00e9cifiez \"1W\" comme valeur pour le jour de mois, et le 1er est un samedi, les feux de d\u00e9clenchement lundi la 3e, comme il le fait pas \u00absauter\u00bb sur la limite des jours d'un mois. Le caract\u00e8re \u00abW\u00bb peut \u00eatre d\u00e9fini que lorsque le jour de mois est un jour, pas une plage ou liste des jours.",
+        "Hash ( # )": "Hash ( # )",
+        "\u00ab#\u00bb Est autoris\u00e9 pour le champ du jour de la semaine, et doit \u00eatre suivie par un nombre compris entre un et cinq. Il vous permet de sp\u00e9cifier des constructions telles que \"le deuxi\u00e8me vendredi\" d'un mois donn\u00e9.": "\u00ab#\u00bb Est autoris\u00e9 pour le champ du jour de la semaine, et doit \u00eatre suivie par un nombre compris entre un et cinq. Il vous permet de sp\u00e9cifier des constructions telles que \"le deuxi\u00e8me vendredi\" d'un mois donn\u00e9.",
+        "Point d'interrogation (&nbsp;? )": "Point d'interrogation (&nbsp;? )",
+        "Remarque: Point d'interrogation est un caract\u00e8re atypique et n'existe que dans certaines impl\u00e9mentations de cron. Il est utilis\u00e9 \u00e0 la place de '*' pour quitter soit vierge jour de mois ou le jour de la semaine.": "Remarque: Point d'interrogation est un caract\u00e8re atypique et n'existe que dans certaines impl\u00e9mentations de cron. Il est utilis\u00e9 \u00e0 la place de '*' pour quitter soit vierge jour de mois ou le jour de la semaine."
+    },
+    "desktop\/modal\/report.bug.php": {
+        "Attention lors de l'envoi d'un rapport de bug, tous les logs sont automatiquement envoy\u00e9s en m\u00eame temps. Cependant ces logs ne seront accessibles que par vous ou l'\u00e9quipe de support.": "Attention lors de l'envoi d'un rapport de bug, tous les logs sont automatiquement envoy\u00e9s en m\u00eame temps. Cependant ces logs ne seront accessibles que par vous ou l'\u00e9quipe de support.",
+        "Titre": "Titre",
+        "G\u00e9n\u00e9rale": "G\u00e9n\u00e9rale",
+        "Envoyer": "Envoyer",
+        "Votre ticket \u00e0 bien \u00e9t\u00e9 ouvert. Vous pouvez le suivre": "Votre ticket \u00e0 bien \u00e9t\u00e9 ouvert. Vous pouvez le suivre",
+        "ici": "ici"
+    },
+    "desktop\/modal\/about.php": {
+        "Auteur(s)": "Auteur(s)",
+        "Traducteur(s)": "Traducteur(s)",
+        "Remerciements": "Remerciements"
     }
 }
