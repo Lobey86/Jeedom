@@ -219,7 +219,7 @@ function getDeviceType() {
     result.type = 'dekstop';
     if (navigator.userAgent.match(/(android)/gi)) {
         result.type = 'phone';
-        if ($('pagecontainer').width() > 899 || $('#pagecontainer').height() > 899) {
+        if ($('#pagecontainer').width() > 899) {
             result.type = 'tablet';
         }
     }

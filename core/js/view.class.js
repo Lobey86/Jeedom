@@ -85,7 +85,7 @@ view.toHtml = function(_id, _version) {
                 }
                 /*         * *****************viewZone graph***************** */
                 if (viewZone.type == 'graph') {
-                    html += '<div id="' + div_id + '">';
+                    html += '<div id="' + div_id + '" class="chartContainer">';
                     html += '<script>';
                     for (var j in viewZone.viewData) {
                         var viewData = viewZone.viewData[j];
