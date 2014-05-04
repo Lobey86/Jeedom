@@ -255,11 +255,12 @@ function setTileSize(_filter, _fixWidthSize, _fixHeightSize) {
         if (init(_fixWidthSize, '') != '') {
             $(this).width((deviceInfo.bSize + 6) * _fixWidthSize);
         } else {
-            if (width <= deviceInfo.bSize) {
+            /*if (width <= deviceInfo.bSize) {
                 $(this).width(deviceInfo.bSize);
             } else {
                 $(this).width(deviceInfo.bSize2);
-            }
+            }*/
+            $(this).width(deviceInfo.bSize);
         }
         if (init(_fixHeightSize, '') != '') {
             $(this).width((deviceInfo.bSize + 6) * _fixHeightSize);
