@@ -31,7 +31,6 @@ mobile/css/farbtastic.css
 mobile/css/marker.png
 mobile/css/mask.png
 mobile/css/wheel.png
-
 3rdparty/jquery.mobile/jquery.mobile.css
 3rdparty/font-awesome/css/font-awesome.min.css
 core/css/core.css
