@@ -346,8 +346,8 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
     if ($get_files) {
         $both = array();
         foreach (glob($pattern, GLOB_BRACE + GLOB_MARK) as $file) {
-            if(!is_dir($folder.'/'.$file)){
-               $both[] = $file;
+            if (!is_dir($folder . '/' . $file)) {
+                $both[] = $file;
             }
         }
     }
@@ -561,4 +561,11 @@ function create_zip($source_arr, $destination) {
 
 function br2nl($string) {
     return preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
+}
+
+function calculPath($_path) {
+    if (strpos($_path, '/') !== 0 || strpos($_path, '\\') !== 0) {
+        return dirname(__FILE__) . '/../../' . $_path;
+    }
+    return $_path;
 }
