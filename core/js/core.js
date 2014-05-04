@@ -44,7 +44,7 @@ if ($.mobile) {
 }
 
 
-function execCmd(_id, _value, _cache) {
+function execCmd(_id, _value, _cache, _notify) {
     var eqLogic = $('.cmd[data-cmd_id=' + _id + ']').closest('.eqLogic');
     eqLogic.find('.statusCmd').empty().append('<i class="fa fa-spinner fa-spin"></i>');
     if (init(_value) != '' && (is_array(_value) || is_object(_value))) {
@@ -79,13 +79,15 @@ function execCmd(_id, _value, _cache) {
                 }
                 return;
             }
-            if ($.mobile) {
-                eqLogic.find('.statusCmd').empty().append('<i class="fa fa-rss"></i>');
-                setTimeout(function() {
-                    eqLogic.find('.statusCmd').empty();
-                }, 3000);
-            } else {
-                notify('Commande', '{{La commande a été exécutée avec succès}}', 'gritter-green', true);
+            if (init(_notify, true)) {
+                if ($.mobile) {
+                    eqLogic.find('.statusCmd').empty().append('<i class="fa fa-rss"></i>');
+                    setTimeout(function() {
+                        eqLogic.find('.statusCmd').empty();
+                    }, 3000);
+                } else {
+                    notify('Commande', '{{La commande a été exécutée avec succès}}', 'gritter-green', true);
+                }
             }
             retour = data.result;
         }
