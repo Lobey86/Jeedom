@@ -65,5 +65,4 @@ NETWORK:
 
 FALLBACK:
 
-
 / mobile/html/fallback.html
