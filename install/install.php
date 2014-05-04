@@ -100,7 +100,7 @@ try {
                     throw new Exception(__('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?', __FILE__));
                 }
                 echo __("OK\n", __FILE__);
-                echo __("Installation en cours...", __FILE__);
+                echo __("Décompression en cours...", __FILE__);
                 $zip = new ZipArchive;
                 if ($zip->open($tmp) === TRUE) {
                     if (!$zip->extractTo($cibDir)) {
@@ -110,6 +110,8 @@ try {
                 } else {
                     throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp);
                 }
+                echo __("OK\n", __FILE__);
+                echo __("Installation en cours...", __FILE__);
                 @rcopy($cibDir . '/', dirname(__FILE__) . '/../', false);
                 rrmdir($cibDir);
                 unlink($tmp);
