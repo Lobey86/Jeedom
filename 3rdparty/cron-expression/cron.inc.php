@@ -1,12 +1,12 @@
 <?php
-require_once dirname(__FILE__) . '/cron-expression-1.0.3/FieldInterface.php';
-require_once dirname(__FILE__) . '/cron-expression-1.0.3/AbstractField.php';
-require_once dirname(__FILE__) . '/cron-expression-1.0.3/CronExpression.php';
-require_once dirname(__FILE__) . '/cron-expression-1.0.3/DayOfMonthField.php';
-require_once dirname(__FILE__) . '/cron-expression-1.0.3/DayOfWeekField.php';
-require_once dirname(__FILE__) . '/cron-expression-1.0.3/FieldFactory.php';
-require_once dirname(__FILE__) . '/cron-expression-1.0.3/HoursField.php';
-require_once dirname(__FILE__) . '/cron-expression-1.0.3/MinutesField.php';
-require_once dirname(__FILE__) . '/cron-expression-1.0.3/MonthField.php';
-require_once dirname(__FILE__) . '/cron-expression-1.0.3/YearField.php';
+require_once dirname(__FILE__) . '/cron-expression/FieldInterface.php';
+require_once dirname(__FILE__) . '/cron-expression/AbstractField.php';
+require_once dirname(__FILE__) . '/cron-expression/CronExpression.php';
+require_once dirname(__FILE__) . '/cron-expression/DayOfMonthField.php';
+require_once dirname(__FILE__) . '/cron-expression/DayOfWeekField.php';
+require_once dirname(__FILE__) . '/cron-expression/FieldFactory.php';
+require_once dirname(__FILE__) . '/cron-expression/HoursField.php';
+require_once dirname(__FILE__) . '/cron-expression/MinutesField.php';
+require_once dirname(__FILE__) . '/cron-expression/MonthField.php';
+require_once dirname(__FILE__) . '/cron-expression/YearField.php';
 ?>
