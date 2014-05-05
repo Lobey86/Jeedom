@@ -820,7 +820,7 @@ function addElement(_element) {
         return '';
     }
     var div = '<div class="element well well-sm draggable" style="margin-top : 8px;border : 2px solid black;">';
-    div += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : -7px;margin-left : -6px;"></i>';
+    div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : -7px;margin-left : -6px;"></i>';
     div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
     div += '<i class="fa fa-minus-circle pull-right cursor bt_removeElement"></i>';
