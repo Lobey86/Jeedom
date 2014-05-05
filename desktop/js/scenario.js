@@ -667,13 +667,13 @@ function addExpression(_expression) {
             break;
         case 'element' :
             retour += '<div class="col-lg-12">';
-            retour += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : 12px;margin-left : 4px;"></i>';
+            retour += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : 12px;margin-left : 4px;"></i>';
             retour += addElement(_expression.element, true);
             retour += '</div>';
             break;
         case 'action' :
             retour += '<div class="col-lg-1">';
-            retour += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : 9px;"></i>';
+            retour += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : 9px;"></i>';
             retour += '<i class="fa fa-minus-circle pull-left cursor bt_removeExpression" style="margin-top : 9px;"></i>';
             retour += '</div>';
             retour += '<div class="col-lg-6">';

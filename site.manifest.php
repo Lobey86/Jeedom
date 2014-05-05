@@ -62,6 +62,5 @@ foreach (plugin::listPlugin(true) as $plugin) {
 NETWORK:
 *
 
-
 FALLBACK:
 / mobile/html/fallback.html
