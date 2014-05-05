@@ -66,6 +66,7 @@ function initApplication() {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
+                $('#bt_panel_left').hide();
                 if (data.code == -1234) {
                     if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
                         autoLogin(localStorage.getItem("deviceKey"));
@@ -78,6 +79,7 @@ function initApplication() {
                 }
                 return;
             } else {
+                $('#bt_panel_left').show();
                 /*************Initialisation environement********************/
                 nodeJsKey = data.result.nodeJsKey;
                 user_id = data.result.user_id;
