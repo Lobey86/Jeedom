@@ -70,8 +70,9 @@ function initApplication() {
                     if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
                         autoLogin(localStorage.getItem("deviceKey"));
                     } else {
-                        modal('index.php?v=m&modal=login');
+                        page('login', 'Connection');
                     }
+                    return;
                 } else {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 }
@@ -129,7 +130,9 @@ function page(_page, _title, _option, _plugin) {
                 window[functionName]();
             }
         }
-        initExpertMode();
+        if (_page != 'login') {
+            initExpertMode();
+        }
     });
 }
 
@@ -259,4 +262,14 @@ function setTileSize(_filter, _fixWidthSize, _fixHeightSize) {
             $(this).width((deviceInfo.bSize + 6) * _fixHeightSize);
         }
     });
+}
+
+function init(_value, _default) {
+    if (!isset(_default)) {
+        _default = '';
+    }
+    if (!isset(_value)) {
+        return _default;
+    }
+    return _value;
 }
