@@ -71,7 +71,7 @@ function initApplication() {
                     if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
                         autoLogin(localStorage.getItem("deviceKey"));
                     } else {
-                        page('login', 'Connection');
+                        page('connection', 'Connection');
                     }
                     return;
                 } else {
@@ -132,7 +132,7 @@ function page(_page, _title, _option, _plugin) {
                 window[functionName]();
             }
         }
-        if (_page != 'login') {
+        if (_page != 'connection') {
             initExpertMode();
         }
     });

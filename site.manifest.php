@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . "/core/php/core.inc.php";
 CACHE MANIFEST
 
 # Version <?php echo getVersion('jeedom'); ?>
-# V01
+# V03
 
 CACHE:
 core/php/getJS.php?file=3rdparty/jquery.include/jquery.include.js
