@@ -19,18 +19,8 @@ sendVarToJS('select_id', init('id', '-1'));
                 foreach (plugin::listPlugin() as $plugin) {
                     $status = $plugin->status();
                     echo '<li class="cursor li_plugin" data-pluginPath="' . $plugin->getFilepath() . '" data-plugin_id="' . $plugin->getId() . '"><a>';
-
                     echo '<i class="' . $plugin->getIcon() . '"></i> ' . $plugin->getName();
                     if ($plugin->isActive() == 1) {
-                        if ($status['status'] == 'depreciated') {
-                            echo '<i class="fa fa-times pull-right tooltips" title="{{Plugin non maintenu ou supprimé}}"></i>';
-                        }
-                        if ($status['status'] == 'ok') {
-                            echo '<i class="fa fa-check pull-right tooltips" title="{{Plugin à jour}}"></i>';
-                        }
-                        if ($status['status'] == 'update') {
-                            echo '<i class="fa fa-refresh pull-right tooltips" title="{{Mise à jour nécessaire}}"></i>';
-                        }
                         echo '<span class="binary green pull-right"></span> ';
                     } else {
                         echo '<span class="binary red pull-right"></span> ';

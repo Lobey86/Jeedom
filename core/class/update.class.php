@@ -35,8 +35,17 @@ class update {
 
     public static function checkAllUpdate() {
         foreach (self::all() as $update) {
-            if ($update->getState() !== 'hold') {
+            if ($update->getState() != 'hold') {
                 $update->checkUpdate();
+            }
+        }
+    }
+
+    public static function updateAll() {
+        log::clear('update');
+        foreach (self::all() as $update) {
+            if ($update->getState() != 'hold' && $update->getState() == 'update') {
+                $update->update();
             }
         }
     }
@@ -86,14 +95,18 @@ class update {
     /*     * *********************Methode d'instance************************* */
 
     public function checkUpdate() {
-        try {
-            $market = market::byLogicalId($this->getLogicalId());
-            $this->setRemoteVersion($market->getDatetime());
-            $market_info = market::getInfo($market->getLogicalId());
-            $this->setStatus($market_info['status']);
-            $this->save();
-        } catch (Exception $ex) {
+        if ($this->getType() == 'core') {
             
+        } else {
+            try {
+                $market = market::byLogicalId($this->getLogicalId());
+                $this->setRemoteVersion($market->getDatetime());
+                $market_info = market::getInfo($market->getLogicalId());
+                $this->setStatus($market_info['status']);
+                $this->save();
+            } catch (Exception $ex) {
+                
+            }
         }
     }
 
@@ -117,12 +130,29 @@ class update {
         return DB::remove($this);
     }
 
-    public function update() {
-        
+    public function makeUpdate() {
+        if ($this->getType() == 'core') {
+            
+        } else {
+            $market = market::byLogicalId($this->getLogicalId());
+            if (is_object($market)) {
+                $market->install();
+            }
+        }
+        $this->checkUpdate();
     }
 
-    public function delete() {
-        
+    public function deleteObjet() {
+        if ($this->getType() == 'core') {
+            
+        } else {
+            $market = market::byLogicalId($this->getLogicalId());
+            if (is_object($market)) {
+                $market->remove();
+            }
+            $this->remove();
+        }
+        $this->checkUpdate();
     }
 
     /*     * **********************Getteur Setteur*************************** */

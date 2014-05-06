@@ -17,6 +17,14 @@
 $(function() {
     printUpdate();
 
+    $('#bt_updateAll').on('click', function() {
+        bootbox.confirm('{{Etez vous sur de vouloir changer l\'état de l\'objet ?}}', function(result) {
+            if (result) {
+                updateAll();
+            }
+        });
+    });
+
     $('#bt_checkAllUpdate').on('click', function() {
         checkAllUpdate();
     });
@@ -40,7 +48,37 @@ $(function() {
             }
         });
     });
+    
+     $('#table_update').delegate('.update', 'click', function() {
+        var id = $(this).closest('tr').attr('data-id');
+        bootbox.confirm('{{Etez vous sur de vouloir supprimer cet objet ?}}', function(result) {
+            if (result) {
+                removeUpdate(id);
+            }
+        });
+    });
 });
+
+function updateAll() {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/update.ajax.php',
+        data: {
+            action: 'updateAll',
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            getJeedomLog(1, 'update');
+        }
+    });
+}
 
 function changeStateUpdate(_id, _state) {
     $.ajax({
@@ -82,6 +120,28 @@ function updateUpdate(_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            getJeedomLog(1, 'update');
+        }
+    });
+}
+
+function removeUpdate(_id) {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/update.ajax.php',
+        data: {
+            action: 'remove',
+            id: _id
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
             printUpdate();
         }
     });
@@ -104,6 +164,52 @@ function checkAllUpdate() {
                 return;
             }
             printUpdate();
+        }
+    });
+}
+
+function getJeedomLog(_autoUpdate, _log) {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/log.ajax.php',
+        data: {
+            action: 'get',
+            logfile: _log,
+        },
+        dataType: 'json',
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            var log = '';
+            for (var i in data.result.reverse()) {
+                log += data.result[i][2];
+                if ($.trim(data.result[i][2]) == '[END ' + _log.toUpperCase() + ' SUCCESS]') {
+                    printUpdate();
+                    $('#div_alert').showAlert({message: '{{L\'opération est réussie}}', level: 'success'});
+                    _autoUpdate = 0;
+                }
+                if ($.trim(data.result[i][2]) == '[END ' + _log.toUpperCase() + ' ERROR]') {
+                    printUpdate();
+                    $('#div_alert').showAlert({message: '{{L\'opération a échoué}}', level: 'danger'});
+                    _autoUpdate = 0;
+                }
+            }
+            $('#pre_' + _log + 'Info').text(log);
+            if (init(_autoUpdate, 0) == 1) {
+                setTimeout(function() {
+                    getJeedomLog(_autoUpdate, _log)
+                }, 1000);
+            } else {
+                $('#bt_' + _log + 'Jeedom .fa-refresh').hide();
+                $('.bt_' + _log + 'Jeedom .fa-refresh').hide();
+                updateListBackup();
+            }
         }
     });
 }
@@ -145,6 +251,7 @@ function addUpdate(_update) {
     tr += '<td><span class="updateAttr" data-l1key="status"></span></td>';
     tr += '<td>';
     if (_update.type != 'core') {
+        tr += '<a class="btn btn-danger btn-xs pull-right remove" data-state="unhold"><i class="fa fa-trash-o"></i> Supprimer</a>';
         if (_update.status != 'hold') {
             tr += '<a class="btn btn-warning btn-xs pull-right changeState" data-state="hold"><i class="fa fa-lock"></i> Bloquer</a>';
         } else {

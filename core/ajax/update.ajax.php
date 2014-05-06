@@ -34,11 +34,26 @@ try {
     }
 
     if (init('action') == 'update') {
+        log::clear('update');
         $update = update::byId(init('id'));
         if (!is_object($update)) {
             throw new Exception(__('Aucune correspondance pour l\'ID : ' . init('id'), __FILE__));
         }
         $update->update();
+        ajax::success();
+    }
+    
+     if (init('action') == 'remove') {
+        $update = update::byId(init('id'));
+        if (!is_object($update)) {
+            throw new Exception(__('Aucune correspondance pour l\'ID : ' . init('id'), __FILE__));
+        }
+        $update->deleteObjet();
+        ajax::success();
+    }
+
+    if (init('action') == 'updateAll') {
+        update::updateAll();
         ajax::success();
     }
 
@@ -48,7 +63,7 @@ try {
             throw new Exception(__('Aucune correspondance pour l\'ID : ' . init('id'), __FILE__));
         }
         if (init('state') == '') {
-            throw new Exception(__('Le status ne peut etre vide',__FILE__));
+            throw new Exception(__('Le status ne peut etre vide', __FILE__));
         }
         if (init('state') == 'hold') {
             $update->setStatus('hold');
