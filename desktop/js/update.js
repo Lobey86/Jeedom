@@ -49,7 +49,7 @@ $(function() {
         });
     });
     
-     $('#table_update').delegate('.update', 'click', function() {
+     $('#table_update').delegate('.remove', 'click', function() {
         var id = $(this).closest('tr').attr('data-id');
         bootbox.confirm('{{Etez vous sur de vouloir supprimer cet objet ?}}', function(result) {
             if (result) {
@@ -200,7 +200,8 @@ function getJeedomLog(_autoUpdate, _log) {
                     _autoUpdate = 0;
                 }
             }
-            $('#pre_' + _log + 'Info').text(log);
+            var regex = /<br\s*[\/]?>/gi;
+            $('#pre_' + _log + 'Info').text(log.replace(regex, "\n"));
             if (init(_autoUpdate, 0) == 1) {
                 setTimeout(function() {
                     getJeedomLog(_autoUpdate, _log)

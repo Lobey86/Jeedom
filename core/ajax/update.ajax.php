@@ -39,7 +39,8 @@ try {
         if (!is_object($update)) {
             throw new Exception(__('Aucune correspondance pour l\'ID : ' . init('id'), __FILE__));
         }
-        $update->update();
+        $update->makeUpdate();
+        log::add('update', 'update', __("[END UPDATE SUCCESS]", __FILE__));
         ajax::success();
     }
     

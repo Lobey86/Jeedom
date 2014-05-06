@@ -238,11 +238,11 @@ class market {
             }
 
             $update = update::byTypeAndLogicalId($market->getType(), $market->getLogicalId());
-            $updateDatetime = '0000-01-01 00:00:00';
+            $updateDateTime = '0000-01-01 00:00:00';
             if (is_object($update)) {
                 $updateDateTime = $update->getLocalVersion();
             }
-            
+
 
             if ($market->getStatus() == 'Refusé') {
                 $return['status'] = 'depreciated';
@@ -349,7 +349,7 @@ class market {
         if (!file_exists($tmp)) {
             throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?', __FILE__));
         }
-        log::add('update', 'update', __('OK', __FILE__));
+        log::add('update', 'update', __("OK\n", __FILE__));
         switch ($this->getType()) {
             case 'plugin' :
                 $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
@@ -363,7 +363,7 @@ class market {
                         throw new Exception(__('Impossible d\'installer le plugin. Les fichiers n\'ont pu etre décompressés', __FILE__));
                     }
                     $zip->close();
-                    log::add('update', 'update', __('OK', __FILE__));
+                    log::add('update', 'update', __("OK\n", __FILE__));
                     log::add('update', 'update', __('Installation de l\objet...', __FILE__));
                     try {
                         $plugin = new plugin($this->getLogicalId());
@@ -371,7 +371,7 @@ class market {
                         $this->remove();
                         throw new Exception(__('Impossible d\'installer le plugin. Le nom du plugin est différent de l\'ID ou le plugin n\'est pas correctement formé. Veuillez contacter l\'auteur.', __FILE__));
                     }
-                    log::add('update', 'update', __('OK', __FILE__));
+                    log::add('update', 'update', __("OK\n", __FILE__));
                     $update = update::byTypeAndLogicalId($this->getType(), $this->getLogicalId());
                     if (!is_object($update) && is_object($plugin) && $plugin->isActive()) {
                         $plugin->setIsEnable(1);
@@ -386,7 +386,7 @@ class market {
                 if (class_exists($type) && method_exists($type, 'getFromMarket')) {
                     $type::getFromMarket($this, $tmp);
                 }
-                log::add('update', 'update', __('OK', __FILE__));
+                log::add('update', 'update', __("OK\n", __FILE__));
                 break;
         }
         $update = update::byTypeAndLogicalId($this->getType(), $this->getLogicalId());

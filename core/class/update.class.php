@@ -57,6 +57,7 @@ class update {
                 $update->update();
             }
         }
+        log::add('update', 'update', __("[END UPDATE SUCCESS]", __FILE__));
     }
 
     public static function byId($_id) {
