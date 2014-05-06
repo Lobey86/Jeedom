@@ -11,13 +11,16 @@ foreach ($values as $value) {
     $name = explode('::', $value['key']);
     $update->setLogical_id($name[0]);
     $update->setLocalVersion($value['value']);
-    $update->setName($name[0]);
     if ($value['plugin'] == 'core') {
         $update->setType('plugin');
     } else {
         $update->setType($value['plugin']);
     }
-    $update->save();
+    try {
+        $update->save();
+    } catch (Exception $ex) {
+        
+    }
 }
 
 $sql = 'SELECT * 
@@ -29,8 +32,11 @@ foreach ($values as $value) {
     if ($value['plugin'] != '') {
         $update->setLogical_id($value['plugin']);
         $update->setLocalVersion($value['value']);
-        $update->setName($value['plugin']);
         $update->setType('plugin');
-        $update->save();
+        try {
+            $update->save();
+        } catch (Exception $ex) {
+            
+        }
     }
 }

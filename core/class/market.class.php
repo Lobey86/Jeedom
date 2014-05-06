@@ -147,7 +147,7 @@ class market {
         $tmp = dirname(__FILE__) . '/../../tmp/log.zip';
         if (file_exists($tmp)) {
             if (!unlink($tmp)) {
-                throw new Exception(__('Impossible de supprimer : ', __FILE__) . $tmp . __('. Vérifiez les droits',__FILE__));
+                throw new Exception(__('Impossible de supprimer : ', __FILE__) . $tmp . __('. Vérifiez les droits', __FILE__));
             }
         }
         if (!create_zip($cibDir, $tmp)) {
@@ -188,7 +188,7 @@ class market {
 
     public static function getJsonRpc() {
         if (config::byKey('market::address') == '') {
-            throw new Exception(__('Aucune addresse pour le market de renseignée',__FILE__));
+            throw new Exception(__('Aucune addresse pour le market de renseignée', __FILE__));
         }
         if (config::byKey('market::registerkey') == '') {
             $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), array(
@@ -241,11 +241,8 @@ class market {
                 }
             }
 
-            if ($market->getType() == 'plugin') {
-                $updateDateTime = config::byKey('installVersionDate', $market->getLogicalId());
-            } else {
-                $updateDateTime = config::byKey($market->getLogicalId() . '::installVersionDate', $market->getType());
-            }
+            $update = update::byTypeAndLogicalId($market->getType(), $market->getLogicalId());
+            $updateDateTime = $update->getLocalVersion();
 
             if ($market->getStatus() == 'Refusé') {
                 $return['status'] = 'depreciated';
@@ -265,7 +262,7 @@ class market {
                 }
             }
         } catch (Exception $e) {
-            log::add('market', 'debug', __('Erreur market::getinfo : ',__FILE__) . $e->getMessage());
+            log::add('market', 'debug', __('Erreur market::getinfo : ', __FILE__) . $e->getMessage());
             cache::set('market::info::' . $_logicalId, json_encode($return), 3600);
             $return['status'] = 'ok';
         }
@@ -297,12 +294,12 @@ class market {
         $tmp = $tmp_dir . '/' . $_backup;
         file_put_contents($tmp, fopen($url, 'r'));
         if (!file_exists($tmp)) {
-            throw new Exception(__('Impossible de télécharger le backup : ',__FILE__) . $url . '.');
+            throw new Exception(__('Impossible de télécharger le backup : ', __FILE__) . $url . '.');
         }
         $backup_path = dirname(__FILE__) . '/../../backup/' . $_backup;
         copy($tmp, $backup_path);
         if (!file_exists($backup_path)) {
-            throw new Exception(__('Impossible de trouver le fichier : ',__FILE__) . $backup_path . '.');
+            throw new Exception(__('Impossible de trouver le fichier : ', __FILE__) . $backup_path . '.');
         }
         jeedom::restore('backup/' . $_backup, true);
     }
@@ -347,50 +344,56 @@ class market {
         $tmp_dir = dirname(__FILE__) . '/../../tmp';
         $tmp = $tmp_dir . '/' . $this->getLogicalId() . '.zip';
         if (!is_writable($tmp_dir)) {
-            throw new Exception(__('Impossible d\'écrire dans le repertoire : ',__FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ',__FILE__) . $tmp_dir);
+            throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
         }
         $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId() . '&hwkey=' . jeedom::getHardwareKey() . '&apikey=' . config::byKey('market::apikey');
         file_put_contents($tmp, fopen($url, 'r'));
         if (!file_exists($tmp)) {
-            throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?',__FILE__));
+            throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?', __FILE__));
         }
         switch ($this->getType()) {
             case 'plugin' :
                 $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
                 if (!file_exists($cibDir) && !mkdir($cibDir, 0775, true)) {
-                    throw new Exception(__('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?',__FILE__));
+                    throw new Exception(__('Impossible de créer le dossier  : ' . $cibDir . '. Problème de droits ?', __FILE__));
                 }
                 $zip = new ZipArchive;
                 if ($zip->open($tmp) === TRUE) {
                     if (!$zip->extractTo($cibDir . '/')) {
-                        throw new Exception(__('Impossible d\'installer le plugin. Les fichiers n\'ont pu etre décompressés',__FILE__));
+                        throw new Exception(__('Impossible d\'installer le plugin. Les fichiers n\'ont pu etre décompressés', __FILE__));
                     }
                     $zip->close();
                     try {
                         $plugin = new plugin($this->getLogicalId());
                     } catch (Exception $e) {
                         $this->remove();
-                        throw new Exception(__('Impossible d\'installer le plugin. Le nom du plugin est différent de l\'ID ou le plugin n\'est pas correctement formé. Veuillez contacter l\'auteur.',__FILE__));
+                        throw new Exception(__('Impossible d\'installer le plugin. Le nom du plugin est différent de l\'ID ou le plugin n\'est pas correctement formé. Veuillez contacter l\'auteur.', __FILE__));
                     }
-                    if (config::byKey('installVersionDate', $this->getLogicalId()) != '') {
-                        if (is_object($plugin) && $plugin->isActive()) {
-                            $plugin->setIsEnable(1);
-                        }
+                    $update = update::byTypeAndLogicalId($this->getType(), $this->getLogicalId());
+                    if (!is_object($update) && is_object($plugin) && $plugin->isActive()) {
+                        $plugin->setIsEnable(1);
                     }
                 } else {
-                    throw new Exception(__('Impossible de décompresser le zip : ',__FILE__) . $tmp);
+                    throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp);
                 }
-
-                config::save('installVersionDate', $this->getDatetime(), $this->getLogicalId());
                 break;
             default :
                 $type = $this->getType();
                 if (class_exists($type) && method_exists($type, 'getFromMarket')) {
                     $type::getFromMarket($this, $tmp);
                 }
-                config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $type);
+
                 break;
         }
+        $update = update::byTypeAndLogicalId($this->getType(), $this->getLogicalId());
+        if (!is_object($update)) {
+            $update = new update();
+            $update->setLogicalId($this->getLogicalId());
+            $update->setType($this->getType());
+        }
+        $update->setLocalVersion($this->getDatetime());
+        $update->save();
+        $update->checkUpdate();
     }
 
     public function remove() {
@@ -404,15 +407,17 @@ class market {
                 if (file_exists($cibDir)) {
                     rrmdir($cibDir);
                 }
-                config::remove('installVersionDate', $this->getLogicalId());
                 break;
             default :
                 $type = $this->getType();
                 if (class_exists($type) && method_exists($type, 'getFromMarket')) {
                     $type::removeFromMarket($this);
                 }
-                config::save($this->getLogicalId() . '::installVersionDate', $this->getDatetime(), $type);
                 break;
+        }
+        $update = update::byTypeAndLogicalId($this->getType(), $this->getLogicalId());
+        if (is_object($update)) {
+            $update->remove();
         }
     }
 
@@ -429,11 +434,11 @@ class market {
                 $tmp = dirname(__FILE__) . '/../../tmp/' . $this->getLogicalId() . '.zip';
                 if (file_exists($tmp)) {
                     if (!unlink($tmp)) {
-                        throw new Exception(__('Impossible de supprimer : ',__FILE__) . $tmp . __('. Vérifiez les droits',__FILE__));
+                        throw new Exception(__('Impossible de supprimer : ', __FILE__) . $tmp . __('. Vérifiez les droits', __FILE__));
                     }
                 }
                 if (!create_zip($cibDir, $tmp)) {
-                    throw new Exception(__('Echec de création du zip',__FILE__));
+                    throw new Exception(__('Echec de création du zip', __FILE__));
                 }
                 break;
             default :
@@ -444,7 +449,7 @@ class market {
                 break;
         }
         if (!file_exists($tmp)) {
-            throw new Exception(__('Impossible de trouver le fichier à envoyer : ',__FILE__) . $tmp);
+            throw new Exception(__('Impossible de trouver le fichier à envoyer : ', __FILE__) . $tmp);
         }
         $file = array(
             'file' => '@' . realpath($tmp)
@@ -452,11 +457,15 @@ class market {
         if (!$market->sendRequest('market::save', $params, 30, $file)) {
             throw new Exception($market->getError());
         }
-        if ($this->getType() == 'plugin') {
-            config::save('installVersionDate', date('Y-m-d H:i:s'), $this->getLogicalId());
-        } else {
-            config::save($this->getLogicalId() . '::installVersionDate', date('Y-m-d H:i:s'), $this->getType());
+        $update = update::byTypeAndLogicalId($this->getType(), $this->getLogicalId());
+        if (!is_object($update)) {
+            $update = new update();
+            $update->setLogicalId($this->getLogicalId());
+            $update->setType($this->getType());
         }
+        $update->setLocalVersion($this->getDatetime());
+        $update->save();
+        $update->checkUpdate();
     }
 
     /*     * **********************Getteur Setteur*************************** */

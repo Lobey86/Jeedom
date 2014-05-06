@@ -33,18 +33,9 @@ class update {
 
     /*     * ***********************Methode static*************************** */
 
-    public static function checkUpdate() {
+    public static function checkAllUpdate() {
         foreach (self::all() as $update) {
-            try {
-                echo 'Traitement de  : ' . $update->getLogicalId() . "\n";
-                $market = market::byLogicalId($update->getLogicalId());
-                $update->setRemoteVersion($market->getDatetime());
-                $market_info = $market->getInfo();
-                $update->setStatus($market_info['status']);
-                $update->save();
-            } catch (Exception $ex) {
-                
-            }
+            $update->checkUpdate();
         }
     }
 
@@ -68,6 +59,18 @@ class update {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function byTypeAndLogicalId($_type, $_logicalId) {
+        $values = array(
+            'logicalId' => $_logicalId,
+            'type' => $_type,
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM `update`
+                WHERE logicalId=:logicalId
+                    AND type=:type';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+    }
+
     /**
      *
      * @return array de tous les utilisateurs 
@@ -79,6 +82,30 @@ class update {
     }
 
     /*     * *********************Methode d'instance************************* */
+
+    public function checkUpdate() {
+        try {
+            $market = market::byLogicalId($this->getLogicalId());
+            $this->setRemoteVersion($market->getDatetime());
+            $market_info = $market->getInfo();
+            $this->setStatus($market_info['status']);
+            $this->save();
+        } catch (Exception $ex) {
+            
+        }
+    }
+
+    public function preSave() {
+        if ($this->getLogicalId() == '') {
+            throw new Exception(__('Le logical ID ne peut etre vide', __FILE__));
+        }
+        if ($this->getLocalVersion() == '') {
+            throw new Exception(__('La version locale ne peut etre vide', __FILE__));
+        }
+        if ($this->getName() == '') {
+            $this->setName($this->getLogicalId());
+        }
+    }
 
     public function save() {
         return DB::save($this);
