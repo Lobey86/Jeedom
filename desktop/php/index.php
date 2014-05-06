@@ -278,9 +278,9 @@ $plugins_list = plugin::listPlugin();
             <span class="pull-left">Node JS <span class="span_nodeJsState binary red tooltips"></span> - </span>
             <span class="pull-left">&copy; <a id="bt_jeedomAbout" class="cursor">Jeedom</a> (v<?php echo getVersion('jeedom') ?> 
                 <?php
-                $version = jeedom::needUpdate();
-                if ($version['needUpdate']) {
-                    echo '<span class="label label-danger">{{Mise à jour disponible}}</span>';
+                $nbNeedUpdate = update::nbNeedUpdate();
+                if ($nbNeedUpdate > 0) {
+                    echo '<span class="label label-danger"><a href="index.php?v=d&p=update">' . $nbNeedUpdate . ' {{Mise(s) à jour disponible}}</a></span>';
                 }
                 echo ') ';
                 echo date('Y');

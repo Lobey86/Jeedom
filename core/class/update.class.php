@@ -34,10 +34,19 @@ class update {
     /*     * ***********************Methode static*************************** */
 
     public static function checkAllUpdate() {
+        $findCore = false;
         foreach (self::all() as $update) {
-            if ($update->getState() != 'hold') {
+            if ($update->getStatus() != 'hold') {
                 $update->checkUpdate();
             }
+        }
+        if (!$findCore) {
+            $update = new update();
+            $update->setType('core');
+            $update->setLogicalId('jeedom');
+            $update->setLocalVersion(getVersion('jeedom'));
+            $update->save();
+            $update->checkUpdate();
         }
     }
 
@@ -88,15 +97,32 @@ class update {
      */
     public static function all() {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . ' 
-                FROM `update`';
+                FROM `update`
+                ORDER BY ( `type` = "core") DESC,( `status` = "update") DESC';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+    }
+
+    public static function nbNeedUpdate() {
+        $sql = 'SELECT count(*)
+                FROM `update`
+                WHERE `status`="update"';
+        $result = DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
+        return $result['count(*)'];
     }
 
     /*     * *********************Methode d'instance************************* */
 
     public function checkUpdate() {
         if ($this->getType() == 'core') {
-            
+            $update_info = jeedom::needUpdate(true);
+            $this->setLocalVersion($update_info['version']);
+            $this->setRemoteVersion($update_info['currentVersion']);
+            if ($update_info['needUpdate']) {
+                $this->setStatus('update');
+            } else {
+                $this->setStatus('ok');
+            }
+            $this->save();
         } else {
             try {
                 $market = market::byLogicalId($this->getLogicalId());
@@ -132,7 +158,7 @@ class update {
 
     public function makeUpdate() {
         if ($this->getType() == 'core') {
-            
+            jeedom::update();
         } else {
             $market = market::byLogicalId($this->getLogicalId());
             if (is_object($market)) {
@@ -144,7 +170,7 @@ class update {
 
     public function deleteObjet() {
         if ($this->getType() == 'core') {
-            
+            throw new Exception('Vous ne pouvez supprimer le core de Jeedom');
         } else {
             $market = market::byLogicalId($this->getLogicalId());
             if (is_object($market)) {

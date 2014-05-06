@@ -238,7 +238,11 @@ class market {
             }
 
             $update = update::byTypeAndLogicalId($market->getType(), $market->getLogicalId());
-            $updateDateTime = $update->getLocalVersion();
+            $updateDatetime = '0000-01-01 00:00:00';
+            if (is_object($update)) {
+                $updateDateTime = $update->getLocalVersion();
+            }
+            
 
             if ($market->getStatus() == 'Refusé') {
                 $return['status'] = 'depreciated';
