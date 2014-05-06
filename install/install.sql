@@ -80,6 +80,19 @@ CREATE TABLE IF NOT EXISTS `chatHistory` (
   PRIMARY KEY (`id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE IF NOT EXISTS `update` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(127) DEFAULT NULL,
+  `logical_id` varchar(127) DEFAULT NULL,
+  `localdatetime` datetime DEFAULT NULL,
+  `remoteDatetime` datetime DEFAULT NULL,
+  `status` varchar(127) DEFAULT NULL,
+  `configuration` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
 -- --------------------------------------------------------
 
 --

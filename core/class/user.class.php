@@ -159,22 +159,10 @@ class user {
         }
     }
 
-    /**
-     *
-     * @param int $_id id de l'utilisateur à editer
-     * @param string $_login nom de l'utilisateur à ajouter
-     * @param string $_password mots de passe à ajouter ou à editer
-     * @return vrai si ok faux autrement 
-     */
     public function save() {
         return DB::save($this);
     }
 
-    /**
-     *
-     * @param int $_id id de l'utilisateur à supprimer
-     * @return vrai si ok faux autrement 
-     */
     public function remove() {
         return DB::remove($this);
     }
