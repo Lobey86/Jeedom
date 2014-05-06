@@ -208,10 +208,6 @@ class market {
     }
 
     public static function getInfo($_logicalId) {
-        $cache = cache::byKey('market::info::' . $_logicalId);
-        if ($cache->getValue('') != '') {
-            return json_decode($cache->getValue(), true);
-        }
         $return = array();
         if ($_logicalId == '' || config::byKey('market::address') == '') {
             $return['market'] = 0;

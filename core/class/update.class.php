@@ -35,7 +35,9 @@ class update {
 
     public static function checkAllUpdate() {
         foreach (self::all() as $update) {
-            $update->checkUpdate();
+            if ($update->getState() !== 'hold') {
+                $update->checkUpdate();
+            }
         }
     }
 
@@ -44,7 +46,7 @@ class update {
             'id' => $_id,
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
-                FROM `udpate` 
+                FROM `update` 
                 WHERE id=:id';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
@@ -87,7 +89,7 @@ class update {
         try {
             $market = market::byLogicalId($this->getLogicalId());
             $this->setRemoteVersion($market->getDatetime());
-            $market_info = $market->getInfo();
+            $market_info = market::getInfo($market->getLogicalId());
             $this->setStatus($market_info['status']);
             $this->save();
         } catch (Exception $ex) {
@@ -115,8 +117,12 @@ class update {
         return DB::remove($this);
     }
 
-    public function refresh() {
-        DB::refresh($this);
+    public function update() {
+        
+    }
+
+    public function delete() {
+        
     }
 
     /*     * **********************Getteur Setteur*************************** */

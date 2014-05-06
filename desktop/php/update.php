@@ -5,10 +5,11 @@ if (!isConnect('admin')) {
 
 
 ?>
-<a class="btn btn-default pull-right">Verifier les mises à jour</a><br/><br/>
+<a class="btn btn-default pull-right" id="bt_checkAllUpdate"><i class="fa fa-refresh"></i> Verifier les mises à jour</a><br/><br/>
 <table class="table table-condensed table-bordered tablesorter" id="table_update" style="margin-top: 5px;">
     <thead>
         <tr>
+            <th></th>
             <th>{{Type}}</th>
             <th>{{Nom}}</th>
             <th>{{Version actuel}}</th>
@@ -18,17 +19,7 @@ if (!isConnect('admin')) {
         </tr>
     </thead>
     <tbody>
-        <?php
-        foreach (update::all() as $update) {
-            echo '<tr data-message_id="' . $update->getId() . '">';
-            echo '<td>' . $update->getType() . '</td>';
-            echo '<td>' . $update->getName() . '</td>';
-            echo '<td>' . $update->getLocalVersion() . '</td>';
-            echo '<td>' . $update->getRemoteVersion() . '</td>';
-            echo '<td>' . $update->getStatus() . '</td>';
-            echo '<td></td>';
-            echo '</tr>';
-        }
-        ?>
     </tbody>
 </table>
+
+<?php include_file('desktop', 'update', 'js'); ?>

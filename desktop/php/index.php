@@ -132,6 +132,7 @@ $plugins_list = plugin::listPlugin();
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> {{Général}} <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> {{Administration}}</a></li>
+                                            <li><a href="index.php?v=d&p=update"><i class="fa fa-comments-o"></i> {{Centre de mise à jour}}</a></li>
                                             <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> {{Interaction}}</a></li>
                                             <li class='expertModeHidden'><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
                                             <li class="expertModeHidden"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
@@ -217,15 +218,6 @@ $plugins_list = plugin::listPlugin();
                         if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
                             include_file('desktop', $PAGE_DESCRIPTOR_DESKTOP[$page]['pageName'], 'php');
                         } else if (isset($plugin) && is_object($plugin)) {
-                            $status = $plugin->status();
-                            if ($status['status'] == 'update') {
-                                echo '<div class="row">';
-                                echo '<div class="col-lg-2"></div>';
-                                echo '<div class="col-lg-10">';
-                                echo '<div class="alert alert-warning">{{Une nouvelle}} <a class="cursor bt_pluginUpdate" data-logicalId="' . $plugin->getId() . '">{{mise à jour}}</a> {{existe pour}} ' . $plugin->getName() . '</div>';
-                                echo '</div>';
-                                echo '</div>';
-                            }
                             include_file('desktop', $page, 'php', $plugin->getId());
                         } else {
                             echo '<div class="alert alert-danger div_alert">';
@@ -251,7 +243,7 @@ $plugins_list = plugin::listPlugin();
                         </div>
                     </div>
                     <div id="md_reportBug" title="{{Ouverture d'un ticket}}"></div>
-                        
+
                 </main>
             </div>
         <?php } ?>
