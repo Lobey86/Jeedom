@@ -23,21 +23,37 @@ class update {
     /*     * *************************Attributs****************************** */
 
     private $id;
-    private $logical_id;
+    private $type;
+    private $logicalId;
     private $name;
-    private $localDatetime;
-    private $remoteDatetime;
+    private $localVersion;
+    private $remoteVersion;
     private $status;
     private $configuration;
 
     /*     * ***********************Methode static*************************** */
+
+    public static function checkUpdate() {
+        foreach (self::all() as $update) {
+            try {
+                echo 'Traitement de  : ' . $update->getLogicalId() . "\n";
+                $market = market::byLogicalId($update->getLogicalId());
+                $update->setRemoteVersion($market->getDatetime());
+                $market_info = $market->getInfo();
+                $update->setStatus($market_info['status']);
+                $update->save();
+            } catch (Exception $ex) {
+                
+            }
+        }
+    }
 
     public static function byId($_id) {
         $values = array(
             'id' => $_id,
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
-                FROM udpate 
+                FROM `udpate` 
                 WHERE id=:id';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
@@ -47,7 +63,7 @@ class update {
             'logicalId' => $_logicalId,
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
-                FROM update 
+                FROM `update`
                 WHERE logicalId=:logicalId';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
@@ -58,7 +74,7 @@ class update {
      */
     public static function all() {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . ' 
-                FROM update';
+                FROM `update`';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -82,20 +98,8 @@ class update {
         return $this->id;
     }
 
-    public function getLogical_id() {
-        return $this->logical_id;
-    }
-
     public function getName() {
         return $this->name;
-    }
-
-    public function getLocalDatetime() {
-        return $this->localDatetime;
-    }
-
-    public function getRemoteDatetime() {
-        return $this->remoteDatetime;
     }
 
     public function getStatus() {
@@ -110,20 +114,8 @@ class update {
         $this->id = $id;
     }
 
-    public function setLogical_id($logical_id) {
-        $this->logical_id = $logical_id;
-    }
-
     public function setName($name) {
         $this->name = $name;
-    }
-
-    public function setLocalDatetime($localDatetime) {
-        $this->localDatetime = $localDatetime;
-    }
-
-    public function setRemoteDatetime($remoteDatetime) {
-        $this->remoteDatetime = $remoteDatetime;
     }
 
     public function setStatus($status) {
@@ -132,6 +124,38 @@ class update {
 
     public function setConfiguration($_key, $_value) {
         $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
+    }
+
+    public function getType() {
+        return $this->type;
+    }
+
+    public function setType($type) {
+        $this->type = $type;
+    }
+
+    public function getLocalVersion() {
+        return $this->localVersion;
+    }
+
+    public function getRemoteVersion() {
+        return $this->remoteVersion;
+    }
+
+    public function setLocalVersion($localVersion) {
+        $this->localVersion = $localVersion;
+    }
+
+    public function setRemoteVersion($remoteVersion) {
+        $this->remoteVersion = $remoteVersion;
+    }
+
+    public function getLogicalId() {
+        return $this->logicalId;
+    }
+
+    public function setLogicalId($logicalId) {
+        $this->logicalId = $logicalId;
     }
 
 }
