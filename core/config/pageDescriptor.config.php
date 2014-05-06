@@ -66,10 +66,6 @@ $PAGE_DESCRIPTOR_DESKTOP = array(
         'pageName' => 'scenario',
         'title' => 'Scénario',
     ),
-    'speech' => array(
-        'pageName' => 'speech',
-        'title' => 'Reconnaissance vocale',
-    ),
     'view' => array(
         'pageName' => 'view',
         'title' => 'Vue',
@@ -78,40 +74,9 @@ $PAGE_DESCRIPTOR_DESKTOP = array(
         'pageName' => 'view_edit',
         'title' => 'Editer vue',
     ),
+     'update' => array(
+        'pageName' => 'update',
+        'title' => 'Centre de mise ç jour',
+    ),
         /*         * *************************Mobile*********************************** */
-);
-global $PAGE_DESCRIPTOR_MOBILE;
-$PAGE_DESCRIPTOR_MOBILE = array(
-    'chat' => array(
-        'pageName' => 'chat',
-        'title' => 'Chat',
-    ),
-    'home' => array(
-        'pageName' => 'home',
-        'title' => 'Accueils',
-    ),
-    'equipment' => array(
-        'pageName' => 'equipment',
-        'title' => 'Equipements',
-    ),
-    'scenario' => array(
-        'pageName' => 'scenario',
-        'title' => 'Scénarios',
-    ),
-    'log' => array(
-        'pageName' => 'log',
-        'title' => 'Log',
-    ),
-    'message' => array(
-        'pageName' => 'message',
-        'title' => 'Message',
-    ),
-    'view' => array(
-        'pageName' => 'view',
-        'title' => 'Vues',
-    ),
-    'cron' => array(
-        'pageName' => 'cron',
-        'title' => 'Cron',
-    ),
 );
