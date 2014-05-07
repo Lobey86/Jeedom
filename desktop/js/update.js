@@ -48,8 +48,8 @@ $(function() {
             }
         });
     });
-    
-     $('#table_update').delegate('.remove', 'click', function() {
+
+    $('#table_update').delegate('.remove', 'click', function() {
         var id = $(this).closest('tr').attr('data-id');
         bootbox.confirm('{{Etez vous sur de vouloir supprimer cet objet ?}}', function(result) {
             if (result) {
@@ -67,7 +67,7 @@ function updateAll() {
             action: 'updateAll',
         },
         dataType: 'json',
-        global : false,
+        global: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -113,7 +113,7 @@ function doUpdate(_id) {
             id: _id
         },
         dataType: 'json',
-        global : false,
+        global: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -237,8 +237,8 @@ function printUpdate() {
             for (var i in data.result) {
                 addUpdate(data.result[i]);
             }
-            $('#table_update').trigger('update'); 
-       }
+            $('#table_update').trigger('update');
+        }
     });
 }
 
@@ -259,7 +259,7 @@ function addUpdate(_update) {
             tr += '<a class="btn btn-success btn-xs pull-right changeState" data-state="unhold" style="color : white;"><i class="fa fa-unlock"></i> Débloquer</a>';
         }
     }
-    if (_update.status == 'update') {
+    if (_update.status == 'update' || _update.type == 'core') {
         tr += '<a class="btn btn-info btn-xs pull-right update" style="color : white;"><i class="fa fa-refresh"></i> Mettre à jour</a>';
     }
     tr += '</td>';
