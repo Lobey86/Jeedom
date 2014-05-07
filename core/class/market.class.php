@@ -467,7 +467,7 @@ class market {
             $update->setLogicalId($this->getLogicalId());
             $update->setType($this->getType());
         }
-        $update->setLocalVersion($this->getDatetime());
+        $update->setLocalVersion(date('Y-m-d H:i:s'));
         $update->save();
         $update->checkUpdate();
     }
