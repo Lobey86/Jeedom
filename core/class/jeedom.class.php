@@ -241,12 +241,20 @@ class jeedom {
         interactDef::cron();
         eqLogic::checkAlive();
         try {
-            $c = new Cron\CronExpression('00 00 * * *', new Cron\FieldFactory);
+            $c = new Cron\CronExpression(config::byKey('log::chunck'), new Cron\FieldFactory);
             if ($c->isDue()) {
                 log::chunk();
             }
         } catch (Exception $e) {
             log::add('log', 'error', $e->getMessage());
+        }
+        try {
+            $c = new Cron\CronExpression(config::byKey('update::check'), new Cron\FieldFactory);
+            if ($c->isDue()) {
+                update::checkAllUpdate();
+            }
+        } catch (Exception $e) {
+            log::add('update', 'error', $e->getMessage());
         }
         try {
             $c = new Cron\CronExpression(config::byKey('backup::cron'), new Cron\FieldFactory);
