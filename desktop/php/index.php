@@ -132,7 +132,7 @@ $plugins_list = plugin::listPlugin();
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> {{Général}} <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> {{Administration}}</a></li>
-                                            <li><a href="index.php?v=d&p=update"><i class="fa fa-comments-o"></i> {{Centre de mise à jour}}</a></li>
+                                            <li><a href="index.php?v=d&p=update"><i class="fa fa-refresh"></i> {{Centre de mise à jour}}</a></li>
                                             <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> {{Interaction}}</a></li>
                                             <li class='expertModeHidden'><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
                                             <li class="expertModeHidden"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
