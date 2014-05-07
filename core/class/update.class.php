@@ -39,6 +39,9 @@ class update {
             if ($update->getStatus() != 'hold') {
                 $update->checkUpdate();
             }
+            if ($this->getType() == 'core') {
+                $findCore = true;
+            }
         }
         if (!$findCore) {
             $update = new update();
@@ -52,12 +55,24 @@ class update {
 
     public static function updateAll() {
         log::clear('update');
+        $error = false;
         foreach (self::all() as $update) {
             if ($update->getState() != 'hold' && $update->getState() == 'update') {
-                $update->update();
+                if ($this->getType() != 'core') {
+                    try {
+                        $update->doUpdate();
+                    } catch (Exception $e) {
+                        log::add('update', 'update', $e->getMessage());
+                        $error = true;
+                    }
+                }
             }
         }
-        log::add('update', 'update', __("[END UPDATE SUCCESS]", __FILE__));
+        if ($error) {
+            log::add('update', 'update', __("[END UPDATE ERROR]", __FILE__));
+        } else {
+            log::add('update', 'update', __("[END UPDATE SUCCESS]", __FILE__));
+        }
     }
 
     public static function byId($_id) {
@@ -157,7 +172,7 @@ class update {
         return DB::remove($this);
     }
 
-    public function makeUpdate() {
+    public function doUpdate() {
         if ($this->getType() == 'core') {
             jeedom::update();
         } else {

@@ -39,12 +39,18 @@ try {
         if (!is_object($update)) {
             throw new Exception(__('Aucune correspondance pour l\'ID : ' . init('id'), __FILE__));
         }
-        $update->makeUpdate();
-        log::add('update', 'update', __("[END UPDATE SUCCESS]", __FILE__));
+        try {
+            $update->doUpdate();
+            log::add('update', 'update', __("[END UPDATE SUCCESS]", __FILE__));
+        } catch (Exception $e) {
+            log::add('update', 'update', $e->getMessage());
+            log::add('update', 'update', __("[END UPDATE ERROR]", __FILE__));
+        }
+
         ajax::success();
     }
-    
-     if (init('action') == 'remove') {
+
+    if (init('action') == 'remove') {
         $update = update::byId(init('id'));
         if (!is_object($update)) {
             throw new Exception(__('Aucune correspondance pour l\'ID : ' . init('id'), __FILE__));
