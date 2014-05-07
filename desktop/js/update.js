@@ -18,7 +18,7 @@ $(function() {
     printUpdate();
 
     $('#bt_updateAll').on('click', function() {
-        bootbox.confirm('{{Etez vous sur de vouloir changer l\'état de l\'objet ?}}', function(result) {
+        bootbox.confirm('{{Etez vous sur de vouloir tout mettre à jour ? /!\ Le core de jeedom ne sera pas mis à jour vous devez le faire séparement /!\}}', function(result) {
             if (result) {
                 updateAll();
             }
