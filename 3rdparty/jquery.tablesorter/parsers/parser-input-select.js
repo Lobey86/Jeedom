@@ -1,5 +1,5 @@
 /*! input & select parsers for jQuery 1.7+ & tablesorter 2.7.11+
- * Updated 2/19/2014 (v2.15.0)
+ * Updated 4/27/2014 (v2.16.2)
  * Demo: http://mottie.github.com/tablesorter/docs/example-widget-grouping.html
  */
 /*jshint browser: true, jquery:true, unused:false */
@@ -75,7 +75,15 @@
 		$('table').find('tbody').on('change', 'select, input', function(e){
 			if (!alreadyUpdating) {
 				var $tar = $(e.target),
-					$table = $tar.closest('table');
+					$cell = $tar.closest('td'),
+					$table = $cell.closest('table'),
+					indx = $cell[0].cellIndex,
+					c = $table[0].config,
+					$hdr = c && c.$headers && c.$headers.eq(indx);
+				// don't use updateCell if column is set to "sorter-false" and "filter-false"
+				if ($hdr.length && $hdr.hasClass('sorter-false') && $hdr.hasClass('filter-false')){
+					return false;
+				}
 				alreadyUpdating = true;
 				$table.trigger('updateCell', [ $tar.closest('td'), resort ]);
 				updateServer(e, $table, $tar);

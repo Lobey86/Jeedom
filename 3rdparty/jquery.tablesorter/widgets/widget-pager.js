@@ -1,4 +1,4 @@
-/* Pager widget (beta) for TableSorter 4/10/2014 (v2.15.14) */
+/* Pager widget (beta) for TableSorter 4/23/2014 (v2.16.0) */
 /*jshint browser:true, jquery:true, unused:false */
 ;(function($){
 "use strict";
@@ -18,6 +18,10 @@ ts.addWidget({
 
 		// starting page of the pager (zero based index)
 		pager_startPage: 0,
+
+		// reset pager after filtering; set to desired page #
+		// set to false to not change page at filter start
+		pager_pageReset: 0,
 
 		// Number of visible rows
 		pager_size: 10,
@@ -164,6 +168,10 @@ tsp = ts.pager = {
 			p.size = ( isNaN(t.size) ? p.size : t.size ) || 10;
 			$.data(table, 'pagerLastSize', p.size);
 		}
+
+		// skipped rows
+		p.regexRows = new RegExp('(' + (wo.filter_filteredRow || 'filtered') + '|' + c.selectorRemove.substring(1) + '|' + c.cssChildRow + ')');
+
 		// clear initialized flag
 		p.initialized = false;
 		// before initialization event
@@ -210,13 +218,17 @@ tsp = ts.pager = {
 			.unbind('filterStart filterEnd sortEnd disable enable destroy update updateRows updateAll addRows pageSize '.split(' ').join('.pager '))
 			.bind('filterStart.pager', function(e, filters) {
 				p.currentFilters = filters;
-				p.page = 0; // fixes #456
+				// don't change page is filters are the same (pager updating, etc)
+				if (wo.pager_pageReset !== false && (c.lastCombinedFilter || '') !== (filters || []).join('')) {
+					p.page = wo.pager_pageReset; // fixes #456 & #565
+				}
 			})
 			// update pager after filter widget completes
 			.bind('filterEnd.pager sortEnd.pager', function() {
 				if (p.initialized) {
-					tsp.moveToPage(table, p, false);
+					// update page display first, so we update p.filteredPages
 					tsp.updatePageDisplay(table, c, false);
+					tsp.moveToPage(table, p, false);
 					tsp.fixHeight(table, c);
 				}
 			})
@@ -315,17 +327,25 @@ tsp = ts.pager = {
 	},
 
 	updatePageDisplay: function(table, c, completed) {
-		var i, pg, s, out,
+		var i, pg, s, out, regex,
 			wo = c.widgetOptions,
 			p = c.pager,
 			f = c.$table.hasClass('hasFilters') && !wo.pager_ajaxUrl,
-			t = (c.widgetOptions && c.widgetOptions.filter_filteredRow || 'filtered') + ',' + c.selectorRemove +
-				(wo.pager_countChildRows ? '' : ',.' + c.cssChildRow),
+			t = [],
 			sz = p.size || 10; // don't allow dividing by zero
+		t = [ wo && wo.filter_filteredRow || 'filtered', c.selectorRemove ];
+		if (wo.pager_countChildRows) { t.push(c.cssChildRow); }
+		regex = new RegExp( '(' + t.join('|') + ')' );
 		p.$size.add(p.$goto).removeClass(wo.pager_css.disabled).removeAttr('disabled').attr('aria-disabled', 'false');
 		p.totalPages = Math.ceil( p.totalRows / sz ); // needed for "pageSize" method
-		p.filteredRows = (f) ? c.$tbodies.eq(0).children('tr').not('.' + t).length : p.totalRows;
-		p.filteredPages = (f) ? Math.ceil( p.filteredRows / sz ) || 1 : p.totalPages;
+		p.filteredRows = (f) ? 0 : p.totalRows;
+		p.filteredPages = p.totalPages;
+		if (f) {
+			$.each(c.cache[0].normalized, function(i, el) {
+				p.filteredRows += p.regexRows.test(el[c.columns].$row[0].className) ? 0 : 1;
+			});
+			p.filteredPages = Math.ceil( p.filteredRows / sz ) || 0;
+		}
 		if ( Math.min( p.totalPages, p.filteredPages ) >= 0 ) {
 			t = (p.size * p.page > p.filteredRows);
 			p.startRow = (t) ? 1 : (p.filteredRows === 0 ? 0 : p.size * p.page + 1);
@@ -579,9 +599,9 @@ tsp = ts.pager = {
 				}
 				tsp.renderAjax(data, table, c);
 				$doc.unbind('ajaxError.pager');
-				if (typeof p.oldAjaxSuccess === 'function') {
-					p.oldAjaxSuccess(data);
-				}
+					if (typeof p.oldAjaxSuccess === 'function') {
+						p.oldAjaxSuccess(data);
+					}
 			};
 			if (c.debug) {
 				ts.log('ajax initialized', wo.pager_ajaxObject);
@@ -632,13 +652,14 @@ tsp = ts.pager = {
 	},
 
 	renderTable: function(table, rows) {
-		var i, $tb,
+		var $tb, index, count, added,
 			c = table.config,
 			p = c.pager,
 			wo = c.widgetOptions,
+			f = c.$table.hasClass('hasFilters'),
 			l = rows && rows.length || 0, // rows may be undefined
 			s = ( p.page * p.size ),
-			e = ( s + p.size );
+			e = p.size;
 		if ( l < 1 ) { return; } // empty table, abort!
 		if ( p.page >= p.totalPages ) {
 			// lets not render the table more than once
@@ -650,13 +671,22 @@ tsp = ts.pager = {
 		if ( !wo.pager_removeRows ) {
 			tsp.hideRows(table, c);
 		} else {
-			if ( e > rows.length ) {
-				e = rows.length;
-			}
 			ts.clearTableBody(table);
 			$tb = ts.processTbody(table, c.$tbodies.eq(0), true);
-			for ( i = s; i < e; i++ ) {
-				$tb.append(rows[i]);
+			// not filtered, start from the calculated starting point (s)
+			// if filtered, start from zero
+			index = f ? 0 : s;
+			count = f ? 0 : s;
+			added = 0; 
+			while (added < e && index < rows.length) {
+				if (!f || !/filtered/.test(rows[index][0].className)){
+					count++;
+					if (count > s && added <= e) {
+						added++;
+						$tb.append(rows[index]);
+					}
+				}
+				index++;
 			}
 			ts.processTbody(table, $tb, false);
 		}
@@ -785,6 +815,7 @@ tsp = ts.pager = {
 		p.$container.hide(); // hide pager
 		c.appender = null; // remove pager appender function
 		p.initialized = false;
+		delete table.config.rowsCopy;
 		c.$table.unbind('destroy.pager sortEnd.pager filterEnd.pager enable.pager disable.pager');
 		if (ts.storage) {
 			ts.storage(table, c.widgetOptions.pager_storageKey, '');

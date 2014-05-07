@@ -10,9 +10,9 @@
 
 	Resizable scroller widget for the jQuery tablesorter plugin
 
-	Version 2.0 - modified by Rob Garrison (4/12/2013)
-	Requires jQuery, v1.2.3 or higher
-	Requires the tablesorter plugin, v2.0 or higher, available at http://mottie.github.com/tablesorter/docs/
+	Version 2.0 - modified by Rob Garrison (4/12/2013; updated 4/27/2014 for tablesorter v2.16.2)
+	Requires jQuery v1.7+
+	Requires the tablesorter plugin, v2.8+, available at http://mottie.github.com/tablesorter/docs/
 
 	Usage:
 
@@ -76,7 +76,7 @@ ts.addWidget({
 		//Setup window.resizeEnd event
 		$win
 			.bind('resize', ts.window_resize)
-			.bind('resizeEnd', function(e) {
+			.bind('resizeEnd', function() {
 				// init is run before format, so scroller_resizeWidth
 				// won't be defined within the "c" or "wo" parameters
 				if (typeof table.config.widgetOptions.scroller_resizeWidth === 'function') {
@@ -91,9 +91,7 @@ ts.addWidget({
 	format: function(table, c, wo) {
 		var h, $hdr, id, t, resize, $cells,
 			$win = $(window),
-			$tbl = c.$table,
-			flag = false,
-			filterInputs = 'input, select';
+			$tbl = c.$table;
 
 		if (!c.isScrolling) {
 			h = wo.scroller_height || 300;
@@ -109,64 +107,17 @@ ts.addWidget({
 
 			$cells = $hdr
 				.wrap('<div class="tablesorter-scroller-header" style="width:' + $tbl.width() + ';" />')
-				.find('.' + ts.css.header)
-				.bind('mousedown', function(){
-					this.onselectstart = function(){ return false; };
-					return false;
-				});
+				.find('.' + ts.css.header);
 
-			$tbl
-				.wrap('<div class="tablesorter-scroller-table" style="height:' + h + 'px;width:' + $tbl.width() + ';overflow-y:scroll;" />')
-				.unbind('sortEnd.tsScroller')
-				.bind('sortEnd.tsScroller', function(){
-					c.$headers.each(function(i){
-						var t = $cells.eq(i);
-						t
-							.attr('class', $(this).attr('class'))
-							// remove processing icon
-							.removeClass(ts.css.processing + ' ' + c.cssProcessing);
-						if (ts.css.icon){
-							t
-								.find('.' + ts.css.icon)
-								.attr('class', $(this).find('.' + ts.css.icon).attr('class'));
-						}
-					});
-				});
+			$tbl.wrap('<div class="tablesorter-scroller-table" style="height:' + h + 'px;width:' + $tbl.width() + ';overflow-y:scroll;" />')
 
 			// make scroller header sortable
-			c.$headers.find(c.selectorSort).add( c.$headers.filter(c.selectorSort) ).each(function(i){
-				var t = $(this);
-				$cells.eq(i)
-				// clicking on new header will trigger a sort
-				.bind('mouseup', function(e){
-					t.trigger(e, true); // external mouseup flag (click timer is ignored)
-				})
-				// prevent header text selection
-				.bind('mousedown', function(){
-					this.onselectstart = function(){ return false; };
-					return false;
-				});
-			});
+			ts.bindEvents(table, $cells);
 
 			// look for filter widget
-			$tbl.bind('filterEnd', function(){
-				if (flag) { return; }
-				$cells.each(function(i){
-					$(this).find(filterInputs).val( c.$filters.find(filterInputs).eq(i).val() );
-				});
-			});
-			$hdr.find(filterInputs).bind('keyup search', function(e){
-				// ignore arrow and meta keys; allow backspace
-				if ((e.which < 32 && e.which !== 8) || (e.which >= 37 && e.which <=40)) { return; }
-				flag = true;
-				var $f = $(this), col = $f.attr('data-column');
-				c.$filters.find(filterInputs).eq(col)
-					.val( $f.val() )
-					.trigger('search');
-				setTimeout(function(){
-					flag = false;
-				}, wo.filter_searchDelay);
-			});
+			if ($tbl.hasClass('hasFilters')) {
+				ts.filter.bindSearch( $tbl, $cells.find('.' + ts.css.filter) );
+			}
 
 			resize = function(){
 				var d,
@@ -234,8 +185,14 @@ ts.addWidget({
 
 	},
 	remove : function(table, c, wo){
-
+		var $table = c.$table;
+		$table.closest('.tablesorter-scroller').find('.tablesorter-scroller-header').remove();
+		$table
+				.unwrap()
+				.find('.tablesorter-filter-row').removeClass('hideme').end()
+				.find('thead').show().css('visibility', 'visible');
+		c.isScrolling = false;
 	}
-	});
+});
 
 })(jQuery);
