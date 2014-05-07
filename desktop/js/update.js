@@ -237,16 +237,14 @@ function printUpdate() {
             for (var i in data.result) {
                 addUpdate(data.result[i]);
             }
-        }
+            $('#table_update').trigger('update'); 
+       }
     });
 }
 
 function addUpdate(_update) {
     $.hideAlert();
     var tr = '<tr data-id="' + init(_update.id) + '">';
-    tr += '<td class="enable"><center>';
-    tr += '<input type="checkbox" checked/>';
-    tr += '</center></td>';
     tr += '<td><span class="updateAttr" data-l1key="type"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="name"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="localVersion"></span></td>';
@@ -254,15 +252,15 @@ function addUpdate(_update) {
     tr += '<td><span class="updateAttr" data-l1key="status"></span></td>';
     tr += '<td>';
     if (_update.type != 'core') {
-        tr += '<a class="btn btn-danger btn-xs pull-right remove" data-state="unhold"><i class="fa fa-trash-o"></i> Supprimer</a>';
+        tr += '<a class="btn btn-danger btn-xs pull-right remove" data-state="unhold" style="color : white;"><i class="fa fa-trash-o"></i> Supprimer</a>';
         if (_update.status != 'hold') {
-            tr += '<a class="btn btn-warning btn-xs pull-right changeState" data-state="hold"><i class="fa fa-lock"></i> Bloquer</a>';
+            tr += '<a class="btn btn-warning btn-xs pull-right changeState" data-state="hold" style="color : white;"><i class="fa fa-lock"></i> Bloquer</a>';
         } else {
-            tr += '<a class="btn btn-success btn-xs pull-right changeState" data-state="unhold"><i class="fa fa-unlock"></i> Débloquer</a>';
+            tr += '<a class="btn btn-success btn-xs pull-right changeState" data-state="unhold" style="color : white;"><i class="fa fa-unlock"></i> Débloquer</a>';
         }
     }
     if (_update.status == 'update') {
-        tr += '<a class="btn btn-info btn-xs pull-right update"><i class="fa fa-refresh"></i> Mettre à jour</a>';
+        tr += '<a class="btn btn-info btn-xs pull-right update" style="color : white;"><i class="fa fa-refresh"></i> Mettre à jour</a>';
     }
     tr += '</td>';
     tr += '</tr>';

@@ -10,7 +10,6 @@ if (!isConnect('admin')) {
         <table class="table table-condensed table-bordered tablesorter" id="table_update" style="margin-top: 5px;">
             <thead>
                 <tr>
-                    <th></th>
                     <th>{{Type}}</th>
                     <th>{{Nom}}</th>
                     <th>{{Version actuel}}</th>
