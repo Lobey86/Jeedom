@@ -21,8 +21,8 @@ if (!isConnect()) {
 
 <div class="row">
     <div class="col-lg-2">
-        <div class="bs-sidebar affix">
-            <ul id="ul_view" class="nav nav-list bs-sidenav fixnav">
+        <div class="bs-sidebar">
+            <ul id="ul_view" class="nav nav-list bs-sidenav">
                 <li class="nav-header">{{Liste des vues}} 
                     <i class="fa fa-plus-circle pull-right cursor" id="bt_addView" style="font-size: 1.5em;margin-bottom: 5px;"></i>
                 </li>

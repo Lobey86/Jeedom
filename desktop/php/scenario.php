@@ -16,8 +16,8 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
 
 <div class="row">
     <div class="col-lg-2">
-        <div class="bs-sidebar affix">
-            <ul id="ul_scenario" class="nav nav-list bs-sidenav fixnav">                  
+        <div class="bs-sidebar">
+            <ul id="ul_scenario" class="nav nav-list bs-sidenav">                  
                 <?php
                 if (config::byKey('enableScenario') == 0) {
                     echo '<a class="btn btn-sm btn-success" id="bt_changeAllScenarioState" data-state="1" style="display: inline-block;" title="{{Désactiver le système de scénario}}"><i class="fa fa-check"></i></a>';

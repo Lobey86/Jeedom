@@ -29,7 +29,7 @@ sendVarToJS('view_id', $view->getId());
 
 <div class="row">
     <div class="col-lg-2">
-        <div class="bs-sidebar affix">
+        <div class="bs-sidebar">
             <ul id="ul_view" class="nav nav-list bs-sidenav">
                 <li class="nav-header">{{Liste des vues}}</li>
                 <li class="filter"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>

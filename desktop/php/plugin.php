@@ -8,8 +8,8 @@ sendVarToJS('select_id', init('id', '-1'));
 
 <div class="row">
     <div class="col-lg-2">
-        <div class="bs-sidebar affix">
-            <ul id="ul_plugin" class="nav nav-list bs-sidenav fixnav">
+        <div class="bs-sidebar">
+            <ul id="ul_plugin" class="nav nav-list bs-sidenav">
                 <center>
                     <a class="btn btn-success btn-xs tooltips cursor" id="bt_displayMarket" style="display: inline-block;"><i class="fa fa-shopping-cart"></i> {{Télécharger du market}}</a>
                 </center>

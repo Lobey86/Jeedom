@@ -7,7 +7,7 @@ sendVarToJS('select_id', init('id', '-1'));
 
 <div class="row">
     <div class="col-lg-2">
-        <div class="bs-sidebar affix">
+        <div class="bs-sidebar">
             <ul id="ul_object" class="nav nav-list bs-sidenav">
                 <li class="nav-header">{{Liste objets}} 
                     <i class="fa fa-plus-circle pull-right cursor" id="bt_addObject" style="font-size: 1.5em;margin-bottom: 5px;"></i>
