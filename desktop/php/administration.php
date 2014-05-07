@@ -158,34 +158,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <a class="btn btn-default bt_updateJeedom" data-mode="normal"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-github"></i> {{Mettre à jour}}</a>
                                 </div>
                             </div>
-                            <div class="form-group expertModeHidden">
-                                <label class="col-lg-2 control-label">{{Faire une sauvegarde avant la mise à jour}}</label>
-                                <div class="col-lg-1">
-                                    <input type="checkbox" class="configKey" data-l1key="update::backupBefore"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Branche}}</label>
-                                <div class="col-lg-3">
-                                    <select class="configKey form-control" data-l1key="market::branch">
-                                        <option value="stable">Stable</option>
-                                        <option value="master">Developpement</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Dernière version}}</label>
-                                <div class="col-lg-4">
-                                    <?php
-                                    $update = jeedom::needUpdate(true);
-                                    $label = 'label-success';
-                                    if ($update['needUpdate']) {
-                                        $label = 'label-danger';
-                                    }
-                                    ?>
-                                    <span class='label <?php echo $label ?>'> <?php echo $update['currentVersion'] ?> </span>
-                                </div>
-                            </div>
                         </fieldset>
                     </form>
                 </div>
@@ -193,9 +165,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                     <legend>{{Informations :}}</legend>
                     <pre id="pre_updateInfo"></pre>
                 </div>
-            </div>
-            <div class="form-actions" style="height: 20px;">
-                <a class="btn btn-success" id="bt_saveUpdate"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
             </div>
         </div>
 
@@ -672,7 +641,34 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         </div>
                     </div>
 
-
+                    <div class="panel panel-default expertModeHidden">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_update">
+                                    {{Mise à jour}}
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="configuration_update" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="form-group expertModeHidden">
+                                    <label class="col-lg-2 control-label">{{Faire une sauvegarde avant la mise à jour}}</label>
+                                    <div class="col-lg-1">
+                                        <input type="checkbox" class="configKey" data-l1key="update::backupBefore"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Branche}}</label>
+                                    <div class="col-lg-3">
+                                        <select class="configKey form-control" data-l1key="market::branch">
+                                            <option value="stable">Stable</option>
+                                            <option value="master">Developpement</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-actions" style="height: 20px;">
                         <a class="btn btn-success" id="bt_saveGeneraleConfig"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
                     </div>
