@@ -67,7 +67,7 @@ function updateAll() {
             action: 'updateAll',
         },
         dataType: 'json',
-        global: false,
+        global : false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -113,7 +113,7 @@ function doUpdate(_id) {
             id: _id
         },
         dataType: 'json',
-        global: false,
+        global : false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },

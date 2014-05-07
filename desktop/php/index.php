@@ -281,7 +281,7 @@ $plugins_list = plugin::listPlugin();
                 <?php
                 $nbNeedUpdate = update::nbNeedUpdate();
                 if ($nbNeedUpdate > 0) {
-                    echo '<span class="label label-danger"><a href="index.php?v=d&p=update">' . $nbNeedUpdate . ' {{Mise(s) à jour disponible}}</a></span>';
+                    echo '<span class="label label-danger"><a href="index.php?v=d&p=update" style="color : white;">' . $nbNeedUpdate . ' {{Mise(s) à jour disponible}}</a></span>';
                 }
                 echo ') ';
                 echo date('Y');

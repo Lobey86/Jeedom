@@ -173,6 +173,10 @@ class update {
         return DB::remove($this);
     }
 
+    public function refresh() {
+        DB::refresh($this);
+    }
+
     public function doUpdate() {
         if ($this->getType() == 'core') {
             jeedom::update();
@@ -182,6 +186,7 @@ class update {
                 $market->install();
             }
         }
+        $this->refresh();
         $this->checkUpdate();
     }
 
