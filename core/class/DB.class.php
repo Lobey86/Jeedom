@@ -196,7 +196,7 @@ class DB {
             }
         }
         list($sql, $parameters) = self::buildQuery($object);
-        $sql = 'DELETE FROM ' . self::getTableName($object) . ' WHERE ';
+        $sql = 'DELETE FROM `' . self::getTableName($object) . '` WHERE ';
         foreach ($parameters as $field => $value) {
             if ($value != '') {
                 $sql .= '`' . $field . '`=:' . $field . ' AND ';

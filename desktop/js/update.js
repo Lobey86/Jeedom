@@ -44,7 +44,7 @@ $(function() {
         var id = $(this).closest('tr').attr('data-id');
         bootbox.confirm('{{Etez vous sur de vouloir mettre a jour cet objet ?}}', function(result) {
             if (result) {
-                updateUpdate(id);
+                doUpdate(id);
             }
         });
     });
@@ -67,6 +67,7 @@ function updateAll() {
             action: 'updateAll',
         },
         dataType: 'json',
+        global : false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -103,7 +104,7 @@ function changeStateUpdate(_id, _state) {
     });
 }
 
-function updateUpdate(_id) {
+function doUpdate(_id) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
@@ -112,6 +113,7 @@ function updateUpdate(_id) {
             id: _id
         },
         dataType: 'json',
+        global : false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },

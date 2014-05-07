@@ -9,7 +9,7 @@ $values = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
 foreach ($values as $value) {
     $update = new update();
     $name = explode('::', $value['key']);
-    $update->setLogical_id($name[0]);
+    $update->setLogicalId($name[0]);
     $update->setLocalVersion($value['value']);
     if ($value['plugin'] == 'core') {
         $update->setType('plugin');
@@ -32,7 +32,7 @@ $values = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
 foreach ($values as $value) {
     $update = new update();
     if ($value['plugin'] != '') {
-        $update->setLogical_id($value['plugin']);
+        $update->setLogicalId($value['plugin']);
         $update->setLocalVersion($value['value']);
         $update->setType('plugin');
         try {

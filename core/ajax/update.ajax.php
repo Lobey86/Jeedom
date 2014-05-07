@@ -35,6 +35,7 @@ try {
 
     if (init('action') == 'update') {
         log::clear('update');
+        log::add('update', 'update', __("[START UPDATE]", __FILE__));
         $update = update::byId(init('id'));
         if (!is_object($update)) {
             throw new Exception(__('Aucune correspondance pour l\'ID : ' . init('id'), __FILE__));

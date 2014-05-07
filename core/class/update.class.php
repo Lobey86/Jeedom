@@ -39,7 +39,7 @@ class update {
             if ($update->getStatus() != 'hold') {
                 $update->checkUpdate();
             }
-            if ($this->getType() == 'core') {
+            if ($update->getType() == 'core') {
                 $findCore = true;
             }
         }
@@ -55,10 +55,11 @@ class update {
 
     public static function updateAll() {
         log::clear('update');
+        log::add('update', 'update', __("[START UPDATE]", __FILE__));
         $error = false;
         foreach (self::all() as $update) {
-            if ($update->getState() != 'hold' && $update->getState() == 'update') {
-                if ($this->getType() != 'core') {
+            if ($update->getStatus() != 'hold' && $update->getStatus() == 'update') {
+                if ($update->getType() != 'core') {
                     try {
                         $update->doUpdate();
                     } catch (Exception $e) {

@@ -337,14 +337,14 @@ class market {
     }
 
     public function install() {
-        log::add('update', 'update', __('Début de la mise de : ' . $this->getLogicalId(), __FILE__));
+        log::add('update', 'update', __('Début de la mise de : ' . $this->getLogicalId(), __FILE__) . "\n");
         $tmp_dir = dirname(__FILE__) . '/../../tmp';
         $tmp = $tmp_dir . '/' . $this->getLogicalId() . '.zip';
         if (!is_writable($tmp_dir)) {
             throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
         }
         $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId() . '&hwkey=' . jeedom::getHardwareKey() . '&apikey=' . config::byKey('market::apikey');
-        log::add('update', 'update', __('Téléchargement de l\objet...', __FILE__));
+        log::add('update', 'update', __('Téléchargement de l\'objet...', __FILE__));
         file_put_contents($tmp, fopen($url, 'r'));
         if (!file_exists($tmp)) {
             throw new Exception(__('Impossible de télécharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetée ?', __FILE__));
@@ -364,7 +364,7 @@ class market {
                     }
                     $zip->close();
                     log::add('update', 'update', __("OK\n", __FILE__));
-                    log::add('update', 'update', __('Installation de l\objet...', __FILE__));
+                    log::add('update', 'update', __('Installation de l\'objet...', __FILE__));
                     try {
                         $plugin = new plugin($this->getLogicalId());
                     } catch (Exception $e) {
@@ -381,7 +381,7 @@ class market {
                 }
                 break;
             default :
-                log::add('update', 'update', __('Installation de l\objet...', __FILE__));
+                log::add('update', 'update', __('Installation de l\'objet...', __FILE__));
                 $type = $this->getType();
                 if (class_exists($type) && method_exists($type, 'getFromMarket')) {
                     $type::getFromMarket($this, $tmp);
