@@ -188,13 +188,17 @@ class update {
         if ($this->getType() == 'core') {
             throw new Exception('Vous ne pouvez supprimer le core de Jeedom');
         } else {
-            $market = market::byLogicalId($this->getLogicalId());
-            if (is_object($market)) {
-                $market->remove();
+            try {
+                $market = market::byLogicalId($this->getLogicalId());
+                if (is_object($market)) {
+                    $market->remove();
+                }
+                $this->remove();
+            } catch (Exception $e) {
+                $this->remove();
+                throw $e;
             }
-            $this->remove();
         }
-        $this->checkUpdate();
     }
 
     /*     * **********************Getteur Setteur*************************** */

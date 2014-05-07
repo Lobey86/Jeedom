@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
-
+$configRemove = array();
 $sql = 'SELECT * 
         FROM config 
         WHERE `key` LIKE "%::installVersionDate%"';
@@ -13,8 +13,10 @@ foreach ($values as $value) {
     $update->setLocalVersion($value['value']);
     if ($value['plugin'] == 'core') {
         $update->setType('plugin');
+        $configRemove[] = array('key' => $value['key']);
     } else {
         $update->setType($value['plugin']);
+        $configRemove[] = array('key' => $value['key'], 'plugin' => $value['plugin']);
     }
     try {
         $update->save();
@@ -35,8 +37,17 @@ foreach ($values as $value) {
         $update->setType('plugin');
         try {
             $update->save();
+            $configRemove[] = array('key' => "installVersionDate", 'plugin' => $value['plugin']);
         } catch (Exception $ex) {
             
         }
+    }
+}
+
+foreach ($configRemove as $remove) {
+    if (isset($remove['plugin'])) {
+        config::remove($remove['key'], $remove['plugin']);
+    } else {
+        config::remove($remove['key']);
     }
 }
