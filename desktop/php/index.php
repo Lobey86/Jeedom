@@ -225,6 +225,7 @@ $plugins_list = plugin::listPlugin();
                             echo '</div>';
                         }
                     } catch (Exception $e) {
+                        ob_end_clean();
                         echo '<div class="alert alert-danger div_alert">';
                         echo displayExeption($e);
                         echo '</div>';
@@ -285,7 +286,7 @@ $plugins_list = plugin::listPlugin();
                 echo ') ';
                 echo date('Y');
                 $pageLoadTime = round(getmicrotime() - $startLoadTime, 3);
-                echo ' - Page générée en ' . $pageLoadTime . 's';
+                echo ' - {{Page générée en}} ' . $pageLoadTime . 's';
                 ?>
             </span>
         </footer>
