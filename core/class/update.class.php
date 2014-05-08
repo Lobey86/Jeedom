@@ -55,7 +55,7 @@ class update {
 
     public static function updateAll() {
         log::clear('update');
-        log::add('update', 'update', __("[START UPDATE]", __FILE__));
+        log::add('update', 'update', __("[START UPDATE]\n", __FILE__));
         $error = false;
         foreach (self::all() as $update) {
             if ($update->getStatus() != 'hold' && $update->getStatus() == 'update') {
@@ -70,9 +70,9 @@ class update {
             }
         }
         if ($error) {
-            log::add('update', 'update', __("[END UPDATE ERROR]", __FILE__));
+            log::add('update', 'update', __("[END UPDATE ERROR]\n", __FILE__));
         } else {
-            log::add('update', 'update', __("[END UPDATE SUCCESS]", __FILE__));
+            log::add('update', 'update', __("[END UPDATE SUCCESS]\n", __FILE__));
         }
     }
 
