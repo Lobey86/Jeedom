@@ -2,7 +2,11 @@ function initEquipment(_object_id) {
     var objects = object.all();
     var li = ' <ul data-role="listview">';
     for (var i in objects) {
-        li += '<li><a href="#" class="link" data-page="equipment" data-title="' + objects[i].name + '" data-option="' + objects[i].id + '">' + objects[i].name + '</a></li>'
+        var icon = '';
+        if (isset(objects[i].configuration) && isset(objects[i].configuration.icon)) {
+            icon = objects[i].configuration.icon;
+        }
+        li += '<li><a href="#" class="link" data-page="equipment" data-title="' + objects[i].name + '" data-option="' + objects[i].id + '">' + icon + ' ' + objects[i].name + '</a></li>'
     }
     li += '</ul>';
     panel(li);

@@ -114,13 +114,6 @@
             if (value == '') {
                 value = $(this).val();
             }
-
-            if ($(this).prop('notEmpty') && $.trim(value) == '') {
-                throw('Le champ ' + $(this).attr('key') + ' ne peut etre vide');
-            }
-            if ($(this).prop('mustNumber') && isNaN(value)) {
-                throw('Le champ ' + $(this).attr('key') + ' doit etre un nombre');
-            }
             return value;
 
         }

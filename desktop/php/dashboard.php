@@ -25,9 +25,9 @@ if (!is_object($object)) {
                 foreach ($allObject as $object_li) {
                     $margin = 15 * $object_li->parentNumber();
                     if ($object_li->getId() == $object->getId()) {
-                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
+                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getConfiguration('icon') . ' ' . $object_li->getName() . '</a></li>';
                     } else {
-                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getName() . '</a></li>';
+                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getConfiguration('icon') . ' ' . $object_li->getName() . '</a></li>';
                     }
                 }
                 ?>
@@ -57,7 +57,7 @@ if (!is_object($object)) {
         <div style="height: 10px;width: 100%;"></div>
         <?php
         echo '<div object_id="' . $object->getId() . '">';
-        echo '<legend>' . $object->getName() . '</legend>';
+        echo '<legend>' . $object->getConfiguration('icon') . ' ' . $object->getName() . '</legend>';
         echo '<div class="div_displayEquipement" style="width: 100%;">';
         foreach ($object->getEqLogic() as $eqLogic) {
             if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
@@ -68,7 +68,7 @@ if (!is_object($object)) {
         foreach (object::buildTree($object) as $child) {
             $margin = 40 * $child->parentNumber();
             echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
-            echo '<legend>' . $child->getName() . '</legend>';
+            echo '<legend>' . $child->getConfiguration('icon') . ' ' . $child->getName() . '</legend>';
             echo '<div class="div_displayEquipement" style="width: 100%;">';
             foreach ($child->getEqLogic() as $eqLogic) {
                 if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {

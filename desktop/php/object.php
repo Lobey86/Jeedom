@@ -19,6 +19,7 @@ sendVarToJS('select_id', init('id', '-1'));
                     $margin = 15 * $object->parentNumber();
                     echo '<li class="cursor li_object bt_sortable" data-object_id="' . $object->getId() . '">'
                     . '<i class="fa fa-arrows-v pull-left cursor"></i>'
+                    . '<span class="pull-left">' . $object->getConfiguration('icon') . '</span>'
                     . '<a style="position:relative;left:' . $margin . 'px;">' . $object->getName() . '</a>'
                     . '</li>';
                 }

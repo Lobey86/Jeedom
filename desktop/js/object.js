@@ -174,6 +174,7 @@ function printObject(_object_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            $('.objectAttr').value('');
             $('.objectAttr[data-l1key=father_id] option').show();
             $('.object').setValues(data.result, '.objectAttr');
             $('.objectAttr[data-l1key=father_id] option[value=' + _object_id + ']').hide();
