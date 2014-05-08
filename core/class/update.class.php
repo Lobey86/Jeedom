@@ -188,22 +188,18 @@ class update {
         }
         $this->refresh();
         $this->checkUpdate();
+        config::save('mobile::manifestKey', config::genKey());
     }
 
     public function deleteObjet() {
         if ($this->getType() == 'core') {
             throw new Exception('Vous ne pouvez supprimer le core de Jeedom');
         } else {
-            try {
-                $market = market::byLogicalId($this->getLogicalId());
-                if (is_object($market)) {
-                    $market->remove();
-                }
-                $this->remove();
-            } catch (Exception $e) {
-                $this->remove();
-                throw $e;
+            $market = market::byLogicalId($this->getLogicalId());
+            if (is_object($market)) {
+                $market->remove();
             }
+            $this->remove();
         }
     }
 

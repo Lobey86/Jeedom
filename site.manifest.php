@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . "/core/php/core.inc.php";
 CACHE MANIFEST
 
 # Version <?php echo getVersion('jeedom'); ?>
-# V03
+# <?php echo config::byKey('mobile::manifestKey'); ?>
 
 CACHE:
 core/php/getJS.php?file=3rdparty/jquery.include/jquery.include.js
