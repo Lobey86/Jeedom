@@ -53,7 +53,9 @@ try {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
         $object_json = json_decode(init('object'), true);
-        $object = object::byId($object_json['id']);
+        if (isset($object_json['id'])) {
+            $object = object::byId($object_json['id']);
+        }
         if (!is_object($object)) {
             $object = new object();
         }

@@ -104,6 +104,9 @@
             }
             if ($(this).is('div') || $(this).is('span') || $(this).is('p')) {
                 value = $(this).text();
+                if (value == '') {
+                    value = $(this).html();
+                }
             }
             if ($(this).is('a') && $(this).attr('value') != undefined) {
                 value = $(this).attr('value');

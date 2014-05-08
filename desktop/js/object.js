@@ -16,6 +16,7 @@
  */
 
 $(function() {
+
     if (getUrlVars('saveSuccessFull') == 1) {
         $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
     }
@@ -84,6 +85,12 @@ $(function() {
 
     $('body').delegate('.bt_sortable', 'mouseout', function() {
         $("#ul_object").sortable("disable");
+    });
+
+    $('#bt_chooseIcon').on('click', function() {
+        chooseIcon(function(_icon) {
+           $('.objectAttr[data-l1key=configuration][data-l2key=icon]').empty().append(_icon);
+        });
     });
 
     if (is_numeric(getUrlVars('id'))) {

@@ -284,3 +284,34 @@ jQuery.fn.findAtDepth = function(selector, maxDepth) {
     }
     return this.find(selector);
 };
+
+
+function chooseIcon(callback) {
+    if ($("#mod_selectIcon").length == 0) {
+        $('body').append('<div id="mod_selectIcon" title="{{Choisissez votre icone}}" ></div>');
+
+        $("#mod_selectIcon").dialog({
+            autoOpen: false,
+            modal: true,
+            height: 600,
+            width: 800
+        });
+        jQuery.ajaxSetup({async: false});
+        $('#mod_selectIcon').load('index.php?v=d&modal=icon.selector');
+        jQuery.ajaxSetup({async: true});
+    }
+    $("#mod_selectIcon").dialog('option', 'buttons', {
+        "Annuler": function() {
+            $(this).dialog("close");
+        },
+        "Valider": function() {
+            var icon = $('.iconSelected').html();
+            if (icon == undefined) {
+                icon = '';
+            }
+            callback(icon);
+            $(this).dialog('close');
+        }
+    });
+    $('#mod_selectIcon').dialog('open');
+}

@@ -18,9 +18,9 @@ sendVarToJS('select_id', init('id', '-1'));
                 foreach ($allObject as $object) {
                     $margin = 15 * $object->parentNumber();
                     echo '<li class="cursor li_object bt_sortable" data-object_id="' . $object->getId() . '">'
-                            . '<i class="fa fa-arrows-v pull-left cursor"></i>'
-                            . '<a style="position:relative;left:' . $margin . 'px;">' . $object->getName() . '</a>'
-                            . '</li>';
+                    . '<i class="fa fa-arrows-v pull-left cursor"></i>'
+                    . '<a style="position:relative;left:' . $margin . 'px;">' . $object->getName() . '</a>'
+                    . '</li>';
                 }
                 ?>
             </ul>
@@ -54,6 +54,15 @@ sendVarToJS('select_id', init('id', '-1'));
                     <label class="col-sm-1 control-label">{{Visible}}</label>
                     <div class="col-sm-1">
                         <input class="objectAttr" type="checkbox"  data-l1key="is_visible" checked/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">{{Icone}}</label>
+                    <div class="col-sm-2">
+                        <div class="objectAttr" data-l1key="configuration" data-l2key="icon" ></div>
+                    </div>
+                    <div class="col-sm-2">
+                        <a class="btn btn-default btn-sm" id="bt_chooseIcon">Choissir une icone</a>
                     </div>
                 </div>
             </fieldset>
