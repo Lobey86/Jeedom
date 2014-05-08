@@ -76,7 +76,7 @@ $PAGE_DESCRIPTOR_DESKTOP = array(
     ),
      'update' => array(
         'pageName' => 'update',
-        'title' => 'Centre de mise ç jour',
+        'title' => 'Centre de mise à jour',
     ),
         /*         * *************************Mobile*********************************** */
 );
