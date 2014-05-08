@@ -135,6 +135,7 @@ class eqLogic {
         if ($_onlyEnable) {
             $sql .= ' AND isEnable = 1';
         }
+        $sql .= ' ORDER BY category DESC';
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
         foreach ($results as $result) {
