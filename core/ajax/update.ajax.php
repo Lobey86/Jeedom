@@ -42,16 +42,16 @@ try {
 
         try {
             if ($update->getType() != 'core') {
-                log::add('update', 'update', __("[START UPDATE]", __FILE__));
+                log::add('update', 'update', __("[START UPDATE]\n", __FILE__));
             }
             $update->doUpdate();
             if ($update->getType() != 'core') {
-                log::add('update', 'update', __("[END UPDATE SUCCESS]", __FILE__));
+                log::add('update', 'update', __("[END UPDATE SUCCESS]\n", __FILE__));
             }
         } catch (Exception $e) {
             if ($update->getType() != 'core') {
                 log::add('update', 'update', $e->getMessage());
-                log::add('update', 'update', __("[END UPDATE ERROR]", __FILE__));
+                log::add('update', 'update', __("[END UPDATE ERROR]\n", __FILE__));
             }
         }
 
