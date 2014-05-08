@@ -32,7 +32,7 @@ if ($plugin != '') {
         $title = $plugin->getName();
     }
 }
-$plugins_list = plugin::listPlugin();
+$plugins_list = plugin::listPlugin(true, true);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -118,9 +118,11 @@ $plugins_list = plugin::listPlugin();
                                         <li><a href="index.php?v=d&p=view"><i class="fa fa-picture-o"></i> {{Vue}}</a></li>
 
                                         <?php
-                                        foreach ($plugins_list as $pluginList) {
-                                            if ($pluginList->isActive() == 1 && $pluginList->getDisplay() != '') {
-                                                echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getDisplay() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
+                                        foreach ($plugins_list as $category) {
+                                            foreach ($category as $pluginList) {
+                                                if ($pluginList->getDisplay() != '') {
+                                                    echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getDisplay() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
+                                                }
                                             }
                                         }
                                         ?>
@@ -148,8 +150,10 @@ $plugins_list = plugin::listPlugin();
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> {{Plugins}} <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <?php
-                                            foreach ($plugins_list as $pluginList) {
-                                                if ($pluginList->isActive() == 1) {
+                                            foreach ($plugins_list as $category_name => $category) {
+                                              //  echo ' <li role="presentation" class="divider"></li>';
+                                                echo '<li role="presentation" class="dropdown-header">' . $category_name . '</li>';
+                                                foreach ($category as $pluginList) {
                                                     echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
                                                 }
                                             }

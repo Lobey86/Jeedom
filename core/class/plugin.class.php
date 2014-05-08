@@ -94,7 +94,7 @@ class plugin {
         }
     }
 
-    public static function listPlugin($_activateOnly = false) {
+    public static function listPlugin($_activateOnly = false, $_orderByCaterogy = false) {
         if ($_activateOnly) {
             $sql = "SELECT plugin
                     FROM config
@@ -121,8 +121,27 @@ class plugin {
                 }
             }
         }
-        usort($listPlugin, 'plugin::orderPlugin');
-        return $listPlugin;
+        if ($_orderByCaterogy) {
+            $return = array();
+            foreach ($listPlugin as $plugin) {
+                $category = $plugin->getCategory();
+                if ($category == '') {
+                    $category = __('Autre', __FILE__);
+                }
+                if (!isset($return[$category])) {
+                    $return[$category] = array();
+                }
+                $return[$category][] = $plugin;
+            }
+            foreach ($return as &$category) {
+                usort($category, 'plugin::orderPlugin');
+            }
+            ksort($return);
+            return $return;
+        } else {
+            usort($listPlugin, 'plugin::orderPlugin');
+            return $listPlugin;
+        }
     }
 
     public static function orderPlugin($a, $b) {
