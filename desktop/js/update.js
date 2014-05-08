@@ -67,7 +67,7 @@ function updateAll() {
             action: 'updateAll',
         },
         dataType: 'json',
-        global : false,
+        global: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -113,7 +113,7 @@ function doUpdate(_id) {
             id: _id
         },
         dataType: 'json',
-        global : false,
+        global: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -259,8 +259,12 @@ function addUpdate(_update) {
             tr += '<a class="btn btn-success btn-xs pull-right changeState" data-state="unhold" style="color : white;"><i class="fa fa-unlock"></i> Débloquer</a>';
         }
     }
-    if (_update.status == 'update' || _update.type == 'core') {
+    if (_update.status == 'update') {
         tr += '<a class="btn btn-info btn-xs pull-right update" style="color : white;"><i class="fa fa-refresh"></i> Mettre à jour</a>';
+    } else {
+        if (_update.type == 'core') {
+            tr += '<a class="btn btn-default btn-xs pull-right update"><i class="fa fa-refresh"></i> Re-installer sans perte de données</a>';
+        }
     }
     tr += '</td>';
     tr += '</tr>';
