@@ -26,6 +26,8 @@ class object {
     private $name;
     private $father_id = null;
     private $isVisible = 1;
+    private $position;
+    private $configuration;
 
     /*     * ***********************Methode static*************************** */
 
@@ -42,7 +44,7 @@ class object {
     public static function all() {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM object
-                ORDER BY father_id,name';
+                ORDER BY father_id,position';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -50,7 +52,7 @@ class object {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM object
                 WHERE father_id IS NULL
-                ORDER BY name';
+                ORDER BY position';
         if ($_all === false) {
             $sql .= ' LIMIT 1';
             return DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
@@ -104,7 +106,7 @@ class object {
                 FROM object
                 WHERE father_id=:id
                     AND isVisible=1
-                ORDER BY name';
+                ORDER BY position';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -195,6 +197,22 @@ class object {
 
     public function setIsVisible($isVisible) {
         $this->isVisible = $isVisible;
+    }
+
+    public function getPosition() {
+        return $this->position;
+    }
+
+    public function setPosition($position) {
+        $this->position = $position;
+    }
+
+    public function getConfiguration($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->configuration, $_key, $_default);
+    }
+
+    public function setConfiguration($_key, $_value) {
+        $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
 
 }

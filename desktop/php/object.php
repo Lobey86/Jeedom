@@ -17,7 +17,10 @@ sendVarToJS('select_id', init('id', '-1'));
                 $allObject = object::buildTree();
                 foreach ($allObject as $object) {
                     $margin = 15 * $object->parentNumber();
-                    echo '<li class="cursor li_object" data-object_id="' . $object->getId() . '"><a style="position:relative;left:' . $margin . 'px;">' . $object->getName() . '</a></li>';
+                    echo '<li class="cursor li_object bt_sortable" data-object_id="' . $object->getId() . '">'
+                            . '<i class="fa fa-arrows-v pull-left cursor"></i>'
+                            . '<a style="position:relative;left:' . $margin . 'px;">' . $object->getName() . '</a>'
+                            . '</li>';
                 }
                 ?>
             </ul>

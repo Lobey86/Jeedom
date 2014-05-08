@@ -85,6 +85,22 @@ try {
         ajax::success($html);
     }
 
+    if (init('action') == 'setObjectPosition') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
+        $position = 1;
+        foreach (json_decode(init('objects'), true) as $id) {
+            $object = object::byId($id);
+            if (is_object($object)) {
+                $object->setPosition($position);
+                $object->save();
+                $position++;
+            }
+        }
+        ajax::success();
+    }
+
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

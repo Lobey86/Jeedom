@@ -65,6 +65,27 @@ $(function() {
         return false;
     });
 
+
+    $('body').delegate('.bt_sortable', 'mouseenter', function() {
+        $("#ul_object").sortable({
+            axis: "y",
+            cursor: "move",
+            items: ".li_object",
+            placeholder: "ui-state-highlight",
+            tolerance: "intersect",
+            forcePlaceholderSize: true,
+            dropOnEmpty: true,
+            stop: function(event, ui) {
+                saveObjectPosition()
+            }
+        });
+        $("#ul_object").sortable("enable");
+    });
+
+    $('body').delegate('.bt_sortable', 'mouseout', function() {
+        $("#ul_object").sortable("disable");
+    });
+
     if (is_numeric(getUrlVars('id'))) {
         if ($('#ul_object .li_object[data-object_id=' + getUrlVars('id') + ']').length != 0) {
             $('#ul_object .li_object[data-object_id=' + getUrlVars('id') + ']').click();
@@ -80,6 +101,31 @@ $(function() {
     });
 });
 
+
+function saveObjectPosition() {
+    var objects = [];
+    $('#ul_object .li_object').each(function() {
+        objects.push($(this).attr('data-object_id'));
+    });
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/object.ajax.php", // url du fichier php
+        data: {
+            action: "setObjectPosition",
+            objects: json_encode(objects)
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+        }
+    });
+}
 
 function removeObject(_id) {
     $.ajax({// fonction permettant de faire de l'ajax
