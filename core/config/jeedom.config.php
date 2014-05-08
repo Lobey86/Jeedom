@@ -27,6 +27,17 @@ $JEEDOM_INTERNAL_CONFIG = array(
             'automatism' => array('name' => 'Automatisme', 'color' => '#F781D8', 'mcolor' => '#808080'),
         ),
     ),
+    'plugin' => array(
+        'category' => array(
+            'Sécurité' => array('icon' => 'fa-lock'),
+            'Protocole domotique' => array('icon' => 'fa-rss'),
+            'Programmation' => array('icon' => 'fa-code'),
+            'Panel' => array('icon' => 'fa-thumb-tack'),
+            'Organisation' => array('icon' => 'fa-calendar'),
+            'Météo' => array('icon' => 'fa-sun-o'),
+            'Communication' => array('icon' => 'fa-comment-o'),
+        ),
+    ),
     'cmd' => array(
         'type' => array(
             'info' => array(

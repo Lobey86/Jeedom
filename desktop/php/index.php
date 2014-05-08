@@ -4,6 +4,7 @@ include_file('core', 'authentification', 'php');
 $startLoadTime = getmicrotime();
 include_file("core", "pageDescriptor", "config");
 global $PAGE_DESCRIPTOR_DESKTOP;
+global $JEEDOM_INTERNAL_CONFIG;
 if (isConnect() && init('p') == '') {
     $homePage = explode('::', $_SESSION['user']->getOptions('homePage', 'core::dashboard'));
     if (count($homePage) == 2) {
@@ -151,11 +152,18 @@ $plugins_list = plugin::listPlugin(true, true);
                                         <ul class="dropdown-menu">
                                             <?php
                                             foreach ($plugins_list as $category_name => $category) {
-                                              //  echo ' <li role="presentation" class="divider"></li>';
-                                                echo '<li role="presentation" class="dropdown-header">' . $category_name . '</li>';
+                                                if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'])) {
+                                                    $icon = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'];
+                                                } else {
+                                                    $icon = '';
+                                                }
+                                                echo '<li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa ' . $icon . '"></i> {{' . $category_name . '}}</a>';
+                                                echo '<ul class="dropdown-menu">';
                                                 foreach ($category as $pluginList) {
                                                     echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
                                                 }
+                                                echo '</li>';
+                                                echo '</ul>';
                                             }
                                             ?>
                                         </ul>
