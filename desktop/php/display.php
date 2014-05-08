@@ -10,7 +10,7 @@ sendVarToJS('cmd_widgetDashboard', cmd::availableWidget('dashboard'));
 sendVarToJS('cmd_widgetMobile', cmd::availableWidget('mobile'));
 ?>
 <div class="row">
-    <div class="col-lg-4" >
+    <div class="col-sm-4" >
         <legend>{{Arbre des commandes}}</legend>
         <div id='div_tree'>
             <ul id='ul_rootTree'>
@@ -59,7 +59,7 @@ sendVarToJS('cmd_widgetMobile', cmd::availableWidget('mobile'));
             </ul>
         </div>
     </div>
-    <div class="col-lg-8">
+    <div class="col-sm-8">
         <legend>{{Informations}}</legend>
         <div id='div_displayInfo'></div>
     </div>

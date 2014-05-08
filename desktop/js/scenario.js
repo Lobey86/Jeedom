@@ -615,14 +615,14 @@ function execScenario(_scenario_id) {
 
 function addTrigger(_trigger) {
     var div = '<div class="form-group trigger">';
-    div += '<label class="col-lg-3 control-label">{{Evènement}}</label>';
-    div += '<div class="col-lg-7">';
+    div += '<label class="col-sm-3 control-label">{{Evènement}}</label>';
+    div += '<div class="col-sm-7">';
     div += '<input class="scenarioAttr input-sm form-control" data-l1key="trigger" value="' + _trigger + '">';
     div += '</div>';
-    div += '<div class="col-lg-1">';
+    div += '<div class="col-sm-1">';
     div += '<a class="btn btn-default btn-sm cursor bt_selectTrigger"><i class="fa fa-list-alt"></i></a>';
     div += '</div>';
-    div += '<div class="col-lg-1">';
+    div += '<div class="col-sm-1">';
     div += '<i class="fa fa-minus-circle bt_removeTrigger cursor" style="margin-top : 9px;"></i>';
     div += '</div>';
     div += '</div>';
@@ -631,14 +631,14 @@ function addTrigger(_trigger) {
 
 function addSchedule(_schedule) {
     var div = '<div class="form-group schedule">';
-    div += '<label class="col-lg-3 control-label">{{Programmation}}</label>';
-    div += '<div class="col-lg-7">';
+    div += '<label class="col-sm-3 control-label">{{Programmation}}</label>';
+    div += '<div class="col-sm-7">';
     div += '<input class="scenarioAttr input-sm form-control" data-l1key="schedule" value="' + _schedule + '">';
     div += '</div>';
-    div += '<div class="col-lg-1">';
+    div += '<div class="col-sm-1">';
     div += '<i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>';
     div += '</div>';
-    div += '<div class="col-lg-1">';
+    div += '<div class="col-sm-1">';
     div += '<i class="fa fa-minus-circle bt_removeSchedule cursor"></i>';
     div += '</div>';
     div += '</div>';
@@ -658,36 +658,36 @@ function addExpression(_expression) {
             if (isset(_expression.expression)) {
                 _expression.expression = _expression.expression.replace(/"/g, '&quot;');
             }
-            retour += '<div class="col-lg-11">';
+            retour += '<div class="col-sm-11">';
             retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #dff0d8;" />';
             retour += '</div>';
-            retour += '<div class="col-lg-1">';
+            retour += '<div class="col-sm-1">';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="info"><i class="fa fa-list-alt"></i></a>';
             retour += '</div>';
             break;
         case 'element' :
-            retour += '<div class="col-lg-12">';
+            retour += '<div class="col-sm-12">';
             retour += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : 12px;margin-left : 4px;"></i>';
             retour += addElement(_expression.element, true);
             retour += '</div>';
             break;
         case 'action' :
-            retour += '<div class="col-lg-1">';
+            retour += '<div class="col-sm-1">';
             retour += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : 9px;"></i>';
             retour += '<i class="fa fa-minus-circle pull-left cursor bt_removeExpression" style="margin-top : 9px;"></i>';
             retour += '</div>';
-            retour += '<div class="col-lg-6">';
+            retour += '<div class="col-sm-6">';
             retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #fcf8e3;"/>';
             retour += '</div>';
-            retour += '<div class="col-lg-1">';
+            retour += '<div class="col-sm-1">';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="action"><i class="fa fa-list-alt"></i></a>';
             retour += '</div>';
-            retour += '<div class="col-lg-4 expressionOptions">';
+            retour += '<div class="col-sm-4 expressionOptions">';
             retour += displayActionOption(init(_expression.expression), init(_expression.options));
             retour += '</div>';
             break;
         case 'code' :
-            retour += '<div class="col-lg-12">';
+            retour += '<div class="col-sm-12">';
             retour += '<i class="fa fa-bars pull-left cursor bt_sortable" style="margin-top : 9px;"></i>';
             retour += '<textarea class="expressionAttr form-control" data-l1key="expression">' + init(_expression.expression) + '</textarea>';
             retour += '</div>';

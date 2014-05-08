@@ -123,7 +123,7 @@ function addInteractDefToTable(_interactDef) {
     tr += '<td>';
     tr += '<input class="interactDefAttr hide" data-l1key="id" />';
     tr += '<div class="form-group">';
-    tr += '<div class="col-lg-4">';
+    tr += '<div class="col-sm-4">';
     tr += '<select class="interactDefAttr tooltips form-control input-sm" data-l1key="filtres" data-l2key="cmd_type" title="{{Limiter aux commandes de type}}">';
     var types = jeedom.getConfiguration('cmd:type');
     for (var i in types) {
@@ -131,7 +131,7 @@ function addInteractDefToTable(_interactDef) {
     }
     tr += '</select>';
     tr += '</div>';
-    tr += '<div class="col-lg-4">';
+    tr += '<div class="col-sm-4">';
     tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'subtype\' title=\'{{Limiter aux commandes ayant pour sous-type}}\'>';
     tr += '<option value=\'all\' >{{Tous}}</option>';
     for (var i in types) {
@@ -141,10 +141,10 @@ function addInteractDefToTable(_interactDef) {
     }
     tr += '</select>';
     tr += '</div>';
-    tr += '<div class="col-lg-4">';
+    tr += '<div class="col-sm-4">';
     tr += sel_unite;
     tr += '</div>';
-    tr += '<div class="col-lg-4">';
+    tr += '<div class="col-sm-4">';
     var objects = object.all();
     tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'object_id\' title=\'{{Limiter aux commandes appartenant à l objet}}\' style=\'margin-top : 5px;\'>';
     tr += '<option value=\'all\' >{{Tous}}</option>';
@@ -153,39 +153,39 @@ function addInteractDefToTable(_interactDef) {
     }
     tr += '</select>';
     tr += '</div>';
-    tr += '<div class="col-lg-4">';
+    tr += '<div class="col-sm-4">';
     tr += sel_eqType;
     tr += '</div>';
     tr += '</div>';
     tr += '</td>';
     tr += '<td>';
     tr += '<div class="form-group">';
-    tr += '<div class="col-lg-6 has-warning">';
+    tr += '<div class="col-sm-6 has-warning">';
     tr += '<input class="interactDefAttr form-control input-sm" data-l1key="query" placeholder="{{Demande}}" />';
     tr += '</div>';
-    tr += '<div class="col-lg-6 has-success">';
+    tr += '<div class="col-sm-6 has-success">';
     tr += '<input class="interactDefAttr form-control input-sm" data-l1key="reply" placeholder="{{Réponse}}"/>';
     tr += '</div>';
-    tr += '<div class="col-lg-6">';
+    tr += '<div class="col-sm-6">';
     tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="convertBinary" placeholder="{{Conversion binaire : faux|vrai}}" title="{{Convertir les commandes binaire}}" style="margin-top : 5px;" />';
     tr += '</div>';
-    tr += '<div class="col-lg-6">';
+    tr += '<div class="col-sm-6">';
     tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="synonymes" placeholder="{{Synonyme}}" title="{{Remplace les mots par leur synonymes lors de la génération des commandes}}" style="margin-top : 5px;" />';
     tr += '</div>';
     tr += '</div>';
     tr += '</td>';
     tr += '<td>';
     tr += '<div class="form-group">';
-    tr += '<div class="col-lg-12">';
+    tr += '<div class="col-sm-12">';
     tr += '<select class="interactDefAttr form-control input-sm" data-l1key="link_type">';
     tr += '<option value="cmd">{{Commande}}</option>';
     tr += '<option value="whatDoYouKnow">{{Que sais tu ?}}</option>';
     tr += '</select>';
     tr += '</div>';
-    tr += '<div class="col-lg-9">';
+    tr += '<div class="col-sm-9">';
     tr += '<input class="interactDefAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;"/>';
     tr += '</div>';
-    tr += '<div class="col-lg-3">';
+    tr += '<div class="col-sm-3">';
     tr += '<a class="form-control btn btn-default cursor listEquipementInfo input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt "></i></a></td>';
     tr += '</div>';
     tr += '</td>';

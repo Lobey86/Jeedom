@@ -28,7 +28,7 @@ sendVarToJS('view_id', $view->getId());
 ?>
 
 <div class="row">
-    <div class="col-lg-2">
+    <div class="col-sm-2">
         <div class="bs-sidebar">
             <ul id="ul_view" class="nav nav-list bs-sidenav">
                 <li class="nav-header">{{Liste des vues}}</li>
@@ -46,7 +46,7 @@ sendVarToJS('view_id', $view->getId());
         </div>
     </div>
 
-    <div class="col-lg-10" role="main">
+    <div class="col-sm-10" role="main">
         <legend style="height: 35px;color : #563d7c;">Vue <?php echo $view->getName() ?> <a href="index.php?v=d&p=view_edit&id=<?php echo $view->getId(); ?>" class="btn btn-warning btn-xs pull-right" id="bt_addviewZone"><i class="fa fa-pencil"></i> {{Editer}}</a></legend>
         <div id="div_displayView"></div>
     </div>

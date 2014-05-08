@@ -15,7 +15,7 @@ if (!is_object($object)) {
 ?>
 
 <div class="row">
-    <div class="col-lg-2">
+    <div class="col-sm-2">
         <div class="bs-sidebar">
             <ul id="ul_object" class="nav nav-list bs-sidenav">
                 <li class="nav-header">{{Liste objets}} </li>
@@ -35,7 +35,7 @@ if (!is_object($object)) {
         </div>
     </div>
 
-    <div class="col-lg-8">
+    <div class="col-sm-8">
         <div style="position: fixed;width: 100%;z-index: 1029;top : 51px;left : 35%">
             <div class="btn-group tooltips" title="{{Filtre sur les catégories d'équipement}}">
                 <?php
@@ -82,7 +82,7 @@ if (!is_object($object)) {
         echo '</div>';
         ?>
     </div>
-    <div class="col-lg-2">
+    <div class="col-sm-2">
         <legend>{{Scénarios}}</legend>
         <?php
         if (init('object_id') == 'global') {

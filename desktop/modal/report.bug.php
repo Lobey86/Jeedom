@@ -15,14 +15,14 @@ if (config::byKey('market::registerkey') == '') {
         {{Attention lors de l'envoi d'un rapport de bug, tous les logs sont automatiquement envoyés en même temps. Cependant ces logs ne seront accessibles que par vous ou l'équipe de support.}}
     </div>
     <div class="form-group">
-        <label class="col-lg-2 control-label">{{Titre}}</label>
-        <div class="col-lg-10">
+        <label class="col-sm-2 control-label">{{Titre}}</label>
+        <div class="col-sm-10">
             <input class="form-control input-sm ticketAttr" data-l1key="title"/>
         </div> 
     </div>
     <div class="form-group">
-        <label class="col-lg-2 control-label">{{Catégorie}}</label>
-        <div class="col-lg-10">
+        <label class="col-sm-2 control-label">{{Catégorie}}</label>
+        <div class="col-sm-10">
             <select class="form-control input-sm ticketAttr" data-l1key="category">
                 <option>{{Générale}}</option>
                 <option>{{Scénario}}</option>
@@ -36,8 +36,8 @@ if (config::byKey('market::registerkey') == '') {
         </div> 
     </div>
     <div class="form-group">
-        <label class="col-lg-2 control-label">{{Message}}</label>
-        <div class="col-lg-10">
+        <label class="col-sm-2 control-label">{{Message}}</label>
+        <div class="col-sm-10">
             <textarea class="form-control messageAttr input-sm" data-l1key="message" ></textarea>
             <input class="form-control ticketAttr" data-l1key="options" data-l2key="page" style="display: none;"/>
         </div> 

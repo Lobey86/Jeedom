@@ -6,7 +6,7 @@ sendVarToJS('select_id', init('id', '-1'));
 ?>
 
 <div class="row">
-    <div class="col-lg-2">
+    <div class="col-sm-2">
         <div class="bs-sidebar">
             <ul id="ul_object" class="nav nav-list bs-sidenav">
                 <li class="nav-header">{{Liste objets}} 
@@ -23,20 +23,20 @@ sendVarToJS('select_id', init('id', '-1'));
             </ul>
         </div>
     </div>
-    <div class="col-lg-10 object" style="display: none;" id="div_conf">
+    <div class="col-sm-10 object" style="display: none;" id="div_conf">
         <form class="form-horizontal">
             <fieldset>
                 <legend>{{Général}}</legend>
                 <div class="form-group">
-                    <label class="col-lg-1 control-label">{{Nom de l'objet}}</label>
-                    <div class="col-lg-3">
+                    <label class="col-sm-1 control-label">{{Nom de l'objet}}</label>
+                    <div class="col-sm-3">
                         <input class="form-control objectAttr" type="text" data-l1key="id" style="display : none;"/>
                         <input class="form-control objectAttr" type="text" data-l1key="name" placeholder="Nom de l'objet"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-1 control-label">{{Père}}</label>
-                    <div class="col-lg-3">
+                    <label class="col-sm-1 control-label">{{Père}}</label>
+                    <div class="col-sm-3">
                         <select class="form-control objectAttr" data-l1key="father_id">
                             <option value="">{{Aucun}}</option>
                             <?php
@@ -48,8 +48,8 @@ sendVarToJS('select_id', init('id', '-1'));
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-1 control-label">{{Visible}}</label>
-                    <div class="col-lg-1">
+                    <label class="col-sm-1 control-label">{{Visible}}</label>
+                    <div class="col-sm-1">
                         <input class="form-control objectAttr" type="checkbox"  data-l1key="is_visible" checked/>
                     </div>
                 </div>

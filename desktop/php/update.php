@@ -4,7 +4,7 @@ if (!isConnect('admin')) {
 }
 ?>
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-sm-8">
         <a class="btn btn-warning pull-right" id="bt_checkAllUpdate"><i class="fa fa-refresh"></i> Verifier les mises à jour</a>
         <a class="btn btn-default pull-right" id="bt_updateAll"><i class="fa fa-check"></i> Tous mettre à jour</a><br/><br/>
         <table class="table table-condensed table-bordered tablesorter" id="table_update" style="margin-top: 5px;">
@@ -22,7 +22,7 @@ if (!isConnect('admin')) {
             </tbody>
         </table>
     </div>
-    <div class="col-lg-4">
+    <div class="col-sm-4">
         <legend>{{Informations :}}</legend>
         <pre id="pre_updateInfo"></pre>
     </div>
