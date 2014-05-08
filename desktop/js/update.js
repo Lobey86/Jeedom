@@ -60,7 +60,6 @@ $(function() {
 });
 
 function updateAll() {
-    getJeedomLog(1, 'update');
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
@@ -68,7 +67,6 @@ function updateAll() {
             action: 'updateAll',
         },
         dataType: 'json',
-        global: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -77,6 +75,7 @@ function updateAll() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            getJeedomLog(1, 'update');
         }
     });
 }
@@ -105,7 +104,6 @@ function changeStateUpdate(_id, _state) {
 }
 
 function doUpdate(_id) {
-    getJeedomLog(1, 'update');
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
@@ -114,7 +112,6 @@ function doUpdate(_id) {
             id: _id
         },
         dataType: 'json',
-        global: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -123,6 +120,7 @@ function doUpdate(_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            getJeedomLog(1, 'update');
         }
     });
 }
