@@ -642,7 +642,7 @@ class cmd {
         }
         $replace = array(
             '#id#' => $this->getId(),
-            '#name#' => $this->getName(),
+            '#name#' => ($this->getDisplay('icon') != '') ? $this->getDisplay('icon') : $this->getName(),
         );
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';

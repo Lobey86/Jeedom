@@ -40,7 +40,7 @@ $(function() {
         $('.eqLogic').each(function() {
             var eqLogic = $(this).getValues('.eqLogicAttr');
             eqLogic = eqLogic[0];
-            if ('function' == typeof(saveEqLogic)) {
+            if ('function' == typeof (saveEqLogic)) {
                 eqLogic = saveEqLogic(eqLogic);
             }
             eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
@@ -79,6 +79,13 @@ $(function() {
 
     $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
         cmd.changeType($(this).closest('.cmd'));
+    });
+
+    $('body').delegate('.cmd .cmdAction[data-l1key=chooseIcon]', 'click', function() {
+        var cmd = $(this).closest('.cmd');
+        chooseIcon(function(_icon) {
+            cmd.find('.cmdAttr[data-l1key=display][data-l2key=icon]').empty().append(_icon);
+        });
     });
 
     $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function() {
