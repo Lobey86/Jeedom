@@ -187,21 +187,21 @@ function getJeedomLog(_autoUpdate, _log) {
                 return;
             }
             var log = '';
+            var regex = /<br\s*[\/]?>/gi;
             for (var i in data.result.reverse()) {
-                log += data.result[i][2];
-                if ($.trim(data.result[i][2]) == '[END ' + _log.toUpperCase() + ' SUCCESS]') {
+                log += data.result[i][2].replace(regex, "\n");
+                if ($.trim(data.result[i][2].replace(regex, "\n")) == '[END ' + _log.toUpperCase() + ' SUCCESS]') {
                     printUpdate();
                     $('#div_alert').showAlert({message: '{{L\'opération est réussie}}', level: 'success'});
                     _autoUpdate = 0;
                 }
-                if ($.trim(data.result[i][2]) == '[END ' + _log.toUpperCase() + ' ERROR]') {
+                if ($.trim(data.result[i][2].replace(regex, "\n")) == '[END ' + _log.toUpperCase() + ' ERROR]') {
                     printUpdate();
                     $('#div_alert').showAlert({message: '{{L\'opération a échoué}}', level: 'danger'});
                     _autoUpdate = 0;
                 }
             }
-            var regex = /<br\s*[\/]?>/gi;
-            $('#pre_' + _log + 'Info').text(log.replace(regex, "\n"));
+            $('#pre_' + _log + 'Info').text(log);
             if (init(_autoUpdate, 0) == 1) {
                 setTimeout(function() {
                     getJeedomLog(_autoUpdate, _log)
@@ -209,7 +209,6 @@ function getJeedomLog(_autoUpdate, _log) {
             } else {
                 $('#bt_' + _log + 'Jeedom .fa-refresh').hide();
                 $('.bt_' + _log + 'Jeedom .fa-refresh').hide();
-                updateListBackup();
             }
         }
     });
