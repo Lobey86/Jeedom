@@ -123,20 +123,22 @@ class plugin {
         }
         if ($_orderByCaterogy) {
             $return = array();
-            foreach ($listPlugin as $plugin) {
-                $category = $plugin->getCategory();
-                if ($category == '') {
-                    $category = __('Autre', __FILE__);
+            if (count($listPlugin) > 0) {
+                foreach ($listPlugin as $plugin) {
+                    $category = $plugin->getCategory();
+                    if ($category == '') {
+                        $category = __('Autre', __FILE__);
+                    }
+                    if (!isset($return[$category])) {
+                        $return[$category] = array();
+                    }
+                    $return[$category][] = $plugin;
                 }
-                if (!isset($return[$category])) {
-                    $return[$category] = array();
+                foreach ($return as &$category) {
+                    usort($category, 'plugin::orderPlugin');
                 }
-                $return[$category][] = $plugin;
+                ksort($return);
             }
-            foreach ($return as &$category) {
-                usort($category, 'plugin::orderPlugin');
-            }
-            ksort($return);
             return $return;
         } else {
             usort($listPlugin, 'plugin::orderPlugin');
