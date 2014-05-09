@@ -276,10 +276,6 @@ function addUpdate(_update) {
     }
     if (_update.status == 'update') {
         tr += '<a class="btn btn-info btn-xs pull-right update" style="color : white;"><i class="fa fa-refresh"></i> Mettre à jour</a>';
-    } else {
-        if (_update.type == 'core') {
-            tr += '<a class="btn btn-default btn-xs pull-right update"><i class="fa fa-refresh"></i> Re-installer sans perte de données</a>';
-        }
     }
     tr += '</td>';
     tr += '</tr>';
