@@ -46,15 +46,6 @@ class nodejs {
         }
     }
 
-    public static function pushChatMessage($_userFromId, $_userDestId, $_message) {
-        $url = self::baseUrl() . 'type=newChatMessage&userFromId=' . urlencode($_userFromId) . '&userDestId=' . urlencode($_userDestId) . '&message=' . urlencode($_message);
-        try {
-            self::send($url);
-        } catch (Exception $e) {
-            
-        }
-    }
-
     public static function updateKey() {
         config::save('nodeJsKey', config::genKey());
     }

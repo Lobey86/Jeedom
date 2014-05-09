@@ -90,7 +90,7 @@ function addMessage(message) {
         }
     }
     if (message != null) {
-        if (message.type != 'refreshUserList' && message.type != 'notify' && message.type != 'newChatMessage') {
+        if (message.type != 'refreshUserList' && message.type != 'notify') {
             tmp_message.push(message);
         }
     }
@@ -103,11 +103,6 @@ function handleMessage(message) {
             switch (message.type) {
                 case 'notify' :
                     io.sockets.socket(i).emit('notify', message.title, message.text, message.category);
-                    break;
-                case 'newChatMessage' :
-                    if (clients[i].user_id == message.userDestId || message.userDestId == 'broadcast') {
-                        io.sockets.socket(i).emit('newChatMessage', message.userFromId, message.userDestId, message.message);
-                    }
                     break;
                 case 'refreshUserList' :
                     io.sockets.socket(i).emit('refreshUserList', null);

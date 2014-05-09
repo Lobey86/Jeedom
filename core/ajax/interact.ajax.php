@@ -67,10 +67,6 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'sendChatMessage') {
-        ajax::success(interactQuery::tryToReply(init('message'), null));
-    }
-
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

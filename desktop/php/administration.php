@@ -549,7 +549,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_nodeJS">
-                                    {{NodeJS / Chat}}
+                                    {{NodeJS}}
                                 </a>
                             </h3>
                         </div>
@@ -567,12 +567,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                             <label class="col-sm-2 control-label">{{Port interne NodeJS}}</label>
                                             <div class="col-sm-3">
                                                 <input type="text"  class="configKey" data-l1key="nodeJsInternalPort" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">{{Activer le chat}}</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" class="configKey form-control" data-l1key="enableChat"/>
                                             </div>
                                         </div>
                                     </fieldset>

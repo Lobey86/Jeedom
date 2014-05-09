@@ -72,9 +72,6 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('core', 'core', 'css');
         include_file('3rdparty', 'jquery.gritter/jquery.gritter', 'css');
         include_file('3rdparty', 'jquery.ui/jquery-ui-bootstrap/jquery-ui', 'css');
-        if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
-            include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'css');
-        }
         include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
         include_file('3rdparty', 'jquery.tablesorter/theme.bootstrap', 'css');
         include_file('3rdparty', 'jquery/jquery.min', 'js');
@@ -285,12 +282,6 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('desktop', 'utils', 'js');
         include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
         include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
-        if (config::byKey('enableChat') == 1 && config::byKey('enableNodeJs') == 1) {
-            include_file('core', 'chatAdapter', 'js');
-            include_file('3rdparty', 'jquery.chatjs/jquery.chatjs', 'js');
-            include_file('3rdparty', 'jquery.chatjs/jquery.autosize.min', 'js');
-            include_file("desktop", "chat", "js");
-        }
         ?>
         <footer>
             <span class="pull-left">Node JS <span class="span_nodeJsState binary red tooltips"></span> - </span>
