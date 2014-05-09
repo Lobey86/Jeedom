@@ -157,7 +157,12 @@ $plugins_list = plugin::listPlugin(true, true);
                                                 } else {
                                                     $icon = '';
                                                 }
-                                                echo '<li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa ' . $icon . '"></i> {{' . $category_name . '}}</a>';
+                                                 if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'])) {
+                                                    $name = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'];
+                                                } else {
+                                                    $name = '';
+                                                }
+                                                echo '<li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa ' . $icon . '"></i> {{' . $name . '}}</a>';
                                                 echo '<ul class="dropdown-menu">';
                                                 foreach ($category as $pluginList) {
                                                     echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';

@@ -29,13 +29,14 @@ $JEEDOM_INTERNAL_CONFIG = array(
     ),
     'plugin' => array(
         'category' => array(
-            'Sécurité' => array('icon' => 'fa-lock'),
-            'Protocole domotique' => array('icon' => 'fa-rss'),
-            'Programmation' => array('icon' => 'fa-code'),
-            'Panel' => array('icon' => 'fa-thumb-tack'),
-            'Organisation' => array('icon' => 'fa-calendar'),
-            'Météo' => array('icon' => 'fa-sun-o'),
-            'Communication' => array('icon' => 'fa-comment-o'),
+            'security' => array('name' => 'Sécurité', 'icon' => 'fa-lock'),
+            'automation protocol' => array('name' => 'Protocole domotique', 'icon' => 'fa-rss'),
+            'programming' => array('name' => 'Programmation', 'icon' => 'fa-code'),
+            'Panel' => array('name' => 'Panel', 'icon' => 'fa-thumb-tack'),
+            'organization' => array('name' => 'Organisation', 'icon' => 'fa-calendar'),
+            'weather' => array('name' => 'Météo', 'icon' => 'fa-sun-o'),
+            'communication' => array('name' => 'Communication', 'icon' => 'fa-comment-o'),
+            'multimedia' => array('name' => 'Multimedia', 'icon' => 'fa-comment-o'),
         ),
     ),
     'cmd' => array(
