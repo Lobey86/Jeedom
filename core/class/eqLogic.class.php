@@ -305,15 +305,25 @@ class eqLogic {
     }
 
     public static function byObjectNameEqLogicName($_object_name, $_eqLogic_name) {
-        $values = array(
-            'eqLogic_name' => $_eqLogic_name,
-            'object_name' => $_object_name,
-        );
-        $sql = 'SELECT el.id
+        if ($_object_name == __('Aucun', __FILE__)) {
+             $values = array(
+                'eqLogic_name' => $_eqLogic_name,
+            );
+            $sql = 'SELECT id
+                    FROM eqLogic
+                    WHERE name=:eqLogic_name
+                        AND object_id IS NULL';
+        } else {
+            $values = array(
+                'eqLogic_name' => $_eqLogic_name,
+                'object_name' => $_object_name,
+            );
+            $sql = 'SELECT el.id
                     FROM eqLogic el
                         INNER JOIN object ob ON el.object_id=ob.id
                     WHERE el.name=:eqLogic_name
                         AND ob.name=:object_name';
+        }
         $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         return self::byId($id['id']);
     }
@@ -508,7 +518,7 @@ class eqLogic {
         if (is_object($objet)) {
             $name .= '[' . $objet->getName() . ']';
         } else {
-            $name .= '[Aucun]';
+            $name .= '[' . __('Aucun', __FILE__) . ']';
         }
         $name .= '[' . $this->getName() . ']';
         return $name;

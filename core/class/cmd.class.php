@@ -190,7 +190,7 @@ class cmd {
             'cmd_name' => html_entity_decode($_cmd_name),
         );
 
-        if ($_object_name == 'Aucun') {
+        if ($_object_name == __('Aucun',__FILE__)) {
             $sql = 'SELECT c.id
                     FROM cmd c
                         INNER JOIN eqLogic el ON c.eqLogic_id=el.id
