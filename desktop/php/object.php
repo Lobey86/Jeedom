@@ -19,7 +19,7 @@ sendVarToJS('select_id', init('id', '-1'));
                     $margin = 15 * $object->parentNumber();
                     echo '<li class="cursor li_object bt_sortable" data-object_id="' . $object->getId() . '">'
                     . '<i class="fa fa-arrows-v pull-left cursor"></i>'
-                    . '<span class="pull-left">' . $object->getConfiguration('icon') . '</span>'
+                    . '<span class="pull-left">' . $object->getDisplay('icon') . '</span>'
                     . '<a style="position:relative;left:' . $margin . 'px;">' . $object->getName() . '</a>'
                     . '</li>';
                 }
@@ -60,7 +60,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <div class="form-group">
                     <label class="col-sm-1 control-label">{{Icone}}</label>
                     <div class="col-sm-2">
-                        <div class="objectAttr" data-l1key="configuration" data-l2key="icon" ></div>
+                        <div class="objectAttr" data-l1key="display" data-l2key="icon" ></div>
                     </div>
                     <div class="col-sm-2">
                         <a class="btn btn-default btn-sm" id="bt_chooseIcon">Choissir une icone</a>

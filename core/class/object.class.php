@@ -28,6 +28,7 @@ class object {
     private $isVisible = 1;
     private $position;
     private $configuration;
+    private $display;
 
     /*     * ***********************Methode static*************************** */
 
@@ -213,6 +214,14 @@ class object {
 
     public function setConfiguration($_key, $_value) {
         $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
+    }
+
+    public function getDisplay($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->display, $_key, $_default);
+    }
+
+    public function setDisplay($_key, $_value) {
+        $this->display = utils::setJsonAttr($this->display, $_key, $_value);
     }
 
 }

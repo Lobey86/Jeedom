@@ -3,8 +3,8 @@ function initEquipment(_object_id) {
     var li = ' <ul data-role="listview">';
     for (var i in objects) {
         var icon = '';
-        if (isset(objects[i].configuration) && isset(objects[i].configuration.icon)) {
-            icon = objects[i].configuration.icon;
+        if (isset(objects[i].display) && isset(objects[i].display.icon)) {
+            icon = objects[i].display.icon;
         }
         li += '<li><a href="#" class="link" data-page="equipment" data-title="' + objects[i].name + '" data-option="' + objects[i].id + '">' + icon + ' ' + objects[i].name + '</a></li>'
     }
