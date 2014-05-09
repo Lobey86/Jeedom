@@ -57,6 +57,10 @@ $(function() {
             }
         });
     });
+
+    $('#bt_expertMode').on('click', function() {
+        printUpdate();
+    });
 });
 
 function updateAll() {
