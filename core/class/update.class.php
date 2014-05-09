@@ -53,26 +53,37 @@ class update {
         }
     }
 
-    public static function updateAll() {
-        log::clear('update');
-        log::add('update', 'update', __("[START UPDATE]\n", __FILE__));
-        $error = false;
-        foreach (self::all() as $update) {
-            if ($update->getStatus() != 'hold' && $update->getStatus() == 'update') {
-                if ($update->getType() != 'core') {
-                    try {
-                        $update->doUpdate();
-                    } catch (Exception $e) {
-                        log::add('update', 'update', $e->getMessage());
-                        $error = true;
+    public static function updateAll($_filter = '') {
+        if ($_filter == 'core') {
+            foreach (self::byType($_filter) as $update) {
+                $update->doUpdate();
+            }
+        } else {
+            log::clear('update');
+            log::add('update', 'update', __("[START UPDATE]\n", __FILE__));
+            $error = false;
+            if ($_filter == '') {
+                $updates = self::all();
+            } else {
+                $updates = self::byType($_filter);
+            }
+            foreach ($updates as $update) {
+                if ($update->getStatus() != 'hold' && $update->getStatus() == 'update') {
+                    if ($update->getType() != 'core') {
+                        try {
+                            $update->doUpdate();
+                        } catch (Exception $e) {
+                            log::add('update', 'update', $e->getMessage());
+                            $error = true;
+                        }
                     }
                 }
             }
-        }
-        if ($error) {
-            log::add('update', 'update', __("[END UPDATE ERROR]\n", __FILE__));
-        } else {
-            log::add('update', 'update', __("[END UPDATE SUCCESS]\n", __FILE__));
+            if ($error) {
+                log::add('update', 'update', __("[END UPDATE ERROR]\n", __FILE__));
+            } else {
+                log::add('update', 'update', __("[END UPDATE SUCCESS]\n", __FILE__));
+            }
         }
     }
 
@@ -93,6 +104,16 @@ class update {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM `update`
                 WHERE logicalId=:logicalId';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+    }
+
+    public static function byType($_type) {
+        $values = array(
+            'type' => $_type,
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM `update`
+                WHERE type=:type';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 

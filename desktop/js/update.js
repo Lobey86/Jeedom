@@ -18,9 +18,17 @@ $(function() {
     printUpdate();
 
     $('#bt_updateAll').on('click', function() {
-        bootbox.confirm('{{Etez vous sur de vouloir tout mettre à jour ? /!\ Le core de jeedom ne sera pas mis à jour vous devez le faire séparement /!\}} ', function(result) {
+        bootbox.confirm('{{Etes-vous sur de vouloir tout mettre à jour tous les plugins ?}} ', function(result) {
             if (result) {
                 updateAll();
+            }
+        });
+    });
+
+    $('#bt_updateCore').on('click', function() {
+        bootbox.confirm('{{Etes-vous sur de vouloir mettre à jour Jeedom ?}} ', function(result) {
+            if (result) {
+                updateAll('core');
             }
         });
     });
@@ -63,12 +71,13 @@ $(function() {
     });
 });
 
-function updateAll() {
+function updateAll(_filter) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
         data: {
             action: 'updateAll',
+            filter: _filter
         },
         dataType: 'json',
         error: function(request, status, error) {

@@ -20,12 +20,12 @@ try {
     require_once(dirname(__FILE__) . '/../../core/php/core.inc.php');
     include_file('core', 'authentification', 'php');
 
-    if (!isConnect()) {
+    if (!isConnect('admin')) {
         throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);
     }
 
     if (init('action') == 'all') {
-        ajax::success(utils::o2a(update::all()));
+        ajax::success(utils::o2a(update::all(init('filter'))));
     }
 
     if (init('action') == 'checkAllUpdate') {
@@ -68,7 +68,7 @@ try {
     }
 
     if (init('action') == 'updateAll') {
-        update::updateAll();
+        update::updateAll(init('filter'));
         ajax::success();
     }
 
