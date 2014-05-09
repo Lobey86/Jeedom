@@ -241,6 +241,11 @@ function printUpdate() {
 
 function addUpdate(_update) {
     $.hideAlert();
+    if (_update.status != 'update' && _update.type != 'core') {
+        if ($('#bt_expertMode').attr('state') == 0) {
+            return;
+        }
+    }
     var tr = '<tr data-id="' + init(_update.id) + '">';
     tr += '<td><span class="updateAttr" data-l1key="type"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="name"></span></td>';

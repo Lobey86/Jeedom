@@ -201,10 +201,10 @@ $(function() {
 
 function initExpertMode() {
     if ($('#bt_expertMode').attr('state') == 1) {
-        $('.expertModeDisable').attr('disabled', true);
+        $('.expertModeDisable').attr('disabled', false);
         $('.expertModeHidden').show();
     } else {
-        $('.expertModeDisable').attr('disabled', false);
+        $('.expertModeDisable').attr('disabled', true);
         $('.expertModeHidden').hide();
     }
 }
