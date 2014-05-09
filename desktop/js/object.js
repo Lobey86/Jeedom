@@ -89,7 +89,7 @@ $(function() {
 
     $('#bt_chooseIcon').on('click', function() {
         chooseIcon(function(_icon) {
-           $('.objectAttr[data-l1key=configuration][data-l2key=icon]').empty().append(_icon);
+           $('.objectAttr[data-l1key=display][data-l2key=icon]').empty().append(_icon);
         });
     });
 

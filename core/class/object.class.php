@@ -103,7 +103,7 @@ class object {
         $values = array(
             'id' => $this->id
         );
-        $sql = 'SELECT id,name,father_id,isVisible
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM object
                 WHERE father_id=:id
                     AND isVisible=1

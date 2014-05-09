@@ -128,16 +128,12 @@ $(function() {
             var value = {options: {expertMode: 0}};
             $(this).attr('state', 0);
             $(this).find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
-            $('.expertModeDisable').attr('disabled', false);
-            $('.expertModeHidden').hide();
         } else {
             var value = {options: {expertMode: 1}};
             $(this).attr('state', 1);
             $(this).find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
-            $('.expertModeDisable').attr('disabled', true);
-            $('.expertModeHidden').show();
         }
-
+        initExpertMode();
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/user.ajax.php", // url du fichier php
