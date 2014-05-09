@@ -114,7 +114,7 @@ class update {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM `update`
                 WHERE type=:type';
-        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
     public static function byTypeAndLogicalId($_type, $_logicalId) {
