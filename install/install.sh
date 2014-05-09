@@ -20,6 +20,7 @@ echo "*             Installation des dépendances             *"
 echo "********************************************************"
 sudo apt-get update
 sudo apt-get install -y ffmpeg
+sudo apt-get install -y libssh2-php
 sudo apt-get install -y ntp
 sudo apt-get install -y unzip
 sudo apt-get install -y nginx-common nginx-full
