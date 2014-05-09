@@ -23,11 +23,13 @@ if (!is_object($object)) {
                 <?php
                 $allObject = object::buildTree();
                 foreach ($allObject as $object_li) {
-                    $margin = 15 * $object_li->parentNumber();
-                    if ($object_li->getId() == $object->getId()) {
-                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
-                    } else {
-                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
+                    if ($object_li->getIsVisible() == 1) {
+                        $margin = 15 * $object_li->parentNumber();
+                        if ($object_li->getId() == $object->getId()) {
+                            echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
+                        } else {
+                            echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
+                        }
                     }
                 }
                 ?>

@@ -7,6 +7,7 @@ CACHE MANIFEST
 # Version <?php echo getVersion('jeedom'); ?>
 # <?php echo config::byKey('mobile::manifestKey'); ?>
 
+
 CACHE:
 core/php/getJS.php?file=3rdparty/jquery.include/jquery.include.js
 core/php/getJS.php?file=3rdparty/highstock/highcharts-more.js

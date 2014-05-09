@@ -54,7 +54,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <div class="form-group">
                     <label class="col-sm-1 control-label">{{Visible}}</label>
                     <div class="col-sm-1">
-                        <input class="objectAttr" type="checkbox"  data-l1key="is_visible" checked/>
+                        <input class="objectAttr" type="checkbox"  data-l1key="isVisible" checked/>
                     </div>
                 </div>
                 <div class="form-group">
