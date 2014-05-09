@@ -11,7 +11,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
     <ul class="nav nav-tabs" id="admin_tab">
         <li class="active"><a href="#config">{{Configuration}}</a></li>
         <li><a href="#user">{{Utilisateurs}}</a></li>
-        <li><a href="#update">{{Mise à jour}}</a></li>
         <li><a href="#backup">{{Sauvegardes}}</a></li>
     </ul>
 
@@ -142,29 +141,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
 
             <div class="form-actions" style="height: 20px;">
                 <a class="btn btn-success" id="bt_saveBackup"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
-            </div>
-
-        </div>
-        <!--********************Onglet mise à jour********************************-->
-        <div class="tab-pane" id="update">
-            <div class="row">
-                <div class="col-sm-6">
-                    <legend>{{Mise à jour :}}</legend>
-                    <form class="form-horizontal">
-                        <fieldset>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">{{Mise à jour}}</label>
-                                <div class="col-sm-5">
-                                    <a class="btn btn-default bt_updateJeedom" data-mode="normal"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-github"></i> {{Mettre à jour}}</a>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-                <div class="col-sm-6">
-                    <legend>{{Informations :}}</legend>
-                    <pre id="pre_updateInfo"></pre>
-                </div>
             </div>
         </div>
 
