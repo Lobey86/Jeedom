@@ -175,7 +175,7 @@ try {
                 $updateSql = dirname(__FILE__) . '/update/' . $nextVersion . '.sql';
                 if (file_exists($updateSql)) {
                     try {
-                        echo __("Mise à jour BDD en version : ", __FILE__) . $nextVersion . "\n";
+                        echo __("Mise à jour BDD en version : ", __FILE__) . $nextVersion . "...";
                         $sql = file_get_contents($updateSql);
                         DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
                         echo "OK\n";
@@ -190,7 +190,7 @@ try {
                 $updateScript = dirname(__FILE__) . '/update/' . $nextVersion . '.php';
                 if (file_exists($updateScript)) {
                     try {
-                        echo __("Mise à jour systeme en version : ", __FILE__) . $nextVersion . "\n";
+                        echo __("Mise à jour systeme en version : ", __FILE__) . $nextVersion . "...";
                         require_once $updateScript;
                         echo __("OK\n", __FILE__);
                     } catch (Exception $e) {
