@@ -28,7 +28,7 @@
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                if ($('#cb_storeConnection').val() == 1) {
+                if ($('#cb_storeConnection').value() == 1) {
                     localStorage.setItem("deviceKey", data.result.deviceKey);
                 }
                 initApplication();
