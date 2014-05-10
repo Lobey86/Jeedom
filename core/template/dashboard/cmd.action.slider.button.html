@@ -1,9 +1,12 @@
-<div class="cmd" data-type="action" data-subtype="slider" data-cmd_id="#id#">
-    <div data-role="controlgroup" data-type="horizontal">
-        <input type="text" class="value" data-mini="true" value="#state#" data-wrapper-class="controlgroup-textinput ui-btn" style="width: 30px;"/>
-        <a class="ui-btn bt_plus ui-mini"><i class="fa fa-plus"></i></a>
-        <a class="ui-btn bt_minus ui-mini"><i class="fa fa-minus"></i></a>
-    </div>
+<div class="cmd" data-type="action" data-subtype="slider" data-cmd_id="#id#" style="margin-top : 5px;">
+
+ 
+        <input type="text" class="value form-control input-sm" value="#state#" style="width: 50px;display: inline-block; position: relative; top : 1px;"/>
+        <div class="btn-group">
+        <a class="btn btn-default btn-sm bt_plus"><i class="fa fa-plus"></i></a>
+        <a class="btn btn-default btn-sm bt_minus"><i class="fa fa-minus"></i></a>
+        </div>
+ 
     <script>
         $(function() {
             $('.cmd[data-cmd_id=#id#] .bt_plus').on('click', function() {
@@ -19,10 +22,5 @@
             });
         });
     </script>
-    <style>
-        .controlgroup-textinput{
-            padding-top:.15em;
-            padding-bottom:.12em;
-        }
-    </style>
+
 </div>
