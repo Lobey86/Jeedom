@@ -23,6 +23,7 @@ class cmd {
     /*     * *************************Attributs****************************** */
 
     protected $id;
+    protected $logicalId;
     protected $name;
     protected $order;
     protected $type;
@@ -139,6 +140,19 @@ class cmd {
         return $return;
     }
 
+    public static function byEqLogicIdAndLogicalId($_eqLogic_id, $_logicalId) {
+        $values = array(
+            'eqLogic_id' => $_eqLogic_id,
+            'logicalId' => $_logicalId
+        );
+        $sql = 'SELECT id
+                FROM cmd
+                WHERE eqLogic_id=:eqLogic_id
+                    AND logicalId=:logicalId';
+        $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+        return self::byId($id['id']);
+    }
+
     public static function byValue($_value) {
         $values = array(
             'value' => $_value
@@ -190,7 +204,7 @@ class cmd {
             'cmd_name' => html_entity_decode($_cmd_name),
         );
 
-        if ($_object_name == __('Aucun',__FILE__)) {
+        if ($_object_name == __('Aucun', __FILE__)) {
             $sql = 'SELECT c.id
                     FROM cmd c
                         INNER JOIN eqLogic el ON c.eqLogic_id=el.id
@@ -997,6 +1011,14 @@ class cmd {
 
     public function setOrder($order) {
         $this->order = $order;
+    }
+
+    public function getLogicalId() {
+        return $this->logicalId;
+    }
+
+    public function setLogicalId($logicalId) {
+        $this->logicalId = $logicalId;
     }
 
 }

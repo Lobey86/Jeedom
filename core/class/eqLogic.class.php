@@ -306,7 +306,7 @@ class eqLogic {
 
     public static function byObjectNameEqLogicName($_object_name, $_eqLogic_name) {
         if ($_object_name == __('Aucun', __FILE__)) {
-             $values = array(
+            $values = array(
                 'eqLogic_name' => $_eqLogic_name,
             );
             $sql = 'SELECT id
@@ -610,7 +610,10 @@ class eqLogic {
         return $this->isEnable;
     }
 
-    public function getCmd($_type = null) {
+    public function getCmd($_type = null, $_logicalId = null) {
+        if ($_logicalId != null) {
+            return cmd::byEqLogicIdAndLogicalId($this->id, $_logicalId);
+        }
         return cmd::byEqLogicId($this->id, $_type);
     }
 
