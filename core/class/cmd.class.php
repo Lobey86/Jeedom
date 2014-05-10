@@ -769,7 +769,6 @@ class cmd {
                 if (strpos($_value, 'error') === false) {
                     $eqLogic->setStatus('numberTryWithoutSuccess', 0);
                     $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-                    $eqLogic->save();
                     $this->addHistoryValue($_value);
                 }
                 log::add($eqLogic->getEqType_name(), 'Event', __('Message venant de', __FILE__) . $this->getHumanName() . ' : ' . $_value . __(' /cache lifetime =>', __FILE__) . $this->getCacheLifetime());
