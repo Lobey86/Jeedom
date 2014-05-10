@@ -37,6 +37,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
             'weather' => array('name' => 'Météo', 'icon' => 'fa-sun-o'),
             'communication' => array('name' => 'Communication', 'icon' => 'fa-comment-o'),
             'multimedia' => array('name' => 'Multimedia', 'icon' => 'fa-comment-o'),
+            'wellness' => array('name' => 'Bien-être', 'icon' => 'fa-user'),
         ),
     ),
     'cmd' => array(
