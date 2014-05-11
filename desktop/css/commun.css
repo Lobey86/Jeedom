@@ -38,6 +38,7 @@
     background-color: #F5F5F5;
     display: inline-block;
     position : relative;
+    vertical-align: top;
 }
 
 .cmd-widget{

@@ -237,7 +237,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
 </div>
 
 <?php
-include_file("desktop", "scenario", "js");
+include_file('desktop', 'scenario', 'js');
 include_file('3rdparty', 'jquery.sew/jquery.caretposition', 'js');
 include_file('3rdparty', 'jquery.sew/jquery.sew.min', 'js');
 ?>
