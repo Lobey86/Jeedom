@@ -62,9 +62,21 @@ class log {
             @chgrp($path, 'www-data');
             @chmod($path, 0777);
         } else {
-            $logs = ls(dirname(__FILE__) . '/../../log/');
+            $logs = ls(dirname(__FILE__) . '/../../log/', '*');
+
             foreach ($logs as $log) {
                 $path = dirname(__FILE__) . '/../../log/' . $log;
+                if (filesize($path) > 200000) {
+                    $f = @fopen($path, "r+");
+                    if ($f !== false) {
+                        ftruncate($f, 200000);
+                        fclose($f);
+                    } else {
+                        unlink($path);
+                        touch($path);
+                        continue;
+                    }
+                }
                 $log_file = file($path);
                 if (count($log_file) > config::byKey('maxLineLog')) {
                     $log_file = array_slice($log_file, count($log_file) - config::byKey('maxLineLog'));
