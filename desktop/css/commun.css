@@ -51,9 +51,8 @@
 .cmd-widget .statistiques{
     position : absolute; 
     bottom: 0;
-    left: 5px;
-    margin: 0px 5px 0px 5px;
     font-size: 0.67em;
+    left : 0;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {

@@ -303,10 +303,27 @@ function refreshCmdValue(_cmd_id) {
                 activateTooltips();
                 if ($.mobile) {
                     $('.cmd[data-cmd_id=' + _cmd_id + ']').trigger("create");
+                }else{
+                    positionEqLogic($('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-eqLogic_id'));
                 }
             }
         });
     }
+}
+
+function positionEqLogic(_id) {
+    var maxHeight = 0;
+    $('.eqLogic[data-eqLogic_id=' + _id + '] .cmd-widget').each(function() {
+        if ($(this).height() > maxHeight) {
+            maxHeight = $(this).height();
+        }
+        var statistiques = $(this).find('.statistiques');
+        if (statistiques != undefined) {
+            var left = ($(this).width() - statistiques.width()) / 4;
+            statistiques.css('left', left);
+        }
+    });
+    $('.eqLogic[data-eqLogic_id=' + _id + '] .cmd-widget').height(maxHeight);
 }
 
 

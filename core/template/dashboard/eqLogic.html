@@ -8,13 +8,7 @@
     </center>
     <script>
         $(function() {
-            var maxHeight = 0;
-            $('.eqLogic[data-eqLogic_id=#id#] .cmd-widget').each(function() {
-                if ($(this).height() > maxHeight) {
-                    maxHeight = $(this).height();
-                }
-            });
-            $('.eqLogic[data-eqLogic_id=#id#] .cmd-widget').height(maxHeight);
+           positionEqLogic("#id#");
         });
     </script>
 </div>
