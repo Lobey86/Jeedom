@@ -45,7 +45,7 @@ try {
     }
 
     if (init('action') == 'all') {
-        ajax::success(utils::o2a(object::all()));
+        ajax::success(utils::o2a(object::buildTree()));
     }
 
     if (init('action') == 'saveObject') {
