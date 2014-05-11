@@ -10,26 +10,26 @@ function initView(_view_id) {
         CORE_chart = [];
         var html = view.toHtml(_view_id, 'mobile');
         $('#div_displayView').empty().html(html).trigger('create');
-        setWidthChartContainer();
+        if (deviceInfo.type == 'phone') {
+            $('.chartContainer').width(($('#pagecontainer').width() - 50));
+        } else {
+            $('.chartContainer').width((($('#pagecontainer').width() / 2) - 50));
+        }
         setTileSize('.eqLogic');
+        setTileSize('.scenario');
         $('.eqLogicZone').masonry();
     } else {
         $('#panel_right').panel('open');
     }
 
     $(window).on("orientationchange", function(event) {
-        setWidthChartContainer();
+        if (deviceInfo.type == 'phone') {
+            $('.chartContainer').width(($('#pagecontainer').width() - 50));
+        } else {
+            $('.chartContainer').width((($('#pagecontainer').width() / 2) - 50));
+        }
         setTileSize('.eqLogic');
-
+        setTileSize('.scenario');
         $('.eqLogicZone').masonry();
     });
-
-}
-
-function setWidthChartContainer() {
-    if (deviceInfo.type == 'phone') {
-        $('.chartContainer').width(($('#pagecontainer').width() - 50));
-    } else {
-        $('.chartContainer').width((($('#pagecontainer').width() / 2) - 50));
-    }
 }

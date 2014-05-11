@@ -41,6 +41,15 @@
     vertical-align: top;
 }
 
+.scenario-widget{
+    padding: 9.5px;
+    margin: 0 5px 5px;
+    background-color: #F5F5F5;
+    display: inline-block;
+    position : relative;
+    vertical-align: top;
+}
+
 .cmd-widget{
     display: inline-block;
     position : relative;

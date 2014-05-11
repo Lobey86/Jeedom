@@ -35,6 +35,16 @@ body{
     text-shadow: initial;
 }
 
+.scenario-widget{
+    display: inline-block;
+    background-color: #616154;
+    color : white;
+    vertical-align: top;
+    padding : 3px;
+    margin : 3px;
+    text-shadow: initial;
+}
+
 .cursor{
     cursor : pointer;
 }

@@ -269,7 +269,7 @@ function refreshScenarioValue(_scenario_id) {
                 $('.scenario[data-scenario_id=' + _scenario_id + ']').replaceWith(data.result);
                 if ($.mobile) {
                     $('.scenario[data-scenario_id=' + _scenario_id + ']').trigger("create");
-                    setTileSize('.scenario', 2);
+                    setTileSize('.scenario');
                 }
             }
         });

@@ -1,15 +1,13 @@
-<div class="scenario eqLogic-widget" data-scenario_id="#id#" data-version="mobile">
+<div class="scenario scenario-widget" data-scenario_id="#id#" data-version="mobile" style="min-height: 150px;">
     <center>
         #name#
         <br/>
-        <div class="vertical-align">
-            <span class="state" style="font-size: 3em;"></span>
-            <br/>
-            <a class="ui-btn ui-btn-a ui-mini ui-btn-inline changeScenarioState" data-state="start" style="display: none;">Marche</a>
-            <a class="ui-btn ui-btn-b ui-mini ui-btn-inline changeScenarioState" data-state="stop" style="display: none;">Arrêt</a>
-            <a class="ui-btn ui-btn-a ui-mini ui-btn-inline changeScenarioState" data-state="activate" style="display: none;">Activer</a>
-            <a class="ui-btn ui-btn-b ui-mini ui-btn-inline changeScenarioState" data-state="deactivate" style="display: none;">Désactiver</a>
-        </div>
+        <span class="state" style="font-size: 2em;"></span>
+        <br/>
+        <a class="ui-btn ui-btn-a ui-mini ui-btn-inline changeScenarioState" data-state="start" style="display: none;"><i class="fa fa-play"></i></a>
+        <a class="ui-btn ui-btn-b ui-mini ui-btn-inline changeScenarioState" data-state="stop" style="display: none;"><i class="fa fa-stop"></i></a>
+        <a class="ui-btn ui-btn-a ui-mini ui-btn-inline changeScenarioState" data-state="activate" style="display: none;"><i class="fa fa-power-off"></i></a>
+        <a class="ui-btn ui-btn-b ui-mini ui-btn-inline changeScenarioState" data-state="deactivate" style="display: none;"><i class="fa fa-power-off"></i></i></a>
     </center>
     <script>
         $('.scenario[data-scenario_id=#id#] .changeScenarioState').on('click', function() {
