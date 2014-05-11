@@ -32,15 +32,31 @@
     margin-top: 5px;
 }
 
-.dashboard-widget{
+.eqLogic-widget{
     padding: 9.5px;
     margin: 0 5px 5px;
     background-color: #F5F5F5;
     display: inline-block;
+    position : relative;
+}
+
+.cmd-widget{
+    display: inline-block;
+    position : relative;
+    height : 100%;
+    vertical-align: top;
+}
+
+.cmd-widget .statistiques{
+    position : absolute; 
+    bottom: 0;
+    left: 5px;
+    margin: 0px 5px 0px 5px;
+    font-size: 0.67em;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-    .dashboard-widget {
+    .eqLogic-widget {
         float : left;
     }
 }
