@@ -760,7 +760,7 @@ class cmd {
     }
 
     public function event($_value) {
-        $newUpdate = false;
+        $newUpdate = true;
         $eqLogic = $this->getEqLogic();
         if (is_object($eqLogic)) {
             if ($eqLogic->getIsEnable() == 1) {
@@ -769,13 +769,17 @@ class cmd {
                 }
                 if (strpos($_value, 'error') === false) {
                     if ($this->getCollectDate() == '' || strtotime($this->getCollectDate()) >= strtotime($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')))) {
-                        $newUpdate = true;
                         $eqLogic->setStatus('numberTryWithoutSuccess', 0);
                         $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
                         $this->addHistoryValue($_value);
                     }
                 }
-
+                if ($this->getCollectDate() != '') {
+                    $internalEvent = internalEvent::byEventAndOptions('event::cmd', array('id' => intval($this->getId()), true));
+                    if (is_object($internalEvent) && strtotime($internalEvent->getDatetime()) >= strtotime($this->getCollectDate())) {
+                        $newUpdate = false;
+                    }
+                }
                 if ($this->getCollectDate() == '') {
                     cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
                 } else {
@@ -794,6 +798,9 @@ class cmd {
                     $internalEvent->setEvent('event::cmd');
                     $internalEvent->setOptions('id', $this->getId());
                     $internalEvent->setOptions('value', $_value);
+                    if ($this->getCollectDate() != '') {
+                        $internalEvent->setDatetime($this->getCollectDate());
+                    }
                     $internalEvent->save();
                     scenario::check($this->getId());
                 }

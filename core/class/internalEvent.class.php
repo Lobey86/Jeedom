@@ -57,26 +57,41 @@ class internalEvent {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function byEventAndOptions($_event, $_options) {
+    public static function byEventAndOptions($_event, $_options, $_last = false) {
+        if(is_array($_options)){
+            $_options = json_encode($_options);
+        }
         $values = array(
             'event' => $_event,
-            'options' => $_options
+            'options' => '%' . $_options . '%'
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM internalEvent
                 WHERE event=:event
-                    AND options=:options';
-        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+                    AND options LIKE options';
+        if ($_last) {
+            $sql .= ' ORDER BY `datetime`
+                      LIMIT 1';
+            return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+        } else {
+            return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+        }
     }
 
-    public static function byEvent($_event) {
+    public static function byEvent($_event, $_last = false) {
         $values = array(
             'event' => $_event
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM internalEvent
                 WHERE event=:event';
-        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+        if ($_last) {
+            $sql .= ' ORDER BY `datetime`
+                      LIMIT 1';
+            return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+        } else {
+            return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+        }
     }
 
     public static function getNewInternalEvent($_plugin) {
