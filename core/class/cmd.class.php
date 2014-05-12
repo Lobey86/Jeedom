@@ -760,7 +760,6 @@ class cmd {
     }
 
     public function event($_value) {
-
         $newUpdate = true;
         $eqLogic = $this->getEqLogic();
         if (is_object($eqLogic)) {
@@ -795,7 +794,6 @@ class cmd {
                     foreach (self::byValue($this->getId()) as $cmd) {
                         nodejs::pushUpdate('eventCmd', $cmd->getId());
                     }
-
                     log::add($eqLogic->getEqType_name(), 'Event', __('Message venant de', __FILE__) . $this->getHumanName() . ' : ' . $_value . __(' /cache lifetime =>', __FILE__) . $this->getCacheLifetime());
                     $internalEvent = new internalEvent();
                     $internalEvent->setEvent('event::cmd');
