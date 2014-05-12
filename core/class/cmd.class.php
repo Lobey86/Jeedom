@@ -772,7 +772,11 @@ class cmd {
                     $this->addHistoryValue($_value);
                 }
                 log::add($eqLogic->getEqType_name(), 'Event', __('Message venant de', __FILE__) . $this->getHumanName() . ' : ' . $_value . __(' /cache lifetime =>', __FILE__) . $this->getCacheLifetime());
-                cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
+                if ($this->getCollectDate() == '') {
+                    cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
+                } else {
+                    cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
+                }
                 $this->setCollect(0);
                 nodejs::pushUpdate('eventCmd', $this->getId());
                 foreach (self::byValue($this->getId()) as $cmd) {
