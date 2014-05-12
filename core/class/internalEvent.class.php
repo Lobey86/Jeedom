@@ -68,7 +68,7 @@ class internalEvent {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM internalEvent
                 WHERE event=:event
-                    AND options LIKE options';
+                    AND `options` LIKE :options';
         if ($_last) {
             $sql .= ' ORDER BY `datetime`
                       LIMIT 1';
@@ -110,7 +110,7 @@ class internalEvent {
     /*     * *********************Methode d'instance************************* */
 
     public function save() {
-        foreach (self::byEventAndOptions($this->getEvent(), $this->options) as $same) {
+        foreach (self::byEventAndOptions($this->getEvent(), $this->getOptions()) as $same) {
             $same->remove();
         }
         DB::save($this);

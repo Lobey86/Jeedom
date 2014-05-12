@@ -760,6 +760,7 @@ class cmd {
     }
 
     public function event($_value) {
+
         $newUpdate = true;
         $eqLogic = $this->getEqLogic();
         if (is_object($eqLogic)) {
@@ -775,8 +776,10 @@ class cmd {
                     }
                 }
                 if ($this->getCollectDate() != '') {
-                    $internalEvent = internalEvent::byEventAndOptions('event::cmd', array('id' => intval($this->getId()), true));
-                    if (is_object($internalEvent) && strtotime($internalEvent->getDatetime()) >= strtotime($this->getCollectDate())) {
+                    $internalEvent = internalEvent::byEventAndOptions('event::cmd', '"id":"' . $this->getId() . '"', true);
+                    if (is_object($internalEvent) &&
+                            strtotime($internalEvent->getDatetime()) >= strtotime($this->getCollectDate()) &&
+                            $internalEvent->setOptions('value', $_value) == $_value) {
                         $newUpdate = false;
                     }
                 }
@@ -799,6 +802,7 @@ class cmd {
                     $internalEvent->setOptions('id', $this->getId());
                     $internalEvent->setOptions('value', $_value);
                     if ($this->getCollectDate() != '') {
+
                         $internalEvent->setDatetime($this->getCollectDate());
                     }
                     $internalEvent->save();
