@@ -40,8 +40,7 @@ if (file_exists($file)) {
         header("HTTP/1.1 304 Not Modified");
         exit;
     }
-    $content = file_get_contents($file);
-    echo translate::exec($content, init('file'));
+    echo translate::exec(file_get_contents($file), init('file'));
     exit;
 }
 

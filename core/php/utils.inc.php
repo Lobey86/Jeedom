@@ -120,8 +120,7 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
         if ($_type == PHP || $_folder == AJAX || $_type == 'class' || $_type == COM || $_type == CONFIG || $_type == MODAL || $_type == API || $_type == HTML) {
             ob_start();
             require_once($path);
-            $content = ob_get_clean();
-            echo translate::exec($content, "$_folder/$_fn");
+            echo translate::exec(ob_get_clean(), "$_folder/$_fn");
         } else if ($_type == CSS) {
             echo "<link href=\"$_folder/$_fn?v=" . getVersion('jeedom') . "\" rel=\"stylesheet\" />";
         } else if ($_type == JS || $_type == CLASSJS) {
