@@ -1,5 +1,5 @@
 <?php
-header('Content-type: ');
+header('Content-type: text/cache-manifest');
 require_once dirname(__FILE__) . "/core/php/core.inc.php";
 ?>
 CACHE MANIFEST
@@ -44,10 +44,12 @@ mobile/css/commun.css
 
 <?php
 foreach (ls('mobile/js', '*.js') as $file) {
-    echo 'core/php/getJS.php?file=mobile/js/' . $file . "\n";
+    echo 'core/php/getJS.php?file=mobile/js/' . $file;
+    echo "\n";
 }
 foreach (ls('mobile/html', '*.html') as $file) {
-    echo 'index.php?v=m&p=' . substr($file, 0, -5) . "\n";
+    echo 'index.php?v=m&p=' . substr($file, 0, -5);
+    echo "\n";
 }
 
 foreach (plugin::listPlugin(true) as $plugin) {
