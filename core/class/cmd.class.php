@@ -774,7 +774,6 @@ class cmd {
                     if ($this->getCollectDate() == '' || strtotime($this->getCollectDate()) >= strtotime($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')))) {
                         $eqLogic->setStatus('numberTryWithoutSuccess', 0);
                         $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-                        $this->addHistoryValue($_value);
                     }
                 }
                 if ($this->getCollectDate() != '') {
@@ -792,6 +791,9 @@ class cmd {
                 }
 
                 if ($newUpdate) {
+                    if (strpos($_value, 'error') === false) {
+                        $this->addHistoryValue($_value, $this->getCollectDate());
+                    }
                     $this->setCollect(0);
                     nodejs::pushUpdate('eventCmd', $this->getId());
                     foreach (self::byValue($this->getId()) as $cmd) {
@@ -818,12 +820,15 @@ class cmd {
         return history::emptyHistory($this->getId());
     }
 
-    public function addHistoryValue($_value) {
+    public function addHistoryValue($_value, $_datetime = null) {
         if ($this->getIsHistorized() == 1) {
             if (($this->getConfiguration('maxValue') === '' || $_value <= $this->getConfiguration('maxValue')) && ($this->getConfiguration('minValue') === '' || $_value >= $this->getConfiguration('minValue', $_value))) {
                 $hitory = new history();
                 $hitory->setCmd_id($this->getId());
                 $hitory->setValue($_value);
+                if ($_datetime != null && $_datetime != '') {
+                    $hitory->setDatetime($_datetime);
+                }
                 return $hitory->save();
             }
         }
