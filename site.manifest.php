@@ -6,7 +6,7 @@ CACHE MANIFEST
 
 # Version <?php echo getVersion('jeedom'); ?>
 # <?php echo config::byKey('mobile::manifestKey'); ?>
-# 1
+# 3
 
 
 CACHE:
