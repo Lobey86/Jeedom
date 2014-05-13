@@ -763,6 +763,12 @@ class cmd {
         if ($this->getType() != 'info') {
             return;
         }
+        if ($this->getCollectDate() != '' && (strtotime(date('Y-m-d H:i:s')) - strtotime($this->getCollectDate())) > 3600) {
+            return;
+        }
+        if ($this->getCollectDate() != '' && (strtotime(date('Y-m-d H:i:s')) + 300 ) < strtotime($this->getCollectDate())) {
+            return;
+        }
         $newUpdate = true;
         $eqLogic = $this->getEqLogic();
         if (is_object($eqLogic)) {
