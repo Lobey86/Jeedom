@@ -48,8 +48,6 @@ $(function() {
             window.location.reload();
         }
     }
-
-
 });
 
 function initExpertMode() {
