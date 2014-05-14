@@ -122,6 +122,7 @@ if (init('cron_id') != '') {
         if ($cron->getOnce() == 1) {
             $cron->remove();
         } else {
+            $cron->refresh();
             $cron->setState('stop');
             $cron->setPID();
             $cron->setServer('');
