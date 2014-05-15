@@ -238,7 +238,7 @@ class scenario {
 
     public function preSave() {
         if ($this->getTimeout() == '' || !is_numeric($this->getTimeout())) {
-            $this->setTimeout(60);
+            $this->setTimeout(0);
         }
         if ($this->getName() == '') {
             throw new Exception('Le nom du scénario ne peut être vide');
