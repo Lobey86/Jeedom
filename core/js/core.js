@@ -303,7 +303,7 @@ function refreshCmdValue(_cmd_id) {
                 activateTooltips();
                 if ($.mobile) {
                     $('.cmd[data-cmd_id=' + _cmd_id + ']').trigger("create");
-                }else{
+                } else {
                     positionEqLogic($('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-eqLogic_id'));
                 }
             }
@@ -605,16 +605,14 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                     yAxis: [{
                             format: '{value}',
                             showEmpty: false,
+                            maxPadding: 0.25,
                             showLastLabel: true,
-                            labels: {
-                                align: 'right',
-                                x: -5
-                            }
                         }, {
                             opposite: true,
                             format: '{value}',
                             showEmpty: false,
                             gridLineWidth: 0,
+                            maxPadding: 0.25,
                             labels: {
                                 align: 'left',
                                 x: -5
@@ -623,7 +621,7 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                     xAxis: {
                         type: 'datetime',
                         ordinal: false,
-                        plotBands: generatePlotBand(data.result.data[0][0], data.result.data[data.result.data.length - 1][0])
+                        // plotBands: generatePlotBand(data.result.data[0][0], data.result.data[data.result.data.length - 1][0])
                     },
                     scrollbar: {
                         barBackgroundColor: 'gray',
@@ -640,10 +638,11 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 });
             } else {
                 CORE_chart[_el].chart.addSeries(series);
-                var extremeAxisX = CORE_chart[_el].chart.xAxis[0].getExtremes();
-                CORE_chart[_el].chart.xAxis[0].setExtremes(extremeAxisX.dataMax - (86400000 * 7), extremeAxisX.dataMax);
+                  var extremeAxisX = CORE_chart[_el].chart.xAxis[0].getExtremes();
+                  CORE_chart[_el].chart.xAxis[0].setExtremes(extremeAxisX.dataMax - (86400000 * 7), extremeAxisX.dataMax);
             }
-
+            var yaxis = CORE_chart[_el].chart.yAxis[0].getExtremes();
+            CORE_chart[_el].chart.yAxis[0].setExtremes(yaxis.dataMin, yaxis.dataMax);
             CORE_chart[_el].cmd[intval(_cmd_id)] = {option: _option, dateRange: _dateRange};
             CORE_chart[_el].color++;
             if (CORE_chart[_el].color > 9) {
