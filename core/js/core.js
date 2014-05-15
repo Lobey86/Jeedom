@@ -638,8 +638,8 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 });
             } else {
                 CORE_chart[_el].chart.addSeries(series);
-                  var extremeAxisX = CORE_chart[_el].chart.xAxis[0].getExtremes();
-                  CORE_chart[_el].chart.xAxis[0].setExtremes(extremeAxisX.dataMax - (86400000 * 7), extremeAxisX.dataMax);
+                var extremeAxisX = CORE_chart[_el].chart.xAxis[0].getExtremes();
+                CORE_chart[_el].chart.xAxis[0].setExtremes(extremeAxisX.dataMax - (86400000 * 7), extremeAxisX.dataMax);
             }
             var yaxis = CORE_chart[_el].chart.yAxis[0].getExtremes();
             CORE_chart[_el].chart.yAxis[0].setExtremes(yaxis.dataMin, yaxis.dataMax);
