@@ -41,7 +41,9 @@ if (!is_object($scenario)) {
     log::add('scenario', 'info', __('Scenario non trouvé verifier id : ', __FILE__) . init('scenario_id'));
     die(__('Scenario non trouvé verifier id : ', __FILE__) . init('scenario_id'));
 }
-set_time_limit($scenario->getTimeout(config::byKey('maxExecTimeScript', 1) * 60));
+if (is_numeric($scenario->getTimeout()) && $scenario->getTimeout() != '' && $scenario->getTimeout() != 0) {
+    set_time_limit($scenario->getTimeout(config::byKey('maxExecTimeScript', 1) * 60));
+}
 
 try {
     if (($scenario->getIsActive() == 1 || init('force') == 1)) {
