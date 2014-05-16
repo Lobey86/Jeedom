@@ -163,7 +163,7 @@ if (init('api') != '' && init('type') != '') {
 
             /*             * ************************************************************************ */
         }
-        throw new Exception('Methode non trouvée', -32500);
+        throw new Exception('Aucune méthode correspondante : ' . $jsonrpc->getMethod(), -32500);
         /*         * *********Catch exeption*************** */
     } catch (Exception $e) {
         $message = $e->getMessage();
