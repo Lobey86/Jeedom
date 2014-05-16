@@ -34,6 +34,7 @@ if (init('api') != '' && init('type') != '') {
         $type = init('type');
         if (class_exists($type)) {
             if (method_exists($type, 'event')) {
+                log::add('api', 'info', 'Appels de ' . $type . '::event()');
                 $type::event();
             } else {
                 throw new Exception('Aucune methode correspondante : ' . $type . '::event()');
@@ -135,29 +136,29 @@ if (init('api') != '' && init('type') != '') {
                 }
                 $jsonrpc->makeSuccess($cmd->execCmd($params));
             }
-            
+
             if ($jsonrpc->getMethod() == 'cmd::getStatistique') {
                 $cmd = cmd::byId($params['id']);
                 if (!is_object($cmd)) {
                     throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
                 }
-                $jsonrpc->makeSuccess($cmd->getStatistique($params['startTime'],$params['endTime']));
+                $jsonrpc->makeSuccess($cmd->getStatistique($params['startTime'], $params['endTime']));
             }
-            
+
             if ($jsonrpc->getMethod() == 'cmd::getTendance') {
                 $cmd = cmd::byId($params['id']);
                 if (!is_object($cmd)) {
                     throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
                 }
-                $jsonrpc->makeSuccess($cmd->getTendance($params['startTime'],$params['endTime']));
+                $jsonrpc->makeSuccess($cmd->getTendance($params['startTime'], $params['endTime']));
             }
-            
-             if ($jsonrpc->getMethod() == 'cmd::getHistory') {
+
+            if ($jsonrpc->getMethod() == 'cmd::getHistory') {
                 $cmd = cmd::byId($params['id']);
                 if (!is_object($cmd)) {
                     throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
                 }
-                $jsonrpc->makeSuccess($cmd->getHistory($params['startTime'],$params['endTime']));
+                $jsonrpc->makeSuccess($cmd->getHistory($params['startTime'], $params['endTime']));
             }
 
             /*             * ************************************************************************ */
