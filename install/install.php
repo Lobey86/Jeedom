@@ -251,7 +251,7 @@ try {
         $cron = new cron();
         $cron->setClass('history');
         $cron->setFunction('archive');
-        $cron->setSchedule('* * * * * *');
+        $cron->setSchedule('00 * * * * *');
         $cron->setTimeout(20);
         $cron->save();
         $cron = new cron();
