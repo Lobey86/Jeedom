@@ -267,15 +267,15 @@ function addUpdate(_update) {
     tr += '<td><span class="updateAttr" data-l1key="status"></span></td>';
     tr += '<td>';
     if (_update.type != 'core') {
-        tr += '<a class="btn btn-danger btn-xs pull-right remove expertModeHidden" data-state="unhold" style="color : white;"><i class="fa fa-trash-o"></i> Supprimer</a>';
+        tr += '<a class="btn btn-danger btn-xs pull-right remove expertModeHidden" data-state="unhold" style="color : white;" title="{{Supprimer}}"><i class="fa fa-trash-o"></i></a>';
         if (_update.status != 'hold') {
-            tr += '<a class="btn btn-warning btn-xs pull-right changeState expertModeHidden" data-state="hold" style="color : white;"><i class="fa fa-lock"></i> Bloquer</a>';
+            tr += '<a class="btn btn-warning btn-xs pull-right changeState expertModeHidden" data-state="hold" style="color : white;" title="{{Bloquer}}"><i class="fa fa-lock"></i></a>';
         } else {
-            tr += '<a class="btn btn-success btn-xs pull-right changeState expertModeHidden" data-state="unhold" style="color : white;"><i class="fa fa-unlock"></i> Débloquer</a>';
+            tr += '<a class="btn btn-success btn-xs pull-right changeState expertModeHidden" data-state="unhold" style="color : white;"> title="{{Débloquer}}"<i class="fa fa-unlock"></i></a>';
         }
     }
     if (_update.status == 'update') {
-        tr += '<a class="btn btn-info btn-xs pull-right update" style="color : white;"><i class="fa fa-refresh"></i> Mettre à jour</a>';
+        tr += '<a class="btn btn-info btn-xs pull-right update" style="color : white;" title="{{Mettre à jour}}"><i class="fa fa-refresh"></i></a>';
     }
     tr += '</td>';
     tr += '</tr>';
