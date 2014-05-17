@@ -295,6 +295,11 @@ class jeedom {
         return eqLogic::fromHumanReadable(cmd::humanReadableToCmd($_input));
     }
 
+    public static function evaluateExpression($_input) {
+        $test = new evaluate();
+        return $test->Evaluer(cmd::cmdToValue($_input));
+    }
+
     public static function print_r_reverse(&$output) {
         $expecting = 0; // 0=nothing in particular, 1=array open paren '(', 2=array element or close paren ')'
         $lines = explode("\n", $output);

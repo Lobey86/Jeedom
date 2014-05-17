@@ -122,3 +122,36 @@ cmd.getSelectModal = function(_options, callback) {
     });
     $('#mod_insertCmdValue').dialog('open');
 }
+
+
+cmd.displayActionOption = function(_expression, _options) {
+    var html = '';
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/scenario.ajax.php", // url du fichier php
+        data: {
+            action: 'actionToHtml',
+            version: 'scenario',
+            expression: _expression,
+            option: json_encode(_options)
+        },
+        dataType: 'json',
+        async: false,
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if (data.result.html != '') {
+                html += '<div class="alert alert-info" style="margin : 0px; padding : 3px;">';
+                html += data.result.html;
+                html += '</div>';
+            }
+        }
+    });
+    return html;
+}

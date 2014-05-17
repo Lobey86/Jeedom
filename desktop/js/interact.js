@@ -38,7 +38,7 @@ $(function() {
 
     $("#table_interactDef").delegate(".listEquipementInfo", 'click', function() {
         var el = $(this);
-        cmd.getSelectModal({cmd: {type: 'action'}}, function(result) {
+        cmd.getSelectModal({}, function(result) {
             el.closest('tr').find('.interactDefAttr[data-l1key=link_id]').value(result.human);
         });
     });
@@ -56,7 +56,7 @@ $(function() {
             el.closest('tr').find('.interactDefAttr[data-l1key=filtres]').hide();
         }
     });
-    
+
     $('body').delegate('.interactDefAttr', 'change', function() {
         modifyWithoutSave = true;
     });

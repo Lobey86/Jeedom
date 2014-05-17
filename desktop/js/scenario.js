@@ -178,7 +178,7 @@ $(function() {
         cmd.getSelectModal({cmd: {type: type}}, function(result) {
             if (expression.find('.expressionAttr[data-l1key=type]').value() == 'action') {
                 expression.find('.expressionAttr[data-l1key=expression]').value(result.human);
-                expression.find('.expressionOptions').html(displayActionOption(expression.find('.expressionAttr[data-l1key=expression]').value(), ''));
+                expression.find('.expressionOptions').html(cmd.displayActionOption(expression.find('.expressionAttr[data-l1key=expression]').value(), ''));
             }
             if (expression.find('.expressionAttr[data-l1key=type]').value() == 'condition') {
                 expression.find('.expressionAttr[data-l1key=expression]').value(expression.find('.expressionAttr[data-l1key=expression]').value() + ' ' + result.human);
@@ -189,7 +189,7 @@ $(function() {
     $('body').delegate('.expression .expressionAttr[data-l1key=expression]', 'focusout', function(event) {
         if ($(this).closest('.expression').find('.expressionAttr[data-l1key=type]').value() == 'action') {
             var expression = $(this).closest('.expression').getValues('.expressionAttr');
-            $(this).closest('.expression').find('.expressionOptions').html(displayActionOption($(this).value(), init(expression[0].options)));
+            $(this).closest('.expression').find('.expressionOptions').html(cmd.displayActionOption($(this).value(), init(expression[0].options)));
         }
     });
 
@@ -319,40 +319,6 @@ function setAutocomplete() {
     });
     $('.autoCompleteCondition').sew({values: autoCompleteCondition, token: '#'})
 }
-
-function displayActionOption(_expression, _options) {
-    var html = '';
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: 'actionToHtml',
-            version: 'scenario',
-            expression: _expression,
-            option: json_encode(_options)
-        },
-        dataType: 'json',
-        async: false,
-        global: false,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if (data.result.html != '') {
-                html += '<div class="alert alert-info" style="margin : 0px; padding : 3px;">';
-                html += data.result.html;
-                html += '</div>';
-            }
-            setAutocomplete();
-        }
-    });
-    return html;
-}
-
 
 function copyScenario(_scenario_id, _name) {
     $.ajax({// fonction permettant de faire de l'ajax
@@ -683,7 +649,7 @@ function addExpression(_expression) {
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="action"><i class="fa fa-list-alt"></i></a>';
             retour += '</div>';
             retour += '<div class="col-sm-4 expressionOptions">';
-            retour += displayActionOption(init(_expression.expression), init(_expression.options));
+            retour += cmd.displayActionOption(init(_expression.expression), init(_expression.options));
             retour += '</div>';
             break;
         case 'code' :
