@@ -83,7 +83,7 @@ if (isset($log[0][0]) && $log[0][0] == '') {
 </center>
 
 
-<table class="table table-condensed table-bordered tablesorter">
+<table class="table table-condensed table-bordered tablesorter tablefixheader">
     <thead>
         <tr>
             <th style="width: 150px;">{{Date et heure}}</th><th style="width: 70px;">{{Type}}</th><th>{{Message}}</th>
