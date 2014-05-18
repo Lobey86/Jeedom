@@ -180,32 +180,36 @@ class plugin {
     }
 
     public function setIsEnable($_state) {
-        if (version_compare(getVersion('jeedom'), $this->require) == -1 && $_state == 1) {
+        if (version_compare(getVersion('jeedom'), $this->getRequire()) == -1 && $_state == 1) {
             throw new Exception('Votre version de jeedom n\'est pas assez récente pour activer ce plugin');
         }
-        $alreadyActive = config::byKey('active', $this->id, 0);
-        config::save('active', $_state, $this->id);
+        $alreadyActive = config::byKey('active', $this->getId(), 0);
+        config::save('active', $_state, $this->getId());
         if ($_state == 0) {
-            foreach (eqLogic::byType($this->id) as $eqLogic) {
+            foreach (eqLogic::byType($this->getId()) as $eqLogic) {
                 $eqLogic->setIsEnable($_state);
                 $eqLogic->setIsVisible($_state);
                 $eqLogic->save();
             }
         }
         try {
-            if (file_exists(dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php')) {
-                require_once dirname(__FILE__) . '/../../plugins/' . $this->id . '/plugin_info/install.php';
+            if (file_exists(dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/plugin_info/install.php')) {
+                include_once dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/plugin_info/install.php';
                 ob_start();
                 if ($_state == 1) {
-                    install();
+                    if ($alreadyActive == 1) {
+                        update();
+                    } else {
+                        install();
+                    }
                 } else {
                     remove();
                 }
                 $out = ob_get_clean();
-                log::add($this->id, 'info', $out);
+                log::add($this->getId(), 'info', $out);
             }
         } catch (Exception $e) {
-            config::save('active', $alreadyActive, $this->id);
+            config::save('active', $alreadyActive, $this->getId());
             throw $e;
         }
 
