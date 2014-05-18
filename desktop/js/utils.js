@@ -233,10 +233,26 @@ function initTableSorter() {
 
 function showHelpModal(_name, _plugin) {
     if (init(_plugin) != '' && _plugin != undefined) {
-        $('#div_helpWebsite').load('index.php?v=d&modal=help.website&page=doc_plugin_' + _plugin + '.php #primary');
+        $('#div_helpWebsite').load('index.php?v=d&modal=help.website&page=doc_plugin_' + _plugin + '.php #primary', function() {
+            if ($('#div_helpWebsite').find('.alert.alert-danger') != undefined) {
+                $('a[href=#div_helpSpe]').click();
+                $('a[href=#div_helpWebsite]').hide();
+            } else {
+                $('a[href=#div_helpWebsite]').show();
+                $('a[href=#div_helpWebsite]').click();
+            }
+        });
         $('#div_helpSpe').load('index.php?v=d&plugin=' + _plugin + '&modal=help.' + init(_name));
     } else {
-        $('#div_helpWebsite').load('index.php?v=d&modal=help.website&page=doc_' + init(_name) + '.php #primary');
+        $('#div_helpWebsite').load('index.php?v=d&modal=help.website&page=doc_' + init(_name) + '.php #primary', function() {
+            if ($('#div_helpWebsite').find('.alert.alert-danger') != undefined) {
+                $('a[href=#div_helpSpe]').click();
+                $('a[href=#div_helpWebsite]').hide();
+            } else {
+                $('a[href=#div_helpWebsite]').show();
+                $('a[href=#div_helpWebsite]').click();
+            }
+        });
         $('#div_helpSpe').load('index.php?v=d&modal=help.' + init(_name));
     }
     $('#md_pageHelp').dialog('open');
