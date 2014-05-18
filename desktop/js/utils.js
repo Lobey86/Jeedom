@@ -93,7 +93,7 @@ $(function() {
             if ((jQuery(window).width() - 50) < 1500) {
                 $('#md_modal').dialog({width: jQuery(window).width() - 50});
             }
-            $("body").css({overflow: 'hidden'})
+            $("body").css({overflow: 'hidden'});
         },
         beforeClose: function(event, ui) {
             $("body").css({overflow: 'inherit'})
