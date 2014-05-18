@@ -202,5 +202,5 @@ function addInteractDefToTable(_interactDef) {
     tr += '</tr>';
     $('#table_interactDef tbody').append(tr);
     $('#table_interactDef tbody tr:last').setValues(_interactDef, '.interactDefAttr');
-    activateTooltips();
+    initTooltips();
 }

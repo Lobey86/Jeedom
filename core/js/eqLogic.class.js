@@ -130,7 +130,7 @@ eqLogic.print = function(_type, _eqLogic_id) {
                     }
                 }
             }
-            activateTooltips();
+            initTooltips();
             initExpertMode();
             $.hideLoading();
             modifyWithoutSave = false;

@@ -300,7 +300,7 @@ function refreshCmdValue(_cmd_id) {
                 }
                 $('.cmd[data-cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
 
-                activateTooltips();
+                initTooltips();
                 if ($.mobile) {
                     $('.cmd[data-cmd_id=' + _cmd_id + ']').trigger("create");
                 } else {
@@ -327,7 +327,7 @@ function positionEqLogic(_id) {
 }
 
 
-function activateTooltips() {
+function initTooltips() {
     if ($.mobile) {
 
     } else {

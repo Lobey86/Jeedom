@@ -33,7 +33,7 @@ $(function() {
         $('#horloge').text(horloge);
     }, 1000);
 
-    activateTooltips();
+    initTooltips();
 
     // Ajax Loading Screen
     $(document).ajaxStart(function() {
