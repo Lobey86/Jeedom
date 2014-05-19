@@ -16,7 +16,6 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 if (!isset($_GET['v'])) {
     $useragent = $_SERVER["HTTP_USER_AGENT"];
     echo $useragent;
@@ -33,7 +32,7 @@ if (!isset($_GET['v'])) {
         } else {
             if (isset($_GET['p'])) {
                 if (isset($_GET['m'])) {
-                    include_file('mobile', $_GET['p'], 'html',$_GET['m']);
+                    include_file('mobile', $_GET['p'], 'html', $_GET['m']);
                 } else {
                     include_file('mobile', $_GET['p'], 'html');
                 }
