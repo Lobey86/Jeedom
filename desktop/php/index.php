@@ -36,7 +36,7 @@ if ($plugin != '') {
 $plugins_list = plugin::listPlugin(true, true);
 ?>
 <!DOCTYPE html>
-<html lang="fr" manifest="desktop.manaifest.php">
+<html lang="fr" manifest="desktop.manifest.php">
     <head>
         <meta charset="utf-8">
         <title>Jeedom - <?php echo $title; ?></title>
