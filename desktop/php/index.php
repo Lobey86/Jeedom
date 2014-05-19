@@ -298,4 +298,3 @@ $plugins_list = plugin::listPlugin(true, true);
 
     </body>
 </html>
-

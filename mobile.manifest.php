@@ -4,8 +4,8 @@ require_once dirname(__FILE__) . "/core/php/core.inc.php";
 ?>
 CACHE MANIFEST
 
-# Version <?php echo getVersion('jeedom'); ?>
-# <?php echo config::byKey('manifestKey'); ?>
+# Version <?php echo getVersion('jeedom')."\n"; ?>
+# <?php echo config::byKey('manifestKey')."\n"; ?>
 # 10
 
 
