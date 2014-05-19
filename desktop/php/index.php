@@ -279,7 +279,6 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('3rdparty', 'jquery.tableUtils/jquery.tableUtils', 'js');
         include_file('desktop', 'utils', 'js');
         include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
-        include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
         ?>
         <footer>
             <span class="pull-left">Node JS <span class="span_nodeJsState binary red tooltips"></span> - </span>
