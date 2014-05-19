@@ -367,7 +367,6 @@ class history {
             foreach ($cmd_histories as $datetime => $cmd_history) {
                 $datetime = floatval(strtotime($datetime . " UTC"));
                 $calcul = template_replace($cmd_history, $_strcalcul);
-
                 try {
                     $result = floatval($test->Evaluer($calcul));
                     $value[$datetime] = $result;
@@ -378,6 +377,7 @@ class history {
         } else {
             $value = $_strcalcul;
         }
+        ksort($value);
         return $value;
     }
 

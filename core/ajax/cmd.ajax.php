@@ -119,17 +119,24 @@ try {
     }
 
     if (init('action') == 'getHistory') {
-        $cmd = cmd::byId(init('id'));
-        if (!is_object($cmd)) {
-            throw new Exception(__('Cmd ID inconnu : ', __FILE__) . init('id'));
-        }
+
         $return = array();
         $data = array();
         $dateStart = null;
         $dateEnd = null;
         if (init('dateRange') != '' && init('dateRange') != 'all') {
-            $dateEnd = date('Y-m-d H:i:s');
-            $dateStart = date('Y-m-d H:i:s', strtotime('- ' . init('dateRange') . ' ' . $dateEnd));
+            if (is_json(init('dateRange'))) {
+                $dateRange = json_decode(init('dateRange'), true);
+                if (isset($dateRange['start'])) {
+                    $dateStart = $dateRange['start'];
+                }
+                if (isset($dateRange['end'])) {
+                    $dateEnd = $dateRange['end'];
+                }
+            } else {
+                $dateEnd = date('Y-m-d H:i:s');
+                $dateStart = date('Y-m-d H:i:s', strtotime('- ' . init('dateRange') . ' ' . $dateEnd));
+            }
         }
         if (init('dateStart') != '') {
             $dateStart = init('dateStart');
@@ -139,24 +146,49 @@ try {
         }
         $return['maxValue'] = '';
         $return['minValue'] = '';
-        foreach ($cmd->getHistory($dateStart, $dateEnd) as $history) {
-            $info_history = array();
-            $info_history[] = floatval(strtotime($history->getDatetime() . " UTC")) * 1000;
-            $info_history[] = ($history->getValue() === null ) ? null : floatval($history->getValue());
-            if ($history->getValue() > $return['maxValue'] || $return['maxValue'] == '') {
-                $return['maxValue'] = $history->getValue();
+        if (is_numeric(init('id'))) {
+            $cmd = cmd::byId(init('id'));
+            if (!is_object($cmd)) {
+                throw new Exception(__('Cmd ID inconnu : ', __FILE__) . init('id'));
             }
-            if ($history->getValue() < $return['minValue'] || $return['minValue'] == '') {
-                $return['minValue'] = $history->getValue();
+            $histories = $cmd->getHistory($dateStart, $dateEnd);
+            $return['cmd_name'] = $cmd->getName();
+            $return['history_name'] = $cmd->getHumanName();
+            $return['unite'] = $cmd->getUnite();
+            $return['cmd'] = utils::o2a($cmd);
+            $return['eqLogic'] = utils::o2a($cmd->getEqLogic());
+            foreach ($histories as $history) {
+                $info_history = array();
+                $info_history[] = floatval(strtotime($history->getDatetime() . " UTC")) * 1000;
+                $info_history[] = ($history->getValue() === null ) ? null : floatval($history->getValue());
+                if ($history->getValue() > $return['maxValue'] || $return['maxValue'] == '') {
+                    $return['maxValue'] = $history->getValue();
+                }
+                if ($history->getValue() < $return['minValue'] || $return['minValue'] == '') {
+                    $return['minValue'] = $history->getValue();
+                }
+                $data[] = $info_history;
             }
-            $data[] = $info_history;
+        } else {
+            $histories = history::getHistoryFromCalcul(init('id'), $dateStart, $dateEnd);
+            foreach ($histories as $datetime => $value) {
+                $info_history = array();
+                $info_history[] = floatval($datetime) * 1000;
+                $info_history[] = ($value === null ) ? null : floatval($value);
+                if ($value > $return['maxValue'] || $return['maxValue'] == '') {
+                    $return['maxValue'] = $value;
+                }
+                if ($value < $return['minValue'] || $return['minValue'] == '') {
+                    $return['minValue'] = $value;
+                }
+                $data[] = $info_history;
+            }
+            $return['cmd_name'] = init('name');
+            $return['history_name'] = init('name');
+            $return['unite'] = init('unite');
         }
-        $return['cmd_name'] = $cmd->getName();
-        $return['history_name'] = $cmd->getHumanName();
-        $return['unite'] = $cmd->getUnite();
+
         $return['data'] = $data;
-        $return['cmd'] = utils::o2a($cmd);
-        $return['eqLogic'] = utils::o2a($cmd->getEqLogic());
         ajax::success($return);
     }
 

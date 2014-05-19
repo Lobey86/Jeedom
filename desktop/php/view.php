@@ -46,7 +46,7 @@ sendVarToJS('view_id', $view->getId());
         </div>
     </div>
 
-    <div class="col-sm-10" role="main">
+    <div class="col-sm-10">
         <legend style="height: 35px;color : #563d7c;">Vue <?php echo $view->getName() ?> <a href="index.php?v=d&p=view_edit&id=<?php echo $view->getId(); ?>" class="btn btn-warning btn-xs pull-right" id="bt_addviewZone"><i class="fa fa-pencil"></i> {{Editer}}</a></legend>
         <div id="div_displayView"></div>
     </div>

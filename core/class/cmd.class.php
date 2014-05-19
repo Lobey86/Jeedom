@@ -546,7 +546,7 @@ class cmd {
                 return null;
             }
         }
-
+        
         $eqLogic = $this->getEqLogic();
         $type = $eqLogic->getEqType_name();
         try {

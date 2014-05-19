@@ -420,6 +420,9 @@ function changeHistoryPoint(_cmd_id, _datetime, _value) {
 }
 
 function drawChart(_cmd_id, _el, _dateRange, _option) {
+    if($.type(_dateRange) == 'object'){
+        _dateRange = json_encode(_dateRange);
+    }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/cmd.ajax.php", // url du fichier php
@@ -452,7 +455,7 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 _option.graphColor = init(_option.graphColor, Highcharts.getOptions().colors[0]);
             }
 
-            if (!isset(_option.graphStep) && data.result.cmd.subType == 'binary') {
+            if (!isset(_option.graphStep) && isset(data.result.cmd) && data.result.cmd.subType == 'binary') {
                 _option.graphStep = true;
             } else {
                 _option.graphStep = (_option.graphStep == 1) ? true : false;
@@ -475,7 +478,7 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 type: _option.graphType,
                 id: intval(_cmd_id),
                 cursor: 'pointer',
-                name: data.result.history_name,
+                name: (isset(_option.name)) ? _option.name : data.result.history_name,
                 data: data.result.data,
                 color: _option.graphColor,
                 stack: _option.graphStack,

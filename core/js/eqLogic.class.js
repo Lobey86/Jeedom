@@ -200,6 +200,41 @@ eqLogic.getCmd = function(_eqLogic_id) {
     return result;
 }
 
+
+eqLogic.byId = function(_eqLogic_id) {
+    if (!isset(eqLogic.cache.byId)) {
+        eqLogic.cache.byId = Array();
+    }
+    if (isset(eqLogic.cache.byId[_eqLogic_id])) {
+        return eqLogic.cache.byId[_eqLogic_id];
+    }
+    var result = '';
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/eqLogic.ajax.php", // url du fichier php
+        data: {
+            action: "byId",
+            id: _eqLogic_id
+        },
+        dataType: 'json',
+        async: false,
+        cache: true,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $.hideLoading();
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            result = data.result;
+        }
+    });
+    eqLogic.cache.byId[_eqLogic_id] = result;
+    return result;
+}
+
 eqLogic.builSelectCmd = function(_eqLogic_id, _filter) {
     if (!isset(_filter)) {
         _filter = {};

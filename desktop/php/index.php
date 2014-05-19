@@ -245,7 +245,7 @@ $plugins_list = plugin::listPlugin(true, true);
                     ?>
                     <div id="md_modal"></div>
                     <div id="md_modal2"></div>
-                    <div id="md_pageHelp">
+                    <div id="md_pageHelp" style="display: none;">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#div_helpWebsite" data-toggle="tab">{{Générale}}</a></li>
                             <li><a href="#div_helpSpe" data-toggle="tab">{{Détaillée}}</a></li>
