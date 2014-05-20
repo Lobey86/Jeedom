@@ -491,6 +491,10 @@ class eqLogic {
         }
         return true;
     }
+    
+    public function refresh(){
+        DB::refresh($this);
+    }
 
     public function getLinkToConfiguration() {
         return 'index.php?v=d&p=' . $this->getEqType_name() . '&m=' . $this->getEqType_name() . '&id=' . $this->getId();

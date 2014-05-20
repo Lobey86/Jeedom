@@ -193,7 +193,7 @@ class cron {
     }
 
     public function refresh() {
-        $this->updateFromObject(self::byId($this->getId()));
+        DB::refresh($this);
         if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && !$this->running()) {
             $this->setState('stop');
             $this->setPID();
@@ -254,18 +254,6 @@ class cron {
                 $this->setServer('');
                 $this->save();
             }
-        }
-    }
-
-    private function updateFromObject($_cron) {
-        $reflection = new ReflectionClass(__CLASS__);
-        $properties = $reflection->getProperties();
-        foreach ($properties as $property) {
-            $name = $property->getName();
-            $property->setAccessible(true);
-            $value = $property->getValue($_cron);
-            $property->setAccessible(false);
-            $this->$name = $value;
         }
     }
 

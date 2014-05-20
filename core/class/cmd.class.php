@@ -505,6 +505,10 @@ class cmd {
         return true;
     }
 
+    public function refresh() {
+        DB::refresh($this);
+    }
+
     public function remove() {
         viewData::removeByTypeLinkId('cmd', $this->getId());
         dataStore::removeByTypeLinkId('cmd', $this->getId());
@@ -546,7 +550,7 @@ class cmd {
                 return null;
             }
         }
-        
+
         $eqLogic = $this->getEqLogic();
         $type = $eqLogic->getEqType_name();
         try {
