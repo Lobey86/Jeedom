@@ -320,8 +320,7 @@ function positionEqLogic(_id) {
         }
         var statistiques = $(this).find('.statistiques');
         if (statistiques != undefined) {
-            var left = ($(this).width() - statistiques.width()) / 6;
-            statistiques.css('position', 'relative');
+            var left = ($(this).width() - statistiques.width()) / 2;
             statistiques.css('left', left);
         }
     });
