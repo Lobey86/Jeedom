@@ -1,7 +1,7 @@
 <div style="width:90px;min-height:105px;" class="#history# tooltips cmd cmd-widget" data-type="info" data-subtype="numeric" data-cmd_id="#id#" title="#collectDate#" >
     <div class="gauge" ></div>
     <center>
-        <span style="#displayHistory#;" class="label label-default statistiques">
+        <span style="#displayHistory#;" class="statistiques">
             <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
         </span>
     </center>
@@ -43,9 +43,8 @@
                 // the value axis
                 yAxis: {
                 stops: [
-                        [0.1, '#55BF3B'], // green
-                        [0.5, '#DDDF0D'], // yellow
-                        [0.9, '#DF5353'] // red
+                        [0.1, '#FFFFFF'],
+	        	[0.9, '#000000']
                 ],
                         lineWidth: 0,
                         minorTickInterval: null,
@@ -58,7 +57,7 @@
                         min: #minValue#,
                         max: #maxValue#,
                         title: {
-                        text: '<span style="color: #666666;font-weight: bold;font-family : Helvetica Neue,Helvetica,Arial,sans-serif;">#name#</span>',
+                        text: '<span style="color: white;font-weight: bold;font-family : Helvetica Neue,Helvetica,Arial,sans-serif;">#name#</span>',
                                 y: - 35
                         }
                 },
@@ -79,7 +78,7 @@
                 name: '',
                         data: [parseInt('#state#')],
                         dataLabels: {
-                        format: '{y} <span style="font-size:10px;color:silver">#unite#</span>'
+                        format: '<span style="color : white;">{y}</span> <span style="font-size:10px;color:white">#unite#</span>'
                         },
                 }]
         });

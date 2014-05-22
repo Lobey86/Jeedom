@@ -7,12 +7,17 @@
                 execCmd('#id#', '');
             });
             var name = "#name#";
-            if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
-                $('.cmd[data-cmd_id=#id#] .action').addClass('btn-danger');
-            }
             if (name.toLowerCase().indexOf('on') >= 0) {
-                $('.cmd[data-cmd_id=#id#] .action').addClass('btn-success');
+                $('.cmd[data-cmd_id=#id#] .action').addClass('btn-default');
+                $('.cmd[data-cmd_id=#id#] .action').css('color','black');
+            } else {
+                if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
+                    $('.cmd[data-cmd_id=#id#] .action').addClass('btn-black');
+                }else{
+                    $('.cmd[data-cmd_id=#id#] .action').css('color','black');
+                }
             }
+
         });
     </script>
 </span>

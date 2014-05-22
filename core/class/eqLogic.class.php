@@ -530,7 +530,7 @@ class eqLogic {
 
     public function getBackgroundColor($_version = 'dashboard') {
         $vcolor = 'color';
-        $default = '#F5F5F5';
+        $default = '#2496d4';
         if ($_version == 'mobile') {
             $vcolor = 'mcolor';
             $default = '#2496d4';

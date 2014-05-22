@@ -312,18 +312,28 @@ function refreshCmdValue(_cmd_id) {
 }
 
 function positionEqLogic(_id) {
+    var eqLogic = $('.eqLogic[data-eqLogic_id=' + _id + ']');
     var maxHeight = 0;
-    $('.eqLogic[data-eqLogic_id=' + _id + '] .cmd-widget').each(function() {
+    eqLogic.find('.cmd-widget').each(function() {
         if ($(this).height() > maxHeight) {
             maxHeight = $(this).height();
         }
         var statistiques = $(this).find('.statistiques');
         if (statistiques != undefined) {
-            var left = ($(this).width() - statistiques.width()) / 4;
+            var left = ($(this).width() - statistiques.width()) / 6;
+            statistiques.css('position', 'relative');
             statistiques.css('left', left);
         }
     });
-    $('.eqLogic[data-eqLogic_id=' + _id + '] .cmd-widget').height(maxHeight);
+    eqLogic.find('.cmd-widget').height(maxHeight);
+    eqLogic.height(Math.ceil(eqLogic.height() / 50) * 50);
+    eqLogic.width(Math.ceil(eqLogic.width() / 50) * 50);
+    var verticalAlign = eqLogic.find('.verticalAlign');
+    if (count(verticalAlign) > 0 && verticalAlign != undefined) {
+        verticalAlign.css('position', 'relative');
+        verticalAlign.css('top', (eqLogic.height() - verticalAlign.height()) / 2);
+        verticalAlign.css('left', (eqLogic.width() - verticalAlign.width()) / 2);
+    }
 }
 
 
@@ -420,7 +430,7 @@ function changeHistoryPoint(_cmd_id, _datetime, _value) {
 }
 
 function drawChart(_cmd_id, _el, _dateRange, _option) {
-    if($.type(_dateRange) == 'object'){
+    if ($.type(_dateRange) == 'object') {
         _dateRange = json_encode(_dateRange);
     }
     $.ajax({// fonction permettant de faire de l'ajax

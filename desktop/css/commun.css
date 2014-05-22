@@ -18,6 +18,12 @@
     border-left: 5px solid #94C680;
 }
 
+.btn-black {
+    color:white;
+    background-color:#373737;
+    border-color:#1f1f1f;
+}
+
 .pull-right{
     float: right;
     margin-left: 5px;
@@ -35,19 +41,29 @@
 .eqLogic-widget{
     padding: 9.5px;
     margin: 0 5px 5px;
-    background-color: #F5F5F5;
+    background-color: #2496d4;
     display: inline-block;
     position : relative;
     vertical-align: top;
+    color : white;
+}
+
+.eqLogic-widget a{
+    color : white;
 }
 
 .scenario-widget{
     padding: 9.5px;
     margin: 0 5px 5px;
-    background-color: #F5F5F5;
+    background-color: #929292;
     display: inline-block;
     position : relative;
     vertical-align: top;
+    color : white;
+}
+
+.scenario-widget a{
+    color : white;
 }
 
 .cmd-widget{
@@ -62,6 +78,9 @@
     bottom: 0;
     font-size: 0.67em;
     left : 0;
+    margin : 0;
+    padding: 0;
+    line-height:0px;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
