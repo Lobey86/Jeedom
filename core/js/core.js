@@ -299,7 +299,6 @@ function refreshCmdValue(_cmd_id) {
                     return;
                 }
                 $('.cmd[data-cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
-
                 initTooltips();
                 if ($.mobile) {
                     $('.cmd[data-cmd_id=' + _cmd_id + ']').trigger("create");
@@ -331,16 +330,10 @@ function positionEqLogic(_id) {
     var verticalAlign = eqLogic.find('.verticalAlign');
     if (count(verticalAlign) > 0 && verticalAlign != undefined) {
         verticalAlign.css('position', 'relative');
-        verticalAlign.css('top', ((eqLogic.height() - verticalAlign.height()) / 2) - 10);
+        verticalAlign.css('top', ((eqLogic.height() - verticalAlign.height()) / 2) - 20);
         verticalAlign.css('left', (eqLogic.width() - verticalAlign.width()) / 2);
     }
 }
-
-function getSubColorForCommand(_color) {
-
-    return _color;
-}
-
 
 function initTooltips() {
     if ($.mobile) {

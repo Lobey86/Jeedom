@@ -111,7 +111,7 @@ function initApplication() {
                 ];
                 $.include(include, function() {
                     refreshMessageNumber();
-                    page("home", 'Acceuil');
+                    page("home", 'Accueil');
                 });
             }
         }
