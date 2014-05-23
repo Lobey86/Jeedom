@@ -199,7 +199,6 @@ class update {
     }
 
     public function doUpdate() {
-        config::save('manifestKey', config::genKey());
         if ($this->getType() == 'core') {
             jeedom::update();
         } else {
