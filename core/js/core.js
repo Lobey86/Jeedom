@@ -335,6 +335,11 @@ function positionEqLogic(_id) {
     }
 }
 
+function getSubColorForCommand(_color){
+    
+    return _color;
+}
+
 
 function initTooltips() {
     if ($.mobile) {

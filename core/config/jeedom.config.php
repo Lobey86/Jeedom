@@ -20,11 +20,11 @@ global $JEEDOM_INTERNAL_CONFIG;
 $JEEDOM_INTERNAL_CONFIG = array(
     'eqLogic' => array(
         'category' => array(
-            'heating' => array('name' => 'Chauffage', 'color' => '#1895D6', 'mcolor' => '#1895D6'),
-            'security' => array('name' => 'Sécurité', 'color' => '#745CB0', 'mcolor' => '#745CB0'),
-            'energy' => array('name' => 'Energie', 'color' => '#2EB04B', 'mcolor' => '#2EB04B'),
-            'light' => array('name' => 'Lumière', 'color' => '#F09E2F', 'mcolor' => '#F09E2F'),
-            'automatism' => array('name' => 'Automatisme', 'color' => '#808080', 'mcolor' => '#808080'),
+            'heating' => array('name' => 'Chauffage', 'color' => '#1895D6', 'mcolor' => '#1895D6','cmdColor' => '#3EB0EE','mcmdColor' => '#3EB0EE'),
+            'security' => array('name' => 'Sécurité', 'color' => '#745CB0', 'mcolor' => '#745CB0','cmdColor' => '#AC92ED','mcmdColor' => '#AC92ED'),
+            'energy' => array('name' => 'Energie', 'color' => '#2EB04B', 'mcolor' => '#2EB04B','cmdColor' => '#69E283','mcmdColor' => '#69E283'),
+            'light' => array('name' => 'Lumière', 'color' => '#F09E2F', 'mcolor' => '#F09E2F','cmdColor' => '#F7BC68','mcmdColor' => '#F7BC68'),
+            'automatism' => array('name' => 'Automatisme', 'color' => '#808080', 'mcolor' => '#808080','cmdColor' => '#C2BEB8','mcmdColor' => '#C2BEB8'),
         ),
     ),
     'plugin' => array(

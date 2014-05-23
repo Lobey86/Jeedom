@@ -19,6 +19,18 @@
 function cmd() {
 }
 
+cmd.getSuggestColor = function(_id) {
+    var eqLogic = $(".cmd[data-cmd_id=" + _id + "]").closest('.eqLogic');
+    if (count(eqLogic) > 0 && eqLogic != undefined) {
+        var vcolor = 'cmdColor';
+        if (eqLogic.attr('data-version') == 'mobile') {
+            vcolor = 'mcmdColor';
+        }
+        return jeedom.getConfiguration('eqLogic:category:' + eqLogic.attr('data-category') + ':' + vcolor);
+    }
+    return '#000000';
+}
+
 
 cmd.changeType = function(_cmd, _subType) {
     var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control input-sm" data-l1key="subType">';

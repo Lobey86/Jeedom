@@ -16,7 +16,7 @@ if (!isConnect()) {
 <div class="row">
     <div class="col-md-12">
         <lu>
-            <li><a class="cursor" href="#" target="_blank">Marie Corbiere (US)</a></li>
+            <li><a class="cursor" href="#" target="_blank">Marie Corbière (US)</a></li>
         </lu>
     </div>
 </div>

@@ -444,6 +444,7 @@ class eqLogic {
             '#action#' => (isset($action)) ? $action : '',
             '#object_name#' => (is_object($object)) ? $object->getName() . ' - ' : '',
             '#background_color#' => $this->getBackgroundColor($_version),
+            '#category#' => $this->getPrimaryCategory(),
         );
         if (!isset(self::$_templateArray)) {
             self::$_templateArray = array();
@@ -491,8 +492,8 @@ class eqLogic {
         }
         return true;
     }
-    
-    public function refresh(){
+
+    public function refresh() {
         DB::refresh($this);
     }
 
@@ -535,19 +536,27 @@ class eqLogic {
             $vcolor = 'mcolor';
             $default = '#2496d4';
         }
-        if ($this->getCategory('security', 0) == 1) {
-            return jeedom::getConfiguration('eqLogic:category:security:' . $vcolor);
-        }
-        if ($this->getCategory('heating', 0) == 1) {
-            return jeedom::getConfiguration('eqLogic:category:heating:' . $vcolor);
-        }
-        if ($this->getCategory('energy', 0) == 1) {
-            return jeedom::getConfiguration('eqLogic:category:energy:' . $vcolor);
-        }
-        if ($this->getCategory('light', 0) == 1) {
-            return jeedom::getConfiguration('eqLogic:category:light:' . $vcolor);
+        $category = $this->getPrimaryCategory();
+        if ($category != '') {
+            return jeedom::getConfiguration('eqLogic:category:' . $category . ':' . $vcolor);
         }
         return $default;
+    }
+
+    public function getPrimaryCategory() {
+        if ($this->getCategory('security', 0) == 1) {
+            return 'security';
+        }
+        if ($this->getCategory('heating', 0) == 1) {
+            return 'heating';
+        }
+        if ($this->getCategory('energy', 0) == 1) {
+            return 'energy';
+        }
+        if ($this->getCategory('light', 0) == 1) {
+            return 'light';
+        }
+        return '';
     }
 
     public function displayDebug($_message) {

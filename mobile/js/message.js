@@ -46,4 +46,5 @@ function getAllMessage(_plugin) {
         tbody += '</tr>';
     }
     $('#table_message tbody').empty().append(tbody);
+    $("#table_message").table("rebuild");
 }
