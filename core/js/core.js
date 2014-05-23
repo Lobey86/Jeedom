@@ -312,6 +312,7 @@ function refreshCmdValue(_cmd_id) {
 }
 
 function positionEqLogic(_id) {
+    var pas = 40;
     var eqLogic = $('.eqLogic[data-eqLogic_id=' + _id + ']');
     var maxHeight = 0;
     eqLogic.find('.cmd-widget').each(function() {
@@ -325,18 +326,18 @@ function positionEqLogic(_id) {
         }
     });
     eqLogic.find('.cmd-widget').height(maxHeight);
-    eqLogic.height(Math.ceil(eqLogic.height() / 50) * 50);
-    eqLogic.width(Math.ceil(eqLogic.width() / 50) * 50);
+    eqLogic.height(Math.ceil(eqLogic.height() / pas) * pas);
+    eqLogic.width(Math.ceil(eqLogic.width() / pas) * pas);
     var verticalAlign = eqLogic.find('.verticalAlign');
     if (count(verticalAlign) > 0 && verticalAlign != undefined) {
         verticalAlign.css('position', 'relative');
-        verticalAlign.css('top', (eqLogic.height() - verticalAlign.height()) / 2);
+        verticalAlign.css('top', ((eqLogic.height() - verticalAlign.height()) / 2) - 10);
         verticalAlign.css('left', (eqLogic.width() - verticalAlign.width()) / 2);
     }
 }
 
-function getSubColorForCommand(_color){
-    
+function getSubColorForCommand(_color) {
+
     return _color;
 }
 
