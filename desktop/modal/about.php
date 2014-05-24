@@ -37,7 +37,6 @@ if (!isConnect()) {
     </div>
     <div class="col-md-4">
         <lu>
-            <li><a class="cursor" href="http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/" style="color:blue;" target="_blank">jquery.farbastic</a></li>
             <li><a class="cursor" href="http://www.abeautifulsite.net/blog/2008/03/jquery-file-tree/" style="color:blue;" target="_blank">jquery.fileTree</a></li>
             <li><a class="cursor" href="http://boedesign.com/blog/2009/07/11/growl-for-jquery-gritter/" style="color:blue;" target="_blank">jquery.gritter</a></li>
             <li>jquery.loading - Loïc Gevrey</li>

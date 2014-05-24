@@ -24,6 +24,12 @@
     border-color:#1f1f1f;
 }
 
+.btn-black:hover {
+    color:white;
+    background-color:#303030;
+    border-color:#1f1f1f;
+}
+
 .pull-right{
     float: right;
     margin-left: 5px;
