@@ -61,10 +61,7 @@ function initExpertMode() {
 }
 
 
-function initApplication() {
-    modal(false);
-    panel(false);
-    $('#panel_left').panel('close');
+function initApplication(_reinit) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/jeedom.ajax.php", // url du fichier php
@@ -77,6 +74,9 @@ function initApplication() {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
+                modal(false);
+                panel(false);
+                $('#panel_left').panel('close');
                 $('#bt_panel_left').hide();
                 if (data.code == -1234) {
                     if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
@@ -90,35 +90,49 @@ function initApplication() {
                 }
                 return;
             } else {
-                $('#bt_panel_left').show();
-                /*************Initialisation environement********************/
-                nodeJsKey = data.result.nodeJsKey;
-                user_id = data.result.user_id;
-                plugins = data.result.plugins;
-                deviceInfo = getDeviceType();
-                userProfils = data.result.userProfils;
-                expertMode = userProfils.expertMode;
-                var include = [
-                    'core/php/getJS.php?file=core/js/cmd.class.js',
-                    'core/php/getJS.php?file=core/js/eqLogic.class.js',
-                    'core/php/getJS.php?file=core/js/jeedom.class.js',
-                    'core/php/getJS.php?file=core/js/object.class.js',
-                    'core/php/getJS.php?file=core/js/scenario.class.js',
-                    'core/php/getJS.php?file=core/js/plugin.class.js',
-                    'core/php/getJS.php?file=core/js/message.class.js',
-                    'core/php/getJS.php?file=core/js/view.class.js',
-                    'core/php/getJS.php?file=core/js/core.js',
-                ];
-                $.include(include, function() {
-                    refreshMessageNumber();
-                    page("home", 'Accueil');
-                });
+                 lastConnectionCheck = Math.round(+new Date() / 1000);
+                if (init(_reinit, false) == false) {
+                    modal(false);
+                    panel(false);
+                    $('#panel_left').panel('close');
+                    $('#bt_panel_left').show();
+                    /*************Initialisation environement********************/
+                    nodeJsKey = data.result.nodeJsKey;
+                    user_id = data.result.user_id;
+                    plugins = data.result.plugins;
+                    deviceInfo = getDeviceType();
+                    userProfils = data.result.userProfils;
+                    expertMode = userProfils.expertMode;
+                    var include = [
+                        'core/php/getJS.php?file=core/js/cmd.class.js',
+                        'core/php/getJS.php?file=core/js/eqLogic.class.js',
+                        'core/php/getJS.php?file=core/js/jeedom.class.js',
+                        'core/php/getJS.php?file=core/js/object.class.js',
+                        'core/php/getJS.php?file=core/js/scenario.class.js',
+                        'core/php/getJS.php?file=core/js/plugin.class.js',
+                        'core/php/getJS.php?file=core/js/message.class.js',
+                        'core/php/getJS.php?file=core/js/view.class.js',
+                        'core/php/getJS.php?file=core/js/core.js',
+                    ];
+                    $.include(include, function() {
+                        refreshMessageNumber();
+                        page("home", 'Accueil');
+                    });
+                }
             }
         }
     });
 }
 
+function isConnect() {
+    var unix = Math.round(+new Date() / 1000);
+    if (unix > (lastConnectionCheck + 300)) {
+        initApplication(true);
+    }
+}
+
 function page(_page, _title, _option, _plugin) {
+    isConnect();
     $('.ui-popup').popup('close');
     $('#page').empty();
     var page = 'index.php?v=m&p=' + _page;
