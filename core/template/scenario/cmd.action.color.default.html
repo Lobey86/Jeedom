@@ -1,26 +1,8 @@
 <script type="text/javascript" src="3rdparty/jquery.farbtastic/farbtastic.js" ></script>
 <link rel="stylesheet" href="3rdparty/jquery.farbtastic/farbtastic.css" />
-<input class="expressionAttr form-control input-sm" data-l1key="options" data-l2key="color" value="#color#" data-uid="#uid#" />
+<input type="color" class="expressionAttr form-control input-sm cursor" data-l1key="options" data-l2key="color" value="#color#" data-uid="#uid#" />
 <a class="btn btn-default form-control listEquipementInfo cursor" data-cmd_id="#id#" data-uid="#uid#" style="margin-top : 5px;"><i class="fa fa-list-alt"></i> {{Rechercher équipement}}</a>
-<div class="colorpicker" data-uid="#uid#" style="display : none"></div>
 <script>
-    $(function() {
-        var input = $('input[data-uid=#uid#][data-l1key=options][data-l2key=color]');
-        var div = $('div.colorpicker[data-uid=#uid#]');
-        div.farbtastic(input);
-
-        input.focus(function() {
-            if (!$(this).parent().find('.colorpicker').is(':visible')) {
-                $(this).parent().find('.colorpicker').show();
-            }
-        });
-
-        input.blur(function() {
-            if ($(this).parent().find('.colorpicker').is(':visible')) {
-                $(this).parent().find('.colorpicker').hide();
-            }
-        });
-    });
     $('.listEquipementInfo[data-uid=#uid#]').on('click', function() {
         var el = $(this);
         cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {
