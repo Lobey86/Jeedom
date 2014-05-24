@@ -23,7 +23,7 @@ if (init('id') != '') {
 } else {
     redirect('index.php?v=d&p=view_edit');
 }
-
+include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
 sendVarToJS('view_id', $view->getId());
 ?>
 

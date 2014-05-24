@@ -12,6 +12,7 @@ if (!is_object($object)) {
 if (!is_object($object)) {
     throw new Exception('{{Aucun objet racine trouvé}}');
 }
+include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
 ?>
 
 <div class="row">
@@ -71,7 +72,7 @@ if (!is_object($object)) {
             $margin = 40 * $child->parentNumber();
             echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
             echo '<legend>' . $child->getDisplay('icon') . ' ' . $child->getName() . '</legend>';
-            echo '<div class="div_displayEquipement" style="width: 100%;">';
+            echo '<div class="div_displayEquipement" id="div_ob' . $child->getId() . '" style="width: 100%;">';
             foreach ($child->getEqLogic() as $eqLogic) {
                 if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
                     echo $eqLogic->toHtml('dashboard');
@@ -110,3 +111,5 @@ if (!is_object($object)) {
         ?>
     </div>     
 </div>
+
+<?php include_file('desktop', 'dashboard', 'js'); ?>

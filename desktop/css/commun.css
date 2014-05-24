@@ -40,10 +40,9 @@
 
 .eqLogic-widget{
     padding: 3px;
-    margin: 0 5px 5px;
+    margin: 3px;
     background-color: #2496d4;
     display: inline-block;
-    position : relative;
     vertical-align: top;
     color : white;
 }
@@ -81,12 +80,6 @@
     margin : 0;
     padding: 0;
     line-height:0px;
-}
-
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    .eqLogic-widget {
-        float : left;
-    }
 }
 
 .form-signin {

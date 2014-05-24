@@ -1,3 +1,4 @@
+
 /* This file is part of Jeedom.
  *
  * Jeedom is free software: you can redistribute it and/or modify
@@ -15,13 +16,9 @@
  */
 
 $(function() {
-    var html = view.toHtml(view_id, 'dashboard');
-    $('#div_displayView').empty().html(html);
-
     positionEqLogic();
-
-    $('.eqLogicZone').each(function() {
+    
+    $('.div_displayEquipement').each(function() {
         $(this).masonry({columnWidth: 1});
     });
-
 });
