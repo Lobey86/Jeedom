@@ -47,6 +47,10 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);
     }
 
+    if (init('action') == 'isConnect') {
+        ajax::success();
+    }
+
     if (init('action') == 'logout') {
         logout();
         ajax::success();
