@@ -1,21 +1,15 @@
-<div class="cmd cmd-widget" data-type="action" data-subtype="color" data-cmd_id="#id#" style="min-height: 170px;width: 146px;">
-    <div class="action_colorpicker"></div>
-    <a class="btn btn-xs btn-danger action_colorpicker_off" style="margin-top : 3px;">Off</a>
+<div class="cmd cmd-widget" data-type="action" data-subtype="color" data-cmd_id="#id#" style="width: 146px;">
+    <input class="action_colorpicker_change form-control cursor" type="color" style="display: inline;width: 90px;">
+    <a class="btn btn-black action_colorpicker_off" style="position: relative; top: -1px;">Off</a>
 
     <script>
         $(function() {
-            $.include(['3rdparty/jquery.farbtastic/farbtastic.js', '3rdparty/jquery.farbtastic/farbtastic.css'], function() {
-                $('.cmd[data-cmd_id=#id#] .action_colorpicker').off();
-                if ($('.cmd[data-cmd_id=#id#] .action_colorpicker').length > 0) {
-                    $('.cmd[data-cmd_id=#id#] .action_colorpicker').farbtastic();
-                    $.farbtastic($('.cmd[data-cmd_id=#id#] .action_colorpicker')).setColor(('#state#' != '') ? '#state#' : '#000000');
-                    $('.cmd[data-cmd_id=#id#] .action_colorpicker_off').on('click', function() {
-                        execCmd('#id#', {color: '#000000'});
-                    });
-                    $('.cmd[data-cmd_id=#id#] .action_colorpicker').on('mouseup', function() {
-                        execCmd('#id#', {color: $.farbtastic($(this)).color});
-                    });
-                }
+            $('.cmd[data-cmd_id=#id#] .action_colorpicker_change').value(('#state#' != '') ? '#state#' : '#000000');
+            $('.cmd[data-cmd_id=#id#] .action_colorpicker_off').on('click', function() {
+                execCmd('#id#', {color: '#000000'});
+            });
+            $('.cmd[data-cmd_id=#id#] .action_colorpicker_change').on('change', function() {
+                execCmd('#id#', {color: $(this).value()});
             });
         });
     </script>
