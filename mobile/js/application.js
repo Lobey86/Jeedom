@@ -12,7 +12,6 @@ $(function() {
     $('body').delegate('a.link', 'click', function() {
         modal(false);
         panel(false);
-        $('#panel_left').panel('close');
         page($(this).attr('data-page'), $(this).attr('data-title'), $(this).attr('data-option'), $(this).attr('data-plugin'));
     });
 
@@ -76,8 +75,6 @@ function initApplication(_reinit) {
             if (data.state != 'ok') {
                 modal(false);
                 panel(false);
-                $('#panel_left').panel('close');
-                $('#bt_panel_left').hide();
                 if (data.code == -1234) {
                     if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
                         autoLogin(localStorage.getItem("deviceKey"));
@@ -95,8 +92,6 @@ function initApplication(_reinit) {
                 if (init(_reinit, false) == false) {
                     modal(false);
                     panel(false);
-                    $('#panel_left').panel('close');
-                    $('#bt_panel_left').show();
                     /*************Initialisation environement********************/
                     nodeJsKey = data.result.nodeJsKey;
                     user_id = data.result.user_id;
