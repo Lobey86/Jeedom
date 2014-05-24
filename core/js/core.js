@@ -80,14 +80,10 @@ function execCmd(_id, _value, _cache, _notify) {
                 return;
             }
             if (init(_notify, true)) {
-                if ($.mobile) {
-                    eqLogic.find('.statusCmd').empty().append('<i class="fa fa-rss"></i>');
-                    setTimeout(function() {
-                        eqLogic.find('.statusCmd').empty();
-                    }, 3000);
-                } else {
-                    notify('Commande', '{{La commande a été exécutée avec succès}}', 'gritter-green', true);
-                }
+                eqLogic.find('.statusCmd').empty().append('<i class="fa fa-rss"></i>');
+                setTimeout(function() {
+                    eqLogic.find('.statusCmd').empty();
+                }, 3000);
             }
             retour = data.result;
         }

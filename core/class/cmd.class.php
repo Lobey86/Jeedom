@@ -664,9 +664,9 @@ class cmd {
         );
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
+        $replace['#unite#'] = $this->getUnite();
         switch ($this->getType()) {
             case "info":
-                $replace['#unite#'] = $this->getUnite();
                 $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
                 $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
                 $replace['#state#'] = '';
@@ -731,7 +731,11 @@ class cmd {
             case "action":
                 $cmdValue = $this->getCmdValue();
                 if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
-                    $replace['#state#'] = $cmdValue->execCmd(null, 2);
+                    if ($cmdValue->getEqLogic()->getIsEnable() == 1) {
+                        $replace['#state#'] = $cmdValue->execCmd(null, 2);
+                    } else {
+                        $replace['#state#'] = '';
+                    }
                 } else {
                     if ($this->getLastValue() != null) {
                         $replace['#state#'] = $this->getLastValue();
