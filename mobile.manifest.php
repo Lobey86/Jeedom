@@ -22,14 +22,9 @@ $js_file = array(
     'core/js/message.class.js',
     'core/js/scenario.class.js',
     '3rdparty/jquery.masonry/jquery.masonry.js',
-    '3rdparty/jquery.farbtastic/farbtastic.js',
 );
 
 $other_file = array(
-    'mobile/css/farbtastic.css',
-    'mobile/css/marker.png',
-    'mobile/css/mask.png',
-    'mobile/css/wheel.png',
     '3rdparty/jquery.mobile/jquery.mobile.css',
     '3rdparty/font-awesome/css/font-awesome.min.css',
     'core/css/core.css',
