@@ -124,7 +124,7 @@ function initApplication(_reinit) {
     });
 }
 
-function isConnect() {
+function testConnection() {
     var unix = Math.round(+new Date() / 1000);
     if (unix > (lastConnectionCheck + 300)) {
         initApplication(true);
@@ -132,7 +132,7 @@ function isConnect() {
 }
 
 function page(_page, _title, _option, _plugin) {
-    isConnect();
+    testConnection();
     $('.ui-popup').popup('close');
     $('#page').empty();
     var page = 'index.php?v=m&p=' + _page;
