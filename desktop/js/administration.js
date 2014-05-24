@@ -606,8 +606,7 @@ function addConvertColor(_color, _html) {
     tr += '<input class="color form-control input-sm" value="' + init(_color) + '"/>';
     tr += '</td>';
     tr += '<td>';
-    tr += '<input class="html form-control input-sm" value="' + init(_html) + '" />';
-    tr += '<div class="colorpicker" style="display : none"></div>';
+    tr += '<input type="color" class="html form-control input-sm" value="' + init(_html) + '" />';
     tr += '</td>';
     tr += '</tr>';
     $('#table_convertColor tbody').append(tr);

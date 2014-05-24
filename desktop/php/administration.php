@@ -2,8 +2,6 @@
 if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-include_file('3rdparty', 'jquery.farbtastic/farbtastic', 'js');
-include_file('3rdparty', 'jquery.farbtastic/farbtastic', 'css');
 sendVarToJS('tab', init('tab'));
 sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
 ?>
