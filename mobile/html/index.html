@@ -56,17 +56,6 @@
         <!-- page -->
         <div data-role="page" id="pagecontainer">
             <!-- panel -->
-            <div data-role="panel" id="panel_left" data-position="left" data-display="overlay" data-animate="false" data-theme="a" data-rel="close">
-                <ul data-role="listview">
-                    <li><a href="#" class="link" data-page="home" data-title="{{Accueil}}" data-theme="a"><i class="fa fa-home"></i> {{Accueil}}</a></li>
-                    <li><a href="#" class="link" data-page="equipment" data-title="{{Equipement}}" data-theme="a"><i class="fa fa fa-tachometer" ></i> {{Equipements}}</a></li>
-                    <li><a href="#" class="link" data-page="scenario" data-title="{{Scénarios}}" data-theme="a"><i class="fa fa-cogs"></i> {{Scénario}}</a></li>
-                    <li><a href="#" class="link" data-page="view" data-title="{{Vues}}" data-theme="a"><i class="fa fa-picture-o"></i> {{Vues}}</a></li>
-                    <li><a href="#" class="link" data-page="message" data-title="{{Message}}" data-theme="a"><i class="fa fa-envelope"></i> <span class="span_nbMessage"></span> {{Message(s)}}</a></li>
-                    <li><a href="#" class="link expertModeHidden" data-page="cron" data-title="{{Cron}}" data-theme="a"><i class="fa fa-tasks"></i> {{Cron}}</a></li>
-                    <li><a href="#" data-theme="a" id="bt_logout"><i class="fa fa-sign-out"></i> {{Se deconnecter}}</a></li>
-                </ul>
-            </div>
             <div data-role="panel" id="panel_right" data-position="right" data-display="overlay" data-animate="false" data-theme="a" data-rel="close"></div>
             <!-- /panel -->
             <!-- popup -->
@@ -76,7 +65,7 @@
             <!-- header -->
             <div data-role="header" data-position="fixed">
                 <h1 id="pageTitle"></h1>
-                <a href="#panel_left" id="bt_panel_left" data-icon="bars" data-iconpos="notext">{{Menu}}</a>
+                <a class="link" data-page="home" data-title="{{Accueil}}" data-icon="home" data-iconpos="notext">{{Menu}}</a>
                 <a href="#panel_right" id="bt_panel_right" data-icon="gear" data-iconpos="notext">{{Options}}</a>
             </div>
             <!-- /header -->

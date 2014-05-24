@@ -1,7 +1,7 @@
 <div class="ui-grid-a">
     <div class="ui-block-a">
         <center>
-            <a href="#equipmentMenu" data-rel="popup" data-transition="none" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
+            <a href="#equipmentMenu" data-rel="popup" data-transition="none" data-position-to="window" class="ui-btn ui-btn-a" style="margin: 5px;">
                 <i class="fa fa fa-tachometer" style="font-size: 6em;"></i><br/>{{Equipements}}
             </a>
             <div data-role="popup" id="equipmentMenu" data-theme="b">
@@ -13,7 +13,7 @@
 
     <div class="ui-block-b">
         <center>
-            <a href="#" class="link" data-page="scenario" data-title="{{Scénarios}}" data-role="button" data-theme="a" style="margin: 5px;">
+            <a href="#" class="link ui-btn ui-btn-a" data-page="scenario" data-title="{{Scénarios}}" data-role="button" style="margin: 5px;">
                 <i class="fa fa-cogs" style="font-size: 6em;"></i><br/>{{Scénario}}
             </a>
         </center>
@@ -21,7 +21,7 @@
 
     <div class="ui-block-a">
         <center>
-            <a href="#viewMenu" data-rel="popup" data-transition="none" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
+            <a href="#viewMenu" data-rel="popup" data-transition="none" data-position-to="window" class="ui-btn ui-btn-a" style="margin: 5px;">
                 <i class="fa fa-picture-o" style="font-size: 6em;"></i><br/>{{Vues}}
             </a>
             <div data-role="popup" id="viewMenu" data-theme="b">
@@ -33,7 +33,7 @@
 
     <div class="ui-block-b">
         <center>
-            <a href="#" class="link" data-page="message" data-title="{{Messages}}" data-role="button" data-theme="a" style="margin: 5px;">
+            <a href="#" class="link ui-btn ui-btn-a" data-page="message" data-title="{{Messages}}" data-role="button" data-theme="a" style="margin: 5px;">
                 <i class="fa fa-envelope-o" style="font-size: 6em;"></i><br/><span class="span_nbMessage"></span> {{Message(s)}}
             </a>
         </center>
@@ -41,7 +41,7 @@
 
     <div class="ui-block-a">
         <center>
-            <a href="#pluginMenu" data-rel="popup" data-transition="none" data-position-to="window" id="bt_listPlugin" class="ui-btn ui-corner-all ui-shadow ui-btn-a" style="margin: 5px;">
+            <a href="#pluginMenu" data-rel="popup" data-transition="none" data-position-to="window" id="bt_listPlugin" class="ui-btn ui-btn-a" style="margin: 5px;">
                 <i class="fa fa-tasks" style="font-size: 6em;"></i><br/>{{Plugins}}
             </a>
             <div data-role="popup" id="pluginMenu" data-theme="b">
@@ -50,6 +50,14 @@
                     <li><a href="#">Aucun plugin</a></li>
                 </ul>
             </div>
+        </center>
+    </div>
+
+    <div class="ui-block-b">
+        <center>
+            <a href="#" id="bt_logout" class="link ui-btn ui-btn-a" data-role="button" data-theme="a" style="margin: 5px;">
+                <i class="fa fa-sign-out" style="font-size: 6em;"></i><br/>{{Déconnection}}
+            </a>
         </center>
     </div>
 </div>
