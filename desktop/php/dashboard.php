@@ -37,7 +37,7 @@ if (!is_object($object)) {
         </div>
     </div>
 
-    <div class="col-sm-8">
+    <div class="col-sm-8" id="div_displayObject">
         <div style="position: fixed;width: 100%;z-index: 1029;top : 51px;left : 35%">
             <div class="btn-group tooltips" title="{{Filtre sur les catégories d'équipement}}">
                 <?php
