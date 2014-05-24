@@ -348,29 +348,34 @@ function chooseIcon(callback) {
 }
 
 
-function positionEqLogic() {
+function positionEqLogic(_id) {
     var pas = 40;
     $('.eqLogic-widget').each(function() {
-        var eqLogic = $(this)
-        var maxHeight = 0;
-        eqLogic.find('.cmd-widget').each(function() {
-            if ($(this).height() > maxHeight) {
-                maxHeight = $(this).height();
+        if (init(_id, '') == '' || $(this).attr('data-eqLogic_id') == _id) {
+            var eqLogic = $(this)
+            var maxHeight = 0;
+            eqLogic.find('.cmd-widget').each(function() {
+                if ($(this).height() > maxHeight) {
+                    maxHeight = $(this).height();
+                }
+                var statistiques = $(this).find('.statistiques');
+                if (statistiques != undefined) {
+                    var left = ($(this).width() - statistiques.width()) / 2;
+                    statistiques.css('left', left);
+                }
+            });
+            eqLogic.find('.cmd-widget').height(maxHeight);
+            var hMarge = (Math.ceil(eqLogic.height() / pas) - 1) * 6;
+            var wMarge = 0;
+            eqLogic.height((Math.ceil((eqLogic.height() - 6) / pas) * pas) - 6 + hMarge);
+            eqLogic.width((Math.ceil((eqLogic.width() - wMarge) / pas) * pas) - 6 + wMarge);
+
+            var verticalAlign = eqLogic.find('.verticalAlign');
+            if (count(verticalAlign) > 0 && verticalAlign != undefined) {
+                verticalAlign.css('position', 'relative');
+                verticalAlign.css('top', ((eqLogic.height() - verticalAlign.height()) / 2) - 20);
+                verticalAlign.css('left', (eqLogic.width() - verticalAlign.width()) / 2);
             }
-            var statistiques = $(this).find('.statistiques');
-            if (statistiques != undefined) {
-                var left = ($(this).width() - statistiques.width()) / 2;
-                statistiques.css('left', left);
-            }
-        });
-        eqLogic.find('.cmd-widget').height(maxHeight);
-        eqLogic.height((Math.ceil(eqLogic.height() / pas) * pas) - 6);
-        eqLogic.width((Math.ceil(eqLogic.width() / pas) * pas) - 6);
-        var verticalAlign = eqLogic.find('.verticalAlign');
-        if (count(verticalAlign) > 0 && verticalAlign != undefined) {
-            verticalAlign.css('position', 'relative');
-            verticalAlign.css('top', ((eqLogic.height() - verticalAlign.height()) / 2) - 20);
-            verticalAlign.css('left', (eqLogic.width() - verticalAlign.width()) / 2);
         }
     });
 

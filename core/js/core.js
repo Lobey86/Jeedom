@@ -295,7 +295,7 @@ function refreshCmdValue(_cmd_id) {
                 if ($.mobile) {
                     $('.cmd[data-cmd_id=' + _cmd_id + ']').trigger("create");
                 } else {
-                    positionEqLogic();
+                   // positionEqLogic($('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-eqLogic_id'));
                 }
             }
         });
