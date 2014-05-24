@@ -366,9 +366,9 @@ function positionEqLogic(_id) {
             });
             eqLogic.find('.cmd-widget').height(maxHeight);
             var hMarge = (Math.ceil(eqLogic.height() / pas) - 1) * 6;
-            var wMarge = 0;
-            eqLogic.height((Math.ceil((eqLogic.height() - 6) / pas) * pas) - 6 + hMarge);
-            eqLogic.width((Math.ceil((eqLogic.width() - wMarge) / pas) * pas) - 6 + wMarge);
+            var wMarge = (Math.ceil(eqLogic.width() / pas) - 1) * 6;
+            eqLogic.height((Math.ceil((eqLogic.height()) / pas) * pas) - 6 + hMarge);
+            eqLogic.width((Math.ceil((eqLogic.width()) / pas) * pas) - 6 + wMarge);
 
             var verticalAlign = eqLogic.find('.verticalAlign');
             if (count(verticalAlign) > 0 && verticalAlign != undefined) {
