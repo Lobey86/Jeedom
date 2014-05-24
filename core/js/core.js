@@ -69,14 +69,10 @@ function execCmd(_id, _value, _cache, _notify) {
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                if ($.mobile) {
-                    eqLogic.find('.statusCmd').empty().append('<i class="fa fa-times"></i>');
-                    setTimeout(function() {
-                        eqLogic.find('.statusCmd').empty();
-                    }, 3000);
-                } else {
-                    notify('Commande', data.result, 'gritter-red');
-                }
+                eqLogic.find('.statusCmd').empty().append('<i class="fa fa-times"></i>');
+                setTimeout(function() {
+                    eqLogic.find('.statusCmd').empty();
+                }, 3000);
                 return;
             }
             if (init(_notify, true)) {
@@ -299,7 +295,7 @@ function refreshCmdValue(_cmd_id) {
                 if ($.mobile) {
                     $('.cmd[data-cmd_id=' + _cmd_id + ']').trigger("create");
                 } else {
-                  //  positionEqLogic($('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-eqLogic_id'));
+                    positionEqLogic();
                 }
             }
         });
