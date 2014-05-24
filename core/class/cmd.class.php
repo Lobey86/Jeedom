@@ -664,9 +664,9 @@ class cmd {
         );
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
+        $replace['#unite#'] = $this->getUnite();
         switch ($this->getType()) {
             case "info":
-                $replace['#unite#'] = $this->getUnite();
                 $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
                 $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
                 $replace['#state#'] = '';
