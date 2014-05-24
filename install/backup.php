@@ -42,34 +42,46 @@ try {
     if (!file_exists($tmp)) {
         mkdir($tmp, 0770, true);
     }
-    if (substr(config::byKey('backup::path'), 0, 1) != '/') {
-        $backup_dir = dirname(__FILE__) . '/../' . config::byKey('backup::path');
-    } else {
-        $backup_dir = config::byKey('backup::path');
-    }
+    $backup_dir = calculPath(config::byKey('backup::path'));
+
     if (!file_exists($backup_dir)) {
         mkdir($backup_dir, 0770, true);
     }
     $bakcup_name = 'backup-' . date("d-m-Y-H\hi") . '.tar.gz';
 
-    echo __('Sauvegarde des fichiers : ', __FILE__);
+    echo __('Sauvegarde des fichiers...', __FILE__);
     rcopy(dirname(__FILE__) . '/..', $tmp, true, array('tmp', 'backup', 'log'));
     echo __("OK\n", __FILE__);
 
-    echo __('Sauvegarde de la base de données : ', __FILE__);
+    if (!file_exists($tmp . '/plugin_backup')) {
+        mkdir($tmp . '/plugin_backup', 0770, true);
+    }
+    foreach (plugin::listPlugin(true) as $plugin) {
+        $plugin_id = $plugin->getId();
+        if (method_exists($plugin_id, 'backup')) {
+            echo __('Sauvegarde spécifique pour le plugin...' . $plugin_id . '...', __FILE__);
+            if (!file_exists($tmp . '/plugin_backup/' . $plugin_id)) {
+                mkdir($tmp . '/plugin_backup/' . $plugin_id, 0770, true);
+            }
+            $plugin_id::backup($tmp . '/plugin_backup/' . $plugin_id);
+            echo __("OK\n", __FILE__);
+        }
+    }
+
+    echo __('Sauvegarde de la base de données...', __FILE__);
     system("mysqldump --host=" . $CONFIG['db']['host'] . " --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'] . "  > " . $tmp . "/DB_backup.sql");
     echo __("OK\n", __FILE__);
 
-    echo __('Création de l\'archive : ', __FILE__);
+    echo __('Création de l\'archive...', __FILE__);
     system('cd ' . $tmp . '; tar cfz ' . $backup_dir . '/' . $bakcup_name . ' * > /dev/null 2>&1');
     echo __("OK\n", __FILE__);
 
-    echo __('Nettoyage des anciens backup : ', __FILE__);
+    echo __('Nettoyage des anciens backup...', __FILE__);
     system('find ' . $backup_dir . ' -mtime +' . config::byKey('backup::keepDays') . ' -print | xargs -r rm');
     echo __("OK\n", __FILE__);
 
     if (config::byKey('backup::cloudUpload') == 1) {
-        echo __('Envoie de la sauvegarde dans le cloud : ', __FILE__);
+        echo __('Envoie de la sauvegarde dans le cloud...', __FILE__);
         try {
             market::sendBackup($backup_dir . '/' . $bakcup_name);
         } catch (Exception $e) {

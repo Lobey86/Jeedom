@@ -61,7 +61,7 @@ try {
     }
 
     if (!file_exists($backup)) {
-        throw new Exception(__('Backup non trouvé : ', __FILE__) . $backup);
+        throw new Exception(__('Backup non trouvé.', __FILE__) . $backup);
     }
 
     echo __("Restauration de Jeedom avec le fichier : ", __FILE__) . $backup . "\n";
@@ -72,18 +72,29 @@ try {
     if (!file_exists($tmp)) {
         mkdir($tmp, 0770, true);
     }
-    echo __("Décompression du backup : ", __FILE__);
+    echo __("Décompression du backup...", __FILE__);
     system('cd ' . $tmp . '; tar xfz ' . $backup . ' ');
     echo "OK\n";
 
     jeedom::stop();
-    echo __("Reastauration de la base de données : ", __FILE__);
+    echo __("Reastauration de la base de données...", __FILE__);
     system("mysql --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'] . "  < " . $tmp . "/DB_backup.sql");
     echo "OK\n";
 
-    echo __("Reastauration des fichiers : ", __FILE__);
+    echo __("Reastauration des fichiers...", __FILE__);
     rcopy($tmp, dirname(__FILE__) . '/..', false);
     echo __("OK\n", __FILE__);
+
+    foreach (plugin::listPlugin(true) as $plugin) {
+        $plugin_id = $plugin->getId();
+        if (method_exists($plugin_id, 'restore')) {
+            echo __('Restauration spécifique du plugin...' . $plugin_id . '...', __FILE__);
+            if (file_exists($tmp . '/plugin_backup/' . $plugin_id)) {
+                $plugin_id::restore($tmp . '/plugin_backup/' . $plugin_id);
+            }
+            echo __("OK\n", __FILE__);
+        }
+    }
 
     jeedom::start();
     echo __("***************Fin de la restoration de Jeedom***************\n", __FILE__);
