@@ -5,7 +5,7 @@ if (!isConnect('admin')) {
 ?>
 <div class="row">
     <div class="col-sm-8">
-        <a class="btn btn-warning pull-right" id="bt_checkAllUpdate"><i class="fa fa-refresh"></i> Verifier les mises à jour</a>
+        <a class="btn btn-warning pull-right" id="bt_checkAllUpdate"><i class="fa fa-refresh"></i> Verifier les objets et mises à jour</a>
         <a class="btn btn-default pull-right" id="bt_updateAll"><i class="fa fa-check"></i> Mettre à jour tous les plugins</a>
         <a class="btn btn-primary pull-right" id="bt_updateCore"><i class="fa fa-check"></i> Mettre à jour Jeedom</a><br/><br/>
         <table class="table table-condensed table-bordered tablesorter tablefixheader" id="table_update" style="margin-top: 5px;">

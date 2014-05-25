@@ -289,7 +289,7 @@ function addUpdate(_update) {
             tr += '<a class="btn btn-success btn-xs pull-right changeState expertModeHidden tooltips" data-state="unhold" style="color : white;"> title="{{Débloquer}}"<i class="fa fa-unlock"></i></a>';
         }
         if (isset(_update.configuration) && isset(_update.configuration.market_owner) && _update.configuration.market_owner == 1) {
-            tr += '<a class="btn btn-success btn-xs pull-right sendToMarket tooltips cursor" style="color : white;" title="{{Envoyer sur le market}}"><i class="fa fa-cloud-upload"></i></a>';
+            tr += '<a class="btn btn-success btn-xs pull-right sendToMarket tooltips cursor expertModeHidden" style="color : white;" title="{{Envoyer sur le market}}"><i class="fa fa-cloud-upload"></i></a>';
         }
         if (isset(_update.configuration) && isset(_update.configuration.market) && _update.configuration.market == 1) {
             tr += '<a class="btn btn-primary btn-xs pull-right view tooltips cursor" style="color : white;" title="{{Voir}}"><i class="fa fa-search"></i></a>';
