@@ -66,6 +66,16 @@ $(function() {
         });
     });
 
+    $('#table_update').delegate('.view', 'click', function() {
+        $('#md_modal').dialog({title: "Market"});
+        $('#md_modal').load('index.php?v=d&modal=market.display&type=' + $(this).closest('tr').attr('data-type') + '&logicalId=' + encodeURI($(this).closest('tr').attr('data-logicalId'))).dialog('open');
+    });
+
+    $('#table_update').delegate('.sendToMarket', 'click', function() {
+        $('#md_modal').dialog({title: "Partager sur le market"});
+        $('#md_modal').load('index.php?v=d&modal=market.send&type=' + $(this).closest('tr').attr('data-type') + '&logicalId=' + encodeURI($(this).closest('tr').attr('data-logicalId')) + '&name=' + encodeURI($(this).closest('tr').attr('data-logicalId'))).dialog('open');
+    });
+
     $('#bt_expertMode').on('click', function() {
         printUpdate();
     });
@@ -260,13 +270,17 @@ function addUpdate(_update) {
             return;
         }
     }
-    var tr = '<tr data-id="' + init(_update.id) + '">';
+    var tr = '<tr data-id="' + init(_update.id) + '" data-logicalId="' + init(_update.logicalId) + '" data-type="' + init(_update.type) + '">';
     tr += '<td><span class="updateAttr" data-l1key="type"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="name"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="localVersion"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="remoteVersion"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="status"></span></td>';
     tr += '<td>';
+    if (_update.status == 'update') {
+        tr += '<a class="btn btn-info btn-xs pull-right update tooltips" style="color : white;" title="{{Mettre à jour}}"><i class="fa fa-refresh"></i></a>';
+    }
+
     if (_update.type != 'core') {
         tr += '<a class="btn btn-danger btn-xs pull-right remove expertModeHidden tooltips" data-state="unhold" style="color : white;" title="{{Supprimer}}"><i class="fa fa-trash-o"></i></a>';
         if (_update.status != 'hold') {
@@ -274,10 +288,14 @@ function addUpdate(_update) {
         } else {
             tr += '<a class="btn btn-success btn-xs pull-right changeState expertModeHidden tooltips" data-state="unhold" style="color : white;"> title="{{Débloquer}}"<i class="fa fa-unlock"></i></a>';
         }
+        if (isset(_update.configuration) && isset(_update.configuration.market_owner) && _update.configuration.market_owner == 1) {
+            tr += '<a class="btn btn-success btn-xs pull-right sendToMarket tooltips cursor" style="color : white;" title="{{Envoyer sur le market}}"><i class="fa fa-cloud-upload"></i></a>';
+        }
+        if (isset(_update.configuration) && isset(_update.configuration.market) && _update.configuration.market == 1) {
+            tr += '<a class="btn btn-primary btn-xs pull-right view tooltips cursor" style="color : white;" title="{{Voir}}"><i class="fa fa-search"></i></a>';
+        }
     }
-    if (_update.status == 'update') {
-        tr += '<a class="btn btn-info btn-xs pull-right update tooltips" style="color : white;" title="{{Mettre à jour}}"><i class="fa fa-refresh"></i></a>';
-    }
+
     tr += '</td>';
     tr += '</tr>';
     $('#table_update').append(tr);

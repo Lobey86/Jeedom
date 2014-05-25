@@ -29,5 +29,4 @@ if (!isConnect('admin')) {
     </div>
 </div>
 
-
 <?php include_file('desktop', 'update', 'js'); ?>

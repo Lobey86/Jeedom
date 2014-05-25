@@ -242,19 +242,10 @@ class market {
             if (is_object($update)) {
                 $updateDateTime = $update->getLocalVersion();
             }
-
-
             if ($market->getStatus() == 'Refusé') {
                 $return['status'] = 'depreciated';
             }
-            if ($market->getStatus() == 'A valider') {
-                if ($updateDateTime < $market->getDatetime()) {
-                    $return['status'] = 'update';
-                } else {
-                    $return['status'] = 'ok';
-                }
-            }
-            if ($market->getStatus() == 'Validé') {
+            if ($market->getStatus() == 'Validé' || $market->getStatus() == 'A valider') {
                 if ($updateDateTime < $market->getDatetime()) {
                     $return['status'] = 'update';
                 } else {
@@ -263,10 +254,8 @@ class market {
             }
         } catch (Exception $e) {
             log::add('market', 'debug', __('Erreur market::getinfo : ', __FILE__) . $e->getMessage());
-            cache::set('market::info::' . $_logicalId, json_encode($return), 3600);
             $return['status'] = 'ok';
         }
-        cache::set('market::info::' . $_logicalId, json_encode($return), 3600);
         return $return;
     }
 

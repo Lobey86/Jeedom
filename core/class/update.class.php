@@ -165,8 +165,14 @@ class update {
             try {
                 $market = market::byLogicalId($this->getLogicalId());
                 $this->setRemoteVersion($market->getDatetime());
-                $market_info = market::getInfo($market->getLogicalId());
+            } catch (Exception $ex) {
+                $this->setRemoteVersion(__('Aucune', __FILE__));
+            }
+            try {
+                $market_info = market::getInfo($this->getLogicalId());
                 $this->setStatus($market_info['status']);
+                $this->setConfiguration('market_owner', $market_info['market_owner']);
+                $this->setConfiguration('market', $market_info['market']);
                 $this->save();
             } catch (Exception $ex) {
                 
@@ -215,9 +221,13 @@ class update {
         if ($this->getType() == 'core') {
             throw new Exception('Vous ne pouvez supprimer le core de Jeedom');
         } else {
-            $market = market::byLogicalId($this->getLogicalId());
-            if (is_object($market)) {
-                $market->remove();
+            try {
+                $market = market::byLogicalId($this->getLogicalId());
+                if (is_object($market)) {
+                    $market->remove();
+                }
+            } catch (Exception $e) {
+                
             }
             $this->remove();
         }
