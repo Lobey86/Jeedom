@@ -58,12 +58,12 @@ sendVarToJS('select_id', init('id', '-1'));
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">{{Icone}}</label>
+                    <label class="col-sm-1 control-label">{{Icône}}</label>
                     <div class="col-sm-2">
                         <div class="objectAttr" data-l1key="display" data-l2key="icon" ></div>
                     </div>
                     <div class="col-sm-2">
-                        <a class="btn btn-default btn-sm" id="bt_chooseIcon">{{Choissir une icone}}</a>
+                        <a class="btn btn-default btn-sm" id="bt_chooseIcon">{{Choisir une icône}}</a>
                     </div>
                 </div>
             </fieldset>

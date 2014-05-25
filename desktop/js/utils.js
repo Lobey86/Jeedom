@@ -319,13 +319,13 @@ jQuery.fn.findAtDepth = function(selector, maxDepth) {
 
 function chooseIcon(callback) {
     if ($("#mod_selectIcon").length == 0) {
-        $('body').append('<div id="mod_selectIcon" title="{{Choisissez votre icone}}" ></div>');
+        $('body').append('<div id="mod_selectIcon" title="{{Choisissez votre icône}}" ></div>');
 
         $("#mod_selectIcon").dialog({
             autoOpen: false,
             modal: true,
-            height: 600,
-            width: 800
+            height: 700,
+            width: 1100
         });
         jQuery.ajaxSetup({async: false});
         $('#mod_selectIcon').load('index.php?v=d&modal=icon.selector');
