@@ -35,6 +35,7 @@ class update {
 
     public static function checkAllUpdate() {
         $findCore = false;
+        self::findNewUpdateObject();
         foreach (self::all() as $update) {
             if ($update->getStatus() != 'hold') {
                 $update->checkUpdate();
@@ -146,6 +147,24 @@ class update {
                 WHERE `status`="update"';
         $result = DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
         return $result['count(*)'];
+    }
+
+    public static function findNewUpdateObject() {
+        foreach (plugin::listPlugin(true) as $plugin) {
+            $plugin_id = $plugin->getId();
+            if (method_exists($plugin_id, 'listMarketObject')) {
+                foreach ($plugin_id::listMarketObject() as $logical_id) {
+                    $update = self::byTypeAndLogicalId($plugin_id, $logical_id);
+                    if (!is_object($update)) {
+                        $update = new update();
+                        $update->setLogicalId($logical_id);
+                        $update->setType($plugin_id);
+                        $update->setLocalVersion(date('Y-m-d H:i:s'));
+                        $update->save();
+                    }
+                }
+            }
+        }
     }
 
     /*     * *********************Methode d'instance************************* */
