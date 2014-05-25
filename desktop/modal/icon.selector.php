@@ -8,9 +8,9 @@ include_file('core', 'js.inc', 'php');
 <style>
     .iconSel{
         float: left;
-        width: 7%;
+        width: 5%;
         float: left;
-        height: 50px;
+        height: 30px;
         padding: 10px;
         line-height: 1.4;
         text-align: center;
@@ -18,15 +18,15 @@ include_file('core', 'js.inc', 'php');
         box-sizing: border-box;
         display: list-item;
         list-style: none;
-        font-size: 2em;
+        font-size: 1.2em;
     }
-    
+
     .iconSelected{
         background-color: #563d7c;
         color: white;
     }
 </style>
-
+<legend>{{Générale}}</legend>
 <li class="iconSel"><i class="fa fa-glass"></i></li>
 <li class="iconSel"><i class="fa fa-music"></i></li>
 <li class="iconSel"><i class="fa fa-search"></i></li>
@@ -196,6 +196,20 @@ include_file('core', 'js.inc', 'php');
 <li class="iconSel"><i class="fa fa-pagelines"></i></li>
 <li class="iconSel"><i class="fa fa-wheelchair"></i></li>
 
+<?php
+foreach (ls('core/img/icon', '*.svg') as $file) {
+    echo '<li class="iconSel"><img src="core/img/icon/' . $file . '" height="20" width="20" /></li>';
+}
+
+foreach (ls('core/img/icon', '*') as $dir) {
+    if (is_dir($dir)) {
+        echo '<legend>{{' . $dir . '}}</legend>';
+        foreach (ls('core/img/icon/' . $dir, '*.svg') as $file) {
+            echo '<li class="iconSel"><img src="core/img/icon/' . $dir . '/' . $file . '" height="20" width="20" /></li>';
+        }
+    }
+}
+?>
 
 <script>
     $('.iconSel').on('click', function() {
