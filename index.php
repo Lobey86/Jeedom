@@ -49,9 +49,13 @@ if (!isset($_GET['v'])) {
                 }
                 include_file('desktop', init('modal'), 'modal', init('plugin'));
             } catch (Exception $e) {
+                $_folder = 'desktop/modal';
+                if (init('plugin') != '') {
+                    $_folder = 'plugins/' . init('plugin') . '/' . $_folder;
+                }
                 ob_end_clean(); //Clean pile after expetion (to prevent no-traduction)
                 echo '<div class="alert alert-danger div_alert">';
-                echo displayExeption($e);
+                echo translate::exec(displayExeption($e), $_folder . '/' . init('modal') . '.php');
                 echo '</div>';
             }
         } else {
