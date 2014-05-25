@@ -204,6 +204,13 @@ try {
                 $curentVersion = $nextVersion;
             }
         }
+        try {
+            echo __("Vérification de la mise à jour...", __FILE__);
+            update::checkAllUpdate('core');
+            echo __("OK\n", __FILE__);
+        } catch (Exception $ex) {
+            echo __("***ERREUR*** ", __FILE__) . $e->getMessage() . "\n";
+        }
         jeedom::start();
         echo __("***************Jeedom est à jour en version ", __FILE__) . getVersion('jeedom') . "***************\n";
     } else {

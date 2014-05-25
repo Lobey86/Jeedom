@@ -33,11 +33,11 @@ class update {
 
     /*     * ***********************Methode static*************************** */
 
-    public static function checkAllUpdate() {
+    public static function checkAllUpdate($_filter = '') {
         $findCore = false;
         self::findNewUpdateObject();
         foreach (self::all() as $update) {
-            if ($update->getStatus() != 'hold') {
+            if ($update->getStatus() != 'hold' && ($_filter == '' || $_filter == $update->getType() )) {
                 $update->checkUpdate();
             }
             if ($update->getType() == 'core') {
