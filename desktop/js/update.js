@@ -278,7 +278,7 @@ function addUpdate(_update) {
     tr += '<td><span class="updateAttr" data-l1key="status"></span></td>';
     tr += '<td>';
     if (_update.status == 'update') {
-        tr += '<a class="btn btn-info btn-xs pull-right update tooltips" style="color : white;" title="{{Mettre à jour}}"><i class="fa fa-refresh"></i></a>';
+        tr += '<a class="btn btn-info btn-xs pull-right update tooltips" style="color : white;" title="{{Mettre à jour}}"><i class="fa fa-refresh"></i> Metrre à jour</a>';
     }
 
     if (_update.type != 'core') {
