@@ -17,10 +17,6 @@
 .alert-success {
     border-left: 5px solid #94C680;
 }
-.btn{
-    border: none;
-    border-radius : 0px;
-}
 
 .btn-black {
     color:white;
