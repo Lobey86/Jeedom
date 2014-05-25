@@ -8,7 +8,7 @@ include_file('core', 'js.inc', 'php');
 <style>
     .iconSel{
         float: left;
-        width: 5%;
+        width: 7%;
         float: left;
         height: 30px;
         padding: 10px;
@@ -202,11 +202,12 @@ foreach (ls('core/img/icon', '*.svg') as $file) {
 }
 
 foreach (ls('core/img/icon', '*') as $dir) {
-    if (is_dir($dir)) {
-        echo '<legend>{{' . $dir . '}}</legend>';
+    if (is_dir('core/img/icon/' . $dir)) {
+        echo '<div><legend style="margin-bottom: 0px">{{' . str_replace('/', '', $dir) . '}}</legend>';
         foreach (ls('core/img/icon/' . $dir, '*.svg') as $file) {
             echo '<li class="iconSel"><img src="core/img/icon/' . $dir . '/' . $file . '" height="20" width="20" /></li>';
         }
+        echo "</div></br/></br/></br/></br/>";
     }
 }
 ?>
