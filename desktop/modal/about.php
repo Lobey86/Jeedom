@@ -3,20 +3,23 @@ if (!isConnect()) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
 ?>
-<h3>{{Auteur(s)}}</h3>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-4">
+        <h3>{{Auteur(s)}}</h3>
         <lu>
-            <li><a class="cursor" href="http://blog.darkserver.fr/" style="color:blue;" target="_blank">Loïc Gevrey</a></li>
+            <li><a class="cursor" href="http://jeedom.fr/" style="color:blue;" target="_blank">Loïc Gevrey</a></li>
         </lu>
     </div>
-</div>
-
-<h3>{{Traducteur(s)}}</h3>
-<div class="row">
-    <div class="col-md-12">
+    <div class="col-md-4">
+        <h3>{{Traducteur(s)}}</h3>
         <lu>
-            <li><a class="cursor" href="#" target="_blank">Marie Corbière (US)</a></li>
+            <li>Marie Corbière (US)</li>
+        </lu>
+    </div>
+    <div class="col-md-4">
+        <h3>{{Correcteur(s)}}</h3>
+        <lu>
+            <li>Marie Corbière</li>
         </lu>
     </div>
 </div>
