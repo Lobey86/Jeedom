@@ -68,6 +68,7 @@ $plugins_list = plugin::listPlugin(true, true);
 
         <?php
         include_file('3rdparty', 'font-awesome/css/font-awesome', 'css');
+        include_file('core', 'icomoon/icomoon', 'css');
         include_file('desktop', 'commun', 'css');
         include_file('core', 'core', 'css');
         include_file('3rdparty', 'jquery.gritter/jquery.gritter', 'css');

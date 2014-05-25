@@ -1,0 +1,76 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('icomoon.eot?7swvcs');
+	src:url('icomoon.eot?#iefix7swvcs') format('embedded-opentype'),
+		url('icomoon.woff?7swvcs') format('woff'),
+		url('icomoon.ttf?7swvcs') format('truetype'),
+		url('icomoon.svg?7swvcs#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-volet-ouvert-blanc:before {
+	content: "\e600";
+}
+.icon-volet-ferme-blanc:before {
+	content: "\e601";
+}
+.icon-thermometre-blanc:before {
+	content: "\e602";
+}
+.icon-thermo-moyen-blanc:before {
+	content: "\e603";
+}
+.icon-thermo-froid-blanc:before {
+	content: "\e604";
+}
+.icon-thermo-chaud-blanc:before {
+	content: "\e605";
+}
+.icon-porte-ouverte-blanc:before {
+	content: "\e606";
+}
+.icon-porte-ferme-blanc:before {
+	content: "\e607";
+}
+.icon-on-blanc:before {
+	content: "\e608";
+}
+.icon-off-blanc:before {
+	content: "\e609";
+}
+.icon-no-bell-blanc:before {
+	content: "\e60a";
+}
+.icon-lumiere-on-blanc:before {
+	content: "\e60b";
+}
+.icon-lumiere-off-blanc:before {
+	content: "\e60c";
+}
+.icon-fenetre-ouverte-blanc:before {
+	content: "\e60d";
+}
+.icon-fenetre-ferme-blanc:before {
+	content: "\e60e";
+}
+.icon-choc-blanc:before {
+	content: "\e60f";
+}
+.icon-bell-blanc:before {
+	content: "\e610";
+}
