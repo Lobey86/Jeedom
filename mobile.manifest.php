@@ -27,6 +27,7 @@ $js_file = array(
 $other_file = array(
     '3rdparty/jquery.mobile/jquery.mobile.css',
     '3rdparty/font-awesome/css/font-awesome.min.css',
+    'core/css/icomoon/icomoon.css',
     'core/css/core.css',
     '3rdparty/jquery.loading/jquery.loading.css',
     'mobile/css/commun.css',
