@@ -149,22 +149,26 @@ $plugins_list = plugin::listPlugin(true, true);
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> {{Plugins}} <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <?php
-                                            foreach ($plugins_list as $category_name => $category) {
-                                                $icon = '';
-                                                if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'])) {
-                                                    $icon = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'];
+                                            if (count($plugins_list) == 0) {
+                                                echo '<li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> {{Installer un plugin}}</a></li>';
+                                            } else {
+                                                foreach ($plugins_list as $category_name => $category) {
+                                                    $icon = '';
+                                                    if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'])) {
+                                                        $icon = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'];
+                                                    }
+                                                    $name = $category_name;
+                                                    if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'])) {
+                                                        $name = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'];
+                                                    }
+                                                    echo '<li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa ' . $icon . '"></i> {{' . $name . '}}</a>';
+                                                    echo '<ul class="dropdown-menu">';
+                                                    foreach ($category as $pluginList) {
+                                                        echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
+                                                    }
+                                                    echo '</li>';
+                                                    echo '</ul>';
                                                 }
-                                                $name = $category_name;
-                                                if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'])) {
-                                                    $name = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'];
-                                                }
-                                                echo '<li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa ' . $icon . '"></i> {{' . $name . '}}</a>';
-                                                echo '<ul class="dropdown-menu">';
-                                                foreach ($category as $pluginList) {
-                                                    echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
-                                                }
-                                                echo '</li>';
-                                                echo '</ul>';
                                             }
                                             ?>
                                         </ul>
