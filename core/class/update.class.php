@@ -182,19 +182,22 @@ class update {
             $this->save();
         } else {
             try {
-                $market = market::byLogicalId($this->getLogicalId());
-                $this->setRemoteVersion($market->getDatetime());
-            } catch (Exception $ex) {
-                $this->setRemoteVersion(__('Aucune', __FILE__));
-            }
-            try {
                 $market_info = market::getInfo($this->getLogicalId());
                 $this->setStatus($market_info['status']);
                 $this->setConfiguration('market_owner', $market_info['market_owner']);
                 $this->setConfiguration('market', $market_info['market']);
+                $this->setRemoteVersion($market_info['datetime']);
                 $this->save();
             } catch (Exception $ex) {
-                
+                try {
+                    $market_info = market::getInfo($this->getLogicalId());
+                    $this->setStatus($market_info['status']);
+                    $this->setConfiguration('market_owner', $market_info['market_owner']);
+                    $this->setConfiguration('market', $market_info['market']);
+                    $this->save();
+                } catch (Exception $ex) {
+                    
+                }
             }
         }
     }

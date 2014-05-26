@@ -229,6 +229,7 @@ class market {
             if (!is_object($market)) {
                 $return['status'] = 'depreciated';
             } else {
+                $return['datetime'] = $market->getDatetime();
                 $return['market'] = 1;
                 if ($market->getApi_author() == config::byKey('market::apikey') && $market->getApi_author() != '') {
                     $return['market_owner'] = 1;
