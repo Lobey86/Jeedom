@@ -37,13 +37,15 @@ if (!isConnect()) {
     </div>
 
     <div class="col-sm-10">
-        <legend style="height: 35px;">{{Vue}}<a class="btn btn-default btn-xs pull-right" id="bt_addviewZone"><i class="fa fa-plus-circle"></i> {{Ajouter viewZone}}</a></legend>
+        <legend style="height: 35px;">
+            <a class="btn btn-default btn-xs" id="bt_editView"><i class="fa fa-pencil"></i> {{Renommer}}</a> {{Vue}}
+            <a class="btn btn-default btn-xs pull-right" id="bt_addviewZone"><i class="fa fa-plus-circle"></i> {{Ajouter viewZone}}</a></legend>
 
         <div id="div_viewZones" style="margin-top: 10px;"></div>
 
 
         <div class="form-actions" style="margin-top: 10px;">
-            <a class="btn btn-default" id="bt_editView"><i class="fa fa-pencil"></i> {{Editer}}</a>
+            
             <a class="btn btn-danger" id="bt_removeView"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>
             <a class="btn btn-success" id="bt_saveView"><i class="fa fa-save"></i> {{Enregistrer}}</a>
         </div>

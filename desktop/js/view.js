@@ -15,17 +15,15 @@
  */
 
 $(function() {
-    var html = view.toHtml(view_id, 'dashboard');
-    $('#div_displayView').empty().html(html);
+    if (view_id != '') {
+        var html = view.toHtml(view_id, 'dashboard');
+        $('#div_displayView').empty().html(html);
 
-    setTimeout(function() {
-        positionEqLogic();
-        $('.eqLogicZone').each(function() {
-            $(this).masonry({columnWidth: 1});
-        });
-    }, 1000);
-
-
-
-
+        setTimeout(function() {
+            positionEqLogic();
+            $('.eqLogicZone').each(function() {
+                $(this).masonry({columnWidth: 1});
+            });
+        }, 1);
+    }
 });
