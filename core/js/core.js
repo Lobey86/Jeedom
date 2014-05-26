@@ -416,7 +416,19 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                 return;
             }
             if (data.result.data.length < 1) {
-                $('#div_alert').showAlert({message: '{{Il n\'existe encore aucun historique pour cette commande :}} ' + data.result.history_name, level: 'danger'});
+                var message = '{{Il n\'existe encore aucun historique pour cette commande :}} ' + data.result.history_name;
+                if (init(data.result.dateStart) != '') {
+                    if (init(data.result.dateEnd) != '') {
+                        message += ' {{du}} ' + data.result.dateStart + ' {{au}} ' + data.result.dateEnd;
+                    } else {
+                        message += ' {{à partir de}} ' + data.result.dateStart;
+                    }
+                } else {
+                    if (init(data.result.dateEnd) != '') {
+                        message += ' {{jusqu\'au}} ' + data.result.dateEnd;
+                    }
+                }
+                $('#div_alert').showAlert({message: message, level: 'danger'});
                 return;
             }
             if (isset(CORE_chart[_el]) && isset(CORE_chart[_el].cmd[intval(_cmd_id)])) {

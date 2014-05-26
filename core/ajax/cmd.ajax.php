@@ -146,6 +146,17 @@ try {
         }
         $return['maxValue'] = '';
         $return['minValue'] = '';
+        if ($dateStart == null) {
+            $return['dateStart'] = '';
+        } else {
+            $return['dateStart'] = $dateStart;
+        }
+        if ($dateEnd == null) {
+            $return['dateEnd'] = '';
+        } else {
+            $return['dateEnd'] = $dateEnd;
+        }
+
         if (is_numeric(init('id'))) {
             $cmd = cmd::byId(init('id'));
             if (!is_object($cmd)) {
