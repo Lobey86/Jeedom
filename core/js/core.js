@@ -548,8 +548,8 @@ function drawChart(_cmd_id, _el, _dateRange, _option) {
                         }
                     },
                     credits: {
-                        text: 'Copyright Jeedom',
-                        href: 'http://jeedom.fr',
+                        text: '',
+                        href: '',
                     },
                     navigator: {
                         enabled: false
