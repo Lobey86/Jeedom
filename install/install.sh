@@ -128,12 +128,10 @@ echo "*                Configuration de nginx                *"
 echo "********************************************************"
 if [ -f '/etc/init.d/apache2' ]; then
     sudo service apache2 stop
-    sudo /etc/init.d/apache2 stop
     sudo update-rc.d apache2 remove
 fi
 if [ -f '/etc/init.d/apache' ]; then
     sudo service apache stop
-    sudo /etc/init.d/apache stop
     sudo update-rc.d apache remove
 fi
 
@@ -146,7 +144,6 @@ if [ ! -f '/etc/nginx/sites-enabled/default' ]; then
     sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 fi
 sudo service nginx restart
-sudo /etc/init.d/nginx restart
 sudo adduser www-data dialout
 sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
 sudo service php5-fpm restart
