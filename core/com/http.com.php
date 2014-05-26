@@ -60,6 +60,7 @@ class com_http {
                     if ($_logErrorIfNoResponse) {
                         log::add('http.com', 'error', __('Erreur curl : ', __FILE__) . curl_error($ch) . __(' sur la commande ', __FILE__) . $this->url . __(' après ', __FILE__) . $nbRetry . __(' relance(s)', __FILE__));
                     }
+                    curl_close($ch);
                     throw new Exception(__('Echec de la requete http : ', __FILE__) . $this->url, 404);
                 }
             }

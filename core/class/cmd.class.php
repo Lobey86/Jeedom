@@ -686,12 +686,6 @@ class cmd {
                     $replace['#state#'] = $value;
                     $replace['#collectDate#'] = $this->getCollectDate();
                     switch ($this->getSubType()) {
-                        case "binary" :
-                            $replace['#state#'] = $value;
-                            break;
-                        case "string" :
-                            $replace['#state#'] = $value;
-                            break;
                         case "numeric" :
                             if ($this->getIsHistorized()) {
                                 $replace['#displayHistory#'] = '';

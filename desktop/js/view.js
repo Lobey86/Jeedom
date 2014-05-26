@@ -18,10 +18,14 @@ $(function() {
     var html = view.toHtml(view_id, 'dashboard');
     $('#div_displayView').empty().html(html);
 
-    positionEqLogic();
+    setTimeout(function() {
+        positionEqLogic();
+        $('.eqLogicZone').each(function() {
+            $(this).masonry({columnWidth: 1});
+        });
+    }, 1000);
 
-    $('.eqLogicZone').each(function() {
-        $(this).masonry({columnWidth: 1});
-    });
+
+
 
 });

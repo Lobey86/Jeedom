@@ -227,13 +227,13 @@ function getUrlVars(_key) {
         hash = hashes[i].split('=');
         vars[hash[0]] = hash[1];
         if (isset(_key) && _key == hash[0]) {
-            return hash[1];
+            return decodeURIComponent(hash[1]);
         }
     }
     if (isset(_key)) {
         return false;
     }
-    return vars;
+    return decodeURIComponent(vars);
 }
 
 
