@@ -52,7 +52,7 @@ class com_http {
             $nbRetry++;
             if (curl_errno($ch) && $nbRetry <= $_maxRetry) {
                 curl_close($ch);
-                sleep(1);
+                usleep(500000);
             }
         }
         if ($response === false) {
