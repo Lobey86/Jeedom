@@ -25,7 +25,7 @@ class jsonrpcClient {
         $this->options = $_options;
     }
 
-    public function sendRequest($_method, $_params = null, $_timeout = 2, $_file = null) {
+    public function sendRequest($_method, $_params = null, $_timeout = 10, $_file = null) {
         $_params['apikey'] = $this->apikey;
         $_params = array_merge($_params, $this->options);
         $request = array(
@@ -58,7 +58,7 @@ class jsonrpcClient {
         }
     }
 
-    private function send($_request, $_timeout = 2, $_file = null) {
+    private function send($_request, $_timeout = 10, $_file = null) {
         $ch = curl_init();
         if ($_file !== null) {
             $_request = array_merge($_request, $_file);
@@ -67,7 +67,7 @@ class jsonrpcClient {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_TIMEOUT, $_timeout);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_POST, true);

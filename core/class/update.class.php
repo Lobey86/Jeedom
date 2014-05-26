@@ -181,23 +181,19 @@ class update {
             }
             $this->save();
         } else {
-            try {
-                $market_info = market::getInfo($this->getLogicalId());
-                $this->setStatus($market_info['status']);
-                $this->setConfiguration('market_owner', $market_info['market_owner']);
-                $this->setConfiguration('market', $market_info['market']);
-                $this->setRemoteVersion($market_info['datetime']);
-                $this->save();
-            } catch (Exception $ex) {
+            $retry = 0;
+            while ($retry < 4) {
                 try {
                     $market_info = market::getInfo($this->getLogicalId());
                     $this->setStatus($market_info['status']);
                     $this->setConfiguration('market_owner', $market_info['market_owner']);
                     $this->setConfiguration('market', $market_info['market']);
                     $this->save();
+                    $retry = 4;
                 } catch (Exception $ex) {
-                    
+                    sleep(1);
                 }
+                $retry++;
             }
         }
     }
