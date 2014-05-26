@@ -37,10 +37,8 @@ class com_http {
     /*     * ************* Functions ************************************ */
 
     function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true) {
-        $retry = true;
         $nbRetry = 1;
-        while ($retry) {
-            $retry = false;
+        while ($nbRetry <= $_maxRetry) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $this->url);
             curl_setopt($ch, CURLOPT_HEADER, false);
@@ -51,21 +49,20 @@ class com_http {
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
             }
             $response = curl_exec($ch);
-            if (curl_errno($ch)) {
-                if ($nbRetry <= $_maxRetry) {
-                    $nbRetry++;
-                    $retry = true;
-                    sleep(1);
-                } else {
-                    if ($_logErrorIfNoResponse) {
-                        log::add('http.com', 'error', __('Erreur curl : ', __FILE__) . curl_error($ch) . __(' sur la commande ', __FILE__) . $this->url . __(' après ', __FILE__) . $nbRetry . __(' relance(s)', __FILE__));
-                    }
-                    curl_close($ch);
-                    throw new Exception(__('Echec de la requete http : ', __FILE__) . $this->url, 404);
-                }
+            $nbRetry++;
+            if (curl_errno($ch) && $nbRetry <= $_maxRetry) {
+                curl_close($ch);
+                sleep(1);
+            }
+        }
+        if ($response === false) {
+            if ($_logErrorIfNoResponse) {
+                log::add('http.com', 'error', __('Erreur curl : ', __FILE__) . curl_error($ch) . __(' sur la commande ', __FILE__) . $this->url . __(' après ', __FILE__) . $nbRetry . __(' relance(s)', __FILE__));
             }
             curl_close($ch);
+            throw new Exception(__('Echec de la requete http : ', __FILE__) . $this->url, 404);
         }
+        curl_close($ch);
         log::add('http.com', 'Debug', __('Url : ', __FILE__) . $this->url . __("\nReponse : ", __FILE__) . $response);
         return $response;
     }

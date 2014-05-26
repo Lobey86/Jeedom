@@ -25,7 +25,7 @@ class jsonrpcClient {
         $this->options = $_options;
     }
 
-    public function sendRequest($_method, $_params = null, $_timeout = 10, $_file = null) {
+    public function sendRequest($_method, $_params = null, $_timeout = 10, $_file = null, $_maxRetry = 3) {
         $_params['apikey'] = $this->apikey;
         $_params = array_merge($_params, $this->options);
         $request = array(
@@ -35,7 +35,7 @@ class jsonrpcClient {
                 'method' => $_method,
                 'params' => $_params,
         )));
-        $this->rawResult = $this->send($request, $_timeout, $_file);
+        $this->rawResult = $this->send($request, $_timeout, $_file, $_maxRetry);
 
         if ($this->rawResult === false) {
             return false;
@@ -58,28 +58,35 @@ class jsonrpcClient {
         }
     }
 
-    private function send($_request, $_timeout = 10, $_file = null) {
-        $ch = curl_init();
+    private function send($_request, $_timeout = 10, $_file = null, $_maxRetry = 3) {
         if ($_file !== null) {
             $_request = array_merge($_request, $_file);
         }
-        curl_setopt($ch, CURLOPT_URL, $this->apiAddr);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, $_timeout);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $_request);
-
-        $output = curl_exec($ch);
-        if ($output === false) {
+        $nbRetry = 0;
+        while ($nbRetry < $_maxRetry) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $this->apiAddr);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_TIMEOUT, $_timeout);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $_request);
+            $response = curl_exec($ch);
+            $nbRetry++;
+            if (curl_errno($ch) && $nbRetry <= $_maxRetry) {
+                curl_close($ch);
+                sleep(1);
+            }
+        }
+        if ($response === false) {
             $this->error = 'Erreur curl sur : ' . $this->apiAddr . '. Détail :' . curl_error($ch);
         }
         curl_close($ch);
-        return $output;
+        return $response;
     }
 
     /*     * ********Getteur Setteur******************* */
