@@ -1,0 +1,73 @@
+@font-face {
+	font-family: 'Techno';
+	src:url('fonts/Techno.eot?n6hf4r');
+	src:url('fonts/Techno.eot?#iefixn6hf4r') format('embedded-opentype'),
+		url('fonts/Techno.woff?n6hf4r') format('woff'),
+		url('fonts/Techno.ttf?n6hf4r') format('truetype'),
+		url('fonts/Techno.svg?n6hf4r#Techno') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="techno-"], [class*=" techno-"] {
+	font-family: 'Techno';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.techno-wind15:before {
+	content: "\e600";
+}
+.techno-robot30:before {
+	content: "\e601";
+}
+.techno-refrigerator4:before {
+	content: "\e602";
+}
+.techno-plug2:before {
+	content: "\e603";
+}
+.techno-phone25:before {
+	content: "\e604";
+}
+.techno-memory:before {
+	content: "\e605";
+}
+.techno-low2:before {
+	content: "\e606";
+}
+.techno-laundry1:before {
+	content: "\e607";
+}
+.techno-heating3:before {
+	content: "\e608";
+}
+.techno-food27:before {
+	content: "\e609";
+}
+.techno-fingerprint41:before {
+	content: "\e60a";
+}
+.techno-electric9:before {
+	content: "\e60b";
+}
+.techno-desktop:before {
+	content: "\e60c";
+}
+.techno-charging:before {
+	content: "\e60d";
+}
+.techno-cable1:before {
+	content: "\e60e";
+}
+.techno-bluetooth3:before {
+	content: "\e60f";
+}

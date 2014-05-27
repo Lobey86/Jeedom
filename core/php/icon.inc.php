@@ -18,5 +18,9 @@
 
 require_once dirname(__FILE__) . '/../php/utils.inc.php';
 include_file('3rdparty', 'font-awesome/css/font-awesome', 'css');
-include_file('core', 'icomoon/icomoon', 'css');
+foreach (ls('core/css/icon', '*') as $dir) {
+    if (is_dir('core/css/icon/' . $dir) && file_exists('core/css/icon/' . $dir . '/style.css')) {
+        include_file('core', 'icon/' . $dir . 'style', 'css');
+    }
+}
 ?>
