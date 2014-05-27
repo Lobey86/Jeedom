@@ -141,8 +141,12 @@ class plugin {
             }
             return $return;
         } else {
-            usort($listPlugin, 'plugin::orderPlugin');
-            return $listPlugin;
+            if (is_array($listPlugin) && count($listPlugin) > 0) {
+                usort($listPlugin, 'plugin::orderPlugin');
+                return $listPlugin;
+            } else {
+                return array();
+            }
         }
     }
 

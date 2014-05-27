@@ -214,7 +214,7 @@ try {
         if (init('level', -1) > -1) {
             echo __("***************Mise à jour des plugins***************\n", __FILE__);
             update::updateAll();
-            echo __("***************Mise à jour des réussis***************\n", __FILE__);
+            echo __("***************Mise à jour des plugins réussis***************\n", __FILE__);
         }
     } else {
 
