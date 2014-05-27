@@ -32,7 +32,11 @@
                     $('<link rel="stylesheet" href="' + _path[i] + '" type="text/css" />').appendTo('head');
                 }
                 if (extension == '.js') {
-                    $('<script type="text/javascript" src="core/php/getJS.php?file=' + _path[i] + '"></script>').appendTo('head');
+                    if (_path[i].indexOf('core/php/getJS.php?file=') >= 0) {
+                        $('<script type="text/javascript" src="' + _path[i] + '"></script>').appendTo('head');
+                    } else {
+                        $('<script type="text/javascript" src="core/php/getJS.php?file=' + _path[i] + '"></script>').appendTo('head');
+                    }
                 }
 
                 scriptsCache.push(_path[i]);

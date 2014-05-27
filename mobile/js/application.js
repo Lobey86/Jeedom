@@ -100,15 +100,15 @@ function initApplication(_reinit) {
                     userProfils = data.result.userProfils;
                     expertMode = userProfils.expertMode;
                     var include = [
-                        'core/php/getJS.php?file=core/js/cmd.class.js',
-                        'core/php/getJS.php?file=core/js/eqLogic.class.js',
-                        'core/php/getJS.php?file=core/js/jeedom.class.js',
-                        'core/php/getJS.php?file=core/js/object.class.js',
-                        'core/php/getJS.php?file=core/js/scenario.class.js',
-                        'core/php/getJS.php?file=core/js/plugin.class.js',
-                        'core/php/getJS.php?file=core/js/message.class.js',
-                        'core/php/getJS.php?file=core/js/view.class.js',
-                        'core/php/getJS.php?file=core/js/core.js',
+                        'core/js/cmd.class.js',
+                        'core/js/eqLogic.class.js',
+                        'core/js/jeedom.class.js',
+                        'core/js/object.class.js',
+                        'core/js/scenario.class.js',
+                        'core/js/plugin.class.js',
+                        'core/js/message.class.js',
+                        'core/js/view.class.js',
+                        'core/js/core.js',
                     ];
                     $.include(include, function() {
                         refreshMessageNumber();
