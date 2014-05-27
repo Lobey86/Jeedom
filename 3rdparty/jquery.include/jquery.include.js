@@ -32,7 +32,7 @@
                     $('<link rel="stylesheet" href="' + _path[i] + '" type="text/css" />').appendTo('head');
                 }
                 if (extension == '.js') {
-                    $('<script type="text/javascript" src="' + _path[i] + '"></script>').appendTo('head');
+                    $('<script type="text/javascript" src="core/php/getJS.php?file=' + _path[i] + '"></script>').appendTo('head');
                 }
 
                 scriptsCache.push(_path[i]);
