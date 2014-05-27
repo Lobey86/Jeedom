@@ -129,10 +129,6 @@ try {
             }
             @include dirname(__FILE__) . '/../core/config/version.config.php';
 
-            if (version_compare(getVersion('jeedom'), $curentVersion, '=') && init('v') == '') {
-                jeedom::start();
-                echo __("***************Jeedom est à jour en version ", __FILE__) . getVersion('jeedom') . "***************\n";
-            }
             if (init('v') != '') {
                 echo __("La mise à jour ", __FILE__) . init('v') . __(" va être reapliquée. Voulez vous continuer  ? [o/N] ", __FILE__);
                 if (trim(fgets(STDIN)) !== 'o') {
