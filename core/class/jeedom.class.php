@@ -91,6 +91,12 @@ class jeedom {
             echo "Réactivation des tâches : ";
             config::save('enableCron', 1);
             echo "OK\n";
+            echo "Nettoyage du cache : ";
+            $cache = cache::byKey('jeedom::usbMapping');
+            if ($cache->getValue() === '' || $cache->getValue() == 'false') {
+                $cache->remove();
+            }
+            echo "OK\n";
         } catch (Exception $e) {
             if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                 throw $e;
@@ -98,6 +104,28 @@ class jeedom {
                 echo '***ERREUR*** ' . $e->getMessage();
             }
         }
+    }
+
+    public static function getUsbMapping($_name = '') {
+        $cache = cache::byKey('jeedom::usbMapping');
+        if ($cache->getValue() === '' || $cache->getValue() == 'false') {
+            $usbMapping = array();
+            foreach (ls('/dev/', 'ttyUSB*') as $usb) {
+                $result = trim(str_replace(array('ATTRS{product}==', '"'), '', shell_exec('udevadm info --name=/dev/' . $usb . ' --attribute-walk | grep "ATTRS{product}" | head -n 1')));
+                $usbMapping[$result] = '/dev/' . $usb;
+            }
+            cache::set('jeedom::usbMapping', json_encode($usbMapping), 0);
+        } else {
+            $usbMapping = json_decode($cache->getValue(), true);
+        }
+        if ($_name != '') {
+            if (isset($usbMapping[$_name])) {
+                return $usbMapping[$_name];
+            } else {
+                return '';
+            }
+        }
+        return $usbMapping;
     }
 
     public static function backup($_background = false) {
@@ -226,6 +254,7 @@ class jeedom {
                 cache::set('jeedom::startOK', 1, 0);
                 scenario::check('start');
                 plugin::start();
+                jeedom::start();
                 log::add('core', 'info', 'Démarrage de Jeedom OK');
             }
             $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
