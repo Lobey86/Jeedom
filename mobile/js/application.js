@@ -99,20 +99,23 @@ function initApplication(_reinit) {
                     deviceInfo = getDeviceType();
                     userProfils = data.result.userProfils;
                     expertMode = userProfils.expertMode;
-                    var include = [
-                        'core/js/cmd.class.js',
-                        'core/js/eqLogic.class.js',
-                        'core/js/jeedom.class.js',
-                        'core/js/object.class.js',
-                        'core/js/scenario.class.js',
-                        'core/js/plugin.class.js',
-                        'core/js/message.class.js',
-                        'core/js/view.class.js',
-                        'core/js/core.js',
-                    ];
-                    $.include(include, function() {
-                        refreshMessageNumber();
-                        page("home", 'Accueil');
+                    $.get("core/php/icon.inc.php", function(data) {
+                        $("head").append(data);
+                        var include = [
+                            'core/js/cmd.class.js',
+                            'core/js/eqLogic.class.js',
+                            'core/js/jeedom.class.js',
+                            'core/js/object.class.js',
+                            'core/js/scenario.class.js',
+                            'core/js/plugin.class.js',
+                            'core/js/message.class.js',
+                            'core/js/view.class.js',
+                            'core/js/core.js',
+                        ];
+                        $.include(include, function() {
+                            refreshMessageNumber();
+                            page("home", 'Accueil');
+                        });
                     });
                 }
             }

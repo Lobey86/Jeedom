@@ -1,70 +1,70 @@
 @font-face {
-	font-family: 'Jeedom';
-	src:url('fonts/Jeedom.eot?wgygah');
-	src:url('fonts/Jeedom.eot?#iefixwgygah') format('embedded-opentype'),
-		url('fonts/Jeedom.woff?wgygah') format('woff'),
-		url('fonts/Jeedom.ttf?wgygah') format('truetype'),
-		url('fonts/Jeedom.svg?wgygah#Jeedom') format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'Jeedom';
+    src:url('fonts/Jeedom.eot');
+    src:url('fonts/Jeedom.eot') format('embedded-opentype'),
+        url('fonts/Jeedom.woff') format('woff'),
+        url('fonts/Jeedom.ttf') format('truetype'),
+        url('fonts/Jeedom.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 [class^="jeedom-"], [class*=" jeedom-"] {
-	font-family: 'Jeedom';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
+    font-family: 'Jeedom';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
 
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .jeedom-volet-ouvert:before {
-	content: "\e600";
+    content: "\e600";
 }
 .jeedom-volet-ferme:before {
-	content: "\e601";
+    content: "\e601";
 }
 .jeedom-thermometre:before {
-	content: "\e602";
+    content: "\e602";
 }
 .jeedom-thermo-moyen:before {
-	content: "\e603";
+    content: "\e603";
 }
 .jeedom-thermo-froid:before {
-	content: "\e604";
+    content: "\e604";
 }
 .jeedom-thermo-chaud:before {
-	content: "\e605";
+    content: "\e605";
 }
 .jeedom-porte-ouverte:before {
-	content: "\e606";
+    content: "\e606";
 }
 .jeedom-porte-ferme:before {
-	content: "\e607";
+    content: "\e607";
 }
 .jeedom-no-bell:before {
-	content: "\e608";
+    content: "\e608";
 }
 .jeedom-lumiere-on:before {
-	content: "\e609";
+    content: "\e609";
 }
 .jeedom-lumiere-off:before {
-	content: "\e60a";
+    content: "\e60a";
 }
 .jeedom-fenetre-ouverte:before {
-	content: "\e60b";
+    content: "\e60b";
 }
 .jeedom-fenetre-ferme:before {
-	content: "\e60c";
+    content: "\e60c";
 }
 .jeedom-choc:before {
-	content: "\e60d";
+    content: "\e60d";
 }
 .jeedom-bell:before {
-	content: "\e60e";
+    content: "\e60e";
 }

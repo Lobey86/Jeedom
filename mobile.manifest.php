@@ -25,15 +25,24 @@ $js_file = array(
 );
 
 $other_file = array(
-    '3rdparty/jquery.mobile/jquery.mobile.css',
     '3rdparty/font-awesome/css/font-awesome.min.css',
-    'core/css/icomoon/icomoon.css',
+    '3rdparty/jquery.mobile/jquery.mobile.css',
     'core/css/core.css',
     '3rdparty/jquery.loading/jquery.loading.css',
     'mobile/css/commun.css',
     '3rdparty/font-awesome/fonts/fontawesome-webfont.woff?v=4.0.3',
     '3rdparty/jquery.mobile/images/ajax-loader.gif',
 );
+
+$root_dir = dirname(__FILE__) . '/core/css/icon/';
+foreach (ls($root_dir, '*') as $dir) {
+    if (is_dir($root_dir . $dir) && file_exists($root_dir . $dir . '/style.css')) {
+        $other_file[] = 'core/css/icon/' . $dir . 'style.css';
+        foreach (ls($root_dir . $dir . '/fonts', '*') as $font) {
+            $other_file[] = 'core/css/icon/' . $dir . '/fonts/' . $font;
+        }
+    }
+}
 ?>
 CACHE MANIFEST
 
