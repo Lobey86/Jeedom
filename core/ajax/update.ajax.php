@@ -54,7 +54,6 @@ try {
                 log::add('update', 'update', __("[END UPDATE ERROR]\n", __FILE__));
             }
         }
-
         ajax::success();
     }
 
@@ -68,7 +67,7 @@ try {
     }
 
     if (init('action') == 'updateAll') {
-        update::updateAll(init('filter'));
+        update::makeUpdateLevel(init('force'), init('level'));
         ajax::success();
     }
 

@@ -17,18 +17,12 @@
 $(function() {
     printUpdate();
 
-    $('#bt_updateAll').on('click', function() {
-        bootbox.confirm('{{Etes-vous sur de vouloir tout mettre à jour tous les plugins ?}} ', function(result) {
+    $('.bt_updateAll').on('click', function() {
+        var level = $(this).attr('data-level');
+        var mode = $(this).attr('data-mode');
+        bootbox.confirm('{{Etes-vous sur de vouloir faire les mises à jour ?}} ', function(result) {
             if (result) {
-                updateAll();
-            }
-        });
-    });
-
-    $('#bt_updateCore').on('click', function() {
-        bootbox.confirm('{{Etes-vous sur de vouloir mettre à jour Jeedom ?}} ', function(result) {
-            if (result) {
-                updateAll('core');
+                updateAll(mode, level);
             }
         });
     });
@@ -81,13 +75,14 @@ $(function() {
     });
 });
 
-function updateAll(_filter) {
+function updateAll(_mode, _level) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
         data: {
             action: 'updateAll',
-            filter: _filter
+            level: _level,
+            mode: _mode
         },
         dataType: 'json',
         error: function(request, status, error) {

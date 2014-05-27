@@ -54,14 +54,16 @@ class update {
         }
     }
 
+    public static function makeUpdateLevel($_mode = '', $_level = 1) {
+        jeedom::update($_mode, $_level);
+    }
+
     public static function updateAll($_filter = '') {
         if ($_filter == 'core') {
             foreach (self::byType($_filter) as $update) {
                 $update->doUpdate();
             }
         } else {
-            log::clear('update');
-            log::add('update', 'update', __("[START UPDATE]\n", __FILE__));
             $error = false;
             if ($_filter == '') {
                 $updates = self::all();
@@ -80,11 +82,7 @@ class update {
                     }
                 }
             }
-            if ($error) {
-                log::add('update', 'update', __("[END UPDATE ERROR]\n", __FILE__));
-            } else {
-                log::add('update', 'update', __("[END UPDATE SUCCESS]\n", __FILE__));
-            }
+            return $error;
         }
     }
 

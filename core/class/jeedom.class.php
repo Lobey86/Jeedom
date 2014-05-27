@@ -174,9 +174,9 @@ class jeedom {
         }
     }
 
-    public static function update() {
+    public static function update($_mode = '', $_level = -1) {
         log::clear('update');
-        $cmd = 'nohup php ' . dirname(__FILE__) . '/../../install/install.php mode=' . init('mode');
+        $cmd = 'nohup php ' . dirname(__FILE__) . '/../../install/install.php mode=' . $_mode . ' level=' . $_level;
         $cmd.= ' >> ' . log::getPathToLog('update') . ' 2>&1 &';
         shell_exec($cmd);
     }
