@@ -124,7 +124,7 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
         } else if ($_type == CSS) {
             echo "<link href=\"$_folder/$_fn?v=" . getVersion('jeedom') . "\" rel=\"stylesheet\" />";
         } else if ($_type == JS || $_type == CLASSJS) {
-            echo "<script type=\"text/javascript\" src=\"core/php/getJS.php?file=$_folder/$_fn\"></script>";
+            echo "<script type=\"text/javascript\" src=\"core/php/getJS.php?file=$_folder/$_fn&t=" . microtime() . "\"></script>";
         }
     } else {
         throw new Exception("File not found : $_fn at $_folder : $path");
