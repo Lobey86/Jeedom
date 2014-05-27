@@ -132,8 +132,6 @@ try {
             if (version_compare(getVersion('jeedom'), $curentVersion, '=') && init('v') == '') {
                 jeedom::start();
                 echo __("***************Jeedom est à jour en version ", __FILE__) . getVersion('jeedom') . "***************\n";
-                echo "[END UPDATE SUCCESS]\n";
-                exit();
             }
             if (init('v') != '') {
                 echo __("La mise à jour ", __FILE__) . init('v') . __(" va être reapliquée. Voulez vous continuer  ? [o/N] ", __FILE__);
@@ -217,7 +215,7 @@ try {
             jeedom::start();
             echo __("***************Jeedom est à jour en version ", __FILE__) . getVersion('jeedom') . "***************\n";
         }
-        if (init('level', -1) >= 0) {
+        if (init('level', -1) > -1) {
             echo __("***************Mise à jour des plugins***************\n", __FILE__);
             update::updateAll();
             echo __("***************Mise à jour des réussis***************\n", __FILE__);
