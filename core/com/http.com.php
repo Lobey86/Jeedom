@@ -37,7 +37,7 @@ class com_http {
     /*     * ************* Functions ************************************ */
 
     function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true) {
-        $nbRetry = 1;
+        $nbRetry = 0;
         while ($nbRetry <= $_maxRetry) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $this->url);
