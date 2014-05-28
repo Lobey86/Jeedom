@@ -197,7 +197,9 @@ function getJeedomLog(_autoUpdate, _log) {
         dataType: 'json',
         global: false,
         error: function(request, status, error) {
-            handleAjaxError(request, status, error);
+            setTimeout(function() {
+                getJeedomLog(_autoUpdate, _log)
+            }, 1000);
         },
         success: function(data) {
             if (data.state != 'ok') {
