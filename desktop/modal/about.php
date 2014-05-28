@@ -44,7 +44,6 @@ if (!isConnect()) {
             <li><a class="cursor" href="http://boedesign.com/blog/2009/07/11/growl-for-jquery-gritter/" style="color:blue;" target="_blank">jquery.gritter</a></li>
             <li>jquery.loading - Loïc Gevrey</li>
             <li><a class="cursor" href="http://jquerymobile.com/" style="color:blue;" target="_blank">jquery.mobile</a></li>
-            <li><a class="cursor" href="https://github.com/tolis-e/jQuery-Mobile-Progress-Bar-with-Percentage" style="color:blue;" target="_blank">jquery.mobile.tolito</a></li>
             <li><a class="cursor" href="https://github.com/tactivos/jquery-sew" style="color:blue;" target="_blank">jquery.sew</a></li>
         </lu>
     </div>
