@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'jeedom';
-	src:url('fonts/jeedom.eot?-ryredo');
-	src:url('fonts/jeedom.eot?#iefix-ryredo') format('embedded-opentype'),
-		url('fonts/jeedom.woff?-ryredo') format('woff'),
-		url('fonts/jeedom.ttf?-ryredo') format('truetype'),
-		url('fonts/jeedom.svg?-ryredo#jeedom') format('svg');
+	src:url('fonts/jeedom.eot?qxdl10');
+	src:url('fonts/jeedom.eot?#iefixqxdl10') format('embedded-opentype'),
+		url('fonts/jeedom.woff?qxdl10') format('woff'),
+		url('fonts/jeedom.ttf?qxdl10') format('truetype'),
+		url('fonts/jeedom.svg?qxdl10#jeedom') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
