@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'maison';
-	src:url('fonts/Maison.eot?k0ckav');
-	src:url('fonts/Maison.eot?#iefixk0ckav') format('embedded-opentype'),
-		url('fonts/Maison.woff?k0ckav') format('woff'),
-		url('fonts/Maison.ttf?k0ckav') format('truetype'),
-		url('fonts/Maison.svg?k0ckav#maison') format('svg');
+	src:url('fonts/maison.eot?k0ckav');
+	src:url('fonts/maison.eot?#iefixk0ckav') format('embedded-opentype'),
+		url('fonts/maison.woff?k0ckav') format('woff'),
+		url('fonts/maison.ttf?k0ckav') format('truetype'),
+		url('fonts/maison.svg?k0ckav#maison') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
