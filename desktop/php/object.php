@@ -63,7 +63,7 @@ sendVarToJS('select_id', init('id', '-1'));
                         <div class="objectAttr" data-l1key="display" data-l2key="icon" ></div>
                     </div>
                     <div class="col-sm-2">
-                        <a class="btn btn-default btn-sm" id="bt_chooseIcon"><i class="fa fa-flag"></i> {{Choisir une icône}}</a>
+                        <a class="btn btn-default btn-sm" id="bt_chooseIcon">{{Choisir une icône}}</a>
                     </div>
                 </div>
             </fieldset>

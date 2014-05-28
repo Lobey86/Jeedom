@@ -6,7 +6,7 @@
     $('.listEquipementInfo').on('click', function() {
         var el = $(this);
         cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {
-            el.parent().find('.expressionAttr[data-l1key=options][data-l2key=value]').atCaret('insert', result.human);
+            el.parent().find('.expressionAttr[data-l1key=options][data-l2key=value]').value(el.parent().find('.expressionAttr[data-l1key=options][data-l2key=value]').value() + ' ' + result.human);
         });
     });
 </script>
