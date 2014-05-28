@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'jeedom';
-	src:url('fonts/Jeedom.eot?ccf5v8');
-	src:url('fonts/Jeedom.eot?#iefixccf5v8') format('embedded-opentype'),
-		url('fonts/Jeedom.woff?ccf5v8') format('woff'),
-		url('fonts/Jeedom.ttf?ccf5v8') format('truetype'),
-		url('fonts/Jeedom.svg?ccf5v8#jeedom') format('svg');
+	src:url('fonts/jeedom.eot?ccf5v8');
+	src:url('fonts/jeedom.eot?#iefixccf5v8') format('embedded-opentype'),
+		url('fonts/jeedom.woff?ccf5v8') format('woff'),
+		url('fonts/jeedom.ttf?ccf5v8') format('truetype'),
+		url('fonts/jeedom.svg?ccf5v8#jeedom') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
