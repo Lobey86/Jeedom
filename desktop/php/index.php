@@ -76,6 +76,7 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('3rdparty', 'jquery.tablesorter/theme.bootstrap', 'css');
         include_file('3rdparty', 'jquery/jquery.min', 'js');
         include_file('3rdparty', 'php.js/php.min', 'js');
+        include_file('3rdparty', 'jquery.at.caret/jquery.at.caret.min', 'js');
         ?>
     </head>
 
