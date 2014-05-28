@@ -9,7 +9,7 @@
 	font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="jeedom-"], [class*=" jeedom-"] {
 	font-family: 'jeedom';
 	speak: none;
 	font-style: normal;
@@ -23,54 +23,54 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-fenetre-ouverte:before {
+.jeedom-fenetre-ouverte:before {
 	content: "\e60b";
 }
-.icon-fenetre-ferme:before {
+.jeedom-fenetre-ferme:before {
 	content: "\e60c";
 }
-.icon-feu:before {
+.jeedom-feu:before {
 	content: "\e60f";
 }
-.icon-eau:before {
+.jeedom-eau:before {
 	content: "\e610";
 }
-.icon-volet-ouvert:before {
+.jeedom-volet-ouvert:before {
 	content: "\e600";
 }
-.icon-volet-ferme:before {
+.jeedom-volet-ferme:before {
 	content: "\e601";
 }
-.icon-thermometre:before {
+.jeedom-thermometre:before {
 	content: "\e602";
 }
-.icon-thermo-moyen:before {
+.jeedom-thermo-moyen:before {
 	content: "\e603";
 }
-.icon-thermo-froid:before {
+.jeedom-thermo-froid:before {
 	content: "\e604";
 }
-.icon-thermo-chaud:before {
+.jeedom-thermo-chaud:before {
 	content: "\e605";
 }
-.icon-porte-ouverte:before {
+.jeedom-porte-ouverte:before {
 	content: "\e606";
 }
-.icon-porte-ferme:before {
+.jeedom-porte-ferme:before {
 	content: "\e607";
 }
-.icon-no-bell:before {
+.jeedom-no-bell:before {
 	content: "\e608";
 }
-.icon-lumiere-on:before {
+.jeedom-lumiere-on:before {
 	content: "\e609";
 }
-.icon-lumiere-off:before {
+.jeedom-lumiere-off:before {
 	content: "\e60a";
 }
-.icon-choc:before {
+.jeedom-choc:before {
 	content: "\e60d";
 }
-.icon-bell:before {
+.jeedom-bell:before {
 	content: "\e60e";
 }
