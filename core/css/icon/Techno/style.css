@@ -1,16 +1,16 @@
 @font-face {
-	font-family: 'Techno';
-	src:url('fonts/Techno.eot?n6hf4r');
-	src:url('fonts/Techno.eot?#iefixn6hf4r') format('embedded-opentype'),
-		url('fonts/Techno.woff?n6hf4r') format('woff'),
-		url('fonts/Techno.ttf?n6hf4r') format('truetype'),
-		url('fonts/Techno.svg?n6hf4r#Techno') format('svg');
+	font-family: 'techno';
+	src:url('fonts/techno.eot?992edw');
+	src:url('fonts/techno.eot?#iefix992edw') format('embedded-opentype'),
+		url('fonts/techno.woff?992edw') format('woff'),
+		url('fonts/techno.ttf?992edw') format('truetype'),
+		url('fonts/techno.svg?992edw#techno') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 [class^="techno-"], [class*=" techno-"] {
-	font-family: 'Techno';
+	font-family: 'techno';
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -23,6 +23,45 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.techno-ventilation:before {
+	content: "\e610";
+}
+.techno-tv6:before {
+	content: "\e611";
+}
+.techno-television10:before {
+	content: "\e612";
+}
+.techno-television4:before {
+	content: "\e613";
+}
+.techno-refrigerator3:before {
+	content: "\e614";
+}
+.techno-phone69:before {
+	content: "\e615";
+}
+.techno-phone16:before {
+	content: "\e616";
+}
+.techno-oven4:before {
+	content: "\e617";
+}
+.techno-oven1:before {
+	content: "\e618";
+}
+.techno-listening3:before {
+	content: "\e619";
+}
+.techno-incoming2:before {
+	content: "\e61a";
+}
+.techno-home115:before {
+	content: "\e61b";
+}
+.techno-cancel8:before {
+	content: "\e61d";
+}
 .techno-wind15:before {
 	content: "\e600";
 }
@@ -59,7 +98,7 @@
 .techno-electric9:before {
 	content: "\e60b";
 }
-.techno-desktop:before {
+.techno-desktop2:before {
 	content: "\e60c";
 }
 .techno-charging:before {
