@@ -181,7 +181,7 @@ $(function() {
                 expression.find('.expressionOptions').html(cmd.displayActionOption(expression.find('.expressionAttr[data-l1key=expression]').value(), ''));
             }
             if (expression.find('.expressionAttr[data-l1key=type]').value() == 'condition') {
-                expression.find('.expressionAttr[data-l1key=expression]').value(expression.find('.expressionAttr[data-l1key=expression]').value() + ' ' + result.human);
+                expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert',result.human);
             }
         });
     });
