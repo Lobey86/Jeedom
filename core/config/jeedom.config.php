@@ -21,7 +21,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
     'eqLogic' => array(
         'category' => array(
             'heating' => array('name' => 'Chauffage', 'color' => '#1895d6', 'mcolor' => '#1895d6','cmdColor' => '#3eb0ee','mcmdColor' => '#3eb0ee'),
-            'security' => array('name' => 'Sécurité', 'color' => '#745cb0', 'mcolor' => '#745cb0','cmdColor' => '#ec92ed','mcmdColor' => '#ac92ed'),
+            'security' => array('name' => 'Sécurité', 'color' => '#745cb0', 'mcolor' => '#745cb0','cmdColor' => '#ac92ed','mcmdColor' => '#ac92ed'),
             'energy' => array('name' => 'Energie', 'color' => '#2eb04b', 'mcolor' => '#2eb04c','cmdColor' => '#69e283','mcmdColor' => '#69e283'),
             'light' => array('name' => 'Lumière', 'color' => '#f09e2f', 'mcolor' => '#f09e2f','cmdColor' => '#f7bc68','mcmdColor' => '#f7bc68'),
             'automatism' => array('name' => 'Automatisme', 'color' => '#808080', 'mcolor' => '#808080','cmdColor' => '#c2beb8','mcmdColor' => '#c2beb8'),
