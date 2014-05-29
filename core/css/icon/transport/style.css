@@ -1,0 +1,49 @@
+@font-face {
+	font-family: 'transport';
+	src:url('fonts/transport.eot?-9bu9uy');
+	src:url('fonts/transport.eot?#iefix-9bu9uy') format('embedded-opentype'),
+		url('fonts/transport.woff?-9bu9uy') format('woff'),
+		url('fonts/transport.ttf?-9bu9uy') format('truetype'),
+		url('fonts/transport.svg?-9bu9uy#transport') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="transport-"], [class*=" transport-"] {
+	font-family: 'transport';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.transport-trolley2:before {
+	content: "\e600";
+}
+.transport-train8:before {
+	content: "\e601";
+}
+.transport-tractor:before {
+	content: "\e602";
+}
+.transport-school31:before {
+	content: "\e603";
+}
+.transport-hoist:before {
+	content: "\e604";
+}
+.transport-classic5:before {
+	content: "\e605";
+}
+.transport-car95:before {
+	content: "\e606";
+}
+.transport-bicycle12:before {
+	content: "\e607";
+}
