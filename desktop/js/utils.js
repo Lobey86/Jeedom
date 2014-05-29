@@ -155,11 +155,6 @@ $(function() {
         });
     });
 
-    $('.bt_pluginUpdate').on('click', function() {
-        $('#md_modal2').dialog({title: "{{Market Jeedom}}"});
-        $('#md_modal2').load('index.php?v=d&modal=market.display&type=plugin&logicalId=' + $(this).attr('data-logicalId')).dialog('open');
-    });
-
     $('body').delegate('.bt_pageHelp', 'click', function() {
         showHelpModal($(this).attr('data-name'), $(this).attr('data-plugin'));
     });
