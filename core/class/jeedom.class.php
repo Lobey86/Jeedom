@@ -22,6 +22,8 @@ require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
 class jeedom {
     /*     * *************************Attributs****************************** */
 
+    private static $jeedomConfiguration;
+
     /*     * ***********************Methode static*************************** */
 
     public static function stop() {
@@ -181,9 +183,14 @@ class jeedom {
         shell_exec($cmd);
     }
 
-    public static function getConfiguration($_key) {
+    public static function getConfiguration($_key, $_default = false) {
+        if (!is_array(self::$jeedomConfiguration)) {
+            self::$jeedomConfiguration = array();
+        }
+        if (!$_default && isset(self::$jeedomConfiguration[$_key])) {
+            return self::$jeedomConfiguration[$_key];
+        }
         $keys = explode(':', $_key);
-
         global $JEEDOM_INTERNAL_CONFIG;
         $result = $JEEDOM_INTERNAL_CONFIG;
         foreach ($keys as $key) {
@@ -191,7 +198,30 @@ class jeedom {
                 $result = $result[$key];
             }
         }
-        return $result;
+        if ($_default) {
+            return $result;
+        }
+        self::$jeedomConfiguration[$_key] = self::checkValueInconfiguration($_key, $result);
+        return self::$jeedomConfiguration[$_key];
+    }
+
+    private static function checkValueInconfiguration($_key, $_value) {
+        if (!is_array(self::$jeedomConfiguration)) {
+            self::$jeedomConfiguration = array();
+        }
+        if (isset(self::$jeedomConfiguration[$_key])) {
+            return self::$jeedomConfiguration[$_key];
+        }
+        if (is_array($_value)) {
+            foreach ($_value as $key => $value) {
+                $_value[$key] = self::checkValueInconfiguration($_key . ':' . $key, $value);
+            }
+            self::$jeedomConfiguration[$_key] = $_value;
+            return $_value;
+        } else {
+            $config = config::byKey($_key);
+            return ($config == '') ? $_value : $config;
+        }
     }
 
     public static function whatDoYouKnow($_object = null) {

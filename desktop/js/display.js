@@ -29,8 +29,44 @@ $(function() {
         }
     });
     $('#div_tree').jstree();
+
+
+    $("#bt_displayConfig").on('click', function(event) {
+        $.hideAlert();
+        saveConfiguration($('#display_configuration'));
+    });
 });
 
+
+function saveConfiguration(_el) {
+    try {
+        var configuration = _el.getValues('.configKey');
+        configuration = configuration[0];
+    } catch (e) {
+        $('#div_alert').showAlert({message: e, level: 'danger'});
+        return false;
+    }
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/config.ajax.php", // url du fichier php
+        data: {
+            action: "addKey",
+            value: json_encode(configuration)
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+            modifyWithoutSave = false;
+        }
+    });
+}
 
 /***************************Commandes****************************/
 function displayCmd(_cmd_id) {

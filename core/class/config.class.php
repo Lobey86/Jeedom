@@ -28,7 +28,7 @@ class config {
 
     public static function getDefaultConfiguration($_plugin = 'core') {
         if (!is_array(self::$defaultConfiguration)) {
-            self::$defaultConfiguration == array();
+            self::$defaultConfiguration = array();
         }
         if (!isset(self::$defaultConfiguration[$_plugin])) {
             if ($_plugin == 'core') {
@@ -59,6 +59,11 @@ class config {
         $defaultConfiguration = self::getDefaultConfiguration($_plugin);
         if (isset($defaultConfiguration[$_plugin][$_key]) && $_value == $defaultConfiguration[$_plugin][$_key]) {
             self::remove($_key, $_plugin);
+            return true;
+        }
+        $jeedomConfig = jeedom::getConfiguration($_key, true);
+        if ($jeedomConfig != '' && $jeedomConfig == $_value) {
+            self::remove($_key);
             return true;
         }
 

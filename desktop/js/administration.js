@@ -19,11 +19,7 @@ $(function() {
     $("#admin_tab").delegate("a", 'click', function(event) {
         $(this).tab('show');
         $.hideAlert();
-    })
-
-    if (tab != '') {
-        $('#admin_tab a[href=#' + tab + ']').click();
-    }
+    });
 
     printUsers();
 

@@ -2,7 +2,6 @@
 if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-sendVarToJS('tab', init('tab'));
 sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
 ?>
 <div id="div_administration">
