@@ -556,6 +556,9 @@ class eqLogic {
         if ($this->getCategory('light', 0) == 1) {
             return 'light';
         }
+        if ($this->getCategory('automatism', 0) == 1) {
+            return 'automatism';
+        }
         return '';
     }
 
