@@ -35,6 +35,10 @@ $(function() {
         $.hideAlert();
         saveConfiguration($('#display_configuration'));
     });
+
+    $('.bt_resetColor').on('click', function() {
+        $('.configKey[data-l1key="' + $(this).attr('data-l1key') + '"]').value(jeedom.getConfiguration($(this).attr('data-l1key'),1));
+    });
 });
 
 

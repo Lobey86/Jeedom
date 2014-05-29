@@ -19,7 +19,7 @@ function jeedom() {
 }
 
 jeedom.cache = Array();
-jeedom.nodeJs  = {state : -1};
+jeedom.nodeJs = {state: -1};
 
 jeedom.init = function() {
     socket = null;
@@ -103,11 +103,11 @@ jeedom.init = function() {
     }
 }
 
-jeedom.getConfiguration = function(_key) {
+jeedom.getConfiguration = function(_key, _default) {
     if (!isset(jeedom.cache.getConfiguration)) {
         jeedom.cache.getConfiguration = Array();
     }
-    if (isset(jeedom.cache.getConfiguration[_key])) {
+    if (init(_default, 0) == 0 && isset(jeedom.cache.getConfiguration[_key])) {
         return jeedom.cache.getConfiguration[_key];
     }
     var result = '';
@@ -116,7 +116,8 @@ jeedom.getConfiguration = function(_key) {
         url: "core/ajax/jeedom.ajax.php", // url du fichier php
         data: {
             action: "getConfiguration",
-            key: _key
+            key: _key,
+            default: init(_default, 0)
         },
         dataType: 'json',
         async: false,
@@ -133,6 +134,8 @@ jeedom.getConfiguration = function(_key) {
             result = data.result;
         }
     });
-    jeedom.cache.getConfiguration[_key] = result;
+    if (init(_default, 0) == 0) {
+        jeedom.cache.getConfiguration[_key] = result;
+    }
     return result;
 }

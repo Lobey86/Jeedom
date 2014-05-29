@@ -80,7 +80,7 @@ try {
     }
 
     if (init('action') == 'getConfiguration') {
-        ajax::success(jeedom::getConfiguration(init('key')));
+        ajax::success(jeedom::getConfiguration(init('key'), init('default')));
     }
 
     if (init('action') == 'flushcache') {
