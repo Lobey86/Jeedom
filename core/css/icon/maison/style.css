@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'maison';
-	src:url('fonts/maison.eot?k0ckav');
-	src:url('fonts/maison.eot?#iefixk0ckav') format('embedded-opentype'),
-		url('fonts/maison.woff?k0ckav') format('woff'),
-		url('fonts/maison.ttf?k0ckav') format('truetype'),
-		url('fonts/maison.svg?k0ckav#maison') format('svg');
+	src:url('fonts/maison.eot?50eb2s');
+	src:url('fonts/maison.eot?#iefix50eb2s') format('embedded-opentype'),
+		url('fonts/maison.woff?50eb2s') format('woff'),
+		url('fonts/maison.ttf?50eb2s') format('truetype'),
+		url('fonts/maison.svg?50eb2s#maison') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,21 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.maison-wc:before {
+	content: "\e633";
+}
+.maison-poubelle:before {
+	content: "\e634";
+}
+.maison-cuisiniere:before {
+	content: "\e635";
+}
+.maison-barbecue:before {
+	content: "\e636";
+}
+.maison-baignoire:before {
+	content: "\e637";
+}
 .maison-water47:before {
 	content: "\e60f";
 }

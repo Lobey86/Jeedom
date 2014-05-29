@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'transport';
-	src:url('fonts/transport.eot?-9bu9uy');
-	src:url('fonts/transport.eot?#iefix-9bu9uy') format('embedded-opentype'),
-		url('fonts/transport.woff?-9bu9uy') format('woff'),
-		url('fonts/transport.ttf?-9bu9uy') format('truetype'),
-		url('fonts/transport.svg?-9bu9uy#transport') format('svg');
+	src:url('fonts/transport.eot?-plmz9');
+	src:url('fonts/transport.eot?#iefix-plmz9') format('embedded-opentype'),
+		url('fonts/transport.woff?-plmz9') format('woff'),
+		url('fonts/transport.ttf?-plmz9') format('truetype'),
+		url('fonts/transport.svg?-plmz9#transport') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.transport-velo:before {
+	content: "\e608";
+}
 .transport-trolley2:before {
 	content: "\e600";
 }

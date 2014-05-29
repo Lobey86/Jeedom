@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'techno';
-	src:url('fonts/techno.eot?992edw');
-	src:url('fonts/techno.eot?#iefix992edw') format('embedded-opentype'),
-		url('fonts/techno.woff?992edw') format('woff'),
-		url('fonts/techno.ttf?992edw') format('truetype'),
-		url('fonts/techno.svg?992edw#techno') format('svg');
+	src:url('fonts/techno.eot?-sqdv7y');
+	src:url('fonts/techno.eot?#iefix-sqdv7y') format('embedded-opentype'),
+		url('fonts/techno.woff?-sqdv7y') format('woff'),
+		url('fonts/techno.ttf?-sqdv7y') format('truetype'),
+		url('fonts/techno.svg?-sqdv7y#techno') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,21 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.techno-ventilateur:before {
+	content: "\e61c";
+}
+.techno-prise-eco2:before {
+	content: "\e61e";
+}
+.techno-prise-eco:before {
+	content: "\e61f";
+}
+.techno-perceuse:before {
+	content: "\e620";
+}
+.techno-pc:before {
+	content: "\e621";
+}
 .techno-ventilation:before {
 	content: "\e610";
 }

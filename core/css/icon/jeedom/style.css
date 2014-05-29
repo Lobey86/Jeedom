@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'jeedom';
-	src:url('fonts/jeedom.eot?-d26t1k');
-	src:url('fonts/jeedom.eot?#iefix-d26t1k') format('embedded-opentype'),
-		url('fonts/jeedom.woff?-d26t1k') format('woff'),
-		url('fonts/jeedom.ttf?-d26t1k') format('truetype'),
-		url('fonts/jeedom.svg?-d26t1k#jeedom') format('svg');
+	src:url('fonts/jeedom.eot?lqpgga');
+	src:url('fonts/jeedom.eot?#iefixlqpgga') format('embedded-opentype'),
+		url('fonts/jeedom.woff?lqpgga') format('woff'),
+		url('fonts/jeedom.ttf?lqpgga') format('truetype'),
+		url('fonts/jeedom.svg?lqpgga#jeedom') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,48 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.jeedom-garage-ouvert:before {
+	content: "\e618";
+}
+.jeedom-garage-ferme:before {
+	content: "\e619";
+}
+.jeedom-thermometre-celcius:before {
+	content: "\e612";
+}
+.jeedom-surveillance1:before {
+	content: "\e613";
+}
+.jeedom-sirene:before {
+	content: "\e614";
+}
+.jeedom-prise:before {
+	content: "\e615";
+}
+.jeedom-lock-ouvert:before {
+	content: "\e616";
+}
+.jeedom-lock-ferme:before {
+	content: "\e617";
+}
+.jeedom-batterie3:before {
+	content: "\e61a";
+}
+.jeedom-batterie2:before {
+	content: "\e61b";
+}
+.jeedom-batterie1:before {
+	content: "\e61c";
+}
+.jeedom-batterie0:before {
+	content: "\e61d";
+}
+.jeedom-alerte2:before {
+	content: "\e61e";
+}
+.jeedom-alerte:before {
+	content: "\e61f";
+}
 .jeedom-mouvement:before {
 	content: "\e60a";
 }
