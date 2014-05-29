@@ -433,7 +433,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">{{Activer l'authentification LDAP}}</label>
                                         <div class="col-sm-1">
-                                            <input type="checkbox" class="configKey" data-l1key="ldap::enable"/>
+                                            <input type="checkbox" class="configKey" data-l1key="ldap:enable"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
