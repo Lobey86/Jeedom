@@ -284,21 +284,23 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('desktop', 'utils', 'js');
         include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
         ?>
-        <footer>
-            <span class="pull-left">Node JS <span class="span_nodeJsState binary red tooltips"></span> - </span>
-            <span class="pull-left">&copy; <a id="bt_jeedomAbout" class="cursor">Jeedom</a> (v<?php echo getVersion('jeedom') ?> 
-                <?php
-                $nbNeedUpdate = update::nbNeedUpdate();
-                if ($nbNeedUpdate > 0) {
-                    echo '<span class="label label-danger"><a href="index.php?v=d&p=update" style="color : white;">' . $nbNeedUpdate . ' {{Mise(s) à jour disponible}}</a></span>';
-                }
-                echo ') ';
-                echo date('Y');
-                $pageLoadTime = round(getmicrotime() - $startLoadTime, 3);
-                echo ' - {{Page générée en}} ' . $pageLoadTime . 's';
-                ?>
-            </span>
-        </footer>
 
+        <?php if (isConnect()) { ?>
+            <footer>
+                <span class="pull-left">Node JS <span class="span_nodeJsState binary red tooltips"></span> - </span>
+                <span class="pull-left">&copy; <a id="bt_jeedomAbout" class="cursor">Jeedom</a> (v<?php echo getVersion('jeedom') ?> 
+                    <?php
+                    $nbNeedUpdate = update::nbNeedUpdate();
+                    if ($nbNeedUpdate > 0) {
+                        echo '<span class="label label-danger"><a href="index.php?v=d&p=update" style="color : white;">' . $nbNeedUpdate . ' {{Mise(s) à jour disponible}}</a></span>';
+                    }
+                    echo ') ';
+                    echo date('Y');
+                    $pageLoadTime = round(getmicrotime() - $startLoadTime, 3);
+                    echo ' - {{Page générée en}} ' . $pageLoadTime . 's';
+                    ?>
+                </span>
+            </footer>
+        <?php } ?>
     </body>
 </html>
