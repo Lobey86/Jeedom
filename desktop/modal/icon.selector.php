@@ -26,6 +26,7 @@ include_file('core', 'js.inc', 'php');
         color: white;
     }
 </style>
+<div style="height: 650px;">
 <legend>{{Générale}}</legend>
 <li class="iconSel"><i class="fa fa-glass"></i></li>
 <li class="iconSel"><i class="fa fa-music"></i></li>
@@ -195,21 +196,23 @@ include_file('core', 'js.inc', 'php');
 <li class="iconSel"><i class="fa fa-archive"></i></li>
 <li class="iconSel"><i class="fa fa-pagelines"></i></li>
 <li class="iconSel"><i class="fa fa-wheelchair"></i></li>
-
+</div>
 <?php
 foreach (ls('core/css/icon', '*') as $dir) {
     if (is_dir('core/css/icon/' . $dir) && file_exists('core/css/icon/' . $dir . '/style.css')) {
-        echo '<div><legend style="margin-bottom: 0px">{{' . str_replace('/', '', $dir) . '}}</legend>';
         $css = file_get_contents('core/css/icon/' . $dir . '/style.css');
         $research = strtolower(str_replace('/', '', $dir));
         preg_match_all("/\." . $research . "-(.*?):/", $css, $matches, PREG_SET_ORDER);
+        $height = (ceil(count($matches) / 14) * 40) + 80;
+        echo '<div style="height : ' . $height . 'px;"><legend>{{' . str_replace('/', '', $dir) . '}}</legend>';
+
         foreach ($matches as $match) {
             if (isset($match[0])) {
                 $icon = str_replace(array(':', '.'), '', $match[0]);
                 echo '<li class="iconSel"><i class="icon ' . $icon . '"></i></li>';
             }
         }
-        echo "</div></br/></br/></br/></br/>";
+        echo "</div><br/>";
     }
 }
 ?>
