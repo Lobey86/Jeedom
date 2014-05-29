@@ -43,7 +43,7 @@ $(function() {
 
     function updateCache() {
         webappCache.swapCache();
-        if (confirm("Une nouvelle version de Jeedom mobile est disponible. Voulez-vous rafraichir pour l'utiliser ?")) {
+        if (confirm("Une nouvelle version de Jeedom vient d'etre installée. Voulez-vous rafraichir pour l'utiliser ?")) {
             window.location.reload();
         }
     }
