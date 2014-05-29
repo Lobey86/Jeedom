@@ -79,14 +79,14 @@ class jsonrpcClient {
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             $response = curl_exec($ch);
             $nbRetry++;
-            if (curl_errno($ch) && $nbRetry <= $_maxRetry) {
+            if (curl_errno($ch) && $nbRetry < $_maxRetry) {
                 curl_close($ch);
                 usleep(500000);
             } else {
-                $nbRetry = $_maxRetry;
+                $nbRetry = $_maxRetry + 1;
             }
         }
-        if ($response === false) {
+        if (curl_errno($ch)) {
             $this->error = 'Erreur curl sur : ' . $this->apiAddr . '. Détail :' . curl_error($ch);
         }
         curl_close($ch);
