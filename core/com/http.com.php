@@ -44,6 +44,8 @@ class com_http {
             curl_setopt($ch, CURLOPT_HEADER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, $_timeout);
+            curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+            curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             if ($this->username != '') {
                 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY | CURLAUTH_ANYSAFE);
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
@@ -53,6 +55,8 @@ class com_http {
             if (curl_errno($ch) && $nbRetry <= $_maxRetry) {
                 curl_close($ch);
                 usleep(500000);
+            } else {
+                $nbRetry = $_maxRetry;
             }
         }
         if ($response === false) {

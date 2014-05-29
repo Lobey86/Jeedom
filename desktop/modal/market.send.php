@@ -154,12 +154,8 @@ if (is_object($market)) {
                     return;
                 }
                 if (market.id == undefined || market.id == '') {
-                    /*  bootbox.confirm('Votre objet a été envoyé avec succès sur le market. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
-                     if (result) {*/
                     $.showLoading();
                     window.location.reload();
-                    /*     }
-                     });*/
                 } else {
                     $('#div_alertMarketSend').showAlert({message: '{{Votre objet a été envoyé avec succès sur le market}}', level: 'success'});
                 }

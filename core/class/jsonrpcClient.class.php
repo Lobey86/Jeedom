@@ -75,11 +75,15 @@ class jsonrpcClient {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $_request);
+            curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+            curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             $response = curl_exec($ch);
             $nbRetry++;
             if (curl_errno($ch) && $nbRetry <= $_maxRetry) {
                 curl_close($ch);
                 usleep(500000);
+            } else {
+                $nbRetry = $_maxRetry;
             }
         }
         if ($response === false) {
