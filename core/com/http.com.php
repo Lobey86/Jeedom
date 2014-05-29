@@ -38,7 +38,7 @@ class com_http {
 
     function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true) {
         $nbRetry = 0;
-        while ($nbRetry <= $_maxRetry) {
+        while ($nbRetry < $_maxRetry) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $this->url);
             curl_setopt($ch, CURLOPT_HEADER, false);
@@ -52,11 +52,11 @@ class com_http {
             }
             $response = curl_exec($ch);
             $nbRetry++;
-            if (curl_errno($ch) && $nbRetry <= $_maxRetry) {
+            if (curl_errno($ch) && $nbRetry < $_maxRetry) {
                 curl_close($ch);
                 usleep(500000);
             } else {
-                $nbRetry = $_maxRetry;
+                $nbRetry = $_maxRetry + 1;
             }
         }
         if ($response === false) {
