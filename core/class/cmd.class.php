@@ -690,7 +690,7 @@ class cmd {
             }
             $replace['#state#'] = $value;
             $replace['#collectDate#'] = $this->getCollectDate();
-            if ($this->getIsHistorized()) {
+            if ($this->getIsHistorized() && strpos($template, '#displayHistory#') !== false) {
                 $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculPeriod') . ' hour'));
                 $replace['#displayHistory#'] = '';
                 $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
