@@ -82,7 +82,7 @@ try {
     echo "OK\n";
 
     echo __("Reastauration des fichiers...", __FILE__);
-    rcopy($tmp, dirname(__FILE__) . '/..', false);
+    rcopy($tmp, dirname(__FILE__) . '/..', false, array('common.config.php'));
     echo __("OK\n", __FILE__);
 
     foreach (plugin::listPlugin(true) as $plugin) {
