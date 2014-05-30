@@ -268,9 +268,9 @@ class cmd {
                 if ($cmd->getEqLogic()->getIsEnable() == 1) {
                     $cmd->execCmd(null, 1, false);
                     log::add('collect', 'info', __('La commande :', __FILE__) . $cmd->getHumanName() . __(' est collectée', __FILE__));
-                    nodejs::pushUpdate('eventCmd', $cmd->getId());
+                    nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
                     foreach (self::byValue($cmd->getId()) as $cmd_link) {
-                        nodejs::pushUpdate('eventCmd', $cmd_link->getId());
+                        nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd_link->getId(), 'eqLogic_id' => $cmd_link->getEqLogic_id(), 'object_id' => $cmd_link->getEqLogic()->getObject_id()));
                     }
                 }
             }
@@ -620,9 +620,9 @@ class cmd {
             }
             $this->setCollect(0);
             if ($_sendNodeJsEvent) {
-                nodejs::pushUpdate('eventCmd', $this->getId());
+                nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
                 foreach (self::byValue($this->getId()) as $cmd) {
-                    nodejs::pushUpdate('eventCmd', $cmd->getId());
+                    nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
                 }
             }
         }
@@ -785,9 +785,9 @@ class cmd {
                         $this->addHistoryValue($_value, $this->getCollectDate());
                     }
                     $this->setCollect(0);
-                    nodejs::pushUpdate('eventCmd', $this->getId());
+                    nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
                     foreach (self::byValue($this->getId()) as $cmd) {
-                        nodejs::pushUpdate('eventCmd', $cmd->getId());
+                        nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
                     }
                     log::add($eqLogic->getEqType_name(), 'Event', __('Message venant de', __FILE__) . $this->getHumanName() . ' : ' . $_value . __(' /cache lifetime =>', __FILE__) . $this->getCacheLifetime());
                     $internalEvent = new internalEvent();

@@ -8,7 +8,7 @@ function initView(_view_id) {
     panel(li);
     if (isset(_view_id) && is_numeric(_view_id)) {
         CORE_chart = [];
-        var html = view.toHtml(_view_id, 'mobile');
+        var html = view.toHtml(_view_id, 'mobile', true);
         $('#div_displayView').empty().html(html).trigger('create');
         setTimeout(function() {
             if (deviceInfo.type == 'phone') {

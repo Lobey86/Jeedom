@@ -20,8 +20,14 @@ function jeedom() {
 
 jeedom.cache = Array();
 jeedom.nodeJs = {state: -1};
+jeedom.display = {};
 
 jeedom.init = function() {
+    jeedom.display.version = 'desktop';
+    if ($.mobile) {
+        jeedom.display.version = 'mobile';
+    }
+
     socket = null;
     Highcharts.setOptions({
         lang: {
@@ -33,7 +39,6 @@ jeedom.init = function() {
         }
     });
     if (nodeJsKey != '') {
-
         $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
             if (options.dataType == 'script' || originalOptions.dataType == 'script') {
                 options.cache = true;
@@ -62,8 +67,12 @@ jeedom.init = function() {
                         $('.span_nodeJsState').removeClass('green').addClass('red');
                         jeedom.nodeJs.state = false;
                     });
-                    socket.on('eventCmd', function(cmd_id) {
-                        refreshCmdValue(cmd_id);
+                    socket.on('eventCmd', function(_options) {
+                        _options = json_decode(_options);
+                        refreshCmdValue(_options.cmd_id);
+                        if (isset(object) && isset(object.cache) && isset(object.cache.html) && isset(object.cache.html[_options.object_id])) {
+                            object.cache.html[_options.object_id] = object.toHtml(_options.object_id, jeedom.display.version);
+                        }
                     });
                     socket.on('eventScenario', function(scenario_id) {
                         refreshScenarioValue(scenario_id);

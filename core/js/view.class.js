@@ -49,7 +49,21 @@ view.all = function() {
     return result;
 }
 
-view.toHtml = function(_id, _version) {
+view.prefetch = function(_id, _version, _forced) {
+    setTimeout(function() {
+        if (!isset(view.cache.html)) {
+            view.cache.html = Array();
+        }
+        if (init(_forced, false) == true || !isset(view.cache.html[_id])) {
+            view.cache.html[_id] = view.toHtml(_id, _version);
+        }
+    }, 0);
+}
+
+view.toHtml = function(_id, _version, _allowCache) {
+    if (init(_allowCache, false) == true && isset(view.cache.html[_id])) {
+        return view.cache.html[_id];
+    }
     var html = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php

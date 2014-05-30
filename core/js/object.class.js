@@ -82,7 +82,21 @@ object.all = function() {
     return result;
 }
 
-object.toHtml = function(_id, _version) {
+object.prefetch = function(_id, _version, _forced) {
+    setTimeout(function() {
+        if (!isset(object.cache.html)) {
+            object.cache.html = Array();
+        }
+        if (init(_forced, false) == true || !isset(object.cache.html[_id])) {
+            object.cache.html[_id] = object.toHtml(_id, _version);
+        }
+    }, 0);
+}
+
+object.toHtml = function(_id, _version, _useCache) {
+    if (init(_useCache, false) == true && isset(object.cache.html[_id])) {
+        return object.cache.html[_id];
+    }
     var result = '';
     $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax

@@ -80,7 +80,7 @@ function initApplication(_reinit) {
                         autoLogin(localStorage.getItem("deviceKey"));
                         initApplication();
                     } else {
-                        page('connection', 'Connection');
+                        page('connection', 'Connexion');
                     }
                     return;
                 } else {
@@ -115,12 +115,24 @@ function initApplication(_reinit) {
                         $.include(include, function() {
                             refreshMessageNumber();
                             page("home", 'Accueil');
+                            doCache();
                         });
                     });
                 }
             }
         }
     });
+}
+
+function doCache() {
+    setTimeout(function() {
+        var objects = object.all();
+        for (var i in objects) {
+            if (objects[i].isVisible == 1) {
+                object.prefetch(objects[i].id, 'mobile', true);
+            }
+        }
+    }, 0);
 }
 
 function isConnect() {

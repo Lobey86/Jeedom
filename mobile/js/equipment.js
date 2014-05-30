@@ -13,7 +13,7 @@ function initEquipment(_object_id) {
     li += '</ul>';
     panel(li);
     if (isset(_object_id) && is_numeric(_object_id)) {
-        var html = object.toHtml(_object_id, 'mobile');
+        var html = object.toHtml(_object_id, 'mobile', true);
         $('#div_displayEquipement').empty().html(html).trigger('create');
         setTileSize('.eqLogic');
         $('#div_displayEquipement').masonry();
