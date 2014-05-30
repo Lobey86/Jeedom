@@ -166,6 +166,8 @@ echo "********************************************************"
 echo "*             Action post installation                 *"
 echo "********************************************************"
 sudo cp install/motd /etc
+sudo chown root:root /etc/motd
+sudo chmod 644 /etc/motd
 
 echo "********************************************************"
 echo "*                 Installation finie                   *"
