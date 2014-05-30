@@ -94,6 +94,9 @@ object.prefetch = function(_id, _version, _forced) {
 }
 
 object.toHtml = function(_id, _version, _useCache) {
+    if (!isset(object.cache.html)) {
+        object.cache.html = Array();
+    }
     if (init(_useCache, false) == true && isset(object.cache.html[_id])) {
         return object.cache.html[_id];
     }

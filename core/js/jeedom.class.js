@@ -71,11 +71,25 @@ jeedom.init = function() {
                         _options = json_decode(_options);
                         refreshCmdValue(_options.cmd_id);
                         if (isset(object) && isset(object.cache) && isset(object.cache.html) && isset(object.cache.html[_options.object_id])) {
-                            object.cache.html[_options.object_id] = object.toHtml(_options.object_id, jeedom.display.version);
+                            object.prefetch(_options.object_id, jeedom.display.version, true);
+                        }
+                        if (isset(view) && isset(view.cache) && isset(view.cache.html)) {
+                            for (var i in view.cache.html) {
+                                if ($.inArray(_options.eqLogic_id, view.cache.html[i].eqLogic) >= 0) {
+                                    view.prefetch(i, jeedom.display.version, true);
+                                }
+                            }
                         }
                     });
                     socket.on('eventScenario', function(scenario_id) {
                         refreshScenarioValue(scenario_id);
+                        if (isset(view) && isset(view.cache) && isset(view.cache.html)) {
+                            for (var i in view.cache.html) {
+                                if ($.inArray(scenario_id, view.cache.html[i].scenario) >= 0) {
+                                    view.prefetch(i, jeedom.display.version, true);
+                                }
+                            }
+                        }
                     });
                     socket.on('eventHistory', function(cmd_id) {
                         refreshGraph(cmd_id);

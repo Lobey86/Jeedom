@@ -61,10 +61,13 @@ view.prefetch = function(_id, _version, _forced) {
 }
 
 view.toHtml = function(_id, _version, _allowCache) {
+    if (!isset(view.cache.html)) {
+        view.cache.html = Array();
+    }
     if (init(_allowCache, false) == true && isset(view.cache.html[_id])) {
         return view.cache.html[_id];
     }
-    var html = '';
+    var result = {html: '', scenario: [], cmd: [], eqLogic: []};
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/view.ajax.php", // url du fichier php
@@ -85,33 +88,34 @@ view.toHtml = function(_id, _version, _allowCache) {
             }
             for (var i in data.result.viewZone) {
                 var viewZone = data.result.viewZone[i];
-                html += '<div>';
-                html += '<legend style="color : #716b7a">' + viewZone.name + '</legend>';
+                result.html += '<div>';
+                result.html += '<legend style="color : #716b7a">' + viewZone.name + '</legend>';
                 var div_id = 'div_viewZone' + viewZone.id;
                 /*         * *****************viewZone widget***************** */
                 if (viewZone.type == 'widget') {
-                    html += '<div id="' + div_id + '" class="eqLogicZone">';
+                    result.html += '<div id="' + div_id + '" class="eqLogicZone">';
                     for (var j in viewZone.viewData) {
                         var viewData = viewZone.viewData[j];
-                        html += viewData.html;
+                        result.html += viewData.html;
+                        result[viewData.type].push(viewData.id);
                     }
-                    html += '</div>';
+                    result.html += '</div>';
                 }
                 /*         * *****************viewZone graph***************** */
                 if (viewZone.type == 'graph') {
-                    html += '<div id="' + div_id + '" class="chartContainer">';
-                    html += '<script>';
+                    result.html += '<div id="' + div_id + '" class="chartContainer">';
+                    result.html += '<script>';
                     for (var j in viewZone.viewData) {
                         var viewData = viewZone.viewData[j];
                         var configuration = json_encode(viewData.configuration);
-                        html += 'drawChart(' + viewData.link_id + ',"' + div_id + '","' + viewZone.configuration.dateRange + ' ",jQuery.parseJSON("' + configuration.replace(/\"/g, "\\\"") + '"));';
+                        result.html += 'drawChart(' + viewData.link_id + ',"' + div_id + '","' + viewZone.configuration.dateRange + ' ",jQuery.parseJSON("' + configuration.replace(/\"/g, "\\\"") + '"));';
                     }
-                    html += '</script>';
-                    html += '</div>';
+                    result.html += '</script>';
+                    result.html += '</div>';
                 }
-                html += '</div>';
+                result.html += '</div>';
             }
         }
     });
-    return html;
+    return result;
 }
