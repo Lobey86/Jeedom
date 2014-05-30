@@ -34,9 +34,18 @@ jeedom.init = function() {
     });
     if (nodeJsKey != '') {
 
-
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+            if (options.dataType == 'script' || originalOptions.dataType == 'script') {
+                options.cache = true;
+            }
+        });
         $.getScript("/nodeJS/socket.io/socket.io.js")
                 .done(function(script, textStatus) {
+                    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+                        if (options.dataType == 'script' || originalOptions.dataType == 'script') {
+                            options.cache = false;
+                        }
+                    });
                     socket = io.connect();
 
                     socket.on('error', function(reason) {
@@ -92,7 +101,11 @@ jeedom.init = function() {
                     });
                 })
                 .fail(function(jqxhr, settings, exception) {
-
+                    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+                        if (options.dataType == 'script' || originalOptions.dataType == 'script') {
+                            options.cache = false;
+                        }
+                    });
                 });
     } else {
         $('.span_nodeJsState').removeClass('red').addClass('grey');

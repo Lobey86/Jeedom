@@ -61,10 +61,6 @@ io.sockets.on('connection', function(socket) {
         clients[socket.id]['key'] = key;
         clients[socket.id]['user_id'] = user_id;
         clients[socket.id]['socket'] = socket;
-        var connectUserList = [];
-        for (var i in clients) {
-            connectUserList.push(clients[i].user_id);
-        }
         addMessage(null);
         for (var i in messages) {
             handleMessage(messages[i]);

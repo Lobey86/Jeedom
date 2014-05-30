@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'jeedom';
-	src:url('fonts/jeedom.eot?lqpgga');
-	src:url('fonts/jeedom.eot?#iefixlqpgga') format('embedded-opentype'),
-		url('fonts/jeedom.woff?lqpgga') format('woff'),
-		url('fonts/jeedom.ttf?lqpgga') format('truetype'),
-		url('fonts/jeedom.svg?lqpgga#jeedom') format('svg');
+	src:url('fonts/jeedom.eot?11rl1q');
+	src:url('fonts/jeedom.eot?#iefix11rl1q') format('embedded-opentype'),
+		url('fonts/jeedom.woff?11rl1q') format('woff'),
+		url('fonts/jeedom.ttf?11rl1q') format('truetype'),
+		url('fonts/jeedom.svg?11rl1q#jeedom') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,18 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.jeedom-pilote-off:before {
+	content: "\e620";
+}
+.jeedom-pilote-hg:before {
+	content: "\e621";
+}
+.jeedom-pilote-eco:before {
+	content: "\e622";
+}
+.jeedom-pilote-conf:before {
+	content: "\e623";
+}
 .jeedom-garage-ouvert:before {
 	content: "\e618";
 }
