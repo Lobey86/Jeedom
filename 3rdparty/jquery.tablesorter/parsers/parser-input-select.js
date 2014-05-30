@@ -1,5 +1,5 @@
 /*! input & select parsers for jQuery 1.7+ & tablesorter 2.7.11+
- * Updated 4/27/2014 (v2.16.2)
+ * Updated 5/28/2014 (v2.17.1)
  * Demo: http://mottie.github.com/tablesorter/docs/example-widget-grouping.html
  */
 /*jshint browser: true, jquery:true, unused:false */
@@ -71,17 +71,20 @@
 	$(window).load(function(){
 		// this flag prevents the updateCell event from being spammed
 		// it happens when you modify input text and hit enter
-		var alreadyUpdating = false;
-		$('table').find('tbody').on('change', 'select, input', function(e){
+		var alreadyUpdating = false,
+			t = $.tablesorter.css.table || 'tablesorter';
+		// bind to .tablesorter (default class name)
+		$('.' + t).find('tbody').on('change', 'select, input', function(e){
 			if (!alreadyUpdating) {
 				var $tar = $(e.target),
 					$cell = $tar.closest('td'),
 					$table = $cell.closest('table'),
 					indx = $cell[0].cellIndex,
-					c = $table[0].config,
+					c = $table[0].config || false,
 					$hdr = c && c.$headers && c.$headers.eq(indx);
-				// don't use updateCell if column is set to "sorter-false" and "filter-false"
-				if ($hdr.length && $hdr.hasClass('sorter-false') && $hdr.hasClass('filter-false')){
+				// abort if not a tablesorter table, or
+				// don't use updateCell if column is set to "sorter-false" and "filter-false", or column is set to "parser-false"
+				if ( !c || ( $hdr && $hdr.length && ( $hdr.hasClass('parser-false') || ($hdr.hasClass('sorter-false') && $hdr.hasClass('filter-false')) ) ) ){
 					return false;
 				}
 				alreadyUpdating = true;

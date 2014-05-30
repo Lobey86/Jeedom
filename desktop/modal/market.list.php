@@ -18,10 +18,10 @@ if (config::byKey('market::showToValidateMarket') == 1) {
 ?>
 
 
-<table id="table_market" class="table table-bordered table-condensed tablesorter">
+<table id="table_market" class="table table-bordered table-condensed tablesorter" data-sortlist="[[2,0]]">
     <thead>
         <tr>
-            <th>{{Type}}</th>
+            <th >{{Type}}</th>
             <th>{{Catégorie}}</th>
             <th>{{Nom}}</th>
             <th>{{Description}}</th>

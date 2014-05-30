@@ -10,7 +10,7 @@
 
 	Resizable scroller widget for the jQuery tablesorter plugin
 
-	Version 2.0 - modified by Rob Garrison (4/12/2013; updated 4/27/2014 for tablesorter v2.16.2)
+	Version 2.0 - modified by Rob Garrison 4/12/2013; updated 5/22/2014 (v2.17.0)
 	Requires jQuery v1.7+
 	Requires the tablesorter plugin, v2.8+, available at http://mottie.github.com/tablesorter/docs/
 
@@ -109,14 +109,14 @@ ts.addWidget({
 				.wrap('<div class="tablesorter-scroller-header" style="width:' + $tbl.width() + ';" />')
 				.find('.' + ts.css.header);
 
-			$tbl.wrap('<div class="tablesorter-scroller-table" style="height:' + h + 'px;width:' + $tbl.width() + ';overflow-y:scroll;" />')
+			$tbl.wrap('<div class="tablesorter-scroller-table" style="height:' + h + 'px;width:' + $tbl.width() + ';overflow-y:scroll;" />');
 
 			// make scroller header sortable
 			ts.bindEvents(table, $cells);
 
 			// look for filter widget
 			if ($tbl.hasClass('hasFilters')) {
-				ts.filter.bindSearch( $tbl, $cells.find('.' + ts.css.filter) );
+				ts.filter.bindSearch( $tbl, $hdr.find('.' + ts.css.filter) );
 			}
 
 			resize = function(){
