@@ -33,14 +33,10 @@ jeedom.init = function() {
         }
     });
     if (nodeJsKey != '') {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "/nodeJS/socket.io/socket.io.js", // url du fichier php
-            data: {},
-            dataType: 'script',
-            statusCode: {
-                200: function() {
-                    $("head").append("<script type='text/javascript' src='/nodeJS/socket.io/socket.io.js'></script>");
+
+
+        $.getScript("/nodeJS/socket.io/socket.io.js")
+                .done(function(script, textStatus) {
                     socket = io.connect();
 
                     socket.on('error', function(reason) {
@@ -94,9 +90,10 @@ jeedom.init = function() {
                         }
                         notify(title, text, theme);
                     });
-                }
-            }
-        });
+                })
+                .fail(function(jqxhr, settings, exception) {
+
+                });
     } else {
         $('.span_nodeJsState').removeClass('red').addClass('grey');
         jeedom.nodeJs.state = null;

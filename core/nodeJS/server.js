@@ -16,7 +16,15 @@
  */
 
 
-var io = require('socket.io').listen(8070);
+//var io = require('socket.io')
+
+var io = require('socket.io')({
+  'browser client minification' : 1,
+  'browser client etag' : 1,
+  'browser client gzip' : 1
+}).listen(8070);
+
+
 var express = require('express');
 
 var internalServer = express.createServer();
@@ -38,12 +46,12 @@ internalServer.get('/', function(req, res) {
     res.send('OK', 200);
 });
 
-io.configure('development', function() {
-    io.set('transports', ['xhr-polling']);
-    io.set('log level', 0);
-    io.set('browser client minification', true);  // send minified client
-    io.set('browser client etag', true);
-});
+//io.configure('development', function() {
+   // io.set('transports', ['xhr-polling']);
+   // io.set('log level', 0);
+   // io.set('browser client minification', true);  // send minified client
+   // io.set('browser client etag', true);
+//});
 
 var clients = [];
 var messages = [];
@@ -52,11 +60,11 @@ io.sockets.on('connection', function(socket) {
         clients[socket.id] = [];
         clients[socket.id]['key'] = key;
         clients[socket.id]['user_id'] = user_id;
+        clients[socket.id]['socket'] = socket;
         var connectUserList = [];
         for (var i in clients) {
             connectUserList.push(clients[i].user_id);
         }
-        io.sockets.socket(socket.id).emit('refreshUserList', connectUserList);
         addMessage(null);
         for (var i in messages) {
             handleMessage(messages[i]);
@@ -65,17 +73,6 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('disconnect', function(key) {
         delete clients[socket.id];
-        var number = 0
-        var connectUserList = [];
-        for (var i in clients) {
-            connectUserList.push(clients[i].user_id);
-        }
-        for (var i in clients) {
-            if (number == 0) {
-                io.sockets.socket(i).emit('refreshUserList', connectUserList);
-                number++;
-            }
-        }
     });
 });
 
@@ -90,7 +87,7 @@ function addMessage(message) {
         }
     }
     if (message != null) {
-        if (message.type != 'refreshUserList' && message.type != 'notify') {
+        if (message.type != 'notify') {
             tmp_message.push(message);
         }
     }
@@ -102,18 +99,15 @@ function handleMessage(message) {
         if (clients[i].key == message.key) {
             switch (message.type) {
                 case 'notify' :
-                    io.sockets.socket(i).emit('notify', message.title, message.text, message.category);
-                    break;
-                case 'refreshUserList' :
-                    io.sockets.socket(i).emit('refreshUserList', null);
+                    clients[i].socket.emit('notify', message.title, message.text, message.category);
                     break;
                 default :
-                    io.sockets.socket(i).emit(message.type, message.options);
+                    clients[i].socket.emit(message.type, message.options);
                     break;
             }
         } else {
-            io.sockets.socket(i).emit('authentification_failed');
-            io.sockets.socket(i).disconnect(true);
+            clients[i].socket.emit('authentification_failed');
+            clients[i].socket.disconnect(true);
             delete clients[i];
         }
     }
