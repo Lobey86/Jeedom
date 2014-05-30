@@ -631,8 +631,7 @@ class cmd {
 
     public function toHtml($_version = 'dashboard', $options = '') {
         $html = '';
-        $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType();
-        $template_name .= '.' . $this->getTemplate($_version, 'default');
+        $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($_version, 'default');
         $template = '';
         if (!is_array(self::$_templateArray)) {
             self::$_templateArray == array();
@@ -641,13 +640,11 @@ class cmd {
             try {
                 $template = getTemplate('core', $_version, $template_name);
             } catch (Exception $e) {
-                if ($template == '') {
-                    foreach (plugin::listPlugin(true) as $plugin) {
-                        try {
-                            $template = getTemplate('core', $_version, $template_name, $plugin->getId());
-                        } catch (Exception $e) {
-                            
-                        }
+                foreach (plugin::listPlugin(true) as $plugin) {
+                    try {
+                        $template = getTemplate('core', $_version, $template_name, $plugin->getId());
+                    } catch (Exception $e) {
+                        
                     }
                 }
             }
@@ -667,10 +664,11 @@ class cmd {
                 $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
                 $template = getTemplate('core', $_version, $template_name);
             }
+            self::$_templateArray[$_version . '::' . $template_name] = $template;
         } else {
             $template = self::$_templateArray[$_version . '::' . $template_name];
         }
-        self::$_templateArray[$_version . '::' . $template_name] = $template;
+
         $replace = array(
             '#id#' => $this->getId(),
             '#name#' => ($this->getDisplay('icon') != '') ? $this->getDisplay('icon') : $this->getName(),
@@ -678,98 +676,69 @@ class cmd {
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
         $replace['#unite#'] = $this->getUnite();
-        switch ($this->getType()) {
-            case "info":
-                $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
-                $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
-                $replace['#state#'] = '';
-                $replace['#tendance#'] = '';
-                try {
-                    $value = $this->execCmd(null, 2);
-                    if ($value === null) {
-                        return template_replace($replace, $template);
-                    }
-                    if ($this->getSubType() == 'binary' && $this->getDisplay('invertBinary') == 1) {
-                        if ($value == 1) {
-                            $value = 0;
-                        } else {
-                            $value = 1;
-                        }
-                    }
-                    $replace['#state#'] = $value;
-                    $replace['#collectDate#'] = $this->getCollectDate();
-                    switch ($this->getSubType()) {
-                        case "numeric" :
-                            if ($this->getIsHistorized()) {
-                                $replace['#displayHistory#'] = '';
-                                $historyStatistique = $this->getStatistique(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculPeriod') . ' hour')), date('Y-m-d H:i:s'));
-                                $replace['#averageHistoryValue#'] = round($historyStatistique['avg'], 1);
-                                $replace['#minHistoryValue#'] = round($historyStatistique['min'], 1);
-                                $replace['#maxHistoryValue#'] = round($historyStatistique['max'], 1);
-                                if ($replace['#averageHistoryValue#'] > 99) {
-                                    $replace['#averageHistoryValue#'] = round($replace['#averageHistoryValue#'], 0);
-                                }
-                                if ($replace['#minHistoryValue#'] > 99) {
-                                    $replace['#minHistoryValue#'] = round($replace['#minHistoryValue#'], 0);
-                                }
-                                if ($replace['#maxHistoryValue#'] > 99) {
-                                    $replace['#maxHistoryValue#'] = round($replace['#maxHistoryValue#'], 0);
-                                }
-                                $tendance = $this->getTendance(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculTendance') . ' hour')), date('Y-m-d H:i:s'));
-                                $replace['#tendance#'] = 'fa fa-minus';
-                                if ($tendance > config::byKey('historyCalculTendanceThresholddMax')) {
-                                    $replace['#tendance#'] = 'fa fa-arrow-up';
-                                }
-                                if ($tendance < config::byKey('historyCalculTendanceThresholddMin')) {
-                                    $replace['#tendance#'] = 'fa fa-arrow-down';
-                                }
-                            }
-                            break;
-                    }
-                } catch (Exception $e) {
-                    
+        if ($this->getType() == 'info') {
+            $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
+            $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
+            $replace['#state#'] = '';
+            $replace['#tendance#'] = '';
+            $value = $this->execCmd(null, 2);
+            if ($value === null) {
+                return template_replace($replace, $template);
+            }
+            if ($this->getSubType() == 'binary' && $this->getDisplay('invertBinary') == 1) {
+                $value = ($value == 1) ? 0 : 1;
+            }
+            $replace['#state#'] = $value;
+            $replace['#collectDate#'] = $this->getCollectDate();
+            if ($this->getIsHistorized()) {
+                $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculPeriod') . ' hour'));
+                $replace['#displayHistory#'] = '';
+                $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
+                $replace['#averageHistoryValue#'] = round($historyStatistique['avg'], 1);
+                $replace['#minHistoryValue#'] = round($historyStatistique['min'], 1);
+                $replace['#maxHistoryValue#'] = round($historyStatistique['max'], 1);
+                $tendance = $this->getTendance($startHist, date('Y-m-d H:i:s'));
+                $replace['#tendance#'] = 'fa fa-minus';
+                if ($tendance > config::byKey('historyCalculTendanceThresholddMax')) {
+                    $replace['#tendance#'] = 'fa fa-arrow-up';
                 }
-                if ($this->getIsHistorized() == 1) {
-                    $replace['#history#'] = 'history cursor';
-                    $html .= template_replace($replace, getTemplate('core', $_version, 'cmd.info.history.default'));
+                if ($tendance < config::byKey('historyCalculTendanceThresholddMin')) {
+                    $replace['#tendance#'] = 'fa fa-arrow-down';
                 }
-                $html .= template_replace($replace, $template);
-                break;
-            case "action":
-                $cmdValue = $this->getCmdValue();
-                if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
-                    if ($cmdValue->getEqLogic()->getIsEnable() == 1) {
-                        $replace['#state#'] = $cmdValue->execCmd(null, 2);
-                    } else {
-                        $replace['#state#'] = '';
-                    }
-                } else {
-                    if ($this->getLastValue() != null) {
-                        $replace['#state#'] = $this->getLastValue();
-                    } else {
-                        $replace['#state#'] = '';
-                    }
+            }
+            if ($this->getIsHistorized() == 1) {
+                $replace['#history#'] = 'history cursor';
+                if (!isset(self::$_templateArray[$_version . 'cmd.info.history.default'])) {
+                    self::$_templateArray[$_version . 'cmd.info.history.default'] = getTemplate('core', $_version, 'cmd.info.history.default');
                 }
-                $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
-                $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
-                $html .= template_replace($replace, $template);
-                if (trim($html) == '') {
-                    return $html;
+                $html .= template_replace($replace, self::$_templateArray[$_version . 'cmd.info.history.default']);
+            }
+            $html .= template_replace($replace, $template);
+        } else {
+            $cmdValue = $this->getCmdValue();
+            if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
+                $replace['#state#'] = ($cmdValue->getEqLogic()->getIsEnable() == 1) ? $cmdValue->execCmd(null, 2) : '';
+            } else {
+                $replace['#state#'] = ($this->getLastValue() != null) ? $this->getLastValue() : '';
+            }
+            $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
+            $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
+            $html .= template_replace($replace, $template);
+            if (trim($html) == '') {
+                return $html;
+            }
+            if ($options != '') {
+                $options = self::cmdToHumanReadable($options);
+                if (is_json($options)) {
+                    $options = json_decode($options, true);
                 }
-
-                if ($options != '') {
-                    $options = self::cmdToHumanReadable($options);
-                    if (is_json($options)) {
-                        $options = json_decode($options, true);
+                if (is_array($options)) {
+                    foreach ($options as $key => $value) {
+                        $replace['#' . $key . '#'] = $value;
                     }
-                    if (is_array($options)) {
-                        foreach ($options as $key => $value) {
-                            $replace['#' . $key . '#'] = $value;
-                        }
-                        $html = template_replace($replace, $html);
-                    }
+                    $html = template_replace($replace, $html);
                 }
-                break;
+            }
         }
         return $html;
     }

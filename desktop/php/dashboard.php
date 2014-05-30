@@ -13,6 +13,7 @@ if (!is_object($object)) {
     throw new Exception('{{Aucun objet racine trouvé}}');
 }
 include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
+$child_object = object::buildTree($object);
 ?>
 
 <div class="row">
@@ -68,7 +69,7 @@ include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
             }
         }
         echo '</div>';
-        foreach (object::buildTree($object) as $child) {
+        foreach ($child_object as $child) {
             $margin = 40 * $child->parentNumber();
             echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
             echo '<legend>' . $child->getDisplay('icon') . ' ' . $child->getName() . '</legend>';
@@ -81,27 +82,18 @@ include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
             echo '</div>';
             echo '</div>';
         }
-
         echo '</div>';
         ?>
     </div>
     <div class="col-sm-2">
         <legend>{{Scénarios}}</legend>
         <?php
-        if (init('object_id') == 'global') {
-            foreach (scenario::byObjectId(null, false) as $scenario) {
-                if ($scenario->getIsVisible() == 1) {
-                    echo $scenario->toHtml('dashboard');
-                }
-            }
-        }
-
         foreach ($object->getScenario(false) as $scenario) {
             if ($scenario->getIsVisible() == 1) {
                 echo $scenario->toHtml('dashboard');
             }
         }
-        foreach ($object->getChilds() as $child) {
+        foreach ($child_object as $child) {
             foreach ($child->getScenario(false) as $scenario) {
                 if ($scenario->getIsVisible() == 1) {
                     echo $scenario->toHtml('dashboard');

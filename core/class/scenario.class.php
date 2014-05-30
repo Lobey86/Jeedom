@@ -228,8 +228,7 @@ class scenario {
         if (!isset(self::$_templateArray[$_version])) {
             self::$_templateArray[$_version] = getTemplate('core', $_version, 'scenario');
         }
-        $html = template_replace($replace, self::$_templateArray[$_version]);
-        return $html;
+        return template_replace($replace, self::$_templateArray[$_version]);
     }
 
     public function getLinkToConfiguration() {

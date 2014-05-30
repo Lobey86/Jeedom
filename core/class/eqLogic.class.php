@@ -426,15 +426,13 @@ class eqLogic {
                 if ($cmd->getIsVisible() == 1) {
                     if ($cmd->getType() == 'action') {
                         $action.=$cmd->toHtml($_version);
-                    }
-                    if ($cmd->getType() == 'info') {
+                    } else {
                         $info.=$cmd->toHtml($_version);
                     }
                 }
             }
         }
         $object = $this->getObject();
-
 
         $replace = array(
             '#id#' => $this->getId(),
@@ -452,8 +450,7 @@ class eqLogic {
         if (!isset(self::$_templateArray[$_version])) {
             self::$_templateArray[$_version] = getTemplate('core', $_version, 'eqLogic');
         }
-        $html = template_replace($replace, self::$_templateArray[$_version]);
-        return $html;
+        return template_replace($replace, self::$_templateArray[$_version]);
     }
 
     public function getShowOnChild() {
