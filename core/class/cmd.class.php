@@ -651,13 +651,26 @@ class cmd {
                     }
                 }
             }
+            if ($template == '' && config::byKey('market::autoInstallMissingWidget') == 1) {
+                try {
+                    $market = market::byLogicalId(str_replace('.cmd', '', $_version . '.' . $template_name));
+                    if (is_object($market)) {
+                        $market->install();
+                        $template = getTemplate('core', $_version, $template_name, 'widget');
+                    }
+                } catch (Exception $e) {
+                    $this->setTemplate($_version, 'default');
+                    $this->save();
+                }
+            }
             if ($template == '') {
                 $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
                 $template = getTemplate('core', $_version, $template_name);
             }
         } else {
-            self::$_templateArray[$_version . '::' . $template_name] = $template;
+            $template = self::$_templateArray[$_version . '::' . $template_name];
         }
+        self::$_templateArray[$_version . '::' . $template_name] = $template;
         $replace = array(
             '#id#' => $this->getId(),
             '#name#' => ($this->getDisplay('icon') != '') ? $this->getDisplay('icon') : $this->getName(),

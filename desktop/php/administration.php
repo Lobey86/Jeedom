@@ -596,6 +596,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                                 <input type="text"  class="configKey form-control" data-l1key="market::apikey" />
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">{{Installer automatiquement les widgets manquants}}</label>
+                                            <div class="col-sm-3">
+                                                <input type="checkbox"  class="configKey" data-l1key="market::autoInstallMissingWidget" />
+                                            </div>
+                                        </div>
                                         <div class="form-group alert alert-danger">
                                             <label class="col-sm-2 control-label">{{Voir modules non validés (à vos risques et périls)}}</label>
                                             <div class="col-sm-3">
