@@ -101,7 +101,6 @@ object.toHtml = function(_id, _version, _useCache, _globalAjax) {
         return object.cache.html[_id];
     }
     var result = '';
-    $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/object.ajax.php", // url du fichier php
