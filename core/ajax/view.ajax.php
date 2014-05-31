@@ -48,52 +48,19 @@ try {
     }
 
     if (init('action') == 'getView') {
-        $view = view::byId(init('id'));
-        if (!is_object($view)) {
-            throw new Exception(__('Vue non trouvé. Vérifier l\'id', __FILE__));
-        }
-        $return = utils::o2a($view);
-        $return['viewZone'] = array();
-        foreach ($view->getViewZone() as $viewZone) {
-            $viewZone_info = utils::o2a($viewZone);
-            $viewZone_info['viewData'] = array();
-            foreach ($viewZone->getViewData() as $viewData) {
-                $viewData_info = utils::o2a($viewData);
-                $viewData_info['name'] = '';
-                switch ($viewData->getType()) {
-                    case 'cmd':
-                        $cmd = $viewData->getLinkObject();
-                        if (is_object($cmd)) {
-                            $viewData_info['type'] = 'cmd';
-                            $viewData_info['name'] = $cmd->getHumanName();
-                            $viewData_info['id'] = $cmd->getId();
-                            $viewData_info['html'] = $cmd->toHtml(init('version', 'dashboard'));
-                        }
-                        break;
-                    case 'eqLogic':
-                        $eqLogic = $viewData->getLinkObject();
-                        if (is_object($eqLogic)) {
-                            $viewData_info['type'] = 'eqLogic';
-                            $viewData_info['name'] = $eqLogic->getHumanName();
-                            $viewData_info['id'] = $eqLogic->getId();
-                            $viewData_info['html'] = $eqLogic->toHtml(init('version', 'dashboard'));
-                        }
-                        break;
-                    case 'scenario':
-                        $scenario = $viewData->getLinkObject();
-                        if (is_object($scenario)) {
-                            $viewData_info['type'] = 'scenario';
-                            $viewData_info['name'] = $scenario->getHumanName();
-                            $viewData_info['id'] = $scenario->getId();
-                            $viewData_info['html'] = $scenario->toHtml(init('version', 'dashboard'));
-                        }
-                        break;
-                }
-                $viewZone_info['viewData'][] = $viewData_info;
+        if (init('id') == 'all') {
+            $return = array();
+            foreach (view::all() as $view) {
+                $return[$view->getId()] = $view->toAjax();
             }
-            $return['viewZone'][] = $viewZone_info;
+            ajax::success($return);
+        } else {
+            $view = view::byId(init('id'));
+            if (!is_object($view)) {
+                throw new Exception(__('Vue non trouvé. Vérifier l\'id', __FILE__));
+            }
+            ajax::success($view->toAjax());
         }
-        ajax::success($return);
     }
 
 

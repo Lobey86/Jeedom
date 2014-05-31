@@ -53,8 +53,35 @@ view.prefetch = function(_id, _version, _forced) {
     if (!isset(view.cache.html)) {
         view.cache.html = Array();
     }
-    if (init(_forced, false) == true || !isset(view.cache.html[_id])) {
-        view.toHtml(_id, _version, false, false);
+    if (_id == 'all') {
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "core/ajax/view.ajax.php", // url du fichier php
+            data: {
+                action: "getView",
+                id: 'all',
+                version: _version
+            },
+            dataType: 'json',
+            global: false,
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) { // si l'appel a bien fonctionné
+                if (data.state != 'ok') {
+                    $.hideLoading();
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                for (var i in data.result) {
+                    view.cache.html[i] = view.handleViewAjax(data.result[i]);
+                }
+            }
+        });
+    } else {
+        if (init(_forced, false) == true || !isset(view.cache.html[_id])) {
+            view.toHtml(_id, _version, false, false);
+        }
     }
 }
 
@@ -85,37 +112,43 @@ view.toHtml = function(_id, _version, _allowCache, _globalAjax) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            for (var i in data.result.viewZone) {
-                var viewZone = data.result.viewZone[i];
-                result.html += '<div>';
-                result.html += '<legend style="color : #716b7a">' + viewZone.name + '</legend>';
-                var div_id = 'div_viewZone' + viewZone.id;
-                /*         * *****************viewZone widget***************** */
-                if (viewZone.type == 'widget') {
-                    result.html += '<div id="' + div_id + '" class="eqLogicZone">';
-                    for (var j in viewZone.viewData) {
-                        var viewData = viewZone.viewData[j];
-                        result.html += viewData.html;
-                        result[viewData.type].push(viewData.id);
-                    }
-                    result.html += '</div>';
-                }
-                /*         * *****************viewZone graph***************** */
-                if (viewZone.type == 'graph') {
-                    result.html += '<div id="' + div_id + '" class="chartContainer">';
-                    result.html += '<script>';
-                    for (var j in viewZone.viewData) {
-                        var viewData = viewZone.viewData[j];
-                        var configuration = json_encode(viewData.configuration);
-                        result.html += 'drawChart(' + viewData.link_id + ',"' + div_id + '","' + viewZone.configuration.dateRange + ' ",jQuery.parseJSON("' + configuration.replace(/\"/g, "\\\"") + '"));';
-                    }
-                    result.html += '</script>';
-                    result.html += '</div>';
-                }
-                result.html += '</div>';
-            }
+            result = view.handleViewAjax(data.result);
         }
     });
     view.cache.html[_id] = result;
+    return result;
+}
+
+view.handleViewAjax = function(_view) {
+    var result = {html: '', scenario: [], cmd: [], eqLogic: []};
+    for (var i in _view.viewZone) {
+        var viewZone = _view.viewZone[i];
+        result.html += '<div>';
+        result.html += '<legend style="color : #716b7a">' + viewZone.name + '</legend>';
+        var div_id = 'div_viewZone' + viewZone.id;
+        /*         * *****************viewZone widget***************** */
+        if (viewZone.type == 'widget') {
+            result.html += '<div id="' + div_id + '" class="eqLogicZone">';
+            for (var j in viewZone.viewData) {
+                var viewData = viewZone.viewData[j];
+                result.html += viewData.html;
+                result[viewData.type].push(viewData.id);
+            }
+            result.html += '</div>';
+        }
+        /*         * *****************viewZone graph***************** */
+        if (viewZone.type == 'graph') {
+            result.html += '<div id="' + div_id + '" class="chartContainer">';
+            result.html += '<script>';
+            for (var j in viewZone.viewData) {
+                var viewData = viewZone.viewData[j];
+                var configuration = json_encode(viewData.configuration);
+                result.html += 'drawChart(' + viewData.link_id + ',"' + div_id + '","' + viewZone.configuration.dateRange + ' ",jQuery.parseJSON("' + configuration.replace(/\"/g, "\\\"") + '"));';
+            }
+            result.html += '</script>';
+            result.html += '</div>';
+        }
+        result.html += '</div>';
+    }
     return result;
 }
