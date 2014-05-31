@@ -87,6 +87,7 @@ try {
                     $return[$object->getId()] = $html;
                 }
             }
+            ajax::success($return);
         } else {
             $object = object::byId(init('id'));
             if (!is_object($object)) {
@@ -98,8 +99,8 @@ try {
                     $html .= $eqLogic->toHtml(init('version'));
                 }
             }
+            ajax::success($html);
         }
-        ajax::success($html);
     }
 
     if (init('action') == 'setObjectPosition') {
