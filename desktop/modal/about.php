@@ -22,6 +22,23 @@ if (!isConnect()) {
             <li>Marie Corbière</li>
         </lu>
     </div>
+    <div class="col-md-4">
+        <h3>{{Designer}}</h3>
+        <lu>
+            <li><a class="cursor" href="http://jeedom.fr/" style="color:blue;" target="_blank">Loïc Gevrey</a></li>
+            <li>Marie Corbière</li>
+            <li><a class="cursor" href="http://ma-maison-domotique.blogspot.com/" style="color:blue;" target="_blank">Mathieu (alias Algeroth)</a></li>
+        </lu>
+    </div>
+    <div class="col-md-4">
+        <h3>{{Beta-testeur(s)}}</h3>
+        <lu>
+            <li><a class="cursor" href="http://jeedom.fr/" style="color:blue;" target="_blank">Loïc Gevrey</a></li>
+            <li>Marie Corbière</li>
+            <li><a class="cursor" href="http://ma-maison-domotique.blogspot.com/" style="color:blue;" target="_blank">Mathieu (alias Algeroth)</a></li>
+            <li>Gerandhal</li>
+        </lu>
+    </div>
 </div>
 
 <h3>{{Remerciements}}</h3>
