@@ -97,6 +97,7 @@ object.prefetch = function(_id, _version, _forced) {
             },
             dataType: 'json',
             global: false,
+            async : false,
             error: function(request, status, error) {
                 handleAjaxError(request, status, error);
             },

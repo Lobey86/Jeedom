@@ -34,6 +34,7 @@ view.all = function() {
         },
         dataType: 'json',
         async: false,
+        async : false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
