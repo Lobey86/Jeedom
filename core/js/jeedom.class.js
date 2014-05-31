@@ -75,12 +75,12 @@ jeedom.init = function() {
                         jeedom.workflow.cmd[_options.cmd_id] = true;
                         jeedom.workflow.eqLogic[_options.eqLogic_id] = true;
                         jeedom.workflow.object[_options.object_id] = true;
-                        jeedom.scehduleWorkflow();
+                        jeedom.scheduleWorkflow();
                     });
                     socket.on('eventScenario', function(scenario_id) {
                         refreshScenarioValue(scenario_id);
                         jeedom.workflow.scenario[scenario_id] = true;
-                        jeedom.scehduleWorkflow();
+                        jeedom.scheduleWorkflow();
                     });
                     socket.on('eventHistory', function(cmd_id) {
                         refreshGraph(cmd_id);
@@ -127,7 +127,7 @@ jeedom.init = function() {
     }
 }
 
-jeedom.scehduleWorkflow = function() {
+jeedom.scheduleWorkflow = function() {
     var nextrun = ((new Date()).getTime()) + 1000;
     if (nextrun > jeedom.workflow.nextrun) {
         if (nextrun < (jeedom.workflow.nextrun + jeedom.workflow.delay)) {
@@ -182,7 +182,11 @@ jeedom.processWorkflow = function() {
             jeedom.workflow.scenario[i] = false;
         }
     }
-
+    for (var i in jeedom.workflow.cmd) {
+        if (jeedom.workflow.cmd[i]) {
+            jeedom.workflow.cmd[i] = false;
+        }
+    }
 }
 
 jeedom.getConfiguration = function(_key, _default) {
