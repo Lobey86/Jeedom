@@ -22,7 +22,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         <fieldset>
                             <div class="form-group">
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">{{Frequence des sauvegardes}}</label>
+                                    <label class="col-sm-4 control-label">{{Fréquence des sauvegardes}}</label>
                                     <div class="col-sm-3">
                                         <input type="text"  class="configKey form-control" data-l1key="backup::cron" />
                                     </div>
@@ -57,7 +57,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <?php } ?>
                         </fieldset>
                     </form>
-                    <legend>{{Sauvegardes locale}}</legend>
+                    <legend>{{Sauvegardes locales}}</legend>
                     <form class="form-horizontal">
                         <fieldset>
                             <div class="form-group">
