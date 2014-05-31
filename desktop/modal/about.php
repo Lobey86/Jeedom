@@ -4,25 +4,25 @@ if (!isConnect()) {
 }
 ?>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-2">
         <h3>{{Auteur(s)}}</h3>
         <lu>
             <li><a class="cursor" href="http://jeedom.fr/" style="color:blue;" target="_blank">Loïc Gevrey</a></li>
         </lu>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
         <h3>{{Traducteur(s)}}</h3>
         <lu>
             <li>Marie Corbière (US)</li>
         </lu>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
         <h3>{{Correcteur(s)}}</h3>
         <lu>
             <li>Marie Corbière</li>
         </lu>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
         <h3>{{Designer}}</h3>
         <lu>
             <li><a class="cursor" href="http://jeedom.fr/" style="color:blue;" target="_blank">Loïc Gevrey</a></li>
@@ -30,7 +30,7 @@ if (!isConnect()) {
             <li><a class="cursor" href="http://ma-maison-domotique.blogspot.com/" style="color:blue;" target="_blank">Mathieu (alias Algeroth)</a></li>
         </lu>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
         <h3>{{Beta-testeur(s)}}</h3>
         <lu>
             <li><a class="cursor" href="http://jeedom.fr/" style="color:blue;" target="_blank">Loïc Gevrey</a></li>
