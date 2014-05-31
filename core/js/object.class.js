@@ -83,14 +83,12 @@ object.all = function() {
 }
 
 object.prefetch = function(_id, _version, _forced) {
-    setTimeout(function() {
-        if (!isset(object.cache.html)) {
-            object.cache.html = Array();
-        }
-        if (init(_forced, false) == true || !isset(object.cache.html[_id])) {
-            object.toHtml(_id, _version, false, false);
-        }
-    }, 0);
+    if (!isset(object.cache.html)) {
+        object.cache.html = Array();
+    }
+    if (init(_forced, false) == true || !isset(object.cache.html[_id])) {
+        object.toHtml(_id, _version, false, false);
+    }
 }
 
 object.toHtml = function(_id, _version, _useCache, _globalAjax) {

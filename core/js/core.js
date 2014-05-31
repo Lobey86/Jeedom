@@ -23,8 +23,6 @@ $(function() {
     }
 });
 
-
-
 if ($.mobile) {
     if (jeedom.nodeJs.state === null) {
         $('.span_nodeJsState').removeClass('red').addClass('grey');

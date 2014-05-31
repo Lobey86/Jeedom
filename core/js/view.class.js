@@ -50,14 +50,12 @@ view.all = function() {
 }
 
 view.prefetch = function(_id, _version, _forced) {
-    setTimeout(function() {
-        if (!isset(view.cache.html)) {
-            view.cache.html = Array();
-        }
-        if (init(_forced, false) == true || !isset(view.cache.html[_id])) {
-            view.toHtml(_id, _version, false, false);
-        }
-    }, 0);
+    if (!isset(view.cache.html)) {
+        view.cache.html = Array();
+    }
+    if (init(_forced, false) == true || !isset(view.cache.html[_id])) {
+        view.toHtml(_id, _version, false, false);
+    }
 }
 
 view.toHtml = function(_id, _version, _allowCache, _globalAjax) {

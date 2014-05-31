@@ -115,9 +115,10 @@ function initApplication(_reinit) {
                             'core/js/core.js',
                         ];
                         $.include(include, function() {
+                            doCache();
                             refreshMessageNumber();
                             page("home", 'Accueil');
-                            doCache();
+
                         });
                     });
                 }
@@ -127,18 +128,18 @@ function initApplication(_reinit) {
 }
 
 function doCache() {
-    setTimeout(function() {
-        var objects = object.all();
-        for (var i in objects) {
-            if (objects[i].isVisible == 1) {
-                object.prefetch(objects[i].id, 'mobile', true);
-            }
+    $.showLoading();
+    var objects = object.all();
+    for (var i in objects) {
+        if (objects[i].isVisible == 1) {
+            object.prefetch(objects[i].id, 'mobile', true);
         }
-        var views = view.all();
-        for (var i in views) {
-            view.prefetch(views[i].id, 'mobile', true);
-        }
-    }, 500);
+    }
+    var views = view.all();
+    for (var i in views) {
+        view.prefetch(views[i].id, 'mobile', true);
+    }
+    $.hideLoading();
 }
 
 function isConnect() {
