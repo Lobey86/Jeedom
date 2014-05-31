@@ -40,7 +40,7 @@ foreach (ls($root_dir, '*') as $dir) {
     if (is_dir($root_dir . $dir) && file_exists($root_dir . $dir . '/style.css')) {
         $other_file[] = 'core/css/icon/' . $dir . 'style.css';
         foreach (ls($root_dir . $dir . '/fonts', '*') as $font) {
-            $other_file[] = 'core/css/icon/' . $dir . '/fonts/' . $font;
+            $other_file[] = 'core/css/icon/' . $dir . 'fonts/' . $font;
         }
     }
 }
