@@ -34,7 +34,6 @@ view.all = function() {
         },
         dataType: 'json',
         async: false,
-        async : false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -65,6 +64,7 @@ view.prefetch = function(_id, _version, _forced) {
             },
             dataType: 'json',
             global: false,
+            async: false,
             error: function(request, status, error) {
                 handleAjaxError(request, status, error);
             },
