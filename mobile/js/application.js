@@ -1,5 +1,7 @@
 /***************Fonction d'initialisation*********************/
 $(function() {
+    $.mobile.orientationChangeEnabled = false
+    
     $(document).ajaxStart(function() {
         $.showLoading();
     });
@@ -297,12 +299,11 @@ function getDeviceType() {
     }
     result.bSize = 150;
     if (result.type == 'phone') {
-        var screenwidth = ((ori==90 || ori==-90) && screen.width < screen.height) ? screen.height : screen.width;
         var ori = window.orientation
         if (ori == 90 || ori == -90) {
-            result.bSize = (screenwidth / 3) - 30;
+            result.bSize = (screen.width / 3) - 30;
         } else {
-            result.bSize = (screenwidth / 2) - 30;
+            result.bSize = (screen.width / 2) - 30;
         }
     }
     return result;
