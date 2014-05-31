@@ -118,7 +118,6 @@ function initApplication(_reinit) {
                         $.include(include, function() {
                             object.prefetch('all', 'mobile', false);
                             view.prefetch('all', 'mobile', false);
-                            refreshMessageNumber();
                             page("home", 'Accueil');
                         });
                     });
