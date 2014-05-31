@@ -46,13 +46,6 @@ internalServer.get('/', function(req, res) {
     res.send('OK', 200);
 });
 
-//io.configure('development', function() {
-   // io.set('transports', ['xhr-polling']);
-   // io.set('log level', 0);
-   // io.set('browser client minification', true);  // send minified client
-   // io.set('browser client etag', true);
-//});
-
 var clients = [];
 var messages = [];
 io.sockets.on('connection', function(socket) {
