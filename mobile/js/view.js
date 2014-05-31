@@ -21,9 +21,9 @@ function initView(_view_id) {
         $('#div_displayView').empty().html(html.html).trigger('create');
         setTimeout(function() {
             if (deviceInfo.type == 'phone') {
-                $('.chartContainer').width((screen.width  - 50));
+                $('.chartContainer').width((deviceInfo.width  - 50));
             } else {
-                $('.chartContainer').width(((screen.width  / 2) - 50));
+                $('.chartContainer').width(((deviceInfo.width  / 2) - 50));
             }
             setTileSize('.eqLogic');
             setTileSize('.scenario');
@@ -35,9 +35,9 @@ function initView(_view_id) {
 
     $(window).on("orientationchange", function(event) {
         if (deviceInfo.type == 'phone') {
-            $('.chartContainer').width((screen.width - 50));
+            $('.chartContainer').width((deviceInfo.width - 50));
         } else {
-            $('.chartContainer').width(((screen.width / 2) - 50));
+            $('.chartContainer').width(((deviceInfo.width / 2) - 50));
         }
         setTileSize('.eqLogic');
         setTileSize('.scenario');

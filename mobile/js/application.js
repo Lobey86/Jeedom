@@ -1,12 +1,16 @@
 /***************Fonction d'initialisation*********************/
 $(function() {
     $.mobile.orientationChangeEnabled = false
-    
+
     $(document).ajaxStart(function() {
         $.showLoading();
     });
     $(document).ajaxStop(function() {
         $.hideLoading();
+    });
+
+    $(window).on("orientationchange", function(event) {
+        deviceInfo = getDeviceType();
     });
 
     initApplication();
@@ -282,7 +286,9 @@ function autoLogin(_key) {
 function getDeviceType() {
     var result = {};
     result.type = 'dekstop';
+    result.width = $('#pagecontainer').width();
     if (navigator.userAgent.match(/(android)/gi)) {
+        result.width = screen.width;
         result.type = 'phone';
         if ($('#pagecontainer').width() > 899) {
             result.type = 'tablet';
@@ -299,18 +305,17 @@ function getDeviceType() {
     }
     result.bSize = 150;
     if (result.type == 'phone') {
-        var ori = window.orientation
+        var ori = window.orientation;
         if (ori == 90 || ori == -90) {
-            result.bSize = (screen.width / 3) - 30;
+            result.bSize = (width / 3) - 30;
         } else {
-            result.bSize = (screen.width / 2) - 30;
+            result.bSize = (width / 2) - 30;
         }
     }
     return result;
 }
 
 function setTileSize(_filter) {
-    deviceInfo = getDeviceType();
     $(_filter).each(function() {
         $(this).width(deviceInfo.bSize);
     });
