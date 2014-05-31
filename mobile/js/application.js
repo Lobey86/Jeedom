@@ -69,7 +69,7 @@ function initApplication(_reinit) {
         },
         dataType: 'json',
         error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('#div_alert'));
+            alert(request.status + ' : ' + error);
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
