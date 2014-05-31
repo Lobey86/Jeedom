@@ -88,7 +88,7 @@ object.prefetch = function(_id, _version, _forced) {
             object.cache.html = Array();
         }
         if (init(_forced, false) == true || !isset(object.cache.html[_id])) {
-            object.cache.html[_id] = object.toHtml(_id, _version, false, false);
+            object.toHtml(_id, _version, false, false);
         }
     }, 0);
 }
@@ -124,5 +124,9 @@ object.toHtml = function(_id, _version, _useCache, _globalAjax) {
             result = data.result;
         }
     });
+    if (isset(jeedom) && isset(jeedom.workflow) && isset(jeedom.workflow.object) && jeedom.workflow.object[_id]) {
+        jeedom.workflow.object[_id] = false;
+    }
+    object.cache.html[_id] = result;
     return result;
 }

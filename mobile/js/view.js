@@ -13,6 +13,7 @@ function initView(_view_id) {
             if (jeedom.workflow.eqLogic[i]) {
                 if ($.inArray(i, html.eqLogic) >= 0) {
                     var html = view.toHtml(_view_id, 'mobile');
+                    jeedom.workflow.eqLogic[i] = false;
                     break;
                 }
             }

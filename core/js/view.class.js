@@ -55,7 +55,7 @@ view.prefetch = function(_id, _version, _forced) {
             view.cache.html = Array();
         }
         if (init(_forced, false) == true || !isset(view.cache.html[_id])) {
-            view.cache.html[_id] = view.toHtml(_id, _version, false, false);
+            view.toHtml(_id, _version, false, false);
         }
     }, 0);
 }
@@ -118,5 +118,6 @@ view.toHtml = function(_id, _version, _allowCache, _globalAjax) {
             }
         }
     });
+    view.cache.html[_id] = result;
     return result;
 }

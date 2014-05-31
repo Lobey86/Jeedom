@@ -21,7 +21,7 @@ function jeedom() {
 jeedom.cache = [];
 jeedom.nodeJs = {state: -1};
 jeedom.display = {};
-jeedom.workflow = {object: [], eqLogic: [], cmd: [], scenario: [], nextrun: 0, delay: 1000};
+jeedom.workflow = {object: [], eqLogic: [], cmd: [], scenario: [], nextrun: 0, delay: 1500};
 
 
 jeedom.init = function() {
@@ -128,7 +128,7 @@ jeedom.init = function() {
 }
 
 jeedom.scheduleWorkflow = function() {
-    var nextrun = ((new Date()).getTime()) + 1000;
+    var nextrun = ((new Date()).getTime()) + jeedom.workflow.delay;
     if (nextrun > jeedom.workflow.nextrun) {
         if (nextrun < (jeedom.workflow.nextrun + jeedom.workflow.delay)) {
             jeedom.workflow.nextrun += jeedom.workflow.delay;
