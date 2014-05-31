@@ -88,12 +88,12 @@ object.prefetch = function(_id, _version, _forced) {
             object.cache.html = Array();
         }
         if (init(_forced, false) == true || !isset(object.cache.html[_id])) {
-            object.cache.html[_id] = object.toHtml(_id, _version);
+            object.cache.html[_id] = object.toHtml(_id, _version, false, false);
         }
     }, 0);
 }
 
-object.toHtml = function(_id, _version, _useCache) {
+object.toHtml = function(_id, _version, _useCache, _globalAjax) {
     if (!isset(object.cache.html)) {
         object.cache.html = Array();
     }
@@ -112,6 +112,7 @@ object.toHtml = function(_id, _version, _useCache) {
         },
         dataType: 'json',
         async: false,
+        global: init(_globalAjax, true),
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },

@@ -55,12 +55,12 @@ view.prefetch = function(_id, _version, _forced) {
             view.cache.html = Array();
         }
         if (init(_forced, false) == true || !isset(view.cache.html[_id])) {
-            view.cache.html[_id] = view.toHtml(_id, _version);
+            view.cache.html[_id] = view.toHtml(_id, _version, false, false);
         }
     }, 0);
 }
 
-view.toHtml = function(_id, _version, _allowCache) {
+view.toHtml = function(_id, _version, _allowCache, _globalAjax) {
     if (!isset(view.cache.html)) {
         view.cache.html = Array();
     }
@@ -78,6 +78,7 @@ view.toHtml = function(_id, _version, _allowCache) {
         },
         dataType: 'json',
         async: false,
+        global: init(_globalAjax, true),
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
