@@ -18,9 +18,11 @@
 function jeedom() {
 }
 
-jeedom.cache = Array();
+jeedom.cache = [];
 jeedom.nodeJs = {state: -1};
 jeedom.display = {};
+jeedom.workflow = {object: [], eqLogic: [], cmd: [], scenario: [], nextrun: 0, delay: 1000};
+
 
 jeedom.init = function() {
     jeedom.display.version = 'desktop';
@@ -70,26 +72,15 @@ jeedom.init = function() {
                     socket.on('eventCmd', function(_options) {
                         _options = json_decode(_options);
                         refreshCmdValue(_options.cmd_id);
-                        if (isset(object) && isset(object.cache) && isset(object.cache.html) && isset(object.cache.html[_options.object_id])) {
-                            object.prefetch(_options.object_id, jeedom.display.version, true);
-                        }
-                        if (isset(view) && isset(view.cache) && isset(view.cache.html)) {
-                            for (var i in view.cache.html) {
-                                if ($.inArray(_options.eqLogic_id, view.cache.html[i].eqLogic) >= 0) {
-                                    view.prefetch(i, jeedom.display.version, true);
-                                }
-                            }
-                        }
+                        jeedom.workflow.cmd[_options.cmd_id] = true;
+                        jeedom.workflow.eqLogic[_options.eqLogic_id] = true;
+                        jeedom.workflow.object[_options.object_id] = true;
+                        jeedom.scehduleWorkflow();
                     });
                     socket.on('eventScenario', function(scenario_id) {
                         refreshScenarioValue(scenario_id);
-                        if (isset(view) && isset(view.cache) && isset(view.cache.html)) {
-                            for (var i in view.cache.html) {
-                                if ($.inArray(scenario_id, view.cache.html[i].scenario) >= 0) {
-                                    view.prefetch(i, jeedom.display.version, true);
-                                }
-                            }
-                        }
+                        jeedom.workflow.scenario[scenario_id] = true;
+                        jeedom.scehduleWorkflow();
                     });
                     socket.on('eventHistory', function(cmd_id) {
                         refreshGraph(cmd_id);
@@ -134,6 +125,64 @@ jeedom.init = function() {
         $('.span_nodeJsState').removeClass('red').addClass('grey');
         jeedom.nodeJs.state = null;
     }
+}
+
+jeedom.scehduleWorkflow = function() {
+    var nextrun = ((new Date()).getTime()) + 1000;
+    if (nextrun > jeedom.workflow.nextrun) {
+        if (nextrun < (jeedom.workflow.nextrun + jeedom.workflow.delay)) {
+            jeedom.workflow.nextrun += jeedom.workflow.delay;
+            var timeout = (new Date()).getTime() - jeedom.workflow.nextrun;
+            if (timeout < 1) {
+                timeout = jeedom.workflow.delay;
+            }
+            setTimeout(function() {
+                jeedom.processWorkflow();
+            }, timeout);
+        } else {
+            jeedom.workflow.nextrun = nextrun + jeedom.workflow.delay;
+            setTimeout(function() {
+                jeedom.processWorkflow();
+            }, jeedom.workflow.delay);
+        }
+    }
+}
+
+jeedom.processWorkflow = function() {
+    for (var i in jeedom.workflow.object) {
+        if (jeedom.workflow.object[i]) {
+            if (isset(object) && isset(object.cache) && isset(object.cache.html) && isset(object.cache.html[i])) {
+                object.prefetch(i, jeedom.display.version, true);
+            }
+            jeedom.workflow.object[i] = false;
+        }
+    }
+    for (var i in jeedom.workflow.eqLogic) {
+        if (jeedom.workflow.eqLogic[i]) {
+            if (isset(view) && isset(view.cache) && isset(view.cache.html)) {
+                for (var j in view.cache.html) {
+                    if ($.inArray(i, view.cache.html[j].eqLogic) >= 0) {
+                        view.prefetch(j, jeedom.display.version, true);
+                    }
+                }
+            }
+            jeedom.workflow.eqLogic[i] = false;
+        }
+    }
+
+    for (var i in jeedom.workflow.scenario) {
+        if (jeedom.workflow.scenario[i]) {
+            if (isset(view) && isset(view.cache) && isset(view.cache.html)) {
+                for (var j in view.cache.html) {
+                    if ($.inArray(i, view.cache.html[j].scenario) >= 0) {
+                        view.prefetch(j, jeedom.display.version, true);
+                    }
+                }
+            }
+            jeedom.workflow.scenario[i] = false;
+        }
+    }
+
 }
 
 jeedom.getConfiguration = function(_key, _default) {
