@@ -69,7 +69,9 @@ function initApplication(_reinit) {
         },
         dataType: 'json',
         error: function(request, status, error) {
-            alert(request.status + ' : ' + error);
+            if (confirm('Erreur de communication.Etes-vous connecté à internet? Voulez-vous ressayer ?')) {
+                window.location.reload();
+            }
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
