@@ -129,12 +129,7 @@ function initApplication(_reinit) {
 
 function doCache() {
     $.showLoading();
-    var objects = object.all();
-    for (var i in objects) {
-        if (objects[i].isVisible == 1) {
-            object.prefetch(objects[i].id, 'mobile', true);
-        }
-    }
+    object.prefetch('all','mobile',true);
     var views = view.all();
     for (var i in views) {
         view.prefetch(views[i].id, 'mobile', true);

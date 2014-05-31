@@ -74,14 +74,29 @@ try {
     }
 
     if (init('action') == 'toHtml') {
-        $object = object::byId(init('id'));
-        if (!is_object($object)) {
-            throw new Exception(__('Objet inconnu verifié l\'id', __FILE__));
-        }
-        $html = '';
-        foreach ($object->getEqLogic() as $eqLogic) {
-            if ($eqLogic->getIsVisible() == '1') {
-                $html .= $eqLogic->toHtml(init('version'));
+        if (init('id') == 'all') {
+            $return = array();
+            foreach (object::all() as $object) {
+                if ($object->getIsVisible() == 1) {
+                    $html = '';
+                    foreach ($object->getEqLogic() as $eqLogic) {
+                        if ($eqLogic->getIsVisible() == '1') {
+                            $html .= $eqLogic->toHtml(init('version'));
+                        }
+                    }
+                    $return[$object->getId()] = $html;
+                }
+            }
+        } else {
+            $object = object::byId(init('id'));
+            if (!is_object($object)) {
+                throw new Exception(__('Objet inconnu verifié l\'id', __FILE__));
+            }
+            $html = '';
+            foreach ($object->getEqLogic() as $eqLogic) {
+                if ($eqLogic->getIsVisible() == '1') {
+                    $html .= $eqLogic->toHtml(init('version'));
+                }
             }
         }
         ajax::success($html);
