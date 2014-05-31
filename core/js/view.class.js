@@ -99,7 +99,7 @@ view.toHtml = function(_id, _version, _allowCache, _globalAjax) {
         url: "core/ajax/view.ajax.php", // url du fichier php
         data: {
             action: "getView",
-            id: _id,
+            id: ($.isArray(_id)) ? json_encode(_id) : _id,
             version: _version,
         },
         dataType: 'json',
@@ -113,7 +113,13 @@ view.toHtml = function(_id, _version, _allowCache, _globalAjax) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = view.handleViewAjax(data.result);
+            if (_id == 'all' || $.isArray(_id)) {
+                for (var i in data.result) {
+                    view.cache.html[i] = view.handleViewAjax(data.result[i]);
+                }
+            } else {
+                result = view.handleViewAjax(data.result);
+            }
         }
     });
     view.cache.html[_id] = result;

@@ -149,20 +149,21 @@ jeedom.scheduleWorkflow = function() {
 }
 
 jeedom.processWorkflow = function() {
+    var list_object = [];
     for (var i in jeedom.workflow.object) {
         if (jeedom.workflow.object[i]) {
-            if (isset(object) && isset(object.cache) && isset(object.cache.html) && isset(object.cache.html[i])) {
-                object.prefetch(i, jeedom.display.version, true);
-            }
+            list_object.push(i);
             jeedom.workflow.object[i] = false;
         }
     }
+
+    var list_view = [];
     for (var i in jeedom.workflow.eqLogic) {
         if (jeedom.workflow.eqLogic[i]) {
             if (isset(view) && isset(view.cache) && isset(view.cache.html)) {
                 for (var j in view.cache.html) {
-                    if ($.inArray(i, view.cache.html[j].eqLogic) >= 0) {
-                        view.prefetch(j, jeedom.display.version, true);
+                    if ($.inArray(j, list_view) < 0 && $.inArray(i, view.cache.html[j].eqLogic) >= 0) {
+                        list_view.push(j);
                     }
                 }
             }
@@ -174,8 +175,8 @@ jeedom.processWorkflow = function() {
         if (jeedom.workflow.scenario[i]) {
             if (isset(view) && isset(view.cache) && isset(view.cache.html)) {
                 for (var j in view.cache.html) {
-                    if ($.inArray(i, view.cache.html[j].scenario) >= 0) {
-                        view.prefetch(j, jeedom.display.version, true);
+                    if ($.inArray(j, list_view) < 0 && $.inArray(i, view.cache.html[j].scenario) >= 0) {
+                        list_view.push(j);
                     }
                 }
             }
@@ -186,6 +187,13 @@ jeedom.processWorkflow = function() {
         if (jeedom.workflow.cmd[i]) {
             jeedom.workflow.cmd[i] = false;
         }
+    }
+
+    if (list_object.length > 0 && isset(object) && isset(object.cache) && isset(object.cache.html)) {
+        object.prefetch(list_object, jeedom.display.version, true);
+    }
+    if (list_view.length > 0 && isset(view) && isset(view.cache) && isset(view.cache.html)) {
+        view.prefetch(list_view, jeedom.display.version, true);
     }
 }
 

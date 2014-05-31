@@ -74,7 +74,16 @@ try {
     }
 
     if (init('action') == 'toHtml') {
-        if (init('id') == 'all') {
+        if (init('id') == 'all' || is_json(init('id'))) {
+            if (is_json(init('id'))) {
+                $object_ajax = json_decode(init('id'), true);
+                $objects = array();
+                foreach ($object_ajax as $id) {
+                    $objects[] = object::byId($id);
+                }
+            } else {
+                $objects = object::all();
+            }
             $return = array();
             foreach (object::all() as $object) {
                 if ($object->getIsVisible() == 1) {

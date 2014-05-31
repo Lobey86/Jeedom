@@ -48,7 +48,16 @@ try {
     }
 
     if (init('action') == 'getView') {
-        if (init('id') == 'all') {
+        if (init('id') == 'all' || is_json(init('id'))) {
+            if (is_json(init('id'))) {
+                $view_ajax = json_decode(init('id'), true);
+                $views = array();
+                foreach ($view_ajax as $id) {
+                    $views[] = view::byId($id);
+                }
+            } else {
+                $views = view::all();
+            }
             $return = array();
             foreach (view::all() as $view) {
                 $return[$view->getId()] = $view->toAjax();

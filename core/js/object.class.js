@@ -86,36 +86,8 @@ object.prefetch = function(_id, _version, _forced) {
     if (!isset(object.cache.html)) {
         object.cache.html = Array();
     }
-    if (_id == 'all') {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/object.ajax.php", // url du fichier php
-            data: {
-                action: "toHtml",
-                id: 'all',
-                version: _version
-            },
-            dataType: 'json',
-            global: false,
-            async : false,
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    $.hideLoading();
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                for (var i in data.result) {
-                    object.cache.html[i] = data.result[i];
-                }
-            }
-        });
-    } else {
-        if (init(_forced, false) == true || !isset(object.cache.html[_id])) {
-            object.toHtml(_id, _version, false, false);
-        }
+    if (init(_forced, false) == true || !isset(object.cache.html[_id])) {
+        object.toHtml(_id, _version, false, false);
     }
 }
 
@@ -132,7 +104,7 @@ object.toHtml = function(_id, _version, _useCache, _globalAjax) {
         url: "core/ajax/object.ajax.php", // url du fichier php
         data: {
             action: "toHtml",
-            id: _id,
+            id: ($.isArray(_id)) ? json_encode(_id) : _id,
             version: _version
         },
         dataType: 'json',
@@ -147,12 +119,18 @@ object.toHtml = function(_id, _version, _useCache, _globalAjax) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            if (_id == 'all' || $.isArray(_id)) {
+                for (var i in data.result) {
+                    object.cache.html[i] = data.result[i];
+                }
+            } else {
+                if (isset(jeedom) && isset(jeedom.workflow) && isset(jeedom.workflow.object) && jeedom.workflow.object[_id]) {
+                    jeedom.workflow.object[_id] = false;
+                }
+                object.cache.html[_id] = result;
+            }
             result = data.result;
         }
     });
-    if (isset(jeedom) && isset(jeedom.workflow) && isset(jeedom.workflow.object) && jeedom.workflow.object[_id]) {
-        jeedom.workflow.object[_id] = false;
-    }
-    object.cache.html[_id] = result;
     return result;
 }
