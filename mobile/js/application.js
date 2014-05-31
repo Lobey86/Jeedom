@@ -297,30 +297,21 @@ function getDeviceType() {
     }
     result.bSize = 150;
     if (result.type == 'phone') {
+        var screenwidth = ((ori==90 || ori==-90) && screen.width < screen.height) ? screen.height : screen.width;
         var ori = window.orientation
         if (ori == 90 || ori == -90) {
-            result.bSize = ($('#pagecontainer').width() / 3) - 30;
+            result.bSize = (screenwidth / 3) - 30;
         } else {
-            result.bSize = ($('#pagecontainer').width() / 2) - 30;
+            result.bSize = (screenwidth / 2) - 30;
         }
     }
-    result.bSize2 = result.bSize * 2 + 12;
     return result;
 }
 
-function setTileSize(_filter, _fixWidthSize, _fixHeightSize) {
+function setTileSize(_filter) {
     deviceInfo = getDeviceType();
     $(_filter).each(function() {
-        $(this).css('width', 'auto');
-        $(this).css('height', 'auto');
-        if (init(_fixWidthSize, '') != '') {
-            $(this).width((deviceInfo.bSize + 6) * _fixWidthSize);
-        } else {
-            $(this).width(deviceInfo.bSize);
-        }
-        if (init(_fixHeightSize, '') != '') {
-            $(this).width((deviceInfo.bSize + 6) * _fixHeightSize);
-        }
+        $(this).width(deviceInfo.bSize);
     });
 }
 
