@@ -307,9 +307,9 @@ function getDeviceType() {
     if (result.type == 'phone') {
         var ori = window.orientation;
         if (ori == 90 || ori == -90) {
-            result.bSize = (width / 3) - 30;
+            result.bSize = (result.width / 3) - 30;
         } else {
-            result.bSize = (width / 2) - 30;
+            result.bSize = (result.width / 2) - 30;
         }
     }
     return result;
