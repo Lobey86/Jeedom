@@ -138,7 +138,7 @@ function doCache() {
         for (var i in views) {
             view.prefetch(views[i].id, 'mobile', true);
         }
-    }, 0);
+    }, 500);
 }
 
 function isConnect() {
