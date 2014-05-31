@@ -9,6 +9,14 @@ function initView(_view_id) {
     if (isset(_view_id) && is_numeric(_view_id)) {
         CORE_chart = [];
         var html = view.toHtml(_view_id, 'mobile', true);
+        for (var i in jeedom.workflow.eqLogic) {
+            if (jeedom.workflow.eqLogic[i]) {
+                if ($.inArray(i, html.eqLogic) >= 0) {
+                    var html = view.toHtml(_view_id, 'mobile');
+                    break;
+                }
+            }
+        }
         $('#div_displayView').empty().html(html.html).trigger('create');
         setTimeout(function() {
             if (deviceInfo.type == 'phone') {

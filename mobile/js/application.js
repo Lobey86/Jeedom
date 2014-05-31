@@ -134,6 +134,10 @@ function doCache() {
                 object.prefetch(objects[i].id, 'mobile', true);
             }
         }
+        var views = view.all();
+        for (var i in views) {
+            view.prefetch(views[i].id, 'mobile', true);
+        }
     }, 0);
 }
 
