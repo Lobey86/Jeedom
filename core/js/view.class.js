@@ -49,44 +49,17 @@ view.all = function() {
     return result;
 }
 
-view.prefetch = function(_id, _version, _forced) {
+view.prefetch = function(_id, _version, _async) {
     if (!isset(view.cache.html)) {
         view.cache.html = Array();
     }
-    if (_id == 'all') {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/view.ajax.php", // url du fichier php
-            data: {
-                action: "getView",
-                id: 'all',
-                version: _version
-            },
-            dataType: 'json',
-            global: false,
-            async: false,
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    $.hideLoading();
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                for (var i in data.result) {
-                    view.cache.html[i] = view.handleViewAjax(data.result[i]);
-                }
-            }
-        });
-    } else {
-        if (init(_forced, false) == true || !isset(view.cache.html[_id])) {
-            view.toHtml(_id, _version, false, false);
-        }
+    if (!isset(view.cache.html[_id])) {
+        view.toHtml(_id, _version, false, false, init(_async, true));
     }
+
 }
 
-view.toHtml = function(_id, _version, _allowCache, _globalAjax) {
+view.toHtml = function(_id, _version, _allowCache, _globalAjax, _async) {
     if (!isset(view.cache.html)) {
         view.cache.html = Array();
     }
@@ -103,7 +76,7 @@ view.toHtml = function(_id, _version, _allowCache, _globalAjax) {
             version: _version,
         },
         dataType: 'json',
-        async: false,
+        async: init(_async, false),
         global: init(_globalAjax, true),
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
@@ -119,10 +92,10 @@ view.toHtml = function(_id, _version, _allowCache, _globalAjax) {
                 }
             } else {
                 result = view.handleViewAjax(data.result);
+                view.cache.html[_id] = result;
             }
         }
     });
-    view.cache.html[_id] = result;
     return result;
 }
 

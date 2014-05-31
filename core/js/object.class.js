@@ -82,16 +82,16 @@ object.all = function() {
     return result;
 }
 
-object.prefetch = function(_id, _version, _forced) {
+object.prefetch = function(_id, _version, _async) {
     if (!isset(object.cache.html)) {
         object.cache.html = Array();
     }
-    if (init(_forced, false) == true || !isset(object.cache.html[_id])) {
-        object.toHtml(_id, _version, false, false);
+    if (!isset(object.cache.html[_id])) {
+        object.toHtml(_id, _version, false, false, init(_async, true));
     }
 }
 
-object.toHtml = function(_id, _version, _useCache, _globalAjax) {
+object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
     if (!isset(object.cache.html)) {
         object.cache.html = Array();
     }
@@ -108,7 +108,7 @@ object.toHtml = function(_id, _version, _useCache, _globalAjax) {
             version: _version
         },
         dataType: 'json',
-        async: false,
+        async: init(_async, false),
         global: init(_globalAjax, true),
         error: function(request, status, error) {
             handleAjaxError(request, status, error);

@@ -114,24 +114,18 @@ function initApplication(_reinit) {
                             'core/js/view.class.js',
                             'core/js/core.js',
                         ];
+                        $.showLoading();
                         $.include(include, function() {
-                            doCache();
+                            object.prefetch('all', 'mobile', false);
+                            view.prefetch('all', 'mobile', false);
                             refreshMessageNumber();
                             page("home", 'Accueil');
-
                         });
                     });
                 }
             }
         }
     });
-}
-
-function doCache() {
-    $.showLoading();
-    object.prefetch('all','mobile',true);
-    view.prefetch('all','mobile',true);
-    $.hideLoading();
 }
 
 function isConnect() {
