@@ -284,6 +284,7 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('desktop', 'utils', 'js');
         include_file('3rdparty', 'jquery.gritter/jquery.gritter.min', 'js');
         include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
+        include_file('3rdparty', 'jquery.at.caret/jquery.at.caret.min', 'js');
         ?>
 
         <?php if (isConnect()) { ?>
