@@ -419,6 +419,9 @@ class eqLogic {
     }
 
     public function toHtml($_version = 'dashboard') {
+        if ($_version == '') {
+            throw new Exception(__('La version demandé ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
+        }
         $info = '';
         $action = '';
         if ($this->getIsEnable()) {

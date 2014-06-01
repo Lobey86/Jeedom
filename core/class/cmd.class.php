@@ -630,6 +630,9 @@ class cmd {
     }
 
     public function toHtml($_version = 'dashboard', $options = '') {
+        if ($_version == '') {
+            throw new Exception(__('La version demandé ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
+        }
         $html = '';
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($_version, 'default');
         $template = '';
