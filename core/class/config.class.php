@@ -124,6 +124,19 @@ class config {
         }
         return $value['value'];
     }
+    
+    
+     public static function searchKey($_key, $_plugin = 'core') {
+        $values = array(
+            'plugin' => $_plugin,
+            'key' => '%'.$_key.'%',
+        );
+        $sql = 'SELECT * 
+                FROM config 
+                WHERE `key` LIKE :key
+                    AND plugin=:plugin';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
+    }
 
     public static function genKey($_car = 20) {
         $key = "";
