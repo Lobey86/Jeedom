@@ -12,7 +12,6 @@ if (!is_object($object)) {
 if (!is_object($object)) {
     throw new Exception('{{Aucun objet racine trouvé}}');
 }
-include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
 $child_object = object::buildTree($object);
 ?>
 
