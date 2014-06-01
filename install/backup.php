@@ -47,6 +47,10 @@ try {
     if (!file_exists($backup_dir)) {
         mkdir($backup_dir, 0770, true);
     }
+    if (!is_writable($backup_dir)) {
+        throw new Exception(__('Le dossier des backups n\'est pas accessible en écriture. Vérifier les droits : ', __FILE__) . $backup_dir);
+    }
+
     $bakcup_name = 'backup-' . date("d-m-Y-H\hi") . '.tar.gz';
 
     echo __('Sauvegarde des fichiers...', __FILE__);
@@ -77,7 +81,7 @@ try {
     echo __("OK\n", __FILE__);
 
     if (!file_exists($backup_dir . '/' . $bakcup_name)) {
-        throw new Exception('Echec lors de la compression du backup. Backup introuvable : ' . $backup_dir . '/' . $bakcup_name);
+        throw new Exception(__('Echec lors de la compression du backup. Backup introuvable : ', __FILE__) . $backup_dir . '/' . $bakcup_name);
     }
 
     echo __('Nettoyage des anciens backup...', __FILE__);
