@@ -76,6 +76,10 @@ try {
     system('cd ' . $tmp . '; tar cfz ' . $backup_dir . '/' . $bakcup_name . ' * > /dev/null 2>&1');
     echo __("OK\n", __FILE__);
 
+    if (!file_exists($backup_dir . '/' . $bakcup_name)) {
+        throw new Exception('Echec lors de la compression du backup. Backup introuvable : ' . $backup_dir . '/' . $bakcup_name);
+    }
+
     echo __('Nettoyage des anciens backup...', __FILE__);
     system('find ' . $backup_dir . ' -mtime +' . config::byKey('backup::keepDays') . ' -print | xargs -r rm');
     echo __("OK\n", __FILE__);

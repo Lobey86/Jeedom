@@ -511,13 +511,8 @@ function flushMemcache() {
 }
 
 function saveConfiguration(_el) {
-    try {
-        var configuration = _el.getValues('.configKey');
-        configuration = configuration[0];
-    } catch (e) {
-        $('#div_alert').showAlert({message: e, level: 'danger'});
-        return false;
-    }
+    var configuration = _el.getValues('.configKey');
+    configuration = configuration[0];
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/config.ajax.php", // url du fichier php

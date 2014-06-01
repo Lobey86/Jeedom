@@ -38,6 +38,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
             'communication' => array('name' => 'Communication', 'icon' => 'fa-comment-o'),
             'multimedia' => array('name' => 'Multimedia', 'icon' => 'fa-comment-o'),
             'wellness' => array('name' => 'Bien-être', 'icon' => 'fa-user'),
+            'jeedomBox' => array('name' => 'Jeedom Box', 'icon' => 'fa-dropbox'),            
         ),
     ),
     'cmd' => array(
