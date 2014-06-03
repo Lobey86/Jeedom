@@ -134,7 +134,7 @@ if (init('api') != '' && init('type') != '') {
                 if (!is_object($cmd)) {
                     throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
                 }
-                $jsonrpc->makeSuccess($cmd->execCmd($params));
+                $jsonrpc->makeSuccess($cmd->execCmd($params['options']));
             }
 
             if ($jsonrpc->getMethod() == 'cmd::getStatistique') {
