@@ -87,6 +87,13 @@ $child_object = object::buildTree($object);
     <div class="col-sm-2">
         <legend>{{Scénarios}}</legend>
         <?php
+        if (init('object_id') == 'global') {
+            foreach (scenario::byObjectId(null) as $scenario) {
+                if ($scenario->getIsVisible() == 1) {
+                    echo $scenario->toHtml('dashboard');
+                }
+            }
+        }
         foreach ($object->getScenario(false) as $scenario) {
             if ($scenario->getIsVisible() == 1) {
                 echo $scenario->toHtml('dashboard');
