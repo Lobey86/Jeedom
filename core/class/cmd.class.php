@@ -139,6 +139,26 @@ class cmd {
         }
         return $return;
     }
+    
+    public static function byLogicalId($_logical_id, $_type = null) {
+        $values = array(
+            'logicalId' => $_logical_id
+        );
+        $sql = 'SELECT id
+                FROM cmd
+                WHERE logicalId=:logicalId';
+        if ($_type != null) {
+            $values['type'] = $_type;
+            $sql .= ' AND `type`=:type';
+        }
+        $sql .= ' ORDER BY `order`';
+        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
+        $return = array();
+        foreach ($results as $result) {
+            $return[] = self::byId($result['id']);
+        }
+        return $return;
+    }
 
     public static function byEqLogicIdAndLogicalId($_eqLogic_id, $_logicalId) {
         $values = array(
