@@ -282,7 +282,7 @@ class jeedom {
             if ($cache->getValue(0) == 0) {
                 cache::restore();
                 cache::set('jeedom::startOK', 1, 0);
-                scenario::check('start');
+                self::event('start');
                 plugin::start();
                 jeedom::start();
                 log::add('core', 'info', 'Démarrage de Jeedom OK');
@@ -294,6 +294,10 @@ class jeedom {
         } catch (Exception $e) {
             log::add('cache', 'error', $e->getMessage());
         }
+    }
+    
+    public static function event($_event){
+         scenario::check($_event);
     }
 
     public static function cron() {
