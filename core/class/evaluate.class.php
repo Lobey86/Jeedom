@@ -55,14 +55,14 @@ class evaluate {
         //ERREUR SI UN OPERATEUR EST SITUE EN FIN DE CHAINE
         if (isset($lstParam[sizeof($lstParam) - 1]["operateur"])) {
             if ($lstParam[sizeof($lstParam) - 1]["operateur"]) {
-                throw new Exception(__("OPERATEUR INATTENDU EN FIN D'EXPRESSION",__FILE__));
+                throw new Exception(__("Opérateur inattendu en fin d'expression",__FILE__));
             }
         }
         //PARCOUR DES PARAMETRES
         for ($i = 0; $i < sizeof($lstParam); $i++) {
             //OPERATEUR SPECIAL
             if ($lstParam[$i]["operateur"] == "|") {
-                throw new Exception(__("OPERATEUR | Inconnu",__FILE__));
+                throw new Exception(__("Opérateur '|' Inconnu",__FILE__));
             }
             //CAS DES ( et des {
             if (substr($lstParam[$i]["valeur"], 0, 1) == "(" && substr($lstParam[$i]["valeur"], -1, 1) == ")") {
@@ -150,7 +150,7 @@ class evaluate {
     private function Eval_Faire_Operation($valeur1, $valeur2, $operateur) {
         if ($operateur != "&") {
             if (!is_numeric($valeur1) || !is_numeric($valeur2)) {
-                throw new Exception(__('ATTENTION l\'operateur',__FILE__) . $operateur . __(' necessite deux numeriques !',__FILE__));
+                throw new Exception(__('Attention l\'operateur',__FILE__) . $operateur . __(' necessite deux numeriques !',__FILE__));
                 return false;
             }
         }
@@ -343,7 +343,7 @@ class evaluate {
                         if (isset($lstP[$lastNum]["operateur"]) && $lastNum != -1) {
                             $ope = $lstP[$lastNum]["operateur"] . $lettre;
                             if (array_search($ope, $tabSignes) === false) {
-                                throw new Exception(__("Erreur deux opérateurs a la filées",__FILE__));
+                                throw new Exception(__("Erreur deux opérateurs d'affiler",__FILE__));
                             } else {
                                 $lstP[$lastNum]["operateur"].=$lettre;
                             }
