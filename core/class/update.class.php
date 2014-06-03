@@ -150,6 +150,14 @@ class update {
     public static function findNewUpdateObject() {
         foreach (plugin::listPlugin(true) as $plugin) {
             $plugin_id = $plugin->getId();
+            $update = self::byTypeAndLogicalId('plugin', $plugin_id);
+            if (!is_object($update)) {
+                $update = new update();
+                $update->setLogicalId('plugin');
+                $update->setType($plugin_id);
+                $update->setLocalVersion(date('Y-m-d H:i:s'));
+                $update->save();
+            }
             if (method_exists($plugin_id, 'listMarketObject')) {
                 foreach ($plugin_id::listMarketObject() as $logical_id) {
                     $update = self::byTypeAndLogicalId($plugin_id, $logical_id);
