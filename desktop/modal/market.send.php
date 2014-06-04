@@ -21,7 +21,7 @@ if (is_object($market)) {
 }
 
 if (init('type') == 'plugin') {
-    $plugin = new plugin(init('logicalId'));
+    $plugin = plugin::getById(init('logicalId'));
     if (!is_object($plugin)) {
         throw new Exception('{{Le plugin :}} ' . init('logicalId') . ' {{est introuvable}}');
     }

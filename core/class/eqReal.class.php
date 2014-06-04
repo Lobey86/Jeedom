@@ -52,7 +52,7 @@ class eqReal {
             try {
                 $plugin = null;
                 if ($eqTyme_name != '') {
-                    $plugin = new plugin($eqTyme_name);
+                    $plugin = plugin::getById($eqTyme_name);
                 }
                 if (!is_object($plugin) || $plugin->isActive() == 0) {
                     return __CLASS__;

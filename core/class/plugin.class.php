@@ -37,49 +37,67 @@ class plugin {
     private $display;
     private $mobile;
     private $include = array();
+    private static $_cache;
 
     /*     * ***********************Methode static*************************** */
 
-    function __construct($_id) {
+    public static function getById($_id) {
+        if (!is_array(self::$_cache)) {
+            self::$_cache = array();
+        }
+
+        if (isset(self::$_cache[$_id])) {
+            error_log('je passe dans le cache');
+            return self::$_cache[$_id];
+        }
         if (!file_exists($_id)) {
             $_id = self::getPathById($_id);
+            if (isset(self::$_cache[$_id])) {
+                return self::$_cache[$_id];
+            }
             if (!file_exists($_id)) {
                 throw new Exception('Plugin introuvable : ' . $_id);
             }
         }
-        $plugin = @simplexml_load_file($_id);
-        if (!is_object($plugin)) {
+
+        $plugin_xml = @simplexml_load_file($_id);
+        if (!is_object($plugin_xml)) {
             throw new Exception('Plugin introuvable : ' . $_id);
         }
-        $this->id = (string) $plugin->id;
-        $this->name = (string) $plugin->name;
-        $this->description = (string) $plugin->description;
-        $this->icon = (string) $plugin->icon;
-        $this->licence = (string) $plugin->licence;
-        $this->author = (string) $plugin->author;
-        $this->require = (string) $plugin->require;
-        $this->version = (string) $plugin->version;
-        $this->installation = (string) $plugin->installation;
-        $this->category = (string) $plugin->category;
-        $this->filepath = $_id;
-        $this->index = (isset($plugin->index)) ? (string) $plugin->index : $plugin->id;
-        $this->display = (isset($plugin->display)) ? (string) $plugin->display : '';
+        $plugin = new plugin();
+        $plugin->id = (string) $plugin_xml->id;
+        $plugin->name = (string) $plugin_xml->name;
+        $plugin->description = (string) $plugin_xml->description;
+        $plugin->icon = (string) $plugin_xml->icon;
+        $plugin->licence = (string) $plugin_xml->licence;
+        $plugin->author = (string) $plugin_xml->author;
+        $plugin->require = (string) $plugin_xml->require;
+        $plugin->version = (string) $plugin_xml->version;
+        $plugin->installation = (string) $plugin_xml->installation;
+        $plugin->category = (string) $plugin_xml->category;
+        $plugin->filepath = $_id;
+        $plugin->index = (isset($plugin_xml->index)) ? (string) $plugin_xml->index : $plugin_xml->id;
+        $plugin->display = (isset($plugin_xml->display)) ? (string) $plugin_xml->display : '';
 
-        $this->mobile = '';
-        if (file_exists(dirname(__FILE__) . '/../../plugins/' . $plugin->id . '/mobile')) {
-            $this->mobile = (isset($plugin->mobile)) ? (string) $plugin->mobile : $plugin->id;
+        $plugin->mobile = '';
+        if (file_exists(dirname(__FILE__) . '/../../plugins/' . $plugin_xml->id . '/mobile')) {
+            $plugin->mobile = (isset($plugin_xml->mobile)) ? (string) $plugin_xml->mobile : $plugin_xml->id;
         }
-        if (isset($plugin->include)) {
-            $this->include = array(
-                'file' => (string) $plugin->include,
-                'type' => (string) $plugin->include['type']
+        if (isset($plugin_xml->include)) {
+            $plugin->include = array(
+                'file' => (string) $plugin_xml->include,
+                'type' => (string) $plugin_xml->include['type']
             );
         } else {
-            $this->include = array(
-                'file' => $plugin->id,
+            $plugin->include = array(
+                'file' => $plugin_xml->id,
                 'type' => 'class'
             );
         }
+
+        self::$_cache[$_id] = $plugin;
+        self::$_cache[$plugin->id] = $plugin;
+        return $plugin;
     }
 
     public static function getPathById($_id) {
@@ -102,7 +120,7 @@ class plugin {
                     AND `value`='1'";
             $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
             foreach ($results as $result) {
-                $plugin = new plugin($result['plugin']);
+                $plugin = plugin::getById($result['plugin']);
                 if ($plugin != null) {
                     $listPlugin[] = $plugin;
                 }
@@ -114,7 +132,7 @@ class plugin {
             while ($dirPlugin = @readdir($rootPlugin)) {
                 $pathInfoPlugin = $rootPluginPath . '/' . $dirPlugin . '/plugin_info/info.xml';
                 if (file_exists($pathInfoPlugin)) {
-                    $plugin = new plugin($pathInfoPlugin);
+                    $plugin = plugin::getById($pathInfoPlugin);
                     if ($plugin != null) {
                         $listPlugin[] = $plugin;
                     }

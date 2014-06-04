@@ -42,7 +42,7 @@ try {
     if ($plugin_id == '') {
         throw new Exception(__('Le plugin ID ne peut etre vide', __FILE__));
     }
-    $plugin = new plugin($plugin_id);
+    $plugin = plugin::getById($plugin_id);
     if (!is_object($plugin)) {
         throw new Exception(__('Plugin non trouvé : ', __FILE__) . init('plugin_id'));
     }

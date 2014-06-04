@@ -356,7 +356,7 @@ class market {
                     log::add('update', 'update', __("OK\n", __FILE__));
                     log::add('update', 'update', __('Installation de l\'objet...', __FILE__));
                     try {
-                        $plugin = new plugin($this->getLogicalId());
+                        $plugin = plugin::getById($this->getLogicalId());
                     } catch (Exception $e) {
                         $this->remove();
                         throw new Exception(__('Impossible d\'installer le plugin. Le nom du plugin est différent de l\'ID ou le plugin n\'est pas correctement formé. Veuillez contacter l\'auteur.', __FILE__));

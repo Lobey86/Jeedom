@@ -28,7 +28,7 @@ if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
 }
 $plugin = init('m');
 if ($plugin != '') {
-    $plugin = new plugin($plugin);
+    $plugin = plugin::getById($plugin);
     if (is_object($plugin)) {
         $title = $plugin->getName();
     }

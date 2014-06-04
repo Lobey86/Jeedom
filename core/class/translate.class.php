@@ -119,7 +119,7 @@ class translate {
         }
         file_put_contents(self::getPathTranslationFile(self::getLanguage()), json_encode($core, JSON_PRETTY_PRINT));
         foreach ($plugins as $plugin_name => $translation) {
-            $plugin = new plugin($plugin_name);
+            $plugin = plugin::getById($plugin_name);
             $plugin->saveTranslation(self::getLanguage(), $translation);
         }
     }
