@@ -47,7 +47,6 @@ class plugin {
         }
 
         if (isset(self::$_cache[$_id])) {
-            error_log('je passe dans le cache');
             return self::$_cache[$_id];
         }
         if (!file_exists($_id)) {
