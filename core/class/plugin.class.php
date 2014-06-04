@@ -126,15 +126,11 @@ class plugin {
             }
         } else {
             $rootPluginPath = dirname(__FILE__) . '/../../plugins';
-            $rootPlugin = opendir($rootPluginPath) or die('Erreur');
             $listPlugin = array();
-            while ($dirPlugin = @readdir($rootPlugin)) {
+            foreach (ls($rootPluginPath, '*') as $dirPlugin) {
                 $pathInfoPlugin = $rootPluginPath . '/' . $dirPlugin . '/plugin_info/info.xml';
                 if (file_exists($pathInfoPlugin)) {
-                    $plugin = plugin::getById($pathInfoPlugin);
-                    if ($plugin != null) {
-                        $listPlugin[] = $plugin;
-                    }
+                    $listPlugin[] = plugin::getById($pathInfoPlugin);
                 }
             }
         }
