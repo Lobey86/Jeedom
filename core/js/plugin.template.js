@@ -65,7 +65,7 @@ $(function() {
         if ($('.li_eqLogic.active').attr('data-eqLogic_id') != undefined) {
             bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'équipement}} ' + eqType + ' <b>' + $('.li_eqLogic.active a:first').text() + '</b> ?', function(result) {
                 if (result) {
-                    eqLogic.remove(eqType, function() {
+                    eqLogic.remove(eqType, $('.li_eqLogic.active').attr('data-eqLogic_id'), function() {
                         var vars = getUrlVars();
                         var url = 'index.php?';
                         for (var i in vars) {

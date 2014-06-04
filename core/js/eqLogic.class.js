@@ -44,7 +44,7 @@ eqLogic.save = function(_type, _eqLogics, _callback) {
                 }
                 return;
             }
-            if (init(_callback) != '' && 'function' == typeof (_callback)) {
+            if ('function' == typeof (_callback)) {
                 _callback(data.result);
             }
         }
@@ -73,7 +73,7 @@ eqLogic.remove = function(_type, _eqLogic_Id, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            if (init(_callback) != '' && 'function' == typeof (_callback)) {
+            if ('function' == typeof (_callback)) {
                 _callback(data.result);
             }
         }
