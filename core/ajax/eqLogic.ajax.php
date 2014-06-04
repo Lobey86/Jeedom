@@ -186,11 +186,12 @@ try {
                     $cmd_order++;
                     $enableList[$cmd->getId()] = true;
                 }
-            }
-            //suppression des entrées non innexistante.
-            foreach ($dbList as $dbObject) {
-                if (!isset($enableList[$dbObject->getId()]) && !$dbObject->dontRemoveCmd()) {
-                    $dbObject->remove();
+
+                //suppression des entrées non innexistante.
+                foreach ($dbList as $dbObject) {
+                    if (!isset($enableList[$dbObject->getId()]) && !$dbObject->dontRemoveCmd()) {
+                        $dbObject->remove();
+                    }
                 }
             }
         }

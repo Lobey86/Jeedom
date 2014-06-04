@@ -46,7 +46,18 @@ $(function() {
             eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
             eqLogics.push(eqLogic);
         });
-        eqLogic.save(eqType, eqLogics);
+        eqLogic.save(eqType, eqLogics, function(_data) {
+            var vars = getUrlVars();
+            var url = 'index.php?';
+            for (var i in vars) {
+                if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                    url += i + '=' + vars[i].replace('#', '') + '&';
+                }
+            }
+            modifyWithoutSave = false;
+            url += 'id=' + _data.id + '&saveSuccessFull=1';
+            window.location.href = url;
+        });
         return false;
     });
 
@@ -54,7 +65,18 @@ $(function() {
         if ($('.li_eqLogic.active').attr('data-eqLogic_id') != undefined) {
             bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'équipement}} ' + eqType + ' <b>' + $('.li_eqLogic.active a:first').text() + '</b> ?', function(result) {
                 if (result) {
-                    eqLogic.remove(eqType);
+                    eqLogic.remove(eqType, function() {
+                        var vars = getUrlVars();
+                        var url = 'index.php?';
+                        for (var i in vars) {
+                            if (i != 'id' && i != 'removeSuccessFull' && i != 'saveSuccessFull') {
+                                url += i + '=' + vars[i].replace('#', '') + '&';
+                            }
+                        }
+                        modifyWithoutSave = false;
+                        url += 'removeSuccessFull=1';
+                        window.location.href = url;
+                    });
                 }
             });
         } else {
@@ -66,7 +88,18 @@ $(function() {
     $('.eqLogicAction[data-action=add]').on('click', function() {
         bootbox.prompt("{{Nom de l'équipement ?}}", function(result) {
             if (result !== null) {
-                eqLogic.save(eqType, [{name: result}]);
+                eqLogic.save(eqType, [{name: result}], function() {
+                    var vars = getUrlVars();
+                    var url = 'index.php?';
+                    for (var i in vars) {
+                        if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                            url += i + '=' + vars[i].replace('#', '') + '&';
+                        }
+                    }
+                    modifyWithoutSave = false;
+                    url += 'id=' + _data.id + '&saveSuccessFull=1';
+                    window.location.href = url;
+                });
             }
         });
     });

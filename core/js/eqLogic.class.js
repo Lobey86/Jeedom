@@ -21,7 +21,7 @@ function eqLogic() {
 
 eqLogic.cache = Array();
 
-eqLogic.save = function(_type, _eqLogics) {
+eqLogic.save = function(_type, _eqLogics, _callback) {
     $.hideAlert();
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -44,21 +44,14 @@ eqLogic.save = function(_type, _eqLogics) {
                 }
                 return;
             }
-            var vars = getUrlVars();
-            var url = 'index.php?';
-            for (var i in vars) {
-                if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
-                    url += i + '=' + vars[i].replace('#', '') + '&';
-                }
+            if (init(_callback) != '' && 'function' == typeof (_callback)) {
+                _callback(data.result);
             }
-            modifyWithoutSave = false;
-            url += 'id=' + data.result.id + '&saveSuccessFull=1';
-            window.location.href = url;
         }
     });
 }
 
-eqLogic.remove = function(_type, _eqLogic_Id) {
+eqLogic.remove = function(_type, _eqLogic_Id, _callback) {
     $.hideAlert();
     if (!isset(_eqLogic_Id)) {
         _eqLogic_Id = $('.li_eqLogic.active').attr('data-eqLogic_id');
@@ -80,16 +73,9 @@ eqLogic.remove = function(_type, _eqLogic_Id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            var vars = getUrlVars();
-            var url = 'index.php?';
-            for (var i in vars) {
-                if (i != 'id' && i != 'removeSuccessFull' && i != 'saveSuccessFull') {
-                    url += i + '=' + vars[i].replace('#', '') + '&';
-                }
+            if (init(_callback) != '' && 'function' == typeof (_callback)) {
+                _callback(data.result);
             }
-            modifyWithoutSave = false;
-            url += 'removeSuccessFull=1';
-            window.location.href = url;
         }
     });
 }
