@@ -169,7 +169,7 @@ if (init('api') != '' && init('type') != '') {
             if ($jsonrpc->getMethod() == 'scenario::byId') {
                 $scenario = scenario::byId($params['id']);
                 if (!is_object($scenario)) {
-                    throw new Exception('Cmd introuvable : ' . $params['id'], -32703);
+                    throw new Exception('Scenario introuvable : ' . $params['id'], -32703);
                 }
                 $jsonrpc->makeSuccess(utils::o2a($scenario));
             }
