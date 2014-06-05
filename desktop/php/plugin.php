@@ -2,7 +2,7 @@
 if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-
+global $JEEDOM_INTERNAL_CONFIG;
 sendVarToJS('select_id', init('id', '-1'));
 ?>
 
@@ -14,15 +14,27 @@ sendVarToJS('select_id', init('id', '-1'));
                 <li class="nav-header">{{Liste plugin}}</li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
-                foreach (plugin::listPlugin() as $plugin) {
-                    echo '<li class="cursor li_plugin" data-pluginPath="' . $plugin->getFilepath() . '" data-plugin_id="' . $plugin->getId() . '"><a>';
-                    echo '<i class="' . $plugin->getIcon() . '"></i> ' . $plugin->getName();
-                    if ($plugin->isActive() == 1) {
-                        echo '<span class="binary green pull-right"></span> ';
-                    } else {
-                        echo '<span class="binary red pull-right"></span> ';
+                foreach (plugin::listPlugin(false, true) as $category_name => $category) {
+                    $icon = '';
+                    if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'])) {
+                        $icon = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'];
                     }
-                    echo '</a></li>';
+                    $name = $category_name;
+                    if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'])) {
+                        $name = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'];
+                    }
+                    echo '<li><i class="fa ' . $icon . '"></i> ' . $name . '</li>';
+
+                    foreach ($category as $plugin) {
+                        echo '<li class="cursor li_plugin" data-pluginPath="' . $plugin->getFilepath() . '" data-plugin_id="' . $plugin->getId() . '"><a>';
+                        echo '<i class="' . $plugin->getIcon() . '"></i> ' . $plugin->getName();
+                        if ($plugin->isActive() == 1) {
+                            echo '<span class="binary green pull-right"></span> ';
+                        } else {
+                            echo '<span class="binary red pull-right"></span> ';
+                        }
+                        echo '</a></li>';
+                    }
                 }
                 ?>
             </ul>
