@@ -167,11 +167,11 @@ function printPlugin(_id, _pluginPath) {
 
             $('#span_plugin_market').empty();
             if (data.result.status.market == 1) {
-                $('#span_plugin_market').append('<a class="btn btn-default viewOnMarket" data-market_logicalId="' + data.result.id + '" style="margin-right : 5px;"><i class="fa fa-cloud-download"></i> {{Voir sur le market}}</a>')
+                $('#span_plugin_market').append('<a class="btn btn-default btn-xs viewOnMarket" data-market_logicalId="' + data.result.id + '" style="margin-right : 5px;"><i class="fa fa-cloud-download"></i> {{Voir sur le market}}</a>')
             }
 
             if (data.result.status.market_owner == 1) {
-                $('#span_plugin_market').append('<a class="btn btn-warning sendOnMarket" data-market_logicalId="' + data.result.id + '"><i class="fa fa-cloud-upload"></i> {{Envoyer sur le market}}</a>')
+                $('#span_plugin_market').append('<a class="btn btn-warning btn-xs sendOnMarket" data-market_logicalId="' + data.result.id + '"><i class="fa fa-cloud-upload"></i> {{Envoyer sur le market}}</a>')
             }
 
             if (data.result.checkVersion != -1) {

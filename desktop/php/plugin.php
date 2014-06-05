@@ -34,10 +34,10 @@ sendVarToJS('select_id', init('id', '-1'));
 
 
         </legend>
-        <div class="alert alert-warning">
+        <div>
             <center>
                 <span style='font-weight: bold;'>N'oublier pas d'activer le plugin pour pouvoir vous servir de celui-ci</span><br/>
-                <span id="span_plugin_toggleState"></span>
+                <span id="span_plugin_toggleState"></span><br/><br/>
                 <span id="span_plugin_market"></span>
             </center>
             <br/>

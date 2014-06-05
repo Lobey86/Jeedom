@@ -145,6 +145,7 @@ if [ ! -f '/etc/nginx/sites-enabled/default' ]; then
 fi
 sudo service nginx restart
 sudo adduser www-data dialout
+sudo usermod www-data -g www-data -G dialout,gpio
 sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
 sudo service php5-fpm restart
 sudo /etc/init.d/php5-fpm restart
