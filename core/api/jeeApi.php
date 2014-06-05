@@ -161,6 +161,41 @@ if (init('api') != '' && init('type') != '') {
                 $jsonrpc->makeSuccess($cmd->getHistory($params['startTime'], $params['endTime']));
             }
 
+            /*             * ************************Scénario*************************** */
+            if ($jsonrpc->getMethod() == 'scenario::all') {
+                $jsonrpc->makeSuccess(scenario::all());
+            }
+
+            if ($jsonrpc->getMethod() == 'scenario::byId') {
+                $scenario = scenario::byId($params['id']);
+                if (!is_object($scenario)) {
+                    throw new Exception('Cmd introuvable : ' . $params['id'], -32703);
+                }
+                $jsonrpc->makeSuccess(utils::o2a($scenario));
+            }
+
+            if ($jsonrpc->getMethod() == 'scenario::changeSate') {
+                $scenario = cmd::byId($params['id']);
+                if (!is_object($scenario)) {
+                    throw new Exception('Scenario introuvable : ' . $params['id'], -32702);
+                }
+                if ($params['state'] == 'stop') {
+                    $jsonrpc->makeSuccess($scenario->stop());
+                }
+                if ($params['state'] == 'run') {
+                    $jsonrpc->makeSuccess($scenario->launch());
+                }
+                if ($params['state'] == 'enable') {
+                    $scenario->setIsActive(1);
+                    $jsonrpc->makeSuccess($scenario->save());
+                }
+                if ($params['state'] == 'disable') {
+                    $scenario->setIsActive(0);
+                    $jsonrpc->makeSuccess($scenario->save());
+                }
+                throw new Exception('La paramètre "state" ne peut etre vide et doit avoir pour valuer [run,stop,enable;disable]');
+            }
+
             /*             * ************************************************************************ */
         }
         throw new Exception('Aucune méthode correspondante : ' . $jsonrpc->getMethod(), -32500);
