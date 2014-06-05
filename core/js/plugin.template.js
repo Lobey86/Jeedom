@@ -88,7 +88,7 @@ $(function() {
     $('.eqLogicAction[data-action=add]').on('click', function() {
         bootbox.prompt("{{Nom de l'équipement ?}}", function(result) {
             if (result !== null) {
-                eqLogic.save(eqType, [{name: result}], function() {
+                eqLogic.save(eqType, [{name: result}], function(_data) {
                     var vars = getUrlVars();
                     var url = 'index.php?';
                     for (var i in vars) {
