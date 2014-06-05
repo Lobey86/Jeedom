@@ -167,11 +167,11 @@ function printPlugin(_id, _pluginPath) {
 
             $('#span_plugin_market').empty();
             if (data.result.status.market == 1) {
-                $('#span_plugin_market').append('<a class="btn btn-default btn-xs viewOnMarket" data-market_logicalId="' + data.result.id + '" style="margin-right : 5px;"><i class="fa fa-cloud-download"></i> {{Voir sur le market}}</a>')
+                $('#span_plugin_market').append('<a class="btn btn-default viewOnMarket" data-market_logicalId="' + data.result.id + '" style="margin-right : 5px;"><i class="fa fa-cloud-download"></i> {{Voir sur le market}}</a>')
             }
 
             if (data.result.status.market_owner == 1) {
-                $('#span_plugin_market').append('<a class="btn btn-warning btn-xs sendOnMarket" data-market_logicalId="' + data.result.id + '"><i class="fa fa-cloud-upload"></i> {{Envoyer sur le market}}</a>')
+                $('#span_plugin_market').append('<a class="btn btn-warning sendOnMarket" data-market_logicalId="' + data.result.id + '"><i class="fa fa-cloud-upload"></i> {{Envoyer sur le market}}</a>')
             }
 
             if (data.result.checkVersion != -1) {
@@ -184,9 +184,9 @@ function printPlugin(_id, _pluginPath) {
             $('#span_plugin_toggleState').empty();
             if (data.result.checkVersion != -1) {
                 if (data.result.activate == 1) {
-                    var btn = '<a class="btn btn-danger btn-xs togglePlugin" data-state="0" data-plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-times"></i> {{Désactiver}}</a>';
+                    var btn = '<a class="btn btn-danger togglePlugin" data-state="0" data-plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-times"></i> {{Désactiver}}</a>';
                 } else {
-                    var btn = '<a class="btn btn-success btn-xs togglePlugin" data-state="1" data-plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-check"></i> {{Activer}}</a>';
+                    var btn = '<a class="btn btn-success togglePlugin" data-state="1" data-plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-check"></i> {{Activer}}</a>';
                 }
                 $('#span_plugin_toggleState').html(btn);
             }

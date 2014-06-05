@@ -31,22 +31,20 @@ sendVarToJS('select_id', init('id', '-1'));
     <div class="col-sm-10" id="div_confPlugin" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <legend>
             <span id="span_plugin_name" ></span> (<span id="span_plugin_id"></span>)
-            <span id="span_plugin_toggleState" class="pull-right"></span>
-            <span id="span_plugin_market" class="pull-right"></span>
+
+
         </legend>
-        <div class="alert alert-info">
-            <h5 style="display: inline-block;font-weight: bold;">{{Description}} : </h5> <span id="span_plugin_description"></span>
+        <div class="alert alert-warning">
+            <center>
+                <span style='font-weight: bold;'>N'oublier pas d'activer le plugin pour pouvoir vous servir de celui-ci</span><br/>
+                <span id="span_plugin_toggleState"></span>
+                <span id="span_plugin_market"></span>
+            </center>
+            <br/>
         </div>
+
         <div class="alert alert-danger">
             <h5 style="display: inline-block;font-weight: bold;">{{Installation}} : </h5> <span id="span_plugin_installation"></span>
-        </div>
-        <div class="alert alert-success">
-            <h5 style="display: inline-block;font-weight: bold;">{{Version plugin}} : </h5> <span id="span_plugin_version"></span> - 
-            <h5 style="display: inline-block;font-weight: bold;">{{Version Jeedom requis}} : </h5> <span id="span_plugin_require"></span>
-        </div>
-        <div class="alert alert-warning">
-            <h5 style="display: inline-block;font-weight: bold;">{{Auteur}} : </h5> <span id="span_plugin_author"></span> - 
-            <h5 style="display: inline-block;font-weight: bold;">{{Licence}} : </h5> <span id="span_plugin_licence"></span>
         </div>
         <div>
             <legend>{{Configuration}}</legend>
@@ -56,6 +54,14 @@ sendVarToJS('select_id', init('id', '-1'));
                 <a class="btn btn-success" id="bt_savePluginConfig"><i class="fa fa-check-circle icon-white" style="position:relative;left:-5px;top:1px"></i>{{Sauvegarder}}</a>
             </div>
         </div>
+        <div class="alert alert-success">
+            <h5 style="display: inline-block;font-weight: bold;">{{Description}} : </h5> <span id="span_plugin_description"></span><br/>
+            <h5 style="display: inline-block;font-weight: bold;">{{Version plugin}} : </h5> <span id="span_plugin_version"></span> - 
+            <h5 style="display: inline-block;font-weight: bold;">{{Version Jeedom requis}} : </h5> <span id="span_plugin_require"></span><br/>
+            <h5 style="display: inline-block;font-weight: bold;">{{Auteur}} : </h5> <span id="span_plugin_author"></span> - 
+            <h5 style="display: inline-block;font-weight: bold;">{{Licence}} : </h5> <span id="span_plugin_licence"></span>
+        </div>
+
     </div>
 </div>
 
