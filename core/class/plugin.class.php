@@ -112,6 +112,7 @@ class plugin {
     }
 
     public static function listPlugin($_activateOnly = false, $_orderByCaterogy = false) {
+        $listPlugin = array();
         if ($_activateOnly) {
             $sql = "SELECT plugin
                     FROM config
@@ -126,7 +127,6 @@ class plugin {
             }
         } else {
             $rootPluginPath = dirname(__FILE__) . '/../../plugins';
-            $listPlugin = array();
             foreach (ls($rootPluginPath, '*') as $dirPlugin) {
                 $pathInfoPlugin = $rootPluginPath . '/' . $dirPlugin . '/plugin_info/info.xml';
                 if (file_exists($pathInfoPlugin)) {
