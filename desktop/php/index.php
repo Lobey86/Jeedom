@@ -134,11 +134,11 @@ $plugins_list = plugin::listPlugin(true, true);
                                             <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> {{Administration}}</a></li>
                                             <li><a href="index.php?v=d&p=update"><i class="fa fa-refresh"></i> {{Centre de mise à jour}}</a></li>
                                             <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> {{Interaction}}</a></li>
-                                            <li class='expertModeHidden'><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
-                                            <li class="expertModeHidden"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
+                                            <li class='expertModeVisible'><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
+                                            <li class="expertModeVisible"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
                                             <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> {{Objet}}</a></li>
                                             <li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> {{Plugins}}</a></li>
-                                            <li class='expertModeHidden'><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> {{Log}}</a></li>
+                                            <li class='expertModeVisible'><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> {{Log}}</a></li>
                                         </ul>
                                     </li>
                                 <?php } ?>

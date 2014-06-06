@@ -279,14 +279,14 @@ function addUpdate(_update) {
     }
 
     if (_update.type != 'core') {
-        tr += '<a class="btn btn-danger btn-xs pull-right remove expertModeHidden tooltips" data-state="unhold" style="color : white;" title="{{Supprimer}}"><i class="fa fa-trash-o"></i></a>';
+        tr += '<a class="btn btn-danger btn-xs pull-right remove expertModeVisible tooltips" data-state="unhold" style="color : white;" title="{{Supprimer}}"><i class="fa fa-trash-o"></i></a>';
         if (_update.status != 'hold') {
-            tr += '<a class="btn btn-warning btn-xs pull-right changeState expertModeHidden tooltips" data-state="hold" style="color : white;" title="{{Bloquer}}"><i class="fa fa-lock"></i></a>';
+            tr += '<a class="btn btn-warning btn-xs pull-right changeState expertModeVisible tooltips" data-state="hold" style="color : white;" title="{{Bloquer}}"><i class="fa fa-lock"></i></a>';
         } else {
-            tr += '<a class="btn btn-success btn-xs pull-right changeState expertModeHidden tooltips" data-state="unhold" style="color : white;"> title="{{Débloquer}}"<i class="fa fa-unlock"></i></a>';
+            tr += '<a class="btn btn-success btn-xs pull-right changeState expertModeVisible tooltips" data-state="unhold" style="color : white;"> title="{{Débloquer}}"<i class="fa fa-unlock"></i></a>';
         }
         if (isset(_update.configuration) && isset(_update.configuration.market_owner) && _update.configuration.market_owner == 1) {
-            tr += '<a class="btn btn-success btn-xs pull-right sendToMarket tooltips cursor expertModeHidden" style="color : white;" title="{{Envoyer sur le market}}"><i class="fa fa-cloud-upload"></i></a>';
+            tr += '<a class="btn btn-success btn-xs pull-right sendToMarket tooltips cursor expertModeVisible" style="color : white;" title="{{Envoyer sur le market}}"><i class="fa fa-cloud-upload"></i></a>';
         }
         if (isset(_update.configuration) && isset(_update.configuration.market) && _update.configuration.market == 1) {
             tr += '<a class="btn btn-primary btn-xs pull-right view tooltips cursor" style="color : white;" title="{{Voir}}"><i class="fa fa-search"></i></a>';

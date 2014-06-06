@@ -210,10 +210,12 @@ function initRowOverflow() {
 function initExpertMode() {
     if ($('#bt_expertMode').attr('state') == 1) {
         $('.expertModeDisable').attr('disabled', false);
-        $('.expertModeHidden').show();
+        $('.expertModeVisible').show();
+        $('.expertModeHidden').hide();
     } else {
         $('.expertModeDisable').attr('disabled', true);
-        $('.expertModeHidden').hide();
+        $('.expertModeVisible').hide();
+        $('.expertModeHidden').show();
     }
 }
 

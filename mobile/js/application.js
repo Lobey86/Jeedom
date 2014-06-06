@@ -37,10 +37,10 @@ $(function() {
 function initExpertMode() {
     if (expertMode == 1) {
         $('.expertModeDisable').attr('disabled', true);
-        $('.expertModeHidden').show();
+        $('.expertModeVisible').show();
     } else {
         $('.expertModeDisable').attr('disabled', false);
-        $('.expertModeHidden').hide();
+        $('.expertModeVisible').hide();
     }
 }
 

@@ -16,11 +16,11 @@ if (!isConnect('admin')) {
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="#" class="bt_updateAll" data-level="0" data-mode="">{{Tout}}</a></li>
-                    <li><a href="#" class="bt_updateAll expertModeHidden" data-level="0" data-mode="force">{{Tout forcé}}</a></li>
+                    <li><a href="#" class="bt_updateAll expertModeVisible" data-level="0" data-mode="force">{{Tout forcé}}</a></li>
                     <li><a href="#" class="bt_updateAll" data-level="1" data-mode="">{{Plugins seulement}}</a></li>
-                    <li><a href="#" class="bt_updateAll expertModeHidden" data-level="1" data-mode="force">{{Plugins seulement forcés}}</a></li>
+                    <li><a href="#" class="bt_updateAll expertModeVisible" data-level="1" data-mode="force">{{Plugins seulement forcés}}</a></li>
                     <li><a href="#" class="bt_updateAll" data-level="-1" data-mode="">{{Jeedom seulement}}</a></li>
-                    <li><a href="#" class="bt_updateAll expertModeHidden" data-level="-1" data-mode="force">{{Jeedom seulement forcé}}</a></li>
+                    <li><a href="#" class="bt_updateAll expertModeVisible" data-level="-1" data-mode="force">{{Jeedom seulement forcé}}</a></li>
                 </ul>
             </div>
         </div>

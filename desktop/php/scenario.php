@@ -117,7 +117,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group expertModeHidden">
+                        <div class="form-group expertModeVisible">
                             <label class="col-sm-6 control-label">{{Timeout secondes (0 = illimité)}}</label>
                             <div class="col-sm-6">
                                 <input class="form-control scenarioAttr input-sm" data-l1key="timeout">

@@ -171,7 +171,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         <div class="panel-body">
                             <form class="form-horizontal">
                                 <fieldset>
-                                    <div class="form-group expertModeHidden">
+                                    <div class="form-group expertModeVisible">
                                         <label class="col-sm-2 control-label">{{Clef api}}</label>
                                         <div class="col-sm-2"> 
                                             <p class="form-control-static" id="in_keyAPI"><?php echo config::byKey('api'); ?></p>
@@ -183,7 +183,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                             {{Activation du cron : ajouter <em>* * * * * su --shell=/bin/bash - www-data -c "/usr/bin/php #PATH_TO_JEEDOM#/jeedom/core/php/jeeCron.php" >> /dev/null 2>&1</em> à la crontab}}
                                         </div>
                                     </div>
-                                    <div class="form-group expertModeHidden">
+                                    <div class="form-group expertModeVisible">
                                         <label class="col-sm-2 control-label">{{Clef nodeJS}}</label>
                                         <div class="col-sm-2"> 
                                             <p class="form-control-static" id="in_nodeJsKey"><?php echo config::byKey('nodeJsKey'); ?></p>
@@ -192,7 +192,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                             <a class="btn btn-default form-control" id="bt_nodeJsKey" >{{Générer}}</a>
                                         </div>
                                     </div>
-                                    <div class="form-group expertModeHidden">
+                                    <div class="form-group expertModeVisible">
                                         <label class="col-sm-2 control-label">{{Hardware key}}</label>
                                         <div class="col-sm-2"> 
                                             <p class="form-control-static"><?php echo jeedom::getHardwareKey(); ?></p>
@@ -220,7 +220,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
 
                     </div>
                 </div>
-                <div class="panel panel-default expertModeHidden">
+                <div class="panel panel-default expertModeVisible">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_memcache">
@@ -315,7 +315,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                 </div>
 
 
-                <div class="panel panel-default expertModeHidden">
+                <div class="panel panel-default expertModeVisible">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_cron">
@@ -363,7 +363,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                     </div>
                 </div>
 
-                <div class="panel panel-default expertModeHidden">
+                <div class="panel panel-default expertModeVisible">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_logMessage">
@@ -418,7 +418,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                     </div>
                 </div>
 
-                <div class="panel panel-default expertModeHidden">
+                <div class="panel panel-default expertModeVisible">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_ldap">
@@ -518,7 +518,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                 </div>
 
 
-                <div class="panel panel-default expertModeHidden">
+                <div class="panel panel-default expertModeVisible">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_commandeEqlogic">
@@ -554,13 +554,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <div class="panel-body">
                                 <form class="form-horizontal">
                                     <fieldset>
-                                        <div class="form-group expertModeHidden">
+                                        <div class="form-group expertModeVisible">
                                             <label class="col-sm-2 control-label">{{Activer NodeJS}}</label>
                                             <div class="col-sm-1">
                                                 <input type="checkbox" class="configKey" data-l1key="enableNodeJs"/>
                                             </div>
                                         </div>
-                                        <div class="form-group expertModeHidden">
+                                        <div class="form-group expertModeVisible">
                                             <label class="col-sm-2 control-label">{{Port interne NodeJS}}</label>
                                             <div class="col-sm-3">
                                                 <input type="text"  class="configKey" data-l1key="nodeJsInternalPort" />
@@ -572,7 +572,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         </div>
                     </div>
 
-                    <div class="panel panel-default expertModeHidden">
+                    <div class="panel panel-default expertModeVisible">
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_market">
@@ -614,7 +614,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         </div>
                     </div>
 
-                    <div class="panel panel-default expertModeHidden">
+                    <div class="panel panel-default expertModeVisible">
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_update">
@@ -626,7 +626,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <div class="panel-body">
                                 <form class="form-horizontal">
                                     <fieldset>
-                                        <div class="form-group expertModeHidden">
+                                        <div class="form-group expertModeVisible">
                                             <label class="col-sm-2 control-label">{{Faire une sauvegarde avant la mise à jour}}</label>
                                             <div class="col-sm-1">
                                                 <input type="checkbox" class="configKey" data-l1key="update::backupBefore"/>
