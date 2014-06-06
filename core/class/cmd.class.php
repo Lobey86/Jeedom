@@ -835,7 +835,7 @@ class cmd {
 
     public function addHistoryValue($_value, $_datetime = null) {
         if ($this->getIsHistorized() == 1) {
-            if (($this->getConfiguration('maxValue') === '' || $_value <= $this->getConfiguration('maxValue')) && ($this->getConfiguration('minValue') === '' || $_value >= $this->getConfiguration('minValue', $_value))) {
+            if ($_value <= $this->getConfiguration('maxValue', $_value) && $_value >= $this->getConfiguration('minValue', $_value)) {
                 $hitory = new history();
                 $hitory->setCmd_id($this->getId());
                 $hitory->setValue($_value);
