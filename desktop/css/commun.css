@@ -121,6 +121,18 @@
     border-top-right-radius: 0;
 }
 
+::-webkit-scrollbar{
+    width:8px
+}
+
+::-webkit-scrollbar-track-piece{
+    background-color:transparent
+}
+
+::-webkit-scrollbar-thumb{
+    background:#ddd
+} 
+
 /* Docs sidebar
 -------------------------------------------------- */
 
