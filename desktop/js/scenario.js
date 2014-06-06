@@ -637,7 +637,7 @@ function addExpression(_expression) {
             break;
         case 'element' :
             retour += '<div class="col-sm-12">';
-            retour += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : 12px;margin-left : 4px;"></i>';
+            //retour += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : 12px;margin-left : 4px;"></i>';
             var element = addElement(_expression.element, true);
             if ($.trim(element) == '') {
                 return '';
@@ -799,7 +799,7 @@ function addElement(_element) {
         pColor = 0;
     }
     var div = '<div class="element well well-sm draggable" style="margin-top : 8px;border : 3px solid white;color : white;background-color : ' + color + '">';
-    //div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : -7px;margin-left : -6px;"></i>';
+    div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : -7px;margin-left : -6px;"></i>';
     div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
     div += '<i class="fa fa-minus-circle pull-right cursor bt_removeElement"></i>';
