@@ -20,12 +20,12 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
             <ul id="ul_scenario" class="nav nav-list bs-sidenav">                  
                 <?php
                 if (config::byKey('enableScenario') == 0) {
-                    echo '<a class="btn btn-sm btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="1" style="display: inline-block;" title="{{Désactiver le système de scénario}}"><i class="fa fa-check"></i> {{Désactiver scénarios}}</a>';
+                    echo '<a class="btn btn-xs btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="1" style="display: inline-block;" title="{{Activer le système de scénario}}"><i class="fa fa-check"></i> {{Activ. tous scénarios}}</a>';
                 } else {
-                    echo '<a class="btn btn-sm btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="0" style="display: inline-block;" title="{{Activer le système de scénario}}"><i class="fa fa-times"></i> {{Activer scénarios}}</a>';
+                    echo '<a class="btn btn-xs btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="0" style="display: inline-block;" title="{{Desactiver le système de scénario}}"><i class="fa fa-times"></i> {{Désact. tous scénarios}}</a>';
                 }
                 ?>
-                <a class="btn btn-default btn-sm tooltips expertModeVisible" id="bt_displayScenarioVariable" title="{{Voir toutes les variables de scénario}}" style="display: inline-block;"><i class="fa fa fa-eye"></i> {{Voir les variables}}</a>
+                <a class="btn btn-default btn-xs tooltips expertModeVisible" id="bt_displayScenarioVariable" title="{{Voir toutes les variables de scénario}}" style="display: inline-block;"><i class="fa fa fa-eye"></i> {{Voir variables}}</a>
                 <li class="nav-header">{{Liste scénarios}} 
                     <i class="fa fa-plus-circle pull-right cursor" id="bt_addScenario" style="font-size: 1.4em;margin-bottom: 3px;"></i>
                 </li>
