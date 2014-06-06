@@ -181,7 +181,7 @@ $(function() {
                 expression.find('.expressionOptions').html(cmd.displayActionOption(expression.find('.expressionAttr[data-l1key=expression]').value(), ''));
             }
             if (expression.find('.expressionAttr[data-l1key=type]').value() == 'condition') {
-                expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert',result.human);
+                expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert', result.human);
             }
         });
     });
@@ -615,7 +615,7 @@ function addExpression(_expression) {
     if (!isset(_expression.type) || _expression.type == '') {
         return '';
     }
-    var retour = '<div class="expression row draggable">';
+    var retour = '<div class="expression row draggable" style="margin-top : 4px;">';
     retour += '<input class="expressionAttr" data-l1key="id" style="display : none;" value="' + init(_expression.id) + '"/>';
     retour += '<input class="expressionAttr" data-l1key="scenarioSubElement_id" style="display : none;" value="' + init(_expression.scenarioSubElement_id) + '"/>';
     retour += '<input class="expressionAttr" data-l1key="type" style="display : none;" value="' + init(_expression.type) + '"/>';
@@ -624,8 +624,8 @@ function addExpression(_expression) {
             if (isset(_expression.expression)) {
                 _expression.expression = _expression.expression.replace(/"/g, '&quot;');
             }
-            retour += '<div class="col-sm-11">';
-            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #dff0d8;" />';
+            retour += '<div class="col-sm-11" style="position : relative; top : 5px;">';
+            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="font-weight:bold;"/>';
             retour += '</div>';
             retour += '<div class="col-sm-1">';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="info"><i class="fa fa-list-alt"></i></a>';
@@ -643,7 +643,7 @@ function addExpression(_expression) {
             retour += '<i class="fa fa-minus-circle pull-left cursor bt_removeExpression" style="margin-top : 9px;"></i>';
             retour += '</div>';
             retour += '<div class="col-sm-6">';
-            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="background-color : #fcf8e3;"/>';
+            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="font-weight:bold;"/>';
             retour += '</div>';
             retour += '<div class="col-sm-1">';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="action"><i class="fa fa-list-alt"></i></a>';
@@ -677,7 +677,7 @@ function addSubElement(_subElement) {
     switch (_subElement.type) {
         case 'if' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
-            retour += '<legend>{{SI}} ';
+            retour += '<legend style="margin-top : 8px;color : inherit;font-weight:bold;">{{SI}} ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -689,7 +689,7 @@ function addSubElement(_subElement) {
             break;
         case 'then' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;">{{ALORS}}';
+            retour += '<legend style="margin-top : 8px;color : inherit;font-weight:bold;">{{ALORS}}';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
@@ -704,7 +704,7 @@ function addSubElement(_subElement) {
             break;
         case 'else' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;">{{SINON}}';
+            retour += '<legend style="margin-top : 8px;color : inherit;font-weight:bold;">{{SINON}}';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
@@ -719,7 +719,7 @@ function addSubElement(_subElement) {
             break;
         case 'for' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
-            retour += '<legend style="margin-top : 8px;">{{DE 1 A}} ';
+            retour += '<legend style="margin-top : 8px;color : inherit;font-weight:bold;">{{DE 1 A}} ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -731,7 +731,7 @@ function addSubElement(_subElement) {
             break;
         case 'do' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;">FAIRE';
+            retour += '<legend style="margin-top : 8px;color : inherit;font-weight:bold;">FAIRE';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
@@ -746,7 +746,7 @@ function addSubElement(_subElement) {
             break;
         case 'code' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;">{{CODE}}';
+            retour += '<legend style="margin-top : 8px;color : inherit;">{{CODE}}';
             retour += '</legend>';
             retour += '<div class="expressions">';
             retour += '<div class="draggable" style="height : 30px;"></div>';
@@ -759,9 +759,9 @@ function addSubElement(_subElement) {
             break;
         case 'action' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;">{{ACTION}}';
-            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
-            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
+            retour += '<legend style="margin-top : 8px;color : inherit;">{{ACTION}}';
+            retour += '<a class="btn btn-sm btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
+            retour += '<a class="btn btn-sm btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
             retour += '<div class="draggable" style="height : 30px;"></div>';
@@ -785,8 +785,23 @@ function addElement(_element) {
     if (!isset(_element.type) || _element.type == '') {
         return '';
     }
-    var div = '<div class="element well well-sm draggable" style="margin-top : 8px;border : 2px solid black;">';
-    div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : -7px;margin-left : -6px;"></i>';
+    color = '#929292';
+    switch (_element.type) {
+        case 'if' :
+            color = '#1895d6';
+            break;
+        case 'for' :
+            color = '#745cb0';
+            break;
+        case 'code' :
+            color = '#2eb04b';
+            break;
+        case 'action' :
+            color = '#f09e2f';
+            break;
+    }
+    var div = '<div class="element well well-sm draggable" style="margin-top : 8px;border : 2px solid white;color : white;background-color : ' + color + '">';
+    //div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : -7px;margin-left : -6px;"></i>';
     div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
     div += '<i class="fa fa-minus-circle pull-right cursor bt_removeElement"></i>';

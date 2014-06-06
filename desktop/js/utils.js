@@ -200,7 +200,7 @@ $(function() {
 
 function initRowOverflow() {
     if ($(window).width() < 750) {
-       $('.row-overflow > div').css('height', 'auto').css('overflow-y', 'initial').css('overflow-x', 'initial');
+        $('.row-overflow > div').css('height', 'auto').css('overflow-y', 'initial').css('overflow-x', 'initial');
     } else {
         var hWindow = $(window).height() - $('header').height() - $('footer').height() - 50;
         $('.row-overflow > div').height(hWindow).css('overflow-y', 'auto').css('overflow-x', 'hidden');
