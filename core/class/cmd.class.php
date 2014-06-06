@@ -968,7 +968,7 @@ class cmd {
     }
 
     public function setEqLogic_id($eqLogic_id) {
-        if ($eqLogic_id != $this->getEqLogic()) {
+        if ($eqLogic_id != $this->getEqLogic_id()) {
             $this->setInternalEvent(1);
         }
         $this->eqLogic_id = $eqLogic_id;
