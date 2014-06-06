@@ -21,7 +21,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                     <form class="form-horizontal">
                         <fieldset>
                             <div class="form-group">
-                                <div class="form-group">
+                                <div class="form-group expertModeVisible">
                                     <label class="col-sm-4 control-label">{{Fréquence des sauvegardes}}</label>
                                     <div class="col-sm-3">
                                         <input type="text"  class="configKey form-control" data-l1key="backup::cron" />
@@ -35,13 +35,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <a class="btn btn-default" id="bt_backupJeedom"><i class="fa fa-refresh fa-spin" style="display : none;"></i> <i class="fa fa-floppy-o"></i> Sauvegarder</a>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group expertModeVisible">
                                 <label class="col-sm-4 control-label">{{Emplacement des sauvegardes}}</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="configKey form-control" data-l1key="backup::path" />
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group expertModeVisible">
                                 <label class="col-sm-4 control-label">{{Nombre de jour(s) de mémorisation des sauvegardes}}</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="configKey form-control" data-l1key="backup::keepDays" />

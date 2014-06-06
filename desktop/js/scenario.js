@@ -17,6 +17,9 @@
 
 $(function() {
     editor = [];
+    
+    listColor = ['#1895d6','#745cb0','#2eb04b','#f09e2f','#808080'];
+    pColor = 0;
 
     autoCompleteCondition = [
         {val: 'rand(MIN,MAX)'},
@@ -785,22 +788,12 @@ function addElement(_element) {
     if (!isset(_element.type) || _element.type == '') {
         return '';
     }
-    color = '#929292';
-    switch (_element.type) {
-        case 'if' :
-            color = '#1895d6';
-            break;
-        case 'for' :
-            color = '#745cb0';
-            break;
-        case 'code' :
-            color = '#2eb04b';
-            break;
-        case 'action' :
-            color = '#f09e2f';
-            break;
+    color = listColor[pColor];
+    pColor++;
+    if(pColor>4){
+        pColor = 0;
     }
-    var div = '<div class="element well well-sm draggable" style="margin-top : 8px;border : 2px solid white;color : white;background-color : ' + color + '">';
+    var div = '<div class="element well well-sm draggable" style="margin-top : 8px;border : 3px solid white;color : white;background-color : ' + color + '">';
     //div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : -7px;margin-left : -6px;"></i>';
     div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
