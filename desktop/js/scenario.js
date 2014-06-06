@@ -17,8 +17,8 @@
 
 $(function() {
     editor = [];
-    
-    listColor = ['#1895d6','#745cb0','#2eb04b','#f09e2f','#808080'];
+
+    listColor = ['#1895d6', '#745cb0', '#2eb04b', '#f09e2f', '#808080'];
     pColor = 0;
 
     autoCompleteCondition = [
@@ -411,6 +411,7 @@ function printScenario(_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            pColor = 0;
             $('.scenarioAttr').value('');
             $('#table_scenarioCondition tbody').empty();
             $('#table_scenarioAction tbody').empty();
@@ -790,7 +791,7 @@ function addElement(_element) {
     }
     color = listColor[pColor];
     pColor++;
-    if(pColor>4){
+    if (pColor > 4) {
         pColor = 0;
     }
     var div = '<div class="element well well-sm draggable" style="margin-top : 8px;border : 3px solid white;color : white;background-color : ' + color + '">';
