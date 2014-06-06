@@ -31,9 +31,9 @@ sendVarToJS('select_id', init('id', '-1'));
                         echo '<li class="cursor li_plugin" data-pluginPath="' . $plugin->getFilepath() . '" data-plugin_id="' . $plugin->getId() . '"><a>';
                         echo '<i class="' . $plugin->getIcon() . '"></i> ' . $plugin->getName();
                         if ($plugin->isActive() == 1) {
-                            echo '<span class="binary green pull-right"></span> ';
+                            echo '<span class="pull-right"><i class="fa fa-check"></i></span> ';
                         } else {
-                            echo '<span class="binary red pull-right"></span> ';
+                            echo '<span class="pull-right"><i class="fa fa-times"></i></span> ';
                         }
                         echo '</a></li>';
                     }
