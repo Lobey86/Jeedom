@@ -22,28 +22,6 @@ $(function() {
         page($(this).attr('data-page'), $(this).attr('data-title'), $(this).attr('data-option'), $(this).attr('data-plugin'));
     });
 
-    $('#bt_logout').on('click', function() {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/user.ajax.php", // url du fichier php
-            data: {
-                action: "logout",
-            },
-            dataType: 'json',
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error, $('#div_alert'));
-            },
-            success: function(data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                localStorage.setItem("deviceKey", '');
-                initApplication();
-            }
-        });
-    });
-
     var webappCache = window.applicationCache;
     webappCache.addEventListener("updateready", updateCache, false);
     webappCache.update();
