@@ -638,7 +638,11 @@ function addExpression(_expression) {
         case 'element' :
             retour += '<div class="col-sm-12">';
             retour += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : 12px;margin-left : 4px;"></i>';
-            retour += addElement(_expression.element, true);
+            var element = addElement(_expression.element, true);
+            if ($.trim(element) == '') {
+                return '';
+            }
+            retour += element;
             retour += '</div>';
             break;
         case 'action' :
