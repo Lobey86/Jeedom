@@ -139,7 +139,7 @@ class cmd {
         }
         return $return;
     }
-    
+
     public static function byLogicalId($_logical_id, $_type = null) {
         $values = array(
             'logicalId' => $_logical_id
@@ -940,42 +940,58 @@ class cmd {
     }
 
     public function setId($id = '') {
-        $this->setInternalEvent(1);
+        if ($id != $this->getId()) {
+            $this->setInternalEvent(1);
+        }
         $this->id = $id;
     }
 
     public function setName($name) {
-        $this->setInternalEvent(1);
+        if ($name != $this->getName()) {
+            $this->setInternalEvent(1);
+        }
         $this->name = $name;
     }
 
     public function setType($type) {
-        $this->setInternalEvent(1);
+        if ($type != $this->getType()) {
+            $this->setInternalEvent(1);
+        }
         $this->type = $type;
     }
 
     public function setSubType($subType) {
-        $this->setInternalEvent(1);
+        if ($subType != $this->getSubType()) {
+            $this->setInternalEvent(1);
+        }
         $this->subType = $subType;
     }
 
     public function setEqLogic_id($eqLogic_id) {
-        $this->setInternalEvent(1);
+        if ($eqLogic_id != $this->getEqLogic()) {
+            $this->setInternalEvent(1);
+        }
         $this->eqLogic_id = $eqLogic_id;
     }
 
     public function setIsHistorized($isHistorized) {
-        $this->setInternalEvent(1);
+        if ($isHistorized != $this->getIsHistorized()) {
+            $this->setInternalEvent(1);
+        }
         $this->isHistorized = $isHistorized;
     }
 
     public function setUnite($unite) {
-        $this->setInternalEvent(1);
+        if ($unite != $this->getUnite()) {
+            $this->setInternalEvent(1);
+        }
         $this->unite = $unite;
     }
 
     public function setEventOnly($eventOnly) {
-        $this->setInternalEvent(1);
+        if ($eventOnly != $this->getEventOnly()) {
+            $this->setInternalEvent(1);
+        }
         $this->eventOnly = $eventOnly;
     }
 

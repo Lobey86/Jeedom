@@ -642,42 +642,58 @@ class eqLogic {
     }
 
     public function setId($id) {
-        $this->setInternalEvent(1);
+        if ($id != $this->getId()) {
+            $this->setInternalEvent(1);
+        }
         $this->id = $id;
     }
 
     public function setName($name) {
-        $this->setInternalEvent(1);
+        if ($name != $this->getName()) {
+            $this->setInternalEvent(1);
+        }
         $this->name = $name;
     }
 
     public function setLogicalId($logicalId) {
-        $this->setInternalEvent(1);
+        if ($logicalId != $this->getLogicalId()) {
+            $this->setInternalEvent(1);
+        }
         $this->logicalId = $logicalId;
     }
 
     public function setObject_id($object_id = null) {
-        $this->setInternalEvent(1);
+        if ($object_id != $this->getObject_id()) {
+            $this->setInternalEvent(1);
+        }
         $this->object_id = (!is_numeric($object_id)) ? null : $object_id;
     }
 
     public function setEqType_name($eqType_name) {
-        $this->setInternalEvent(1);
+        if ($eqType_name != $this->getEqType_name()) {
+            $this->setInternalEvent(1);
+        }
         $this->eqType_name = $eqType_name;
     }
 
     public function setEqReal_id($eqReal_id) {
-        $this->setInternalEvent(1);
+        if ($eqReal_id != $this->getEqReal_id()) {
+            $this->setInternalEvent(1);
+        }
         $this->eqReal_id = $eqReal_id;
     }
 
     public function setIsVisible($isVisible) {
-        $this->setInternalEvent(1);
+        if ($isVisible != $this->getIsVisible()) {
+            $this->setInternalEvent(1);
+        }
         $this->isVisible = $isVisible;
     }
 
     public function setIsEnable($_isEnable) {
-        $this->setInternalEvent(1);
+        if ($_isEnable != $this->getIsEnable()) {
+            $this->setInternalEvent(1);
+        }
         $this->isEnable = $_isEnable;
     }
 

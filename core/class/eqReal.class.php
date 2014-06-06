@@ -116,7 +116,7 @@ class eqReal {
 
     public function save() {
         if ($this->getName() == '') {
-            throw new Exception(__('Le nom de l\'équipement réel ne peut etre vide',__FILE__));
+            throw new Exception(__('Le nom de l\'équipement réel ne peut etre vide', __FILE__));
         }
         if ($this->getInternalEvent() == 1) {
             $internalEvent = new internalEvent();
@@ -161,27 +161,37 @@ class eqReal {
     }
 
     public function setId($id) {
-        $this->setInternalEvent(1);
+        if ($id != $this->getId()) {
+            $this->setInternalEvent(1);
+        }
         $this->id = $id;
     }
 
     public function setLogicalId($logicalId) {
-        $this->setInternalEvent(1);
+        if ($logicalId != $this->getLogicalId()) {
+            $this->setInternalEvent(1);
+        }
         $this->logicalId = $logicalId;
     }
 
     public function setName($name) {
-        $this->setInternalEvent(1);
+        if ($name != $this->getName()) {
+            $this->setInternalEvent(1);
+        }
         $this->name = $name;
     }
 
     public function setType($type) {
-        $this->setInternalEvent(1);
+        if ($type != $this->getType()) {
+            $this->setInternalEvent(1);
+        }
         $this->type = $type;
     }
 
     public function setCat($cat) {
-        $this->setInternalEvent(1);
+        if ($cat != $this->getCat()) {
+            $this->setInternalEvent(1);
+        }
         $this->cat = $cat;
     }
 
