@@ -13,8 +13,7 @@ sendVarToJS('select_id', init('id', '-1'));
                 <center>
                     <a class="btn btn-default btn-sm tooltips" id="bt_displayMarket" style="display: inline-block;"><i class="fa fa-shopping-cart"></i> {{Télécharger du market}}</a>
                 </center>
-                <li class="nav-header">{{Liste plugin}}</li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;margin-top: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
                 foreach (plugin::listPlugin(false, true) as $category_name => $category) {
                     $icon = '';
@@ -45,8 +44,6 @@ sendVarToJS('select_id', init('id', '-1'));
     <div class="col-sm-10" id="div_confPlugin" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <legend>
             <span id="span_plugin_name" ></span> (<span id="span_plugin_id"></span>)
-
-
         </legend>
         <div>
             <center>
@@ -60,7 +57,7 @@ sendVarToJS('select_id', init('id', '-1'));
         <div class="alert alert-danger">
             <h5 style="display: inline-block;font-weight: bold;">{{Installation}} : </h5> <span id="span_plugin_installation"></span>
         </div>
-        <div>
+        <div class="alert alert-warning">
             <legend>{{Configuration}}</legend>
             <div id="div_plugin_configuration"></div>
 
