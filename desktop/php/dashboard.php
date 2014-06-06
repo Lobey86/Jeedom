@@ -15,7 +15,7 @@ if (!is_object($object)) {
 $child_object = object::buildTree($object);
 ?>
 
-<div class="row">
+<div class="row row-overflow">
     <div class="col-sm-2">
         <div class="bs-sidebar">
             <ul id="ul_object" class="nav nav-list bs-sidenav">

@@ -6,7 +6,7 @@ global $JEEDOM_INTERNAL_CONFIG;
 sendVarToJS('select_id', init('id', '-1'));
 ?>
 
-<div class="row">
+<div class="row row-overflow">
     <div class="col-sm-2">
         <div class="bs-sidebar">
             <ul id="ul_plugin" class="nav nav-list bs-sidenav">

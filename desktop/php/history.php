@@ -4,7 +4,7 @@ if (!isConnect()) {
 }
 ?>
 
-<div class="row">
+<div class="row row-overflow">
     <div class="col-sm-3 bs-sidebar">
         <ul id="ul_history" class="nav nav-list bs-sidenav">
             <li class="nav-header">{{Historique}}</li>

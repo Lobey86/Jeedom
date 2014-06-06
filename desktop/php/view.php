@@ -27,7 +27,7 @@ include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
 sendVarToJS('view_id', $view->getId());
 ?>
 
-<div class="row">
+<div class="row row-overflow">
     <div class="col-sm-2">
         <div class="bs-sidebar">
             <ul id="ul_view" class="nav nav-list bs-sidenav">
