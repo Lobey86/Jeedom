@@ -151,6 +151,7 @@ $(function() {
                 elementDiv.append(addElement({type: $("#in_addElementType").value()}));
             }
             setEditor();
+            elementDiv.closest('.expressions').find('.empty.draggable').hide();
             $('#md_addElement').modal('hide');
         });
     });
@@ -166,9 +167,13 @@ $(function() {
     $('body').delegate('.bt_addAction', 'click', function(event) {
         $(this).closest('.subElement').children('.expressions').append(addExpression({type: 'action'}));
         setAutocomplete();
+        $(this).closest('.subElement').children('.expressions').find('.empty.draggable').hide();
     });
 
     $('body').delegate('.bt_removeExpression', 'click', function(event) {
+        if ($(this).closest('.expressions').find('.draggable:not(.empty)').length == 1) {
+            $(this).closest('.expressions').find('.empty.draggable').show();
+        }
         $(this).closest('.expression').remove();
     });
 
@@ -484,6 +489,14 @@ function printScenario(_id) {
             for (var i in data.result.elements) {
                 $('#div_scenarioElement').append(addElement(data.result.elements[i]));
             }
+
+            $('.subElement .expressions').each(function() {
+                if ($(this).children('.draggable:not(.empty)').length > 0) {
+                    $(this).children('.draggable.empty').hide();
+                }
+            });
+
+
             setEditor();
             setAutocomplete();
             $('#div_editScenario').show();
@@ -632,12 +645,11 @@ function addExpression(_expression) {
             retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="font-weight:bold;"/>';
             retour += '</div>';
             retour += '<div class="col-sm-1">';
-            retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="info"><i class="fa fa-list-alt"></i></a>';
+            retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" style="position : relative; top : 3px;"><i class="fa fa-list-alt"></i></a>';
             retour += '</div>';
             break;
         case 'element' :
             retour += '<div class="col-sm-12">';
-            //retour += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : 12px;margin-left : 4px;"></i>';
             var element = addElement(_expression.element, true);
             if ($.trim(element) == '') {
                 return '';
@@ -654,7 +666,7 @@ function addExpression(_expression) {
             retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="font-weight:bold;"/>';
             retour += '</div>';
             retour += '<div class="col-sm-1">';
-            retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" cmd_type="action"><i class="fa fa-list-alt"></i></a>';
+            retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression"><i class="fa fa-list-alt"></i></a>';
             retour += '</div>';
             retour += '<div class="col-sm-4 expressionOptions">';
             retour += cmd.displayActionOption(init(_expression.expression), init(_expression.options));
@@ -685,7 +697,7 @@ function addSubElement(_subElement) {
     switch (_subElement.type) {
         case 'if' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
-            retour += '<legend style="margin-top : 8px;color : inherit;font-weight:bold;">{{SI}} ';
+            retour += '<legend style="margin-top : 4px;margin-bottom : 3px;color : inherit;font-weight:bold;">{{SI}} ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -697,12 +709,12 @@ function addSubElement(_subElement) {
             break;
         case 'then' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;color : inherit;font-weight:bold;">{{ALORS}}';
-            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
-            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
+            retour += '<legend style="margin-top : 4px;margin-bottom : 3px;color : inherit;font-weight:bold;">{{ALORS}}';
+            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
+            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="draggable" style="height : 30px;"></div>';
+            retour += '<div class="draggable empty" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -712,12 +724,12 @@ function addSubElement(_subElement) {
             break;
         case 'else' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;color : inherit;font-weight:bold;">{{SINON}}';
-            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
-            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
+            retour += '<legend style="margin-top : 4px;margin-bottom : 3px;color : inherit;font-weight:bold;">{{SINON}}';
+            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
+            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="draggable" style="height : 30px;"></div>';
+            retour += '<div class="draggable empty" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -727,7 +739,7 @@ function addSubElement(_subElement) {
             break;
         case 'for' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
-            retour += '<legend style="margin-top : 8px;color : inherit;font-weight:bold;">{{DE 1 A}} ';
+            retour += '<legend style="margin-top : 4px;margin-bottom : 3px;color : inherit;font-weight:bold;">{{DE 1 A}} ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -736,15 +748,15 @@ function addSubElement(_subElement) {
             retour += addExpression(expression);
             retour += '</div>';
             retour += '</legend>';
-            break;
+            break;style="position : relative; top : 2px;"
         case 'do' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;color : inherit;font-weight:bold;">FAIRE';
-            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
-            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
+            retour += '<legend style="margin-top : 4px;margin-bottom : 3px;color : inherit;font-weight:bold;">FAIRE';
+            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
+            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="draggable" style="height : 30px;"></div>';
+            retour += '<div class="draggable empty" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -754,10 +766,10 @@ function addSubElement(_subElement) {
             break;
         case 'code' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;color : inherit;">{{CODE}}';
+            retour += '<legend style="margin-top : 4px;margin-bottom : 3px;color : inherit;">{{CODE}}';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="draggable" style="height : 30px;"></div>';
+            retour += '<div class="draggable empty" style="height : 30px;"></div>';
             var expression = {type: 'code'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
                 expression = _subElement.expressions[0];
@@ -767,12 +779,12 @@ function addSubElement(_subElement) {
             break;
         case 'action' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 8px;color : inherit;">{{ACTION}}';
-            retour += '<a class="btn btn-sm btn-default bt_addScenarioElement pull-right fromSubElement"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
-            retour += '<a class="btn btn-sm btn-default bt_addAction pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
+            retour += '<legend style="margin-top : 4px;margin-bottom : 3px;color : inherit;">{{ACTION}}';
+            retour += '<a class="btn btn-sm btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
+            retour += '<a class="btn btn-sm btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="draggable" style="height : 30px;"></div>';
+            retour += '<div class="draggable empty" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -798,8 +810,8 @@ function addElement(_element) {
     if (pColor > 4) {
         pColor = 0;
     }
-    var div = '<div class="element well well-sm draggable" style="margin-top : 8px;border : 3px solid white;color : white;background-color : ' + color + '">';
-    div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : -7px;margin-left : -6px;"></i>';
+    var div = '<div class="element draggable" style="margin-top : 8px;color : white;padding : 7px;margin : 7px;background-color : ' + color + '">';
+    div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable"></i>';
     div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
     div += '<i class="fa fa-minus-circle pull-right cursor bt_removeElement"></i>';
