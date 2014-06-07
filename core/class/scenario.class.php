@@ -164,6 +164,47 @@ class scenario {
         return true;
     }
 
+    public static function cleanTable() {
+        $element_ids = array();
+        $subelement_ids = array();
+        $expression_ids = array();
+        foreach (scenario::all() as $scenario) {
+            foreach ($scenario->getElement() as $element) {
+                $element_ids[] = $element->getId();
+                foreach ($element->getSubElement() as $subelement) {
+                    $subelement_ids[] = $subelement->getId();
+                    foreach ($subelement->getExpression() as $expression) {
+                        $expression_ids[] = $expression->getId();
+                    }
+                }
+            }
+        }
+
+        $sql = 'DELETE FROM scenarioExpression WHERE id NOT IN (';
+        $sep = '';
+        foreach ($expression_ids as $expression_id) {
+            $sql .= $sep . ',' . $expression_id;
+            $sep = ',';
+        }
+        $sql .= ')';
+
+        $sql = 'DELETE FROM scenarioSubElement WHERE id NOT IN (';
+        $sep = '';
+        foreach ($subelement_ids as $subelement_id) {
+            $sql .= $sep . ',' . $subelement_id;
+            $sep = ',';
+        }
+        $sql .= ')';
+
+        $sql = 'DELETE FROM scenarioElement WHERE id NOT IN (';
+        $sep = '';
+        foreach ($element_ids as $element_id) {
+            $sql .= $sep . ',' . $element_id;
+            $sep = ',';
+        }
+        $sql .= ')';
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function launch($_force = false) {
