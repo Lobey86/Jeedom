@@ -704,7 +704,7 @@ function addSubElement(_subElement) {
     switch (_subElement.type) {
         case 'if' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
-            retour += '<legend style="margin-top : 4px;margin-bottom : 5px;color : inherit;font-weight:bold;"><span style="position : relative;left:15px;">{{SI}} ';
+            retour += '<legend style="margin-top : 4px;margin-bottom : 5px;color : inherit;font-weight:bold;border : none;"><span style="position : relative;left:15px;">{{SI}} ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -716,7 +716,7 @@ function addSubElement(_subElement) {
             break;
         case 'then' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 0px;margin-bottom : 5px;color : inherit;font-weight:bold;">{{ALORS}}';
+            retour += '<legend style="margin-top : 3px;margin-bottom : 5px;color : inherit;font-weight:bold;border : none;border-top: 1px solid #e5e5e5;">{{ALORS}}';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
@@ -731,7 +731,7 @@ function addSubElement(_subElement) {
             break;
         case 'else' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 0px;margin-bottom : 5px;color : inherit;font-weight:bold;">{{SINON}}';
+            retour += '<legend style="margin-top : 3px;margin-bottom : 5px;color : inherit;font-weight:bold;border : none;border-top: 1px solid #e5e5e5;">{{SINON}}';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
@@ -746,7 +746,7 @@ function addSubElement(_subElement) {
             break;
         case 'for' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
-            retour += '<legend style="margin-top : 0px;margin-bottom : 5px;color : inherit;font-weight:bold;"><span style="position : relative;left:15px;">{{DE 1 A}} ';
+            retour += '<legend style="margin-top : 0px;margin-bottom : 5px;color : inherit;font-weight:bold;border : none;"><span style="position : relative;left:15px;">{{DE 1 A}} ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -758,7 +758,7 @@ function addSubElement(_subElement) {
             break;
         case 'do' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 0px;margin-bottom : 5px;color : inherit;font-weight:bold;">FAIRE';
+            retour += '<legend style="margin-top : 3px;margin-bottom : 5px;color : inherit;font-weight:bold;border : none;border-top: 1px solid #e5e5e5;">FAIRE';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
@@ -773,7 +773,7 @@ function addSubElement(_subElement) {
             break;
         case 'code' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 0px;margin-bottom : 5px;color : inherit;">{{CODE}}';
+            retour += '<legend style="margin-top : px;margin-bottom : 5px;color : inherit;border : none;">{{CODE}}';
             retour += '</legend>';
             retour += '<div class="expressions">';
             retour += '<div class="draggable empty" style="height : 30px;"></div>';
@@ -786,7 +786,7 @@ function addSubElement(_subElement) {
             break;
         case 'action' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 0px;margin-bottom : 5px;color : inherit;">{{ACTION}}';
+            retour += '<legend style="margin-top : 0px;margin-bottom : 5px;color : inherit;border : none;">{{ACTION}}';
             retour += '<a class="btn btn-sm btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
             retour += '<a class="btn btn-sm btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
