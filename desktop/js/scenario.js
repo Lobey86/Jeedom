@@ -813,8 +813,8 @@ function addElement(_element) {
     var div = '<div class="element draggable" style="color : white;padding : 7px;padding-bottom : 0px;margin : 7px;background-color : ' + color + '">';
     div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
-    div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="position : relative; top : 23px;"></i>';
-    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeElement"></i>';
+    div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="position : relative; top : 23px;z-index : 2;"></i>';
+    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeElement" style="position : relative;z-index : 2;"></i>';
     switch (_element.type) {
         case 'if' :
             if (isset(_element.subElements) && isset(_element.subElements)) {

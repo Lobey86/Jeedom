@@ -46,4 +46,6 @@
     top: 48%; 
     left : 48%;
     z-index: 99999;
+    border: none;
+    outline-style: none;
 }
