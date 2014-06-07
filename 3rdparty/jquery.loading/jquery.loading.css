@@ -37,12 +37,10 @@
 }
 
 #jqueryLoadingDiv .loadingImg{
-    width: 128px;
-    height: 128px;
     opacity:2;
     filter:alpha(opacity=200);
-    background-image: url(loading.gif);
     position: absolute;
+    font-size : 15em;
     top: 48%; 
     left : 48%;
     z-index: 99999;

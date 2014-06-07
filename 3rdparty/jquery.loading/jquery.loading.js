@@ -25,7 +25,7 @@
             });
         } else {
             if ($('#jqueryLoadingDiv').length == 0) {
-                $('body').append('<div id="jqueryLoadingDiv"><div class="overlay"></div><img class="loadingImg" /></div>');
+                $('body').append('<div id="jqueryLoadingDiv"><div class="overlay"></div><i class="fa fa-cog fa-spin loadingImg"></i></div>');
             }
             $('#jqueryLoadingDiv').show();
         }
