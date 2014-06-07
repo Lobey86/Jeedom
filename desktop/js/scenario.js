@@ -502,12 +502,7 @@ function printScenario(_id) {
                 $('#div_scenarioElement').append(addElement(data.result.elements[i]));
             }
 
-            $('.subElement .expressions').each(function() {
-                if ($(this).children('.draggable:not(.empty)').length > 0) {
-                    $(this).children('.draggable.empty').hide();
-                }
-            });
-
+            updateDraggable();
 
             setEditor();
             setAutocomplete();
