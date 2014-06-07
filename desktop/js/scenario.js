@@ -151,7 +151,7 @@ $(function() {
                 elementDiv.append(addElement({type: $("#in_addElementType").value()}));
             }
             setEditor();
-            elementDiv.closest('.expressions').find('.empty.draggable').hide();
+            updateDraggable();
             $('#md_addElement').modal('hide');
         });
     });
@@ -171,10 +171,8 @@ $(function() {
     });
 
     $('body').delegate('.bt_removeExpression', 'click', function(event) {
-        if ($(this).closest('.expressions').find('.draggable:not(.empty)').length == 1) {
-            $(this).closest('.expressions').find('.empty.draggable').show();
-        }
         $(this).closest('.expression').remove();
+        updateDraggable();
     });
 
     $('body').delegate('.bt_selectCmdExpression', 'click', function(event) {
@@ -252,13 +250,17 @@ $(function() {
             placeholder: "ui-state-highlight",
             tolerance: "intersect",
             forcePlaceholderSize: true,
-            dropOnEmpty: true
+            dropOnEmpty: true,
+            update: function(event, ui) {
+                updateDraggable();
+            }
         });
         $("#div_scenarioElement").sortable("enable");
     });
 
     $('body').delegate('.bt_sortable', 'mouseout', function() {
         $("#div_scenarioElement").sortable("disable");
+
     });
 
     /***********************LOG*****************************/
@@ -295,6 +297,16 @@ $(function() {
         modifyWithoutSave = true;
     });
 });
+
+function updateDraggable() {
+    $('.subElement .expressions').each(function() {
+        if ($(this).children('.draggable:not(.empty)').length > 0) {
+            $(this).children('.draggable.empty').hide();
+        } else {
+            $(this).children('.draggable.empty').show();
+        }
+    });
+}
 
 function setEditor() {
     $('.expressionAttr[data-l1key=type][value=code]').each(function() {
