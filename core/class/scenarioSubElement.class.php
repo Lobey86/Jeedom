@@ -64,7 +64,7 @@ class scenarioSubElement {
 
     public function execute(&$_scenario) {
         $return = true;
-        $this->setLog(__('Exécution du sous-élément de type : ',__FILE__) . $this->getType());
+        $this->setLog(__('Exécution du sous-élément de type : ', __FILE__) . $this->getType());
         if ($this->getSubtype() == 'condition') {
             foreach ($this->getExpression() as $expression) {
                 return $expression->execute($_scenario);
@@ -91,6 +91,21 @@ class scenarioSubElement {
 
     public function getExpression() {
         return scenarioExpression::byscenarioSubElementId($this->getId());
+    }
+
+    public function getAllId() {
+        $return = array(
+            'element' => array(),
+            'subelement' => array($this->getId()),
+            'expression' => array(),
+        );
+        foreach ($this->getExpression() as $expression) {
+            $result = $expression->getAllId();
+            $return['element'] = array_merge($return['element'], $result['element']);
+            $return['subelement'] = array_merge($return['subelement'], $result['subelement']);
+            $return['expression'] = array_merge($return['expression'], $result['expression']);
+        }
+        return $return;
     }
 
     public function copy($_scenarioElement_id) {

@@ -816,10 +816,10 @@ function addSubElement(_subElement) {
             break;
         case 'action' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 0px;margin-bottom : 5px;color : inherit;border : none;">{{ACTION}}';
-            retour += '<a class="btn btn-sm btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
-            retour += '<a class="btn btn-sm btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
-            retour += '</legend>';
+            retour += '<legend style="margin-top : 0px;margin-bottom : 5px;color : inherit;border : none;"><div style="position : relative;left:15px;">{{ACTION}}';
+            retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;left:-35px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
+            retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;left:-35px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
+            retour += '</div></legend>';
             retour += '<div class="expressions">';
             retour += '<div class="sortable empty" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {

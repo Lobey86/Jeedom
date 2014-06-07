@@ -295,9 +295,9 @@ class jeedom {
             log::add('cache', 'error', $e->getMessage());
         }
     }
-    
-    public static function event($_event){
-         scenario::check($_event);
+
+    public static function event($_event) {
+        scenario::check($_event);
     }
 
     public static function cron() {
@@ -326,6 +326,14 @@ class jeedom {
             }
         } catch (Exception $e) {
             log::add('backup', 'error', $e->getMessage());
+        }
+        try {
+            $c = new Cron\CronExpression(config::byKey('00 00 * * *'), new Cron\FieldFactory);
+            if ($c->isDue()) {
+                scenario::cleanTable();
+            }
+        } catch (Exception $e) {
+            log::add('scenario', 'error', $e->getMessage());
         }
     }
 

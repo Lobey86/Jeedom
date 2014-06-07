@@ -184,6 +184,21 @@ class scenarioElement {
         return $return;
     }
 
+    public function getAllId() {
+        $return = array(
+            'element' => array($this->getId()),
+            'subelement' => array(),
+            'expression' => array(),
+        );
+        foreach ($this->getSubElement() as $subelement) {
+            $result = $subelement->getAllId();
+            $return['element'] = array_merge($return['element'], $result['element']);
+            $return['subelement'] = array_merge($return['subelement'], $result['subelement']);
+            $return['expression'] = array_merge($return['expression'], $result['expression']);
+        }
+        return $return;
+    }
+
     public function getConsolidateLog() {
         $return = '';
         $log = $this->getLog();

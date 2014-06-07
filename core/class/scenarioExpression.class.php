@@ -271,7 +271,6 @@ class scenarioExpression {
             }
         } catch (Exception $e) {
             $this->setLog($message . $e->getMessage());
-            //throw $e;
         }
     }
 
@@ -280,13 +279,30 @@ class scenarioExpression {
     }
 
     public function remove() {
+        DB::remove($this);
+    }
+
+    public function getAllId() {
+        $return = array(
+            'element' => array(),
+            'subelement' => array(),
+            'expression' => array($this->getId()),
+        );
+        $result = array(
+            'element' => array(),
+            'subelement' => array(),
+            'expression' => array(),
+        );
         if ($this->getType() == 'element') {
             $element = scenarioElement::byId($this->getExpression());
             if (is_object($element)) {
-               // $element->remove();
+                $result = $element->getAllId();
             }
         }
-        DB::remove($this);
+        $return['element'] = array_merge($return['element'], $result['element']);
+        $return['subelement'] = array_merge($return['subelement'], $result['subelement']);
+        $return['expression'] = array_merge($return['expression'], $result['expression']);
+        return $return;
     }
 
     public function copy($_scenarioSubElement_id) {
