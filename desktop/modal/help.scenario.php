@@ -43,8 +43,8 @@ if (!isConnect()) {
                 </pre>
                 {{Vous pouvez combiner n'importe quelle opération avec les opérateurs suivants : }}
                 <pre>
-{{&& : et}}
-{{|| : ou}}
+{{&&/ET/et/AND/and : et}}
+{{||/OU/ou/OR/or : ou}}
                 </pre>
                 {{Vous pouvez aussi utiliser les tags suivants :}}
                 <pre>
