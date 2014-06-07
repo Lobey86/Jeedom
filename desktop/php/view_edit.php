@@ -23,9 +23,7 @@ if (!isConnect()) {
     <div class="col-sm-2">
         <div class="bs-sidebar">
             <ul id="ul_view" class="nav nav-list bs-sidenav">
-                <li class="nav-header">{{Liste des vues}} 
-                    <i class="fa fa-plus-circle pull-right cursor" id="bt_addView" style="font-size: 1.5em;margin-bottom: 5px;"></i>
-                </li>
+                <a id="bt_addView" class="btn btn-default" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle"></i> {{Creer une vue}}</a>
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
                 foreach (view::all() as $view) {
@@ -39,13 +37,13 @@ if (!isConnect()) {
     <div class="col-sm-10">
         <legend style="height: 35px;">
             <a class="btn btn-default btn-xs" id="bt_editView"><i class="fa fa-pencil"></i> {{Renommer}}</a> {{Vue}}
-            <a class="btn btn-default btn-xs pull-right" id="bt_addviewZone"><i class="fa fa-plus-circle"></i> {{Ajouter viewZone}}</a></legend>
+            <a class="btn btn-default btn-xs pull-right" id="bt_addviewZone"><i class="fa fa-plus-circle"></i> {{Ajouter une zone}}</a></legend>
 
         <div id="div_viewZones" style="margin-top: 10px;"></div>
 
 
         <div class="form-actions" style="margin-top: 10px;">
-            
+
             <a class="btn btn-danger" id="bt_removeView"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>
             <a class="btn btn-success" id="bt_saveView"><i class="fa fa-save"></i> {{Enregistrer}}</a>
         </div>

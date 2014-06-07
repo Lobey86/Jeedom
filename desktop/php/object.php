@@ -9,9 +9,7 @@ sendVarToJS('select_id', init('id', '-1'));
     <div class="col-sm-2">
         <div class="bs-sidebar">
             <ul id="ul_object" class="nav nav-list bs-sidenav">
-                <li class="nav-header">{{Liste objets}} 
-                    <i class="fa fa-plus-circle pull-right cursor" id="bt_addObject" style="font-size: 1.5em;margin-bottom: 5px;"></i>
-                </li>
+                <a id="bt_addObject" class="btn btn-default" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter objet}}</a>
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
                 $allObject = object::buildTree();
