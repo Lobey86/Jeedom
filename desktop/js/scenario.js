@@ -151,7 +151,7 @@ $(function() {
                 elementDiv.append(addElement({type: $("#in_addElementType").value()}));
             }
             setEditor();
-            updateDraggable();
+            updateSortable();
             $('#md_addElement').modal('hide');
         });
     });
@@ -167,12 +167,12 @@ $(function() {
     $('body').delegate('.bt_addAction', 'click', function(event) {
         $(this).closest('.subElement').children('.expressions').append(addExpression({type: 'action'}));
         setAutocomplete();
-        $(this).closest('.subElement').children('.expressions').find('.empty.draggable').hide();
+        updateSortable();
     });
 
     $('body').delegate('.bt_removeExpression', 'click', function(event) {
         $(this).closest('.expression').remove();
-        updateDraggable();
+        updateSortable();
     });
 
     $('body').delegate('.bt_selectCmdExpression', 'click', function(event) {
@@ -243,17 +243,37 @@ $(function() {
     });
 
     $('body').delegate('.bt_sortable', 'mouseenter', function() {
+        var expressions = $(this).closest('.expressions');
         $("#div_scenarioElement").sortable({
             axis: "y",
             cursor: "move",
-            items: ".draggable",
+            items: ".sortable",
             placeholder: "ui-state-highlight",
-            tolerance: "intersect",
             forcePlaceholderSize: true,
-            dropOnEmpty: true,
+            forceHelperSize: true,
+            grid: [0, 11],
+            refreshPositions: true,
+            dropOnEmpty: false,
             update: function(event, ui) {
-                updateDraggable();
-            }
+                if (ui.item.findAtDepth('.element',2).length == 1) {
+                    ui.item.replaceWith(ui.item.findAtDepth('.element',2));
+                }
+                if (ui.item.hasClass('element') && ui.item.parent().attr('id') != 'div_scenarioElement') {
+                    ui.item.replaceWith(addExpression({type: 'element', element: {html: ui.item.clone().wrapAll("<div/>").parent().html()}}));
+                }
+                if (ui.item.hasClass('expression') && ui.item.parent().attr('id') == 'div_scenarioElement') {
+                    $("#div_scenarioElement").sortable("cancel");
+                }
+                if (ui.item.closest('.subElement').hasClass('noSortable')) {
+                    $("#div_scenarioElement").sortable("cancel");
+                }
+                updateSortable();
+            },
+            start: function(event, ui) {
+                if (expressions.find('.sortable').length < 3) {
+                    expressions.find('.sortable.empty').show();
+                }
+            },
         });
         $("#div_scenarioElement").sortable("enable");
     });
@@ -298,12 +318,14 @@ $(function() {
     });
 });
 
-function updateDraggable() {
+function updateSortable() {
+    $('.element').removeClass('sortable');
+    $('#div_scenarioElement > .element').addClass('sortable');
     $('.subElement .expressions').each(function() {
-        if ($(this).children('.draggable:not(.empty)').length > 0) {
-            $(this).children('.draggable.empty').hide();
+        if ($(this).children('.sortable:not(.empty)').length > 0) {
+            $(this).children('.sortable.empty').hide();
         } else {
-            $(this).children('.draggable.empty').show();
+            $(this).children('.sortable.empty').show();
         }
     });
 }
@@ -502,7 +524,7 @@ function printScenario(_id) {
                 $('#div_scenarioElement').append(addElement(data.result.elements[i]));
             }
 
-            updateDraggable();
+            updateSortable();
 
             setEditor();
             setAutocomplete();
@@ -639,7 +661,7 @@ function addExpression(_expression) {
     if (!isset(_expression.type) || _expression.type == '') {
         return '';
     }
-    var retour = '<div class="expression row draggable" style="margin-top : 4px;">';
+    var retour = '<div class="expression row sortable" style="margin-top : 4px;">';
     retour += '<input class="expressionAttr" data-l1key="id" style="display : none;" value="' + init(_expression.id) + '"/>';
     retour += '<input class="expressionAttr" data-l1key="scenarioSubElement_id" style="display : none;" value="' + init(_expression.scenarioSubElement_id) + '"/>';
     retour += '<input class="expressionAttr" data-l1key="type" style="display : none;" value="' + init(_expression.type) + '"/>';
@@ -657,11 +679,15 @@ function addExpression(_expression) {
             break;
         case 'element' :
             retour += '<div class="col-sm-12">';
-            var element = addElement(_expression.element, true);
-            if ($.trim(element) == '') {
-                return '';
+            if (isset(_expression.element) && isset(_expression.element.html)) {
+                retour += _expression.element.html;
+            } else {
+                var element = addElement(_expression.element, true);
+                if ($.trim(element) == '') {
+                    return '';
+                }
+                retour += element;
             }
-            retour += element;
             retour += '</div>';
             break;
         case 'action' :
@@ -697,14 +723,18 @@ function addSubElement(_subElement) {
     if (!isset(_subElement.options)) {
         _subElement.options = {};
     }
-    var retour = '<div class="subElement" style="position : relative;top : -12px;">';
+    var noSortable = '';
+    if (_subElement.type == 'if' || _subElement.type == 'for' || _subElement.type == 'code') {
+        noSortable = 'noSortable';
+    }
+    var retour = '<div class="subElement ' + noSortable + '" style="position : relative;top : -12px;">';
     retour += '<input class="subElementAttr" data-l1key="id" style="display : none;" value="' + init(_subElement.id) + '"/>';
     retour += '<input class="subElementAttr" data-l1key="scenarioElement_id" style="display : none;" value="' + init(_subElement.scenarioElement_id) + '"/>';
     retour += '<input class="subElementAttr" data-l1key="type" style="display : none;" value="' + init(_subElement.type) + '"/>';
     switch (_subElement.type) {
         case 'if' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
-            retour += '<legend style="margin-top : 4px;margin-bottom : 5px;color : inherit;font-weight:bold;border : none;"><span style="position : relative;left:15px;">{{SI}} ';
+            retour += '<legend style="margin-top : 4px;margin-bottom : 5px;color : inherit;font-weight:bold;border : none;"><div style="position : relative;left:15px;">{{SI}} ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -712,7 +742,7 @@ function addSubElement(_subElement) {
             }
             retour += addExpression(expression);
             retour += '</div>';
-            retour += '</span></legend>';
+            retour += '</div></legend>';
             break;
         case 'then' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
@@ -721,7 +751,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="draggable empty" style="height : 30px;"></div>';
+            retour += '<div class="sortable empty" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -736,7 +766,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="draggable empty" style="height : 30px;"></div>';
+            retour += '<div class="sortable empty" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -763,7 +793,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="draggable empty" style="height : 30px;"></div>';
+            retour += '<div class="sortable empty" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -776,7 +806,7 @@ function addSubElement(_subElement) {
             retour += '<legend style="margin-top : px;margin-bottom : 5px;color : inherit;border : none;">{{CODE}}';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="draggable empty" style="height : 30px;"></div>';
+            retour += '<div class="sortable empty" style="height : 30px;"></div>';
             var expression = {type: 'code'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
                 expression = _subElement.expressions[0];
@@ -791,7 +821,7 @@ function addSubElement(_subElement) {
             retour += '<a class="btn btn-sm btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
             retour += '<div class="expressions">';
-            retour += '<div class="draggable empty" style="height : 30px;"></div>';
+            retour += '<div class="sortable empty" style="height : 30px;"></div>';
             if (isset(_subElement.expressions)) {
                 for (var k in _subElement.expressions) {
                     retour += addExpression(_subElement.expressions[k]);
@@ -817,7 +847,7 @@ function addElement(_element) {
     if (pColor > 4) {
         pColor = 0;
     }
-    var div = '<div class="element draggable" style="color : white;padding : 7px;padding-bottom : 0px;margin : 7px;background-color : ' + color + '">';
+    var div = '<div class="element" style="color : white;padding : 7px;padding-bottom : 0px;margin : 7px;background-color : ' + color + '">';
     div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
     div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="position : relative; top : 15px;z-index : 2;"></i>';
@@ -881,7 +911,7 @@ function getElement(_element) {
         subElement.expressions = [];
         var expression_dom = $(this).children('.expressions');
         if (expression_dom.length == 0) {
-            expression_dom = $(this).children('legend').children('.expressions');
+            expression_dom = $(this).children('legend').findAtDepth('.expressions', 2);
         }
         expression_dom.children('.expression').each(function() {
             var expression = $(this).getValues('.expressionAttr', 3);

@@ -283,7 +283,7 @@ class scenarioExpression {
         if ($this->getType() == 'element') {
             $element = scenarioElement::byId($this->getExpression());
             if (is_object($element)) {
-                $element->remove();
+               // $element->remove();
             }
         }
         DB::remove($this);

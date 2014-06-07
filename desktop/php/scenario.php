@@ -20,12 +20,12 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
             <ul id="ul_scenario" class="nav nav-list bs-sidenav">                  
                 <?php
                 if (config::byKey('enableScenario') == 0) {
-                    echo '<a class="btn btn-sm btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="1" style="display: inline-block;" title="{{Activer le système de scénario}}"><i class="fa fa-check" style="color : green;font-size : 1.5em;"></i> {{Activat. scénarios}}</a>';
+                    echo '<a class="btn btn-sm btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="1" style="width : 49%" title="{{Activer le système de scénario}}"><i class="fa fa-check" style="color : green;font-size : 1.5em;"></i> {{Act. scénarios}}</a>';
                 } else {
-                    echo '<a class="btn btn-sm btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="0" style="display: inline-block;" title="{{Desactiver le système de scénario}}"><i class="fa fa-times" style="color : red;font-size : 1.5em;"></i> {{Désactiv. scénarios}}</a>';
+                    echo '<a class="btn btn-sm btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="0" style="width : 49%" title="{{Desactiver le système de scénario}}"><i class="fa fa-times" style="color : red;font-size : 1.5em;"></i> {{Désac. scénarios}}</a>';
                 }
                 ?>
-                <a class="btn btn-default btn-sm tooltips expertModeVisible" id="bt_displayScenarioVariable" title="{{Voir toutes les variables de scénario}}" style="display: inline-block;"><i class="fa fa fa-eye" style="font-size : 1.5em;"></i> {{Voir variables}}</a>
+                <a class="btn btn-default btn-sm tooltips expertModeVisible" id="bt_displayScenarioVariable" title="{{Voir toutes les variables de scénario}}" style="width : 49%"><i class="fa fa fa-eye" style="font-size : 1.5em;"></i> {{Voir variables}}</a>
                 <a class="btn btn-default" id="bt_addScenario" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle cursor" ></i> Nouveau scénario</a>
                 <li> 
                     <select style="width: 100%;margin-bottom: 5px;" id="sel_group" class="form-control input-sm">
