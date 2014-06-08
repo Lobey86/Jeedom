@@ -151,7 +151,7 @@ class interactDef {
         }
         foreach ($allInteractQueries as $interactQueries) {
             if (!isset($findInteractQuery[$interactQueries->getId()])) {
-                $findInteractQuery->remove();
+                $interactQueries->remove();
             }
         }
     }
@@ -168,9 +168,9 @@ class interactDef {
         $inputs = self::generateTextVariant($this->getQuery());
         $return = array();
         foreach ($inputs as $input) {
+            preg_match_all("/#(.*?)#/", $input, $matches);
+            $matches = $matches[1];
             if ($this->getLink_type() == 'cmd') {
-                preg_match_all("/#(.*?)#/", $input, $matches);
-                $matches = $matches[1];
                 if (in_array('commande', $matches) && in_array('objet', $matches)) {
                     foreach (object::all() as $object) {
                         if (($this->getFiltres('object_id', 'all') == 'all' || $object->getId() == $this->getFiltres('object_id'))) {
