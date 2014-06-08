@@ -60,8 +60,8 @@ try {
             sleep(1);
         }
         if ($scenario->getState() == 'in progress') {
-            $scenario->setLog(__('Impossible de lancer le scénario car déjà en cours', __FILE__));
-            die(__('Impossible de lancer le scénario car déjà en cours', __FILE__));
+            $scenario->setLog(__('Impossible de lancer le scénario car déjà en cours : ', __FILE__) . $scenario->getHumanName());
+            die(__('Impossible de lancer le scénario car déjà en cours : ', __FILE__) . $scenario->getHumanName());
         }
         $scenario->setPID(getmypid());
         $scenario->save();
@@ -69,11 +69,11 @@ try {
         $scenario->execute();
         $scenario->setState('stop');
     } else {
-        $scenario->setLog(__('Impossible de lancer le scénario car désactivé', __FILE__));
-        die(__('Impossible de lancer le scénario car désactivé', __FILE__));
+        $scenario->setLog(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
+        die(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
     }
 } catch (Exception $e) {
-    log::add('scenario', 'error', __('Scenario  : ', __FILE__) . $scenario->getName() . '. ' . __('Erreur : ', __FILE__) . $e->getMessage());
+    log::add('scenario', 'error', __('Scenario  : ', __FILE__) . $scenario->getHumanName() . '. ' . __('Erreur : ', __FILE__) . $e->getMessage());
     $scenario->setState('error');
     $scenario->setPID('');
     $scenario->save();
