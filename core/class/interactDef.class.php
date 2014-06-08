@@ -42,7 +42,6 @@ class interactDef {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM interactDef
                 WHERE id=:id';
-
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -134,23 +133,25 @@ class interactDef {
 
     public function postSave() {
         $queries = $this->generateQueryVariant();
-        $findSarahQuery = array();
-        $allSarahQueries = interactQuery::byInteractDefId($this->getId());
+        $findInteractQuery = array();
+        $allInteractQueries = interactQuery::byInteractDefId($this->getId());
         foreach ($queries as $query) {
-            $interactQuery = interactQuery::byQuery($query['query']);
-            if (!is_object($interactQuery)) {
-                $interactQuery = new interactQuery();
+            if ($query['link_id'] != '' || $query['link_type'] == 'whatDoYouKnow') {
+                $interactQuery = interactQuery::byQuery($query['query']);
+                if (!is_object($interactQuery)) {
+                    $interactQuery = new interactQuery();
+                }
+                $interactQuery->setInteractDef_id($this->getId());
+                $interactQuery->setQuery($query['query']);
+                $interactQuery->setLink_type($query['link_type']);
+                $interactQuery->setLink_id($query['link_id']);
+                $interactQuery->save();
+                $findInteractQuery[$interactQuery->getId()] = true;
             }
-            $interactQuery->setInteractDef_id($this->getId());
-            $interactQuery->setQuery($query['query']);
-            $interactQuery->setLink_type($query['link_type']);
-            $interactQuery->setLink_id($query['link_id']);
-            $interactQuery->save();
-            $findSarahQuery[$interactQuery->getId()] = true;
         }
-        foreach ($allSarahQueries as $interactQueries) {
-            if (!isset($findSarahQuery[$interactQueries->getId()])) {
-                $interactQueries->remove();
+        foreach ($allInteractQueries as $interactQueries) {
+            if (!isset($findInteractQuery[$interactQueries->getId()])) {
+                $findInteractQuery->remove();
             }
         }
     }

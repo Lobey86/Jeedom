@@ -43,17 +43,45 @@ try {
         ajax::success($results);
     }
 
-    if (init('action') == 'save') {
-        $interactDefs_ajax = json_decode(init('interactDefs'), true);
-        $position = 0;
-        foreach ($interactDefs_ajax as &$interactDef_ajax) {
-            if ($interactDef_ajax['link_type'] == 'cmd') {
-                $interactDef_ajax['link_id'] = str_replace('#', '', cmd::humanReadableToCmd($interactDef_ajax['link_id']));
+    if (init('action') == 'byId') {
+        $result = utils::o2a(interactDef::byId(init('id')));
+        $result['nbInteractQuery'] = count(interactQuery::byInteractDefId($result['id']));
+        $result['nbEnableInteractQuery'] = count(interactQuery::byInteractDefId($result['id'], true));
+        if ($result['link_type'] == 'cmd' && $result['link_id'] != '') {
+            $cmd = cmd::byId($result['link_id']);
+            if (is_object($cmd)) {
+                $result['link_id'] = cmd::cmdToHumanReadable('#' . $cmd->getId() . '#');
+            } else {
+                if ($result['link_id'] == 0) {
+                    $result['link_id'] = '';
+                }
             }
-            $interactDef_ajax['position'] = $position;
-            $position++;
         }
-        utils::processJsonObject('interactDef', array_reverse($interactDefs_ajax));
+        ajax::success($result);
+    }
+
+    if (init('action') == 'save') {
+        $interact_json = json_decode(init('interact'), true);
+        if (isset($interact_json['id'])) {
+            $interact = interactDef::byId($interact_json['id']);
+        }
+        if (!is_object($interact)) {
+            $interact = new interactDef();
+        }
+        utils::a2o($interact, $interact_json);
+        $interact->save();
+        ajax::success(utils::o2a($interact));
+    }
+
+    if (init('action') == 'remove') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
+        $interact = interactDef::byId(init('id'));
+        if (!is_object($interact)) {
+            throw new Exception(__('Interaction inconnu verifié l\'id', __FILE__));
+        }
+        $interact->remove();
         ajax::success();
     }
 

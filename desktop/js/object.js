@@ -36,8 +36,7 @@ $(function() {
     $("#bt_addObject").on('click', function(event) {
         bootbox.prompt("Nom de l'objet ?", function(result) {
             if (result !== null) {
-                var object = {name: result, isVisible: 1};
-                saveObject(object);
+                saveObject({name: result, isVisible: 1});
             }
         });
     });
@@ -89,7 +88,7 @@ $(function() {
 
     $('#bt_chooseIcon').on('click', function() {
         chooseIcon(function(_icon) {
-           $('.objectAttr[data-l1key=display][data-l2key=icon]').empty().append(_icon);
+            $('.objectAttr[data-l1key=display][data-l2key=icon]').empty().append(_icon);
         });
     });
 
@@ -183,7 +182,7 @@ function printObject(_object_id) {
     });
 }
 
-function  saveObject(object) {
+function saveObject(object) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/object.ajax.php", // url du fichier php
@@ -200,7 +199,6 @@ function  saveObject(object) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: '{{Objet sauvegardé}}', level: 'success'});
             modifyWithoutSave = false;
             window.location.replace('index.php?v=d&p=object&id=' + data.result.id + '&saveSuccessFull=1');
         }

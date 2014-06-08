@@ -16,111 +16,129 @@
  */
 
 $(function() {
-    printInteractDef();
+    if (getUrlVars('saveSuccessFull') == 1) {
+        $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
+    }
 
-    $('#table_interactDef tbody').delegate('.displayInteracQuery', 'click', function() {
-        var tr = $(this).closest('tr');
+    if (getUrlVars('removeSuccessFull') == 1) {
+        $('#div_alert').showAlert({message: '{{Suppression effectuée avec succès}}', level: 'success'});
+    }
+
+    $(".li_interact").on('click', function(event) {
+        $('#div_conf').show();
+        $('.li_interact').removeClass('active');
+        $(this).addClass('active');
+        printInteract($(this).attr('data-interact_id'));
+        return false;
+    });
+
+
+    if (is_numeric(getUrlVars('id'))) {
+        if ($('#ul_interact .li_interact[data-interact_id=' + getUrlVars('id') + ']').length != 0) {
+            $('#ul_interact .li_interact[data-interact_id=' + getUrlVars('id') + ']').click();
+        } else {
+            $('#ul_interact .li_interact:first').click();
+        }
+    } else {
+        $('#ul_interact .li_interact:first').click();
+    }
+
+    $('body').delegate('.interactAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
+
+    $(".interactAttr[data-l1key=link_type]").on('change', function() {
+        changeLinkType({link_type: $(this).value()});
+    });
+
+    $('.displayInteracQuery').on('click', function() {
         $('#md_modal').dialog({title: "{{Liste des interactions}}"});
-        $('#md_modal').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + tr.find('.interactDefAttr[data-l1key=id]').value()).dialog('open');
+        $('#md_modal').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + $('.interactAttr[data-l1key=id]').value()).dialog('open');
     });
 
-    $("#bt_addSarahDef").on('click', function() {
-        addInteractDefToTable({});
-    });
-
-    $("#bt_save").on('click', function() {
-        saveIntercDef();
-    });
-
-    $("#table_interactDef").delegate(".remove", 'click', function() {
-        $(this).closest('tr').remove();
-    });
-
-    $("#table_interactDef").delegate(".listEquipementInfo", 'click', function() {
-        var el = $(this);
+    $('body').delegate('.listEquipementInfo', 'click', function() {
         cmd.getSelectModal({}, function(result) {
-            el.closest('tr').find('.interactDefAttr[data-l1key=link_id]').value(result.human);
+            $('.interactAttr[data-l1key=link_id]').value(result.human);
         });
     });
 
-    $("#table_interactDef").delegate(".interactDefAttr[data-l1key=link_type]", 'change', function() {
-        var el = $(this);
-        el.closest('tr').find('.linkOption').empty();
-        el.closest('tr').find('.interactDefAttr').show();
-        el.closest('tr').find('.listEquipementInfo').show();
-        if (el.value() == 'whatDoYouKnow') {
-            el.closest('tr').find('.interactDefAttr[data-l1key=options][data-l2key=convertBinary]').hide();
-            el.closest('tr').find('.interactDefAttr[data-l1key=options][data-l2key=synonymes]').hide();
-            el.closest('tr').find('.interactDefAttr[data-l1key=reply]').hide();
-            el.closest('tr').find('.interactDefAttr[data-l1key=filtres]').hide();
-        }
-
-        if (el.value() == 'cmd') {
-            var options = '';
-            options += '<div class="col-sm-9">';
-            options += '<input class="interactDefAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;"/>';
-            options += '</div>';
-            options += '<div class="col-sm-3">';
-            options += '<a class="form-control btn btn-default cursor listEquipementInfo input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt "></i></a></td>';
-            options += '</div>';
-            el.closest('tr').find('.linkOption').append(options);
-        }
-
-        if (el.value() == 'scenario') {
-            var scenarios = scenario.all();
-            var options = '<div class="col-sm-12">';
-            options += '<select class="interactDefAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;">';
-            for (var i in scenarios) {
-                options += '<option value="' + scenarios[i].id + '">' + scenarios[i].humanName + '</option>';
-            }
-            options += '</select>';
-            options += '</div>';
-            el.closest('tr').find('.linkOption').append(options);
-            el.closest('tr').find('.interactDefAttr[data-l1key=options][data-l2key=convertBinary]').hide();
-            el.closest('tr').find('.interactDefAttr[data-l1key=options][data-l2key=synonymes]').hide();
-            el.closest('tr').find('.interactDefAttr[data-l1key=reply]').hide();
-            el.closest('tr').find('.interactDefAttr[data-l1key=filtres]').hide();
-        }
+    $("#bt_saveInteract").on('click', function() {
+        var interact = $('.interact').getValues('.interactAttr');
+        saveInteract(interact[0]);
     });
 
-    $('body').delegate('.interactDefAttr', 'change', function() {
-        modifyWithoutSave = true;
+    $("#bt_addInteract").on('click', function(event) {
+        bootbox.prompt("Demande ?", function(result) {
+            if (result !== null) {
+                saveInteract({query: result});
+            }
+        });
+    });
+
+    $("#bt_removeInteract").on('click', function() {
+        if ($('.li_interact.active').attr('data-interact_id') != undefined) {
+            $.hideAlert();
+            bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'intéraction}} <span style="font-weight: bold ;">' + $('.li_interact.active a').text() + '</span> ?', function(result) {
+                if (result) {
+                    removeInteract($('.li_interact.active').attr('data-interact_id'));
+                }
+            });
+        } else {
+            $('#div_alert').showAlert({message: '{{Veuillez d\'abord sélectionner un objet}}', level: 'danger'});
+        }
     });
 });
 
-function saveIntercDef() {
-    $.hideAlert();
-    var interactDefs = $('#table_interactDef tbody tr').getValues('.interactDefAttr');
-    $.ajax({
-        type: 'POST',
-        url: "core/ajax/interact.ajax.php", // url du fichier php
-        data: {
-            action: 'save',
-            interactDefs: json_encode(interactDefs),
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
-            printInteractDef();
-            modifyWithoutSave = false;
+function changeLinkType(_options) {
+    $('#linkOption').empty().show();
+    $('#linkOption').closest('.form-group').show();
+    $('.interactAttr[data-l1key=reply]').closest('.form-group').show();
+    $('#div_filtre').show();
+    $('.interactAttr[data-l1key=options][data-l2key=convertBinary]').closest('.form-group').show();
+    $('.interactAttr[data-l1key=options][data-l2key=synonymes]').closest('.form-group').show();
+    if (_options.link_type == 'whatDoYouKnow') {
+        $('.interactAttr[data-l1key=options][data-l2key=convertBinary]').closest('.form-group').hide();
+        $('.interactAttr[data-l1key=options][data-l2key=synonymes]').closest('.form-group').hide();
+        $('.interactAttr[data-l1key=reply]').closest('.form-group').hide();
+        $('#div_filtre').hide();
+        $('#linkOption').closest('.form-group').hide();
+    }
+    if (_options.link_type == 'cmd') {
+        var options = '';
+        options += '<div class="col-sm-8">';
+        options += '<input class="interactAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;"/>';
+        options += '</div>';
+        options += '<div class="col-sm-1">';
+        options += '<a class="form-control btn btn-default cursor listEquipementInfo input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt "></i></a></td>';
+        options += '</div>';
+        $('#linkOption').append(options);
+    }
+    if (_options.link_type == 'scenario') {
+        var scenarios = scenario.all();
+        var options = '<div class="col-sm-9">';
+        options += '<select class="interactAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;">';
+        for (var i in scenarios) {
+            options += '<option value="' + scenarios[i].id + '">' + scenarios[i].humanName + '</option>';
         }
-    });
+        options += '</select>';
+        options += '</div>';
+        $('#linkOption').append(options);
+        $('.interactAttr[data-l1key=options][data-l2key=convertBinary]').closest('.form-group').hide();
+        $('.interactAttr[data-l1key=options][data-l2key=synonymes]').closest('.form-group').hide();
+        $('.interactAttr[data-l1key=reply]').closest('.form-group').hide();
+        $('#div_filtre').hide();
+    }
+    delete _options.link_type;
+    $('.interact').setValues(_options, '.interactAttr');
 }
 
-
-function printInteractDef() {
+function removeInteract(_id) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/interact.ajax.php", // url du fichier php
         data: {
-            action: "all",
+            action: "remove",
+            id: _id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -131,100 +149,57 @@ function printInteractDef() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#table_interactDef tbody tr').remove();
+            modifyWithoutSave = false;
+            window.location.replace('index.php?v=d&p=interact&removeSuccessFull=1');
+        }
+    });
+}
 
-            for (var i in data.result) {
-                addInteractDefToTable(data.result[i]);
+
+function printInteract(_id) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/interact.ajax.php", // url du fichier php
+        data: {
+            action: "byId",
+            id: _id
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
             }
+            $('.interactAttr').value('');
+            $('.interact').setValues(data.result, '.interactAttr');
             modifyWithoutSave = false;
         }
     });
 }
 
-function addInteractDefToTable(_interactDef) {
-    if (!isset(_interactDef)) {
-        _interactDef = {};
-    }
-    var tr = '<tr>';
-    tr += '<td>';
-    tr += '<input class="interactDefAttr hide" data-l1key="id" />';
-    tr += '<div class="form-group">';
-    tr += '<div class="col-sm-4">';
-    tr += '<select class="interactDefAttr tooltips form-control input-sm" data-l1key="filtres" data-l2key="cmd_type" title="{{Limiter aux commandes de type}}">';
-    var types = jeedom.getConfiguration('cmd:type');
-    for (var i in types) {
-        tr += '<option value="' + i + '">' + types[i].name + '</option>';
-    }
-    tr += '</select>';
-    tr += '</div>';
-    tr += '<div class="col-sm-4">';
-    tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'subtype\' title=\'{{Limiter aux commandes ayant pour sous-type}}\'>';
-    tr += '<option value=\'all\' >{{Tous}}</option>';
-    for (var i in types) {
-        for (var j in types[i].subtype) {
-            tr += '<option value="' + j + '">' + types[i].subtype[j].name + '</option>';
+function saveInteract(_interact) {
+    $.hideAlert();
+    $.ajax({
+        type: 'POST',
+        url: "core/ajax/interact.ajax.php", // url du fichier php
+        data: {
+            action: 'save',
+            interact: json_encode(_interact),
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            modifyWithoutSave = false;
+            window.location.replace('index.php?v=d&p=interact&id=' + data.result.id + '&saveSuccessFull=1');
         }
-    }
-    tr += '</select>';
-    tr += '</div>';
-    tr += '<div class="col-sm-4">';
-    tr += sel_unite;
-    tr += '</div>';
-    tr += '<div class="col-sm-4">';
-    var objects = object.all();
-    tr += '<select class=\'interactDefAttr tooltips form-control input-sm\' data-l1key=\'filtres\' data-l2key=\'object_id\' title=\'{{Limiter aux commandes appartenant à l objet}}\' style=\'margin-top : 5px;\'>';
-    tr += '<option value=\'all\' >{{Tous}}</option>';
-    for (var i in objects) {
-        tr += '<option value=' + objects[i].id + '>' + objects[i].name + '</option>';
-    }
-    tr += '</select>';
-    tr += '</div>';
-    tr += '<div class="col-sm-4">';
-    tr += sel_eqType;
-    tr += '</div>';
-    tr += '</div>';
-    tr += '</td>';
-    tr += '<td>';
-    tr += '<div class="form-group">';
-    tr += '<div class="col-sm-6 has-warning">';
-    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="query" placeholder="{{Demande}}" />';
-    tr += '</div>';
-    tr += '<div class="col-sm-6 has-success">';
-    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="reply" placeholder="{{Réponse}}"/>';
-    tr += '</div>';
-    tr += '<div class="col-sm-6">';
-    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="convertBinary" placeholder="{{Conversion binaire : faux|vrai}}" title="{{Convertir les commandes binaire}}" style="margin-top : 5px;" />';
-    tr += '</div>';
-    tr += '<div class="col-sm-6">';
-    tr += '<input class="interactDefAttr form-control input-sm tooltips" data-l1key="options" data-l2key="synonymes" placeholder="{{Synonyme}}" title="{{Remplace les mots par leur synonymes lors de la génération des commandes}}" style="margin-top : 5px;" />';
-    tr += '</div>';
-    tr += '</div>';
-    tr += '</td>';
-    tr += '<td>';
-    tr += '<div class="form-group">';
-    tr += '<div class="col-sm-12">';
-    tr += '<select class="interactDefAttr form-control input-sm" data-l1key="link_type">';
-    tr += '<option value="cmd">{{Commande}}</option>';
-    tr += '<option value="whatDoYouKnow">{{Que sais tu ?}}</option>';
-    tr += '<option value="scenario">{{Scénario}}</option>';
-    tr += '</select>';
-    tr += '</div>';
-    tr += '<div class="linkOption">';
-
-    tr += '</div>';
-    tr += '</td>';
-    tr += '<td>';
-    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="person"/>';
-    tr += '</td>';
-    tr += '<td>';
-    tr += '<span class="displayInteracQuery cursor">';
-    tr += '<span class="label label-success interactDefAttr tooltips" data-l1key="nbEnableInteractQuery" title="{{Nombre de requête(s) active(s)}}"></span> / ';
-    tr += '<span class="label label-default interactDefAttr tooltips" data-l1key="nbInteractQuery" title="{{Nombre de requête(s) totale(s)}}"></span>';
-    tr += '</span>';
-    tr += '<i class="fa fa-minus-circle remove pull-right cursor"></i>';
-    tr += '</td>';
-    tr += '</tr>';
-    $('#table_interactDef tbody').append(tr);
-    $('#table_interactDef tbody tr:last').setValues(_interactDef, '.interactDefAttr');
-    initTooltips();
+    });
 }

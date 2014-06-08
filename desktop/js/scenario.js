@@ -803,8 +803,8 @@ function addSubElement(_subElement) {
             break;
         case 'code' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : px;margin-bottom : 5px;color : inherit;border : none;">{{CODE}}';
-            retour += '</legend>';
+            retour += '<legend style="margin-top : px;margin-bottom : 5px;color : inherit;border : none;"><div style="position : relative;left:15px;">{{CODE}}';
+            retour += '</div></legend>';
             retour += '<div class="expressions">';
             retour += '<div class="sortable empty" style="height : 30px;"></div>';
             var expression = {type: 'code'};
