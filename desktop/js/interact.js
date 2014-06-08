@@ -90,8 +90,7 @@ $(function() {
 });
 
 function changeLinkType(_options) {
-    $('#linkOption').empty().show();
-    $('#linkOption').closest('.form-group').show();
+    $('#linkOption').empty();
     $('.interactAttr[data-l1key=reply]').closest('.form-group').show();
     $('#div_filtre').show();
     $('.interactAttr[data-l1key=options][data-l2key=convertBinary]').closest('.form-group').show();
@@ -101,26 +100,41 @@ function changeLinkType(_options) {
         $('.interactAttr[data-l1key=options][data-l2key=synonymes]').closest('.form-group').hide();
         $('.interactAttr[data-l1key=reply]').closest('.form-group').hide();
         $('#div_filtre').hide();
-        $('#linkOption').closest('.form-group').hide();
     }
     if (_options.link_type == 'cmd') {
-        var options = '';
+        var options = '<div class="form-group">';
+        options += '<label class="col-sm-3 control-label">{{Commande}}</label>';
         options += '<div class="col-sm-8">';
         options += '<input class="interactAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;"/>';
         options += '</div>';
         options += '<div class="col-sm-1">';
         options += '<a class="form-control btn btn-default cursor listEquipementInfo input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt "></i></a></td>';
         options += '</div>';
+        options += '</div>';
         $('#linkOption').append(options);
     }
     if (_options.link_type == 'scenario') {
         var scenarios = scenario.all();
-        var options = '<div class="col-sm-9">';
+        var options = '<div class="form-group">';
+        options += '<label class="col-sm-3 control-label">{{Scénario}}</label>';
+        options += '<div class="col-sm-9">';
         options += '<select class="interactAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;">';
         for (var i in scenarios) {
             options += '<option value="' + scenarios[i].id + '">' + scenarios[i].humanName + '</option>';
         }
         options += '</select>';
+        options += '</div>';
+        options += '</div>';
+        options += '<div class="form-group">';
+        options += '<label class="col-sm-3 control-label">{{Action}}</label>';
+        options += '<div class="col-sm-9">';
+        options += '<select class="interactAttr form-control input-sm" data-l1key="options" data-l2key="scenario_action">';
+        options += '<option value="start">{{Start}}</option>';
+        options += '<option value="stop">{{Stop}}</option>';
+        options += '<option value="activate">{{Activer}}</option>';
+        options += '<option value="deactivate">{{Désactiver}}</option>';
+        options += '</select>';
+         options += '</div>';
         options += '</div>';
         $('#linkOption').append(options);
         $('.interactAttr[data-l1key=options][data-l2key=convertBinary]').closest('.form-group').hide();

@@ -271,8 +271,28 @@ class interactQuery {
             if (!is_object($scenario)) {
                 return __('Impossible de trouver le scénario correspondant', __FILE__);
             }
-            $scenario->launch();
-            return self::replyOk();
+            $interactDef = $this->getInteractDef();
+            if (!is_object($interactDef)) {
+                return __('Impossible de trouver la définition de l\'intéraction', __FILE__);
+            }
+            switch ($interactDef->getOptions('scenario_action')) {
+                case 'start':
+                    $scenario->launch();
+                    return self::replyOk();
+                case 'stop':
+                    $scenario->stop();
+                    return self::replyOk();
+                case 'activate':
+                    $scenario->setIsActive(1);
+                    $scenario->save();
+                    return self::replyOk();
+                case 'deactivate':
+                    $scenario->setIsActive(0);
+                    $scenario->save();
+                    return self::replyOk();
+                default:
+                    return __('Aucune action défini dans l\'intéraction sur le scénario : ', __FILE__) . $scenario->getHumanName();
+            }
         }
 
         $reply = $interactDef->selectReply();
@@ -367,6 +387,10 @@ class interactQuery {
         }
         $reply = str_replace(array_keys($replace), $replace, $reply);
         return $reply;
+    }
+
+    public function getInteractDef() {
+        return interactDef::byId($this->interactDef_id);
     }
 
     /*     * **********************Getteur Setteur*************************** */
