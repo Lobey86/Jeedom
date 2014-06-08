@@ -328,7 +328,7 @@ class jeedom {
             log::add('backup', 'error', $e->getMessage());
         }
         try {
-            $c = new Cron\CronExpression(config::byKey('00 00 * * *'), new Cron\FieldFactory);
+            $c = new Cron\CronExpression(config::byKey('50 23 * * *'), new Cron\FieldFactory);
             if ($c->isDue()) {
                 scenario::cleanTable();
             }

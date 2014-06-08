@@ -53,6 +53,8 @@ class scenarioElement {
         utils::a2o($element_db, $element_ajax);
         $element_db->save();
         $subElement_order = 0;
+        $subElement_list = $element_db->getSubElement();
+        $enable_subElement = array();
         foreach ($element_ajax['subElements'] as $subElement_ajax) {
             if (isset($subElement_ajax['id']) && $subElement_ajax['id'] != '') {
                 $subElement_db = scenarioSubElement::byId($subElement_ajax['id']);
@@ -67,8 +69,11 @@ class scenarioElement {
             $subElement_db->setOrder($subElement_order);
             $subElement_db->save();
             $subElement_order++;
+            $enable_subElement[$subElement_db->getId()] = true;
 
+            $expression_list = $subElement_db->getExpression();
             $expression_order = 0;
+            $enable_expression = array();
             foreach ($subElement_ajax['expressions'] as &$expression_ajax) {
                 if (isset($expression_ajax['scenarioSubElement_id']) && $expression_ajax['scenarioSubElement_id'] != $subElement_db->getId() && isset($expression_ajax['id']) && $expression_ajax['id'] != '') {
                     $expression_ajax['id'] = '';
@@ -89,8 +94,21 @@ class scenarioElement {
                 $expression_db->setOrder($expression_order);
                 $expression_db->save();
                 $expression_order++;
+                $enable_expression[$expression_db->getId()] = true;
+            }
+            foreach ($expression_list as $expresssion) {
+                if (!isset($enable_expression[$expresssion->getId()])) {
+                    $expresssion->remove();
+                }
             }
         }
+        foreach ($subElement_list as $subElement) {
+            if (!isset($enable_subElement[$subElement->getId()])) {
+                $subElement->remove();
+            }
+        }
+
+
         return $element_db->getId();
     }
 
