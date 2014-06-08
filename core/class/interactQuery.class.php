@@ -203,6 +203,17 @@ class interactQuery {
         return $notUnderstood[$random];
     }
 
+    public static function replyOk() {
+        $reply = array(
+            __('C\'est fait', __FILE__),
+            __('Ok', __FILE__),
+            __('Voila, c\'est fait', __FILE__),
+            __('Bien compris', __FILE__),
+        );
+        $random = rand(0, count($reply) - 1);
+        return $reply[$random];
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function save() {
@@ -261,7 +272,7 @@ class interactQuery {
                 return __('Impossible de trouver le scénario correspondant', __FILE__);
             }
             $scenario->launch();
-            return __('C\'est fait', __FILE__);
+            return self::replyOk();
         }
 
         $reply = $interactDef->selectReply();
