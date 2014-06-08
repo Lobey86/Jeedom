@@ -127,7 +127,7 @@ class interactDef {
 
     public function save() {
         if ($this->getQuery() == '') {
-            throw new Exception(__('La commande (demande) ne peut etre vide',__FILE__));
+            throw new Exception(__('La commande (demande) ne peut etre vide', __FILE__));
         }
         return DB::save($this);
     }
@@ -167,47 +167,48 @@ class interactDef {
         $inputs = self::generateTextVariant($this->getQuery());
         $return = array();
         foreach ($inputs as $input) {
-            preg_match_all("/#(.*?)#/", $input, $matches);
-            $matches = $matches[1];
-            if (in_array('commande', $matches) && in_array('objet', $matches)) {
-                foreach (object::all() as $object) {
-                    if (($this->getFiltres('object_id', 'all') == 'all' || $object->getId() == $this->getFiltres('object_id'))) {
-                        foreach ($object->getEqLogic() as $eqLogic) {
-                            if (($this->getFiltres('plugin', 'all') == 'all' || $eqLogic->getPlugin() == $this->getFiltres('plugin'))) {
-                                foreach ($eqLogic->getCmd() as $cmd) {
-                                    if ($cmd->getType() == 'info' || ($cmd->getType() == 'action' && ($cmd->getSubType() == 'color' || $cmd->getSubType() == 'slider' || $cmd->getSubType() == 'other')))
-                                        if ($this->getFiltres('subtype') == 'all' || $this->getFiltres('subtype') == $cmd->getSubType()) {
-                                            if ($cmd->getType() == $this->getFiltres('cmd_type') && ($this->getFiltres('cmd_unite', 'all') == 'all' || $cmd->getUnite() == $this->getFiltres('cmd_unite'))) {
-                                                $replace = array(
-                                                    '#objet#' => strtolower($object->getName()),
-                                                    '#commande#' => strtolower($cmd->getName()),
-                                                    '#equipement#' => strtolower($eqLogic->getName()),
-                                                );
-                                                $return[] = array(
-                                                    'query' => str_replace(array_keys($replace), $replace, $input),
-                                                    'link_type' => $this->getLink_type(),
-                                                    'link_id' => $cmd->getId(),
-                                                );
+            if ($this->getLink_type() == 'cmd') {
+                preg_match_all("/#(.*?)#/", $input, $matches);
+                $matches = $matches[1];
+                if (in_array('commande', $matches) && in_array('objet', $matches)) {
+                    foreach (object::all() as $object) {
+                        if (($this->getFiltres('object_id', 'all') == 'all' || $object->getId() == $this->getFiltres('object_id'))) {
+                            foreach ($object->getEqLogic() as $eqLogic) {
+                                if (($this->getFiltres('plugin', 'all') == 'all' || $eqLogic->getPlugin() == $this->getFiltres('plugin'))) {
+                                    foreach ($eqLogic->getCmd() as $cmd) {
+                                        if ($cmd->getType() == 'info' || ($cmd->getType() == 'action' && ($cmd->getSubType() == 'color' || $cmd->getSubType() == 'slider' || $cmd->getSubType() == 'other')))
+                                            if ($this->getFiltres('subtype') == 'all' || $this->getFiltres('subtype') == $cmd->getSubType()) {
+                                                if ($cmd->getType() == $this->getFiltres('cmd_type') && ($this->getFiltres('cmd_unite', 'all') == 'all' || $cmd->getUnite() == $this->getFiltres('cmd_unite'))) {
+                                                    $replace = array(
+                                                        '#objet#' => strtolower($object->getName()),
+                                                        '#commande#' => strtolower($cmd->getName()),
+                                                        '#equipement#' => strtolower($eqLogic->getName()),
+                                                    );
+                                                    $return[] = array(
+                                                        'query' => str_replace(array_keys($replace), $replace, $input),
+                                                        'link_type' => $this->getLink_type(),
+                                                        'link_id' => $cmd->getId(),
+                                                    );
+                                                }
                                             }
-                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            } else {
-                if ($this->getLink_type() == 'whatDoYouKnow') {
-                    if (in_array('objet', $matches)) {
-                        foreach (object::all() as $object) {
-                            $replace = array(
-                                '#objet#' => strtolower($object->getName()),
-                            );
-                            $return[] = array(
-                                'query' => str_replace(array_keys($replace), $replace, $input),
-                                'link_type' => $this->getLink_type(),
-                                'link_id' => $object->getId(),
-                            );
-                        }
+            }
+            if ($this->getLink_type() == 'whatDoYouKnow') {
+                if (in_array('objet', $matches)) {
+                    foreach (object::all() as $object) {
+                        $replace = array(
+                            '#objet#' => strtolower($object->getName()),
+                        );
+                        $return[] = array(
+                            'query' => str_replace(array_keys($replace), $replace, $input),
+                            'link_type' => $this->getLink_type(),
+                            'link_id' => $object->getId(),
+                        );
                     }
                 }
             }

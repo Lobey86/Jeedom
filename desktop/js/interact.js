@@ -45,14 +45,40 @@ $(function() {
 
     $("#table_interactDef").delegate(".interactDefAttr[data-l1key=link_type]", 'change', function() {
         var el = $(this);
+        el.closest('tr').find('.linkOption').empty();
         el.closest('tr').find('.interactDefAttr').show();
         el.closest('tr').find('.listEquipementInfo').show();
         if (el.value() == 'whatDoYouKnow') {
-            el.closest('tr').find('.interactDefAttr[data-l1key=link_id]').hide();
             el.closest('tr').find('.interactDefAttr[data-l1key=options][data-l2key=convertBinary]').hide();
             el.closest('tr').find('.interactDefAttr[data-l1key=options][data-l2key=synonymes]').hide();
             el.closest('tr').find('.interactDefAttr[data-l1key=reply]').hide();
-            el.closest('tr').find('.listEquipementInfo').hide();
+            el.closest('tr').find('.interactDefAttr[data-l1key=filtres]').hide();
+        }
+
+        if (el.value() == 'cmd') {
+            var options = '';
+            options += '<div class="col-sm-9">';
+            options += '<input class="interactDefAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;"/>';
+            options += '</div>';
+            options += '<div class="col-sm-3">';
+            options += '<a class="form-control btn btn-default cursor listEquipementInfo input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt "></i></a></td>';
+            options += '</div>';
+            el.closest('tr').find('.linkOption').append(options);
+        }
+
+        if (el.value() == 'scenario') {
+            var scenarios = scenario.all();
+            var options = '<div class="col-sm-12">';
+            options += '<select class="interactDefAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;">';
+            for (var i in scenarios) {
+                options += '<option value="' + scenarios[i].id + '">' + scenarios[i].humanName + '</option>';
+            }
+            options += '</select>';
+            options += '</div>';
+            el.closest('tr').find('.linkOption').append(options);
+            el.closest('tr').find('.interactDefAttr[data-l1key=options][data-l2key=convertBinary]').hide();
+            el.closest('tr').find('.interactDefAttr[data-l1key=options][data-l2key=synonymes]').hide();
+            el.closest('tr').find('.interactDefAttr[data-l1key=reply]').hide();
             el.closest('tr').find('.interactDefAttr[data-l1key=filtres]').hide();
         }
     });
@@ -180,13 +206,11 @@ function addInteractDefToTable(_interactDef) {
     tr += '<select class="interactDefAttr form-control input-sm" data-l1key="link_type">';
     tr += '<option value="cmd">{{Commande}}</option>';
     tr += '<option value="whatDoYouKnow">{{Que sais tu ?}}</option>';
+    tr += '<option value="scenario">{{Scénario}}</option>';
     tr += '</select>';
     tr += '</div>';
-    tr += '<div class="col-sm-9">';
-    tr += '<input class="interactDefAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;"/>';
-    tr += '</div>';
-    tr += '<div class="col-sm-3">';
-    tr += '<a class="form-control btn btn-default cursor listEquipementInfo input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt "></i></a></td>';
+    tr += '<div class="linkOption">';
+
     tr += '</div>';
     tr += '</td>';
     tr += '<td>';

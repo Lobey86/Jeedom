@@ -10,30 +10,14 @@
         if ($('.expressionAttr[data-option_id=#id#][data-l1key=options][data-l2key=action] option[value=#action#]').html() != undefined) {
             $('.expressionAttr[data-option_id=#id#][data-l1key=options][data-l2key=action]').value('#action#');
         }
-        $.ajax({
-            type: "POST",
-            url: "core/ajax/scenario.ajax.php",
-            data: {
-                action: 'all',
-            },
-            dataType: 'json',
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) {
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                var options = '';
-                for (var i in data.result) {
-                    options += '<option value="' + data.result[i].id + '">' + data.result[i].name + '</option>';
-                }
-                $('.expressionAttr[data-option_id=#id#][data-l1key=options][data-l2key=scenario_id]').append(options);
-                if ($('.expressionAttr[data-option_id=#id#][data-l1key=options][data-l2key=scenario_id] option[value=#scenario_id#]').html() != undefined) {
-                    $('.expressionAttr[data-option_id=#id#][data-l1key=options][data-l2key=scenario_id]').value('#scenario_id#');
-                }
-            }
-        });
+        var scenarios = scenario.all();
+        var options = '';
+        for (var i in scenarios) {
+            options += '<option value="' + scenarios[i].id + '">' + scenarios[i].humanName + '</option>';
+        }
+        $('.expressionAttr[data-option_id=#id#][data-l1key=options][data-l2key=scenario_id]').append(options);
+        if ($('.expressionAttr[data-option_id=#id#][data-l1key=options][data-l2key=scenario_id] option[value=#scenario_id#]').html() != undefined) {
+            $('.expressionAttr[data-option_id=#id#][data-l1key=options][data-l2key=scenario_id]').value('#scenario_id#');
+        }
     });
 </script>

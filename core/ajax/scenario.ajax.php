@@ -67,7 +67,14 @@ try {
     }
 
     if (init('action') == 'all') {
-        ajax::success(utils::o2a(scenario::all()));
+        $scenarios = scenario::all();
+        $return = array();
+        foreach ($scenarios as $scenario) {
+            $info_scenario = utils::o2a($scenario);
+            $info_scenario['humanName'] = $scenario->getHumanName();
+            $return[] = $info_scenario;
+        }
+        ajax::success($return);
     }
 
     if (init('action') == 'toHtml') {
