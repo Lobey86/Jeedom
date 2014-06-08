@@ -35,7 +35,7 @@ $(function() {
 
     $('#table_security').delegate('.remove', 'click', function() {
         var tr = $(this).closest('tr');
-        bootbox.confirm("Etês-vous sur de vouloir supprimer cette connection ? Si l\'IP : " + tr.find('.ip').text() + " était banni celle-ci ne le sera plus", function(result) {
+        bootbox.confirm("{{Etês-vous sur de vouloir supprimer cette connection ? Si l\'IP :}} " + tr.find('.ip').text() + " {{était banni celle-ci ne le sera plus}}", function(result) {
             if (result) {
                 remove(tr.attr('data-id'));
             }
@@ -44,7 +44,7 @@ $(function() {
 
     $('#table_security').delegate('.ban', 'click', function() {
         var tr = $(this).closest('tr');
-        bootbox.confirm("Etês-vous sur de vouloir bannir cette IP  : " + tr.find('.ip').text() + " ?", function(result) {
+        bootbox.confirm("{{Etês-vous sur de vouloir bannir cette IP  :}} " + tr.find('.ip').text() + " ?", function(result) {
             if (result) {
                 ban(tr.attr('data-id'));
             }
