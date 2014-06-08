@@ -58,6 +58,7 @@ if (init('logout') == 1) {
 function login($_login, $_password, $_ajax = false) {
     $user = user::connect($_login, $_password);
     if (is_object($user)) {
+        connection::success($user->getLogin());
         $_SESSION['user'] = $user;
         $_SESSION['userHash'] = getUserHash();
         log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $_login);
@@ -75,6 +76,7 @@ function login($_login, $_password, $_ajax = false) {
         }
         return true;
     }
+    connection::failed();
     sleep(5);
     if (!$_ajax) {
         if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
@@ -89,6 +91,7 @@ function login($_login, $_password, $_ajax = false) {
 function loginByKey($_key, $_ajax = false) {
     $user = user::byKey($_key);
     if (is_object($user)) {
+        connection::success($user->getLogin());
         $_SESSION['user'] = $user;
         $_SESSION['userHash'] = getUserHash();
         log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $_login);
@@ -106,6 +109,7 @@ function loginByKey($_key, $_ajax = false) {
         }
         return true;
     }
+    connection::failed();
     sleep(5);
     if (!$_ajax) {
         if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
@@ -130,6 +134,7 @@ function logout() {
 function isConnect($_right = '') {
     if (isset($_SESSION['user']) && is_object($_SESSION['user'])) {
         if ($_SESSION['user']->is_Connected()) {
+            connection::success($_SESSION['user']->getLogin());
             if ($_right != '') {
                 return ($_SESSION['user']->getRights($_right) == 1) ? true : false;
             } else {

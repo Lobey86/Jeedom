@@ -29,8 +29,10 @@ if (isset($argv)) {
 if (init('api') != '' && init('type') != '') {
     try {
         if (config::byKey('api') != init('api')) {
+            connection::failed();
             throw new Exception('Clef API non valide, vous n\'etez pas autorisé à effectuer cette action (jeeApi)');
         }
+        connection::success('api');
         $type = init('type');
         if (class_exists($type)) {
             if (method_exists($type, 'event')) {
@@ -66,8 +68,10 @@ if (init('api') != '' && init('type') != '') {
         $params = $jsonrpc->getParams();
 
         if (config::byKey('api') != $params['api']) {
+            connection::failed();
             throw new Exception('Clef API invalide', -32001);
         }
+        connection::success('api');
 
         if ($params['plugin'] != '') {
             include_file('core', $params['plugin'], 'api', $params['plugin']);

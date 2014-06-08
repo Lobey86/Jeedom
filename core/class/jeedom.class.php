@@ -303,6 +303,7 @@ class jeedom {
     public static function cron() {
         interactDef::cron();
         eqLogic::checkAlive();
+        connection::cron();
         try {
             $c = new Cron\CronExpression(config::byKey('log::chunck'), new Cron\FieldFactory);
             if ($c->isDue()) {

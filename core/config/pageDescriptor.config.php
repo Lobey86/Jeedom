@@ -74,9 +74,13 @@ $PAGE_DESCRIPTOR_DESKTOP = array(
         'pageName' => 'view_edit',
         'title' => 'Editer vue',
     ),
-     'update' => array(
+    'update' => array(
         'pageName' => 'update',
         'title' => 'Centre de mise à jour',
+    ),
+     'security' => array(
+        'pageName' => 'security',
+        'title' => 'Connexion à Jeedom',
     ),
         /*         * *************************Mobile*********************************** */
 );
