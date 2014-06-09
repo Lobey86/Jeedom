@@ -21,11 +21,11 @@ jeedom.plugin = function() {
 
 jeedom.plugin.cache = Array();
 
-jeedom.plugin.all = function() {
-    if (isset(jeedom.plugin.cache.all)) {
-        return jeedom.plugin.cache.all;
+jeedom.plugin.all = function(_callback) {
+    if (isset(jeedom.plugin.cache.all) && 'function' == typeof (_callback)) {
+        _callback(jeedom.plugin.cache.all);
+        return;
     }
-    var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/plugin.ajax.php", // url du fichier php
@@ -33,7 +33,6 @@ jeedom.plugin.all = function() {
             action: "all",
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -42,9 +41,11 @@ jeedom.plugin.all = function() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            jeedom.plugin.cache.all = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(jeedom.plugin.cache.all);
+                return;
+            }
         }
     });
-    jeedom.plugin.cache.all = result;
-    return result;
 }
