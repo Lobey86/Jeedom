@@ -114,33 +114,36 @@ function changeLinkType(_options) {
         $('#linkOption').append(options);
     }
     if (_options.link_type == 'scenario') {
-        var scenarios = jeedom.scenario.all();
-        var options = '<div class="form-group">';
-        options += '<label class="col-sm-3 control-label">{{Scénario}}</label>';
-        options += '<div class="col-sm-9">';
-        options += '<select class="interactAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;">';
-        for (var i in scenarios) {
-            options += '<option value="' + scenarios[i].id + '">' + scenarios[i].humanName + '</option>';
-        }
-        options += '</select>';
-        options += '</div>';
-        options += '</div>';
-        options += '<div class="form-group">';
-        options += '<label class="col-sm-3 control-label">{{Action}}</label>';
-        options += '<div class="col-sm-9">';
-        options += '<select class="interactAttr form-control input-sm" data-l1key="options" data-l2key="scenario_action">';
-        options += '<option value="start">{{Start}}</option>';
-        options += '<option value="stop">{{Stop}}</option>';
-        options += '<option value="activate">{{Activer}}</option>';
-        options += '<option value="deactivate">{{Désactiver}}</option>';
-        options += '</select>';
-         options += '</div>';
-        options += '</div>';
-        $('#linkOption').append(options);
-        $('.interactAttr[data-l1key=options][data-l2key=convertBinary]').closest('.form-group').hide();
-        $('.interactAttr[data-l1key=options][data-l2key=synonymes]').closest('.form-group').hide();
-        $('.interactAttr[data-l1key=reply]').closest('.form-group').hide();
-        $('#div_filtre').hide();
+        jeedom.scenario.all(function(scenarios) {
+            var options = '<div class="form-group">';
+            options += '<label class="col-sm-3 control-label">{{Scénario}}</label>';
+            options += '<div class="col-sm-9">';
+            options += '<select class="interactAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;">';
+            for (var i in scenarios) {
+                options += '<option value="' + scenarios[i].id + '">' + scenarios[i].humanName + '</option>';
+            }
+            options += '</select>';
+            options += '</div>';
+            options += '</div>';
+            options += '<div class="form-group">';
+            options += '<label class="col-sm-3 control-label">{{Action}}</label>';
+            options += '<div class="col-sm-9">';
+            options += '<select class="interactAttr form-control input-sm" data-l1key="options" data-l2key="scenario_action">';
+            options += '<option value="start">{{Start}}</option>';
+            options += '<option value="stop">{{Stop}}</option>';
+            options += '<option value="activate">{{Activer}}</option>';
+            options += '<option value="deactivate">{{Désactiver}}</option>';
+            options += '</select>';
+            options += '</div>';
+            options += '</div>';
+            $('#linkOption').append(options);
+            $('.interactAttr[data-l1key=options][data-l2key=convertBinary]').closest('.form-group').hide();
+            $('.interactAttr[data-l1key=options][data-l2key=synonymes]').closest('.form-group').hide();
+            $('.interactAttr[data-l1key=reply]').closest('.form-group').hide();
+            $('#div_filtre').hide();
+            delete _options.link_type;
+            $('.interact').setValues(_options, '.interactAttr');
+        });
     }
     delete _options.link_type;
     $('.interact').setValues(_options, '.interactAttr');

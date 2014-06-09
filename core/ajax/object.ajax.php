@@ -85,7 +85,7 @@ try {
                 $objects = object::all();
             }
             $return = array();
-            foreach (object::all() as $object) {
+            foreach ($objects as $object) {
                 if ($object->getIsVisible() == 1) {
                     $html = '';
                     foreach ($object->getEqLogic() as $eqLogic) {

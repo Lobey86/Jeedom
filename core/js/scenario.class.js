@@ -21,11 +21,15 @@ jeedom.scenario = function() {
 
 jeedom.scenario.cache = Array();
 
-jeedom.scenario.all = function() {
-    if (isset(jeedom.scenario.cache.all)) {
-        return jeedom.scenario.cache.all;
+if (!isset(jeedom.scenario.cache.html)) {
+    jeedom.scenario.cache.html = Array();
+}
+
+jeedom.scenario.all = function(_callback) {
+    if (isset(jeedom.scenario.cache.all) && 'function' == typeof (_callback)) {
+        _callback(jeedom.scenario.cache.all);
+        return;
     }
-    var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
@@ -33,7 +37,6 @@ jeedom.scenario.all = function() {
             action: "all",
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -42,26 +45,24 @@ jeedom.scenario.all = function() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            jeedom.scenario.cache.all = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(jeedom.scenario.cache.all);
+            }
         }
     });
-    jeedom.scenario.cache.all = result;
-    return result;
 }
 
-jeedom.scenario.toHtml = function(_scenario_id, _version) {
-    var result = '';
-    $.showLoading();
+jeedom.scenario.toHtml = function(_id, _version, _callback) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
         data: {
             action: "toHtml",
-            id: _scenario_id,
+            id: ($.isArray(_id)) ? json_encode(_id) : _id,
             version: _version
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -71,14 +72,25 @@ jeedom.scenario.toHtml = function(_scenario_id, _version) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            if (_id == 'all' || $.isArray(_id)) {
+                for (var i in data.result) {
+                    jeedom.scenario.cache.html[i] = data.result[i];
+                }
+            } else {
+                if (isset(jeedom) && isset(jeedom.workflow) && isset(jeedom.workflow.scenario) && jeedom.workflow.scenario[_id]) {
+                    jeedom.workflow.object[_id] = false;
+                }
+                jeedom.scenario.cache.html[_id] = data.result;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
         }
     });
-    return result;
 }
 
 
-jeedom.scenario.changeState = function(_id, _state) {
+jeedom.scenario.changeState = function(_id, _state, _callback) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
@@ -88,7 +100,6 @@ jeedom.scenario.changeState = function(_id, _state) {
             state: _state
         },
         dataType: 'json',
-        async: false,
         global: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
@@ -96,10 +107,11 @@ jeedom.scenario.changeState = function(_id, _state) {
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                notify('Commande', data.result, 'gritter-red')
                 return;
             }
-            notify('Scénario', '{{Mise à jour de l\état du scénario réussi}}', 'gritter-green', true);
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
         }
     });
 }
