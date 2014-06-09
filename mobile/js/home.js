@@ -1,16 +1,17 @@
 function initHome() {
-    var objects = jeedom.object.all();
-    var li = '';
-    for (var i in objects) {
-        if (objects[i].isVisible == 1) {
-            var icon = '';
-            if (isset(objects[i].display) && isset(objects[i].display.icon)) {
-                icon = objects[i].display.icon;
+    jeedom.object.all(function(objects) {
+        var li = '';
+        for (var i in objects) {
+            if (objects[i].isVisible == 1) {
+                var icon = '';
+                if (isset(objects[i].display) && isset(objects[i].display.icon)) {
+                    icon = objects[i].display.icon;
+                }
+                li += '<li></span><a href="#" class="link" data-page="equipment" data-title="' + icon.replace(/\"/g, "\'") + ' ' + objects[i].name + '" data-option="' + objects[i].id + '"><span>' + icon + '</span> ' + objects[i].name + '</a></li>'
             }
-            li += '<li></span><a href="#" class="link" data-page="equipment" data-title="' + icon.replace(/\"/g, "\'") + ' ' + objects[i].name + '" data-option="' + objects[i].id + '"><span>' + icon + '</span> ' + objects[i].name + '</a></li>'
         }
-    }
-    $('#ul_objectList').empty().append(li).listview("refresh");
+        $('#ul_objectList').empty().append(li).listview("refresh");
+    });
 
     var views = jeedom.view.all();
     var li = '';

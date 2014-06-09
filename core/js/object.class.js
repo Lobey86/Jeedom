@@ -21,14 +21,15 @@ jeedom.object = function() {
 
 jeedom.object.cache = Array();
 
-jeedom.object.getEqLogic = function(_object_id) {
+jeedom.object.getEqLogic = function(_object_id, _callback) {
     if (!isset(jeedom.object.cache.getEqLogic)) {
         jeedom.object.cache.getEqLogic = Array();
     }
     if (isset(jeedom.object.cache.getEqLogic[_object_id])) {
-        return jeedom.object.cache.getEqLogic[_object_id];
+        if ('function' == typeof (_callback)) {
+            _callback(jeedom.object.cache.getEqLogic[_object_id]);
+        }
     }
-    var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/eqLogic.ajax.php", // url du fichier php
@@ -46,16 +47,19 @@ jeedom.object.getEqLogic = function(_object_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            jeedom.object.cache.getEqLogic[_object_id] = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(jeedom.object.cache.getEqLogic[_object_id]);
+            }
         }
     });
-    jeedom.object.cache.getEqLogic[_object_id] = result;
-    return result;
 };
 
-jeedom.object.all = function() {
+jeedom.object.all = function(_callback) {
     if (isset(jeedom.object.cache.all)) {
-        return jeedom.object.cache.all;
+        if ('function' == typeof (_callback)) {
+            _callback(jeedom.object.cache.all);
+        }
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -65,7 +69,6 @@ jeedom.object.all = function() {
             action: "all",
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -74,11 +77,12 @@ jeedom.object.all = function() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            jeedom.object.cache.all = result;
+            if ('function' == typeof (_callback)) {
+                _callback(jeedom.object.cache.all);
+            }
         }
     });
-    jeedom.object.cache.all = result;
-    return result;
 };
 
 jeedom.object.prefetch = function(_id, _version, _async) {

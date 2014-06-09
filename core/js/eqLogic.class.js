@@ -121,9 +121,7 @@ jeedom.eqLogic.print = function(_type, _eqLogic_id, _callback) {
     });
 }
 
-jeedom.eqLogic.toHtml = function(_id, _version) {
-    var result = '';
-    $.showLoading();
+jeedom.eqLogic.toHtml = function(_id, _version, _callback) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/eqLogic.ajax.php", // url du fichier php
@@ -133,7 +131,6 @@ jeedom.eqLogic.toHtml = function(_id, _version) {
             version: _version
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -143,10 +140,11 @@ jeedom.eqLogic.toHtml = function(_id, _version) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
         }
     });
-    return result;
 }
 
 jeedom.eqLogic.getCmd = function(_eqLogic_id) {
