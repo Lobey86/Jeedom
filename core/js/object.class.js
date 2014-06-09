@@ -51,7 +51,7 @@ jeedom.object.getEqLogic = function(_object_id) {
     });
     jeedom.object.cache.getEqLogic[_object_id] = result;
     return result;
-}
+};
 
 jeedom.object.all = function() {
     if (isset(jeedom.object.cache.all)) {
@@ -79,7 +79,7 @@ jeedom.object.all = function() {
     });
     jeedom.object.cache.all = result;
     return result;
-}
+};
 
 jeedom.object.prefetch = function(_id, _version, _async) {
     if (!isset(jeedom.object.cache.html)) {
@@ -88,7 +88,7 @@ jeedom.object.prefetch = function(_id, _version, _async) {
     if (!isset(jeedom.object.cache.html[_id])) {
         jeedom.object.toHtml(_id, _version, false, false, init(_async, true));
     }
-}
+};
 
 jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
     if (!isset(jeedom.object.cache.html)) {
@@ -132,4 +132,101 @@ jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
         }
     });
     return result;
-}
+};
+
+jeedom.object.remove = function(_id, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/object.ajax.php", // url du fichier php
+        data: {
+            action: "remove",
+            id: _id
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback();
+            }
+        }
+    });
+};
+
+jeedom.object.save = function(_object, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/object.ajax.php", // url du fichier php
+        data: {
+            action: "save",
+            object: json_encode(_object),
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+};
+
+
+jeedom.object.byId = function(_id, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/object.ajax.php", // url du fichier php
+        data: {
+            action: "byId",
+            id: _id
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+};
+
+jeedom.object.setOrder = function(_objects, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/object.ajax.php", // url du fichier php
+        data: {
+            action: "setOrder",
+            objects: json_encode(_objects)
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+};

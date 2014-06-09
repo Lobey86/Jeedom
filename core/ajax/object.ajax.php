@@ -112,7 +112,7 @@ try {
         }
     }
 
-    if (init('action') == 'setObjectPosition') {
+    if (init('action') == 'setOrder') {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }

@@ -29,7 +29,13 @@ $(function() {
         $('#div_conf').show();
         $('.li_object').removeClass('active');
         $(this).addClass('active');
-        printObject($(this).attr('data-object_id'));
+        jeedom.object.byId($(this).attr('data-object_id'), function(data) {
+            $('.objectAttr').value('');
+            $('.objectAttr[data-l1key=father_id] option').show();
+            $('.object').setValues(data, '.objectAttr');
+            $('.objectAttr[data-l1key=father_id] option[value=' + data.id + ']').hide();
+            modifyWithoutSave = false;
+        });
         return false;
     });
 
@@ -44,7 +50,10 @@ $(function() {
     $("#bt_saveObject").on('click', function(event) {
         if ($('.li_object.active').attr('data-object_id') != undefined) {
             var object = $('.object').getValues('.objectAttr');
-            saveObject(object[0]);
+            jeedom.object.remove(object[0], function() {
+                modifyWithoutSave = false;
+                window.location.replace('index.php?v=d&p=object&id=' + data.result.id + '&saveSuccessFull=1');
+            });
         } else {
             $('#div_alert').showAlert({message: '{{Veuillez d\'abord sélectionner un objet}}', level: 'danger'});
         }
@@ -56,7 +65,10 @@ $(function() {
             $.hideAlert();
             bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'objet}} <span style="font-weight: bold ;">' + $('.li_object.active a').text() + '</span> ?', function(result) {
                 if (result) {
-                    removeObject($('.li_object.active').attr('data-object_id'));
+                    jeedom.object.remove($('.li_object.active').attr('data-object_id'), function() {
+                        modifyWithoutSave = false;
+                        window.location.replace('index.php?v=d&p=object&removeSuccessFull=1');
+                    });
                 }
             });
         } else {
@@ -76,7 +88,11 @@ $(function() {
             forcePlaceholderSize: true,
             dropOnEmpty: true,
             stop: function(event, ui) {
-                saveObjectPosition()
+                var objects = [];
+                $('#ul_object .li_object').each(function() {
+                    objects.push($(this).attr('data-object_id'));
+                });
+                jeedom.object.setOrder(objects);
             }
         });
         $("#ul_object").sortable("enable");
@@ -106,102 +122,3 @@ $(function() {
         modifyWithoutSave = true;
     });
 });
-
-
-function saveObjectPosition() {
-    var objects = [];
-    $('#ul_object .li_object').each(function() {
-        objects.push($(this).attr('data-object_id'));
-    });
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/object.ajax.php", // url du fichier php
-        data: {
-            action: "setObjectPosition",
-            objects: json_encode(objects)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-        }
-    });
-}
-
-function removeObject(_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/object.ajax.php", // url du fichier php
-        data: {
-            action: "remove",
-            id: _id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            modifyWithoutSave = false;
-            window.location.replace('index.php?v=d&p=object&removeSuccessFull=1');
-        }
-    });
-}
-
-function printObject(_object_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/object.ajax.php", // url du fichier php
-        data: {
-            action: "byId",
-            id: _object_id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('.objectAttr').value('');
-            $('.objectAttr[data-l1key=father_id] option').show();
-            $('.object').setValues(data.result, '.objectAttr');
-            $('.objectAttr[data-l1key=father_id] option[value=' + _object_id + ']').hide();
-            modifyWithoutSave = false;
-        }
-    });
-}
-
-function saveObject(object) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/object.ajax.php", // url du fichier php
-        data: {
-            action: "save",
-            object: json_encode(object),
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            modifyWithoutSave = false;
-            window.location.replace('index.php?v=d&p=object&id=' + data.result.id + '&saveSuccessFull=1');
-        }
-    });
-
-}

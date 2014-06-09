@@ -268,4 +268,4 @@ jeedom.eqLogic.getSelectModal = function(_options, callback) {
         }
     });
     $('#mod_insertEqLogicValue').dialog('open');
-}
+};
