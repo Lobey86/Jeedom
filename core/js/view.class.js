@@ -21,11 +21,11 @@ jeedom.view = function() {
 
 jeedom.view.cache = Array();
 
-jeedom.view.all = function() {
-    if (isset(jeedom.view.cache.all)) {
-        return jeedom.view.cache.all;
+jeedom.view.all = function(_callback) {
+    if (isset(jeedom.view.cache.all) && 'function' == typeof (_callback)) {
+        _callback(jeedom.view.cache.all);
+        return;
     }
-    var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/view.ajax.php", // url du fichier php
@@ -33,7 +33,6 @@ jeedom.view.all = function() {
             action: "all",
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -42,11 +41,13 @@ jeedom.view.all = function() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            jeedom.view.cache.all = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(jeedom.view.cache.all);
+                return;
+            }
         }
     });
-    jeedom.view.cache.all = result;
-    return result;
 }
 
 jeedom.view.prefetch = function(_id, _version, _async) {

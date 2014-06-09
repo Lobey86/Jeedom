@@ -13,12 +13,14 @@ function initHome() {
         $('#ul_objectList').empty().append(li).listview("refresh");
     });
 
-    var views = jeedom.view.all();
-    var li = '';
-    for (var i in views) {
-        li += '<li><a href="#" class="link" data-page="view" data-title="' + views[i].name + '" data-option="' + views[i].id + '">' + views[i].name + '</a></li>'
-    }
-    $('#ul_viewList').empty().append(li).listview("refresh");
+    jeedom.view.all(function(views) {
+        var li = '';
+        for (var i in views) {
+            li += '<li><a href="#" class="link" data-page="view" data-title="' + views[i].name + '" data-option="' + views[i].id + '">' + views[i].name + '</a></li>'
+        }
+        $('#ul_viewList').empty().append(li).listview("refresh");
+    });
+
 
     if (plugins.length > 0) {
         var li = '';
