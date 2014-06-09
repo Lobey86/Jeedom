@@ -21,7 +21,7 @@ jeedom.message = function() {
 
 jeedom.message.cache = Array();
 
-jeedom.message.all = function(_plugin,_callback) {
+jeedom.message.all = function(_plugin, _callback) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/message.ajax.php", // url du fichier php
@@ -45,8 +45,7 @@ jeedom.message.all = function(_plugin,_callback) {
     });
 }
 
-jeedom.message.remove = function(_id) {
-    var result = false;
+jeedom.message.remove = function(_id, _callback) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/message.ajax.php", // url du fichier php
@@ -55,7 +54,6 @@ jeedom.message.remove = function(_id) {
             id: _id,
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -64,14 +62,14 @@ jeedom.message.remove = function(_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = true;
+            if ('function' == typeof (_callback)) {
+                _callback(true);
+            }
         }
     });
-    return result;
 }
 
-jeedom.message.clear = function(_plugin) {
-    var result = false;
+jeedom.message.clear = function(_plugin,_callback) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/message.ajax.php", // url du fichier php
@@ -80,7 +78,6 @@ jeedom.message.clear = function(_plugin) {
             plugin: init(_plugin, '')
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -89,10 +86,11 @@ jeedom.message.clear = function(_plugin) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = true;
+            if ('function' == typeof (_callback)) {
+                _callback(true);
+            }
         }
     });
-    return result;
 }
 
 jeedom.message.number = function(_callback) {

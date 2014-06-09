@@ -98,17 +98,18 @@ jeedom.object.all = function(_callback) {
     });
 };
 
-jeedom.object.prefetch = function(_id, _version, _async) {
+jeedom.object.prefetch = function(_id, _version) {
     if (!isset(jeedom.object.cache.html[_id])) {
-        jeedom.object.toHtml(_id, _version, false, false, init(_async, true));
+        jeedom.object.toHtml(_id, _version, false, false);
     }
 };
 
-jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
+jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _callback) {
     if (init(_useCache, false) == true && isset(jeedom.object.cache.html[_id])) {
-        return jeedom.object.cache.html[_id];
+        if ('function' == typeof (_callback)) {
+            _callback(jeedom.object.cache.html[_id]);
+        }
     }
-    var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/object.ajax.php", // url du fichier php
@@ -118,7 +119,6 @@ jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
             version: init(_version, 'dashboard'),
         },
         dataType: 'json',
-        async: init(_async, false),
         global: init(_globalAjax, true),
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
@@ -137,12 +137,13 @@ jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
                 if (isset(jeedom) && isset(jeedom.workflow) && isset(jeedom.workflow.object) && jeedom.workflow.object[_id]) {
                     jeedom.workflow.object[_id] = false;
                 }
-                jeedom.object.cache.html[_id] = result;
+                jeedom.object.cache.html[_id] = data.result;
             }
-            result = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
         }
     });
-    return result;
 };
 
 jeedom.object.remove = function(_id, _callback) {

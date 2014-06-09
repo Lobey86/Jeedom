@@ -252,7 +252,7 @@ function refreshMessageNumber() {
     jeedom.message.number(function(_number) {
         $('#span_nbMessage').html('<i class="fa fa-envelope icon-white"></i> ' + _number + ' message(s)');
         $('#span_nbMessage').show();
-    })
+    });
 }
 
 function notify(_title, _text, _class_name, _cleanBefore) {

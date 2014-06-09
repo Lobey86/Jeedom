@@ -21,15 +21,15 @@ $(function() {
     });
 
     $("#bt_clearMessage").on('click', function(event) {
-        if (jeedom.message.clear($('#sel_plugin').value())) {
+        jeedom.message.clear($('#sel_plugin').value(), function() {
             window.location.reload();
-        }
+        });
     });
 
     $("#table_message").delegate(".removeMessage", 'click', function(event) {
         var tr = $(this).closest('tr');
-        if (jeedom.message.remove(tr.attr('data-message_id'))) {
+        jeedom.message.remove(tr.attr('data-message_id'), function() {
             tr.remove();
-        }
+        });
     });
 });

@@ -205,24 +205,8 @@ function panel(_content) {
 }
 
 function refreshMessageNumber() {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/message.ajax.php", // url du fichier php
-        data: {
-            action: "nbMessage"
-        },
-        dataType: 'json',
-        global: false,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('.ui-page-active #div_alert'));
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('.ui-page-active {div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('.span_nbMessage').html(data.result);
-        }
+    jeedom.message.number(function(_number) {
+        $('.span_nbMessage').html(_number);
     });
 }
 
