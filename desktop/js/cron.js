@@ -33,7 +33,7 @@ $(function() {
     $("#bt_changeCronState").on('click', function() {
         var el = $(this);
         var value = {enableCron: el.attr('data-state')};
-        config.save(value,'core', function() {
+        jeedom.config.save(value,'core', function() {
             if (el.attr('data-state') == 1) {
                 el.find('i').removeClass('fa-check').addClass('fa-times');
                 el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 1);

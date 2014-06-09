@@ -52,7 +52,7 @@ $(function() {
     $("#bt_changeAllScenarioState").on('click', function() {
         var el = $(this);
         var value = {enableScenario: el.attr('data-state')};
-        config.save(value, 'core', function() {
+        jeedom.config.save(value, 'core', function() {
             if (el.attr('data-state') == 1) {
                 el.find('i').removeClass('fa-check').addClass('fa-times');
                 el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 0);
@@ -165,10 +165,10 @@ $(function() {
         if (expression.find('.expressionAttr[data-l1key=type]').value() == 'action') {
             type = 'action';
         }
-        cmd.getSelectModal({cmd: {type: type}}, function(result) {
+        jeedom.cmd.getSelectModal({cmd: {type: type}}, function(result) {
             if (expression.find('.expressionAttr[data-l1key=type]').value() == 'action') {
                 expression.find('.expressionAttr[data-l1key=expression]').value(result.human);
-                expression.find('.expressionOptions').html(cmd.displayActionOption(expression.find('.expressionAttr[data-l1key=expression]').value(), ''));
+                expression.find('.expressionOptions').html(jeedom.cmd.displayActionOption(expression.find('.expressionAttr[data-l1key=expression]').value(), ''));
             }
             if (expression.find('.expressionAttr[data-l1key=type]').value() == 'condition') {
                 expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert', result.human);
@@ -179,7 +179,7 @@ $(function() {
     $('body').delegate('.expression .expressionAttr[data-l1key=expression]', 'focusout', function(event) {
         if ($(this).closest('.expression').find('.expressionAttr[data-l1key=type]').value() == 'action') {
             var expression = $(this).closest('.expression').getValues('.expressionAttr');
-            $(this).closest('.expression').find('.expressionOptions').html(cmd.displayActionOption($(this).value(), init(expression[0].options)));
+            $(this).closest('.expression').find('.expressionOptions').html(jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options)));
         }
     });
 
@@ -221,7 +221,7 @@ $(function() {
 
     $('body').delegate('.bt_selectTrigger', 'click', function(event) {
         var el = $(this);
-        cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {
+        jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {
             el.closest('.trigger').find('.scenarioAttr[data-l1key=trigger]').value(result.human);
         });
     });
@@ -686,7 +686,7 @@ function addExpression(_expression) {
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression"><i class="fa fa-list-alt"></i></a>';
             retour += '</div>';
             retour += '<div class="col-sm-4 expressionOptions">';
-            retour += cmd.displayActionOption(init(_expression.expression), init(_expression.options));
+            retour += jeedom.cmd.displayActionOption(init(_expression.expression), init(_expression.options));
             retour += '</div>';
             break;
         case 'code' :

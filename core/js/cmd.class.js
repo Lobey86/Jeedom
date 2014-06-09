@@ -16,10 +16,10 @@
  */
 
 
-function cmd() {
-}
+jeedom.cmd = function() {
+};
 
-cmd.getSuggestColor = function(_id) {
+jeedom.cmd.getSuggestColor = function(_id) {
     var eqLogic = $(".cmd[data-cmd_id=" + _id + "]").closest('.eqLogic');
     if (count(eqLogic) > 0 && eqLogic != undefined) {
         var vcolor = 'cmdColor';
@@ -29,10 +29,10 @@ cmd.getSuggestColor = function(_id) {
         return jeedom.getConfiguration('eqLogic:category:' + eqLogic.attr('data-category') + ':' + vcolor);
     }
     return '#000000';
-}
+};
 
 
-cmd.changeType = function(_cmd, _subType) {
+jeedom.cmd.changeType = function(_cmd, _subType) {
     var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control input-sm" data-l1key="subType">';
     var type = _cmd.find('.cmdAttr[data-l1key=type]').value();
     switch (type) {
@@ -55,10 +55,10 @@ cmd.changeType = function(_cmd, _subType) {
     if (isset(_subType)) {
         _cmd.find('.cmdAttr[data-l1key=subType]').value(_subType);
     }
-    cmd.changeSubType(_cmd);
-}
+    jeedom.cmd.changeSubType(_cmd);
+};
 
-cmd.changeSubType = function(_cmd) {
+jeedom.cmd.changeSubType = function(_cmd) {
     var subtype = jeedom.getConfiguration('cmd:type:' + _cmd.find('.cmdAttr[data-l1key=type]').value() + ':subtype:' + _cmd.find('.cmdAttr[data-l1key=subType]').value());
     for (var i in subtype) {
         if (isset(subtype[i].visible)) {
@@ -91,17 +91,17 @@ cmd.changeSubType = function(_cmd) {
             }
         }
     }
-}
+};
 
-cmd.availableType = function() {
+jeedom.cmd.availableType = function() {
     var selType = '<select style="width : 120px; margin-bottom : 3px;" class="cmdAttr form-control input-sm" data-l1key="type">';
     selType += '<option value="info">{{Info}}</option>';
     selType += '<option value="action">{{Action}}</option>';
     selType += '</select>';
     return selType;
-}
+};
 
-cmd.getSelectModal = function(_options, callback) {
+jeedom.cmd.getSelectModal = function(_options, callback) {
     if (!isset(_options)) {
         _options = {};
     }
@@ -133,10 +133,10 @@ cmd.getSelectModal = function(_options, callback) {
         }
     });
     $('#mod_insertCmdValue').dialog('open');
-}
+};
 
 
-cmd.displayActionOption = function(_expression, _options) {
+jeedom.cmd.displayActionOption = function(_expression, _options) {
     var html = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -166,11 +166,11 @@ cmd.displayActionOption = function(_expression, _options) {
         }
     });
     return html;
-}
+};
 
 
 
-cmd.execute = function(_id, _value, _cache, _notify) {
+jeedom.cmd.execute = function(_id, _value, _cache, _notify) {
     var eqLogic = $('.cmd[data-cmd_id=' + _id + ']').closest('.eqLogic');
     eqLogic.find('.statusCmd').empty().append('<i class="fa fa-spinner fa-spin"></i>');
     if (init(_value) != '' && (is_array(_value) || is_object(_value))) {
@@ -211,10 +211,10 @@ cmd.execute = function(_id, _value, _cache, _notify) {
         }
     });
     return retour;
-}
+};
 
 
-cmd.test = function(_id) {
+jeedom.cmd.test = function(_id) {
     $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -240,33 +240,33 @@ cmd.test = function(_id) {
                 case 'action' :
                     switch (result.subType) {
                         case 'other' :
-                            cmd.execute(_id, '', 0);
+                            jeedom.cmd.execute(_id, '', 0);
                             break;
                         case 'slider' :
                             var slider = new Object();
                             slider['slider'] = 50;
-                            cmd.execute(_id, slider, 0);
+                            jeedom.cmd.execute(_id, slider, 0);
                             break;
                         case 'color' :
                             var color = new Object();
                             color['color'] = '#fff000';
-                            cmd.execute(_id, color, 0);
+                            jeedom.cmd.execute(_id, color, 0);
                             break;
                         case 'message' :
                             var message = new Object();
                             message['title'] = '{{[Jeedom] Message de test}}';
                             message['message'] = '{{Ceci est un test de message pour la commande}} ' + result.name;
-                            cmd.execute(_id, message, 0);
+                            jeedom.cmd.execute(_id, message, 0);
                             break;
                     }
                     break;
             }
         }
     });
-}
+};
 
 
-cmd.refreshValue = function(_cmd_id) {
+jeedom.cmd.refreshValue = function(_cmd_id) {
     if ($('.cmd[data-cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version') != undefined) {
         var version = $('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version');
         $.ajax({// fonction permettant de faire de l'ajax
@@ -298,4 +298,4 @@ cmd.refreshValue = function(_cmd_id) {
             }
         });
     }
-}
+};

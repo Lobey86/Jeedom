@@ -44,7 +44,7 @@ $(function() {
 
 function saveConfiguration(_el) {
     var configuration = _el.getValues('.configKey');
-    config.save(configuration[0],'core', function() {
+    jeedom.config.save(configuration[0],'core', function() {
         $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
         modifyWithoutSave = false;
     });

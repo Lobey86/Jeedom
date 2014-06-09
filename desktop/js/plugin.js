@@ -88,7 +88,7 @@ function togglePlugin(_id, _state) {
 
 function savePluginConfig() {
     var configuration = $('#div_plugin_configuration').getValues('.configKey');
-    config.save(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function() {
+    jeedom.config.save(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function() {
         $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
         modifyWithoutSave = false;
     });
@@ -96,7 +96,7 @@ function savePluginConfig() {
 
 function loadPluginConfig() {
     var configuration = $('#div_plugin_configuration').getValues('.configKey');
-    $('#div_plugin_configuration').setValues(config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id')), '.configKey');
+    $('#div_plugin_configuration').setValues(jeedom.config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id')), '.configKey');
 }
 
 function printPlugin(_id, _pluginPath) {

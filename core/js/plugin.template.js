@@ -21,7 +21,7 @@ $(function() {
         $('.eqLogic').show();
         $('.li_eqLogic').removeClass('active');
         $(this).addClass('active');
-        eqLogic.print(eqType, $(this).attr('data-eqLogic_id'));
+        jeedom.eqLogic.print(eqType, $(this).attr('data-eqLogic_id'));
         return false;
     });
 
@@ -43,10 +43,10 @@ $(function() {
             if ('function' == typeof (saveEqLogic)) {
                 eqLogic = saveEqLogic(eqLogic);
             }
-            eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
+            jeedom.eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
             eqLogics.push(eqLogic);
         });
-        eqLogic.save(eqType, eqLogics, function(_data) {
+        jeedom.eqLogic.save(eqType, eqLogics, function(_data) {
             var vars = getUrlVars();
             var url = 'index.php?';
             for (var i in vars) {
@@ -65,7 +65,7 @@ $(function() {
         if ($('.li_eqLogic.active').attr('data-eqLogic_id') != undefined) {
             bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'équipement}} ' + eqType + ' <b>' + $('.li_eqLogic.active a:first').text() + '</b> ?', function(result) {
                 if (result) {
-                    eqLogic.remove(eqType, $('.li_eqLogic.active').attr('data-eqLogic_id'), function() {
+                    jeedom.eqLogic.remove(eqType, $('.li_jeedom.eqLogic.active').attr('data-eqLogic_id'), function() {
                         var vars = getUrlVars();
                         var url = 'index.php?';
                         for (var i in vars) {
@@ -88,7 +88,7 @@ $(function() {
     $('.eqLogicAction[data-action=add]').on('click', function() {
         bootbox.prompt("{{Nom de l'équipement ?}}", function(result) {
             if (result !== null) {
-                eqLogic.save(eqType, [{name: result}], function(_data) {
+                jeedom.eqLogic.save(eqType, [{name: result}], function(_data) {
                     var vars = getUrlVars();
                     var url = 'index.php?';
                     for (var i in vars) {
@@ -111,7 +111,7 @@ $(function() {
     });
 
     $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
-        cmd.changeType($(this).closest('.cmd'));
+        jeedom.cmd.changeType($(this).closest('.cmd'));
     });
 
     $('body').delegate('.cmd .cmdAction[data-l1key=chooseIcon]', 'click', function() {
@@ -122,7 +122,7 @@ $(function() {
     });
 
     $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function() {
-        cmd.changeSubType($(this).closest('.cmd'));
+        jeedom.cmd.changeSubType($(this).closest('.cmd'));
     });
 
     $('body').delegate('.cmd .cmdAttr[data-l1key=eventOnly]', 'change', function() {
@@ -143,7 +143,7 @@ $(function() {
         $.hideAlert();
         if ($('.eqLogicAttr[data-l1key=isEnable]').is(':checked')) {
             var id = $(this).closest('.cmd').attr('data-cmd_id');
-            cmd.test(id);
+            jeedom.cmd.test(id);
         } else {
             $('#div_alert').showAlert({message: '{{Veuillez activer l\'équipement avant de tester une de ses commandes}}', level: 'warning'});
         }

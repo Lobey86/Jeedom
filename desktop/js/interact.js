@@ -57,7 +57,7 @@ $(function() {
     });
 
     $('body').delegate('.listEquipementInfo', 'click', function() {
-        cmd.getSelectModal({}, function(result) {
+        jeedom.cmd.getSelectModal({}, function(result) {
             $('.interactAttr[data-l1key=link_id]').value(result.human);
         });
     });

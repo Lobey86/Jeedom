@@ -16,10 +16,11 @@
  */
 
 
-function config() {
-}
+jeedom.config = function() {
+};
 
-config.save = function(_configuration, _plugin, _callback) {
+
+jeedom.config.save = function(_configuration, _plugin, _callback) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/config.ajax.php", // url du fichier php
@@ -44,7 +45,7 @@ config.save = function(_configuration, _plugin, _callback) {
     });
 }
 
-config.load = function(_configuration, _plugin) {
+jeedom.config.load = function(_configuration, _plugin) {
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php

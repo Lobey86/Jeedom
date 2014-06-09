@@ -90,7 +90,7 @@ include_file('core', 'js.inc', 'php');
     mod_insertCmd.changeEqLogic = function(_select) {
         _select.closest('tr').find('.mod_insertCmdValue_cmd').empty();
         var selectCmd = '<select class="form-control">';
-        selectCmd += eqLogic.builSelectCmd(_select.value(), mod_insertCmd.options.cmd);
+        selectCmd += jeedom.eqLogic.builSelectCmd(_select.value(), mod_insertCmd.options.cmd);
         selectCmd += '</select>';
         _select.closest('tr').find('.mod_insertCmdValue_cmd').append(selectCmd);
     }

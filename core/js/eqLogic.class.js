@@ -16,12 +16,12 @@
  */
 
 
-function eqLogic() {
-}
+jeedom.eqLogic = function() {
+};
 
-eqLogic.cache = Array();
+jeedom.eqLogic.cache = Array();
 
-eqLogic.save = function(_type, _eqLogics, _callback) {
+jeedom.eqLogic.save = function(_type, _eqLogics, _callback) {
     $.hideAlert();
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -51,7 +51,7 @@ eqLogic.save = function(_type, _eqLogics, _callback) {
     });
 }
 
-eqLogic.remove = function(_type, _eqLogic_Id, _callback) {
+jeedom.eqLogic.remove = function(_type, _eqLogic_Id, _callback) {
     $.hideAlert();
     if (!isset(_eqLogic_Id)) {
         _eqLogic_Id = $('.li_eqLogic.active').attr('data-eqLogic_id');
@@ -80,7 +80,7 @@ eqLogic.remove = function(_type, _eqLogic_Id, _callback) {
     });
 }
 
-eqLogic.print = function(_type, _eqLogic_id) {
+jeedom.eqLogic.print = function(_type, _eqLogic_id) {
     $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -124,7 +124,7 @@ eqLogic.print = function(_type, _eqLogic_id) {
     });
 }
 
-eqLogic.toHtml = function(_id, _version) {
+jeedom.eqLogic.toHtml = function(_id, _version) {
     var result = '';
     $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
@@ -152,12 +152,12 @@ eqLogic.toHtml = function(_id, _version) {
     return result;
 }
 
-eqLogic.getCmd = function(_eqLogic_id) {
+jeedom.eqLogic.getCmd = function(_eqLogic_id) {
     if (!isset(eqLogic.cache.getCmd)) {
-        eqLogic.cache.getCmd = Array();
+        jeedom.eqLogic.cache.getCmd = Array();
     }
-    if (isset(eqLogic.cache.getCmd[_eqLogic_id])) {
-        return eqLogic.cache.getCmd[_eqLogic_id];
+    if (isset(jeedom.eqLogic.cache.getCmd[_eqLogic_id])) {
+        return jeedom.eqLogic.cache.getCmd[_eqLogic_id];
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -182,17 +182,17 @@ eqLogic.getCmd = function(_eqLogic_id) {
             result = data.result;
         }
     });
-    eqLogic.cache.getCmd[_eqLogic_id] = result;
+    jeedom.eqLogic.cache.getCmd[_eqLogic_id] = result;
     return result;
 }
 
 
-eqLogic.byId = function(_eqLogic_id) {
-    if (!isset(eqLogic.cache.byId)) {
-        eqLogic.cache.byId = Array();
+jeedom.eqLogic.byId = function(_eqLogic_id) {
+    if (!isset(jeedom.eqLogic.cache.byId)) {
+        jeedom.eqLogic.cache.byId = Array();
     }
-    if (isset(eqLogic.cache.byId[_eqLogic_id])) {
-        return eqLogic.cache.byId[_eqLogic_id];
+    if (isset(jeedom.eqLogic.cache.byId[_eqLogic_id])) {
+        return jeedom.eqLogic.cache.byId[_eqLogic_id];
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -217,15 +217,15 @@ eqLogic.byId = function(_eqLogic_id) {
             result = data.result;
         }
     });
-    eqLogic.cache.byId[_eqLogic_id] = result;
+    jeedom.eqLogic.cache.byId[_eqLogic_id] = result;
     return result;
 }
 
-eqLogic.builSelectCmd = function(_eqLogic_id, _filter) {
+jeedom.eqLogic.builSelectCmd = function(_eqLogic_id, _filter) {
     if (!isset(_filter)) {
         _filter = {};
     }
-    var cmds = eqLogic.getCmd(_eqLogic_id);
+    var cmds = jeedom.eqLogic.getCmd(_eqLogic_id);
     var result = '';
     for (var i in cmds) {
         if ((init(_filter.type, 'all') == 'all' || cmds[i].type == _filter.type) &&
@@ -236,7 +236,7 @@ eqLogic.builSelectCmd = function(_eqLogic_id, _filter) {
     return result;
 }
 
-eqLogic.getSelectModal = function(_options, callback) {
+jeedom.eqLogic.getSelectModal = function(_options, callback) {
     if (!isset(_options)) {
         _options = {};
     }

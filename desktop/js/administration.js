@@ -35,9 +35,9 @@ $(function() {
         $.hideAlert();
         saveConvertColor();
         var configuration = $('#config').getValues('.configKey');
-        config.save(configuration[0],'core', function() {
+        jeedom.config.save(configuration[0],'core', function() {
             var configuration = $('#config').getValues('.configKey');
-            $('#config').setValues(config.load(configuration[0]), '.configKey');
+            $('#config').setValues(jeedom.config.load(configuration[0]), '.configKey');
             modifyWithoutSave = false;
             $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
         });
@@ -73,7 +73,7 @@ $(function() {
     printConvertColor();
 
     var configuration = $('#config').getValues('.configKey');
-    $('#config').setValues(config.load(configuration[0]), '.configKey');
+    $('#config').setValues(jeedom.config.load(configuration[0]), '.configKey');
 
     $('body').delegate('.configKey', 'change', function() {
         modifyWithoutSave = true;

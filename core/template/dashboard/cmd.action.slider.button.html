@@ -16,7 +16,7 @@
                 $('.cmd[data-cmd_id=#id#] .value').trigger('change');
             });
             $('.cmd[data-cmd_id=#id#] .value').on('change', function() {
-                cmd.execute('#id#', {slider: $('.cmd[data-cmd_id] .value').val()});
+                jeedom.cmd.execute('#id#', {slider: $('.cmd[data-cmd_id] .value').val()});
             });
         });
     </script>

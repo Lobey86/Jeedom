@@ -71,7 +71,7 @@ jeedom.init = function() {
                     });
                     socket.on('eventCmd', function(_options) {
                         _options = json_decode(_options);
-                        cmd.refreshValue(_options.cmd_id);
+                        jeedom.cmd.refreshValue(_options.cmd_id);
                         jeedom.workflow.cmd[_options.cmd_id] = true;
                         jeedom.workflow.eqLogic[_options.eqLogic_id] = true;
                         jeedom.workflow.object[_options.object_id] = true;

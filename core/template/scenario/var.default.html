@@ -5,7 +5,7 @@
     $('.listEquipementInfo').off();
     $('.listEquipementInfo').on('click', function() {
         var el = $(this);
-        cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {
+        jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {
             el.parent().find('.expressionAttr[data-l1key=options][data-l2key=value]').atCaret('insert', result.human);
         });
     });

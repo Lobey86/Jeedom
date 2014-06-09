@@ -4,7 +4,7 @@
         $(function() {
             $('.cmd[data-cmd_id=#id#] .action').off();
             $('.cmd[data-cmd_id=#id#] .action').on('click', function() {
-                cmd.execute('#id#', '');
+                jeedom.cmd.execute('#id#', '');
             });
             var name = "#name#";
             if (name.toLowerCase().indexOf('on') >= 0) {
