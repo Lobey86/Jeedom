@@ -136,7 +136,7 @@ jeedom.cmd.getSelectModal = function(_options, callback) {
 };
 
 
-jeedom.cmd.displayActionOption = function(_expression, _options) {
+jeedom.cmd.displayActionOption = function(_expression, _options, _callback) {
     var html = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -170,13 +170,12 @@ jeedom.cmd.displayActionOption = function(_expression, _options) {
 
 
 
-jeedom.cmd.execute = function(_id, _value, _cache, _notify) {
+jeedom.cmd.execute = function(_id, _value, _cache, _notify, _callback) {
     var eqLogic = $('.cmd[data-cmd_id=' + _id + ']').closest('.eqLogic');
     eqLogic.find('.statusCmd').empty().append('<i class="fa fa-spinner fa-spin"></i>');
     if (init(_value) != '' && (is_array(_value) || is_object(_value))) {
         _value = json_encode(_value);
     }
-    var retour;
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/cmd.ajax.php", // url du fichier php
@@ -187,7 +186,6 @@ jeedom.cmd.execute = function(_id, _value, _cache, _notify) {
             value: _value
         },
         dataType: 'json',
-        async: false,
         global: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
@@ -207,10 +205,11 @@ jeedom.cmd.execute = function(_id, _value, _cache, _notify) {
                     eqLogic.find('.statusCmd').empty();
                 }, 3000);
             }
-            retour = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
         }
     });
-    return retour;
 };
 
 
@@ -235,7 +234,9 @@ jeedom.cmd.test = function(_id) {
             var result = data.result;
             switch (result.type) {
                 case 'info' :
-                    alert(cmd.execute(_id, '', 0));
+                    jeedom.cmd.execute(_id, '', 0, false, function(result) {
+                        alert(result);
+                    });
                     break;
                 case 'action' :
                     switch (result.subType) {
