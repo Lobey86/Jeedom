@@ -341,6 +341,7 @@ jeedom.cmd.byId = function(_cmd_id, _callback) {
     if (isset(jeedom.cmd.cache.byId[_cmd_id])) {
         if ('function' == typeof (_callback)) {
             _callback(jeedom.cmd.cache.byId[_cmd_id]);
+            return;
         }
     }
     $.ajax({// fonction permettant de faire de l'ajax

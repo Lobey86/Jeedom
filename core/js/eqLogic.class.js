@@ -183,6 +183,7 @@ jeedom.eqLogic.byId = function(_eqLogic_id, _callback) {
     if (isset(jeedom.eqLogic.cache.byId[_eqLogic_id])) {
         if ('function' == typeof (_callback)) {
             _callback(jeedom.eqLogic.cache.byId[_eqLogic_id]);
+            return;
         }
     }
     $.ajax({// fonction permettant de faire de l'ajax

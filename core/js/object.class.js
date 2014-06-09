@@ -41,6 +41,7 @@ jeedom.object.getEqLogic = function(_object_id, _callback) {
     if (isset(jeedom.object.cache.getEqLogic[_object_id])) {
         if ('function' == typeof (_callback)) {
             _callback(jeedom.object.cache.getEqLogic[_object_id]);
+            return;
         }
     }
     $.ajax({// fonction permettant de faire de l'ajax
@@ -72,9 +73,9 @@ jeedom.object.all = function(_callback) {
     if (isset(jeedom.object.cache.all)) {
         if ('function' == typeof (_callback)) {
             _callback(jeedom.object.cache.all);
+            return;
         }
     }
-    var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/object.ajax.php", // url du fichier php
@@ -108,6 +109,7 @@ jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _callback
     if (init(_useCache, false) == true && isset(jeedom.object.cache.html[_id])) {
         if ('function' == typeof (_callback)) {
             _callback(jeedom.object.cache.html[_id]);
+            return;
         }
     }
     $.ajax({// fonction permettant de faire de l'ajax
