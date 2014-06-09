@@ -6,7 +6,7 @@ function initMessage() {
     rightPanel += '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
     rightPanel += '<li data-role="list-divider">{{Logfile}}</li>';
     rightPanel += '<li><a class="messageFilter" data-plugin="">{{Tout}}</a></li>';
-    var plugins = plugin.all();
+    var plugins = jeedom.plugin.all();
     for (var i in plugins) {
         rightPanel += '<li><a class="messageFilter" data-plugin="' + plugins[i].name + '">' + plugins[i].name + '</a></li>';
     }

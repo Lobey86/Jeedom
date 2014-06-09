@@ -16,19 +16,19 @@
  */
 
 
-function plugin() {
-}
+jeedom.plugin = function() {
+};
 
-plugin.cache = Array();
+jeedom.plugin.cache = Array();
 
-plugin.all = function() {
-    if (isset(plugin.cache.all)) {
-        return plugin.cache.all;
+jeedom.plugin.all = function() {
+    if (isset(jeedom.plugin.cache.all)) {
+        return jeedom.plugin.cache.all;
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/plugin.ajax.php", // url du fichier php
+        url: "core/ajax/jeedom.plugin.ajax.php", // url du fichier php
         data: {
             action: "all",
         },
@@ -45,6 +45,6 @@ plugin.all = function() {
             result = data.result;
         }
     });
-    plugin.cache.all = result;
+    jeedom.plugin.cache.all = result;
     return result;
 }
