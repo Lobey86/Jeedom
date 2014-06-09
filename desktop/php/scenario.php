@@ -46,23 +46,27 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
 
                 <?php
                 foreach (scenario::all(init('group')) as $scenario) {
+                    echo '<li class="cursor li_scenario" id="scenario' . $scenario->getId() . '" data-scenario_id="' . $scenario->getId() . '">';
+                    echo '<a>';
+                    echo $scenario->getHumanName();
+                    echo '<span class="pull-right">';
                     if ($scenario->getIsActive() == 1) {
                         switch ($scenario->getState()) {
                             case 'in progress':
-                                $state = 'blue';
+                                echo '<i class="fa fa-spinner fa-spin"></i>';
                                 break;
                             case 'error':
-                                $state = 'orange';
+                                echo '<i class="fa fa-exclamation-triangle"></i>';
                                 break;
                             default:
-                                $state = 'yellow';
+                                echo '<i class="fa fa-check"></i>';
                                 break;
                         }
                     } else {
-                        $state = 'grey';
+                        echo '<i class="fa fa-times"></i>';
                     }
-                    echo '<li class="cursor li_scenario" id="scenario' . $scenario->getId() . '" data-scenario_id="' . $scenario->getId() . '">';
-                    echo '<a> <span class="binary ' . $state . ' pull-right binary" style="width : 15px;"></span>' . $scenario->getHumanName() . '</a>';
+                    echo '</span>';
+                    echo '</a>';
                     echo '</li>';
                 }
                 ?>
