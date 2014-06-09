@@ -16,12 +16,12 @@
  */
 
 
-function message() {
-}
+jeedom.message = function() {
+};
 
-message.cache = Array();
+jeedom.message.cache = Array();
 
-message.all = function(_plugin) {
+jeedom.message.all = function(_plugin) {
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -46,7 +46,7 @@ message.all = function(_plugin) {
     return result;
 }
 
-message.remove = function(_id) {
+jeedom.message.remove = function(_id) {
     var result = false;
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -71,7 +71,7 @@ message.remove = function(_id) {
     return result;
 }
 
-message.clear = function(_plugin) {
+jeedom.message.clear = function(_plugin) {
     var result = false;
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -94,4 +94,28 @@ message.clear = function(_plugin) {
         }
     });
     return result;
+}
+
+jeedom.message.number = function(_callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/message.ajax.php", // url du fichier php
+        data: {
+            action: "nbMessage"
+        },
+        dataType: 'json',
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
 }

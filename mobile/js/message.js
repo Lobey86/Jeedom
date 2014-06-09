@@ -15,7 +15,7 @@ function initMessage() {
     getAllMessage('');
 
     $("#bt_clearMessage").on('click', function(event) {
-        if (message.clear('')) {
+        if (jeedom.message.clear('')) {
             getAllMessage();
         }
     });
@@ -27,14 +27,14 @@ function initMessage() {
 
     $("#table_message").delegate(".removeMessage", 'click', function(event) {
         var tr = $(this).closest('tr');
-        if (message.remove(tr.attr('data-message_id'))) {
+        if (jeedom.message.remove(tr.attr('data-message_id'))) {
             tr.remove();
         }
     });
 }
 
 function getAllMessage(_plugin) {
-    var messages = message.all(init(_plugin));
+    var messages = jeedom.message.all(init(_plugin));
     var tbody = '';
     for (var i in  messages) {
         tbody += '<tr >';

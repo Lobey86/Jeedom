@@ -249,26 +249,10 @@ function showHelpModal(_name, _plugin) {
 }
 
 function refreshMessageNumber() {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/message.ajax.php", // url du fichier php
-        data: {
-            action: "nbMessage"
-        },
-        dataType: 'json',
-        global: false,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#span_nbMessage').html('<i class="fa fa-envelope icon-white"></i> ' + data.result + ' message(s)');
-            $('#span_nbMessage').show();
-        }
-    });
+    jeedom.message.number(function(_number) {
+        $('#span_nbMessage').html('<i class="fa fa-envelope icon-white"></i> ' + _number + ' message(s)');
+        $('#span_nbMessage').show();
+    })
 }
 
 function notify(_title, _text, _class_name, _cleanBefore) {

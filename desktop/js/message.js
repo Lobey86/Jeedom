@@ -21,14 +21,14 @@ $(function() {
     });
 
     $("#bt_clearMessage").on('click', function(event) {
-        if (message.clear($('#sel_plugin').value())) {
+        if (jeedom.message.clear($('#sel_plugin').value())) {
             window.location.reload();
         }
     });
 
     $("#table_message").delegate(".removeMessage", 'click', function(event) {
         var tr = $(this).closest('tr');
-        if (message.remove(tr.attr('data-message_id'))) {
+        if (jeedom.message.remove(tr.attr('data-message_id'))) {
             tr.remove();
         }
     });
