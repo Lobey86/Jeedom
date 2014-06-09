@@ -205,7 +205,7 @@ jeedom.eqLogic.byId = function(_eqLogic_id, _callback) {
             }
             jeedom.eqLogic.cache.byId[_eqLogic_id] = data.result;
             if ('function' == typeof (_callback)) {
-                _callback(data.result);
+                _callback(jeedom.eqLogic.cache.byId[_eqLogic_id]);
             }
         }
     });

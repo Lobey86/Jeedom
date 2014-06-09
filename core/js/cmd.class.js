@@ -107,7 +107,7 @@ jeedom.cmd.availableType = function() {
     return selType;
 };
 
-jeedom.cmd.getSelectModal = function(_options, callback) {
+jeedom.cmd.getSelectModal = function(_options, _callback) {
     if (!isset(_options)) {
         _options = {};
     }
@@ -132,8 +132,8 @@ jeedom.cmd.getSelectModal = function(_options, callback) {
         "Valider": function() {
             var retour = {};
             retour.human = mod_insertCmd.getValue();
-            if ($.trim(retour) != '') {
-                callback(retour);
+            if ($.trim(retour) != '' && 'function' == typeof (_callback)) {
+                _callback(retour);
             }
             $(this).dialog('close');
         }
@@ -363,7 +363,7 @@ jeedom.cmd.byId = function(_cmd_id, _callback) {
             }
             jeedom.cmd.cache.byId[_cmd_id] = data.result;
             if ('function' == typeof (_callback)) {
-                _callback(data.result);
+                _callback(jeedom.cmd.cache.byId[_cmd_id]);
             }
         }
     });

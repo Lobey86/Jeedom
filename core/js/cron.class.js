@@ -88,7 +88,7 @@ jeedom.cron.save = function(_crons, _callback) {
                 return;
             }
             if ('function' == typeof (_callback)) {
-                _callback();
+                _callback(data.result);
             }
         }
     });

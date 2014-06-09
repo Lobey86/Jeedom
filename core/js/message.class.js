@@ -21,8 +21,7 @@ jeedom.message = function() {
 
 jeedom.message.cache = Array();
 
-jeedom.message.all = function(_plugin) {
-    var result = '';
+jeedom.message.all = function(_plugin,_callback) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/message.ajax.php", // url du fichier php
@@ -31,7 +30,6 @@ jeedom.message.all = function(_plugin) {
             plugin: init(_plugin, '')
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -40,10 +38,11 @@ jeedom.message.all = function(_plugin) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
         }
     });
-    return result;
 }
 
 jeedom.message.remove = function(_id) {

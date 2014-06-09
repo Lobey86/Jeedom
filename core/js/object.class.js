@@ -90,7 +90,7 @@ jeedom.object.all = function(_callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            jeedom.object.cache.all = result;
+            jeedom.object.cache.all = data.result;
             if ('function' == typeof (_callback)) {
                 _callback(jeedom.object.cache.all);
             }

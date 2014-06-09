@@ -34,17 +34,19 @@ function initMessage() {
 }
 
 function getAllMessage(_plugin) {
-    var messages = jeedom.message.all(init(_plugin));
-    var tbody = '';
-    for (var i in  messages) {
-        tbody += '<tr >';
-        tbody += '<tr data-message_id="' + messages[i].id + '">';
-        tbody += '<td><center><i class="fa fa-trash-o cursor removeMessage"></i></center></td>';
-        tbody += '<td class="datetime">' + messages[i].date + '</td>';
-        tbody += '<td class="plugin">' + messages[i].plugin + '</td>';
-        tbody += '<td class="message">' + messages[i].message + '</td>';
-        tbody += '</tr>';
-    }
-    $('#table_message tbody').empty().append(tbody);
-    $("#table_message").table("rebuild");
+    jeedom.message.all(init(_plugin), function(messages) {
+        var tbody = '';
+        for (var i in  messages) {
+            tbody += '<tr >';
+            tbody += '<tr data-message_id="' + messages[i].id + '">';
+            tbody += '<td><center><i class="fa fa-trash-o cursor removeMessage"></i></center></td>';
+            tbody += '<td class="datetime">' + messages[i].date + '</td>';
+            tbody += '<td class="plugin">' + messages[i].plugin + '</td>';
+            tbody += '<td class="message">' + messages[i].message + '</td>';
+            tbody += '</tr>';
+        }
+        $('#table_message tbody').empty().append(tbody);
+        $("#table_message").table("rebuild");
+    });
+
 }
