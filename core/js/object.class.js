@@ -38,11 +38,9 @@ if (!isset(jeedom.object.cache.byId)) {
 }
 
 jeedom.object.getEqLogic = function(_object_id, _callback) {
-    if (isset(jeedom.object.cache.getEqLogic[_object_id])) {
-        if ('function' == typeof (_callback)) {
-            _callback(jeedom.object.cache.getEqLogic[_object_id]);
-            return;
-        }
+    if (isset(jeedom.object.cache.getEqLogic[_object_id]) && 'function' == typeof (_callback)) {
+        _callback(jeedom.object.cache.getEqLogic[_object_id]);
+        return;
     }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -70,11 +68,9 @@ jeedom.object.getEqLogic = function(_object_id, _callback) {
 };
 
 jeedom.object.all = function(_callback) {
-    if (isset(jeedom.object.cache.all)) {
-        if ('function' == typeof (_callback)) {
-            _callback(jeedom.object.cache.all);
-            return;
-        }
+    if (isset(jeedom.object.cache.all) && 'function' == typeof (_callback)) {
+        _callback(jeedom.object.cache.all);
+        return;
     }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -106,11 +102,9 @@ jeedom.object.prefetch = function(_id, _version) {
 };
 
 jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _callback) {
-    if (init(_useCache, false) == true && isset(jeedom.object.cache.html[_id])) {
-        if ('function' == typeof (_callback)) {
-            _callback(jeedom.object.cache.html[_id]);
-            return;
-        }
+    if (init(_useCache, false) == true && isset(jeedom.object.cache.html[_id]) && 'function' == typeof (_callback)) {
+        _callback(jeedom.object.cache.html[_id]);
+        return;
     }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -216,8 +210,9 @@ jeedom.object.save = function(_object, _callback) {
 
 
 jeedom.object.byId = function(_id, _callback) {
-    if (isset(jeedom.object.cache.byId[_id])) {
-        return jeedom.object.cache.byId[_id];
+    if (isset(jeedom.object.cache.byId[_id]) && 'function' == typeof (_callback)) {
+        _callback(jeedom.object.cache.byId[_id]);
+        return;
     }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php

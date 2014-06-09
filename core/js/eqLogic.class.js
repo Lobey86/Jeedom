@@ -180,11 +180,9 @@ jeedom.eqLogic.getCmd = function(_eqLogic_id) {
 
 
 jeedom.eqLogic.byId = function(_eqLogic_id, _callback) {
-    if (isset(jeedom.eqLogic.cache.byId[_eqLogic_id])) {
-        if ('function' == typeof (_callback)) {
-            _callback(jeedom.eqLogic.cache.byId[_eqLogic_id]);
-            return;
-        }
+    if (isset(jeedom.eqLogic.cache.byId[_eqLogic_id]) && 'function' == typeof (_callback)) {
+        _callback(jeedom.eqLogic.cache.byId[_eqLogic_id]);
+        return;
     }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
