@@ -15,6 +15,8 @@ $js_file = array(
     'core/js/cmd.class.js',
     'core/js/core.js',
     'core/js/eqLogic.class.js',
+    'core/js/history.class.js',
+    'core/js/config.class.js',
     'core/js/jeedom.class.js',
     'core/js/object.class.js',
     'core/js/plugin.class.js',

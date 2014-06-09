@@ -83,7 +83,7 @@ jeedom.init = function() {
                         jeedom.scheduleWorkflow();
                     });
                     socket.on('eventHistory', function(cmd_id) {
-                        refreshGraph(cmd_id);
+                        jeedom.history.refreshGraph(cmd_id);
                     });
                     socket.on('notify', function(title, text, category) {
                         var theme = '';

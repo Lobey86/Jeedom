@@ -123,7 +123,7 @@ jeedom.view.handleViewAjax = function(_view) {
             for (var j in viewZone.viewData) {
                 var viewData = viewZone.viewData[j];
                 var configuration = json_encode(viewData.configuration);
-                result.html += 'drawChart(' + viewData.link_id + ',"' + div_id + '","' + viewZone.configuration.dateRange + ' ",jQuery.parseJSON("' + configuration.replace(/\"/g, "\\\"") + '"));';
+                result.html += 'jeedom.history.drawChart(' + viewData.link_id + ',"' + div_id + '","' + viewZone.configuration.dateRange + ' ",jQuery.parseJSON("' + configuration.replace(/\"/g, "\\\"") + '"));';
             }
             result.html += '</script>';
             result.html += '</div>';

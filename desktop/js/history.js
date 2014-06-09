@@ -77,6 +77,6 @@ function addChart(_cmd_id, _action) {
         }
     } else {
         var option = {graphType: $('#sel_chartType').value()};
-        drawChart(_cmd_id, 'div_graph', 'all', option);
+        jeedom.history.drawChart(_cmd_id, 'div_graph', 'all', option);
     }
 }

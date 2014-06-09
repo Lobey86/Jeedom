@@ -299,3 +299,5 @@ jeedom.cmd.refreshValue = function(_cmd_id) {
         });
     }
 };
+
+

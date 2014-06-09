@@ -91,6 +91,7 @@ function initApplication(_reinit) {
                         var include = [
                             'core/js/jeedom.class.js',
                             'core/js/cmd.class.js',
+                            'core/js/history.class.js',
                             'core/js/eqLogic.class.js',
                             'core/js/object.class.js',
                             'core/js/scenario.class.js',
