@@ -189,8 +189,8 @@ jeedom.processWorkflow = function() {
         }
     }
 
-    if (list_object.length > 0 && isset(object) && isset(object.cache) && isset(object.cache.html)) {
-        object.prefetch(list_object, jeedom.display.version);
+    if (list_object.length > 0 && isset(object) && isset(jeedom.object.cache) && isset(jeedom.object.cache.html)) {
+        jeedom.object.prefetch(list_object, jeedom.display.version);
     }
     if (list_view.length > 0 && isset(view) && isset(view.cache) && isset(view.cache.html)) {
         view.prefetch(list_view, jeedom.display.version);

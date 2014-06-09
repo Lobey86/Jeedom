@@ -1,5 +1,5 @@
 function initEquipment(_object_id) {
-    var objects = object.all();
+    var objects = jeedom.object.all();
     var li = ' <ul data-role="listview">';
     for (var i in objects) {
         if (objects[i].isVisible == 1) {
@@ -13,7 +13,7 @@ function initEquipment(_object_id) {
     li += '</ul>';
     panel(li);
     if (isset(_object_id) && is_numeric(_object_id)) {
-        var html = object.toHtml(_object_id, 'mobile', !jeedom.workflow.object[_object_id]);
+        var html = jeedom.object.toHtml(_object_id, 'mobile', !jeedom.workflow.object[_object_id]);
         $('#div_displayEquipement').empty().html(html).trigger('create');
         setTileSize('.eqLogic');
         $('#div_displayEquipement').masonry();

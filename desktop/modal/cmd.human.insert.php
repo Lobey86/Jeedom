@@ -70,7 +70,7 @@ include_file('core', 'js.inc', 'php');
     }
 
     mod_insertCmd.changeObjectCmd = function(_select) {
-        var eqLogics = object.getEqLogic(_select.value());
+        var eqLogics = jeedom.object.getEqLogic(_select.value());
         _select.closest('tr').find('.mod_insertCmdValue_eqLogic').empty();
         var selectEqLogic = '<select class="form-control">';
         for (var i in eqLogics) {

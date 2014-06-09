@@ -101,7 +101,7 @@ function initApplication(_reinit) {
                         ];
                         $.showLoading();
                         $.include(include, function() {
-                            object.prefetch('all', 'mobile');
+                            jeedom.object.prefetch('all', 'mobile');
                             view.prefetch('all', 'mobile');
                             page("home", 'Accueil');
                         });

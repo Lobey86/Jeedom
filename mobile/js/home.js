@@ -1,5 +1,5 @@
 function initHome() {
-    var objects = object.all();
+    var objects = jeedom.object.all();
     var li = '';
     for (var i in objects) {
         if (objects[i].isVisible == 1) {

@@ -16,18 +16,17 @@
  */
 
 
-function object() {
+jeedom.object = function() {
+};
 
-}
+jeedom.object.cache = Array();
 
-object.cache = Array();
-
-object.getEqLogic = function(_object_id) {
-    if (!isset(object.cache.getEqLogic)) {
-        object.cache.getEqLogic = Array();
+jeedom.object.getEqLogic = function(_object_id) {
+    if (!isset(jeedom.object.cache.getEqLogic)) {
+        jeedom.object.cache.getEqLogic = Array();
     }
-    if (isset(object.cache.getEqLogic[_object_id])) {
-        return object.cache.getEqLogic[_object_id];
+    if (isset(jeedom.object.cache.getEqLogic[_object_id])) {
+        return jeedom.object.cache.getEqLogic[_object_id];
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -50,13 +49,13 @@ object.getEqLogic = function(_object_id) {
             result = data.result;
         }
     });
-    object.cache.getEqLogic[_object_id] = result;
+    jeedom.object.cache.getEqLogic[_object_id] = result;
     return result;
 }
 
-object.all = function() {
-    if (isset(object.cache.all)) {
-        return object.cache.all;
+jeedom.object.all = function() {
+    if (isset(jeedom.object.cache.all)) {
+        return jeedom.object.cache.all;
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -78,25 +77,25 @@ object.all = function() {
             result = data.result;
         }
     });
-    object.cache.all = result;
+    jeedom.object.cache.all = result;
     return result;
 }
 
-object.prefetch = function(_id, _version, _async) {
-    if (!isset(object.cache.html)) {
-        object.cache.html = Array();
+jeedom.object.prefetch = function(_id, _version, _async) {
+    if (!isset(jeedom.object.cache.html)) {
+        jeedom.object.cache.html = Array();
     }
-    if (!isset(object.cache.html[_id])) {
-        object.toHtml(_id, _version, false, false, init(_async, true));
+    if (!isset(jeedom.object.cache.html[_id])) {
+        jeedom.object.toHtml(_id, _version, false, false, init(_async, true));
     }
 }
 
-object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
-    if (!isset(object.cache.html)) {
-        object.cache.html = Array();
+jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
+    if (!isset(jeedom.object.cache.html)) {
+        jeedom.object.cache.html = Array();
     }
-    if (init(_useCache, false) == true && isset(object.cache.html[_id])) {
-        return object.cache.html[_id];
+    if (init(_useCache, false) == true && isset(jeedom.object.cache.html[_id])) {
+        return jeedom.object.cache.html[_id];
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -121,13 +120,13 @@ object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
             }
             if (_id == 'all' || $.isArray(_id)) {
                 for (var i in data.result) {
-                    object.cache.html[i] = data.result[i];
+                    jeedom.object.cache.html[i] = data.result[i];
                 }
             } else {
                 if (isset(jeedom) && isset(jeedom.workflow) && isset(jeedom.workflow.object) && jeedom.workflow.object[_id]) {
                     jeedom.workflow.object[_id] = false;
                 }
-                object.cache.html[_id] = result;
+                jeedom.object.cache.html[_id] = result;
             }
             result = data.result;
         }
