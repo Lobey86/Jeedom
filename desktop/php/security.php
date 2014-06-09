@@ -17,9 +17,11 @@ if (!isConnect('admin')) {
                 <tr>
                     <th class="ip" style="width: 80px;">{{IP}}</th>
                     <th class="username">{{Utilisateur}}</th>
+                    <th class="username">{{Localisation}}</th>
                     <th class="failure">{{Echec de connexion}}</th>
                     <th class="datetime">{{Date}}</th>
                     <th class="username">{{Statut}}</th>
+                    <th class="username">{{Informations}}</th>
                     <th class="username">{{Action}}</th>
                 </tr>
             </thead>
@@ -34,6 +36,9 @@ if (!isConnect('admin')) {
                     echo $connection->getUsername();
                     echo '</td>';
                     echo '<td>';
+                    echo $connection->getLocalisation();
+                    echo '</td>';
+                    echo '<td>';
                     echo $connection->getFailure();
                     echo '</td>';
                     echo '<td>';
@@ -41,6 +46,9 @@ if (!isConnect('admin')) {
                     echo '</td>';
                     echo '<td>';
                     echo $connection->getStatus();
+                    echo '</td>';
+                    echo '<td>';
+                    echo $connection->getInformations('org');
                     echo '</td>';
                     echo '<td>';
                     echo '<a class="btn btn-warning btn-xs remove pull-right" style="color : white;"><i class="fa fa-trash-o"></i> Supprimer</a> ';

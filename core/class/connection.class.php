@@ -25,10 +25,12 @@ class connection {
     private $id;
     private $ip;
     private $failure = 0;
+    private $localisation;
     private $datetime;
     private $username = '';
     private $status = 'ok';
     private $options;
+    private $informations;
 
     /*     * ***********************Methode static*************************** */
 
@@ -69,7 +71,7 @@ class connection {
         $connection->setStatus('Failed');
         if ($connection->getFailure() > config::byKey('security::retry') &&
                 (strtotime($connection->getDatetime()) + 60 * config::byKey('security::backlogtime')) > strtotime(date('Y-m-d H:i:s')) &&
-                !self::protectedIp($connection->getIp())) {
+                !$connection->isProtect()) {
             $connection->setStatus('Ban');
         }
         $connection->save();
@@ -98,6 +100,14 @@ class connection {
     }
 
     public static function cron() {
+        $sql = 'DELETE FROM `connection` 
+                WHERE id NOT IN 
+                (SELECT * FROM (
+                    SELECT id 
+                    FROM `connection`
+                    ORDER BY `datetime` DESC LIMIT 100
+                ) tmp);';
+        DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
         $sql = 'UPDATE `connection`
                 SET `status` = "Not connected"
                 WHERE status="Connected"
@@ -114,8 +124,24 @@ class connection {
 
     /*     * *********************Methode d'instance************************* */
 
+    public function isProtect() {
+        return self::protectedIp($this->getIp());
+    }
+
     public function presave() {
         $this->setDatetime(date('Y-m-d H:i:s'));
+        if ($this->getLocalisation() == '') {
+            try {
+                $http = new com_http('http://ipinfo.io/' . $this->getIp());
+                $details = json_decode($http->exec(1, 2), true);
+                $this->setLocalisation($details['country'] . ' - ' . $details['region'] . ' (' . $details['postal'] . ')  - ' . $details['city']);
+                $this->setInformations('coordonate', $details['loc']);
+                $this->setInformations('org', $details['org']);
+                $this->setInformations('hostname', $details['hostname']);
+            } catch (Exception $e) {
+                $this->setLocalisation('Unknow');
+            }
+        }
     }
 
     public function save() {
@@ -157,6 +183,9 @@ class connection {
     }
 
     public function setStatus($status) {
+        if ($status == 'Ban' && $this->isProtect()) {
+            throw new Exception(__('Vous ne pouvez bannir cette IP car elle est en liste blanche', __FILE__));
+        }
         $this->status = $status;
     }
 
@@ -182,6 +211,22 @@ class connection {
 
     public function setDatetime($datetime) {
         $this->datetime = $datetime;
+    }
+
+    public function getLocalisation() {
+        return $this->localisation;
+    }
+
+    public function setLocalisation($localisation) {
+        $this->localisation = $localisation;
+    }
+
+    public function getInformations($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->informations, $_key, $_default);
+    }
+
+    public function setInformations($_key, $_value) {
+        $this->informations = utils::setJsonAttr($this->informations, $_key, $_value);
     }
 
 }
