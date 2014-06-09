@@ -48,14 +48,14 @@ function jeedomPluginAutoload($classname) {
     $plugin = null;
     try {
         try {
-            $plugin = plugin::getById($classname);
+            $plugin = plugin::byId($classname);
         } catch (Exception $e) {
             if (!is_object($plugin) || $plugin->getId() == '') {
                 if (strpos($classname, 'Real') !== false) {
-                    $plugin = plugin::getById(substr($classname, 0, -4));
+                    $plugin = plugin::byId(substr($classname, 0, -4));
                 }
                 if (strpos($classname, 'Cmd') !== false) {
-                    $plugin = plugin::getById(substr($classname, 0, -3));
+                    $plugin = plugin::byId(substr($classname, 0, -3));
                 }
             }
         }

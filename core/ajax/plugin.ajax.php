@@ -28,7 +28,7 @@ try {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
-        $plugin = plugin::getById(init('pluginPath'));
+        $plugin = plugin::byId(init('pluginPath'));
 
         $return = utils::o2a($plugin);
         $return['activate'] = $plugin->isActive();
@@ -42,7 +42,7 @@ try {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
-        $plugin = plugin::getById(init('id'));
+        $plugin = plugin::byId(init('id'));
         if (!is_object($plugin)) {
             throw new Exception(__('Plugin introuvable : ', __FILE__) . init('id'));
         }

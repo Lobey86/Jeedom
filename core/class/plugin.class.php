@@ -41,7 +41,7 @@ class plugin {
 
     /*     * ***********************Methode static*************************** */
 
-    public static function getById($_id) {
+    public static function byId($_id) {
         if (!is_array(self::$_cache)) {
             self::$_cache = array();
         }
@@ -120,7 +120,7 @@ class plugin {
                     AND `value`='1'";
             $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
             foreach ($results as $result) {
-                $plugin = plugin::getById($result['plugin']);
+                $plugin = plugin::byId($result['plugin']);
                 if ($plugin != null) {
                     $listPlugin[] = $plugin;
                 }
@@ -130,7 +130,7 @@ class plugin {
             foreach (ls($rootPluginPath, '*') as $dirPlugin) {
                 $pathInfoPlugin = $rootPluginPath . '/' . $dirPlugin . '/plugin_info/info.xml';
                 if (file_exists($pathInfoPlugin)) {
-                    $listPlugin[] = plugin::getById($pathInfoPlugin);
+                    $listPlugin[] = plugin::byId($pathInfoPlugin);
                 }
             }
         }

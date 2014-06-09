@@ -59,7 +59,7 @@ try {
         ajax::success(utils::o2a($cmd));
     }
 
-    if (init('action') == 'getById') {
+    if (init('action') == 'byId') {
         $cmd = cmd::byId(init('id'));
         if (!is_object($cmd)) {
             throw new Exception(__('Cmd inconnu : ', __FILE__) . init('id'), 9999);

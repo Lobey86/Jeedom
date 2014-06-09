@@ -21,6 +21,14 @@ jeedom.eqLogic = function() {
 
 jeedom.eqLogic.cache = Array();
 
+if (!isset(jeedom.eqLogic.cache.getCmd)) {
+    jeedom.eqLogic.cache.getCmd = Array();
+}
+
+if (!isset(jeedom.eqLogic.cache.byId)) {
+    jeedom.eqLogic.cache.byId = Array();
+}
+
 jeedom.eqLogic.save = function(_type, _eqLogics, _callback) {
     $.hideAlert();
     $.ajax({// fonction permettant de faire de l'ajax
@@ -43,6 +51,9 @@ jeedom.eqLogic.save = function(_type, _eqLogics, _callback) {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 }
                 return;
+            }
+            if (isset(jeedom.eqLogic.cache.byId[data.result.id])) {
+                delete jeedom.eqLogic.cache.byId[data.result.id];
             }
             if ('function' == typeof (_callback)) {
                 _callback(data.result);
@@ -72,6 +83,9 @@ jeedom.eqLogic.remove = function(_type, _eqLogic_Id, _callback) {
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
+            }
+            if (isset(jeedom.eqLogic.cache.byId[_eqLogic_Id])) {
+                delete jeedom.eqLogic.cache.byId[_eqLogic_Id];
             }
             if ('function' == typeof (_callback)) {
                 _callback(data.result);
@@ -153,9 +167,6 @@ jeedom.eqLogic.toHtml = function(_id, _version) {
 }
 
 jeedom.eqLogic.getCmd = function(_eqLogic_id) {
-    if (!isset(jeedom.eqLogic.cache.getCmd)) {
-        jeedom.eqLogic.cache.getCmd = Array();
-    }
     if (isset(jeedom.eqLogic.cache.getCmd[_eqLogic_id])) {
         return jeedom.eqLogic.cache.getCmd[_eqLogic_id];
     }
@@ -187,14 +198,12 @@ jeedom.eqLogic.getCmd = function(_eqLogic_id) {
 }
 
 
-jeedom.eqLogic.byId = function(_eqLogic_id) {
-    if (!isset(jeedom.eqLogic.cache.byId)) {
-        jeedom.eqLogic.cache.byId = Array();
-    }
+jeedom.eqLogic.byId = function(_eqLogic_id, _callback) {
     if (isset(jeedom.eqLogic.cache.byId[_eqLogic_id])) {
-        return jeedom.eqLogic.cache.byId[_eqLogic_id];
+        if ('function' == typeof (_callback)) {
+            _callback(jeedom.eqLogic.cache.byId[_eqLogic_id]);
+        }
     }
-    var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/eqLogic.ajax.php", // url du fichier php
@@ -203,7 +212,6 @@ jeedom.eqLogic.byId = function(_eqLogic_id) {
             id: _eqLogic_id
         },
         dataType: 'json',
-        async: false,
         cache: true,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
@@ -214,11 +222,12 @@ jeedom.eqLogic.byId = function(_eqLogic_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            jeedom.eqLogic.cache.byId[_eqLogic_id] = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
         }
     });
-    jeedom.eqLogic.cache.byId[_eqLogic_id] = result;
-    return result;
 }
 
 jeedom.eqLogic.builSelectCmd = function(_eqLogic_id, _filter) {

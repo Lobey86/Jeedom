@@ -19,6 +19,12 @@
 jeedom.cmd = function() {
 };
 
+jeedom.cmd.cache = Array();
+
+if (!isset(jeedom.cmd.cache.byId)) {
+    jeedom.cmd.cache.byId = Array();
+}
+
 jeedom.cmd.getSuggestColor = function(_id) {
     var eqLogic = $(".cmd[data-cmd_id=" + _id + "]").closest('.eqLogic');
     if (count(eqLogic) > 0 && eqLogic != undefined) {
@@ -136,7 +142,7 @@ jeedom.cmd.getSelectModal = function(_options, callback) {
 };
 
 
-jeedom.cmd.displayActionOption = function(_expression, _options, _callback) {
+jeedom.cmd.displayActionOption = function(_expression, _options) {
     var html = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -302,3 +308,63 @@ jeedom.cmd.refreshValue = function(_cmd_id) {
 };
 
 
+jeedom.cmd.save = function(_cmd, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/cmd.ajax.php", // url du fichier php
+        data: {
+            action: "save",
+            cmd: json_encode(_cmd)
+        },
+        dataType: 'json',
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if (isset(jeedom.cmd.cache.byId[data.result.id])) {
+                delete jeedom.cmd.cache.byId[data.result.id];
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+}
+
+
+jeedom.cmd.byId = function(_cmd_id, _callback) {
+    if (isset(jeedom.cmd.cache.byId[_cmd_id])) {
+        if ('function' == typeof (_callback)) {
+            _callback(jeedom.cmd.cache.byId[_cmd_id]);
+        }
+    }
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/cmd.ajax.php", // url du fichier php
+        data: {
+            action: "byId",
+            id: _cmd_id
+        },
+        dataType: 'json',
+        cache: true,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $.hideLoading();
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            jeedom.cmd.cache.byId[_cmd_id] = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+}
