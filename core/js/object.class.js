@@ -21,10 +21,23 @@ jeedom.object = function() {
 
 jeedom.object.cache = Array();
 
+if (!isset(jeedom.object.cache.html)) {
+    jeedom.object.cache.html = Array();
+}
+
+if (!isset(jeedom.object.cache.getEqLogic)) {
+    jeedom.object.cache.getEqLogic = Array();
+}
+
+if (!isset(jeedom.object.cache.html)) {
+    jeedom.object.cache.html = Array();
+}
+
+if (!isset(jeedom.object.cache.byId)) {
+    jeedom.object.cache.byId = Array();
+}
+
 jeedom.object.getEqLogic = function(_object_id, _callback) {
-    if (!isset(jeedom.object.cache.getEqLogic)) {
-        jeedom.object.cache.getEqLogic = Array();
-    }
     if (isset(jeedom.object.cache.getEqLogic[_object_id])) {
         if ('function' == typeof (_callback)) {
             _callback(jeedom.object.cache.getEqLogic[_object_id]);
@@ -86,18 +99,12 @@ jeedom.object.all = function(_callback) {
 };
 
 jeedom.object.prefetch = function(_id, _version, _async) {
-    if (!isset(jeedom.object.cache.html)) {
-        jeedom.object.cache.html = Array();
-    }
     if (!isset(jeedom.object.cache.html[_id])) {
         jeedom.object.toHtml(_id, _version, false, false, init(_async, true));
     }
 };
 
 jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
-    if (!isset(jeedom.object.cache.html)) {
-        jeedom.object.cache.html = Array();
-    }
     if (init(_useCache, false) == true && isset(jeedom.object.cache.html[_id])) {
         return jeedom.object.cache.html[_id];
     }
@@ -108,7 +115,7 @@ jeedom.object.toHtml = function(_id, _version, _useCache, _globalAjax, _async) {
         data: {
             action: "toHtml",
             id: ($.isArray(_id)) ? json_encode(_id) : _id,
-            version: _version
+            version: init(_version, 'dashboard'),
         },
         dataType: 'json',
         async: init(_async, false),
@@ -155,6 +162,15 @@ jeedom.object.remove = function(_id, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            if (isset(jeedom.object.cache.all)) {
+                delete jeedom.object.cache.all;
+            }
+            if (isset(jeedom.object.cache.html[_id])) {
+                delete jeedom.object.cache.html[_id];
+            }
+            if (isset(jeedom.object.cache.getEqLogic[_id])) {
+                delete jeedom.object.cache.getEqLogic[_id];
+            }
             if ('function' == typeof (_callback)) {
                 _callback();
             }
@@ -179,6 +195,15 @@ jeedom.object.save = function(_object, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            if (isset(jeedom.object.cache.all)) {
+                delete jeedom.object.cache.all;
+            }
+            if (isset(jeedom.object.cache.html[data.result.id])) {
+                delete jeedom.object.cache.html[data.result.id];
+            }
+            if (isset(jeedom.object.cache.getEqLogic[data.result.id])) {
+                delete jeedom.object.cache.getEqLogic[data.result.id];
+            }
             if ('function' == typeof (_callback)) {
                 _callback(data.result);
             }
@@ -188,6 +213,9 @@ jeedom.object.save = function(_object, _callback) {
 
 
 jeedom.object.byId = function(_id, _callback) {
+    if (isset(jeedom.object.cache.byId[_id])) {
+        return jeedom.object.cache.byId[_id];
+    }
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/object.ajax.php", // url du fichier php
@@ -204,8 +232,9 @@ jeedom.object.byId = function(_id, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            jeedom.object.cache.byId[_id] = data.result;
             if ('function' == typeof (_callback)) {
-                _callback(data.result);
+                _callback(jeedom.object.cache.byId[_id]);
             }
         }
     });
