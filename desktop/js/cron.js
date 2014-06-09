@@ -20,6 +20,7 @@ $(function() {
 
     $("#bt_refreshCron").on('click', function() {
         printCron();
+
     });
 
     $("#bt_addCron").on('click', function() {
@@ -27,13 +28,15 @@ $(function() {
     });
 
     $("#bt_save").on('click', function() {
-        saveCron();
+        jeedom.cron.save($('#table_cron tbody tr').getValues('.cronAttr'), function() {
+            printCron();
+        });
     });
 
     $("#bt_changeCronState").on('click', function() {
         var el = $(this);
         var value = {enableCron: el.attr('data-state')};
-        jeedom.config.save(value,'core', function() {
+        jeedom.config.save(value, 'core', function() {
             if (el.attr('data-state') == 1) {
                 el.find('i').removeClass('fa-check').addClass('fa-times');
                 el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 1);
@@ -49,12 +52,15 @@ $(function() {
     });
 
     $("#table_cron").delegate(".stop", 'click', function() {
-        changeStateCron('stop', $(this).closest('tr').attr('id'));
+        jeedom.cron.changeStateCron('stop', $(this).closest('tr').attr('id'), function() {
+            printCron();
+        });
     });
 
-
     $("#table_cron").delegate(".start", 'click', function() {
-        changeStateCron('start', $(this).closest('tr').attr('id'));
+        jeedom.cron.changeStateCron('start', $(this).closest('tr').attr('id'), function() {
+            printCron();
+        });
     });
 
     $('#table_cron').delegate('.cronAttr[data-l1key=deamon]', 'change', function() {
@@ -70,84 +76,20 @@ $(function() {
     });
 });
 
-function changeStateCron(_state, _id) {
-    $.hideAlert();
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/cron.ajax.php',
-        data: {
-            action: _state,
-            id: _id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            printCron();
-        }
-    });
-}
-
 function printCron() {
-    $.hideAlert();
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/cron.ajax.php',
-        data: {
-            action: 'all'
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#table_cron tbody').empty();
-            for (var i in data.result.crons) {
-                addCron(data.result.crons[i]);
-            }
-            $('#span_jeecronMasterRuns').html(data.result.nbMasterCronRun);
-            $('#span_jeecronRuns').html(data.result.nbCronRun);
-            $('#span_nbProcess').html(data.result.nbProcess);
-            $('#span_loadAvg1').html(data.result.loadAvg[0]);
-            $('#span_loadAvg5').html(data.result.loadAvg[1]);
-            $('#span_loadAvg15').html(data.result.loadAvg[2]);
-            $("#table_cron").trigger("update");
-            modifyWithoutSave = false;
+    jeedom.cron.all(function(data) {
+        $('#table_cron tbody').empty();
+        for (var i in data.crons) {
+            addCron(data.crons[i]);
         }
-    });
-}
-
-function saveCron() {
-    $.hideAlert();
-    var crons = $('#table_cron tbody tr').getValues('.cronAttr');
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/cron.ajax.php',
-        data: {
-            action: 'save',
-            crons: json_encode(crons),
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
-            modifyWithoutSave = false;
-        }
+        $('#span_jeecronMasterRuns').html(data.nbMasterCronRun);
+        $('#span_jeecronRuns').html(data.nbCronRun);
+        $('#span_nbProcess').html(data.nbProcess);
+        $('#span_loadAvg1').html(data.loadAvg[0]);
+        $('#span_loadAvg5').html(data.loadAvg[1]);
+        $('#span_loadAvg15').html(data.loadAvg[2]);
+        $("#table_cron").trigger("update");
+        modifyWithoutSave = false;
     });
 }
 
