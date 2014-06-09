@@ -16,14 +16,14 @@
  */
 
 
-function scenario() {
-}
+jeedom.scenario = function() {
+};
 
-scenario.cache = Array();
+jeedom.scenario.cache = Array();
 
-scenario.all = function() {
-    if (isset(scenario.cache.all)) {
-        return scenario.cache.all;
+jeedom.scenario.all = function() {
+    if (isset(jeedom.scenario.cache.all)) {
+        return jeedom.scenario.cache.all;
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -45,11 +45,11 @@ scenario.all = function() {
             result = data.result;
         }
     });
-    scenario.cache.all = result;
+    jeedom.scenario.cache.all = result;
     return result;
 }
 
-scenario.toHtml = function(_scenario_id, _version) {
+jeedom.scenario.toHtml = function(_scenario_id, _version) {
     var result = '';
     $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
@@ -78,7 +78,7 @@ scenario.toHtml = function(_scenario_id, _version) {
 }
 
 
-scenario.changeState = function(_id, _state) {
+jeedom.scenario.changeState = function(_id, _state) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
@@ -105,7 +105,7 @@ scenario.changeState = function(_id, _state) {
 }
 
 
-scenario.refreshValue = function(_scenario_id) {
+jeedom.scenario.refreshValue = function(_scenario_id) {
     if ($('.scenario[data-scenario_id=' + _scenario_id + ']').html() != undefined) {
         var version = $('.scenario[data-scenario_id=' + _scenario_id + ']').attr('data-version');
         $.ajax({// fonction permettant de faire de l'ajax

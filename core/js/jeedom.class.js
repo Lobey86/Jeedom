@@ -78,7 +78,7 @@ jeedom.init = function() {
                         jeedom.scheduleWorkflow();
                     });
                     socket.on('eventScenario', function(scenario_id) {
-                        scenario.refreshValue(scenario_id);
+                        jeedom.scenario.refreshValue(scenario_id);
                         jeedom.workflow.scenario[scenario_id] = true;
                         jeedom.scheduleWorkflow();
                     });

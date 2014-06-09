@@ -114,7 +114,7 @@ function changeLinkType(_options) {
         $('#linkOption').append(options);
     }
     if (_options.link_type == 'scenario') {
-        var scenarios = scenario.all();
+        var scenarios = jeedom.scenario.all();
         var options = '<div class="form-group">';
         options += '<label class="col-sm-3 control-label">{{Scénario}}</label>';
         options += '<div class="col-sm-9">';
