@@ -102,7 +102,7 @@ function initApplication(_reinit) {
                         $.showLoading();
                         $.include(include, function() {
                             jeedom.object.prefetch('all', 'mobile');
-                            view.prefetch('all', 'mobile');
+                            jeedom.view.prefetch('all', 'mobile');
                             page("home", 'Accueil');
                         });
                     });

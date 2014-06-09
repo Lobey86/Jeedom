@@ -12,7 +12,7 @@ function initHome() {
     }
     $('#ul_objectList').empty().append(li).listview("refresh");
 
-    var views = view.all();
+    var views = jeedom.view.all();
     var li = '';
     for (var i in views) {
         li += '<li><a href="#" class="link" data-page="view" data-title="' + views[i].name + '" data-option="' + views[i].id + '">' + views[i].name + '</a></li>'

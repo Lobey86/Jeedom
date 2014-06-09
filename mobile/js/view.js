@@ -1,5 +1,5 @@
 function initView(_view_id) {
-    var views = view.all();
+    var views = jeedom.view.all();
     var li = ' <ul data-role="listview">';
     for (var i in views) {
         li += '<li><a href="#" class="link" data-page="view" data-title="' + views[i].name + '" data-option="' + views[i].id + '">' + views[i].name + '</a></li>'
@@ -8,11 +8,11 @@ function initView(_view_id) {
     panel(li);
     if (isset(_view_id) && is_numeric(_view_id)) {
         CORE_chart = [];
-        var html = view.toHtml(_view_id, 'mobile', true);
+        var html = jeedom.view.toHtml(_view_id, 'mobile', true);
         for (var i in jeedom.workflow.eqLogic) {
             if (jeedom.workflow.eqLogic[i]) {
                 if ($.inArray(i, html.eqLogic) >= 0) {
-                    var html = view.toHtml(_view_id, 'mobile');
+                    var html = jeedom.view.toHtml(_view_id, 'mobile');
                     jeedom.workflow.eqLogic[i] = false;
                     break;
                 }

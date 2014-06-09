@@ -16,7 +16,7 @@
 
 $(function() {
     if (view_id != '') {
-        var html = view.toHtml(view_id, 'dashboard');
+        var html = jeedom.view.toHtml(view_id, 'dashboard');
         $('#div_displayView').empty().html(html.html);
 
         setTimeout(function() {

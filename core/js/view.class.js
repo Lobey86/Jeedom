@@ -16,14 +16,14 @@
  */
 
 
-function view() {
-}
+jeedom.view = function() {
+};
 
-view.cache = Array();
+jeedom.view.cache = Array();
 
-view.all = function() {
-    if (isset(view.cache.all)) {
-        return view.cache.all;
+jeedom.view.all = function() {
+    if (isset(jeedom.view.cache.all)) {
+        return jeedom.view.cache.all;
     }
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
@@ -45,26 +45,26 @@ view.all = function() {
             result = data.result;
         }
     });
-    view.cache.all = result;
+    jeedom.view.cache.all = result;
     return result;
 }
 
-view.prefetch = function(_id, _version, _async) {
-    if (!isset(view.cache.html)) {
-        view.cache.html = Array();
+jeedom.view.prefetch = function(_id, _version, _async) {
+    if (!isset(jeedom.view.cache.html)) {
+        jeedom.view.cache.html = Array();
     }
-    if (!isset(view.cache.html[_id])) {
-        view.toHtml(_id, _version, false, false, init(_async, true));
+    if (!isset(jeedom.view.cache.html[_id])) {
+        jeedom.view.toHtml(_id, _version, false, false, init(_async, true));
     }
 
 }
 
-view.toHtml = function(_id, _version, _allowCache, _globalAjax, _async) {
-    if (!isset(view.cache.html)) {
-        view.cache.html = Array();
+jeedom.view.toHtml = function(_id, _version, _allowCache, _globalAjax, _async) {
+    if (!isset(jeedom.view.cache.html)) {
+        jeedom.view.cache.html = Array();
     }
-    if (init(_allowCache, false) == true && isset(view.cache.html[_id])) {
-        return view.cache.html[_id];
+    if (init(_allowCache, false) == true && isset(jeedom.view.cache.html[_id])) {
+        return jeedom.view.cache.html[_id];
     }
     var result = {html: '', scenario: [], cmd: [], eqLogic: []};
     $.ajax({// fonction permettant de faire de l'ajax
@@ -88,21 +88,21 @@ view.toHtml = function(_id, _version, _allowCache, _globalAjax, _async) {
             }
             if (_id == 'all' || $.isArray(_id)) {
                 for (var i in data.result) {
-                    view.cache.html[i] = view.handleViewAjax(data.result[i]);
+                    jeedom.view.cache.html[i] = jeedom.view.handleViewAjax(data.result[i]);
                 }
             } else {
-                result = view.handleViewAjax(data.result);
-                view.cache.html[_id] = result;
+                result = jeedom.view.handleViewAjax(data.result);
+                jeedom.view.cache.html[_id] = result;
             }
         }
     });
     return result;
 }
 
-view.handleViewAjax = function(_view) {
+jeedom.view.handleViewAjax = function(_view) {
     var result = {html: '', scenario: [], cmd: [], eqLogic: []};
-    for (var i in _view.viewZone) {
-        var viewZone = _view.viewZone[i];
+    for (var i in _jeedom.view.viewZone) {
+        var viewZone = _jeedom.view.viewZone[i];
         result.html += '<div>';
         result.html += '<legend style="color : #716b7a">' + viewZone.name + '</legend>';
         var div_id = 'div_viewZone' + viewZone.id;
