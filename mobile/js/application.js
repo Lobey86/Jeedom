@@ -89,9 +89,9 @@ function initApplication(_reinit) {
                     $.get("core/php/icon.inc.php", function(data) {
                         $("head").append(data);
                         var include = [
+                            'core/js/jeedom.class.js',
                             'core/js/cmd.class.js',
                             'core/js/eqLogic.class.js',
-                            'core/js/jeedom.class.js',
                             'core/js/object.class.js',
                             'core/js/scenario.class.js',
                             'core/js/plugin.class.js',

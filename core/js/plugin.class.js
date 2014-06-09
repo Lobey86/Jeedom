@@ -28,7 +28,7 @@ jeedom.plugin.all = function() {
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/jeedom.plugin.ajax.php", // url du fichier php
+        url: "core/ajax/plugin.ajax.php", // url du fichier php
         data: {
             action: "all",
         },
