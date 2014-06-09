@@ -131,15 +131,20 @@ $plugins_list = plugin::listPlugin(true, true);
                                     <li class="dropdown cursor">
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> {{Général}} <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> {{Administration}}</a></li>
-                                            <li><a href="index.php?v=d&p=update"><i class="fa fa-refresh"></i> {{Centre de mise à jour}}</a></li>
+                                            <li class="dropdown-submenu"><a href="#"><i class="fa fa-cogs"></i> Administration</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> {{Configuration}}</a></li>
+                                                    <li><a href="index.php?v=d&p=update"><i class="fa fa-refresh"></i> {{Centre de mise à jour}}</a></li>
+                                                    <li class="expertModeVisible"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
+                                                    <li class='expertModeVisible'><a href="index.php?v=d&p=security"><i class="fa fa-lock"></i> {{Sécurité}}</a></li>
+                                                    <li class='expertModeVisible'><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> {{Log}}</a></li>
+                                                </ul>
+                                            </li>
                                             <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> {{Interaction}}</a></li>
-                                            <li class='expertModeVisible'><a href="index.php?v=d&p=security"><i class="fa fa-lock"></i> {{Sécurité}}</a></li>
                                             <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
-                                            <li class="expertModeVisible"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
                                             <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> {{Objet}}</a></li>
                                             <li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> {{Plugins}}</a></li>
-                                            <li class='expertModeVisible'><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> {{Log}}</a></li>
+
                                         </ul>
                                     </li>
                                 <?php } ?>
@@ -161,13 +166,13 @@ $plugins_list = plugin::listPlugin(true, true);
                                                     if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'])) {
                                                         $name = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'];
                                                     }
-                                                    echo '<li class="menu-item dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa ' . $icon . '"></i> {{' . $name . '}}</a>';
+                                                    echo '<li class="dropdown-submenu"><a href="#"><i class="fa ' . $icon . '"></i> {{' . $name . '}}</a>';
                                                     echo '<ul class="dropdown-menu">';
                                                     foreach ($category as $pluginList) {
                                                         echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
                                                     }
-                                                    echo '</li>';
                                                     echo '</ul>';
+                                                    echo '</li>';
                                                 }
                                             }
                                             ?>
