@@ -95,7 +95,7 @@ class connection {
         }
         $connection->setFailure(0);
         $connection->setUsername($_username);
-        $connection->setStatus('Connected');
+        $connection->setStatus('Ok');
         $connection->save();
     }
 
