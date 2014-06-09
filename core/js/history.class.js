@@ -19,6 +19,8 @@
 jeedom.history = function() {
 };
 
+jeedom.history.chart = [];
+
 
 jeedom.history.drawChart = function(_cmd_id, _el, _dateRange, _option) {
     if ($.type(_dateRange) == 'object') {
@@ -57,13 +59,13 @@ jeedom.history.drawChart = function(_cmd_id, _el, _dateRange, _option) {
                 $('#div_alert').showAlert({message: message, level: 'danger'});
                 return;
             }
-            if (isset(CORE_chart[_el]) && isset(CORE_chart[_el].cmd[intval(_cmd_id)])) {
-                CORE_chart[_el].cmd[intval(_cmd_id)] = null;
+            if (isset(jeedom.history.chart[_el]) && isset(jeedom.history.chart[_el].cmd[intval(_cmd_id)])) {
+                jeedom.history.chart[_el].cmd[intval(_cmd_id)] = null;
             }
             _option = init(_option, {});
             _option.graphType = init(_option.graphType, 'line');
-            if (isset(CORE_chart[_el])) {
-                _option.graphColor = init(_option.graphColor, Highcharts.getOptions().colors[init(CORE_chart[_el].color, 0)]);
+            if (isset(jeedom.history.chart[_el])) {
+                _option.graphColor = init(_option.graphColor, Highcharts.getOptions().colors[init(jeedom.history.chart[_el].color, 0)]);
             } else {
                 _option.graphColor = init(_option.graphColor, Highcharts.getOptions().colors[0]);
             }
@@ -129,10 +131,10 @@ jeedom.history.drawChart = function(_cmd_id, _el, _dateRange, _option) {
                 var legend = {};
             }
 
-            if (!isset(CORE_chart[_el])) {
-                CORE_chart[_el] = {};
-                CORE_chart[_el].cmd = new Array();
-                CORE_chart[_el].color = 0;
+            if (!isset(jeedom.history.chart[_el])) {
+                jeedom.history.chart[_el] = {};
+                jeedom.history.chart[_el].cmd = new Array();
+                jeedom.history.chart[_el].color = 0;
 
                 var dateRange = 3;
                 switch (_dateRange) {
@@ -159,7 +161,7 @@ jeedom.history.drawChart = function(_cmd_id, _el, _dateRange, _option) {
                         break;
                 }
 
-                CORE_chart[_el].chart = new Highcharts.StockChart({
+                jeedom.history.chart[_el].chart = new Highcharts.StockChart({
                     chart: {
                         zoomType: 'x',
                         renderTo: _el
@@ -253,16 +255,16 @@ jeedom.history.drawChart = function(_cmd_id, _el, _dateRange, _option) {
                     series: [series]
                 });
             } else {
-                CORE_chart[_el].chart.addSeries(series);
-                var extremeAxisX = CORE_chart[_el].chart.xAxis[0].getExtremes();
-                CORE_chart[_el].chart.xAxis[0].setExtremes(extremeAxisX.dataMax - (86400000 * 7), extremeAxisX.dataMax);
+                jeedom.history.chart[_el].chart.addSeries(series);
+                var extremeAxisX = jeedom.history.chart[_el].chart.xAxis[0].getExtremes();
+                jeedom.history.chart[_el].chart.xAxis[0].setExtremes(extremeAxisX.dataMax - (86400000 * 7), extremeAxisX.dataMax);
             }
-            var yaxis = CORE_chart[_el].chart.yAxis[0].getExtremes();
-            CORE_chart[_el].chart.yAxis[0].setExtremes(yaxis.dataMin, yaxis.dataMax);
-            CORE_chart[_el].cmd[intval(_cmd_id)] = {option: _option, dateRange: _dateRange};
-            CORE_chart[_el].color++;
-            if (CORE_chart[_el].color > 9) {
-                CORE_chart[_el].color = 0;
+            var yaxis = jeedom.history.chart[_el].chart.yAxis[0].getExtremes();
+            jeedom.history.chart[_el].chart.yAxis[0].setExtremes(yaxis.dataMin, yaxis.dataMax);
+            jeedom.history.chart[_el].cmd[intval(_cmd_id)] = {option: _option, dateRange: _dateRange};
+            jeedom.history.chart[_el].color++;
+            if (jeedom.history.chart[_el].color > 9) {
+                jeedom.history.chart[_el].color = 0;
             }
         }
     });
@@ -286,8 +288,8 @@ jeedom.history.generatePlotBand = function(_startTime, _endTime) {
 
 jeedom.history.refreshGraph = function(_cmd_id) {
     var serie = null;
-    for (var i in CORE_chart) {
-        serie = CORE_chart[i].chart.get(intval(_cmd_id));
+    for (var i in jeedom.history.chart) {
+        serie = jeedom.history.chart[i].chart.get(intval(_cmd_id));
         if (serie != null && serie != undefined) {
             $.ajax({// fonction permettant de faire de l'ajax
                 type: "POST", // methode de transmission des données au fichier php
@@ -336,12 +338,12 @@ jeedom.history.changeHistoryPoint = function(_cmd_id, _datetime, _value) {
             }
             $('#div_alert').showAlert({message: '{{La valeur a été éditée avec succès}}', level: 'success'});
             var serie = null;
-            for (var i in CORE_chart) {
-                serie = CORE_chart[i].chart.get(intval(_cmd_id));
+            for (var i in jeedom.history.chart) {
+                serie = jeedom.history.chart[i].chart.get(intval(_cmd_id));
                 if (serie != null && serie != undefined) {
                     serie.remove();
                     serie = null;
-                    jeedom.history.drawChart(_cmd_id, i, CORE_chart[i].cmd[intval(_cmd_id)].dateRange, CORE_chart[i].cmd[intval(_cmd_id)].option);
+                    jeedom.history.drawChart(_cmd_id, i, jeedom.history.chart[i].cmd[intval(_cmd_id)].dateRange, jeedom.history.chart[i].cmd[intval(_cmd_id)].option);
                 }
             }
         }

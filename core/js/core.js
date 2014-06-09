@@ -15,8 +15,6 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-var CORE_chart = [];
 $(function() {
     if (!$.mobile) {
         jeedom.init();

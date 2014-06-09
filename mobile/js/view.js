@@ -7,7 +7,7 @@ function initView(_view_id) {
     li += '</ul>';
     panel(li);
     if (isset(_view_id) && is_numeric(_view_id)) {
-        CORE_chart = [];
+        jeedom.history.chart = [];
         var html = jeedom.view.toHtml(_view_id, 'mobile', true);
         for (var i in jeedom.workflow.eqLogic) {
             if (jeedom.workflow.eqLogic[i]) {

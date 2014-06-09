@@ -40,7 +40,7 @@
                     width: 1000
                 });
                 var option = {graphType: $('.sel_chartType[data-cmd_id=#id#]').value()};
-                delete CORE_chart['div_historyChart#id#'];
+                delete jeedom.history.chart['div_historyChart#id#'];
                 jeedom.history.drawChart('#id#', 'div_historyChart#id#', 'all', option);
             });
 
@@ -53,7 +53,7 @@
                     width: 1000
                 });
                 var option = {graphType: $('.sel_chartType[cmd_id=#id#]').value()};
-                delete CORE_chart['div_historyChart#id#'];
+                delete jeedom.history.chart['div_historyChart#id#'];
                 jeedom.history.drawChart('#id#', 'div_historyChart#id#', 'all', option);
             });
         });
