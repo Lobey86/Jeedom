@@ -94,7 +94,7 @@ jeedom.eqLogic.remove = function(_type, _eqLogic_Id, _callback) {
     });
 }
 
-jeedom.eqLogic.print = function(_type, _eqLogic_id) {
+jeedom.eqLogic.print = function(_type, _eqLogic_id, _callback) {
     $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -114,26 +114,9 @@ jeedom.eqLogic.print = function(_type, _eqLogic_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('body .eqLogicAttr').value('');
-            $('body').setValues(data.result, '.eqLogicAttr');
-
-            if ('function' == typeof (printEqLogic)) {
-                printEqLogic(data.result);
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
             }
-
-            if ('function' == typeof (addCmdToTable)) {
-                $('.cmd').remove();
-                for (var i in data.result.cmd) {
-                    addCmdToTable(data.result.cmd[i]);
-                    if ($('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'slider' || $('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'color') {
-                        $('#table_cmd tbody tr:last .cmdAttr[data-l1key=value]').show();
-                    }
-                }
-            }
-            initTooltips();
-            initExpertMode();
-            $.hideLoading();
-            modifyWithoutSave = false;
         }
     });
 }

@@ -21,7 +21,26 @@ $(function() {
         $('.eqLogic').show();
         $('.li_eqLogic').removeClass('active');
         $(this).addClass('active');
-        jeedom.eqLogic.print(eqType, $(this).attr('data-eqLogic_id'));
+        jeedom.eqLogic.print(eqType, $(this).attr('data-eqLogic_id'), function(data) {
+            $('body .eqLogicAttr').value('');
+            $('body').setValues(data, '.eqLogicAttr');
+            if ('function' == typeof (printEqLogic)) {
+                printEqLogic(data);
+            }
+            if ('function' == typeof (addCmdToTable)) {
+                $('.cmd').remove();
+                for (var i in data.cmd) {
+                    addCmdToTable(data.cmd[i]);
+                    if ($('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'slider' || $('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'color') {
+                        $('#table_cmd tbody tr:last .cmdAttr[data-l1key=value]').show();
+                    }
+                }
+            }
+            initTooltips();
+            initExpertMode();
+            $.hideLoading();
+            modifyWithoutSave = false;
+        });
         return false;
     });
 
