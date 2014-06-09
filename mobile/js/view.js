@@ -10,24 +10,22 @@ function initView(_view_id) {
     if (isset(_view_id) && is_numeric(_view_id)) {
         jeedom.history.chart = [];
         jeedom.view.toHtml(_view_id, 'mobile', true, true, function(html) {
+            var alreadyDisplay = false;
             for (var i in jeedom.workflow.eqLogic) {
                 if (jeedom.workflow.eqLogic[i]) {
                     if ($.inArray(i, html.eqLogic) >= 0) {
-                        var html = jeedom.view.toHtml(_view_id, 'mobile');
-                        jeedom.workflow.eqLogic[i] = false;
+                        alreadyDisplay = true;
+                        jeedom.view.toHtml(_view_id, 'mobile', false, true, function(html) {
+                            jeedom.workflow.eqLogic[i] = false;
+                            displayView(html);
+                        });
                         break;
                     }
                 }
             }
-            $('#div_displayView').empty().html(html.html).trigger('create');
-            if (deviceInfo.type == 'phone') {
-                $('.chartContainer').width((deviceInfo.width - 50));
-            } else {
-                $('.chartContainer').width(((deviceInfo.width / 2) - 50));
+            if (!alreadyDisplay) {
+                displayView(html);
             }
-            setTileSize('.eqLogic');
-            setTileSize('.scenario');
-            $('.eqLogicZone').masonry();
         });
     } else {
         $('#panel_right').panel('open');
@@ -43,4 +41,16 @@ function initView(_view_id) {
         setTileSize('.scenario');
         $('.eqLogicZone').masonry();
     });
+}
+
+function displayView(html) {
+    $('#div_displayView').empty().html(html.html).trigger('create');
+    if (deviceInfo.type == 'phone') {
+        $('.chartContainer').width((deviceInfo.width - 50));
+    } else {
+        $('.chartContainer').width(((deviceInfo.width / 2) - 50));
+    }
+    setTileSize('.eqLogic');
+    setTileSize('.scenario');
+    $('.eqLogicZone').masonry();
 }

@@ -16,14 +16,12 @@
 
 $(function() {
     if (view_id != '') {
-        var html = jeedom.view.toHtml(view_id, 'dashboard');
-        $('#div_displayView').empty().html(html.html);
-
-        setTimeout(function() {
+        jeedom.view.toHtml(view_id, 'dashboard', true, true, function(html) {
+            $('#div_displayView').empty().html(html.html);
             positionEqLogic();
             $('.eqLogicZone').each(function() {
                 $(this).masonry({columnWidth: 1});
             });
-        }, 1);
+        });
     }
 });
