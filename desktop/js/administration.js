@@ -35,7 +35,7 @@ $(function() {
         $.hideAlert();
         saveConvertColor();
         var configuration = $('#config').getValues('.configKey');
-        config.save(configuration[0], function() {
+        config.save(configuration[0],'core', function() {
             var configuration = $('#config').getValues('.configKey');
             $('#config').setValues(config.load(configuration[0]), '.configKey');
             modifyWithoutSave = false;

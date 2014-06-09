@@ -30,7 +30,13 @@ $(function() {
     }
 
     $('#bt_saveSecurityConfig').on('click', function() {
-        saveConfiguration($('#config'));
+        var configuration = $('#config').getValues('.configKey');
+        config.save(configuration[0], 'core', function() {
+            var configuration = $('#config').getValues('.configKey');
+            $('#config').setValues(config.load(configuration[0]), '.configKey');
+            modifyWithoutSave = false;
+            $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
+        });
     });
 
     $('#table_security').delegate('.remove', 'click', function() {
@@ -51,60 +57,9 @@ $(function() {
         });
     });
 
-    loadConfiguration($('#config'));
+    var configuration = $('#config').getValues('.configKey');
+    $('#config').setValues(config.load(configuration[0]), '.configKey');
 });
-
-function saveConfiguration(_el) {
-    var configuration = _el.getValues('.configKey');
-    configuration = configuration[0];
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: "addKey",
-            value: json_encode(configuration)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
-            modifyWithoutSave = false;
-            loadConfiguration(_el);
-        }
-    });
-}
-
-function loadConfiguration(_el) {
-    var configuration = _el.getValues('.configKey');
-    configuration = configuration[0];
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: "getKey",
-            plugin: 'core',
-            key: json_encode(configuration)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            _el.setValues(data.result, '.configKey');
-            modifyWithoutSave = false;
-        }
-    });
-}
 
 function remove(_id) {
     $.ajax({// fonction permettant de faire de l'ajax

@@ -52,29 +52,13 @@ $(function() {
     $("#bt_changeAllScenarioState").on('click', function() {
         var el = $(this);
         var value = {enableScenario: el.attr('data-state')};
-        $.ajax({
-            type: 'POST',
-            url: 'core/ajax/config.ajax.php',
-            data: {
-                action: 'addKey',
-                value: json_encode(value)
-            },
-            dataType: 'json',
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) {
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                if (el.attr('data-state') == 1) {
-                    el.find('i').removeClass('fa-check').addClass('fa-times');
-                    el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 0);
-                } else {
-                    el.find('i').removeClass('fa-times').addClass('fa-check');
-                    el.removeClass('btn-danger').addClass('btn-success').attr('data-state', 1);
-                }
+        config.save(value, 'core', function() {
+            if (el.attr('data-state') == 1) {
+                el.find('i').removeClass('fa-check').addClass('fa-times');
+                el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 0);
+            } else {
+                el.find('i').removeClass('fa-times').addClass('fa-check');
+                el.removeClass('btn-danger').addClass('btn-success').attr('data-state', 1);
             }
         });
     });
@@ -255,8 +239,8 @@ $(function() {
             refreshPositions: true,
             dropOnEmpty: false,
             update: function(event, ui) {
-                if (ui.item.findAtDepth('.element',2).length == 1) {
-                    ui.item.replaceWith(ui.item.findAtDepth('.element',2));
+                if (ui.item.findAtDepth('.element', 2).length == 1) {
+                    ui.item.replaceWith(ui.item.findAtDepth('.element', 2));
                 }
                 if (ui.item.hasClass('element') && ui.item.parent().attr('id') != 'div_scenarioElement') {
                     ui.item.replaceWith(addExpression({type: 'element', element: {html: ui.item.clone().wrapAll("<div/>").parent().html()}}));

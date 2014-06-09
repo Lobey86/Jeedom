@@ -19,7 +19,7 @@ $(function() {
     $("#bt_saveBackup").on('click', function(event) {
         $.hideAlert();
         var configuration = $('#backup').getValues('.configKey');
-        config.save(configuration[0], function() {
+        config.save(configuration[0],'core', function() {
             var configuration = $('#backup').getValues('.configKey');
             $('#backup').setValues(config.load(configuration[0]), '.configKey');
             modifyWithoutSave = false;

@@ -19,14 +19,14 @@
 function config() {
 }
 
-
-config.save = function(_configuration, _callback) {
+config.save = function(_configuration, _plugin, _callback) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/config.ajax.php", // url du fichier php
         data: {
             action: "addKey",
-            value: json_encode(_configuration)
+            value: json_encode(_configuration),
+            plugin: init(_plugin, 'core')
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -44,14 +44,14 @@ config.save = function(_configuration, _callback) {
     });
 }
 
-config.load = function(_configuration) {
+config.load = function(_configuration, _plugin) {
     var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/config.ajax.php", // url du fichier php
         data: {
             action: "getKey",
-            plugin: 'core',
+            plugin: init(_plugin, 'core'),
             key: json_encode(_configuration)
         },
         dataType: 'json',

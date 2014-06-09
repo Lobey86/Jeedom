@@ -37,38 +37,16 @@ $(function() {
     });
 
     $('.bt_resetColor').on('click', function() {
-        $('.configKey[data-l1key="' + $(this).attr('data-l1key') + '"]').value(jeedom.getConfiguration($(this).attr('data-l1key'),1));
+        $('.configKey[data-l1key="' + $(this).attr('data-l1key') + '"]').value(jeedom.getConfiguration($(this).attr('data-l1key'), 1));
     });
 });
 
 
 function saveConfiguration(_el) {
-    try {
-        var configuration = _el.getValues('.configKey');
-        configuration = configuration[0];
-    } catch (e) {
-        $('#div_alert').showAlert({message: e, level: 'danger'});
-        return false;
-    }
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: "addKey",
-            value: json_encode(configuration)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
-            modifyWithoutSave = false;
-        }
+    var configuration = _el.getValues('.configKey');
+    config.save(configuration[0],'core', function() {
+        $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+        modifyWithoutSave = false;
     });
 }
 

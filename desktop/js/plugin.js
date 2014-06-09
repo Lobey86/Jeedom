@@ -88,54 +88,15 @@ function togglePlugin(_id, _state) {
 
 function savePluginConfig() {
     var configuration = $('#div_plugin_configuration').getValues('.configKey');
-
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: "addKey",
-            value: json_encode(configuration[0]),
-            plugin: $('.li_plugin.active').attr('data-plugin_id')
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
-            modifyWithoutSave = false;
-        }
+    config.save(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function() {
+        $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+        modifyWithoutSave = false;
     });
 }
 
 function loadPluginConfig() {
     var configuration = $('#div_plugin_configuration').getValues('.configKey');
-
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: "getKey",
-            key: json_encode(configuration[0]),
-            plugin: $('.li_plugin.active').attr('data-plugin_id')
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_plugin_configuration').setValues(data.result, '.configKey');
-            modifyWithoutSave = false;
-        }
-    });
+    $('#div_plugin_configuration').setValues(config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id')), '.configKey');
 }
 
 function printPlugin(_id, _pluginPath) {

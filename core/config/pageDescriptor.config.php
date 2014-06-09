@@ -88,7 +88,7 @@ $PAGE_DESCRIPTOR_DESKTOP = array(
     ),
     'backup' => array(
         'pageName' => 'backup',
-        'title' => 'Sauevegarde'
+        'title' => 'Sauvegarde'
     ),
         /*         * *************************Mobile*********************************** */
 );
