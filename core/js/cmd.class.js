@@ -167,3 +167,135 @@ cmd.displayActionOption = function(_expression, _options) {
     });
     return html;
 }
+
+
+
+cmd.execute = function(_id, _value, _cache, _notify) {
+    var eqLogic = $('.cmd[data-cmd_id=' + _id + ']').closest('.eqLogic');
+    eqLogic.find('.statusCmd').empty().append('<i class="fa fa-spinner fa-spin"></i>');
+    if (init(_value) != '' && (is_array(_value) || is_object(_value))) {
+        _value = json_encode(_value);
+    }
+    var retour;
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/cmd.ajax.php", // url du fichier php
+        data: {
+            action: "execCmd",
+            id: _id,
+            cache: init(_cache, 1),
+            value: _value
+        },
+        dataType: 'json',
+        async: false,
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                eqLogic.find('.statusCmd').empty().append('<i class="fa fa-times"></i>');
+                setTimeout(function() {
+                    eqLogic.find('.statusCmd').empty();
+                }, 3000);
+                return;
+            }
+            if (init(_notify, true)) {
+                eqLogic.find('.statusCmd').empty().append('<i class="fa fa-rss"></i>');
+                setTimeout(function() {
+                    eqLogic.find('.statusCmd').empty();
+                }, 3000);
+            }
+            retour = data.result;
+        }
+    });
+    return retour;
+}
+
+
+cmd.test = function(_id) {
+    $.showLoading();
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/cmd.ajax.php", // url du fichier php
+        data: {
+            action: "getCmd",
+            id: _id,
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            var result = data.result;
+            switch (result.type) {
+                case 'info' :
+                    alert(cmd.execute(_id, '', 0));
+                    break;
+                case 'action' :
+                    switch (result.subType) {
+                        case 'other' :
+                            cmd.execute(_id, '', 0);
+                            break;
+                        case 'slider' :
+                            var slider = new Object();
+                            slider['slider'] = 50;
+                            cmd.execute(_id, slider, 0);
+                            break;
+                        case 'color' :
+                            var color = new Object();
+                            color['color'] = '#fff000';
+                            cmd.execute(_id, color, 0);
+                            break;
+                        case 'message' :
+                            var message = new Object();
+                            message['title'] = '{{[Jeedom] Message de test}}';
+                            message['message'] = '{{Ceci est un test de message pour la commande}} ' + result.name;
+                            cmd.execute(_id, message, 0);
+                            break;
+                    }
+                    break;
+            }
+        }
+    });
+}
+
+
+cmd.refreshValue = function(_cmd_id) {
+    if ($('.cmd[data-cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version') != undefined) {
+        var version = $('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version');
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "core/ajax/cmd.ajax.php", // url du fichier php
+            data: {
+                action: "toHtml",
+                id: _cmd_id,
+                version: version,
+            },
+            dataType: 'json',
+            cache: true,
+            global: false,
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) { // si l'appel a bien fonctionné
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                $('.cmd[data-cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
+                initTooltips();
+                if ($.mobile) {
+                    $('.cmd[data-cmd_id=' + _cmd_id + ']').trigger("create");
+                } else {
+                    positionEqLogic($('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-eqLogic_id'), true);
+                }
+            }
+        });
+    }
+}

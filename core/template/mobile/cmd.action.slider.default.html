@@ -6,7 +6,7 @@
     <script>
         $(function() {
             $('.cmd[data-cmd_id=#id#] .slider').on("slidestop", function(event, ui) {
-                execCmd('#id#', {slider: $(this).find('input').value()});
+                cmd.execute('#id#', {slider: $(this).find('input').value()});
             });
         });
     </script>

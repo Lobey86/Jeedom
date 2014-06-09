@@ -41,7 +41,7 @@ if ($.mobile) {
     }
 }
 
-
+//******************A supprimer en version 1.72
 function execCmd(_id, _value, _cache, _notify) {
     var eqLogic = $('.cmd[data-cmd_id=' + _id + ']').closest('.eqLogic');
     eqLogic.find('.statusCmd').empty().append('<i class="fa fa-spinner fa-spin"></i>');
@@ -85,82 +85,7 @@ function execCmd(_id, _value, _cache, _notify) {
     return retour;
 }
 
-function changeScenarioState(_id, _state) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "changeState",
-            id: _id,
-            state: _state
-        },
-        dataType: 'json',
-        async: false,
-        global: false,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                notify('Commande', data.result, 'gritter-red')
-                return;
-            }
-            notify('Scénario', '{{Mise à jour de l\état du scénario réussi}}', 'gritter-green', true);
-        }
-    });
-}
-
-function cmd_test(_id) {
-    $.showLoading();
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/cmd.ajax.php", // url du fichier php
-        data: {
-            action: "getCmd",
-            id: _id,
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            var result = data.result;
-            switch (result.type) {
-                case 'info' :
-                    alert(execCmd(_id, '', 0));
-                    break;
-                case 'action' :
-                    switch (result.subType) {
-                        case 'other' :
-                            execCmd(_id, '', 0);
-                            break;
-                        case 'slider' :
-                            var slider = new Object();
-                            slider['slider'] = 50;
-                            execCmd(_id, slider, 0);
-                            break;
-                        case 'color' :
-                            var color = new Object();
-                            color['color'] = '#fff000';
-                            execCmd(_id, color, 0);
-                            break;
-                        case 'message' :
-                            var message = new Object();
-                            message['title'] = '{{[Jeedom] Message de test}}';
-                            message['message'] = '{{Ceci est un test de message pour la commande}} ' + result.name;
-                            execCmd(_id, message, 0);
-                            break;
-                    }
-                    break;
-            }
-        }
-    });
-}
+//******************A supprimer en version 1.72
 
 function getTemplate(_folder, _version, _filename, _replace) {
     if (_folder == 'core') {
@@ -188,6 +113,7 @@ function getTemplate(_folder, _version, _filename, _replace) {
     });
     return template;
 }
+
 
 function getConfigValue(_el) {
     var config = new Object();
@@ -232,72 +158,6 @@ function getUrlVars(_key) {
         return false;
     }
     return vars;
-}
-
-
-function refreshScenarioValue(_scenario_id) {
-    if ($('.scenario[data-scenario_id=' + _scenario_id + ']').html() != undefined) {
-        var version = $('.scenario[data-scenario_id=' + _scenario_id + ']').attr('data-version');
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/scenario.ajax.php", // url du fichier php
-            data: {
-                action: "toHtml",
-                id: _scenario_id,
-                version: version
-            },
-            dataType: 'json',
-            global: false,
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                $('.scenario[data-scenario_id=' + _scenario_id + ']').replaceWith(data.result);
-                if ($.mobile) {
-                    $('.scenario[data-scenario_id=' + _scenario_id + ']').trigger("create");
-                    setTileSize('.scenario');
-                }
-            }
-        });
-    }
-}
-
-function refreshCmdValue(_cmd_id) {
-    if ($('.cmd[data-cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version') != undefined) {
-        var version = $('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version');
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/cmd.ajax.php", // url du fichier php
-            data: {
-                action: "toHtml",
-                id: _cmd_id,
-                version: version,
-            },
-            dataType: 'json',
-            cache: true,
-            global: false,
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                $('.cmd[data-cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
-                initTooltips();
-                if ($.mobile) {
-                    $('.cmd[data-cmd_id=' + _cmd_id + ']').trigger("create");
-                } else {
-                    positionEqLogic($('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-eqLogic_id'), true);
-                }
-            }
-        });
-    }
 }
 
 function initTooltips() {

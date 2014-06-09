@@ -76,3 +76,62 @@ scenario.toHtml = function(_scenario_id, _version) {
     });
     return result;
 }
+
+
+scenario.changeState = function(_id, _state) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/scenario.ajax.php", // url du fichier php
+        data: {
+            action: "changeState",
+            id: _id,
+            state: _state
+        },
+        dataType: 'json',
+        async: false,
+        global: false,
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                notify('Commande', data.result, 'gritter-red')
+                return;
+            }
+            notify('Scénario', '{{Mise à jour de l\état du scénario réussi}}', 'gritter-green', true);
+        }
+    });
+}
+
+
+scenario.refreshValue = function(_scenario_id) {
+    if ($('.scenario[data-scenario_id=' + _scenario_id + ']').html() != undefined) {
+        var version = $('.scenario[data-scenario_id=' + _scenario_id + ']').attr('data-version');
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "core/ajax/scenario.ajax.php", // url du fichier php
+            data: {
+                action: "toHtml",
+                id: _scenario_id,
+                version: version
+            },
+            dataType: 'json',
+            global: false,
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) { // si l'appel a bien fonctionné
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                $('.scenario[data-scenario_id=' + _scenario_id + ']').replaceWith(data.result);
+                if ($.mobile) {
+                    $('.scenario[data-scenario_id=' + _scenario_id + ']').trigger("create");
+                    setTileSize('.scenario');
+                }
+            }
+        });
+    }
+}

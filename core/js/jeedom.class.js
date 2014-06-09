@@ -71,14 +71,14 @@ jeedom.init = function() {
                     });
                     socket.on('eventCmd', function(_options) {
                         _options = json_decode(_options);
-                        refreshCmdValue(_options.cmd_id);
+                        cmd.refreshValue(_options.cmd_id);
                         jeedom.workflow.cmd[_options.cmd_id] = true;
                         jeedom.workflow.eqLogic[_options.eqLogic_id] = true;
                         jeedom.workflow.object[_options.object_id] = true;
                         jeedom.scheduleWorkflow();
                     });
                     socket.on('eventScenario', function(scenario_id) {
-                        refreshScenarioValue(scenario_id);
+                        scenario.refreshValue(scenario_id);
                         jeedom.workflow.scenario[scenario_id] = true;
                         jeedom.scheduleWorkflow();
                     });

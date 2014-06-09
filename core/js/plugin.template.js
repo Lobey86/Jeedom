@@ -143,7 +143,7 @@ $(function() {
         $.hideAlert();
         if ($('.eqLogicAttr[data-l1key=isEnable]').is(':checked')) {
             var id = $(this).closest('.cmd').attr('data-cmd_id');
-            cmd_test(id);
+            cmd.test(id);
         } else {
             $('#div_alert').showAlert({message: '{{Veuillez activer l\'équipement avant de tester une de ses commandes}}', level: 'warning'});
         }

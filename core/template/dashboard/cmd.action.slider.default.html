@@ -9,7 +9,7 @@
                 max: ('#maxValue#' == '') ? 100 : parseInt('#maxValue#'),
                 value: ('#state#' == '') ? 0 : parseInt('#state#'),
                 change: function(event, ui) {
-                    execCmd('#id#', {slider: ui.value});
+                    cmd.execute('#id#', {slider: ui.value});
                 }
             });
         });
