@@ -153,7 +153,7 @@ jeedom.eqLogic.toHtml = function(_id, _version) {
 }
 
 jeedom.eqLogic.getCmd = function(_eqLogic_id) {
-    if (!isset(eqLogic.cache.getCmd)) {
+    if (!isset(jeedom.eqLogic.cache.getCmd)) {
         jeedom.eqLogic.cache.getCmd = Array();
     }
     if (isset(jeedom.eqLogic.cache.getCmd[_eqLogic_id])) {

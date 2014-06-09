@@ -160,7 +160,7 @@ jeedom.processWorkflow = function() {
     var list_view = [];
     for (var i in jeedom.workflow.eqLogic) {
         if (jeedom.workflow.eqLogic[i]) {
-            if (isset(view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
+            if (isset(jeedom.view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
                 for (var j in jeedom.view.cache.html) {
                     if ($.inArray(j, list_view) < 0 && $.inArray(i, jeedom.view.cache.html[j].eqLogic) >= 0) {
                         list_view.push(j);
@@ -173,7 +173,7 @@ jeedom.processWorkflow = function() {
 
     for (var i in jeedom.workflow.scenario) {
         if (jeedom.workflow.scenario[i]) {
-            if (isset(view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
+            if (isset(jeedom.view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
                 for (var j in jeedom.view.cache.html) {
                     if ($.inArray(j, list_view) < 0 && $.inArray(i, jeedom.view.cache.html[j].scenario) >= 0) {
                         list_view.push(j);
@@ -189,10 +189,10 @@ jeedom.processWorkflow = function() {
         }
     }
 
-    if (list_object.length > 0 && isset(object) && isset(jeedom.object.cache) && isset(jeedom.object.cache.html)) {
+    if (list_object.length > 0 && isset(jeedom.object) && isset(jeedom.object.cache) && isset(jeedom.object.cache.html)) {
         jeedom.object.prefetch(list_object, jeedom.display.version);
     }
-    if (list_view.length > 0 && isset(view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
+    if (list_view.length > 0 && isset(jeedom.view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
         jeedom.view.prefetch(list_view, jeedom.display.version);
     }
 }

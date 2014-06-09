@@ -101,8 +101,8 @@ jeedom.view.toHtml = function(_id, _version, _allowCache, _globalAjax, _async) {
 
 jeedom.view.handleViewAjax = function(_view) {
     var result = {html: '', scenario: [], cmd: [], eqLogic: []};
-    for (var i in _jeedom.view.viewZone) {
-        var viewZone = _jeedom.view.viewZone[i];
+    for (var i in _view.viewZone) {
+        var viewZone = _view.viewZone[i];
         result.html += '<div>';
         result.html += '<legend style="color : #716b7a">' + viewZone.name + '</legend>';
         var div_id = 'div_viewZone' + viewZone.id;
