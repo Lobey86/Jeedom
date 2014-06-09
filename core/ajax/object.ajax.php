@@ -24,7 +24,7 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
-    if (init('action') == 'removeObject') {
+    if (init('action') == 'remove') {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
@@ -48,7 +48,7 @@ try {
         ajax::success(utils::o2a(object::buildTree()));
     }
 
-    if (init('action') == 'saveObject') {
+    if (init('action') == 'save') {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }

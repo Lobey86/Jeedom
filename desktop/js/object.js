@@ -138,7 +138,7 @@ function removeObject(_id) {
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/object.ajax.php", // url du fichier php
         data: {
-            action: "removeObject",
+            action: "remove",
             id: _id
         },
         dataType: 'json',
@@ -187,7 +187,7 @@ function saveObject(object) {
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/object.ajax.php", // url du fichier php
         data: {
-            action: "saveObject",
+            action: "save",
             object: json_encode(object),
         },
         dataType: 'json',
