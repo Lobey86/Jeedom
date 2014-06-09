@@ -54,12 +54,12 @@ jeedom.view.all = function(_callback) {
     });
 }
 
-jeedom.view.prefetch = function(_id, _version, _async) {
+jeedom.view.prefetch = function(_id, _version) {
     if (!isset(jeedom.view.cache.html)) {
         jeedom.view.cache.html = Array();
     }
     if (!isset(jeedom.view.cache.html[_id])) {
-        jeedom.view.toHtml(_id, _version, false, false, init(_async, true));
+        jeedom.view.toHtml(_id, _version, false, false);
     }
 
 }
