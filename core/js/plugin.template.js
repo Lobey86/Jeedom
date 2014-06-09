@@ -43,7 +43,7 @@ $(function() {
             if ('function' == typeof (saveEqLogic)) {
                 eqLogic = saveEqLogic(eqLogic);
             }
-            jeedom.eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
+            eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
             eqLogics.push(eqLogic);
         });
         jeedom.eqLogic.save(eqType, eqLogics, function(_data) {
