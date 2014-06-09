@@ -21,6 +21,10 @@ jeedom.view = function() {
 
 jeedom.view.cache = Array();
 
+if (!isset(jeedom.view.cache.html)) {
+    jeedom.view.cache.html = Array();
+}
+
 jeedom.view.all = function(_callback) {
     if (isset(jeedom.view.cache.all) && 'function' == typeof (_callback)) {
         _callback(jeedom.view.cache.all);
@@ -60,14 +64,12 @@ jeedom.view.prefetch = function(_id, _version, _async) {
 
 }
 
-jeedom.view.toHtml = function(_id, _version, _allowCache, _globalAjax, _async) {
-    if (!isset(jeedom.view.cache.html)) {
-        jeedom.view.cache.html = Array();
+jeedom.view.toHtml = function(_id, _version, _useCache, _globalAjax, _callback) {
+    if (init(_useCache, false) == true && isset(jeedom.view.cache.html[_id]) && 'function' == typeof (_callback)) {
+        _callback(jeedom.view.cache.html[_id]);
+        return;
     }
-    if (init(_allowCache, false) == true && isset(jeedom.view.cache.html[_id])) {
-        return jeedom.view.cache.html[_id];
-    }
-    var result = {html: '', scenario: [], cmd: [], eqLogic: []};
+
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/view.ajax.php", // url du fichier php
@@ -77,7 +79,6 @@ jeedom.view.toHtml = function(_id, _version, _allowCache, _globalAjax, _async) {
             version: _version,
         },
         dataType: 'json',
-        async: init(_async, false),
         global: init(_globalAjax, true),
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
@@ -87,6 +88,7 @@ jeedom.view.toHtml = function(_id, _version, _allowCache, _globalAjax, _async) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+            var result = {html: '', scenario: [], cmd: [], eqLogic: []};
             if (_id == 'all' || $.isArray(_id)) {
                 for (var i in data.result) {
                     jeedom.view.cache.html[i] = jeedom.view.handleViewAjax(data.result[i]);
@@ -95,9 +97,11 @@ jeedom.view.toHtml = function(_id, _version, _allowCache, _globalAjax, _async) {
                 result = jeedom.view.handleViewAjax(data.result);
                 jeedom.view.cache.html[_id] = result;
             }
+            if ('function' == typeof (_callback)) {
+                _callback(result);
+            }
         }
     });
-    return result;
 }
 
 jeedom.view.handleViewAjax = function(_view) {

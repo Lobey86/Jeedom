@@ -9,18 +9,17 @@ function initView(_view_id) {
     });
     if (isset(_view_id) && is_numeric(_view_id)) {
         jeedom.history.chart = [];
-        var html = jeedom.view.toHtml(_view_id, 'mobile', true);
-        for (var i in jeedom.workflow.eqLogic) {
-            if (jeedom.workflow.eqLogic[i]) {
-                if ($.inArray(i, html.eqLogic) >= 0) {
-                    var html = jeedom.view.toHtml(_view_id, 'mobile');
-                    jeedom.workflow.eqLogic[i] = false;
-                    break;
+        jeedom.view.toHtml(_view_id, 'mobile', true, true, function(html) {
+            for (var i in jeedom.workflow.eqLogic) {
+                if (jeedom.workflow.eqLogic[i]) {
+                    if ($.inArray(i, html.eqLogic) >= 0) {
+                        var html = jeedom.view.toHtml(_view_id, 'mobile');
+                        jeedom.workflow.eqLogic[i] = false;
+                        break;
+                    }
                 }
             }
-        }
-        $('#div_displayView').empty().html(html.html).trigger('create');
-        setTimeout(function() {
+            $('#div_displayView').empty().html(html.html).trigger('create');
             if (deviceInfo.type == 'phone') {
                 $('.chartContainer').width((deviceInfo.width - 50));
             } else {
@@ -29,7 +28,7 @@ function initView(_view_id) {
             setTileSize('.eqLogic');
             setTileSize('.scenario');
             $('.eqLogicZone').masonry();
-        }, 1);
+        });
     } else {
         $('#panel_right').panel('open');
     }
