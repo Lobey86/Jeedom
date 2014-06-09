@@ -134,7 +134,6 @@ function logout() {
 function isConnect($_right = '') {
     if (isset($_SESSION['user']) && is_object($_SESSION['user'])) {
         if ($_SESSION['user']->is_Connected()) {
-            connection::success($_SESSION['user']->getLogin());
             if ($_right != '') {
                 return ($_SESSION['user']->getRights($_right) == 1) ? true : false;
             } else {
