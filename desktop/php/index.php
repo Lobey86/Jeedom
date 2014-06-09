@@ -134,6 +134,8 @@ $plugins_list = plugin::listPlugin(true, true);
                                             <li class="dropdown-submenu"><a href="#"><i class="fa fa-cogs"></i> Administration</a>
                                                 <ul class="dropdown-menu">
                                                     <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> {{Configuration}}</a></li>
+                                                    <li><a href="index.php?v=d&p=user"><i class="fa fa-users"></i> {{Utilisateurs}}</a></li>
+                                                    <li><a href="index.php?v=d&p=backup"><i class="fa fa-floppy-o"></i> {{Sauvegarde}}</a></li>
                                                     <li><a href="index.php?v=d&p=update"><i class="fa fa-refresh"></i> {{Centre de mise à jour}}</a></li>
                                                     <li class="expertModeVisible"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
                                                     <li class='expertModeVisible'><a href="index.php?v=d&p=security"><i class="fa fa-lock"></i> {{Sécurité}}</a></li>

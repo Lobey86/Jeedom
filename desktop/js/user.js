@@ -16,69 +16,66 @@
  */
 
 $(function() {
-    $("#bt_genKeyAPI").on('click', function(event) {
+
+    printUsers();
+
+    $("#bt_addUser").on('click', function(event) {
         $.hideAlert();
-        genKeyAPI();
+        $('#in_newUserLogin').value('');
+        $('#in_newUserMdp').value('');
+        $('#md_newUser').modal('show');
     });
 
-    $("#bt_nodeJsKey").on('click', function(event) {
+    $("#bt_newUserSave").on('click', function(event) {
         $.hideAlert();
-        genNodeJsKey();
+        var user = [{login: $('#in_newUserLogin').value(), password: $('#in_newUserMdp').value()}];
+        saveUser(user);
+        $('#md_newUser').modal('hide');
     });
 
-    $("#bt_flushMemcache").on('click', function(event) {
-        $.hideAlert();
-        flushMemcache();
+    $("#bt_saveUser").on('click', function(event) {
+        var users = $('#table_user tbody tr').getValues('.userAttr');
+        saveUser(users);
     });
 
-    $("#bt_saveGeneraleConfig").on('click', function(event) {
+    $("#table_user").delegate(".del_user", 'click', function(event) {
         $.hideAlert();
-        saveConvertColor();
-        saveConfiguration($('#config'));
-    });
-
-    $("#bt_testLdapConnection").on('click', function(event) {
-        $.hideAlert();
-        $.ajax({
-            type: 'POST',
-            url: 'core/ajax/user.ajax.php',
-            data: {
-                action: 'testLdapConneciton',
-            },
-            dataType: 'json',
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) {
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: '{{Connexion échoué :}} ' + data.result, level: 'danger'});
-                    return;
-                }
-                $('#div_alert').showAlert({message: '{{Connexion réussie}}', level: 'success'});
+        var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value()};
+        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer cet utilisateur ?}}', function(result) {
+            if (result) {
+                delUser(user);
             }
         });
-        return false;
     });
 
-    $('#bt_addColorConvert').on('click', function() {
-        addConvertColor();
+    $("#table_user").delegate(".change_mdp_user", 'click', function(event) {
+        $.hideAlert();
+        var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value(), login: $(this).closest('tr').find('.userAttr[data-l1key=login]').value()};
+        bootbox.prompt("{{Quel est le nouveau mot de passe ?}}", function(result) {
+            if (result !== null) {
+                user.password = result;
+                addEditUser(user);
+            }
+        });
     });
-
-    printConvertColor();
 
     loadConfiguration($('body'));
+
+    $('body').delegate('.userAttr', 'change', function() {
+        modifyWithoutSave = true;
+    });
 
     $('body').delegate('.configKey', 'change', function() {
         modifyWithoutSave = true;
     });
 });
 
-function genKeyAPI() {
+function printUsers() {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
-            action: "genKeyAPI"
+            action: "all"
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -89,49 +86,77 @@ function genKeyAPI() {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#in_keyAPI').value(data.result);
+
+            $('#table_user tbody').empty();
+            for (var i in data.result) {
+                var ligne = '<tr><td class="login">';
+                ligne += '<span class="userAttr" data-l1key="id" style="display : none;"/>';
+                ligne += '<span class="userAttr" data-l1key="login" />';
+                ligne += '</td>';
+                ligne += '<td>';
+                if (ldapEnable != '1') {
+                    ligne += '<a class="btn btn-xs btn-danger pull-right del_user"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>';
+                    ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user"><i class="fa fa-pencil"></i> {{Changer le mot de passe}}</a>';
+                }
+                ligne += '</td>';
+                ligne += '<td>';
+                ligne += '<input type="checkbox" class="userAttr" data-l1key="rights" data-l2key="admin"/> Admin';
+                ligne += '</td>';
+                ligne += '</tr>';
+                $('#table_user tbody').append(ligne);
+                $('#table_user tbody tr:last').setValues(data.result[i], '.userAttr');
+                modifyWithoutSave = false;
+            }
         }
     });
 }
 
-function genNodeJsKey() {
+
+function delUser(_user) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
-            action: "genNodeJsKey"
+            action: "delUser",
+            id: _user.id
         },
         dataType: 'json',
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
         success: function(data) { // si l'appel a bien fonctionné
+            printUsers();
+            $.hideLoading();
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#in_nodeJsKey').value(data.result);
+            $('#div_alert').showAlert({message: '{{L\'utilisateur a bien été supprimé}}', level: 'success'});
         }
     });
 }
 
-function flushMemcache() {
+function saveUser(_users) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/jeedom.ajax.php", // url du fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
-            action: "flushcache"
+            action: "save",
+            users: json_encode(_users)
         },
         dataType: 'json',
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
         success: function(data) { // si l'appel a bien fonctionné
+            printUsers();
+            $.hideLoading();
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: '{{Cache vidé}}', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+            modifyWithoutSave = false;
         }
     });
 }
@@ -183,76 +208,6 @@ function loadConfiguration(_el) {
                 return;
             }
             _el.setValues(data.result, '.configKey');
-            modifyWithoutSave = false;
-        }
-    });
-}
-
-
-/********************Convertion************************/
-function printConvertColor() {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: "getKey",
-            key: 'convertColor'
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-
-            $('#table_convertColor tbody').empty();
-            for (var color in data.result) {
-                addConvertColor(color, data.result[color]);
-            }
-            modifyWithoutSave = false;
-        }
-    });
-}
-
-function addConvertColor(_color, _html) {
-    var tr = '<tr>';
-    tr += '<td>';
-    tr += '<input class="color form-control input-sm" value="' + init(_color) + '"/>';
-    tr += '</td>';
-    tr += '<td>';
-    tr += '<input type="color" class="html form-control input-sm" value="' + init(_html) + '" />';
-    tr += '</td>';
-    tr += '</tr>';
-    $('#table_convertColor tbody').append(tr);
-    modifyWithoutSave = true;
-}
-
-function saveConvertColor() {
-    var value = {};
-    var colors = {};
-    $('#table_convertColor tbody tr').each(function() {
-        colors[$(this).find('.color').value()] = $(this).find('.html').value();
-    });
-    value.convertColor = colors;
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: 'addKey',
-            value: json_encode(value)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
             modifyWithoutSave = false;
         }
     });

@@ -78,9 +78,17 @@ $PAGE_DESCRIPTOR_DESKTOP = array(
         'pageName' => 'update',
         'title' => 'Centre de mise à jour',
     ),
-     'security' => array(
+    'security' => array(
         'pageName' => 'security',
         'title' => 'Connexion à Jeedom',
+    ),
+    'user' => array(
+        'pageName' => 'user',
+        'title' => 'Utilisateur',
+    ),
+    'backup' => array(
+        'pageName' => 'backup',
+        'title' => 'Sauevegarde'
     ),
         /*         * *************************Mobile*********************************** */
 );
