@@ -18,7 +18,13 @@
 $(function() {
     $("#bt_saveBackup").on('click', function(event) {
         $.hideAlert();
-        saveConfiguration($('#backup'));
+        var configuration = $('#backup').getValues('.configKey');
+        config.save(configuration[0], function() {
+            var configuration = $('#backup').getValues('.configKey');
+            $('#backup').setValues(config.load(configuration[0]), '.configKey');
+            modifyWithoutSave = false;
+            $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
+        });
     });
 
     $("#bt_saveUser").on('click', function(event) {
@@ -142,7 +148,8 @@ $(function() {
         });
     });
 
-    loadConfiguration($('body'));
+    var configuration = $('#backup').getValues('.configKey');
+    $('#backup').setValues(config.load(configuration[0]), '.configKey');
     updateListBackup();
 
     $('body').delegate('.configKey', 'change', function() {
@@ -217,58 +224,6 @@ function updateListBackup() {
                 options += '<option value="' + i + '">' + data.result[i] + '</option>';
             }
             $('#sel_restoreBackup').html(options);
-        }
-    });
-}
-
-function saveConfiguration(_el) {
-    var configuration = _el.getValues('.configKey');
-    configuration = configuration[0];
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: "addKey",
-            value: json_encode(configuration)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
-            modifyWithoutSave = false;
-            loadConfiguration(_el);
-        }
-    });
-}
-
-function loadConfiguration(_el) {
-    var configuration = _el.getValues('.configKey');
-    configuration = configuration[0];
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: "getKey",
-            plugin: 'core',
-            key: json_encode(configuration)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            _el.setValues(data.result, '.configKey');
-            modifyWithoutSave = false;
         }
     });
 }

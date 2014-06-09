@@ -25,4 +25,5 @@ include_file('core', 'scenario', 'class.js');
 include_file('core', 'plugin', 'class.js');
 include_file('core', 'message', 'class.js');
 include_file('core', 'view', 'class.js');
+include_file('core', 'config', 'class.js');
 ?>
