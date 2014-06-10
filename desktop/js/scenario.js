@@ -72,7 +72,19 @@ $(function() {
     $("#bt_addScenario").on('click', function(event) {
         bootbox.prompt("Nom du scénario ?", function(result) {
             if (result !== null) {
-                addScenario(result);
+                $.hideAlert();
+                jeedom.scenario.save({name: result}, function(data) {
+                    var vars = getUrlVars();
+                    var url = 'index.php?';
+                    for (var i in vars) {
+                        if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                            url += i + '=' + vars[i].replace('#', '') + '&';
+                        }
+                    }
+                    url += 'id=' + data.id + '&saveSuccessFull=1';
+                    modifyWithoutSave = false;
+                    window.location.href = url;
+                });
             }
         });
     });
@@ -85,30 +97,35 @@ $(function() {
         $.hideAlert();
         bootbox.confirm('{{Etes-vous sûr de vouloir supprimer le scénario}} <span style="font-weight: bold ;">' + $('.scenarioAttr[data-l1key=name]').value() + '</span> ?', function(result) {
             if (result) {
-                removeScenario($('.scenarioAttr[data-l1key=id]').value());
+                jeedom.scenario.remove($('.scenarioAttr[data-l1key=id]').value(), function() {
+                    modifyWithoutSave = false;
+                    window.location.replace('index.php?v=d&p=scenario');
+                });
             }
         });
     });
 
     $("#bt_testScenario").on('click', function() {
         $.hideAlert();
-        execScenario($('.scenarioAttr[data-l1key=id]').value());
+        jeedom.scenario.changeState($('.scenarioAttr[data-l1key=id]').value(), 'start', function() {
+            $('#div_alert').showAlert({message: '{{Lancement du scénario réussie}}', level: 'success'});
+        });
     });
 
     $("#bt_copyScenario").on('click', function() {
         bootbox.prompt("Nom du scénario ?", function(result) {
             if (result !== null) {
-                copyScenario($('.scenarioAttr[data-l1key=id]').value(), result);
+                jeedom.scenario.copy($('.scenarioAttr[data-l1key=id]').value(), result, function(data) {
+                    window.location.replace('index.php?v=d&p=scenario&id=' + data.id);
+                });
             }
         });
     });
 
-    $("#bt_copyScenarioSave").on('click', function(event) {
-        copyScenario($('.scenarioAttr[data-l1key=id]').value(), $('#in_copyScenarioName').value());
-    });
-
     $("#bt_stopScenario").on('click', function(event) {
-        stopScenario($('.scenarioAttr[data-l1key=id]').value());
+        jeedom.scenario.changeState($('.scenarioAttr[data-l1key=id]').value(), 'stop', function() {
+            printScenario($('.scenarioAttr[data-l1key=id]').value());
+        });
     });
 
     $('#bt_displayScenarioVariable').on('click', function() {
@@ -350,179 +367,86 @@ function setAutocomplete() {
     $('.autoCompleteCondition').sew({values: autoCompleteCondition, token: '#'})
 }
 
-function copyScenario(_scenario_id, _name) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "copyScenario",
-            id: _scenario_id,
-            name: _name
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('#div_copyScenarioAlert'));
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_copyScenarioAlert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            window.location.replace('index.php?v=d&p=scenario&id=' + data.result.id);
-        }
-    });
-}
-
-function stopScenario(_scenario_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "changeState",
-            id: _scenario_id,
-            state: 'stop',
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('#div_copyScenarioAlert'));
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $.hideLoading();
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            printScenario(_scenario_id);
-        }
-    });
-}
-
-function addScenario(_name) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "addScenario",
-            name: _name,
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('#div_addScenarioAlert'));
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_addScenarioAlert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            window.location.replace('index.php?v=d&p=scenario&id=' + data.result.id);
-        }
-    });
-}
-
 function printScenario(_id) {
-    $.showLoading();
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "getScenario",
-            id: _id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $.hideLoading();
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            pColor = 0;
-            $('.scenarioAttr').value('');
-            $('#table_scenarioCondition tbody').empty();
-            $('#table_scenarioAction tbody').empty();
-            $('#table_trigger tbody').empty();
-            $('body').setValues(data.result, '.scenarioAttr');
-            $('#span_type').text(data.result.type);
-            data.result.lastLaunch = (data.result.lastLaunch == null) ? '{{Jamais}}' : data.result.lastLaunch;
-            $('#span_lastLaunch').text(data.result.lastLaunch);
+    jeedom.scenario.get(_id, function(data) {
+        pColor = 0;
+        $('.scenarioAttr').value('');
+        $('#table_scenarioCondition tbody').empty();
+        $('#table_scenarioAction tbody').empty();
+        $('#table_trigger tbody').empty();
+        $('body').setValues(data, '.scenarioAttr');
+        $('#span_type').text(data.type);
+        data.lastLaunch = (data.lastLaunch == null) ? '{{Jamais}}' : data.lastLaunch;
+        $('#span_lastLaunch').text(data.lastLaunch);
 
-            $('#div_scenarioElement').empty();
-            $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a>');
-            $('.provokeMode').empty();
-            $('.scheduleMode').empty();
-            $('.scenarioAttr[data-l1key=mode]').trigger('change');
-            for (var i in data.result.schedules) {
-                $('#div_schedules').schedule.display(data.result.schedules[i]);
-            }
-            $('#bt_stopScenario').hide();
-            switch (data.result.state) {
-                case 'error' :
-                    $('#span_ongoing').text('Erreur');
-                    $('#span_ongoing').removeClass('label-info label-danger label-success').addClass('label-warning');
-                    break;
-                case 'on' :
-                    $('#span_ongoing').text('Actif');
-                    $('#span_ongoing').removeClass('label-info label-danger label-warning').addClass('label-success');
-                    break;
-                case 'in progress' :
-                    $('#span_ongoing').text('En cours');
-                    $('#span_ongoing').addClass('label-success');
-                    $('#span_ongoing').removeClass('label-success label-danger label-warning').addClass('label-info');
-                    $('#bt_stopScenario').show();
-                    break;
-                case 'stop' :
-                    $('#span_ongoing').text('Arrêté');
-                    $('#span_ongoing').removeClass('label-info label-success label-warning').addClass('label-danger');
-                    break;
-            }
-
-            if (data.result.isActive != 1) {
-                $('#in_ongoing').text('Inactif');
-                $('#in_ongoing').removeClass('label-danger');
-                $('#in_ongoing').removeClass('label-success');
-            }
-
-            if ($.isArray(data.result.trigger)) {
-                for (var i in data.result.trigger) {
-                    if (data.result.trigger[i] != '' && data.result.trigger[i] != null) {
-                        addTrigger(data.result.trigger[i]);
-                    }
-                }
-            } else {
-                if (data.result.trigger != '' && data.result.trigger != null) {
-                    addTrigger(data.result.trigger);
-                }
-            }
-
-            if ($.isArray(data.result.schedule)) {
-                for (var i in data.result.schedule) {
-                    if (data.result.schedule[i] != '' && data.result.schedule[i] != null) {
-                        addSchedule(data.result.schedule[i]);
-                    }
-                }
-            } else {
-                if (data.result.schedule != '' && data.result.schedule != null) {
-                    addSchedule(data.result.schedule);
-                }
-            }
-
-            for (var i in data.result.elements) {
-                $('#div_scenarioElement').append(addElement(data.result.elements[i]));
-            }
-
-            updateSortable();
-
-            setEditor();
-            setAutocomplete();
-            $('#div_editScenario').show();
-            $.hideLoading();
-            modifyWithoutSave = false;
-            setTimeout(function() {
-                modifyWithoutSave = false;
-            }, 1000);
+        $('#div_scenarioElement').empty();
+        $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a>');
+        $('.provokeMode').empty();
+        $('.scheduleMode').empty();
+        $('.scenarioAttr[data-l1key=mode]').trigger('change');
+        for (var i in data.schedules) {
+            $('#div_schedules').schedule.display(data.schedules[i]);
         }
+        $('#bt_stopScenario').hide();
+        switch (data.state) {
+            case 'error' :
+                $('#span_ongoing').text('Erreur');
+                $('#span_ongoing').removeClass('label-info label-danger label-success').addClass('label-warning');
+                break;
+            case 'on' :
+                $('#span_ongoing').text('Actif');
+                $('#span_ongoing').removeClass('label-info label-danger label-warning').addClass('label-success');
+                break;
+            case 'in progress' :
+                $('#span_ongoing').text('En cours');
+                $('#span_ongoing').addClass('label-success');
+                $('#span_ongoing').removeClass('label-success label-danger label-warning').addClass('label-info');
+                $('#bt_stopScenario').show();
+                break;
+            case 'stop' :
+                $('#span_ongoing').text('Arrêté');
+                $('#span_ongoing').removeClass('label-info label-success label-warning').addClass('label-danger');
+                break;
+        }
+        if (data.isActive != 1) {
+            $('#in_ongoing').text('Inactif');
+            $('#in_ongoing').removeClass('label-danger');
+            $('#in_ongoing').removeClass('label-success');
+        }
+        if ($.isArray(data.trigger)) {
+            for (var i in data.trigger) {
+                if (data.trigger[i] != '' && data.trigger[i] != null) {
+                    addTrigger(data.trigger[i]);
+                }
+            }
+        } else {
+            if (data.trigger != '' && data.trigger != null) {
+                addTrigger(data.trigger);
+            }
+        }
+        if ($.isArray(data.schedule)) {
+            for (var i in data.schedule) {
+                if (data.schedule[i] != '' && data.schedule[i] != null) {
+                    addSchedule(data.schedule[i]);
+                }
+            }
+        } else {
+            if (data.schedule != '' && data.schedule != null) {
+                addSchedule(data.schedule);
+            }
+        }
+        for (var i in data.elements) {
+            $('#div_scenarioElement').append(addElement(data.elements[i]));
+        }
+        updateSortable();
+        setEditor();
+        setAutocomplete();
+        $('#div_editScenario').show();
+        $.hideLoading();
+        modifyWithoutSave = false;
+        setTimeout(function() {
+            modifyWithoutSave = false;
+        }, 1000);
     });
 }
 
@@ -535,81 +459,17 @@ function saveScenario() {
         elements.push(getElement($(this)));
     });
     scenario.elements = elements;
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "saveScenario",
-            scenario: json_encode(scenario),
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
+    jeedom.scenario.save(scenario, function(data) {
+        var vars = getUrlVars();
+        var url = 'index.php?';
+        for (var i in vars) {
+            if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                url += i + '=' + vars[i].replace('#', '') + '&';
             }
-            var vars = getUrlVars();
-            var url = 'index.php?';
-            for (var i in vars) {
-                if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
-                    url += i + '=' + vars[i].replace('#', '') + '&';
-                }
-            }
-            url += 'id=' + scenario.id + '&saveSuccessFull=1';
-            modifyWithoutSave = false;
-            window.location.href = url;
         }
-    });
-}
-
-function removeScenario(_scenario_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "removeScenario",
-            id: _scenario_id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $.hideLoading();
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            modifyWithoutSave = false;
-            window.location.replace('index.php?v=d&p=scenario');
-        }
-    });
-}
-
-function execScenario(_scenario_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "changeState",
-            id: _scenario_id,
-            state: 'start',
-            force: true
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Exécution réussie}}', level: 'success'});
-        }
+        url += 'id=' + data.id + '&saveSuccessFull=1';
+        modifyWithoutSave = false;
+        window.location.href = url;
     });
 }
 

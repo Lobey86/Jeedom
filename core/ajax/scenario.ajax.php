@@ -24,14 +24,6 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
-    if (init('action') == 'addScenario') {
-        $scenario = new scenario();
-        $scenario->setName(init('name'));
-        $scenario->setIsActive(1);
-        $scenario->save();
-        ajax::success(array('id' => $scenario->getId()));
-    }
-
     if (init('action') == 'changeState') {
         $scenario = scenario::byId(init('id'));
         if (!is_object($scenario)) {
@@ -104,7 +96,7 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'removeScenario') {
+    if (init('action') == 'remove') {
         $scenario = scenario::byId(init('id'));
         if (!is_object($scenario)) {
             throw new Exception(__('Scénario ID inconnu', __FILE__));
@@ -113,7 +105,7 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'copyScenario') {
+    if (init('action') == 'copy') {
         $scenario = scenario::byId(init('id'));
         if (!is_object($scenario)) {
             throw new Exception(__('Scénario ID inconnu', __FILE__));
@@ -121,7 +113,7 @@ try {
         ajax::success(utils::o2a($scenario->copy(init('name'))));
     }
 
-    if (init('action') == 'getScenario') {
+    if (init('action') == 'get') {
         $scenario = scenario::byId(init('id'));
         if (!is_object($scenario)) {
             throw new Exception(__('Scénario ID inconnu', __FILE__));
@@ -137,23 +129,26 @@ try {
         ajax::success($return);
     }
 
-    if (init('action') == 'saveScenario') {
+    if (init('action') == 'save') {
         $scenario_ajax = json_decode(init('scenario'), true);
         if (isset($scenario_ajax['id'])) {
             $scenario_db = scenario::byId($scenario_ajax['id']);
         }
         if (!isset($scenario_db) || !is_object($scenario_db)) {
-            throw new Exception(__('Scénario inconnue verifié l\'id : ', __FILE__) . $scenario_ajax['id']);
+            $scenario_db = new scenario();
+            $scenario_db->setIsActive(1);
         }
         utils::a2o($scenario_db, $scenario_ajax);
         $scenario_db->save();
         $scenario_element_list = array();
-        foreach ($scenario_ajax['elements'] as $element_ajax) {
-            $scenario_element_list[] = scenarioElement::saveAjaxElement($element_ajax);
+        if (isset($scenario_ajax['elements'])) {
+            foreach ($scenario_ajax['elements'] as $element_ajax) {
+                $scenario_element_list[] = scenarioElement::saveAjaxElement($element_ajax);
+            }
+            $scenario_db->setScenarioElement($scenario_element_list);
         }
-        $scenario_db->setScenarioElement($scenario_element_list);
         $scenario_db->save();
-        ajax::success();
+        ajax::success(utils::o2a($scenario_db));
     }
 
     if (init('action') == 'actionToHtml') {

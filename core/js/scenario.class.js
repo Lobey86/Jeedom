@@ -146,4 +146,107 @@ jeedom.scenario.refreshValue = function(_scenario_id) {
             }
         });
     }
-}
+};
+
+
+jeedom.scenario.copy = function(_id, _name, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/scenario.ajax.php", // url du fichier php
+        data: {
+            action: "copy",
+            id: _id,
+            name: _name
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error, $('#div_copyScenarioAlert'));
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_copyScenarioAlert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+};
+
+
+jeedom.scenario.get = function(_id, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/scenario.ajax.php", // url du fichier php
+        data: {
+            action: "get",
+            id: _id
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $.hideLoading();
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+};
+
+jeedom.scenario.save = function(_scenario, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/scenario.ajax.php", // url du fichier php
+        data: {
+            action: "save",
+            scenario: json_encode(_scenario),
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+};
+
+jeedom.scenario.remove = function(_id, _callback) {
+   $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/scenario.ajax.php", // url du fichier php
+        data: {
+            action: "remove",
+            id: _id
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $.hideLoading();
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback();
+            }
+            modifyWithoutSave = false;
+            window.location.replace('index.php?v=d&p=scenario');
+        }
+    });
+};
