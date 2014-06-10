@@ -260,7 +260,7 @@ function editView() {
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/view.ajax.php", // url du fichier php
         data: {
-            action: "editView",
+            action: "edit",
             name: $('#in_addViewName').value(),
             id: $('#in_addViewId').value(),
         },

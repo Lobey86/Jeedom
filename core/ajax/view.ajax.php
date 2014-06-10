@@ -24,7 +24,7 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
-    if (init('action') == 'editView') {
+    if (init('action') == 'edit') {
         $view = view::byId(init('id'));
         if (!is_object($view)) {
             $view = new view();
