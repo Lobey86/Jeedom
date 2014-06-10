@@ -33,4 +33,5 @@ include_file('core', 'update', 'class.js');
 include_file('core', 'user', 'class.js');
 include_file('core', 'backup', 'class.js');
 include_file('core', 'interact', 'class.js');
+include_file('core', 'update', 'class.js');
 ?>

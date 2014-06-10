@@ -40,8 +40,8 @@ foreach (plugin::listPlugin() as $pluginList) {
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">{{Notifier des évenements}}</label>
-                            <div class="col-sm-3">
+                            <label class="col-md-1 control-label">{{Notifier des évenements}}</label>
+                            <div class="col-md-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="notifyEvent">
                                     <?php
                                     foreach ($notifyTheme as $key => $value) {
@@ -52,8 +52,8 @@ foreach (plugin::listPlugin() as $pluginList) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">{{Notifier du lancement des scénarios}}</label>
-                            <div class="col-sm-3">
+                            <label class="col-md-1 control-label">{{Notifier du lancement des scénarios}}</label>
+                            <div class="col-md-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="notifyLaunchScenario">
                                     <?php
                                     foreach ($notifyTheme as $key => $value) {
@@ -64,8 +64,8 @@ foreach (plugin::listPlugin() as $pluginList) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">{{Notifier nouveau message}}</label>
-                            <div class="col-sm-3">
+                            <label class="col-md-1 control-label">{{Notifier nouveau message}}</label>
+                            <div class="col-md-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="notifyNewMessage">
                                     <?php
                                     foreach ($notifyTheme as $key => $value) {
@@ -94,8 +94,8 @@ foreach (plugin::listPlugin() as $pluginList) {
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">{{Page d'accueil}}</label>
-                            <div class="col-sm-3">
+                            <label class="col-md-1 control-label">{{Page d'accueil}}</label>
+                            <div class="col-md-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="homePage">
                                     <?php
                                     foreach ($homePage as $key => $value) {
@@ -108,8 +108,8 @@ foreach (plugin::listPlugin() as $pluginList) {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">{{Vue par défault(desktop)}}</label>
-                            <div class="col-sm-3">
+                            <label class="col-md-1 control-label">{{Vue par défault(desktop)}}</label>
+                            <div class="col-md-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDesktopView">
                                     <?php
                                     foreach (view::all() as $view) {
@@ -121,8 +121,8 @@ foreach (plugin::listPlugin() as $pluginList) {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">{{Objet par défault(desktop)}}</label>
-                            <div class="col-sm-3">
+                            <label class="col-md-1 control-label">{{Objet par défault(desktop)}}</label>
+                            <div class="col-md-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardObject">
                                     <?php
                                     foreach (object::all() as $object) {
@@ -152,8 +152,8 @@ foreach (plugin::listPlugin() as $pluginList) {
                     <fieldset>
 
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">{{Mot de passe}}</label>
-                            <div class="col-sm-3">
+                            <label class="col-md-1 control-label">{{Mot de passe}}</label>
+                            <div class="col-md-3">
                                 <input type="password" class="userAttr form-control" data-l1key="password" />
                             </div>
                         </div>

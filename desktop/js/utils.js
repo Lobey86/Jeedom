@@ -180,7 +180,7 @@ $(function() {
 });
 
 function initRowOverflow() {
-    if ($(window).width() < 750) {
+    if ($(window).width() < 980) {
         $('.row-overflow > div').css('height', 'auto').css('overflow-y', 'initial').css('overflow-x', 'initial');
     } else {
         var hWindow = $(window).height() - $('header').height() - $('footer').height() - 50;
@@ -323,7 +323,8 @@ function chooseIcon(callback) {
 
 
 function positionEqLogic(_id, _noResize) {
-    var pas = 40;
+    var pasW = 40;
+    var pasH = 80;
     $('.eqLogic-widget').each(function() {
         if (init(_id, '') == '' || $(this).attr('data-eqLogic_id') == _id) {
             var eqLogic = $(this);
@@ -340,10 +341,10 @@ function positionEqLogic(_id, _noResize) {
             });
             if (!init(_noResize, false)) {
                 eqLogic.find('.cmd-widget').height(maxHeight);
-                var hMarge = (Math.ceil(eqLogic.height() / pas) - 1) * 6;
-                var wMarge = (Math.ceil(eqLogic.width() / pas) - 1) * 6;
-                eqLogic.height((Math.ceil((eqLogic.height()) / pas) * pas) - 6 + hMarge);
-                eqLogic.width((Math.ceil((eqLogic.width()) / pas) * pas) - 6 + wMarge);
+                var hMarge = (Math.ceil(eqLogic.height() / pasH) - 1) * 6;
+                var wMarge = (Math.ceil(eqLogic.width() / pasW) - 1) * 6;
+                eqLogic.height((Math.ceil((eqLogic.height()) / pasH) * pasH) - 6 + hMarge);
+                eqLogic.width((Math.ceil((eqLogic.width()) / pasW) * pasW) - 6 + wMarge);
             }
 
             var verticalAlign = eqLogic.find('.verticalAlign');

@@ -57,34 +57,34 @@ function displayCmd(_cmd_id) {
     jeedom.cmd.byId(_cmd_id, function(data) {
         $('#div_displayInfo').empty();
         var div = '<div class="row">';
-        div += '<div class="col-sm-6" >';
+        div += '<div class="col-md-6" >';
         div += '<form class="form-horizontal">';
         div += '<fieldset>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{ID}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{ID}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="cmdAttr label label-primary" data-l1key="id"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Nom}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Nom}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="cmdAttr label label-primary" data-l1key="name"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Type}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Type}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="cmdAttr label label-primary" data-l1key="type"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Sous-type}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Sous-type}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="cmdAttr label label-primary" data-l1key="subType"></span>';
         div += '</div>';
         div += '</div>';
@@ -92,37 +92,37 @@ function displayCmd(_cmd_id) {
         div += '</fieldset>';
         div += '</form>';
         div += '</div>';
-        div += '<div class="col-sm-6" >';
+        div += '<div class="col-md-6" >';
 
 
         div += '<form class="form-horizontal">';
         div += '<fieldset>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Unité}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Unité}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="cmdAttr label label-primary" data-l1key="unite"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Memcache}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Memcache}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="cmdAttr label label-primary tooltips" data-l1key="cache" data-l2key="enable" title="{{Actif}}"></span> ';
         div += '<span class="label label-default tooltips" title="{{Durée du cache}}"><span class="cmdAttr" data-l1key="cache" data-l2key="lifetime"></span> {{seconde(s)}}</span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Historisé}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Historisé}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="cmdAttr label label-primary" data-l1key="isHistorized"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Evenement seulement}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Evenement seulement}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="cmdAttr label label-primary" data-l1key="eventOnly"></span>';
         div += '</div>';
         div += '</div>';
@@ -139,8 +139,8 @@ function displayCmd(_cmd_id) {
         div += '<fieldset>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-2 control-label">{{Dashboard widget}}</label>';
-        div += '<div class="col-sm-3">';
+        div += '<label class="col-md-2 control-label">{{Dashboard widget}}</label>';
+        div += '<div class="col-md-3">';
         div += '<select class="form-control cmdAttr" data-l1key="template" data-l2key="dashboard">';
         for (var i in cmd_widgetDashboard[data.type][data.subType]) {
             div += '<option>' + cmd_widgetDashboard[data.type][data.subType][i].name + '</option>';
@@ -150,8 +150,8 @@ function displayCmd(_cmd_id) {
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-2 control-label">{{Mobile widget}}</label>';
-        div += '<div class="col-sm-3">';
+        div += '<label class="col-md-2 control-label">{{Mobile widget}}</label>';
+        div += '<div class="col-md-3">';
         div += '<select class="form-control cmdAttr" data-l1key="template" data-l2key="mobile">';
         for (var i in cmd_widgetMobile[data.type][data.subType]) {
             div += '<option>' + cmd_widgetMobile[data.type][data.subType][i].name + '</option>';
@@ -184,22 +184,22 @@ function displayObject(_object_id) {
         div += '<fieldset>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-2 control-label">{{ID}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-2 control-label">{{ID}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="objectAttr label label-primary" data-l1key="id"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-2 control-label">{{Nom}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-2 control-label">{{Nom}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="objectAttr label label-primary" data-l1key="name"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-2 control-label">{{Visible}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-2 control-label">{{Visible}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="objectAttr label label-primary" data-l1key="isVisible"></span>';
         div += '</div>';
         div += '</div>';
@@ -220,34 +220,34 @@ function displayEqLogic(_eqLogic_id) {
     jeedom.eqLogic.byId(_eqLogic_id, function(data) {
         $('#div_displayInfo').empty();
         var div = '<div class="row">';
-        div += '<div class="col-sm-6" >';
+        div += '<div class="col-md-6" >';
         div += '<form class="form-horizontal">';
         div += '<fieldset>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{ID}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{ID}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="eqLogicAttr label label-primary" data-l1key="id"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Nom}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Nom}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="eqLogicAttr label label-primary" data-l1key="name"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Logical ID}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Logical ID}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="eqLogicAttr label label-primary" data-l1key="logicalId"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Object ID}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Object ID}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="eqLogicAttr label label-primary" data-l1key="object_id"></span>';
         div += '</div>';
         div += '</div>';
@@ -255,34 +255,34 @@ function displayEqLogic(_eqLogic_id) {
         div += '</fieldset>';
         div += '</form>';
         div += '</div>';
-        div += '<div class="col-sm-6" >';
+        div += '<div class="col-md-6" >';
         div += '<form class="form-horizontal">';
         div += '<fieldset>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Type}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Type}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="eqLogicAttr label label-primary" data-l1key="eqType_name"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Activer}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Activer}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="eqLogicAttr label label-primary" data-l1key="isEnable"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Visible}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Visible}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="eqLogicAttr label label-primary" data-l1key="isVisible"></span>';
         div += '</div>';
         div += '</div>';
 
         div += '<div class="form-group">';
-        div += '<label class="col-sm-4 control-label">{{Tentative échouée}}</label>';
-        div += '<div class="col-sm-4">';
+        div += '<label class="col-md-4 control-label">{{Tentative échouée}}</label>';
+        div += '<div class="col-md-4">';
         div += '<span class="eqLogicAttr label label-primary" data-l1key="status" data-l2key="numberTryWithoutSuccess"></span>';
         div += '</div>';
         div += '</div>';

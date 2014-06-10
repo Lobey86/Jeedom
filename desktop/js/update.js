@@ -30,7 +30,7 @@ $(function() {
     });
 
     $('#bt_checkAllUpdate').on('click', function() {
-        jeedom.update.all(function() {
+        jeedom.update.checkAll(function() {
             printUpdate();
         });
     });

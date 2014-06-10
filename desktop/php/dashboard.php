@@ -16,7 +16,7 @@ $child_object = object::buildTree($object);
 ?>
 
 <div class="row row-overflow">
-    <div class="col-sm-2">
+    <div class="col-md-2">
         <div class="bs-sidebar">
             <ul id="ul_object" class="nav nav-list bs-sidenav">
                 <li class="nav-header">{{Liste objets}} </li>
@@ -38,7 +38,7 @@ $child_object = object::buildTree($object);
         </div>
     </div>
 
-    <div class="col-sm-8" id="div_displayObject">
+    <div class="col-md-8" id="div_displayObject">
         <div style="position: fixed;width: 100%;z-index: 1029;top : 51px;left : 35%">
             <div class="btn-group tooltips" title="{{Filtre sur les catégories d'équipement}}">
                 <?php
@@ -84,7 +84,7 @@ $child_object = object::buildTree($object);
         echo '</div>';
         ?>
     </div>
-    <div class="col-sm-2">
+    <div class="col-md-2">
         <legend>{{Scénarios}}</legend>
         <?php
         if (init('object_id') == 'global') {
