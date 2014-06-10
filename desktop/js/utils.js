@@ -138,7 +138,7 @@ $(function() {
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/user.ajax.php", // url du fichier php
             data: {
-                action: "saveUser",
+                action: "saveProfils",
                 user: json_encode(value)
             },
             dataType: 'json',
