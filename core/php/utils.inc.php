@@ -146,12 +146,7 @@ function getTemplate($_folder, $_version, $_filename, $_plugin = '') {
 
 function template_replace($_array, $_subject) {
     if (is_array($_array)) {
-        $search = array_keys($_array);
-        $replace = array_values($_array);
-        if (is_array($search) && is_array($replace)) {
-            return str_replace($search, $replace, $_subject);
-        }
-        return $_subject;
+        return str_replace(array_keys($_array), array_values($_array), $_subject);
     }
     return $_subject;
 }
