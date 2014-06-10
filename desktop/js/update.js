@@ -22,13 +22,17 @@ $(function() {
         var mode = $(this).attr('data-mode');
         bootbox.confirm('{{Etes-vous sur de vouloir faire les mises à jour ?}} ', function(result) {
             if (result) {
-                updateAll(mode, level);
+                jeedom.update.all(mode, level, function() {
+                    getJeedomLog(1, 'update');
+                });
             }
         });
     });
 
     $('#bt_checkAllUpdate').on('click', function() {
-        checkAllUpdate();
+        jeedom.update.all(function() {
+            printUpdate();
+        });
     });
 
     $('#table_update').delegate('.changeState', 'click', function() {
@@ -36,7 +40,9 @@ $(function() {
         var state = $(this).attr('data-state');
         bootbox.confirm('{{Etez vous sur de vouloir changer l\'état de l\'objet ?}}', function(result) {
             if (result) {
-                changeStateUpdate(id, state);
+                jeedom.update.changeState(id, state, function() {
+                    printUpdate();
+                });
             }
         });
 
@@ -46,7 +52,9 @@ $(function() {
         var id = $(this).closest('tr').attr('data-id');
         bootbox.confirm('{{Etez vous sur de vouloir mettre a jour cet objet ?}}', function(result) {
             if (result) {
-                doUpdate(id);
+                jeedom.update.do(id, function() {
+                    getJeedomLog(1, 'update');
+                });
             }
         });
     });
@@ -55,7 +63,9 @@ $(function() {
         var id = $(this).closest('tr').attr('data-id');
         bootbox.confirm('{{Etez vous sur de vouloir supprimer cet objet ?}}', function(result) {
             if (result) {
-                removeUpdate(id);
+                jeedom.update.remove(id, function() {
+                    printUpdate();
+                });
             }
         });
     });
@@ -74,117 +84,6 @@ $(function() {
         printUpdate();
     });
 });
-
-function updateAll(_mode, _level) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'updateAll',
-            level: _level,
-            mode: _mode
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            getJeedomLog(1, 'update');
-        }
-    });
-}
-
-function changeStateUpdate(_id, _state) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'changeState',
-            id: _id,
-            state: _state
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            printUpdate();
-        }
-    });
-}
-
-function doUpdate(_id) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'update',
-            id: _id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            getJeedomLog(1, 'update');
-        }
-    });
-}
-
-function removeUpdate(_id) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'remove',
-            id: _id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            printUpdate();
-        }
-    });
-}
-
-function checkAllUpdate() {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'checkAllUpdate'
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            printUpdate();
-        }
-    });
-}
 
 function getJeedomLog(_autoUpdate, _log) {
     $.ajax({
@@ -235,28 +134,13 @@ function getJeedomLog(_autoUpdate, _log) {
 }
 
 function printUpdate() {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'all'
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#table_update tbody').empty();
-            for (var i in data.result) {
-                addUpdate(data.result[i]);
-            }
-            $('#table_update').trigger('update');
-            initTooltips();
+    jeedom.update.get(function(data) {
+        $('#table_update tbody').empty();
+        for (var i in data) {
+            addUpdate(data[i]);
         }
+        $('#table_update').trigger('update');
+        initTooltips();
     });
 }
 

@@ -45,7 +45,10 @@ $(function() {
         var tr = $(this).closest('tr');
         bootbox.confirm("{{Etês-vous sur de vouloir supprimer cette connection ? Si l\'IP :}} " + tr.find('.ip').text() + " {{était banni celle-ci ne le sera plus}}", function(result) {
             if (result) {
-                remove(tr.attr('data-id'));
+                jeedom.security.remove(tr.attr('data-id'), function() {
+                    modifyWithoutSave = false;
+                    window.location.replace('index.php?v=d&p=security&removeSuccessFull=1');
+                });
             }
         });
     });
@@ -54,7 +57,10 @@ $(function() {
         var tr = $(this).closest('tr');
         bootbox.confirm("{{Etês-vous sur de vouloir bannir cette IP  :}} " + tr.find('.ip').text() + " ?", function(result) {
             if (result) {
-                ban(tr.attr('data-id'));
+                jeedom.security.ban(tr.attr('data-id'), function() {
+                    modifyWithoutSave = false;
+                    window.location.replace('index.php?v=d&p=security&saveSuccessFull=1');
+                });
             }
         });
     });
@@ -64,49 +70,3 @@ $(function() {
         $('#config').setValues(data, '.configKey');
     });
 });
-
-function remove(_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/connection.ajax.php", // url du fichier php
-        data: {
-            action: "remove",
-            id: _id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            modifyWithoutSave = false;
-            window.location.replace('index.php?v=d&p=security&removeSuccessFull=1');
-        }
-    });
-}
-
-function ban(_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/connection.ajax.php", // url du fichier php
-        data: {
-            action: "ban",
-            id: _id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            modifyWithoutSave = false;
-            window.location.replace('index.php?v=d&p=security&saveSuccessFull=1');
-        }
-    });
-}

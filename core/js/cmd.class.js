@@ -164,9 +164,6 @@ jeedom.cmd.displayActionOption = function(_expression, _options, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-
-
-
             if (data.result.html != '') {
                 html += '<div class="alert alert-info" style="margin : 0px; padding : 3px;">';
                 html += data.result.html;
