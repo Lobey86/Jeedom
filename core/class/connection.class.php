@@ -78,7 +78,7 @@ class connection {
     }
 
     public static function protectedIp($_ip) {
-        $subnets = explode(config::byKey('security::protectIp'), ',');
+        $subnets = explode(',',config::byKey('security::protectIp'));
         foreach ($subnets as $subnet) {
             if (netMatch($subnet, $_ip)) {
                 return true;

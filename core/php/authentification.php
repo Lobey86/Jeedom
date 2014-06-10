@@ -94,7 +94,7 @@ function loginByKey($_key, $_ajax = false) {
         connection::success($user->getLogin());
         $_SESSION['user'] = $user;
         $_SESSION['userHash'] = getUserHash();
-        log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $_login);
+        log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $user->getLogin());
         $getParams = '';
         unset($_GET['auth']);
         foreach ($_GET AS $var => $value) {
