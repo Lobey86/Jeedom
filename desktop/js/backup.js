@@ -38,7 +38,6 @@ $(function() {
         var el = $(this);
         bootbox.confirm('{{Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
-
                 el.find('.fa-refresh').show();
                 jeedom.backup.backup(function() {
                     getJeedomLog(1, 'backup');
