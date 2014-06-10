@@ -5,7 +5,7 @@ if (!isConnect('admin')) {
 ?>
 
 <div class="row row-overflow">
-    <div class="col-sm-2">
+    <div class="col-md-2">
         <div class="bs-sidebar">
             <ul id="ul_interact" class="nav nav-list bs-sidenav">
                 <a id="bt_addInteract" class="btn btn-default" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter interaction}}</a>
@@ -19,59 +19,59 @@ if (!isConnect('admin')) {
             </ul>
         </div>
     </div>
-    <div class="col-sm-10 interact" style="display: none;" id="div_conf">
+    <div class="col-md-10 interact" style="display: none;" id="div_conf">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-md-6">
                 <form class="form-horizontal">
                     <fieldset>
                         <legend>{{Général}}</legend>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">{{Demande}}</label>
-                            <div class="col-sm-9">
+                            <label class="col-md-3 control-label">{{Demande}}</label>
+                            <div class="col-md-9">
                                 <input class="form-control interactAttr" type="text" data-l1key="id" style="display : none;"/>
                                 <input class="form-control interactAttr" type="text" data-l1key="query" placeholder=""/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">{{Synonyme}}</label>
-                            <div class="col-sm-9">
+                            <label class="col-md-3 control-label">{{Synonyme}}</label>
+                            <div class="col-md-9">
                                 <input class="form-control interactAttr tooltips" type="text" data-l1key="options" data-l2key="synonymes" placeholder="" title="{{Remplace les mots par leur synonymes lors de la génération des commandes}}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">{{Réponse}}</label>
-                            <div class="col-sm-9">
+                            <label class="col-md-3 control-label">{{Réponse}}</label>
+                            <div class="col-md-9">
                                 <input class="form-control interactAttr" type="text" data-l1key="reply" placeholder=""/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">{{Conversion binaire}}</label>
-                            <div class="col-sm-9">
+                            <label class="col-md-3 control-label">{{Conversion binaire}}</label>
+                            <div class="col-md-9">
                                 <input class="form-control tooltips interactAttr" type="text" data-l1key="options" data-l2key="convertBinary" placeholder="" title="{{Convertir les commandes binaire}}"/>
                             </div>
                         </div>
                     </fieldset>
                 </form>
             </div>
-            <div class="col-sm-6">
+            <div class="col-md-6">
                 <form class="form-horizontal">
                     <fieldset>
                         <legend>{{Phrases générées}}</legend>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">{{Phrase générées}}</label>
-                            <div class="col-sm-8">
+                            <label class="col-md-4 control-label">{{Phrase générées}}</label>
+                            <div class="col-md-8">
                                 <a class="btn btn-default displayInteracQuery">{{Voir}}</a>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">{{Nombre de phrase générées}}</label>
-                            <div class="col-sm-8">
+                            <label class="col-md-4 control-label">{{Nombre de phrase générées}}</label>
+                            <div class="col-md-8">
                                 <span class="label label-success interactAttr" data-l1key="nbEnableInteractQuery"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">{{Nombre de phrase actives}}</label>
-                            <div class="col-sm-8">
+                            <label class="col-md-4 control-label">{{Nombre de phrase actives}}</label>
+                            <div class="col-md-8">
                                 <span class="label label-success interactAttr" data-l1key="nbInteractQuery"></span>
                             </div>
                         </div>
@@ -82,13 +82,13 @@ if (!isConnect('admin')) {
 
 
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-md-6">
                 <form class="form-horizontal">
                     <fieldset>
                         <legend>{{Action}}</legend>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">{{Type d'action}}</label>
-                            <div class="col-sm-9">
+                            <label class="col-md-3 control-label">{{Type d'action}}</label>
+                            <div class="col-md-9">
                                 <select class="interactAttr form-control input-sm" data-l1key="link_type">';
                                     <option value="cmd">{{Commande}}</option>
                                     <option value="whatDoYouKnow">{{Que sais tu ?}}</option>
@@ -102,14 +102,14 @@ if (!isConnect('admin')) {
                 </form>
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-md-6">
                 <form class="form-horizontal" id="div_filtre">
                     <fieldset>
                         <legend>{{Filtre}}</legend>
 
                         <div class="form-group">
-                            <label class="col-sm-6 control-label">{{Limiter aux commandes de type}}</label>
-                            <div class="col-sm-4">
+                            <label class="col-md-6 control-label">{{Limiter aux commandes de type}}</label>
+                            <div class="col-md-4">
                                 <select class="interactAttr form-control" data-l1key="filtres" data-l2key="cmd_type">
                                     <?php
                                     foreach (jeedom::getConfiguration('cmd:type') as $id => $type) {
@@ -120,8 +120,8 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-6 control-label">{{Limiter aux commandes ayant pour sous-type}}</label>
-                            <div class="col-sm-4">
+                            <label class="col-md-6 control-label">{{Limiter aux commandes ayant pour sous-type}}</label>
+                            <div class="col-md-4">
                                 <select class="interactAttr form-control" data-l1key="filtres" data-l2key="subtype">
                                     <option value="all">{{Tous}}</option>
                                     <?php
@@ -135,8 +135,8 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-6 control-label">{{Limiter aux commandes ayant pour unité}}</label>
-                            <div class="col-sm-4">
+                            <label class="col-md-6 control-label">{{Limiter aux commandes ayant pour unité}}</label>
+                            <div class="col-md-4">
                                 <select class='interactAttr form-control' data-l1key='filtres' data-l2key='cmd_unite'>
                                     <option value="all">{{Tous}}</option>
                                     <?php
@@ -148,8 +148,8 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-6 control-label">{{Limiter aux commandes appartenant à l'objet}}</label>
-                            <div class="col-sm-4">
+                            <label class="col-md-6 control-label">{{Limiter aux commandes appartenant à l'objet}}</label>
+                            <div class="col-md-4">
                                 <select class='interactAttr form-control' data-l1key='filtres' data-l2key='object_id' >
                                     <option value="all">{{Tous}}</option>
                                     <?php
@@ -161,8 +161,8 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-6 control-label">{{Limiter aux plugin}}</label>
-                            <div class="col-sm-4">
+                            <label class="col-md-6 control-label">{{Limiter aux plugin}}</label>
+                            <div class="col-md-4">
                                 <select class='interactAttr form-control' data-l1key='filtres' data-l2key='plugin'>
                                     <option value="all">{{Tous}}</option>
                                     <?php

@@ -180,7 +180,7 @@ $(function() {
 });
 
 function initRowOverflow() {
-    if ($(window).width() < 750) {
+    if ($(window).width() < 980) {
         $('.row-overflow > div').css('height', 'auto').css('overflow-y', 'initial').css('overflow-x', 'initial');
     } else {
         var hWindow = $(window).height() - $('header').height() - $('footer').height() - 50;

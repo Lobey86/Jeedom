@@ -66,22 +66,22 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
         <div class="col-md-6">
             <?php if (config::byKey('market::apikey') != '') { ?>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">{{Ma Note}}</label>
-                    <div class="col-sm-8">
+                    <label class="col-md-4 control-label">{{Ma Note}}</label>
+                    <div class="col-md-8">
                         <span><input type="number" class="rating" id="in_myRating" data-max="5" data-empty-value="0" data-min="1" data-clearable="Effacer" value="<?php echo $rating['user'] ?>" /></span>
                     </div>
                 </div>
             <?php } ?>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Note}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Note}}</label>
+                <div class="col-md-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <span class="label label-primary marketAttr" data-l1key="rating" style="font-size: 1.2em;"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Prix}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Prix}}</label>
+                <div class="col-md-8">
                     <?php
                     if ($market->getCost() > 0) {
                         echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">' . $market->getRealcost() . ' €</span>';
@@ -92,21 +92,21 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{ID}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{ID}}</label>
+                <div class="col-md-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <span class="label label-success marketAttr" data-l1key="logicalId" placeholder="{{Nom}}"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Nom}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Nom}}</label>
+                <div class="col-md-8">
                     <span class="label label-success marketAttr" data-l1key="name" placeholder="{{Nom}}"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Type}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Type}}</label>
+                <div class="col-md-8">
                     <select class="form-control marketAttr" data-l1key="type" disabled>
                         <option value="plugin">{{Plugin}}</option>
                         <option value="widget">{{Widget}}</option>
@@ -117,33 +117,33 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Auteur}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Auteur}}</label>
+                <div class="col-md-8">
                     <span class="label label-success" ><?php echo $market->getAuthor() ?></span>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Description}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Description}}</label>
+                <div class="col-md-8">
                     <pre class="marketAttr" data-l1key="description" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Utilisation}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Utilisation}}</label>
+                <div class="col-md-8">
                     <pre class="marketAttr" data-l1key="utilization" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Changelog}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Changelog}}</label>
+                <div class="col-md-8">
                     <pre class="marketAttr" data-l1key="changelog" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Statut}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Statut}}</label>
+                <div class="col-md-8">
                     <select class="form-control marketAttr" data-l1key="status" disabled>
                         <option>{{A valider}}</option>
                         <option>{{Validé}}</option>
@@ -153,41 +153,41 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
             </div>
 
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Catégorie}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Catégorie}}</label>
+                <div class="col-md-8">
                     <span class="label label-warning marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Version}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Version}}</label>
+                <div class="col-md-8">
                     <span class="label label-success marketAttr" data-l1key="version" placeholder="{{Version}}" ></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Dernière modification de l'archive}}</label>
-                <div class="col-sm-6">
+                <label class="col-md-4 control-label">{{Dernière modification de l'archive}}</label>
+                <div class="col-md-6">
                     <span class="marketAttr label label-info" data-l1key="datetime"></span>
                 </div>
             </div>
             <?php if (config::byKey('installVersionDate', $market->getName()) != '') { ?>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">{{Version utilisé actuelement}}</label>
-                    <div class="col-sm-6">
+                    <label class="col-md-4 control-label">{{Version utilisé actuelement}}</label>
+                    <div class="col-md-6">
                         <span class="marketAttr label label-info" ><?php echo config::byKey('installVersionDate', $market->getLogicalId()); ?></span>
                     </div>
                 </div>
             <?php } ?>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{Nombre de téléchargements}}</label>
-                <div class="col-sm-8">
+                <label class="col-md-4 control-label">{{Nombre de téléchargements}}</label>
+                <div class="col-md-8">
                     <span class="marketAttr label label-info" data-l1key="downloaded"></span>
                 </div>
             </div>
         </div> 
         <div class="col-md-6">
             <div class="form-group">
-                <div class="col-sm-12">
+                <div class="col-md-12">
                     <?php
                     $urlPath = config::byKey('market::address') . '/market/' . $market->getType() . '/' . $market->getLogicalId() . '.jpg';
                     if (fopen($urlPath, "r")) {
