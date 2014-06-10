@@ -38,24 +38,10 @@ $(function() {
         var el = $(this);
         bootbox.confirm('{{Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
+
                 el.find('.fa-refresh').show();
-                $.ajax({
-                    type: 'POST',
-                    url: 'core/ajax/jeedom.ajax.php',
-                    data: {
-                        action: 'backup',
-                    },
-                    dataType: 'json',
-                    error: function(request, status, error) {
-                        handleAjaxError(request, status, error);
-                    },
-                    success: function(data) {
-                        if (data.state != 'ok') {
-                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                            return;
-                        }
-                        getJeedomLog(1, 'backup');
-                    }
+                jeedom.backup.backup(function() {
+                    getJeedomLog(1, 'backup');
                 });
             }
         });
@@ -66,24 +52,8 @@ $(function() {
         bootbox.confirm('{{Etes-vous sûr de vouloir restaurer Jeedom avec}} <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
-                $.ajax({
-                    type: 'POST',
-                    url: 'core/ajax/jeedom.ajax.php',
-                    data: {
-                        action: 'restore',
-                        backup: $('#sel_restoreBackup').value(),
-                    },
-                    dataType: 'json',
-                    error: function(request, status, error) {
-                        handleAjaxError(request, status, error);
-                    },
-                    success: function(data) {
-                        if (data.state != 'ok') {
-                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                            return;
-                        }
-                        getJeedomLog(1, 'restore');
-                    }
+                jeedom.backup.restoreLocal($('#sel_restoreBackup').value(), function() {
+                    getJeedomLog(1, 'restore');
                 });
             }
         });
@@ -94,25 +64,9 @@ $(function() {
         bootbox.confirm('{{Etes-vous sûr de vouloir supprimer la sauvegarde}} <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ?', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
-                $.ajax({
-                    type: 'POST',
-                    url: 'core/ajax/jeedom.ajax.php',
-                    data: {
-                        action: 'removeBackup',
-                        backup: $('#sel_restoreBackup').value(),
-                    },
-                    dataType: 'json',
-                    error: function(request, status, error) {
-                        handleAjaxError(request, status, error);
-                    },
-                    success: function(data) {
-                        if (data.state != 'ok') {
-                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                            return;
-                        }
-                        updateListBackup();
-                        $('#div_alert').showAlert({message: '{{Sauvegarde supprimé avec succès}}', level: 'success'});
-                    }
+                jeedom.backup.remove($('#sel_restoreBackup').value(), function() {
+                    updateListBackup();
+                    $('#div_alert').showAlert({message: '{{Sauvegarde supprimé avec succès}}', level: 'success'});
                 });
             }
         });
@@ -127,24 +81,8 @@ $(function() {
         bootbox.confirm('{{Etes-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud}} <b>' + $('#sel_restoreCloudBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
-                $.ajax({
-                    type: 'POST',
-                    url: 'core/ajax/jeedom.ajax.php',
-                    data: {
-                        action: 'restoreCloud',
-                        backup: $('#sel_restoreCloudBackup').value(),
-                    },
-                    dataType: 'json',
-                    error: function(request, status, error) {
-                        handleAjaxError(request, status, error);
-                    },
-                    success: function(data) {
-                        if (data.state != 'ok') {
-                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                            return;
-                        }
-                        getJeedomLog(1, 'restore');
-                    }
+                jeedom.backup.restoreCloud($('#sel_restoreCloudBackup').value(), function() {
+                    getJeedomLog(1, 'restore');
                 });
             }
         });
@@ -207,27 +145,11 @@ function getJeedomLog(_autoUpdate, _log) {
 }
 
 function updateListBackup() {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/jeedom.ajax.php',
-        data: {
-            action: 'listBackup',
-        },
-        dataType: 'json',
-        global: false,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            var options = '';
-            for (var i in data.result) {
-                options += '<option value="' + i + '">' + data.result[i] + '</option>';
-            }
-            $('#sel_restoreBackup').html(options);
+    jeedom.backup.list(function(data) {
+        var options = '';
+        for (var i in data) {
+            options += '<option value="' + i + '">' + data[i] + '</option>';
         }
+        $('#sel_restoreBackup').html(options);
     });
 }

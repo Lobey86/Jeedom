@@ -31,4 +31,5 @@ include_file('core', 'cron', 'class.js');
 include_file('core', 'security', 'class.js');
 include_file('core', 'update', 'class.js');
 include_file('core', 'user', 'class.js');
+include_file('core', 'backup', 'class.js');
 ?>
