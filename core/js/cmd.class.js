@@ -142,7 +142,7 @@ jeedom.cmd.getSelectModal = function(_options, _callback) {
 };
 
 
-jeedom.cmd.displayActionOption = function(_expression, _options) {
+jeedom.cmd.displayActionOption = function(_expression, _options, _callback) {
     var html = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -154,7 +154,7 @@ jeedom.cmd.displayActionOption = function(_expression, _options) {
             option: json_encode(_options)
         },
         dataType: 'json',
-        async: false,
+        async: ('function' == typeof (_callback)),
         global: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
@@ -164,14 +164,23 @@ jeedom.cmd.displayActionOption = function(_expression, _options) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
+
+
+
             if (data.result.html != '') {
                 html += '<div class="alert alert-info" style="margin : 0px; padding : 3px;">';
                 html += data.result.html;
                 html += '</div>';
             }
+            if ('function' == typeof (html)) {
+                _callback(html);
+                return;
+            }
         }
     });
-    return html;
+    if ('function' != typeof (html)) {
+        return html;
+    }
 };
 
 
