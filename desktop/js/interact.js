@@ -28,7 +28,11 @@ $(function() {
         $('#div_conf').show();
         $('.li_interact').removeClass('active');
         $(this).addClass('active');
-        printInteract($(this).attr('data-interact_id'));
+        jeedom.interact.get($(this).attr('data-interact_id'), function(data) {
+            $('.interactAttr').value('');
+            $('.interact').setValues(data, '.interactAttr');
+            modifyWithoutSave = false;
+        });
         return false;
     });
 
@@ -62,15 +66,21 @@ $(function() {
         });
     });
 
-    $("#bt_saveInteract").on('click', function() {
+    $("#bt_saveInteract").on('click', function(data) {
         var interact = $('.interact').getValues('.interactAttr');
-        saveInteract(interact[0]);
+        jeedom.interact.save(interact[0], function() {
+            modifyWithoutSave = false;
+            window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
+        });
     });
 
-    $("#bt_addInteract").on('click', function(event) {
+    $("#bt_addInteract").on('click', function() {
         bootbox.prompt("Demande ?", function(result) {
             if (result !== null) {
-                saveInteract({query: result});
+                jeedom.interact.save({query: result}, function(data) {
+                    modifyWithoutSave = false;
+                    window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
+                });
             }
         });
     });
@@ -80,7 +90,10 @@ $(function() {
             $.hideAlert();
             bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'intéraction}} <span style="font-weight: bold ;">' + $('.li_interact.active a').text() + '</span> ?', function(result) {
                 if (result) {
-                    removeInteract($('.li_interact.active').attr('data-interact_id'));
+                    jeedom.interact.remove($('.li_interact.active').attr('data-interact_id'), function() {
+                        modifyWithoutSave = false;
+                        window.location.replace('index.php?v=d&p=interact&removeSuccessFull=1');
+                    });
                 }
             });
         } else {
@@ -147,76 +160,4 @@ function changeLinkType(_options) {
     }
     delete _options.link_type;
     $('.interact').setValues(_options, '.interactAttr');
-}
-
-function removeInteract(_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/interact.ajax.php", // url du fichier php
-        data: {
-            action: "remove",
-            id: _id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            modifyWithoutSave = false;
-            window.location.replace('index.php?v=d&p=interact&removeSuccessFull=1');
-        }
-    });
-}
-
-
-function printInteract(_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/interact.ajax.php", // url du fichier php
-        data: {
-            action: "byId",
-            id: _id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('.interactAttr').value('');
-            $('.interact').setValues(data.result, '.interactAttr');
-            modifyWithoutSave = false;
-        }
-    });
-}
-
-function saveInteract(_interact) {
-    $.hideAlert();
-    $.ajax({
-        type: 'POST',
-        url: "core/ajax/interact.ajax.php", // url du fichier php
-        data: {
-            action: 'save',
-            interact: json_encode(_interact),
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            modifyWithoutSave = false;
-            window.location.replace('index.php?v=d&p=interact&id=' + data.result.id + '&saveSuccessFull=1');
-        }
-    });
 }
