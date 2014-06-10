@@ -433,7 +433,7 @@ class eqLogic {
         
         $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
         $cmd_display = array(
-            '#cmdColor#' => (!is_array($cmdColor)) ?  $cmdColor : '#000000'
+            '#cmdColor#' => (!is_array($cmdColor)) ?  $cmdColor : '#C1C1C1'
         );
         if ($this->getIsEnable()) {
             foreach ($this->getCmd() as $cmd) {
@@ -542,10 +542,10 @@ class eqLogic {
 
     public function getBackgroundColor($_version = 'dashboard') {
         $vcolor = 'color';
-        $default = '#2496d4';
+        $default = '#929292';
         if ($_version == 'mobile') {
             $vcolor = 'mcolor';
-            $default = '#2496d4';
+            $default = '#929292';
         }
         $category = $this->getPrimaryCategory();
         if ($category != '') {
