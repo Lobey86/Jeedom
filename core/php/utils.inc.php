@@ -145,7 +145,15 @@ function getTemplate($_folder, $_version, $_filename, $_plugin = '') {
 }
 
 function template_replace($_array, $_subject) {
-    return str_replace(array_keys($_array), array_values($_array), $_subject);
+    if (is_array($_array)) {
+        $search = array_keys($_array);
+        $replace = array_values($_array);
+        if (is_array($search) && is_array($replace)) {
+            return str_replace($search, $replace, $_subject);
+        }
+        return $_subject;
+    }
+    return $_subject;
 }
 
 function init($_name, $_default = '') {
@@ -603,9 +611,8 @@ function sizeFormat($size) {
     return round($size, 2) . ' ' . $units[$i];
 }
 
-
 function netMatch($network, $ip) {
-    $network=trim($network);
+    $network = trim($network);
     $orig_network = $network;
     $ip = trim($ip);
     if ($ip == $network) {
@@ -632,14 +639,14 @@ function netMatch($network, $ip) {
 
     $d = strpos($network, '-');
     if ($d === FALSE) {
-        if(strpos($network, '/') === false){
-            if($ip == $network){
+        if (strpos($network, '/') === false) {
+            if ($ip == $network) {
                 return true;
             }
             return false;
         }
         $ip_arr = explode('/', $network);
-        if (!preg_match("@\d*\.\d*\.\d*\.\d*@", $ip_arr[0], $matches)){
+        if (!preg_match("@\d*\.\d*\.\d*\.\d*@", $ip_arr[0], $matches)) {
             $ip_arr[0].=".0";    // Alternate form 194.1.4/24
         }
         $network_long = ip2long($ip_arr[0]);
@@ -648,11 +655,11 @@ function netMatch($network, $ip) {
         $ip_long = ip2long($ip);
         return ($ip_long & $mask) == ($network_long & $mask);
     } else {
-        
+
         $from = trim(ip2long(substr($network, 0, $d)));
-        $to = trim(ip2long(substr($network, $d+1)));
+        $to = trim(ip2long(substr($network, $d + 1)));
         $ip = ip2long($ip);
-        return ($ip>=$from and $ip<=$to);
+        return ($ip >= $from and $ip <= $to);
     }
     return false;
 }

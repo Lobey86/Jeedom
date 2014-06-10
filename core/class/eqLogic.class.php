@@ -430,8 +430,10 @@ class eqLogic {
         if ($_version == 'mobile') {
             $vcolor = 'mcmdColor';
         }
+        
+        $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
         $cmd_display = array(
-            '#cmdColor#' => jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor)
+            '#cmdColor#' => (!is_array($cmdColor)) ?  $cmdColor : '#000000'
         );
         if ($this->getIsEnable()) {
             foreach ($this->getCmd() as $cmd) {
