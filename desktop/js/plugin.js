@@ -16,16 +16,71 @@
  */
 
 $(function() {
-    $(".li_plugin").on('click', function(event) {
+    $(".li_plugin").on('click', function() {
         $.hideAlert();
         $('.li_plugin').removeClass('active');
         $(this).addClass('active');
-        printPlugin($(this).attr('data-plugin_id'), $(this).attr('data-pluginPath'));
+        jeedom.plugin.get($(this).attr('data-plugin_id'),function(data){
+               $('#span_plugin_id').html(data.id);
+            $('#span_plugin_name').html(data.name);
+            $('#span_plugin_author').html(data.author);
+            $('#span_plugin_description').html(data.description);
+            $('#span_plugin_licence').html(data.licence);
+            $('#span_plugin_installation').html(data.installation);
+
+
+            $('#span_plugin_market').empty();
+            if (data.status.market == 1) {
+                $('#span_plugin_market').append('<a class="btn btn-default btn-xs viewOnMarket" data-market_logicalId="' + data.id + '" style="margin-right : 5px;"><i class="fa fa-cloud-download"></i> {{Voir sur le market}}</a>')
+            }
+
+            if (data.status.market_owner == 1) {
+                $('#span_plugin_market').append('<a class="btn btn-warning btn-xs sendOnMarket" data-market_logicalId="' + data.id + '"><i class="fa fa-cloud-upload"></i> {{Envoyer sur le market}}</a>')
+            }
+
+            if (data.checkVersion != -1) {
+                $('#span_plugin_require').html('<span>' + data.require + '</span>');
+            } else {
+                $('#span_plugin_require').html('<span class="label label-danger">' + data.require + '</span>');
+            }
+            $('#span_plugin_version').html(data.version);
+
+            $('#span_plugin_toggleState').empty();
+            if (data.checkVersion != -1) {
+                if (data.activate == 1) {
+                    var btn = '<a class="btn btn-danger togglePlugin" data-state="0" data-plugin_id="' + data.id + '" style="margin : 5px;"><i class="fa fa-times"></i> {{Désactiver}}</a>';
+                } else {
+                    var btn = '<a class="btn btn-success togglePlugin" data-state="1" data-plugin_id="' + data.id + '" style="margin : 5px;"><i class="fa fa-check"></i> {{Activer}}</a>';
+                }
+                $('#span_plugin_toggleState').html(btn);
+            }
+
+            $('#div_plugin_configuration').empty();
+            if (data.checkVersion != -1) {
+                if (data.configurationPath != '' && data.activate == 1) {
+                    $('#div_plugin_configuration').load(data.configurationPath, function() {
+                        var configuration = $('#div_plugin_configuration').getValues('.configKey');
+                        jeedom.config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function(data) {
+                            $('#div_plugin_configuration').setValues(data, '.configKey');
+                            $('#div_plugin_configuration').parent().show();
+                        });
+                    });
+                } else {
+                    $('#div_plugin_configuration').parent().hide();
+                }
+            } else {
+                $('#div_plugin_configuration').parent().hide();
+            }
+            $('#div_confPlugin').show();
+            modifyWithoutSave = false;
+        });
         return false;
     });
 
-    $("#span_plugin_toggleState").delegate(".togglePlugin", 'click', function(event) {
-        togglePlugin($(this).attr('data-plugin_id'), $(this).attr('data-state'));
+    $("#span_plugin_toggleState").delegate(".togglePlugin", 'click', function() {
+        jeedom.plugin.toggle($(this).attr('data-plugin_id'), $(this).attr('data-state'),function(){
+             window.location.replace('index.php?v=d&p=plugin&id=' + $(this).attr('data-plugin_id'));
+        });
     });
 
     if (getUrlVars('id') != '') {
@@ -63,109 +118,11 @@ $(function() {
     });
 });
 
-function togglePlugin(_id, _state) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/plugin.ajax.php", // url du fichier php
-        data: {
-            action: "togglePlugin",
-            id: _id,
-            state: _state
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            window.location.replace('index.php?v=d&p=plugin&id=' + _id);
-        }
-    });
-}
-
 function savePluginConfig() {
     var configuration = $('#div_plugin_configuration').getValues('.configKey');
     jeedom.config.save(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function() {
         $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
         modifyWithoutSave = false;
-    });
-}
-
-function printPlugin(_id, _pluginPath) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/plugin.ajax.php", // url du fichier php
-        data: {
-            action: "getPluginConf",
-            id: _id,
-            pluginPath: _pluginPath
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-
-            $('#span_plugin_id').html(data.result.id);
-            $('#span_plugin_name').html(data.result.name);
-            $('#span_plugin_author').html(data.result.author);
-            $('#span_plugin_description').html(data.result.description);
-            $('#span_plugin_licence').html(data.result.licence);
-            $('#span_plugin_installation').html(data.result.installation);
-
-
-            $('#span_plugin_market').empty();
-            if (data.result.status.market == 1) {
-                $('#span_plugin_market').append('<a class="btn btn-default btn-xs viewOnMarket" data-market_logicalId="' + data.result.id + '" style="margin-right : 5px;"><i class="fa fa-cloud-download"></i> {{Voir sur le market}}</a>')
-            }
-
-            if (data.result.status.market_owner == 1) {
-                $('#span_plugin_market').append('<a class="btn btn-warning btn-xs sendOnMarket" data-market_logicalId="' + data.result.id + '"><i class="fa fa-cloud-upload"></i> {{Envoyer sur le market}}</a>')
-            }
-
-            if (data.result.checkVersion != -1) {
-                $('#span_plugin_require').html('<span>' + data.result.require + '</span>');
-            } else {
-                $('#span_plugin_require').html('<span class="label label-danger">' + data.result.require + '</span>');
-            }
-            $('#span_plugin_version').html(data.result.version);
-
-            $('#span_plugin_toggleState').empty();
-            if (data.result.checkVersion != -1) {
-                if (data.result.activate == 1) {
-                    var btn = '<a class="btn btn-danger togglePlugin" data-state="0" data-plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-times"></i> {{Désactiver}}</a>';
-                } else {
-                    var btn = '<a class="btn btn-success togglePlugin" data-state="1" data-plugin_id="' + data.result.id + '" style="margin : 5px;"><i class="fa fa-check"></i> {{Activer}}</a>';
-                }
-                $('#span_plugin_toggleState').html(btn);
-            }
-
-            $('#div_plugin_configuration').empty();
-            if (data.result.checkVersion != -1) {
-                if (data.result.configurationPath != '' && data.result.activate == 1) {
-                    $('#div_plugin_configuration').load(data.result.configurationPath, function() {
-                        var configuration = $('#div_plugin_configuration').getValues('.configKey');
-                        jeedom.config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function(data) {
-                            $('#div_plugin_configuration').setValues(data, '.configKey');
-                            $('#div_plugin_configuration').parent().show();
-                        });
-                    });
-                } else {
-                    $('#div_plugin_configuration').parent().hide();
-                }
-            } else {
-                $('#div_plugin_configuration').parent().hide();
-            }
-            $('#div_confPlugin').show();
-            modifyWithoutSave = false;
-        }
     });
 }
 

@@ -44,8 +44,57 @@ jeedom.plugin.all = function(_callback) {
             jeedom.plugin.cache.all = data.result;
             if ('function' == typeof (_callback)) {
                 _callback(jeedom.plugin.cache.all);
-                return;
             }
         }
     });
 }
+
+
+jeedom.plugin.toggle = function(_id, _state, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/plugin.ajax.php", // url du fichier php
+        data: {
+            action: "toggle",
+            id: _id,
+            state: _state
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback();
+            }
+        }
+    });
+};
+
+jeedom.plugin.get = function(_id, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/plugin.ajax.php", // url du fichier php
+        data: {
+            action: "getConf",
+            id: _id
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+};

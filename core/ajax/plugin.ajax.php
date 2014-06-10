@@ -24,11 +24,11 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
-    if (init('action') == 'getPluginConf') {
+    if (init('action') == 'getConf') {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
-        $plugin = plugin::byId(init('pluginPath'));
+        $plugin = plugin::byId(init('id'));
 
         $return = utils::o2a($plugin);
         $return['activate'] = $plugin->isActive();
@@ -38,7 +38,7 @@ try {
         ajax::success($return);
     }
 
-    if (init('action') == 'togglePlugin') {
+    if (init('action') == 'toggle') {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
