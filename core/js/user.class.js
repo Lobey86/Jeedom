@@ -167,8 +167,6 @@ jeedom.user.logByKey = function(_key, _callback) {
     });
 };
 
-
-
 jeedom.user.isConnect = function(_callback) {
     var unix = Math.round(+new Date() / 1000);
     if (unix > (jeedom.user.connectCheck + 300)) {
