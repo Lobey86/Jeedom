@@ -1323,7 +1323,7 @@ button.ui-button::-moz-focus-inner {
 	outline: medium none;
 	/*top: 10%;
 	width: 560px;*/
-	z-index: 1050;
+	z-index: 1020;
 }
 
 .ui-dialog .ui-dialog-titlebar {
