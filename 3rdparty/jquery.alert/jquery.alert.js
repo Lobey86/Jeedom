@@ -53,7 +53,6 @@
         options.level = init(options.level, '');
         options.emptyBefore = init(options.emptyBefore, true);
         options.show = init(options.show, true);
-        options.fix = init(options.fix, true);
         if ($.mobile) {
             $(this).empty();
             $(this).addClass('jqAlert');
@@ -81,6 +80,13 @@
                 $(this).css('overflow', 'auto');
                 $(this).css('max-height', $(window).height() - 100 + 'px');
             }
+
+            if ($(this).offset().top - $(window).scrollTop() < $(this).height()) {
+                $('html, body').animate({
+                    scrollTop: $(this).offset().top - 60
+                }, 650);
+            }
+
             $(this).find('.btn_closeAlert').on('click', function() {
                 $(this).closest('.jqAlert').hide();
             });
@@ -110,7 +116,6 @@
             $('.jqAlert').popup("close");
         } else {
             $('.jqAlert').text('');
-            $('.jqAlertSpacer').remove();
             $('.jqAlert').hide();
         }
     };
