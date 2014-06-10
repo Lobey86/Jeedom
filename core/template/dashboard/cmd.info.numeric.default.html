@@ -7,6 +7,7 @@
     <script>
         $(function() {
         if (is_numeric('#state#')) {
+        jeedom.cmd.getSuggestColor('#id#', function(color){
         // The speed gauge
         $('.cmd[data-cmd_id=#id#] .gauge').highcharts({
         chart: {
@@ -41,7 +42,7 @@
                 // the value axis
                 yAxis: {
                 stops: [
-                        [0, jeedom.cmd.getSuggestColor('#id#')]
+                        [0, color]
                 ],
                         lineWidth: 0,
                         minorTickInterval: null,
@@ -78,6 +79,7 @@
                         format: '<span style="color : white;">{y}</span> <span style="font-size:10px;color:white">#unite#</span>'
                         },
                 }]
+        });
         });
         } else {
         $('.cmd[data-cmd_id=#id#] .gauge').append('<center><span class="label label-danger" style="margin-top : 5px;">#state#</span></center>');

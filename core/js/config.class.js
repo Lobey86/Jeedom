@@ -45,8 +45,7 @@ jeedom.config.save = function(_configuration, _plugin, _callback) {
     });
 }
 
-jeedom.config.load = function(_configuration, _plugin) {
-    var result = '';
+jeedom.config.load = function(_configuration, _plugin, _callback) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/config.ajax.php", // url du fichier php
@@ -56,7 +55,6 @@ jeedom.config.load = function(_configuration, _plugin) {
             key: json_encode(_configuration)
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -65,8 +63,9 @@ jeedom.config.load = function(_configuration, _plugin) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
         }
     });
-    return result;
 }

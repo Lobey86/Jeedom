@@ -19,11 +19,13 @@ $(function() {
     $("#bt_saveBackup").on('click', function(event) {
         $.hideAlert();
         var configuration = $('#backup').getValues('.configKey');
-        jeedom.config.save(configuration[0],'core', function() {
+        jeedom.config.save(configuration[0], 'core', function() {
             var configuration = $('#backup').getValues('.configKey');
-            $('#backup').setValues(jeedom.config.load(configuration[0]), '.configKey');
-            modifyWithoutSave = false;
-            $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
+            jeedom.config.load(configuration[0], 'core', function(data) {
+                $('#backup').setValues(data, '.configKey');
+                modifyWithoutSave = false;
+                $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
+            });
         });
     });
 
@@ -149,7 +151,9 @@ $(function() {
     });
 
     var configuration = $('#backup').getValues('.configKey');
-    $('#backup').setValues(jeedom.config.load(configuration[0]), '.configKey');
+    jeedom.config.load(configuration[0], 'core', function(data) {
+        $('#backup').setValues(data, '.configKey');
+    });
     updateListBackup();
 
     $('body').delegate('.configKey', 'change', function() {

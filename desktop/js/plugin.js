@@ -94,11 +94,6 @@ function savePluginConfig() {
     });
 }
 
-function loadPluginConfig() {
-    var configuration = $('#div_plugin_configuration').getValues('.configKey');
-    $('#div_plugin_configuration').setValues(jeedom.config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id')), '.configKey');
-}
-
 function printPlugin(_id, _pluginPath) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -156,8 +151,11 @@ function printPlugin(_id, _pluginPath) {
             if (data.result.checkVersion != -1) {
                 if (data.result.configurationPath != '' && data.result.activate == 1) {
                     $('#div_plugin_configuration').load(data.result.configurationPath, function() {
-                        loadPluginConfig();
-                        $('#div_plugin_configuration').parent().show();
+                        var configuration = $('#div_plugin_configuration').getValues('.configKey');
+                        jeedom.config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function(data) {
+                            $('#div_plugin_configuration').setValues(data, '.configKey');
+                            $('#div_plugin_configuration').parent().show();
+                        });
                     });
                 } else {
                     $('#div_plugin_configuration').parent().hide();

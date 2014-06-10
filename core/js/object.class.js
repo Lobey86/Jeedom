@@ -50,7 +50,6 @@ jeedom.object.getEqLogic = function(_object_id, _callback) {
             object_id: _object_id,
         },
         dataType: 'json',
-        async: false,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },

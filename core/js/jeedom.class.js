@@ -23,6 +23,10 @@ jeedom.nodeJs = {state: -1};
 jeedom.display = {};
 jeedom.workflow = {object: [], eqLogic: [], cmd: [], scenario: [], nextrun: 0, delay: 1500};
 
+if (!isset(jeedom.cache.getConfiguration)) {
+    jeedom.cache.getConfiguration = Array();
+}
+
 
 jeedom.init = function() {
     jeedom.display.version = 'desktop';
@@ -71,7 +75,7 @@ jeedom.init = function() {
                     });
                     socket.on('eventCmd', function(_options) {
                         _options = json_decode(_options);
-                         jeedom.cmd.refreshValue(_options.cmd_id);
+                        jeedom.cmd.refreshValue(_options.cmd_id);
                         if ($.mobile) {
                             jeedom.workflow.cmd[_options.cmd_id] = true;
                             jeedom.workflow.eqLogic[_options.eqLogic_id] = true;
@@ -201,14 +205,11 @@ jeedom.processWorkflow = function() {
     }
 }
 
-jeedom.getConfiguration = function(_key, _default) {
-    if (!isset(jeedom.cache.getConfiguration)) {
-        jeedom.cache.getConfiguration = Array();
+jeedom.getConfiguration = function(_key, _default, _callback) {
+    if (init(_default, 0) == 0 && isset(jeedom.cache.getConfiguration[_key]) && 'function' == typeof (_callback)) {
+        _callback(jeedom.cache.getConfiguration[_key]);
+        return;
     }
-    if (init(_default, 0) == 0 && isset(jeedom.cache.getConfiguration[_key])) {
-        return jeedom.cache.getConfiguration[_key];
-    }
-    var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/jeedom.ajax.php", // url du fichier php
@@ -218,8 +219,6 @@ jeedom.getConfiguration = function(_key, _default) {
             default: init(_default, 0)
         },
         dataType: 'json',
-        async: false,
-        cache: true,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -229,11 +228,10 @@ jeedom.getConfiguration = function(_key, _default) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            jeedom.cache.getConfiguration[_key] = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(jeedom.cache.getConfiguration[_key]);
+            }
         }
     });
-    if (init(_default, 0) == 0) {
-        jeedom.cache.getConfiguration[_key] = result;
-    }
-    return result;
 }

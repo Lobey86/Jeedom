@@ -37,7 +37,9 @@ $(function() {
     });
 
     $('.bt_resetColor').on('click', function() {
-        $('.configKey[data-l1key="' + $(this).attr('data-l1key') + '"]').value(jeedom.getConfiguration($(this).attr('data-l1key'), 1));
+        jeedom.getConfiguration($(this).attr('data-l1key'), 1, function(data) {
+            $('.configKey[data-l1key="' + $(this).attr('data-l1key') + '"]').value(data);
+        });
     });
 });
 

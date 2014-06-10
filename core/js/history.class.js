@@ -287,33 +287,34 @@ jeedom.history.generatePlotBand = function(_startTime, _endTime) {
 }
 
 jeedom.history.refreshGraph = function(_cmd_id) {
-    var serie = null;
+    var series = [];
     for (var i in jeedom.history.chart) {
-        serie = jeedom.history.chart[i].chart.get(intval(_cmd_id));
-        if (serie != null && serie != undefined) {
-            $.ajax({// fonction permettant de faire de l'ajax
-                type: "POST", // methode de transmission des données au fichier php
-                url: "core/ajax/cmd.ajax.php", // url du fichier php
-                data: {
-                    action: "getHistory",
-                    id: _cmd_id
-                },
-                dataType: 'json',
-                global: false,
-                async: false,
-                error: function(request, status, error) {
-                    handleAjaxError(request, status, error);
-                },
-                success: function(data) {
-                    if (data.state != 'ok') {
-                        $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                        return;
-                    }
-                    serie.addPoint(data.result.data[data.result.data.length - 1], true, true);
+        series.push({
+            chart: jeedom.history.chart[i].chart.get(intval(_cmd_id)),
+            cmd_id: _cmd_id
+        });
+    }
+    for (var i in series) {
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "core/ajax/cmd.ajax.php", // url du fichier php
+            data: {
+                action: "getHistory",
+                id: series[i].cmd_id
+            },
+            dataType: 'json',
+            global: false,
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) {
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
                 }
-            });
-            serie = null;
-        }
+                series[i].chart.addPoint(data.result.data[data.result.data.length - 1], true, true);
+            }
+        });
     }
 }
 

@@ -22,17 +22,10 @@ $(function() {
 });
 
 if ($.mobile) {
-    if (jeedom.nodeJs.state === null) {
-        $('.span_nodeJsState').removeClass('red').addClass('grey');
-    }
     if (jeedom.nodeJs.state === true) {
         setTimeout(function() {
             $('body').trigger('nodeJsConnect');
         }, 500);
-        $('.span_nodeJsState').removeClass('red').addClass('green');
-    }
-    if (jeedom.nodeJs.state === false) {
-        $('.span_nodeJsState').removeClass('green').addClass('red');
     }
     if (jeedom.nodeJs.state == -1 || socket == null) {
         jeedom.init();

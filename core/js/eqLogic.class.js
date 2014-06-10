@@ -147,11 +147,11 @@ jeedom.eqLogic.toHtml = function(_id, _version, _callback) {
     });
 }
 
-jeedom.eqLogic.getCmd = function(_eqLogic_id) {
-    if (isset(jeedom.eqLogic.cache.getCmd[_eqLogic_id])) {
-        return jeedom.eqLogic.cache.getCmd[_eqLogic_id];
+jeedom.eqLogic.getCmd = function(_eqLogic_id, _callback) {
+    if (isset(jeedom.eqLogic.cache.getCmd[_eqLogic_id]) && 'function' == typeof (_callback)) {
+        _callback(jeedom.eqLogic.cache.getCmd[_eqLogic_id]);
+        return;
     }
-    var result = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/cmd.ajax.php", // url du fichier php
@@ -160,8 +160,6 @@ jeedom.eqLogic.getCmd = function(_eqLogic_id) {
             eqLogic_id: _eqLogic_id
         },
         dataType: 'json',
-        async: false,
-        cache: true,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -171,11 +169,12 @@ jeedom.eqLogic.getCmd = function(_eqLogic_id) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            result = data.result;
+            jeedom.eqLogic.cache.getCmd[_eqLogic_id] = data.result;
+            if ('function' == typeof (_callback)) {
+                _callback(jeedom.eqLogic.cache.getCmd[_eqLogic_id]);
+            }
         }
     });
-    jeedom.eqLogic.cache.getCmd[_eqLogic_id] = result;
-    return result;
 }
 
 
@@ -210,19 +209,24 @@ jeedom.eqLogic.byId = function(_eqLogic_id, _callback) {
     });
 }
 
-jeedom.eqLogic.builSelectCmd = function(_eqLogic_id, _filter) {
+jeedom.eqLogic.builSelectCmd = function(_eqLogic_id, _filter, _callback) {
     if (!isset(_filter)) {
         _filter = {};
     }
-    var cmds = jeedom.eqLogic.getCmd(_eqLogic_id);
-    var result = '';
-    for (var i in cmds) {
-        if ((init(_filter.type, 'all') == 'all' || cmds[i].type == _filter.type) &&
-                (init(_filter.subtype, 'all') == 'all' || cmds[i].subType == _filter.subtype)) {
-            result += '<option value="' + cmds[i].id + '" >' + cmds[i].name + '</option>';
+    jeedom.eqLogic.getCmd(_eqLogic_id, function(cmds) {
+        var result = '';
+        for (var i in cmds) {
+            if ((init(_filter.type, 'all') == 'all' || cmds[i].type == _filter.type) &&
+                    (init(_filter.subtype, 'all') == 'all' || cmds[i].subType == _filter.subtype)) {
+                result += '<option value="' + cmds[i].id + '" >' + cmds[i].name + '</option>';
+            }
         }
-    }
-    return result;
+        if ('function' == typeof (_callback)) {
+            _callback(result);
+        }
+    });
+
+
 }
 
 jeedom.eqLogic.getSelectModal = function(_options, callback) {
