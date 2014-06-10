@@ -649,7 +649,7 @@ class cmd {
         return $value;
     }
 
-    public function toHtml($_version = 'dashboard', $options = '', $_display = array()) {
+    public function toHtml($_version = 'dashboard', $options = '') {
         if ($_version == '') {
             throw new Exception(__('La version demandée ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
         }
@@ -691,10 +691,17 @@ class cmd {
         } else {
             $template = self::$_templateArray[$_version . '::' . $template_name];
         }
-        $replace = array_merge($_display, array(
+        $replace = array(
             '#id#' => $this->getId(),
             '#name#' => ($this->getDisplay('icon') != '') ? $this->getDisplay('icon') : $this->getName(),
-        ));
+        );
+        $eqLogic = $this->getEqLogic();
+        $vcolor = 'cmdColor';
+        if ($_version == 'mobile') {
+            $vcolor = 'mcmdColor';
+        }
+        $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $eqLogic->getPrimaryCategory() . ':' . $vcolor);
+        $replace['#cmdColor#'] = (!is_array($cmdColor)) ? $cmdColor : '#C1C1C1';
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
         $replace['#unite#'] = $this->getUnite();
