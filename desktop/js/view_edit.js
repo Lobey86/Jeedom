@@ -27,7 +27,19 @@ $(function() {
         $.hideAlert();
         $(".li_view").removeClass('active');
         $(this).addClass('active');
-        printView($(this).attr('data-view_id'));
+        jeedom.view.get($(this).attr('data-view_id'), function(data) {
+            $('#div_viewZones').empty();
+            for (var i in data.viewZone) {
+                var viewZone = data.viewZone[i];
+                addEditviewZone(viewZone);
+                for (var j in viewZone.viewData) {
+                    var viewData = viewZone.viewData[j];
+                    var span = addServiceToviewZone(viewData);
+                    $('#div_viewZones .viewZone:last .div_viewData').append(span);
+                }
+            }
+            modifyWithoutSave = false;
+        });
         return false;
     });
 
@@ -57,7 +69,20 @@ $(function() {
     });
 
     $('#bt_saveView').on('click', function(event) {
-        saveView($(".li_view.active").attr('data-view_id'));
+        $.hideAlert();
+        var viewZones = [];
+        $('.viewZone').each(function() {
+            viewZoneInfo = {};
+            var viewZoneInfo = $(this).getValues('.viewZoneAttr');
+            viewZoneInfo = viewZoneInfo[0];
+            viewZoneInfo.viewData = $(this).find('span.viewData').getValues('.viewDataAttr');
+            viewZones.push(viewZoneInfo);
+        });
+
+        jeedom.view.save($(".li_view.active").attr('data-view_id'), viewZones, function() {
+            $('#div_alert').showAlert({message: '{{Modification enregistré}}', level: 'success'});
+            modifyWithoutSave = false;
+        });
         return;
     });
 
@@ -65,7 +90,10 @@ $(function() {
         $.hideAlert();
         bootbox.confirm('{{Etez-vous sûr de vouloir supprimer la vue}} <span style="font-weight: bold ;">' + $(".li_view.active a").text() + '</span> ?', function(result) {
             if (result) {
-                removeView($(".li_view.active").attr('data-view_id'));
+                jeedom.view.remove($(".li_view.active").attr('data-view_id'), function() {
+                    modifyWithoutSave = false;
+                    window.location.reload();
+                });
             }
         });
     });
@@ -254,40 +282,6 @@ function editView() {
     });
 }
 
-
-function printView(_id) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/view.ajax.php", // url du fichier php
-        data: {
-            action: "getView",
-            id: _id,
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_viewZones').empty();
-            var result = data.result;
-            for (var i in result.viewZone) {
-                var viewZone = result.viewZone[i];
-                addEditviewZone(viewZone);
-                for (var j in viewZone.viewData) {
-                    var viewData = viewZone.viewData[j];
-                    var span = addServiceToviewZone(viewData);
-                    $('#div_viewZones .viewZone:last .div_viewData').append(span);
-                }
-            }
-            modifyWithoutSave = false;
-        }
-    });
-}
-
 function addEditviewZone(_viewZone) {
     if (!isset(_viewZone.configuration)) {
         _viewZone.configuration = {};
@@ -360,62 +354,4 @@ function addServiceToviewZone(_viewData) {
     }
     span += '</span>';
     return span;
-}
-
-function removeView(_id) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/view.ajax.php',
-        data: {
-            action: 'removeView',
-            id: _id,
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            modifyWithoutSave = false;
-            window.location.reload();
-        }
-    });
-}
-
-
-function saveView(_view_id) {
-    $.hideAlert();
-    var viewZones = [];
-    $('.viewZone').each(function() {
-        viewZoneInfo = {};
-        var viewZoneInfo = $(this).getValues('.viewZoneAttr');
-        viewZoneInfo = viewZoneInfo[0];
-        viewZoneInfo.viewData = $(this).find('span.viewData').getValues('.viewDataAttr');
-        viewZones.push(viewZoneInfo);
-    });
-
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/view.ajax.php',
-        data: {
-            action: 'saveView',
-            view_id: _view_id,
-            viewZones: json_encode(viewZones),
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Modification enregistré}}', level: 'success'});
-            modifyWithoutSave = false;
-        }
-    });
 }

@@ -34,7 +34,7 @@ try {
         ajax::success(array('id' => $view->getId()));
     }
 
-    if (init('action') == 'removeView') {
+    if (init('action') == 'remove') {
         $view = view::byId(init('id'));
         if (!is_object($view)) {
             throw new Exception(__('Vue non trouvé. Vérifier l\'id', __FILE__));
@@ -47,7 +47,7 @@ try {
         ajax::success(utils::o2a(view::all()));
     }
 
-    if (init('action') == 'getView') {
+    if (init('action') == 'get') {
         if (init('id') == 'all' || is_json(init('id'))) {
             if (is_json(init('id'))) {
                 $view_ajax = json_decode(init('id'), true);
@@ -73,7 +73,7 @@ try {
     }
 
 
-    if (init('action') == 'saveView') {
+    if (init('action') == 'save') {
         $view = view::byId(init('view_id'));
         if (!is_object($view)) {
             throw new Exception(__('Vue non trouvé. Vérifier l\'id', __FILE__));

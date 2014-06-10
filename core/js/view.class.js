@@ -74,7 +74,7 @@ jeedom.view.toHtml = function(_id, _version, _useCache, _globalAjax, _callback) 
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/view.ajax.php", // url du fichier php
         data: {
-            action: "getView",
+            action: "get",
             id: ($.isArray(_id)) ? json_encode(_id) : _id,
             version: _version,
         },
@@ -136,4 +136,79 @@ jeedom.view.handleViewAjax = function(_view) {
         result.html += '</div>';
     }
     return result;
+}
+
+
+jeedom.view.remove = function(_id, _callback) {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/view.ajax.php',
+        data: {
+            action: 'remove',
+            id: _id,
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+}
+
+
+jeedom.view.save = function(_view_id, viewZones, _callback) {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/view.ajax.php',
+        data: {
+            action: 'save',
+            view_id: _view_id,
+            viewZones: json_encode(viewZones),
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
+}
+
+jeedom.view.get = function(_view_id, _callback) {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/view.ajax.php',
+        data: {
+            action: 'get',
+            id: _view_id,
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
+                _callback(data.result);
+            }
+        }
+    });
 }
