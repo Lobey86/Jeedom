@@ -424,13 +424,22 @@ class eqLogic {
         }
         $info = '';
         $action = '';
+
+
+        $vcolor = 'cmdColor';
+        if ($_version == 'mobile') {
+            $vcolor = 'mcmdColor';
+        }
+        $cmd_display = array(
+            '#cmdColor#' => jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor)
+        );
         if ($this->getIsEnable()) {
             foreach ($this->getCmd() as $cmd) {
                 if ($cmd->getIsVisible() == 1) {
                     if ($cmd->getType() == 'action') {
-                        $action.=$cmd->toHtml($_version);
+                        $action.=$cmd->toHtml($_version, '', $cmd_display);
                     } else {
-                        $info.=$cmd->toHtml($_version);
+                        $info.=$cmd->toHtml($_version, '', $cmd_display);
                     }
                 }
             }

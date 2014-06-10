@@ -649,9 +649,9 @@ class cmd {
         return $value;
     }
 
-    public function toHtml($_version = 'dashboard', $options = '') {
+    public function toHtml($_version = 'dashboard', $options = '', $_display = array()) {
         if ($_version == '') {
-            throw new Exception(__('La version demandé ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
+            throw new Exception(__('La version demandée ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
         }
         $html = '';
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($_version, 'default');
@@ -691,11 +691,10 @@ class cmd {
         } else {
             $template = self::$_templateArray[$_version . '::' . $template_name];
         }
-
-        $replace = array(
+        $replace = array_merge($_display, array(
             '#id#' => $this->getId(),
             '#name#' => ($this->getDisplay('icon') != '') ? $this->getDisplay('icon') : $this->getName(),
-        );
+        ));
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
         $replace['#unite#'] = $this->getUnite();

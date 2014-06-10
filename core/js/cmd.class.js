@@ -25,26 +25,6 @@ if (!isset(jeedom.cmd.cache.byId)) {
     jeedom.cmd.cache.byId = Array();
 }
 
-jeedom.cmd.getSuggestColor = function(_id, _callback) {
-    var eqLogic = $(".cmd[data-cmd_id=" + _id + "]").closest('.eqLogic');
-    if (count(eqLogic) > 0 && eqLogic != undefined && eqLogic.attr('data-category') != '') {
-        var vcolor = 'cmdColor';
-        if (eqLogic.attr('data-version') == 'mobile') {
-            vcolor = 'mcmdColor';
-        }
-        jeedom.getConfiguration('eqLogic:category:' + eqLogic.attr('data-category') + ':' + vcolor, 0, function(color) {
-            if ('function' == typeof (_callback)) {
-                _callback(color);
-            }
-        });
-        return;
-    }
-    if ('function' == typeof (_callback)) {
-        _callback('#000000');
-    }
-};
-
-
 jeedom.cmd.changeType = function(_cmd, _subType) {
     var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control input-sm" data-l1key="subType">';
     var type = _cmd.find('.cmdAttr[data-l1key=type]').value();
