@@ -79,6 +79,7 @@
                 $(this).css('margin-bottom', '5px');
                 $(this).css('overflow', 'auto');
                 $(this).css('max-height', $(window).height() - 100 + 'px');
+                $(this).css('z-index', '9999');
             }
 
             if ($(this).offset().top - $(window).scrollTop() < $(this).height()) {

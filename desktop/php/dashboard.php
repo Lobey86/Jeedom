@@ -17,6 +17,22 @@ $child_object = object::buildTree($object);
 
 <div class="row row-overflow">
     <div class="col-md-2">
+        <center>
+            <?php
+            if (init('category', 'all') == 'all') {
+                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
+            } else {
+                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
+            }
+            foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+                if (init('category', 'all') == $key) {
+                    echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-primary btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
+                } else {
+                    echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-default btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
+                }
+            }
+            ?>
+        </center>
         <div class="bs-sidebar">
             <ul id="ul_object" class="nav nav-list bs-sidenav">
                 <li class="nav-header">{{Liste objets}} </li>
@@ -39,24 +55,6 @@ $child_object = object::buildTree($object);
     </div>
 
     <div class="col-md-8" id="div_displayObject">
-        <div style="position: fixed;width: 100%;z-index: 1029;top : 51px;left : 35%">
-            <div class="btn-group tooltips" title="{{Filtre sur les catégories d'équipement}}">
-                <?php
-                if (init('category', 'all') == 'all') {
-                    echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-primary categoryAction">{{Tous}}</a>';
-                } else {
-                    echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-default categoryAction">{{Tous}}</a>';
-                }
-                foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-                    if (init('category', 'all') == $key) {
-                        echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-primary categoryAction" data-l1key="' . $key . '">{{' . $value['name'] . '}}</a>';
-                    } else {
-                        echo '<a type="button" href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-default categoryAction" data-l1key="' . $key . '">{{' . $value['name'] . '}}</a>';
-                    }
-                }
-                ?>
-            </div>
-        </div>
         <div style="height: 10px;width: 100%;"></div>
         <?php
         echo '<div object_id="' . $object->getId() . '">';
