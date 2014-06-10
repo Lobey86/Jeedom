@@ -61,15 +61,11 @@
             $(this).enhanceWithin().popup();
             $(this).popup('open');
         } else {
-            $(this).uniqueId();
-            var id = $(this).attr('id');
             if (options.emptyBefore == false) {
                 var html = $(this).find('.displayError').html();
                 if (isset(html)) {
                     options.message = html + '<br/>' + options.message;
                 }
-            } else {
-                $('#jqAlertSpacer' + id).remove();
             }
             $(this).empty();
             $(this).html('<span href="#" class="btn_closeAlert pull-right cursor" style="position : relative; left : 30px;color : grey">×</span><span class="displayError">' + options.message + '</span>');
@@ -80,29 +76,12 @@
             }
             if (options.show) {
                 $(this).show();
-                if (options.fix) {
-                    //$(this).css('position', 'static');
-                    //var position = $(this).position();
-                    //$(this).css('left', position.left);
-                    //$(this).css('top', position.top);
-                    $(this).css('position', 'fixed');
-                    $(this).css('z-index', 1001);
-                    var offset = ($(this).parent().width() / 100) * 1.5;
-                    if (offset < 10) {
-                        offset = 20;
-                    }
-                    $(this).css('width', ($(this).parent().width() - offset) + 'px');
-                    $(this).css('padding', '7px 35px 7px 15px');
-                    $(this).css('margin', '0px 5px 0px 15px');
-                    $(this).css('overflow', 'auto');
-                    $(this).css('max-height', $(window).height() - 100 + 'px');
-                    $('<div id="jqAlertSpacer' + id + '" class="jqAlertSpacer" style="height : ' + ($(this).height() + 30) + 'px' + '"></div>').insertAfter($(this));
-
-                }
-
+                $(this).css('padding', '7px 35px 7px 15px');
+                $(this).css('margin-bottom', '5px');
+                $(this).css('overflow', 'auto');
+                $(this).css('max-height', $(window).height() - 100 + 'px');
             }
             $(this).find('.btn_closeAlert').on('click', function() {
-                $('#jqAlertSpacer' + id).remove();
                 $(this).closest('.jqAlert').hide();
             });
         }
