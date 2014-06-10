@@ -18,6 +18,7 @@
 
 jeedom.user = function() {
 };
+jeedom.user.connectCheck = 0;
 
 jeedom.user.all = function(_callback) {
     $.ajax({// fonction permettant de faire de l'ajax
@@ -136,4 +137,68 @@ jeedom.user.get = function(_callback) {
             }
         }
     });
+};
+
+jeedom.user.logByKey = function(_key, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
+        data: {
+            action: "login",
+            key: _key
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error, $('#div_alert'));
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                localStorage.setItem("deviceKey", '');
+                if ('function' == typeof (_callback)) {
+                    _callback(false);
+                }
+            } else {
+                localStorage.setItem("deviceKey", data.result.deviceKey);
+                if ('function' == typeof (_callback)) {
+                    _callback(true);
+                }
+            }
+        }
+    });
+};
+
+
+
+jeedom.user.isConnect = function(_callback) {
+    var unix = Math.round(+new Date() / 1000);
+    if (unix > (jeedom.user.connectCheck + 300)) {
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "core/ajax/user.ajax.php", // url du fichier php
+            data: {
+                action: "isConnect",
+            },
+            dataType: 'json',
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error, $('#div_alert'));
+            },
+            success: function(data) { // si l'appel a bien fonctionné
+                if (data.state != 'ok') {
+                    if ('function' == typeof (_callback)) {
+                        _callback(false);
+                        return;
+                    }
+                }
+                jeedom.user.connectCheck = Math.round(+new Date() / 1000);
+                if ('function' == typeof (_callback)) {
+                    _callback(true);
+                }
+            }
+        });
+    } else {
+        if ('function' == typeof (_callback)) {
+            _callback(true);
+        }
+    }
 }
+

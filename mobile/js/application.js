@@ -64,8 +64,11 @@ function initApplication(_reinit) {
                 panel(false);
                 if (data.code == -1234) {
                     if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
-                        autoLogin(localStorage.getItem("deviceKey"));
-                        initApplication();
+                        jeedom.user.logByKey(localStorage.getItem("deviceKey"), function(result) {
+                            if (!result) {
+                                initApplication();
+                            }
+                        });
                     } else {
                         page('connection', 'Connexion');
                     }
@@ -91,6 +94,7 @@ function initApplication(_reinit) {
                         var include = [
                             'core/js/jeedom.class.js',
                             'core/js/cmd.class.js',
+                            'core/js/user.class.js',
                             'core/js/history.class.js',
                             'core/js/eqLogic.class.js',
                             'core/js/object.class.js',
@@ -113,69 +117,44 @@ function initApplication(_reinit) {
     });
 }
 
-function isConnect() {
-    var result = true;
-    var unix = Math.round(+new Date() / 1000);
-    if (unix > (lastConnectionCheck + 300)) {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/user.ajax.php", // url du fichier php
-            data: {
-                action: "isConnect",
-            },
-            dataType: 'json',
-            async: false,
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error, $('#div_alert'));
-            },
-            success: function(data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    if (!autoLogin(localStorage.getItem("deviceKey"))) {
-                        initApplication(true);
-                        result = false;
-                    }
+function page(_page, _title, _option, _plugin) {
+    $('.ui-popup').popup('close');
+    $('#page').empty();
+    if (isset(_title)) {
+        $('#pageTitle').empty().append(_title);
+    }
+    if (_page == 'connection') {
+        var page = 'index.php?v=m&p=' + _page;
+        $('#page').load(page, function() {
+            $('#page').trigger('create');
+        });
+        return;
+    }
+    jeedom.user.isConnect(function(result) {
+        if (!result) {
+            initApplication(true);
+            return;
+        }
+        var page = 'index.php?v=m&p=' + _page;
+        if (init(_plugin) != '') {
+            page += '&m=' + _plugin;
+        }
+        $('#page').load(page, function() {
+            $('#page').trigger('create');
+            var functionName = '';
+            if (init(_plugin) != '') {
+                functionName = 'init' + _plugin.charAt(0).toUpperCase() + _plugin.substring(1).toLowerCase() + _page.charAt(0).toUpperCase() + _page.substring(1).toLowerCase();
+            } else {
+                functionName = 'init' + _page.charAt(0).toUpperCase() + _page.substring(1).toLowerCase();
+            }
+            if ('function' == typeof (window[functionName])) {
+                if (init(_option) != '') {
+                    window[functionName](_option);
                 } else {
-                    lastConnectionCheck = Math.round(+new Date() / 1000);
+                    window[functionName]();
                 }
             }
         });
-    }
-    return result;
-}
-
-function page(_page, _title, _option, _plugin) {
-    if (_page != 'connection') {
-        if (!isConnect()) {
-            return;
-        }
-    }
-    $('.ui-popup').popup('close');
-    $('#page').empty();
-    var page = 'index.php?v=m&p=' + _page;
-    if (init(_plugin) != '') {
-        page += '&m=' + _plugin;
-    }
-    $('#page').load(page, function() {
-        if (isset(_title)) {
-            $('#pageTitle').empty().append(_title);
-        }
-        $('#page').trigger('create');
-        var functionName = '';
-        if (init(_plugin) != '') {
-            functionName = 'init' + _plugin.charAt(0).toUpperCase() + _plugin.substring(1).toLowerCase() + _page.charAt(0).toUpperCase() + _page.substring(1).toLowerCase();
-        } else {
-            functionName = 'init' + _page.charAt(0).toUpperCase() + _page.substring(1).toLowerCase();
-        }
-        if ('function' == typeof (window[functionName])) {
-            if (init(_option) != '') {
-                window[functionName](_option);
-            } else {
-                window[functionName]();
-            }
-        }
-        if (_page != 'connection') {
-            initExpertMode();
-        }
     });
 }
 
@@ -218,32 +197,6 @@ function notify(_title, _text) {
     setTimeout(function() {
         $('#div_alert').popup("close");
     }, 1000)
-}
-
-function autoLogin(_key) {
-    var result = false;
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "login",
-            key: _key
-        },
-        dataType: 'json',
-        async: false,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('#div_alert'));
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                localStorage.setItem("deviceKey", '');
-            } else {
-                localStorage.setItem("deviceKey", data.result.deviceKey);
-                result = true;
-            }
-        }
-    });
-    return result;
 }
 
 function getDeviceType() {
