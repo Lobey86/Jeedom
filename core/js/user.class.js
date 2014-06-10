@@ -16,73 +16,45 @@
  */
 
 
-jeedom.update = function() {
+jeedom.user = function() {
 };
 
-
-jeedom.update.doAll = function(_mode, _level, _callback) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
+jeedom.user.all = function(_callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
-            action: 'updateAll',
-            level: _level,
-            mode: _mode
+            action: "all"
         },
         dataType: 'json',
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) {
+        success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
             if ('function' == typeof (_callback)) {
-                _callback();
+                _callback(data.result);
             }
         }
     });
 }
 
-jeedom.update.changeState = function(_id, _state, _callback) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
+jeedom.user.remove = function(_id, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
-            action: 'changeState',
-            id: _id,
-            state: _state
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if ('function' == typeof (_callback)) {
-                _callback();
-            }
-        }
-    });
-}
-
-jeedom.update.do = function(_id, _callback) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'update',
+            action: "remove",
             id: _id
         },
         dataType: 'json',
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) {
+        success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
@@ -94,42 +66,19 @@ jeedom.update.do = function(_id, _callback) {
     });
 }
 
-jeedom.update.remove = function(_id, _callback) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
+jeedom.user.save = function(_users, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
-            action: 'remove',
-            id: _id
+            action: "save",
+            users: json_encode(_users)
         },
         dataType: 'json',
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if ('function' == typeof (_callback)) {
-                _callback();
-            }
-        }
-    });
-}
-
-jeedom.update.checkAll = function(_callback) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'checkAllUpdate'
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
+        success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
@@ -142,23 +91,47 @@ jeedom.update.checkAll = function(_callback) {
 }
 
 
-jeedom.update.get = function(_callback) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
+jeedom.user.saveProfils = function(user, _callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
-            action: 'all'
+            action: "saveProfils",
+            user: json_encode(user)
         },
         dataType: 'json',
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) {
+        success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-             if ('function' == typeof (_callback)) {
+            if ('function' == typeof (_callback)) {
+                _callback();
+            }
+        }
+    });
+}
+
+jeedom.user.get = function(_callback) {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/user.ajax.php", // url du fichier php
+        data: {
+            action: "get",
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            if ('function' == typeof (_callback)) {
                 _callback(data.result);
             }
         }

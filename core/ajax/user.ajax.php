@@ -88,7 +88,7 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'delUser') {
+    if (init('action') == 'remove') {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
@@ -103,7 +103,7 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'saveUser') {
+    if (init('action') == 'saveProfils') {
         $user_json = json_decode(init('user'), true);
         if (isset($user_json['id']) && $user_json['id'] != $_SESSION['user']->getId()) {
             throw new Exception('401 unautorized');
@@ -123,7 +123,7 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'getUser') {
+    if (init('action') == 'get') {
         ajax::success(utils::o2a($_SESSION['user']));
     }
 

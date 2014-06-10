@@ -22,7 +22,7 @@ $(function() {
         var mode = $(this).attr('data-mode');
         bootbox.confirm('{{Etes-vous sur de vouloir faire les mises à jour ?}} ', function(result) {
             if (result) {
-                jeedom.update.all(mode, level, function() {
+                jeedom.update.doAll(mode, level, function() {
                     getJeedomLog(1, 'update');
                 });
             }

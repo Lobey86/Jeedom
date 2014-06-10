@@ -29,4 +29,6 @@ include_file('core', 'config', 'class.js');
 include_file('core', 'history', 'class.js');
 include_file('core', 'cron', 'class.js');
 include_file('core', 'security', 'class.js');
+include_file('core', 'update', 'class.js');
+include_file('core', 'user', 'class.js');
 ?>

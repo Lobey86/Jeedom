@@ -16,9 +16,7 @@
  */
 
 $(function() {
-
     printUsers();
-
     $("#bt_addUser").on('click', function(event) {
         $.hideAlert();
         $('#in_newUserLogin').value('');
@@ -29,13 +27,22 @@ $(function() {
     $("#bt_newUserSave").on('click', function(event) {
         $.hideAlert();
         var user = [{login: $('#in_newUserLogin').value(), password: $('#in_newUserMdp').value()}];
-        saveUser(user);
-        $('#md_newUser').modal('hide');
+        jeedom.user.save(user, function() {
+            printUsers();
+            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+            modifyWithoutSave = false;
+            $('#md_newUser').modal('hide');
+        });
+
     });
 
     $("#bt_saveUser").on('click', function(event) {
         var users = $('#table_user tbody tr').getValues('.userAttr');
-        saveUser(users);
+        jeedom.user.save(users, function() {
+            printUsers();
+            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+            modifyWithoutSave = false;
+        });
     });
 
     $("#table_user").delegate(".del_user", 'click', function(event) {
@@ -43,7 +50,10 @@ $(function() {
         var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value()};
         bootbox.confirm('{{Etes-vous sûr de vouloir supprimer cet utilisateur ?}}', function(result) {
             if (result) {
-                delUser(user);
+                jeedom.user.remove(user.id, function() {
+                    printUsers();
+                    $('#div_alert').showAlert({message: '{{L\'utilisateur a bien été supprimé}}', level: 'success'});
+                });
             }
         });
     });
@@ -69,91 +79,25 @@ $(function() {
 });
 
 function printUsers() {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "all"
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
+    jeedom.user.all(function(data) {
+        $('#table_user tbody').empty();
+        for (var i in data) {
+            var ligne = '<tr><td class="login">';
+            ligne += '<span class="userAttr" data-l1key="id" style="display : none;"/>';
+            ligne += '<span class="userAttr" data-l1key="login" />';
+            ligne += '</td>';
+            ligne += '<td>';
+            if (ldapEnable != '1') {
+                ligne += '<a class="btn btn-xs btn-danger pull-right del_user"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>';
+                ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user"><i class="fa fa-pencil"></i> {{Changer le mot de passe}}</a>';
             }
-
-            $('#table_user tbody').empty();
-            for (var i in data.result) {
-                var ligne = '<tr><td class="login">';
-                ligne += '<span class="userAttr" data-l1key="id" style="display : none;"/>';
-                ligne += '<span class="userAttr" data-l1key="login" />';
-                ligne += '</td>';
-                ligne += '<td>';
-                if (ldapEnable != '1') {
-                    ligne += '<a class="btn btn-xs btn-danger pull-right del_user"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>';
-                    ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user"><i class="fa fa-pencil"></i> {{Changer le mot de passe}}</a>';
-                }
-                ligne += '</td>';
-                ligne += '<td>';
-                ligne += '<input type="checkbox" class="userAttr" data-l1key="rights" data-l2key="admin"/> Admin';
-                ligne += '</td>';
-                ligne += '</tr>';
-                $('#table_user tbody').append(ligne);
-                $('#table_user tbody tr:last').setValues(data.result[i], '.userAttr');
-                modifyWithoutSave = false;
-            }
-        }
-    });
-}
-
-
-function delUser(_user) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "delUser",
-            id: _user.id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            printUsers();
-            $.hideLoading();
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{L\'utilisateur a bien été supprimé}}', level: 'success'});
-        }
-    });
-}
-
-function saveUser(_users) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "save",
-            users: json_encode(_users)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            printUsers();
-            $.hideLoading();
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+            ligne += '</td>';
+            ligne += '<td>';
+            ligne += '<input type="checkbox" class="userAttr" data-l1key="rights" data-l2key="admin"/> Admin';
+            ligne += '</td>';
+            ligne += '</tr>';
+            $('#table_user tbody').append(ligne);
+            $('#table_user tbody tr:last').setValues(data[i], '.userAttr');
             modifyWithoutSave = false;
         }
     });

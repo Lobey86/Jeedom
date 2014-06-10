@@ -18,65 +18,25 @@
 $(function() {
     $("#bt_saveProfils").on('click', function(event) {
         $.hideAlert();
-        saveProfils();
+        var profil = $('body').getValues('.userAttr');
+        jeedom.user.saveProfils(profil[0], function() {
+            $('#div_alert').showAlert({message: "{{Sauvegarde effectuée}}", level: 'success'});
+            jeedom.user.get(function(data) {
+                $('body').setValues(data, '.userAttr');
+                modifyWithoutSave = false;
+            });
+        });
         return false;
     });
-    
-    loadProfil();
+
+    jeedom.user.get(function(data) {
+        $('body').setValues(data, '.userAttr');
+        modifyWithoutSave = false;
+    });
+
     $('body').delegate('.userAttr', 'change', function() {
         modifyWithoutSave = true;
     });
 });
-
-function saveProfils() {
-    var user = $('body').getValues('.userAttr');
-    user = user[0];
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "saveUser",
-            user: json_encode(user)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: "{{Sauvegarde effectuée}}", level: 'success'});
-            loadProfil();
-            modifyWithoutSave = false;
-        }
-    });
-}
-
-function loadProfil() {
-    var profil = $('body').getValues('.userAttr');
-    profil = profil[0];
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "getUser",
-            key: json_encode(profil)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('body').setValues(data.result, '.userAttr');
-            modifyWithoutSave = false;
-        }
-    });
-}
 
 
