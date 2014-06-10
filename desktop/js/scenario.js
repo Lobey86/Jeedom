@@ -168,7 +168,9 @@ $(function() {
         jeedom.cmd.getSelectModal({cmd: {type: type}}, function(result) {
             if (expression.find('.expressionAttr[data-l1key=type]').value() == 'action') {
                 expression.find('.expressionAttr[data-l1key=expression]').value(result.human);
-                expression.find('.expressionOptions').html(jeedom.cmd.displayActionOption(expression.find('.expressionAttr[data-l1key=expression]').value(), ''));
+                jeedom.cmd.displayActionOption(expression.find('.expressionAttr[data-l1key=expression]').value(), '', function(html) {
+                    expression.find('.expressionOptions').html(html);
+                });
             }
             if (expression.find('.expressionAttr[data-l1key=type]').value() == 'condition') {
                 expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert', result.human);
@@ -179,7 +181,9 @@ $(function() {
     $('body').delegate('.expression .expressionAttr[data-l1key=expression]', 'focusout', function(event) {
         if ($(this).closest('.expression').find('.expressionAttr[data-l1key=type]').value() == 'action') {
             var expression = $(this).closest('.expression').getValues('.expressionAttr');
-            $(this).closest('.expression').find('.expressionOptions').html(jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options)));
+            jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options), function(html) {
+                $(this).closest('.expression').find('.expressionOptions').html(html);
+            });
         }
     });
 
