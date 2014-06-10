@@ -29,7 +29,6 @@ jeedom.cmd.changeType = function(_cmd, _subType) {
     var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control input-sm" data-l1key="subType">';
     var type = _cmd.find('.cmdAttr[data-l1key=type]').value();
     jeedom.getConfiguration('cmd:type:' + type + ':subtype', 0, function(subType) {
-        console.log(subType);
         for (var i in subType) {
             selSubType += '<option value="' + i + '">' + subType[i].name + '</option>';
         }

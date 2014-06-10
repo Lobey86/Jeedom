@@ -69,7 +69,7 @@ function addMessage(message) {
     var tmp_message = [];
     var now = new Date().getTime();
     for (var i in messages) {
-        if (messages[i].datetime > (now - 5000)) {
+        if (messages[i].datetime > (now - 2000)) {
             if (message == null || (messages[i].type != message.type || messages[i].options != message.options)) {
                 tmp_message.push(messages[i]);
             }
