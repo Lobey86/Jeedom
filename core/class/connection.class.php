@@ -70,7 +70,7 @@ class connection {
         $connection->setFailure($connection->getFailure() + 1);
         $connection->setStatus('Failed');
         if ($connection->getFailure() > config::byKey('security::retry') &&
-                (strtotime($connection->getDatetime()) + 60 * config::byKey('security::backlogtime')) > strtotime(date('Y-m-d H:i:s')) &&
+                (strtotime($connection->getDatetime()) + 60 * config::byKey('security::backlogtime')) > strtotime('now') &&
                 !$connection->isProtect()) {
             $connection->setStatus('Ban');
         }

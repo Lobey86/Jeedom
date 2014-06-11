@@ -78,7 +78,7 @@ if (init('cron_id') != '') {
                         while (true) {
                             $class::$function($option);
                             sleep($cron->getDeamonSleepTime());
-                            if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
+                            if ((strtotime('now') - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
                                 die();
                             }
                         }
@@ -109,7 +109,7 @@ if (init('cron_id') != '') {
                     while (true) {
                         $function($option);
                         sleep($cron->getDeamonSleepTime());
-                        if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
+                        if ((strtotime('now') - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
                             die();
                         }
                     }
@@ -132,7 +132,7 @@ if (init('cron_id') != '') {
             $cron->setState('stop');
             $cron->setPID();
             $cron->setServer('');
-            $cron->setDuration(convertDuration(strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)));
+            $cron->setDuration(convertDuration(strtotime('now') - strtotime($datetime)));
             $cron->save();
         }
         die();

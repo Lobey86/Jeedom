@@ -135,7 +135,7 @@ class cache {
                 $this->_hasExpired = false;
                 return false;
             }
-            if ($this->getLifetime() != 0 && (strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime(date('Y-m-d H:i:s'))) {
+            if ($this->getLifetime() != 0 && (strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime('now')) {
                 $this->_hasExpired = true;
                 return true;
             }

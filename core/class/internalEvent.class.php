@@ -98,7 +98,7 @@ class internalEvent {
         if ($_plugin == '') {
             throw new Exception(__('Le nom du plugin ne peut etre vide', __FILE__));
         }
-        $now = strtotime(date('Y-m-d H:i:s', strtotime('-1 second', strtotime(date('Y-m-d H:i:s')))));
+        $now = strtotime(date('Y-m-d H:i:s', strtotime('-1 second', strtotime('now'))));
         self::cleanEvent();
         $key = $_plugin . '::lastRetrievalInternalEvent';
         $cache = cache::byKey($key);
