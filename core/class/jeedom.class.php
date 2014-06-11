@@ -278,8 +278,7 @@ class jeedom {
 
     public static function persist() {
         try {
-            $cache = cache::byKey('jeedom::startOK');
-            if ($cache->getValue(0) == 0) {
+            if (self::isStarted()) {
                 cache::restore();
                 cache::set('jeedom::startOK', 1, 0);
                 self::event('start');
@@ -294,6 +293,11 @@ class jeedom {
         } catch (Exception $e) {
             log::add('cache', 'error', $e->getMessage());
         }
+    }
+
+    public static function isStarted() {
+        $cache = cache::byKey('jeedom::startOK');
+        return ($cache->getValue(0) != 0);
     }
 
     public static function event($_event) {
