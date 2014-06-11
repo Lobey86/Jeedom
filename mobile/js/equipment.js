@@ -2,12 +2,12 @@ function initEquipment(_object_id) {
     jeedom.object.all(function(objects) {
         var li = ' <ul data-role="listview">';
         for (var i in objects) {
-            if (objects[i].isVisible == 1) {
+             if (objects[i].isVisible == 1) {
                 var icon = '';
                 if (isset(objects[i].display) && isset(objects[i].display.icon)) {
                     icon = objects[i].display.icon;
                 }
-                li += '<li><a href="#" class="link" data-page="equipment" data-title="' + objects[i].name + '" data-option="' + objects[i].id + '"><span>' + icon + '</span> ' + objects[i].name + '</a></li>'
+                li += '<li></span><a href="#" class="link" data-page="equipment" data-title="' + icon.replace(/\"/g, "\'") + ' ' + objects[i].name + '" data-option="' + objects[i].id + '"><span>' + icon + '</span> ' + objects[i].name + '</a></li>';
             }
         }
         li += '</ul>';
