@@ -95,7 +95,7 @@ class connection {
         }
         $connection->setFailure(0);
         $connection->setUsername($_username);
-        $connection->setStatus('Connected');
+        $connection->setStatus('Ok');
         $connection->save();
     }
 
@@ -107,11 +107,6 @@ class connection {
                     FROM `connection`
                     ORDER BY `datetime` DESC LIMIT 100
                 ) tmp);';
-        DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
-        $sql = 'UPDATE `connection`
-                SET `status` = "Not connected"
-                WHERE status="Connected"
-                    AND `datetime` < DATE_SUB(NOW(),INTERVAL 5 MINUTE)';
         DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
         if (is_numeric(config::byKey('security::bantime'))) {
             $sql = 'UPDATE `connection`
