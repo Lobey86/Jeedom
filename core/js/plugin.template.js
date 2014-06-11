@@ -31,9 +31,6 @@ $(function() {
                 $('.cmd').remove();
                 for (var i in data.cmd) {
                     addCmdToTable(data.cmd[i]);
-                    if ($('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'slider' || $('#table_cmd tbody tr:last .cmdAttr[data-l1key=subType]').value() == 'color') {
-                        $('#table_cmd tbody tr:last .cmdAttr[data-l1key=value]').show();
-                    }
                 }
             }
             initTooltips();
