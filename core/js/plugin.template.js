@@ -37,6 +37,15 @@ $(function() {
             initExpertMode();
             $.hideLoading();
             modifyWithoutSave = false;
+
+            $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
+                jeedom.cmd.changeType($(this).closest('.cmd'));
+            });
+
+            $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function() {
+                jeedom.cmd.changeSubType($(this).closest('.cmd'));
+            });
+
         });
         return false;
     });
@@ -126,9 +135,7 @@ $(function() {
         $('.cmd:last .cmdAttr[data-l1key=type]').trigger('change');
     });
 
-    $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
-        jeedom.cmd.changeType($(this).closest('.cmd'));
-    });
+
 
     $('body').delegate('.cmd .cmdAction[data-l1key=chooseIcon]', 'click', function() {
         var cmd = $(this).closest('.cmd');
@@ -137,9 +144,7 @@ $(function() {
         });
     });
 
-    $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function() {
-        jeedom.cmd.changeSubType($(this).closest('.cmd'));
-    });
+
 
     $('body').delegate('.cmd .cmdAttr[data-l1key=eventOnly]', 'change', function() {
         if ($(this).value() == 1) {
