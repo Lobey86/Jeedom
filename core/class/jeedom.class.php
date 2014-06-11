@@ -278,12 +278,12 @@ class jeedom {
 
     public static function persist() {
         try {
-            if (self::isStarted()) {
+            if (!self::isStarted()) {
                 cache::restore();
+                jeedom::start();
+                plugin::start();
                 cache::set('jeedom::startOK', 1, 0);
                 self::event('start');
-                plugin::start();
-                jeedom::start();
                 log::add('core', 'info', 'Démarrage de Jeedom OK');
             }
             $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
@@ -297,7 +297,7 @@ class jeedom {
 
     public static function isStarted() {
         $cache = cache::byKey('jeedom::startOK');
-        return ($cache->getValue(0) != 0);
+        return ($cache->getValue(0) == 1);
     }
 
     public static function event($_event) {
