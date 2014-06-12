@@ -63,7 +63,7 @@ $plugins_list = plugin::listPlugin(true, true);
         </style>
         <script>
             var clientDatetime = new Date();
-            var clientServerDiffDatetime = (<?php echo strtotime(date('Y-m-d H:i:s')); ?> * 1000) - clientDatetime.getTime();
+            var clientServerDiffDatetime = (<?php echo strtotime('now'); ?> * 1000) - clientDatetime.getTime();
         </script>
 
         <?php

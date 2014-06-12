@@ -171,7 +171,7 @@ class history {
     }
 
     public static function fillHole() {
-        $now = strtotime(date('Y-m-d H:i:s'));
+        $now = strtotime('now');
         $archiveTime = (config::byKey('historyArchiveTime') + 1) * 3600;
         $packetTime = (config::byKey('historyArchivePackage')) * 3600;
         $endTime = date('Y-m-d H:i:s', $now - $archiveTime);
@@ -324,7 +324,7 @@ class history {
     }
 
     public static function getHistoryFromCalcul($_strcalcul, $_dateStart = null, $_dateEnd = null) {
-        $now = strtotime(date('Y-m-d H:i:s'));
+        $now = strtotime('now');
         $archiveTime = (config::byKey('historyArchiveTime') + 1) * 3600;
         $packetTime = (config::byKey('historyArchivePackage')) * 3600;
         $test = new evaluate();

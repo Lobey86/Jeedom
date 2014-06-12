@@ -180,6 +180,24 @@ class plugin {
             }
         }
     }
+    
+    public static function cronDaily() {
+        foreach (self::listPlugin(true) as $plugin) {
+            $plugin_id = $plugin->getId();
+            if (method_exists($plugin_id, 'cronDaily')) {
+                $plugin->launch('cronDaily');
+            }
+        }
+    }
+    
+    public static function cronHourly() {
+        foreach (self::listPlugin(true) as $plugin) {
+            $plugin_id = $plugin->getId();
+            if (method_exists($plugin_id, 'cronHourly')) {
+                $plugin->launch('cronHourly');
+            }
+        }
+    }
 
     public static function start() {
         foreach (self::listPlugin(true) as $plugin) {

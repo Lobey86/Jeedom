@@ -45,6 +45,12 @@ if (init('cron_id') != '') {
         log::add('cron', 'Error', __('Cron job non trouvé : ', __FILE__) . init('cron_id'));
         die();
     }
+
+    if (!jeedom::isStarted() && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'persist') {
+        log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' décalé pour attente de démarrage de Jeedom', __FILE__));
+        die();
+    }
+
     if ($cron->getNbRun() > 1) {
         log::add('cron', 'Error', __('Le cron : ', __FILE__) . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
         die('Le cron : ' . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
@@ -72,7 +78,7 @@ if (init('cron_id') != '') {
                         while (true) {
                             $class::$function($option);
                             sleep($cron->getDeamonSleepTime());
-                            if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
+                            if ((strtotime('now') - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
                                 die();
                             }
                         }
@@ -103,7 +109,7 @@ if (init('cron_id') != '') {
                     while (true) {
                         $function($option);
                         sleep($cron->getDeamonSleepTime());
-                        if ((strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
+                        if ((strtotime('now') - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
                             die();
                         }
                     }
@@ -126,7 +132,7 @@ if (init('cron_id') != '') {
             $cron->setState('stop');
             $cron->setPID();
             $cron->setServer('');
-            $cron->setDuration(convertDuration(strtotime(date('Y-m-d H:i:s')) - strtotime($datetime)));
+            $cron->setDuration(convertDuration(strtotime('now') - strtotime($datetime)));
             $cron->save();
         }
         die();

@@ -70,7 +70,7 @@ class connection {
         $connection->setFailure($connection->getFailure() + 1);
         $connection->setStatus('Failed');
         if ($connection->getFailure() > config::byKey('security::retry') &&
-                (strtotime($connection->getDatetime()) + 60 * config::byKey('security::backlogtime')) > strtotime(date('Y-m-d H:i:s')) &&
+                (strtotime($connection->getDatetime()) + 60 * config::byKey('security::backlogtime')) > strtotime('now') &&
                 !$connection->isProtect()) {
             $connection->setStatus('Ban');
         }
@@ -107,11 +107,6 @@ class connection {
                     FROM `connection`
                     ORDER BY `datetime` DESC LIMIT 100
                 ) tmp);';
-        DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
-        $sql = 'UPDATE `connection`
-                SET `status` = "Not connected"
-                WHERE status="Connected"
-                    AND `datetime` < DATE_SUB(NOW(),INTERVAL 5 MINUTE)';
         DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
         if (is_numeric(config::byKey('security::bantime'))) {
             $sql = 'UPDATE `connection`
