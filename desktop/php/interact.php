@@ -58,19 +58,19 @@ if (!isConnect('admin')) {
                     <fieldset>
                         <legend>{{Phrases générées}}</legend>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">{{Phrase générées}}</label>
+                            <label class="col-md-4 control-label">{{Phrases générées}}</label>
                             <div class="col-md-8">
                                 <a class="btn btn-default displayInteracQuery">{{Voir}}</a>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">{{Nombre de phrase générées}}</label>
+                            <label class="col-md-4 control-label">{{Nombre de phrases générées}}</label>
                             <div class="col-md-8">
                                 <span class="label label-success interactAttr" data-l1key="nbEnableInteractQuery"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">{{Nombre de phrase actives}}</label>
+                            <label class="col-md-4 control-label">{{Nombre de phrases actives}}</label>
                             <div class="col-md-8">
                                 <span class="label label-success interactAttr" data-l1key="nbInteractQuery"></span>
                             </div>
