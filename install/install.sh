@@ -88,10 +88,23 @@ if [ ${nodeJS} -ne 0 ] ; then
     echo "********************************************************"
     echo "*          Installation de nodeJS manuellement         *"
     echo "********************************************************"
-    sudo tar xJvf /usr/share/nginx/www/jeedom/install/node-v0.10.21-wheezy-armhf.tar.xz -C /usr/local --strip-components 1
+    wget http://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
+    sudo tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
     if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
         sudo ln -s /usr/local/bin/node /usr/bin/nodejs
     fi
+    sudo rm -rf node-v0.10.21-cubie.tar.xz
+fi
+if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
+    echo "********************************************************"
+    echo "*  Installation de nodeJS manuellement pour Raspberry  *"
+    echo "********************************************************"
+    wget http://jeedom.fr/ressources/nodejs/node-raspberry.bin
+    sudo rm -rf /usr/local/bin/node
+    sudo rm -rf /usr/bin/nodejs
+    sudo mv node-raspberry.bin /usr/local/bin/node
+    sudo ln -s /usr/local/bin/node /usr/bin/nodejs
+    sudo chmod +x /usr/local/bin/node
 fi
 
 echo "********************************************************"
