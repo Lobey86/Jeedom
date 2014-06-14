@@ -263,8 +263,9 @@ jeedom.cmd.test = function(_id) {
 
 
 jeedom.cmd.refreshValue = function(_cmd_id) {
-    if ($('.cmd[data-cmd_id=' + _cmd_id + ']').html() != undefined && $('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version') != undefined) {
-        var version = $('.cmd[data-cmd_id=' + _cmd_id + ']').closest('.eqLogic').attr('data-version');
+    var cmd = $('.cmd[data-cmd_id=' + _cmd_id + ']');
+    if (cmd.html() != undefined && cmd.closest('.eqLogic').attr('data-version') != undefined) {
+        var version = cmd.closest('.eqLogic').attr('data-version');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/cmd.ajax.php", // url du fichier php
@@ -284,7 +285,7 @@ jeedom.cmd.refreshValue = function(_cmd_id) {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('.cmd[data-cmd_id=' + _cmd_id + ']').replaceWith(data.result.html);
+                cmd.replaceWith(data.result.html);
                 initTooltips();
                 if ($.mobile) {
                     $('.cmd[data-cmd_id=' + _cmd_id + ']').trigger("create");
