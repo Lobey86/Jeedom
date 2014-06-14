@@ -282,14 +282,12 @@ class cron {
             try {
                 $prev = $c->getPreviousRunDate();
                 $lastCheck = new DateTime($this->getLastRun());
-                if ($lastCheck < $prev) {
-                    $diff = round(abs((strtotime('now') - strtotime($prev)) / 60));
-                    if ($diff <= config::byKey('maxCatchAllow') || config::byKey('maxCatchAllow') == -1) {
-                        if ($diff > 3) {
-                            log::add('cron', 'error', __('Retard de ', __FILE__) . $diff . ' min : ' . $this->getClass() . '::' . $this->getFunction() . __('(). Rattrapage en cours...', __FILE__));
-                        }
-                        return true;
+                $diff = round(abs((strtotime('now') - strtotime($prev)) / 60));
+                if ($lastCheck < $prev && $diff <= config::byKey('maxCatchAllow') || config::byKey('maxCatchAllow') == -1) {
+                    if ($diff > 3) {
+                        log::add('cron', 'error', __('Retard de ', __FILE__) . $diff . ' min : ' . $this->getClass() . '::' . $this->getFunction() . __('(). Rattrapage en cours...', __FILE__));
                     }
+                    return true;
                 }
             } catch (Exception $e) {
                 
