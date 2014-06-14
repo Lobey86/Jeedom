@@ -20,14 +20,13 @@ $(function() {
         $.hideAlert();
         $('.li_plugin').removeClass('active');
         $(this).addClass('active');
-        jeedom.plugin.get($(this).attr('data-plugin_id'),function(data){
-               $('#span_plugin_id').html(data.id);
+        jeedom.plugin.get($(this).attr('data-plugin_id'), function(data) {
+            $('#span_plugin_id').html(data.id);
             $('#span_plugin_name').html(data.name);
             $('#span_plugin_author').html(data.author);
             $('#span_plugin_description').html(data.description);
             $('#span_plugin_licence').html(data.licence);
             $('#span_plugin_installation').html(data.installation);
-
 
             $('#span_plugin_market').empty();
             if (data.status.market == 1) {
@@ -63,6 +62,7 @@ $(function() {
                         jeedom.config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function(data) {
                             $('#div_plugin_configuration').setValues(data, '.configKey');
                             $('#div_plugin_configuration').parent().show();
+                            modifyWithoutSave = false;
                         });
                     });
                 } else {
@@ -78,8 +78,8 @@ $(function() {
     });
 
     $("#span_plugin_toggleState").delegate(".togglePlugin", 'click', function() {
-        jeedom.plugin.toggle($(this).attr('data-plugin_id'), $(this).attr('data-state'),function(){
-             window.location.replace('index.php?v=d&p=plugin&id=' + $(this).attr('data-plugin_id'));
+        jeedom.plugin.toggle($(this).attr('data-plugin_id'), $(this).attr('data-state'), function() {
+            window.location.replace('index.php?v=d&p=plugin&id=' + $(this).attr('data-plugin_id'));
         });
     });
 
