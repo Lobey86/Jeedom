@@ -77,6 +77,7 @@ $(function() {
     var configuration = $('#config').getValues('.configKey');
     jeedom.config.load(configuration[0], 'core', function(data) {
         $('#config').setValues(data, '.configKey');
+         modifyWithoutSave = false;
     });
     $('body').delegate('.configKey', 'change', function() {
         modifyWithoutSave = true;
