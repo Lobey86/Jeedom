@@ -28,7 +28,7 @@ $(function() {
 
     function updateCache() {
         webappCache.swapCache();
-        if (confirm("Une nouvelle version de Jeedom vient d'etre installée. Voulez-vous rafraichir pour l'utiliser ?")) {
+        if (confirm("Une nouvelle version de Jeedom vient d'etre installée. Voulez-vous rafraichir pour l'utiliser maintenant ?")) {
             window.location.reload();
         }
     }
