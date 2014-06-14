@@ -4,10 +4,6 @@ if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
 
-if (config::byKey('market::apikey') == '') {
-    throw new Exception('{{401 - Accès non autorisé}}');
-}
-
 $market = market::byId(init('id'));
 if (!is_object($market)) {
     throw new Exception('{{404  - Objet non trouvé sur le market}}');
@@ -29,7 +25,7 @@ foreach ($market->getComment() as $comment) {
     echo '</div>';
 }
 echo '</div>';
-if (isConnect()) {
+if (config::byKey('market::apikey') == '') {
     echo '<textarea class="form-control" id="ta_comment"></textarea>';
     echo '<a class="btn btn-success pull-right" style="color : white;margin-top : 5px;" id="bt_sendComment"><i class="fa fa-comment"></i> {{Envoyer}}</a>';
 }
