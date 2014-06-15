@@ -209,6 +209,7 @@ class market {
 
     public static function getInfo($_logicalId) {
         $return = array();
+        $return['datetime'] = '0000-01-01 00:00:00';
         if ($_logicalId == '' || config::byKey('market::address') == '') {
             $return['market'] = 0;
             $return['market_owner'] = 0;
@@ -225,7 +226,6 @@ class market {
 
         try {
             $market = market::byLogicalId($_logicalId);
-
             if (!is_object($market)) {
                 $return['status'] = 'depreciated';
             } else {
@@ -236,21 +236,21 @@ class market {
                 } else {
                     $return['market_owner'] = 0;
                 }
-            }
 
-            $update = update::byTypeAndLogicalId($market->getType(), $market->getLogicalId());
-            $updateDateTime = '0000-01-01 00:00:00';
-            if (is_object($update)) {
-                $updateDateTime = $update->getLocalVersion();
-            }
-            if ($market->getStatus() == 'Refusé') {
-                $return['status'] = 'depreciated';
-            }
-            if ($market->getStatus() == 'Validé' || $market->getStatus() == 'A valider') {
-                if ($updateDateTime < $market->getDatetime()) {
-                    $return['status'] = 'update';
-                } else {
-                    $return['status'] = 'ok';
+                $update = update::byTypeAndLogicalId($market->getType(), $market->getLogicalId());
+                $updateDateTime = '0000-01-01 00:00:00';
+                if (is_object($update)) {
+                    $updateDateTime = $update->getLocalVersion();
+                }
+                if ($market->getStatus() == 'Refusé') {
+                    $return['status'] = 'depreciated';
+                }
+                if ($market->getStatus() == 'Validé' || $market->getStatus() == 'A valider') {
+                    if ($updateDateTime < $market->getDatetime()) {
+                        $return['status'] = 'update';
+                    } else {
+                        $return['status'] = 'ok';
+                    }
                 }
             }
         } catch (Exception $e) {

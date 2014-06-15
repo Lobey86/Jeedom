@@ -192,6 +192,7 @@ class update {
                 $this->setStatus($market_info['status']);
                 $this->setConfiguration('market_owner', $market_info['market_owner']);
                 $this->setConfiguration('market', $market_info['market']);
+                $this->setRemoteVersion($market_info['datetime']);
                 $this->save();
             } catch (Exception $ex) {
                 
