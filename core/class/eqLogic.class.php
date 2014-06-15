@@ -542,10 +542,10 @@ class eqLogic {
 
     public function getBackgroundColor($_version = 'dashboard') {
         $vcolor = 'color';
-        $default = '#929292';
+        $default = '#2c3e50';
         if ($_version == 'mobile') {
             $vcolor = 'mcolor';
-            $default = '#929292';
+            $default = '#2c3e50';
         }
         $category = $this->getPrimaryCategory();
         if ($category != '') {

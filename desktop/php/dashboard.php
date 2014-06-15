@@ -55,7 +55,6 @@ $child_object = object::buildTree($object);
     </div>
 
     <div class="col-md-8" id="div_displayObject">
-        <div style="height: 10px;width: 100%;"></div>
         <?php
         echo '<div object_id="' . $object->getId() . '">';
         echo '<legend>' . $object->getDisplay('icon') . ' ' . $object->getName() . '</legend>';
@@ -83,7 +82,7 @@ $child_object = object::buildTree($object);
         ?>
     </div>
     <div class="col-md-2">
-        <legend>{{Scénarios}}</legend>
+        <legend><i class="fa fa-history"></i> {{Scénarios}}</legend>
         <?php
         if (init('object_id') == 'global') {
             foreach (scenario::byObjectId(null) as $scenario) {
