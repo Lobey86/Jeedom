@@ -65,9 +65,7 @@ function initApplication(_reinit) {
                 if (data.code == -1234) {
                     if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
                         jeedom.user.logByKey(localStorage.getItem("deviceKey"), function(result) {
-                            if (!result) {
-                                initApplication();
-                            }
+                            initApplication();
                         });
                     } else {
                         page('connection', 'Connexion');
