@@ -42,7 +42,10 @@ $(function() {
     $("#bt_addObject").on('click', function(event) {
         bootbox.prompt("Nom de l'objet ?", function(result) {
             if (result !== null) {
-                saveObject({name: result, isVisible: 1});
+                jeedom.object.save({name: result, isVisible: 1}, function(data) {
+                    modifyWithoutSave = false;
+                    window.location.replace('index.php?v=d&p=object&id=' + data.id + '&saveSuccessFull=1');
+                });
             }
         });
     });
@@ -50,9 +53,9 @@ $(function() {
     $("#bt_saveObject").on('click', function(event) {
         if ($('.li_object.active').attr('data-object_id') != undefined) {
             var object = $('.object').getValues('.objectAttr');
-            jeedom.object.remove(object[0], function() {
+            jeedom.object.save(object[0], function(data) {
                 modifyWithoutSave = false;
-                window.location.replace('index.php?v=d&p=object&id=' + data.result.id + '&saveSuccessFull=1');
+                window.location.replace('index.php?v=d&p=object&id=' + data.id + '&saveSuccessFull=1');
             });
         } else {
             $('#div_alert').showAlert({message: '{{Veuillez d\'abord sélectionner un objet}}', level: 'danger'});
