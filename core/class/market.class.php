@@ -35,6 +35,7 @@ class market {
     private $status;
     private $author;
     private $logicalId;
+    private $rating;
     private $utilization;
     private $api_author;
     private $purchase = 0;
@@ -64,6 +65,7 @@ class market {
         $market->setUtilization($_arrayMarket['utilization']);
         $market->setPurchase($_arrayMarket['purchase']);
         $market->setCost($_arrayMarket['cost']);
+        $market->rating = ($_arrayMarket['rating']);
         $market->setRealcost($_arrayMarket['realCost']);
         if (!isset($_arrayMarket['api_author'])) {
             $_arrayMarket['api_author'] = null;
@@ -318,12 +320,12 @@ class market {
         }
     }
 
-    public function getRating() {
-        $market = self::getJsonRpc();
-        if (!$market->sendRequest('market::getRating', array('id' => $this->getId()))) {
-            throw new Exception($market->getError());
+    public function getRating($_key = 'average') {
+        $rating = $this->rating;
+        if (isset($rating[$_key])) {
+            return $rating[$_key];
         }
-        return $market->getResult();
+        return 0;
     }
 
     public function install() {

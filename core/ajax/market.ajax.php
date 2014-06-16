@@ -70,14 +70,6 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'getRating') {
-        $market = market::byId(init('id'));
-        if (!is_object($market)) {
-            throw new Exception(__('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
-        }
-        ajax::success($market->getRating());
-    }
-
     if (init('action') == 'setComment') {
         $market = market::byId(init('id'));
         if (!is_object($market)) {

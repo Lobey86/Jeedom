@@ -15,9 +15,8 @@ if (!isset($market)) {
 
 include_file('3rdparty', 'bootstrap.rating/bootstrap.rating', 'js');
 
-$rating = $market->getRating();
 $market_array = utils::o2a($market);
-$market_array['rating'] = $rating['average'];
+$market_array['rating'] = $market->getRating();
 sendVarToJS('market_display_info', $market_array);
 
 
@@ -68,7 +67,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 <div class="form-group">
                     <label class="col-md-4 control-label">{{Ma Note}}</label>
                     <div class="col-md-8">
-                        <span><input type="number" class="rating" id="in_myRating" data-max="5" data-empty-value="0" data-min="1" data-clearable="Effacer" value="<?php echo $rating['user'] ?>" /></span>
+                        <span><input type="number" class="rating" id="in_myRating" data-max="5" data-empty-value="0" data-min="1" data-clearable="Effacer" value="<?php echo $market->getRating('user') ?>" /></span>
                     </div>
                 </div>
             <?php } ?>

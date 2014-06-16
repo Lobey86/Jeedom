@@ -3,6 +3,7 @@ if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
 include_file('3rdparty', 'jquery.lazyload/jquery.lazyload', 'js');
+include_file('3rdparty', 'bootstrap.rating/bootstrap.rating', 'js');
 
 $markets = market::byStatusAndType('Validé', init('type'));
 if (config::byKey('market::showToValidateMarket') == 1) {
@@ -27,21 +28,22 @@ if (config::byKey('market::showToValidateMarket') == 1) {
             <th>{{Nom}}</th>
             <th>{{Description}}</th>
             <th>{{Statut}}</th>
-            <th>{{Auteur}}</th>
+            <th style="width: 100px;">{{Note}}</th>
             <th>{{Téléchargé}}</th>
         </tr>
     </thead>
     <tbody>
         <?php
         foreach ($markets as $market) {
-            echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor">';
-            echo '<td><img src="core/img/no_image.gif" data-original="' . config::byKey('market::address') . '/market/' . $market->getType() . '/' . $market->getLogicalId() . '.jpg"  class="img-responsive lazy" width="70" height="70" /></td>';
+            $rating =  $market->getRating();
+            echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor" style="height:70px;">';
+            echo '<td><center><img src="core/img/no_image.gif" data-original="' . config::byKey('market::address') . '/market/' . $market->getType() . '/' . $market->getLogicalId() . '.jpg"  class="lazy" height="70" /></center></td>';
             echo '<td>' . $market->getCategorie() . '</td>';
             echo '<td>' . $market->getName() . '</td>';
             echo '<td>' . $market->getDescription() . '</td>';
             echo '<td>' . $market->getStatus() . '</td>';
-            echo '<td>' . $market->getAuthor() . '</td>';
-            echo '<td>' . $market->getDownloaded() . '</td>';
+            echo '<td><center><input type="number" class="rating" data-max="5" data-empty-value="0" data-min="1" value="'. $market->getRating(). '" data-disabled="1" /></center></td>';
+            echo '<td><center>' . $market->getDownloaded() . '</center></td>';
             echo '</tr>';
         }
         ?>
