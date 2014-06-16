@@ -18,7 +18,7 @@
 $(function() {
     editor = [];
 
-    listColor = ['#16a085', '#27ae60', '#2980b9', '#8e44ad', '#f39c12', '#d35400', '#c0392b', '#2c3e50', '#7f8c8d'];
+    listColor = ['#16a085', '#27ae60', '#2980b9', '#745cb0', '#f39c12', '#d35400', '#c0392b', '#2c3e50', '#7f8c8d'];
     pColor = 0;
 
     autoCompleteCondition = [
