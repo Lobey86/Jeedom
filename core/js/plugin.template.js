@@ -21,6 +21,7 @@ $(function() {
         $('.eqLogic').show();
         $('.li_eqLogic').removeClass('active');
         $(this).addClass('active');
+        $.showLoading();
         jeedom.eqLogic.print(eqType, $(this).attr('data-eqLogic_id'), function(data) {
             $('body .eqLogicAttr').value('');
             $('body').setValues(data, '.eqLogicAttr');
@@ -35,9 +36,7 @@ $(function() {
             }
             initTooltips();
             initExpertMode();
-            $.hideLoading();
             modifyWithoutSave = false;
-
             $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
                 jeedom.cmd.changeType($(this).closest('.cmd'));
             });
@@ -45,7 +44,6 @@ $(function() {
             $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function() {
                 jeedom.cmd.changeSubType($(this).closest('.cmd'));
             });
-
         });
         return false;
     });

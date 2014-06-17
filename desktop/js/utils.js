@@ -16,6 +16,7 @@
  */
 
 modifyWithoutSave = false;
+nbActiveAjaxRequest = 0;
 
 $(function() {
     /*********************Gestion de l'heure********************************/
@@ -37,10 +38,15 @@ $(function() {
 
     // Ajax Loading Screen
     $(document).ajaxStart(function() {
+        nbActiveAjaxRequest++;
         $.showLoading();
     });
     $(document).ajaxStop(function() {
-        $.hideLoading();
+        nbActiveAjaxRequest--;
+        if (nbActiveAjaxRequest <= 0) {
+            nbActiveAjaxRequest = 0;
+            $.hideLoading();
+        }
     });
 
     $.fn.modal.Constructor.prototype.enforceFocus = function() {
