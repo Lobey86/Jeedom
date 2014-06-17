@@ -371,7 +371,6 @@ function setAutocomplete() {
 function printScenario(_id) {
     $.showLoading();
     jeedom.scenario.get(_id, function(data) {
-        $.showLoading();
         pColor = 0;
         $('.scenarioAttr').value('');
         $('#table_scenarioCondition tbody').empty();
