@@ -50,7 +50,7 @@ function jeedomPluginAutoload($classname) {
         try {
             $plugin = plugin::byId($classname);
         } catch (Exception $e) {
-            if (!is_object($plugin) || $plugin->getId() == '') {
+            if (!is_object($plugin)) {
                 if (strpos($classname, 'Real') !== false) {
                     $plugin = plugin::byId(substr($classname, 0, -4));
                 }
@@ -59,7 +59,7 @@ function jeedomPluginAutoload($classname) {
                 }
             }
         }
-        if (is_object($plugin) && $plugin->getId() != '') {
+        if (is_object($plugin)) {
             if ($plugin->isActive() == 1) {
                 $include = $plugin->getInclude();
                 include_file('core', $include['file'], $include['type'], $plugin->getId());

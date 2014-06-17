@@ -70,34 +70,24 @@ if (init('cron_id') != '') {
         if ($cron->getClass() != '') {
             $class = $cron->getClass();
             $function = $cron->getFunction();
-            if (class_exists($class)) {
-                if (method_exists($class, $function)) {
-                    if ($cron->getDeamon() == 0) {
+            if (class_exists($class) && method_exists($class, $function)) {
+                if ($cron->getDeamon() == 0) {
+                    $class::$function($option);
+                } else {
+                    while (true) {
                         $class::$function($option);
-                    } else {
-                        while (true) {
-                            $class::$function($option);
-                            sleep($cron->getDeamonSleepTime());
-                            if ((strtotime('now') - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
-                                die();
-                            }
+                        sleep($cron->getDeamonSleepTime());
+                        if ((strtotime('now') - strtotime($datetime)) / 60 >= $cron->getTimeout()) {
+                            die();
                         }
                     }
-                } else {
-                    $cron->setState('Not found');
-                    $cron->setPID();
-                    $cron->setServer('');
-                    $cron->setEnable(0);
-                    $cron->save();
-                    log::add('cron', 'error', __('[Erreur] Fonction non trouvée ', __FILE__) . $cron->getName());
-                    die();
                 }
             } else {
                 $cron->setState('Not found');
                 $cron->setPID();
                 $cron->setServer('');
                 $cron->save();
-                log::add('cron', 'error', __('[Erreur] Classe non trouvée ', __FILE__) . $cron->getName());
+                log::add('cron', 'error', __('[Erreur] Classe ou fonction non trouvée ', __FILE__) . $cron->getName());
                 die();
             }
         } else {
