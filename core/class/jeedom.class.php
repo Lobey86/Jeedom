@@ -113,8 +113,17 @@ class jeedom {
         if ($cache->getValue() === '' || $cache->getValue() == 'false' || $_name == '') {
             $usbMapping = array();
             foreach (ls('/dev/', 'ttyUSB*') as $usb) {
-                $result = trim(str_replace(array('ATTRS{product}==', '"'), '', shell_exec('udevadm info --name=/dev/' . $usb . ' --attribute-walk | grep "ATTRS{product}" | head -n 1')));
-                $usbMapping[$result] = '/dev/' . $usb;
+                $vendor = '';
+                $model = '';
+                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb)) as $line) {
+                    if (strpos($line, 'E: ID_MODEL=') !== false) {
+                        $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
+                    }
+                    if (strpos($line, 'E: ID_VENDOR=') !== false) {
+                        $vendor = trim(str_replace(array('E: ID_VENDOR=', '"'), '', $line));
+                    }
+                };
+                $usbMapping[$vendor . ' ' . $model] = '/dev/' . $usb;
             }
             cache::set('jeedom::usbMapping', json_encode($usbMapping), 0);
         } else {
