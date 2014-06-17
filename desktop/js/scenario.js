@@ -36,7 +36,7 @@ $(function() {
         {val: 'tendance(commande,periode)'},
     ];
 
-    autoCompleteAction = ['sleep', 'variable', 'scenario'];
+    autoCompleteAction = ['sleep', 'variable', 'scenario','stop'];
 
     if (getUrlVars('saveSuccessFull') == 1) {
         $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
@@ -122,7 +122,7 @@ $(function() {
         });
     });
 
-    $("#bt_stopScenario").on('click', function(event) {
+    $("#bt_stopScenario").on('click', function() {
         jeedom.scenario.changeState($('.scenarioAttr[data-l1key=id]').value(), 'stop', function() {
             printScenario($('.scenarioAttr[data-l1key=id]').value());
         });
@@ -291,21 +291,12 @@ $(function() {
     /***********************LOG*****************************/
 
     $('#bt_logScenario').on('click', function() {
-        $('#md_modal').dialog({title: "{{Log d\'exécution du scénario}}"});
+        $('#md_modal').dialog({title: "{{Log d'exécution du scénario}}"});
         $("#md_modal").load('index.php?v=d&modal=scenario.log.execution&scenario_id=' + $('.scenarioAttr[data-l1key=id]').value()).dialog('open');
     });
 
     /**************** Initialisation **********************/
-    if (is_numeric(getUrlVars('id'))) {
-        if ($('#ul_scenario .li_scenario[data-scenario_id=' + getUrlVars('id') + ']').length != 0) {
-            $('#ul_scenario .li_scenario[data-scenario_id=' + getUrlVars('id') + ']').click();
-        } else {
-            $('#ul_scenario .li_scenario:first').click();
-        }
-    } else {
-        $('#ul_scenario .li_scenario:first').click();
-    }
-
+   
     $('body').delegate('.scenarioAttr', 'change', function() {
         modifyWithoutSave = true;
     });
@@ -321,6 +312,16 @@ $(function() {
     $('body').delegate('.subElementAttr', 'change', function() {
         modifyWithoutSave = true;
     });
+    
+    if (is_numeric(getUrlVars('id'))) {
+        if ($('#ul_scenario .li_scenario[data-scenario_id=' + getUrlVars('id') + ']').length != 0) {
+            $('#ul_scenario .li_scenario[data-scenario_id=' + getUrlVars('id') + ']').click();
+        } else {
+            $('#ul_scenario .li_scenario:first').click();
+        }
+    } else {
+        $('#ul_scenario .li_scenario:first').click();
+    }
 });
 
 function updateSortable() {
@@ -368,7 +369,9 @@ function setAutocomplete() {
 }
 
 function printScenario(_id) {
+    $.showLoading();
     jeedom.scenario.get(_id, function(data) {
+        $.showLoading();
         pColor = 0;
         $('.scenarioAttr').value('');
         $('#table_scenarioCondition tbody').empty();
