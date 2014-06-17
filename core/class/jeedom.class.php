@@ -115,7 +115,7 @@ class jeedom {
             foreach (ls('/dev/', 'ttyUSB*') as $usb) {
                 $vendor = '';
                 $model = '';
-                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb)) as $line) {
+                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb.' --query=all')) as $line) {
                     if (strpos($line, 'E: ID_MODEL=') !== false) {
                         $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
                     }
