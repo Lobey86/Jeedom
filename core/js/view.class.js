@@ -55,6 +55,12 @@ jeedom.view.all = function(_callback) {
 }
 
 jeedom.view.prefetch = function(_id, _version) {
+    if (_version == 'mobile') {
+        _version = 'mview';
+    }
+    if (_version == 'dashboard') {
+        _version = 'dview';
+    }
     if (!isset(jeedom.view.cache.html)) {
         jeedom.view.cache.html = Array();
     }
@@ -65,6 +71,12 @@ jeedom.view.prefetch = function(_id, _version) {
 }
 
 jeedom.view.toHtml = function(_id, _version, _useCache, _globalAjax, _callback) {
+    if (_version == 'mobile') {
+        _version = 'mview';
+    }
+    if (_version == 'dashboard') {
+        _version = 'dview';
+    }
     if (init(_useCache, false) == true && isset(jeedom.view.cache.html[_id]) && 'function' == typeof (_callback)) {
         _callback(jeedom.view.cache.html[_id]);
         return;
