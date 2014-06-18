@@ -164,7 +164,7 @@ class scenarioExpression {
                 if ($this->getExpression() == 'sleep') {
                     if (isset($options['duration']) && is_numeric(intval($options['duration']))) {
                         $this->setLog(__('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));
-                        return sleepintval(intval($options['duration']));
+                        return sleep(intval($options['duration']));
                     }
                     $this->setLog(__('Aucune durée trouvée pour l\'action sleep : ', __FILE__) . $options['duration']);
                     return;
