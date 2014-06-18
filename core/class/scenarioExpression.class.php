@@ -170,7 +170,7 @@ class scenarioExpression {
                     return;
                 }
                 if ($this->getExpression() == 'stop') {
-                    $scenario->stop();
+                    $scenario->setState('stop');
                     $scenario->setPID('');
                     $scenario->save();
                     die();
