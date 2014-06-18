@@ -152,15 +152,13 @@ jeedom.cmd.displayActionOption = function(_expression, _options, _callback) {
                 html += data.result.html;
                 html += '</div>';
             }
-            if ('function' == typeof (html)) {
+            if ('function' == typeof (_callback)) {
                 _callback(html);
                 return;
             }
         }
     });
-    if ('function' != typeof (html)) {
-        return html;
-    }
+    return html;
 };
 
 

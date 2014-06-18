@@ -35,8 +35,7 @@ $(function() {
         {val: 'variable(mavariable,defaut)'},
         {val: 'tendance(commande,periode)'},
     ];
-
-    autoCompleteAction = ['sleep', 'variable', 'scenario','stop'];
+    autoCompleteAction = ['sleep', 'variable', 'scenario', 'stop'];
 
     if (getUrlVars('saveSuccessFull') == 1) {
         $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
@@ -196,10 +195,11 @@ $(function() {
     });
 
     $('body').delegate('.expression .expressionAttr[data-l1key=expression]', 'focusout', function(event) {
-        if ($(this).closest('.expression').find('.expressionAttr[data-l1key=type]').value() == 'action') {
-            var expression = $(this).closest('.expression').getValues('.expressionAttr');
-            jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options), function(html) {
-                $(this).closest('.expression').find('.expressionOptions').html(html);
+        var el = $(this);
+        if (el.closest('.expression').find('.expressionAttr[data-l1key=type]').value() == 'action') {
+            var expression = el.closest('.expression').getValues('.expressionAttr');
+            jeedom.cmd.displayActionOption(el.value(), init(expression[0].options), function(html) {
+                el.closest('.expression').find('.expressionOptions').html(html);
             });
         }
     });
@@ -296,7 +296,7 @@ $(function() {
     });
 
     /**************** Initialisation **********************/
-   
+
     $('body').delegate('.scenarioAttr', 'change', function() {
         modifyWithoutSave = true;
     });
@@ -312,7 +312,7 @@ $(function() {
     $('body').delegate('.subElementAttr', 'change', function() {
         modifyWithoutSave = true;
     });
-    
+
     if (is_numeric(getUrlVars('id'))) {
         if ($('#ul_scenario .li_scenario[data-scenario_id=' + getUrlVars('id') + ']').length != 0) {
             $('#ul_scenario .li_scenario[data-scenario_id=' + getUrlVars('id') + ']').click();
@@ -357,15 +357,18 @@ function setEditor() {
 function setAutocomplete() {
     $('.expression').each(function() {
         if ($(this).find('.expressionAttr[data-l1key=type]').value() == 'condition') {
-            $(this).find('.expressionAttr[data-l1key=expression]').sew({values: autoCompleteCondition}); // pass in the values
+            $(this).find('.expressionAttr[data-l1key=expression]').sew({values: autoCompleteCondition, token: '[ |#]'});
         }
         if ($(this).find('.expressionAttr[data-l1key=type]').value() == 'action') {
             $(this).find('.expressionAttr[data-l1key=expression]').autocomplete({
-                source: autoCompleteAction
+                source: autoCompleteAction,
+                close: function(event, ui) {
+                    $(this).trigger('focusout');
+                }
             });
         }
     });
-    $('.autoCompleteCondition').sew({values: autoCompleteCondition, token: '#'})
+    $('.autoCompleteCondition').sew({values: autoCompleteCondition, token: '[ |#]'});
 }
 
 function printScenario(_id) {
