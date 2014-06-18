@@ -313,20 +313,20 @@ class jeedom {
         $cache = cache::byKey('jeedom::lastDate');
         $lastDate = $cache->getValue();
         if ($lastDate == '' || strtotime($lastDate) === false) {
-            cache::set('jeedom::lastDate', date('Y-m-d 00:00:00'), 0);
+            cache::set('jeedom::lastDate', date('Y-m-d H:00:00'), 0);
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        if (strtotime($lastDate) == strtotime(date('Y-m-d 00:00:00'))) {
+        if (strtotime($lastDate) == strtotime(date('Y-m-d H:00:00'))) {
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        if (strtotime($lastDate) < strtotime(date('Y-m-d 00:00:00'))) {
-            cache::set('jeedom::lastDate', date('Y-m-d 00:00:00'), 0);
+        if (strtotime($lastDate) < strtotime(date('Y-m-d H:00:00'))) {
+            cache::set('jeedom::lastDate', date('Y-m-d H:00:00'), 0);
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        log::add('core', 'error', __('La date systeme (', __FILE__) . date('Y-m-d 00:00:00') . __(') est anterieur à la derniere date (', __FILE__) . $lastDate . __(')enregistrer. Tous les lancements (scénarios et taches) sont interrompu jusqu\'à correction.', __FILE__), 'dateCheckFailed');
+        log::add('core', 'error', __('La date systeme (', __FILE__) . date('Y-m-d H:00:00') . __(') est anterieur à la derniere date (', __FILE__) . $lastDate . __(')enregistrer. Tous les lancements (scénarios et taches) sont interrompu jusqu\'à correction.', __FILE__), 'dateCheckFailed');
         return false;
     }
 
