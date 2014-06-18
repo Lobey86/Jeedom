@@ -31,6 +31,12 @@ $(function() {
         flushMemcache();
     });
 
+    $("#bt_clearJeedomLastDate").on('click', function(event) {
+        $.hideAlert();
+        clearJeedomDate();
+    });
+
+
     $("#bt_saveGeneraleConfig").on('click', function(event) {
         $.hideAlert();
         saveConvertColor();
@@ -75,9 +81,10 @@ $(function() {
     printConvertColor();
 
     var configuration = $('#config').getValues('.configKey');
+    $.showLoading();
     jeedom.config.load(configuration[0], 'core', function(data) {
         $('#config').setValues(data, '.configKey');
-         modifyWithoutSave = false;
+        modifyWithoutSave = false;
     });
     $('body').delegate('.configKey', 'change', function() {
         modifyWithoutSave = true;
@@ -125,6 +132,28 @@ function genNodeJsKey() {
         }
     });
 }
+
+function clearJeedomDate() {
+    $.ajax({// fonction permettant de faire de l'ajax
+        type: "POST", // methode de transmission des données au fichier php
+        url: "core/ajax/jeedom.ajax.php", // url du fichier php
+        data: {
+            action: "clearDate"
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            $('#in_jeedomLastDate').value('');
+        }
+    });
+}
+
 
 function flushMemcache() {
     $.ajax({// fonction permettant de faire de l'ajax

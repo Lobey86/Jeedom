@@ -26,7 +26,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <div class="col-md-1"> 
                                     <a class="btn btn-default form-control" id="bt_genKeyAPI">{{Générer}}</a>
                                 </div>
-                                <div class="alert-info col-md-6" style="padding: 10px;">
+                                <div class="alert-info col-md-7" style="padding: 10px;">
                                     {{Activation du cron : ajouter <em>* * * * * su --shell=/bin/bash - www-data -c "/usr/bin/php #PATH_TO_JEEDOM#/jeedom/core/php/jeeCron.php" >> /dev/null 2>&1</em> à la crontab}}
                                 </div>
                             </div>
@@ -39,12 +39,25 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <a class="btn btn-default form-control" id="bt_nodeJsKey" >{{Générer}}</a>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{Derniere date enregistrée}}</label>
+                                <div class="col-md-2"> 
+                                    <?php
+                                    $cache = cache::byKey('jeedom::lastDate');
+                                    echo '<p class="form-control-static" id="in_jeedomLastDate">' . $cache->getValue() . '</p>';
+                                    ?>
+                                </div>
+                                <div class="col-md-1"> 
+                                    <a class="btn btn-default form-control" id="bt_clearJeedomLastDate">{{Réinitialiser}}</a>
+                                </div>
+                            </div>
                             <div class="form-group expertModeVisible">
                                 <label class="col-md-2 control-label">{{Hardware key}}</label>
                                 <div class="col-md-2"> 
                                     <p class="form-control-static"><?php echo jeedom::getHardwareKey(); ?></p>
                                 </div>
                             </div>
+
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label">{{Email admin}}</label>

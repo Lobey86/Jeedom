@@ -88,6 +88,7 @@ $(function() {
     });
 
     var configuration = $('#backup').getValues('.configKey');
+    $.showLoading();
     jeedom.config.load(configuration[0], 'core', function(data) {
         $('#backup').setValues(data, '.configKey');
          modifyWithoutSave = false;

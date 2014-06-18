@@ -43,6 +43,14 @@ try {
         ajax::success();
     }
 
+    if (init('action') == 'clearDate') {
+        $cache = cache::byKey('jeedom::lastDate');
+        if ($cache->getValue() != '') {
+            $cache->remove();
+        }
+        ajax::success();
+    }
+
     if (init('action') == 'backup') {
         jeedom::backup(true);
         ajax::success();
