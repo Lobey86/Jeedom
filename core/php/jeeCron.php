@@ -48,9 +48,20 @@ if (init('cron_id') != '') {
 
     if (!jeedom::isStarted() && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'persist') {
         log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' décalé pour attente de démarrage de Jeedom', __FILE__));
+        $cron->setState('stop');
+        $cron->setPID();
+        $cron->setServer('');
+        $cron->save();
         die();
     }
-
+    if (!jeedom::isDateOk() && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'persist') {
+        log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' annulé car la date ne semble pas etre correcte', __FILE__));
+        $cron->setState('stop');
+        $cron->setPID();
+        $cron->setServer('');
+        $cron->save();
+        die();
+    }
     if ($cron->getNbRun() > 1) {
         log::add('cron', 'Error', __('Le cron : ', __FILE__) . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
         die('Le cron : ' . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');

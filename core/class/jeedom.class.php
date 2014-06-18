@@ -115,7 +115,7 @@ class jeedom {
             foreach (ls('/dev/', 'ttyUSB*') as $usb) {
                 $vendor = '';
                 $model = '';
-                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb.' --query=all')) as $line) {
+                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
                     if (strpos($line, 'E: ID_MODEL=') !== false) {
                         $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
                     }
@@ -307,6 +307,27 @@ class jeedom {
     public static function isStarted() {
         $cache = cache::byKey('jeedom::startOK');
         return ($cache->getValue(0) == 1);
+    }
+
+    public static function isDateOk() {
+        $cache = cache::byKey('jeedom::lastDate');
+        $lastDate = $cache->getValue();
+        if ($lastDate == '' || strtotime($lastDate) === false) {
+            cache::set('jeedom::lastDate', date('Y-m-d 00:00:00'), 0);
+            message::removeAll('core', 'dateCheckFailed');
+            return true;
+        }
+        if (strtotime($lastDate) == strtotime(date('Y-m-d 00:00:00'))) {
+            message::removeAll('core', 'dateCheckFailed');
+            return true;
+        }
+        if (strtotime($lastDate) < strtotime(date('Y-m-d 00:00:00'))) {
+            cache::set('jeedom::lastDate', date('Y-m-d 00:00:00'), 0);
+            message::removeAll('core', 'dateCheckFailed');
+            return true;
+        }
+        log::add('core', 'error', __('La date systeme (', __FILE__) . date('Y-m-d 00:00:00') . __(') est anterieur à la derniere date (', __FILE__) . $lastDate . __(')enregistrer. Tous les lancements (scénarios et taches) sont interrompu jusqu\'à correction.', __FILE__), 'dateCheckFailed');
+        return false;
     }
 
     public static function event($_event) {
