@@ -368,7 +368,6 @@ function setAutocomplete() {
             });
         }
     });
-    $('.autoCompleteCondition').sew({values: autoCompleteCondition, token: '[ |#]'});
 }
 
 function printScenario(_id) {
