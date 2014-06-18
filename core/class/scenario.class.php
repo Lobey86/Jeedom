@@ -130,7 +130,7 @@ class scenario {
             if ($scenario_list != '') {
                 if (is_numeric($_event_id)) {
                     $cmd = cmd::byId($_event_id);
-                    $message = __('Scenario lance sur evenement venant de : ', __FILE__) . $cmd->getHumanName();
+                    $message = __('Scenario lance automatiquement sur evenement venant de : ', __FILE__) . $cmd->getHumanName();
                     if (is_object($cmd)) {
                         log::add('scenario', 'info', __('Evènement venant de ', __FILE__) . $cmd->getHumanName() . ' (' . $cmd->getId() . __(') vérification du/des scénario(s) : ', __FILE__) . $scenario_list);
                     } else {
@@ -142,7 +142,7 @@ class scenario {
                 }
             }
         } else {
-            $message = __('Scenario lance sur automatiquement sur programmation', __FILE__);
+            $message = __('Scenario lance automatiquement sur programmation', __FILE__);
             $scenarios = scenario::all();
             foreach ($scenarios as $key => &$scenario) {
                 if ($scenario->getState() == 'in progress' && !$scenario->running()) {
