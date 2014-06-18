@@ -29,7 +29,7 @@ echo "Quel mot de passe venez vous de taper (mot de passe root de la MySql) ?"
 while true
 do
         read MySQL_root < /dev/tty
-        echo "Confirmez vous que le mot de passe est : "$MySQL_root
+        echo "Confirmez vous que le mot de passe est : "${MySQL_root}
         while true
         do
             echo -n "oui/non: "
@@ -44,8 +44,7 @@ do
             esac
             echo "Répondez oui ou non"
         done    
-        if [ $ANSWER == "oui" ]
-        then
+        if [ "${ANSWER}" = "oui" ]; then
             break
         fi
 done
