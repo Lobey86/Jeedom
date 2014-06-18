@@ -277,7 +277,7 @@ class interactQuery {
             }
             switch ($interactDef->getOptions('scenario_action')) {
                 case 'start':
-                    $scenario->launch();
+                    $scenario->launch(false,__('Scenario lance sur interaction (S.A.R.A.H, SMS...)',__FILE__));
                     return self::replyOk();
                 case 'stop':
                     $scenario->stop();

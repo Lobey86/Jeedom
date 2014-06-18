@@ -116,6 +116,7 @@ class scenario {
             log::add('scenario', 'info', __('Vérification des scénarios annulée car la date ne semble pas etre correcte', __FILE__));
             return false;
         }
+        $message = '';
         if ($_event_id != null) {
             $scenarios = self::byTrigger($_event_id);
             $scenario_list = '';
@@ -129,16 +130,19 @@ class scenario {
             if ($scenario_list != '') {
                 if (is_numeric($_event_id)) {
                     $cmd = cmd::byId($_event_id);
+                    $message = __('Scenario lance sur evenement venant de : ', __FILE__) . $cmd->getHumanName();
                     if (is_object($cmd)) {
                         log::add('scenario', 'info', __('Evènement venant de ', __FILE__) . $cmd->getHumanName() . ' (' . $cmd->getId() . __(') vérification du/des scénario(s) : ', __FILE__) . $scenario_list);
                     } else {
                         return;
                     }
                 } else {
+                    $message = __('Scenario lance sur evenement : #', __FILE__) . $_event_id . '#';
                     log::add('scenario', 'info', __('Evènement : #', __FILE__) . $_event_id . __('# vérification du/des scénario(s) : ', __FILE__) . $scenario_list);
                 }
             }
         } else {
+            $message = __('Scenario lance sur automatiquement sur programmation', __FILE__);
             $scenarios = scenario::all();
             foreach ($scenarios as $key => &$scenario) {
                 if ($scenario->getState() == 'in progress' && !$scenario->running()) {
@@ -160,7 +164,7 @@ class scenario {
 
         foreach ($scenarios as $scenario_) {
             try {
-                $scenario_->launch();
+                $scenario_->launch(false, $message);
             } catch (Exception $e) {
                 log::add('scenario', 'error', $e->getMessage());
             }
@@ -210,11 +214,12 @@ class scenario {
 
     /*     * *********************Methode d'instance************************* */
 
-    public function launch($_force = false) {
+    public function launch($_force = false, $_message = '') {
         if (config::byKey('enableScenario') == 1) {
             $cmd = 'nohup php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
             $cmd.= ' scenario_id=' . $this->getId();
             $cmd.= ' force=' . $_force;
+            $cmd.= ' message=' . escapeshellarg($_message);
             $cmd.= ' >> ' . log::getPathToLog('scenario') . ' 2>&1 &';
             shell_exec($cmd);
             return true;
@@ -222,10 +227,10 @@ class scenario {
         return false;
     }
 
-    public function execute() {
+    public function execute($_message = '') {
         $this->clearLog();
         $initialState = $this->getState();
-        $this->setLog('Début exécution du scénario : ' . $this->getHumanName());
+        $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
         $this->setState('in progress');
         $this->setLastLaunch(date('Y-m-d H:i:s'));
         $this->save();

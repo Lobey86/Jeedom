@@ -164,7 +164,7 @@ class scenarioExpression {
                 if ($this->getExpression() == 'sleep') {
                     if (isset($options['duration']) && is_numeric(intval($options['duration']))) {
                         $this->setLog(__('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));
-                        return sleepintval(($options['duration']));
+                        return sleepintval(intval($options['duration']));
                     }
                     $this->setLog(__('Aucune durée trouvée pour l\'action sleep : ', __FILE__) . $options['duration']);
                     return;
@@ -183,7 +183,7 @@ class scenarioExpression {
                     switch ($this->getOptions('action')) {
                         case 'start':
                             $this->setLog(__('Lancement du scénario : ', __FILE__) . $actionScenario->getName());
-                            $actionScenario->launch();
+                            $actionScenario->launch(false, __('Lancement provoque par le scenario  : ', __FILE__) . $scenario->getHumanName());
                             break;
                         case 'stop':
                             $this->setLog(__('Arrêt forcer du scénario : ', __FILE__) . $actionScenario->getName());
