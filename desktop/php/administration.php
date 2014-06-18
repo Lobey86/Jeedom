@@ -40,7 +40,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-2 control-label">{{Derniere date enregistrée}}</label>
+                                <label class="col-md-2 control-label">{{Dernière date enregistrée}}</label>
                                 <div class="col-md-2"> 
                                     <?php
                                     $cache = cache::byKey('jeedom::lastDate');
