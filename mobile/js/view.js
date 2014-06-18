@@ -9,13 +9,13 @@ function initView(_view_id) {
     });
     if (isset(_view_id) && is_numeric(_view_id)) {
         jeedom.history.chart = [];
-        jeedom.view.toHtml(_view_id, 'mobile', true, true, function(html) {
+        jeedom.view.toHtml(_view_id, 'mview', true, true, function(html) {
             var alreadyDisplay = false;
             for (var i in jeedom.workflow.eqLogic) {
                 if (jeedom.workflow.eqLogic[i]) {
                     if ($.inArray(i, html.eqLogic) >= 0) {
                         alreadyDisplay = true;
-                        jeedom.view.toHtml(_view_id, 'mobile', false, true, function(html) {
+                        jeedom.view.toHtml(_view_id, 'mview', false, true, function(html) {
                             jeedom.workflow.eqLogic[i] = false;
                             displayView(html);
                         });

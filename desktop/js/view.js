@@ -16,7 +16,7 @@
 
 $(function() {
     if (view_id != '') {
-        jeedom.view.toHtml(view_id, 'dashboard', true, true, function(html) {
+        jeedom.view.toHtml(view_id, 'dview', true, true, function(html) {
             $('#div_displayView').empty().html(html.html);
             positionEqLogic();
             $('.eqLogicZone').each(function() {

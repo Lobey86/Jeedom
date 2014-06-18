@@ -258,6 +258,7 @@ class scenario {
     }
 
     public function toHtml($_version) {
+        $_version = jeedom::versionAlias($_version);
         $replace = array(
             '#id#' => $this->getId(),
             '#state#' => $this->getState(),

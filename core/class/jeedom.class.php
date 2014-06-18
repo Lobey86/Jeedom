@@ -393,6 +393,14 @@ class jeedom {
         return $cache->getValue();
     }
 
+    public static function versionAlias($_version) {
+        $alias = array(
+            'mview' => 'mobile',
+            'dview' => 'dashboard',
+        );
+        return (isset($alias[$_version])) ? $alias[$_version] : $_version;
+    }
+
     public static function toHumanReadable($_input) {
         return eqLogic::toHumanReadable(cmd::cmdToHumanReadable($_input));
     }

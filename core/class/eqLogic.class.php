@@ -424,47 +424,51 @@ class eqLogic {
         }
         $info = '';
         $action = '';
-
-
         $vcolor = 'cmdColor';
-        if ($_version == 'mobile') {
+        if (jeedom::versionAlias($_version) == 'mobile') {
             $vcolor = 'mcmdColor';
         }
-        
         $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
         $cmd_display = array(
-            '#cmdColor#' => (!is_array($cmdColor)) ?  $cmdColor : '#C1C1C1'
+            '#cmdColor#' => (!is_array($cmdColor)) ? $cmdColor : '#C1C1C1'
         );
         if ($this->getIsEnable()) {
             foreach ($this->getCmd() as $cmd) {
                 if ($cmd->getIsVisible() == 1) {
                     if ($cmd->getType() == 'action') {
-                        $action.=$cmd->toHtml($_version, '', $cmd_display);
+                        $action.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmd_display);
                     } else {
-                        $info.=$cmd->toHtml($_version, '', $cmd_display);
+                        $info.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmd_display);
                     }
                 }
             }
         }
-        $object = $this->getObject();
 
         $replace = array(
             '#id#' => $this->getId(),
-            '#info#' => (isset($info)) ? $info : '',
             '#name#' => ($this->getIsEnable()) ? $this->getName() : '<del>' . $this->getName() . '</del>',
             '#eqLink#' => $this->getLinkToConfiguration(),
-            '#action#' => (isset($action)) ? $action : '',
-            '#object_name#' => (is_object($object)) ? $object->getName() . ' - ' : '',
-            '#background_color#' => $this->getBackgroundColor($_version),
             '#category#' => $this->getPrimaryCategory(),
+            '#background_color#' => $this->getBackgroundColor(jeedom::versionAlias($_version)),
+            '#action#' => $action,
+            '#info#' => $info,
         );
+        if ($_version == 'dview') {
+            $object = $this->getObject();
+            $replace['#name#'] = (is_object($object)) ? $object->getName() . ' - ' . $replace['#name#'] : $replace['#name#'];
+        }
+        if ($_version == 'mview') {
+            $object = $this->getObject();
+            $replace['#name#'] = (is_object($object)) ? $object->getName() . ' - ' . $replace['#name#'] : $replace['#name#'];
+        }
+
         if (!isset(self::$_templateArray)) {
             self::$_templateArray = array();
         }
-        if (!isset(self::$_templateArray[$_version])) {
-            self::$_templateArray[$_version] = getTemplate('core', $_version, 'eqLogic');
+        if (!isset(self::$_templateArray[jeedom::versionAlias($_version)])) {
+            self::$_templateArray[jeedom::versionAlias($_version)] = getTemplate('core', jeedom::versionAlias($_version), 'eqLogic');
         }
-        return template_replace($replace, self::$_templateArray[$_version]);
+        return template_replace($replace, self::$_templateArray[jeedom::versionAlias($_version)]);
     }
 
     public function getShowOnChild() {
