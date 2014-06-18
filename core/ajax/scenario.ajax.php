@@ -138,6 +138,8 @@ try {
             $scenario_db = new scenario();
             $scenario_db->setIsActive(1);
         }
+        $scenario_db->setTrigger(array());
+        $scenario_db->setSchedule(array());
         utils::a2o($scenario_db, $scenario_ajax);
         $scenario_db->save();
         $scenario_element_list = array();
