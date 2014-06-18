@@ -162,16 +162,15 @@ class scenarioExpression {
             }
             if ($this->getType() == 'action') {
                 if ($this->getExpression() == 'sleep') {
-
                     if (isset($options['duration']) && is_numeric(intval($options['duration']))) {
                         $this->setLog(__('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));
-                        return sleep($options['duration']);
+                        return sleepintval(($options['duration']));
                     }
-                    $this->setLog(__('Aucune durée trouvée pour l\'action sleep ', __FILE__));
+                    $this->setLog(__('Aucune durée trouvée pour l\'action sleep : ', __FILE__) . $options['duration']);
                     return;
                 }
                 if ($this->getExpression() == 'stop') {
-                    $scenario->execute();
+                    $scenario->stop();
                     $scenario->setPID('');
                     $scenario->save();
                     die();
