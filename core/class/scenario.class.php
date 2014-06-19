@@ -112,10 +112,6 @@ class scenario {
     }
 
     public static function check($_event_id = null) {
-        if (!jeedom::isDateOk()) {
-            log::add('scenario', 'info', __('Vérification des scénarios annulée car la date ne semble pas etre correcte', __FILE__));
-            return false;
-        }
         $message = '';
         if ($_event_id != null) {
             $scenarios = self::byTrigger($_event_id);
