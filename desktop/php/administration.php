@@ -51,14 +51,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <a class="btn btn-default form-control" id="bt_clearJeedomLastDate">{{Réinitialiser}}</a>
                                 </div>
                             </div>
-                            <div class="form-group expertModeVisible">
-                                <label class="col-md-2 control-label">{{Hardware key}}</label>
-                                <div class="col-md-2"> 
-                                    <p class="form-control-static"><?php echo jeedom::getHardwareKey(); ?></p>
-                                </div>
-                            </div>
-
-
                             <div class="form-group">
                                 <label class="col-md-2 control-label">{{Email admin}}</label>
                                 <div class="col-md-3">
