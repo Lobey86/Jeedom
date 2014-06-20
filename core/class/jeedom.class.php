@@ -156,7 +156,7 @@ class jeedom {
         } else {
             $backup_dir = config::byKey('backup::path');
         }
-        $backups = ls($backup_dir, 'backup-*', false, array('files', 'quiet', 'datetime_asc'));
+        $backups = ls($backup_dir, '*', false, array('files', 'quiet', 'datetime_asc'));
         $return = array();
         foreach ($backups as $backup) {
             $return[$backup_dir . '/' . $backup] = $backup;

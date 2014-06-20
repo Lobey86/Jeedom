@@ -2,7 +2,10 @@
 if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
+
+include_file('3rdparty', 'jquery.fileupload/jquery.ui.widget', 'js');
+include_file('3rdparty', 'jquery.fileupload/jquery.iframe-transport', 'js');
+include_file('3rdparty', 'jquery.fileupload/jquery.fileupload', 'js');
 ?>
 <div id="backup">
     <div class="row">
@@ -68,6 +71,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         <label class="col-md-4 control-label">{{Supprimer la sauvegarde}}</label>
                         <div class="col-md-4">
                             <a class="btn btn-danger" id="bt_removeBackup"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">{{Envoyer une sauvegarde}}</label>
+                        <div class="col-md-4">
+                            <input class="btn btn-warning pull-right" style="color: white;" id="bt_uploadBackup" type="file" name="file" data-url="core/ajax/jeedom.ajax.php?action=backupupload">
                         </div>
                     </div>
                     <div class="form-group">

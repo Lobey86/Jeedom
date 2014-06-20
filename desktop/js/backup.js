@@ -29,11 +29,6 @@ $(function() {
         });
     });
 
-    $("#bt_saveUser").on('click', function(event) {
-        var users = $('#table_user tbody tr').getValues('.userAttr');
-        saveUser(users);
-    });
-
     $("#bt_backupJeedom").on('click', function(event) {
         var el = $(this);
         bootbox.confirm('{{Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée}}', function(result) {
@@ -73,6 +68,18 @@ $(function() {
 
     $('#bt_downloadBackup').on('click', function() {
         window.open('core/php/downloadFile.php?pathfile=backup/' + $('#sel_restoreBackup option:selected').text(), "_blank", null);
+    });
+    
+    $('#bt_uploadBackup').fileupload({
+        dataType: 'json',
+        done: function(e, data) {
+            if (data.result.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result.result, level: 'danger'});
+                return;
+            }
+            updateListBackup();
+            $('#div_alert').showAlert({message: '{{Fichier(s) ajouté(s) avec succes}}', level: 'success'});
+        }
     });
 
     $("#bt_restoreCloudJeedom").on('click', function(event) {

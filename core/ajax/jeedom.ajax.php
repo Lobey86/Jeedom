@@ -96,6 +96,26 @@ try {
         cache::set('jeedom::startOK', 1, 0);
         ajax::success();
     }
+    
+     if (init('action') == 'backupupload') {
+        $uploaddir = dirname(__FILE__) . '/../../backup' ;
+        if (!file_exists($uploaddir)) {
+            mkdir($uploaddir);
+        }
+        if (!file_exists($uploaddir)) {
+            throw new Exception(__('Répertoire d\'upload non trouvé : ', __FILE__) . $uploaddir);
+        }
+        if(!isset($_FILES['file'])){
+            throw new Exception(__('Aucun fichier trouvé. Vérifié parametre PHP (post size limit)', __FILE__));
+        }
+        if (filesize($_FILES['file']['tmp_name']) > 30000000) {
+            throw new Exception(__('Le fichier est trop gros (miximum 30mo)', __FILE__));
+        }
+        if (!move_uploaded_file($_FILES['file']['tmp_name'], $uploaddir . '/' . $_FILES['file']['name'])) {
+            throw new Exception(__('Impossible de déplacer le fichier temporaire', __FILE__));
+        }
+        ajax::success();
+    }
 
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
