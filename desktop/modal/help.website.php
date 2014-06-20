@@ -13,6 +13,7 @@ curl_setopt_array($ch, array
     CURLOPT_HEADER => FALSE,
     CURLOPT_FOLLOWLOCATION => TRUE,
     CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 10
 ));
 $response = curl_exec($ch);
 curl_close($ch);
