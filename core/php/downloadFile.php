@@ -28,6 +28,6 @@ if (!file_exists($pathfile)) {
 $path_parts = pathinfo($pathfile);
 header('Content-Type: application/octet-stream');
 header('Content-Disposition: attachment; filename=' . $path_parts['basename']);
-readfile(init('pathfile'));
+readfile($pathfile);
 exit;
 ?>
