@@ -798,7 +798,7 @@ class cmd {
                 }
                 if ($this->getCollectDate() != '') {
                     $internalEvent = internalEvent::byEventAndOptions('event::cmd', '"id":"' . $this->getId() . '"', true);
-                    if (is_object($internalEvent) &&
+                    if (is_object($internalEvent) && strtotime($internalEvent->getDatetime()) < strtotime('now') &&
                             (strtotime($internalEvent->getDatetime()) > strtotime($this->getCollectDate()) ||
                             (strtotime($internalEvent->getDatetime()) == strtotime($this->getCollectDate()) && $internalEvent->setOptions('value', $_value) == $_value))) {
                         $newUpdate = false;
