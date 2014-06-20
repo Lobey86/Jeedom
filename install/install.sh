@@ -159,6 +159,8 @@ sudo service nginx restart
 sudo adduser www-data dialout
 sudo adduser www-data gpio
 sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
+sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 1G/g' /etc/php5/fpm/php.ini
+sudo sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
 sudo service php5-fpm restart
 sudo /etc/init.d/php5-fpm restart
 
