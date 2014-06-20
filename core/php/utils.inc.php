@@ -658,3 +658,31 @@ function netMatch($network, $ip) {
     }
     return false;
 }
+
+function getNtpTime() {
+    $time_servers = array(
+        'time-a.timefreq.bldrdoc.gov',
+        '1.fr.pool.ntp.org',
+        'time.nist.gov',
+        'nist1.datum.com',
+        'utcnist.colorado.edu'
+    );
+    $time_adjustment = 0;
+    foreach ($time_servers as $time_server) {
+        $fp = fsockopen($time_server, 37, $errno, $errstr, 5);
+        if ($fp) {
+            $data = NULL;
+            while (!feof($fp)) {
+                $data .= fgets($fp, 128);
+            }
+            fclose($fp);
+            if (strlen($data) == 4) {
+                $NTPtime = ord($data{0}) * pow(256, 3) + ord($data{1}) * pow(256, 2) + ord($data{2}) * 256 + ord($data{3});
+                $TimeFrom1990 = $NTPtime - 2840140800;
+                $TimeNow = $TimeFrom1990 + 631152000;
+                return date("m/d/Y H:i:s", $TimeNow + $time_adjustment);
+            }
+        }
+    }
+    return false;
+}
