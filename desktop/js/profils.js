@@ -19,6 +19,10 @@ $(function() {
     $("#bt_saveProfils").on('click', function(event) {
         $.hideAlert();
         var profil = $('body').getValues('.userAttr');
+        if(profil[0].password != $('#in_passwordCheck').value()){
+            $('#div_alert').showAlert({message: "{{Les deux mots de passe ne sont identiques}}", level: 'danger'});
+            return;
+        }
         jeedom.user.saveProfils(profil[0], function() {
             $('#div_alert').showAlert({message: "{{Sauvegarde effectuée}}", level: 'success'});
             jeedom.user.get(function(data) {
@@ -31,6 +35,7 @@ $(function() {
 
     jeedom.user.get(function(data) {
         $('body').setValues(data, '.userAttr');
+        $('#in_passwordCheck').value(data.password);
         modifyWithoutSave = false;
     });
 

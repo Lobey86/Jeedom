@@ -156,6 +156,9 @@ foreach (plugin::listPlugin() as $pluginList) {
                             <div class="col-md-3">
                                 <input type="password" class="userAttr form-control" data-l1key="password" />
                             </div>
+                            <div class="col-md-3">
+                                <input type="password" class="form-control" id="in_passwordCheck" />
+                            </div>
                         </div>
                     </fieldset>
                 </form>
@@ -165,7 +168,7 @@ foreach (plugin::listPlugin() as $pluginList) {
 
     <br/> 
     <div class="form-actions">
-        <a class="btn btn-success" id="bt_saveProfils"><i class="fa fa-check-circle icon-white"></i>{{Sauvegarder}}</a>
+        <a class="btn btn-success" id="bt_saveProfils"><i class="fa fa-check-circle icon-white"></i> {{Sauvegarder}}</a>
     </div>
 </div>
 <?php include_file("desktop", "profils", "js"); ?>
