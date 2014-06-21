@@ -63,6 +63,38 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
 <form class="form-horizontal" role="form">
     <div class="row">
         <div class="col-lg-6">
+            <legend>Informations général</legend>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{ID}}</label>
+                <div class="col-lg-8">
+                    <input class="form-control marketAttr" data-l1key="id" style="display: none;">
+                    <span class="label label-success marketAttr" data-l1key="logicalId" placeholder="{{Nom}}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Nom}}</label>
+                <div class="col-lg-8">
+                    <span class="label label-success marketAttr" data-l1key="name" placeholder="{{Nom}}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Prix}}</label>
+                <div class="col-lg-8">
+                    <?php
+                    if ($market->getCost() > 0) {
+                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">' . $market->getRealcost() . ' €</span>';
+                    } else {
+                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">{{Gratuit}}</span>';
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Description}}</label>
+                <div class="col-lg-8">
+                    <pre class="marketAttr" data-l1key="description" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
+                </div>
+            </div>
             <?php if (config::byKey('market::apikey') != '') { ?>
                 <div class="form-group">
                     <label class="col-lg-4 control-label">{{Ma Note}}</label>
@@ -79,30 +111,26 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">{{Prix}}</label>
+                <label class="col-lg-4 control-label">{{Catégorie}}</label>
                 <div class="col-lg-8">
-                    <?php
-                    if ($market->getCost() > 0) {
-                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">' . $market->getRealcost() . ' €</span>';
-                    } else {
-                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">{{Gratuit}}</span>';
-                    }
-                    ?>
+                    <span class="label label-warning marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">{{ID}}</label>
+                <label class="col-lg-4 control-label">{{Version}}</label>
                 <div class="col-lg-8">
-                    <input class="form-control marketAttr" data-l1key="id" style="display: none;">
-                    <span class="label label-success marketAttr" data-l1key="logicalId" placeholder="{{Nom}}"></span>
+                    <span class="label label-success marketAttr" data-l1key="version" placeholder="{{Version}}" ></span>
                 </div>
             </div>
+
             <div class="form-group">
-                <label class="col-lg-4 control-label">{{Nom}}</label>
+                <label class="col-lg-4 control-label">{{Changelog}}</label>
                 <div class="col-lg-8">
-                    <span class="label label-success marketAttr" data-l1key="name" placeholder="{{Nom}}"></span>
+                    <pre class="marketAttr" data-l1key="changelog" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
+
+            <legend>{{Divers}}</legend>
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Type}}</label>
                 <div class="col-lg-8">
@@ -122,24 +150,14 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-4 control-label">{{Description}}</label>
-                <div class="col-lg-8">
-                    <pre class="marketAttr" data-l1key="description" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
-                </div>
-            </div>
+
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Utilisation}}</label>
                 <div class="col-lg-8">
                     <pre class="marketAttr" data-l1key="utilization" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-lg-4 control-label">{{Changelog}}</label>
-                <div class="col-lg-8">
-                    <pre class="marketAttr" data-l1key="changelog" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
-                </div>
-            </div>
+
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Statut}}</label>
                 <div class="col-lg-8">
@@ -151,18 +169,8 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-4 control-label">{{Catégorie}}</label>
-                <div class="col-lg-8">
-                    <span class="label label-warning marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-lg-4 control-label">{{Version}}</label>
-                <div class="col-lg-8">
-                    <span class="label label-success marketAttr" data-l1key="version" placeholder="{{Version}}" ></span>
-                </div>
-            </div>
+
+
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Dernière modification de l'archive}}</label>
                 <div class="col-lg-6">
