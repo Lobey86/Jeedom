@@ -146,7 +146,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Auteur}}</label>
                 <div class="col-lg-8">
-                    <span class="label label-success" ><?php echo $market->getAuthor() ?></span>
+                    <span><?php echo $market->getAuthor() ?></span>
                 </div>
             </div>
 
@@ -181,14 +181,14 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 <div class="form-group">
                     <label class="col-lg-4 control-label">{{Version utilisé actuelement}}</label>
                     <div class="col-lg-6">
-                        <span class="marketAttr label label-info" ><?php echo config::byKey('installVersionDate', $market->getLogicalId()); ?></span>
+                        <span class="marketAttr" ><?php echo config::byKey('installVersionDate', $market->getLogicalId()); ?></span>
                     </div>
                 </div>
             <?php } ?>
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Nombre de téléchargements}}</label>
                 <div class="col-lg-8">
-                    <span class="marketAttr label label-info" data-l1key="downloaded"></span>
+                    <span class="marketAttr" data-l1key="downloaded"></span>
                 </div>
             </div>
         </div> 
