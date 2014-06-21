@@ -661,11 +661,11 @@ function netMatch($network, $ip) {
 
 function getNtpTime() {
     $time_servers = array(
+        'ntp2.emn.fr',
         'time-a.timefreq.bldrdoc.gov',
-        '1.fr.pool.ntp.org',
+        'utcnist.colorado.edu',
         'time.nist.gov',
-        'nist1.datum.com',
-        'utcnist.colorado.edu'
+        'ntp.pads.ufrj.br',
     );
     $time_adjustment = 0;
     foreach ($time_servers as $time_server) {
