@@ -291,6 +291,7 @@ class jeedom {
                 cache::restore();
                 jeedom::start();
                 plugin::start();
+                internalEvent::start();
                 cache::set('jeedom::startOK', 1, 0);
                 self::event('start');
                 log::add('core', 'info', 'Démarrage de Jeedom OK');

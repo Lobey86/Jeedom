@@ -58,7 +58,7 @@ class internalEvent {
     }
 
     public static function byEventAndOptions($_event, $_options, $_last = false) {
-        if(is_array($_options)){
+        if (is_array($_options)) {
             $_options = json_encode($_options);
         }
         $values = array(
@@ -105,6 +105,15 @@ class internalEvent {
         $lastDatetime = $cache->getValue(0);
         cache::set($key, $now, 0);
         return self::byDatetime(date('Y-m-d H:i:s', $lastDatetime));
+    }
+
+    public static function start() {
+        $caches = cache::search('::lastRetrievalInternalEvent');
+        if(count($caches) > 0){
+            foreach ($caches as $cache) {
+                $cache->remove();
+            }
+        }
     }
 
     /*     * *********************Methode d'instance************************* */
