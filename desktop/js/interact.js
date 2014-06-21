@@ -118,10 +118,10 @@ function changeLinkType(_options) {
         var options = '<div class="form-group">';
         options += '<label class="col-lg-3 control-label">{{Commande}}</label>';
         options += '<div class="col-lg-8">';
-        options += '<input class="interactAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;"/>';
+        options += '<input class="interactAttr form-control input-sm" data-l1key="link_id"/>';
         options += '</div>';
         options += '<div class="col-lg-1">';
-        options += '<a class="form-control btn btn-default cursor listEquipementInfo input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt "></i></a></td>';
+        options += '<a class="btn btn-default cursor listEquipementInfo input-sm"><i class="fa fa-list-alt "></i></a></td>';
         options += '</div>';
         options += '</div>';
         $('#linkOption').append(options);

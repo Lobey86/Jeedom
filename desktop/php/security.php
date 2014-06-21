@@ -22,7 +22,7 @@ if (!isConnect('admin')) {
                     <th class="datetime">{{Date}}</th>
                     <th class="username">{{Statut}}</th>
                     <th class="username">{{Informations}}</th>
-                    <th class="username">{{Action}}</th>
+                    <th class="username" style="width: 200px;">{{Action}}</th>
                 </tr>
             </thead>
             <tbody> 

@@ -47,7 +47,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     echo '<p class="form-control-static" id="in_jeedomLastDate">' . $cache->getValue() . '</p>';
                                     ?>
                                 </div>
-                                <div class="col-lg-1"> 
+                                <div class="col-lg-2"> 
                                     <a class="btn btn-default form-control" id="bt_clearJeedomLastDate">{{Réinitialiser}}</a>
                                 </div>
                             </div>

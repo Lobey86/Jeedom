@@ -75,8 +75,8 @@ include_file('3rdparty', 'jquery.fileupload/jquery.fileupload', 'js');
                     </div>
                     <div class="form-group">
                         <label class="col-lg-4 control-label">{{Envoyer une sauvegarde}}</label>
-                        <div class="col-lg-4">
-                            <input class="btn btn-warning pull-right" style="color: white;" id="bt_uploadBackup" type="file" name="file" data-url="core/ajax/jeedom.ajax.php?action=backupupload">
+                        <div class="col-lg-8">
+                            <input class="btn btn-warning" style="color: white;" id="bt_uploadBackup" type="file" name="file" data-url="core/ajax/jeedom.ajax.php?action=backupupload">
                         </div>
                     </div>
                     <div class="form-group">
