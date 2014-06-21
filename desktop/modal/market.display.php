@@ -63,7 +63,6 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
 <form class="form-horizontal" role="form">
     <div class="row">
         <div class="col-lg-6">
-            <legend>Informations général</legend>
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{ID}}</label>
                 <div class="col-lg-8">
@@ -129,8 +128,6 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                     <pre class="marketAttr" data-l1key="changelog" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
-
-            <legend>{{Divers}}</legend>
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Type}}</label>
                 <div class="col-lg-8">
