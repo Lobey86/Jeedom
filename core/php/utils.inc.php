@@ -669,7 +669,7 @@ function getNtpTime() {
     );
     $time_adjustment = 0;
     foreach ($time_servers as $time_server) {
-        $fp = fsockopen($time_server, 37, $errno, $errstr, 5);
+        $fp = fsockopen($time_server, 37, $errno, $errstr, 2);
         if ($fp) {
             $data = NULL;
             while (!feof($fp)) {

@@ -311,28 +311,28 @@ class jeedom {
 
     public static function isDateOk() {
         $cache = cache::byKey('jeedom::lastDate');
-        $lastDate = $cache->getValue();
-        if ($lastDate == '' || strtotime($lastDate) === false) {
+        $lastDate = strtotime($cache->getValue());
+        if ($lastDate == '' || $lastDate === false) {
             cache::set('jeedom::lastDate', date('Y-m-d H:00:00'), 0);
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        if (strtotime($lastDate) == strtotime(date('Y-m-d H:00:00'))) {
+        if ($lastDate == strtotime(date('Y-m-d H:00:00'))) {
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        if (strtotime($lastDate) < strtotime(date('Y-m-d H:00:00'))) {
+        if (($lastDate + 7200) > strtotime(date('Y-m-d H:00:00')) && ($lastDate - 3600) < strtotime(date('Y-m-d H:00:00'))) {
             cache::set('jeedom::lastDate', date('Y-m-d H:00:00'), 0);
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
         $ntptime = strtotime(getNtpTime());
-        if(($ntptime + 3600) > strtotime('now') && ($ntptime - 3600) < strtotime('now')){
+        if (($ntptime + 3600) > strtotime('now') && ($ntptime - 3600) < strtotime('now')) {
             cache::set('jeedom::lastDate', date('Y-m-d H:00:00'), 0);
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        log::add('core', 'error', __('La date systeme (', __FILE__) . date('Y-m-d H:00:00') . __(') est anterieur à la derniere date (', __FILE__) . $lastDate . __(')enregistrer. Tous les lancements (scénarios et taches) sont interrompu jusqu\'à correction.', __FILE__), 'dateCheckFailed');
+        log::add('core', 'error', __('La date systeme (', __FILE__) . date('Y-m-d H:00:00') . __(') est anterieur à la derniere date (', __FILE__) . $lastDate . __(')enregistrer. Tous les lancements des scénarios sont interrompu jusqu\'à correction.', __FILE__), 'dateCheckFailed');
         return false;
     }
 

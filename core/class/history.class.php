@@ -388,11 +388,12 @@ class history {
         if ($cmd->getType() != 'info') {
             throw new Exception(__('Impossible d\'historiser une commande qui n\'est pas de type info', __FILE__));
         }
+        if ($this->getTableName() == 'history' && (!jeedom::isStarted() || !jeedom::isDateOk())) {
+            return;
+        }
+
         if ($this->getDatetime() == '') {
             $this->setDatetime(date('Y-m-d H:i:s'));
-            if ($this->getTableName() == 'history') {
-                nodejs::pushUpdate('eventHistory', $this->getCmd_id());
-            }
         }
 
         if ($cmd->getSubType() != 'binary') {
@@ -464,7 +465,10 @@ class history {
                 SET cmd_id=:cmd_id, 
                     `datetime`=:datetime,
                     value=:value';
-        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+        DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+        if ($this->getTableName() == 'history') {
+            nodejs::pushUpdate('eventHistory', $this->getCmd_id());
+        }
     }
 
     public function remove() {
