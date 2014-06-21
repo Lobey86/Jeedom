@@ -40,7 +40,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Notifier des évenements}}</label>
+                            <label class="col-lg-3 control-label">{{Notifier des évenements}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="notifyEvent">
                                     <?php
@@ -52,7 +52,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Notifier du lancement des scénarios}}</label>
+                            <label class="col-lg-3 control-label">{{Notifier du lancement des scénarios}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="notifyLaunchScenario">
                                     <?php
@@ -64,7 +64,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Notifier nouveau message}}</label>
+                            <label class="col-lg-3 control-label">{{Notifier nouveau message}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="notifyNewMessage">
                                     <?php
@@ -94,7 +94,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Page d'accueil}}</label>
+                            <label class="col-lg-3 control-label">{{Page d'accueil}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="homePage">
                                     <?php
@@ -108,7 +108,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Vue par défault(desktop)}}</label>
+                            <label class="col-lg-3 control-label">{{Vue par défault(desktop)}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDesktopView">
                                     <?php
@@ -121,7 +121,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Objet par défault(desktop)}}</label>
+                            <label class="col-lg-3 control-label">{{Objet par défault(desktop)}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardObject">
                                     <?php
@@ -150,12 +150,14 @@ foreach (plugin::listPlugin() as $pluginList) {
             <div class="panel-body">
                 <form class="form-horizontal">
                     <fieldset>
-
                         <div class="form-group">
-                            <label class="col-lg-1 control-label">{{Mot de passe}}</label>
+                            <label class="col-lg-3 control-label">{{Mot de passe}}</label>
                             <div class="col-lg-3">
                                 <input type="password" class="userAttr form-control" data-l1key="password" />
                             </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Retapez le mot de passe}}</label>
                             <div class="col-lg-3">
                                 <input type="password" class="form-control" id="in_passwordCheck" />
                             </div>
