@@ -15,7 +15,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
 
 
 <div class="row row-overflow">
-    <div class="col-md-2">
+    <div class="col-lg-2">
         <div class="bs-sidebar">
             <ul id="ul_scenario" class="nav nav-list bs-sidenav">                  
                 <?php
@@ -73,7 +73,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
             </ul>
         </div>
     </div>
-    <div class="col-md-10" id="div_editScenario" style="display: none; border-left: solid 1px #EEE; padding-left: 25px;">
+    <div class="col-lg-10" id="div_editScenario" style="display: none; border-left: solid 1px #EEE; padding-left: 25px;">
         <input class="scenarioAttr" data-l1key="id" hidden/>
         <legend style="height: 35px;">{{Scénario}}
             <a class="btn btn-default btn-xs pull-right" id="bt_copyScenario"><i class="fa fa-copy"></i> {{Dupliquer}}</a>
@@ -81,34 +81,34 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
             <a class="btn btn-danger btn-xs pull-right" id="bt_stopScenario"><i class="fa fa-stop"></i> {{Arrêter}}</a>
         </legend>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-lg-3">
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-md-6 control-label" >{{Nom du scénario}}</label>
-                            <div class="col-md-6">
+                            <label class="col-lg-6 control-label" >{{Nom du scénario}}</label>
+                            <div class="col-lg-6">
                                 <input class="form-control scenarioAttr input-sm" data-l1key="name" type="text" placeholder="{{Nom du scénario}}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-6 control-label" >{{Groupe}}</label>
-                            <div class="col-md-6">
+                            <label class="col-lg-6 control-label" >{{Groupe}}</label>
+                            <div class="col-lg-6">
                                 <input class="form-control scenarioAttr input-sm" data-l1key="group" type="text" placeholder="{{Groupe du scénario}}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-6 control-label">{{Actif}}</label>
-                            <div class="col-md-1">
+                            <label class="col-lg-6 control-label">{{Actif}}</label>
+                            <div class="col-lg-1">
                                 <input type="checkbox" class="scenarioAttr" data-l1key="isActive">
                             </div>
-                            <label class="col-md-4 control-label">{{Visible}}</label>
-                            <div class="col-md-1">
+                            <label class="col-lg-4 control-label">{{Visible}}</label>
+                            <div class="col-lg-1">
                                 <input type="checkbox" class="scenarioAttr" data-l1key="isVisible">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-6 control-label" >{{Objet parent}}</label>
-                            <div class="col-md-6">
+                            <label class="col-lg-6 control-label" >{{Objet parent}}</label>
+                            <div class="col-lg-6">
                                 <select class="scenarioAttr form-control input-sm" data-l1key="object_id">
                                     <option value="">{{Aucun}}</option>
                                     <?php
@@ -120,36 +120,36 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                             </div>
                         </div>
                         <div class="form-group expertModeVisible">
-                            <label class="col-md-6 control-label">{{Timeout secondes (0 = illimité)}}</label>
-                            <div class="col-md-6">
+                            <label class="col-lg-6 control-label">{{Timeout secondes (0 = illimité)}}</label>
+                            <div class="col-lg-6">
                                 <input class="form-control scenarioAttr input-sm" data-l1key="timeout">
                             </div>
                         </div>
                     </fieldset>
                 </form>
             </div>
-            <div class="col-md-5">
+            <div class="col-lg-5">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-3 control-label" >{{Mode du scénario}}</label>
-                        <div class="col-md-3">
+                        <label class="col-lg-3 control-label" >{{Mode du scénario}}</label>
+                        <div class="col-lg-3">
                             <select class="form-control scenarioAttr input-sm" data-l1key="mode">
                                 <option value="provoke">{{Provoqué}}</option>
                                 <option value="schedule">{{Programmé}}</option>
                                 <option value="all">{{Les deux}}</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-lg-6">
                             <a class="btn btn-default" id="bt_addTrigger"><i class="fa fa-plus-square"></i> {{Evènement}}</a>
                             <a class="btn btn-default" id="bt_addSchedule"><i class="fa fa-plus-square"></i> {{Programmation}}</a>
                         </div>
                     </div>
                     <div class="scheduleDisplay" style="display: none;">
                         <div class="form-group">
-                            <label class="col-md-3 control-label" >{{Précédent}}</label>
-                            <div class="col-md-3" ><span class="scenarioAttr label label-primary" data-l1key="forecast" data-l2key="prevDate" data-l3key="date"></span></div>
-                            <label class="col-md-3 control-label" >{{Prochain}}</label>
-                            <div class="col-md-3"><span class="scenarioAttr label label-success" data-l1key="forecast" data-l2key="nextDate" data-l3key="date"></span></div> 
+                            <label class="col-lg-3 control-label" >{{Précédent}}</label>
+                            <div class="col-lg-3" ><span class="scenarioAttr label label-primary" data-l1key="forecast" data-l2key="prevDate" data-l3key="date"></span></div>
+                            <label class="col-lg-3 control-label" >{{Prochain}}</label>
+                            <div class="col-lg-3"><span class="scenarioAttr label label-success" data-l1key="forecast" data-l2key="nextDate" data-l3key="date"></span></div> 
                         </div>
                         <div class="scheduleMode"></div>
                     </div>
@@ -158,17 +158,17 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                     </div>
                 </form>
             </div>
-            <div class="col-md-3">
+            <div class="col-lg-3">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="span_lastCheck">{{Dernier lancement}}</label>
-                        <div class="col-md-6">
+                        <label class="col-lg-6 control-label" for="span_lastCheck">{{Dernier lancement}}</label>
+                        <div class="col-lg-6">
                             <div><span id="span_lastLaunch" class="label label-info" style="position: relative; top: 4px;"></span></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="span_ongoing">{{Etat}}</label>
-                        <div class="col-md-6">
+                        <label class="col-lg-6 control-label" for="span_ongoing">{{Etat}}</label>
+                        <div class="col-lg-6">
                             <div><span id="span_ongoing" class="label" style="position: relative; top: 4px;"></span></div>
                         </div>
                     </div>

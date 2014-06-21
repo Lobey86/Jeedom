@@ -16,7 +16,7 @@ $child_object = object::buildTree($object);
 ?>
 
 <div class="row row-overflow">
-    <div class="col-md-2">
+    <div class="col-lg-2">
         <center>
             <?php
             if (init('category', 'all') == 'all') {
@@ -54,7 +54,7 @@ $child_object = object::buildTree($object);
         </div>
     </div>
 
-    <div class="col-md-8" id="div_displayObject">
+    <div class="col-lg-8" id="div_displayObject">
         <?php
         echo '<div object_id="' . $object->getId() . '">';
         echo '<legend>' . $object->getDisplay('icon') . ' ' . $object->getName() . '</legend>';
@@ -81,7 +81,7 @@ $child_object = object::buildTree($object);
         echo '</div>';
         ?>
     </div>
-    <div class="col-md-2">
+    <div class="col-lg-2">
         <legend><i class="fa fa-history"></i> {{Scénarios}}</legend>
         <?php
         if (init('object_id') == 'global') {

@@ -116,11 +116,11 @@ function changeLinkType(_options) {
     }
     if (_options.link_type == 'cmd') {
         var options = '<div class="form-group">';
-        options += '<label class="col-md-3 control-label">{{Commande}}</label>';
-        options += '<div class="col-md-8">';
+        options += '<label class="col-lg-3 control-label">{{Commande}}</label>';
+        options += '<div class="col-lg-8">';
         options += '<input class="interactAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;"/>';
         options += '</div>';
-        options += '<div class="col-md-1">';
+        options += '<div class="col-lg-1">';
         options += '<a class="form-control btn btn-default cursor listEquipementInfo input-sm" style="margin-top : 5px;"><i class="fa fa-list-alt "></i></a></td>';
         options += '</div>';
         options += '</div>';
@@ -129,8 +129,8 @@ function changeLinkType(_options) {
     if (_options.link_type == 'scenario') {
         jeedom.scenario.all(function(scenarios) {
             var options = '<div class="form-group">';
-            options += '<label class="col-md-3 control-label">{{Scénario}}</label>';
-            options += '<div class="col-md-9">';
+            options += '<label class="col-lg-3 control-label">{{Scénario}}</label>';
+            options += '<div class="col-lg-9">';
             options += '<select class="interactAttr form-control input-sm" data-l1key="link_id" style="margin-top : 5px;">';
             for (var i in scenarios) {
                 options += '<option value="' + scenarios[i].id + '">' + scenarios[i].humanName + '</option>';
@@ -139,8 +139,8 @@ function changeLinkType(_options) {
             options += '</div>';
             options += '</div>';
             options += '<div class="form-group">';
-            options += '<label class="col-md-3 control-label">{{Action}}</label>';
-            options += '<div class="col-md-9">';
+            options += '<label class="col-lg-3 control-label">{{Action}}</label>';
+            options += '<div class="col-lg-9">';
             options += '<select class="interactAttr form-control input-sm" data-l1key="options" data-l2key="scenario_action">';
             options += '<option value="start">{{Start}}</option>';
             options += '<option value="stop">{{Stop}}</option>';

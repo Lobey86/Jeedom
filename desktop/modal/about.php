@@ -4,25 +4,25 @@ if (!isConnect()) {
 }
 ?>
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-lg-2">
         <h3>{{Auteur(s)}}</h3>
         <lu>
             <li><a class="cursor" href="http://jeedom.fr/" style="color:blue;" target="_blank">Loïc Gevrey</a></li>
         </lu>
     </div>
-    <div class="col-md-2">
+    <div class="col-lg-2">
         <h3>{{Traducteur(s)}}</h3>
         <lu>
             <li>Marie Corbière (US)</li>
         </lu>
     </div>
-    <div class="col-md-2">
+    <div class="col-lg-2">
         <h3>{{Correcteur(s)}}</h3>
         <lu>
             <li>Marie Corbière</li>
         </lu>
     </div>
-    <div class="col-md-2">
+    <div class="col-lg-2">
         <h3>{{Designer}}</h3>
         <lu>
             <li><a class="cursor" href="http://jeedom.fr/" style="color:blue;" target="_blank">Loïc Gevrey</a></li>
@@ -30,7 +30,7 @@ if (!isConnect()) {
             <li><a class="cursor" href="http://ma-maison-domotique.blogspot.com/" style="color:blue;" target="_blank">Mathieu (alias Algeroth)</a></li>
         </lu>
     </div>
-    <div class="col-md-2">
+    <div class="col-lg-2">
         <h3>{{Beta-testeur(s)}}</h3>
         <lu>
             <li><a class="cursor" href="http://jeedom.fr/" style="color:blue;" target="_blank">Loïc Gevrey</a></li>
@@ -43,7 +43,7 @@ if (!isConnect()) {
 
 <h3>{{Remerciements}}</h3>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-lg-4">
         <lu>
             <li><a class="cursor" href="http://bootboxjs.com/" style="color:blue;" target="_blank">bootbox</a></li>
             <li><a class="cursor" href="http://getbootstrap.com/" style="color:blue;" target="_blank">bootstrap</a></li>
@@ -55,7 +55,7 @@ if (!isConnect()) {
             <li>jquery.alert - Loïc Gevrey</li>
         </lu>
     </div>
-    <div class="col-md-4">
+    <div class="col-lg-4">
         <lu>
             <li><a class="cursor" href="http://www.abeautifulsite.net/blog/2008/03/jquery-file-tree/" style="color:blue;" target="_blank">jquery.fileTree</a></li>
             <li><a class="cursor" href="http://boedesign.com/blog/2009/07/11/growl-for-jquery-gritter/" style="color:blue;" target="_blank">jquery.gritter</a></li>
@@ -64,7 +64,7 @@ if (!isConnect()) {
             <li><a class="cursor" href="https://github.com/tactivos/jquery-sew" style="color:blue;" target="_blank">jquery.sew</a></li>
         </lu>
     </div>
-    <div class="col-md-4">
+    <div class="col-lg-4">
         <lu>
             <li><a class="cursor" href="http://tablesorter.com/docs/" style="color:blue;" target="_blank">jquery.tablesorter</a></li>
             <li><a class="cursor" href="http://www.jstree.com/" style="color:blue;" target="_blank">jquery.tree</a></li>

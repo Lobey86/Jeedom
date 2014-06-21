@@ -7,7 +7,7 @@ sendVarToJS('select_id', init('id', '-1'));
 ?>
 
 <div class="row row-overflow">
-    <div class="col-md-2">
+    <div class="col-lg-2">
         <div class="bs-sidebar">
             <ul id="ul_plugin" class="nav nav-list bs-sidenav">
                 <center>
@@ -41,7 +41,7 @@ sendVarToJS('select_id', init('id', '-1'));
             </ul>
         </div>
     </div>
-    <div class="col-md-10" id="div_confPlugin" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
+    <div class="col-lg-10" id="div_confPlugin" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <legend>
             <span id="span_plugin_name" ></span> (<span id="span_plugin_id"></span>)
         </legend>

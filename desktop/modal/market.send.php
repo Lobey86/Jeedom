@@ -40,23 +40,23 @@ if (init('type') == 'plugin') {
 <br/><br/><br/>
 <form class="form-horizontal" role="form" id="form_sendToMarket">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-lg-6">
             <div class="form-group">
-                <label class="col-md-4 control-label">{{ID}}</label>
-                <div class="col-md-8">
+                <label class="col-lg-4 control-label">{{ID}}</label>
+                <div class="col-lg-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <input class="form-control marketAttr" data-l1key="logicalId" placeholder="{{ID}}" disabled/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label">{{Nom}}</label>
-                <div class="col-md-6">
+                <label class="col-lg-4 control-label">{{Nom}}</label>
+                <div class="col-lg-6">
                     <input class="form-control marketAttr" data-l1key="name" placeholder="{{Nom}}" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label">{{Type}}</label>
-                <div class="col-md-6">
+                <label class="col-lg-4 control-label">{{Type}}</label>
+                <div class="col-lg-6">
                     <select class="form-control marketAttr" data-l1key="type" disabled>
                         <option value="plugin">{{Plugin}}</option>
                         <option value="widget">{{Widget}}</option>
@@ -67,8 +67,8 @@ if (init('type') == 'plugin') {
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label">{{Statut}}</label>
-                <div class="col-md-6">
+                <label class="col-lg-4 control-label">{{Statut}}</label>
+                <div class="col-lg-6">
                     <select class="form-control marketAttr" data-l1key="status" >
                         <option>{{A valider}}</option>
                         <option>{{Validé}}</option>
@@ -78,42 +78,42 @@ if (init('type') == 'plugin') {
             </div>
 
             <div class="form-group">
-                <label class="col-md-4 control-label">{{Catégorie}}</label>
-                <div class="col-md-6">
+                <label class="col-lg-4 control-label">{{Catégorie}}</label>
+                <div class="col-lg-6">
                     <input class="form-control marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label">{{Version}}</label>
-                <div class="col-md-6">
+                <label class="col-lg-4 control-label">{{Version}}</label>
+                <div class="col-lg-6">
                     <input class="form-control marketAttr" data-l1key="version" placeholder="{{Version}}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label">{{Dernière modification de l'archive}}</label>
-                <div class="col-md-6">
+                <label class="col-lg-4 control-label">{{Dernière modification de l'archive}}</label>
+                <div class="col-lg-6">
                     <span class="marketAttr label label-info" data-l1key="datetime"></span>
                 </div>
             </div>
         </div> 
-        <div class="col-md-6">
+        <div class="col-lg-6">
             <div class="form-group">
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">{{Description}}</label>
-                    <div class="col-md-6">
+                    <label class="col-lg-4 control-label">{{Description}}</label>
+                    <div class="col-lg-6">
                         <textarea class="form-control marketAttr" data-l1key="description" placeholder="{{Description}}" style="height: 150px;"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label">{{Utilisation}}</label>
-                    <div class="col-md-6">
+                    <label class="col-lg-4 control-label">{{Utilisation}}</label>
+                    <div class="col-lg-6">
                         <textarea class="form-control marketAttr" data-l1key="utilization" placeholder="{{Utilisation}}" style="height: 150px;"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label">{{Changelog}}</label>
-                    <div class="col-md-6">
+                    <label class="col-lg-4 control-label">{{Changelog}}</label>
+                    <div class="col-lg-6">
                         <textarea class="form-control marketAttr" data-l1key="changelog" placeholder="{{Changelog}}" style="height: 150px;"></textarea>
                     </div>
                 </div>

@@ -66,30 +66,30 @@ if (!isConnect('admin')) {
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-group">
-                    <label class="col-md-2 control-label">{{Activer la sécurité anti-piratage}}</label>
-                    <div class="col-md-3">
+                    <label class="col-lg-2 control-label">{{Activer la sécurité anti-piratage}}</label>
+                    <div class="col-lg-3">
                         <input type="checkbox" class="configKey" data-l1key="security::enable"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 control-label">{{Nombre de tentative de connexion max}}</label>
-                    <div class="col-md-1">
+                    <label class="col-lg-2 control-label">{{Nombre de tentative de connexion max}}</label>
+                    <div class="col-lg-1">
                         <input type="text" class="configKey form-control" data-l1key="security::retry" />
                     </div>
-                    <label class="col-md-1 control-label">{{en (min) }}</label>
-                    <div class="col-md-1">
+                    <label class="col-lg-1 control-label">{{en (min) }}</label>
+                    <div class="col-lg-1">
                         <input type="text" class="configKey form-control" data-l1key="security::backlogtime" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 control-label">{{Durée du bannissement (min)}}</label>
-                    <div class="col-md-1">
+                    <label class="col-lg-2 control-label">{{Durée du bannissement (min)}}</label>
+                    <div class="col-lg-1">
                         <input type="text" class="configKey form-control" data-l1key="security::bantime" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 control-label">{{Liste blanche d'IP}}</label>
-                    <div class="col-md-8">
+                    <label class="col-lg-2 control-label">{{Liste blanche d'IP}}</label>
+                    <div class="col-lg-8">
                         <input type="text" class="configKey form-control" data-l1key="security::protectIp" />
                     </div>
                 </div>

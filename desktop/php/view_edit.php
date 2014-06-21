@@ -20,7 +20,7 @@ if (!isConnect()) {
 </style>
 
 <div class="row row-overflow">
-    <div class="col-md-2">
+    <div class="col-lg-2">
         <div class="bs-sidebar">
             <ul id="ul_view" class="nav nav-list bs-sidenav">
                 <a id="bt_addView" class="btn btn-default" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle"></i> {{Creer une vue}}</a>
@@ -34,7 +34,7 @@ if (!isConnect()) {
         </div>
     </div>
 
-    <div class="col-md-10">
+    <div class="col-lg-10">
         <legend style="height: 35px;">
             <a class="btn btn-default btn-xs" id="bt_editView"><i class="fa fa-pencil"></i> {{Renommer}}</a> {{Vue}}
             <a class="btn btn-default btn-xs pull-right" id="bt_addviewZone"><i class="fa fa-plus-circle"></i> {{Ajouter une zone}}</a></legend>
@@ -63,8 +63,8 @@ if (!isConnect()) {
                 <input class="form-control" type="text" id="in_addViewId" style="display : none;"/>
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-4 control-label" >{{Nom}}</label>
-                        <div class="col-md-8">
+                        <label class="col-lg-4 control-label" >{{Nom}}</label>
+                        <div class="col-lg-8">
                             <input class="form-control" type="text" id="in_addViewName" placeholder="{{Nom de la vue}}"/>
                         </div>
                     </div>
@@ -90,14 +90,14 @@ if (!isConnect()) {
                 <input id="in_addEditviewZoneEmplacement"  style="display : none;" />
                 <form class="form-horizontal" onsubmit="return false;">
                     <div class="form-group">
-                        <label class="col-md-2 control-label">{{Nom}}</label>
-                        <div class="col-md-5">
+                        <label class="col-lg-2 control-label">{{Nom}}</label>
+                        <div class="col-lg-5">
                             <input id="in_addEditviewZoneName" class="form-control" placeholder="{{Nom}}" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">{{Type}}</label>
-                        <div class="col-md-5">
+                        <label class="col-lg-2 control-label">{{Type}}</label>
+                        <div class="col-lg-5">
                             <select class="form-control" id="sel_addEditviewZoneType">
                                 <option value="widget">{{Widget}}</option>
                                 <option value="graph">{{Graphique}}</option>
