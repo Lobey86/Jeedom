@@ -178,31 +178,6 @@
     margin-bottom: 10px;
 }
 
-@media (min-width: 1200px) {
-    .bs-sidebar .nav > .active > ul {
-        display: block;
-    }
-    .bs-sidebar.affix, .bs-sidebar.affix-bottom {
-        width: 193px;
-    }
-    .bs-sidebar.affix {
-        position: fixed;
-        top: 60px;
-    }
-    .bs-sidebar.affix-bottom {
-        position: absolute;
-    }
-    .bs-sidebar.affix-bottom .bs-sidenav, .bs-sidebar.affix .bs-sidenav {
-        margin-bottom: 10px;
-        margin-top: 0;
-    }
-}
-@media (min-width: 1600px) {
-    .bs-sidebar.affix-bottom, .bs-sidebar.affix {
-        width: 263px;
-    }
-}
-
 html,
 body {
     height: 100%;
