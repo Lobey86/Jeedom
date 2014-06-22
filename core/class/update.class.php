@@ -188,7 +188,7 @@ class update {
             $this->save();
         } else {
             try {
-                $market_info = market::getInfo($this->getLogicalId());
+                $market_info = market::getInfo($this->getLogicalId(), $this->getConfiguration('version', 'stable'));
                 $this->setStatus($market_info['status']);
                 $this->setConfiguration('market_owner', $market_info['market_owner']);
                 $this->setConfiguration('market', $market_info['market']);
@@ -230,7 +230,7 @@ class update {
         } else {
             $market = market::byLogicalId($this->getLogicalId());
             if (is_object($market)) {
-                $market->install();
+                $market->install($this->getConfiguration('version', 'stable'));
             }
         }
         $this->refresh();

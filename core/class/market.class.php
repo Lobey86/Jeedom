@@ -38,6 +38,7 @@ class market {
     private $rating;
     private $utilization;
     private $api_author;
+    private $img;
     private $purchase = 0;
     private $cost = 0;
     private $realcost = 0;
@@ -52,13 +53,13 @@ class market {
         $market->setId($_arrayMarket['id']);
         $market->setName($_arrayMarket['name']);
         $market->setType($_arrayMarket['type']);
-        $market->setDatetime($_arrayMarket['datetime']);
+        $market->datetime = json_encode($_arrayMarket['datetime']);
         $market->setDescription($_arrayMarket['description']);
         $market->setDownloaded($_arrayMarket['downloaded']);
         $market->setUser_id($_arrayMarket['user_id']);
         $market->setVersion($_arrayMarket['version']);
         $market->setCategorie($_arrayMarket['categorie']);
-        $market->setStatus($_arrayMarket['status']);
+        $market->status = json_encode($_arrayMarket['status']);
         $market->setAuthor($_arrayMarket['author']);
         $market->setChangelog($_arrayMarket['changelog']);
         $market->setLogicalId($_arrayMarket['logicalId']);
@@ -66,6 +67,8 @@ class market {
         $market->setPurchase($_arrayMarket['purchase']);
         $market->setCost($_arrayMarket['cost']);
         $market->rating = ($_arrayMarket['rating']);
+        $market->img = json_encode($_arrayMarket['img']);
+
         $market->setRealcost($_arrayMarket['realCost']);
         if (!isset($_arrayMarket['api_author'])) {
             $_arrayMarket['api_author'] = null;
@@ -209,7 +212,7 @@ class market {
         ));
     }
 
-    public static function getInfo($_logicalId) {
+    public static function getInfo($_logicalId, $_version = 'stable') {
         $return = array();
         $return['datetime'] = '0000-01-01 00:00:00';
         if ($_logicalId == '' || config::byKey('market::address') == '') {
@@ -231,7 +234,7 @@ class market {
             if (!is_object($market)) {
                 $return['status'] = 'depreciated';
             } else {
-                $return['datetime'] = $market->getDatetime();
+                $return['datetime'] = $market->getDatetime($_version);
                 $return['market'] = 1;
                 if ($market->getApi_author() == config::byKey('market::apikey') && $market->getApi_author() != '') {
                     $return['market_owner'] = 1;
@@ -244,15 +247,10 @@ class market {
                 if (is_object($update)) {
                     $updateDateTime = $update->getLocalVersion();
                 }
-                if ($market->getStatus() == 'Refusé') {
-                    $return['status'] = 'depreciated';
-                }
-                if ($market->getStatus() == 'Validé' || $market->getStatus() == 'A valider') {
-                    if ($updateDateTime < $market->getDatetime()) {
-                        $return['status'] = 'update';
-                    } else {
-                        $return['status'] = 'ok';
-                    }
+                if ($updateDateTime < $market->getDatetime($_version)) {
+                    $return['status'] = 'update';
+                } else {
+                    $return['status'] = 'ok';
                 }
             }
         } catch (Exception $e) {
@@ -328,14 +326,14 @@ class market {
         return 0;
     }
 
-    public function install() {
+    public function install($_version = 'stable') {
         log::add('update', 'update', __('Début de la mise de : ' . $this->getLogicalId(), __FILE__) . "\n");
         $tmp_dir = dirname(__FILE__) . '/../../tmp';
         $tmp = $tmp_dir . '/' . $this->getLogicalId() . '.zip';
         if (!is_writable($tmp_dir)) {
             throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
         }
-        $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId() . '&hwkey=' . jeedom::getHardwareKey() . '&apikey=' . config::byKey('market::apikey');
+        $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId() . '&hwkey=' . jeedom::getHardwareKey() . '&apikey=' . config::byKey('market::apikey') . '&version=' . $_version;
         log::add('update', 'update', __('Téléchargement de l\'objet...', __FILE__));
         file_put_contents($tmp, fopen($url, 'r'));
         if (!file_exists($tmp)) {
@@ -388,6 +386,7 @@ class market {
             $update->setType($this->getType());
         }
         $update->setLocalVersion($this->getDatetime());
+        $update->setConfiguration('version', $_version);
         $update->save();
         $update->checkUpdate();
     }
@@ -478,8 +477,12 @@ class market {
         return $this->type;
     }
 
-    public function getDatetime() {
-        return $this->datetime;
+    public function getDatetime($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->datetime, $_key, $_default);
+    }
+
+    public function setDatetime($_key, $_value) {
+        $this->datetime = utils::setJsonAttr($this->datetime, $_key, $_value);
     }
 
     public function getDescription() {
@@ -502,10 +505,6 @@ class market {
         return $this->downloaded;
     }
 
-    public function getStatus() {
-        return $this->status;
-    }
-
     public function setId($id) {
         $this->id = $id;
     }
@@ -516,10 +515,6 @@ class market {
 
     public function setType($type) {
         $this->type = $type;
-    }
-
-    public function setDatetime($datetime) {
-        $this->datetime = $datetime;
     }
 
     public function setDescription($description) {
@@ -542,8 +537,16 @@ class market {
         $this->downloaded = $downloaded;
     }
 
-    public function setStatus($status) {
-        $this->status = $status;
+    public function getStatus($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->status, $_key, $_default);
+    }
+
+    public function setStatus($_key, $_value) {
+        $this->status = utils::setJsonAttr($this->status, $_key, $_value);
+    }
+
+    public function getImg($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->img, $_key, $_default);
     }
 
     public function getAuthor() {

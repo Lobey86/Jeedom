@@ -25,7 +25,7 @@ foreach ($market->getComment() as $comment) {
     echo '</div>';
 }
 echo '</div>';
-if (config::byKey('market::apikey') == '') {
+if (config::byKey('market::apikey') != '') {
     echo '<textarea class="form-control" id="ta_comment"></textarea>';
     echo '<a class="btn btn-success pull-right" style="color : white;margin-top : 5px;" id="bt_sendComment"><i class="fa fa-comment"></i> {{Envoyer}}</a>';
 }

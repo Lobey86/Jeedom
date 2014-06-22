@@ -17,19 +17,25 @@ include_file('3rdparty', 'bootstrap.rating/bootstrap.rating', 'js');
 
 $market_array = utils::o2a($market);
 $market_array['rating'] = $market->getRating();
+$update = update::byLogicalId($market->getLogicalId());
 sendVarToJS('market_display_info', $market_array);
 
 
 
-if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config::byKey('installVersionDate', $market->getLogicalId()) < $market->getDatetime()) {
+if (is_object($update) && $update->getStatus() == 'update') {
     echo '<div style="width : 100%" class="alert alert-warning" id="div_pluginUpdate">{{Une mise à jour est disponible. Cliquez sur installer pour l\'effectuer}}</div>';
 }
 ?>
 
 <div style="display: none;width : 100%" id="div_alertMarketDisplay"></div>
-<?php if ($market->getPurchase() == 1) { ?>
-    <a class="btn btn-warning pull-right" style="color : white;" id="bt_installFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-plus-circle"></i> {{Installer}}</a>
-    <?php
+<?php
+if ($market->getPurchase() == 1) {
+    if ($market->getStatus('stable') == 1) {
+        echo '<a class="btn btn-warning pull-right bt_installFromMarket" data-version="stable" style="color : white;" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer stable}}</a>';
+    }
+    if ($market->getStatus('beta') == 1) {
+        echo '<a class="btn btn-danger pull-right bt_installFromMarket" data-version="beta" style="color : white;" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer beta}}</a>';
+    }
 } else if (config::byKey('market::apikey') != '') {
     $purchase_info = market::getPurchaseInfo();
     if (count($purchase_info) == 3 && isset($purchase_info['user_id']) && is_numeric($purchase_info['user_id']) && isset($purchase_info['paypal::url']) && isset($purchase_info['paypal::marchandMail'])) {
@@ -55,7 +61,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
     }
 }
 ?>
-<?php if (config::byKey('installVersionDate', $market->getLogicalId()) != '') { ?>
+<?php if (is_object($update)) { ?>
     <a class="btn btn-danger pull-right" style="color : white;" id="bt_removeFromMarket" data-market_id="<?php echo $market->getId(); ?>" ><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
 <?php } ?>
 <a class="btn btn-default pull-right" id="bt_viewComment"><i class="fa fa-comments-o"></i> {{Commentaires}}</a>
@@ -66,7 +72,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Nom}}</label>
                 <div class="col-lg-8">
-                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
+                    <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <span class="label label-success marketAttr" data-l1key="name" placeholder="{{Nom}}"></span>
                 </div>
             </div>
@@ -88,20 +94,19 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                     <pre class="marketAttr" data-l1key="description" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
-            <?php if (config::byKey('market::apikey') != '') { ?>
-                <div class="form-group">
-                    <label class="col-lg-4 control-label">{{Ma Note}}</label>
-                    <div class="col-lg-8">
-                        <span><input type="number" class="rating" id="in_myRating" data-max="5" data-empty-value="0" data-min="1" data-clearable="Effacer" value="<?php echo $market->getRating('user') ?>" /></span>
-                    </div>
-                </div>
-            <?php } ?>
+
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Note}}</label>
-                <div class="col-lg-8">
+                <div class="col-lg-2">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <span class="label label-primary marketAttr" data-l1key="rating" style="font-size: 1.2em;"></span>
                 </div>
+                <?php if (config::byKey('market::apikey') != '') { ?>
+                    <label class="col-lg-2 control-label">{{Ma Note}}</label>
+                    <div class="col-lg-3">
+                        <span><input type="number" class="rating" id="in_myRating" data-max="5" data-empty-value="0" data-min="1" data-clearable="Effacer" value="<?php echo $market->getRating('user') ?>" /></span>
+                    </div>
+                <?php } ?>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Catégorie}}</label>
@@ -110,9 +115,23 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">{{Version}}</label>
-                <div class="col-lg-8">
-                    <span class="label label-success marketAttr" data-l1key="version" placeholder="{{Version}}" ></span>
+                <label class="col-sm-4 control-label">Version</label>
+                <div class="col-sm-8">
+                    <?php
+                    if ($market->getStatus('stable') == 1) {
+                        echo '<span class="label label-success">';
+                        echo 'Stable : ';
+                        echo $market->getDatetime('stable');
+                        echo '</span>';
+                    }
+                    if ($market->getStatus('beta') == 1) {
+                        echo '<span class="label label-warning">';
+                        echo 'Beta : ';
+                        echo $market->getDatetime('beta');
+                        echo '</span>';
+                    }
+                    ?>
+                    <span class="marketAttr" data-l1key="status"></span>
                 </div>
             </div>
 
@@ -140,42 +159,12 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
                     <span><?php echo $market->getAuthor() ?></span>
                 </div>
             </div>
-
-
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Utilisation}}</label>
                 <div class="col-lg-8">
                     <pre class="marketAttr" data-l1key="utilization" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label class="col-lg-4 control-label">{{Statut}}</label>
-                <div class="col-lg-8">
-                    <select class="form-control marketAttr" data-l1key="status" disabled>
-                        <option>{{A valider}}</option>
-                        <option>{{Validé}}</option>
-                        <option>{{Refusé}}</option>
-                    </select>
-                </div>
-            </div>
-
-
-
-            <div class="form-group">
-                <label class="col-lg-4 control-label">{{Dernière modification de l'archive}}</label>
-                <div class="col-lg-6">
-                    <span class="marketAttr" data-l1key="datetime"></span>
-                </div>
-            </div>
-            <?php if (config::byKey('installVersionDate', $market->getName()) != '') { ?>
-                <div class="form-group">
-                    <label class="col-lg-4 control-label">{{Version utilisé actuelement}}</label>
-                    <div class="col-lg-6">
-                        <span class="marketAttr" ><?php echo config::byKey('installVersionDate', $market->getLogicalId()); ?></span>
-                    </div>
-                </div>
-            <?php } ?>
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Nombre de téléchargements}}</label>
                 <div class="col-lg-8">
@@ -186,12 +175,22 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
         <div class="col-lg-6">
             <div class="form-group">
                 <div class="col-lg-12">
-                    <?php
-                    $urlPath = config::byKey('market::address') . '/market/' . $market->getType() . '/' . $market->getLogicalId() . '.jpg';
-                    if (fopen($urlPath, "r")) {
-                        ?>
-                        <img   src="<?php echo $urlPath; ?>"  class="img-responsive img-thumbnail" />
-                    <?php } ?>
+                    <center>
+                        <?php
+                        if ($market->getStatus('stable') == 1 && $market->getImg('stable')) {
+                            $urlPath = config::byKey('market::address') . '/' . $market->getImg('stable');
+                        } else {
+                            if ($market->getImg('beta')) {
+                                $urlPath = config::byKey('market::address') . '/' . $market->getImg('beta');
+                            } else {
+                                $urlPath = 'core/img/no_image.gif';
+                            }
+                        }
+                        if (fopen($urlPath, "r")) {
+                            ?>
+                            <img   src="<?php echo $urlPath; ?>"  class="img-responsive img-thumbnail" />
+                        <?php } ?>
+                    </center>
                 </div>
             </div>
         </div> 
@@ -230,14 +229,15 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
         $('#div_comments').load('index.php?v=d&modal=market.comment&id=' + $('.marketAttr[data-l1key=id]').value());
     }
 
-    $('#bt_installFromMarket').on('click', function() {
+    $('.bt_installFromMarket').on('click', function() {
         var id = $(this).attr('data-market_id');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/market.ajax.php", // url du fichier php
             data: {
                 action: "install",
-                id: id
+                id: id,
+                version: $(this).attr('data-version'),
             },
             dataType: 'json',
             error: function(request, status, error) {

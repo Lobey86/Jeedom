@@ -29,7 +29,7 @@ try {
         if (!is_object($market)) {
             throw new Exception(__('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
         }
-        $market->install();
+        $market->install(init('version','stable'));
         ajax::success();
     }
 
