@@ -546,10 +546,10 @@ class eqLogic {
 
     public function getBackgroundColor($_version = 'dashboard') {
         $vcolor = 'color';
-        $default = '#2c3e50';
+        $default = '#19bc9c';
         if ($_version == 'mobile') {
             $vcolor = 'mcolor';
-            $default = '#2c3e50';
+            $default = '#19bc9c';
         }
         $category = $this->getPrimaryCategory();
         if ($category != '') {
@@ -602,7 +602,6 @@ class eqLogic {
             $logicalId = 'noBattery' . $this->getId();
             $message = __('Le module ', __FILE__) . $this->getEqType_name() . ' ';
             $message .= $this->getHumanName() . __(' a été désactivé car il n\'a plus de batterie (', __FILE__) . $_pourcent . ' %)';
-            //$action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getId() . '" data-isEnable="1">Ré-activer</a>';
             message::add($this->getEqType_name(), $message, '', $logicalId);
         }
     }
