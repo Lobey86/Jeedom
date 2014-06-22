@@ -34,9 +34,9 @@ $child_object = object::buildTree($object);
                 }
             }
             if (init('category', 'all') == 'other') {
-                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autres}}</a>';
+                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
             } else {
-                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autres}}</a>';
+                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
             }
             ?>
         </center>
