@@ -30,10 +30,10 @@ if (is_object($update) && $update->getStatus() == 'update') {
 <?php
 if ($market->getPurchase() == 1) {
     if ($market->getStatus('stable') == 1) {
-        echo '<a class="btn btn-warning pull-right bt_installFromMarket" data-version="stable" style="color : white;" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer stable}}</a>';
+        echo '<a class="btn btn-success pull-right bt_installFromMarket" data-version="stable" style="color : white;" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer stable}}</a>';
     }
     if ($market->getStatus('beta') == 1) {
-        echo '<a class="btn btn-danger pull-right bt_installFromMarket" data-version="beta" style="color : white;" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer beta}}</a>';
+        echo '<a class="btn btn-warning pull-right bt_installFromMarket" data-version="beta" style="color : white;" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer beta}}</a>';
     }
 } else if (config::byKey('market::apikey') != '') {
     $purchase_info = market::getPurchaseInfo();
@@ -72,7 +72,7 @@ if ($market->getPurchase() == 1) {
                 <label class="col-lg-4 control-label">{{Nom}}</label>
                 <div class="col-lg-8">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
-                    <span class="label label-success marketAttr" data-l1key="name" placeholder="{{Nom}}"></span>
+                    <span class="label label-success marketAttr" data-l1key="name" placeholder="{{Nom}}" style="font-size: 1.6em;"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -80,9 +80,9 @@ if ($market->getPurchase() == 1) {
                 <div class="col-lg-8">
                     <?php
                     if ($market->getCost() > 0) {
-                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">' . $market->getRealcost() . ' €</span>';
+                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1em;">' . $market->getRealcost() . ' €</span>';
                     } else {
-                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1.2em;">{{Gratuit}}</span>';
+                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1em;">{{Gratuit}}</span>';
                     }
                     ?>
                 </div>
@@ -110,7 +110,7 @@ if ($market->getPurchase() == 1) {
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Catégorie}}</label>
                 <div class="col-lg-8">
-                    <span class="label label-warning marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}"></span>
+                    <span class="label label-warning marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}" style="font-size: 1em;"></span>
                 </div>
             </div>
             <div class="form-group">

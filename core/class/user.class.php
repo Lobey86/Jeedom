@@ -151,6 +151,16 @@ class user {
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function searchByRight($_rights) {
+        $values = array(
+            'rights' => '%"' . $_rights . '":1%',
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM user 
+                WHERE rights LIKE :rights';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function presave() {
