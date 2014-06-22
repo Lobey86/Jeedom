@@ -89,7 +89,7 @@ class market {
 
     public static function byLogicalId($_logicalId) {
         $market = self::getJsonRpc();
-        if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId), 2, null, 2)) {
+        if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId), 2, null, 1)) {
             return self::construct($market->getResult());
         } else {
             throw new Exception($market->getError());

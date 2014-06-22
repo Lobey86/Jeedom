@@ -37,6 +37,14 @@ class com_http {
     /*     * ************* Functions ************************************ */
 
     function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true) {
+        $url = parse_url($this->url);
+        $host = $url['host'];
+        if (!ip2long($host)) {
+            $query = `nslookup -timeout=1 -retry=1 $host`;
+            if (!preg_match('/\nAddress: (.*)\n/', $query, $matches)) {
+                throw new Exception('Impossible de résoudre le DNS. Pas d\'internet ?');
+            }
+        }
         $nbRetry = 0;
         while ($nbRetry < $_maxRetry) {
             $ch = curl_init();

@@ -49,7 +49,7 @@ try {
         $plugin->setIsEnable(init('state'));
         ajax::success();
     }
-    
+
     if (init('action') == 'all') {
         if (!isConnect()) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));

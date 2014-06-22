@@ -59,6 +59,14 @@ class jsonrpcClient {
     }
 
     private function send($_request, $_timeout = 10, $_file = null, $_maxRetry = 3) {
+        $url = parse_url($this->apiAddr);
+        $host = $url['host'];
+        if (!ip2long($host)) {
+            $query = `nslookup -timeout=1 -retry=1 $host`;
+            if (!preg_match('/\nAddress: (.*)\n/', $query, $matches)) {
+                throw new Exception('Impossible de résoudre le DNS. Pas d\'internet ?');
+            }
+        }
         if ($_file !== null) {
             $_request = array_merge($_request, $_file);
         }
@@ -69,7 +77,7 @@ class jsonrpcClient {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, false);
             curl_setopt($ch, CURLOPT_TIMEOUT, $_timeout);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $_timeout);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_POST, true);
