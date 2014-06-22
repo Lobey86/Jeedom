@@ -24,7 +24,6 @@ sudo apt-get install -y ffmpeg
 sudo apt-get install -y libssh2-php
 sudo apt-get install -y ntp
 sudo apt-get install -y unzip
-sudo apt-get install -y dnsutils
 sudo apt-get install -y mysql-client mysql-common mysql-server mysql-server-core-5.5
 echo "Quel mot de passe venez vous de taper (mot de passe root de la MySql) ?"
 while true
