@@ -3,9 +3,10 @@ if (!isConnect()) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
 if (init('object_id') == '') {
-    $_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject');
+    $object = object::byId($_SESSION['user']->getOptions('defaultDashboardObject'));
+} else {
+    $object = object::byId(init('object_id'));
 }
-$object = object::byId(init('object_id'));
 if (!is_object($object)) {
     $object = object::rootObject();
 }
@@ -90,7 +91,7 @@ $child_object = object::buildTree($object);
     <div class="col-lg-2">
         <legend><i class="fa fa-history"></i> {{Scénarios}}</legend>
         <?php
-        if (init('object_id') == 'global') {
+        if (init('object_id') == '') {
             foreach (scenario::byObjectId(null) as $scenario) {
                 if ($scenario->getIsVisible() == 1) {
                     echo $scenario->toHtml('dashboard');
