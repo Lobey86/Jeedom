@@ -62,7 +62,7 @@ class jsonrpcClient {
         $url = parse_url($this->apiAddr);
         $host = $url['host'];
         if (!ip2long($host)) {
-            exec("ping -n -c 1 $host 2>&1", $output, $retval);
+            exec("timeout 1 ping -n -c 1 -W 1 $host", $output, $retval);
             if ($retval != 0) {
                 throw new Exception('Impossible de résoudre le DNS. Pas d\'internet ?');
             }
