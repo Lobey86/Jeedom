@@ -29,7 +29,7 @@ $findMarket = array();
             <th>{{Nom}}</th>
             <th>{{Description}}</th>
             <th>{{Statut}}</th>
-            <th style="width: 100px;">{{Note}}</th>
+            <th style="width: 110px;">{{Note}}</th>
             <th>{{Téléchargé}}</th>
         </tr>
     </thead>
