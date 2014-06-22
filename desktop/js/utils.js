@@ -308,7 +308,7 @@ jQuery.fn.findAtDepth = function(selector, maxDepth) {
 };
 
 
-function chooseIcon(callback) {
+function chooseIcon(_callback) {
     if ($("#mod_selectIcon").length == 0) {
         $('body').append('<div id="mod_selectIcon" title="{{Choisissez votre icône}}" ></div>');
 
@@ -331,7 +331,7 @@ function chooseIcon(callback) {
             if (icon == undefined) {
                 icon = '';
             }
-            callback(icon);
+            _callback(icon);
             $(this).dialog('close');
         }
     });
