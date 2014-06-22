@@ -1440,15 +1440,16 @@ button.ui-button::-moz-focus-inner {
 }
 
 .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button {
-    color: #ffffff;
-    background-color: #428bca;
-    border-color: #357ebd;
+    color: black;
+    background-color: #ffffff;
+    border-color: #cccccc;
 }
 
 .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.ui-state-hover{
-    color: #ffffff;
-    background-color: #3276b1;
-    border-color: #285e8e;
+    color: black;
+    background-color: #ebebeb;
+    border-color: #adadad;
+    text-decoration: none;
 }
 
 /***Dialog fixes**/
@@ -1456,9 +1457,9 @@ button.ui-button::-moz-focus-inner {
 .ui-dialog-buttonset .ui-button:not(:first-child) {
     cursor: pointer;
     display: inline-block;
-    color: #333333;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
+    color: #ffffff;
+    background-color: #428bca;
+    border: 1px solid #357ebd;
     -webkit-transition: 0.1s linear all;
     -moz-transition: 0.1s linear all;
     -o-transition: 0.1s linear all;
@@ -1467,9 +1468,9 @@ button.ui-button::-moz-focus-inner {
 }
 
 .ui-dialog-buttonset .ui-button:not(:first-child).ui-state-hover{
-    color: #333333;
-    background-color: #ebebeb;
-    border-color: #adadad;
+    color: #ffffff;
+    background-color: #3276b1;
+    border-color: #285e8e;
     text-decoration: none;
 }
 

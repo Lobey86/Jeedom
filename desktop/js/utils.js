@@ -61,7 +61,7 @@ $(function() {
 
     if (isset(jeedom_langage)) {
         bootbox.setDefaults({
-            locale: jeedom_langage.substr(0,2),
+            locale: jeedom_langage.substr(0, 2),
         });
     }
 
@@ -315,8 +315,17 @@ function chooseIcon(_callback) {
         $("#mod_selectIcon").dialog({
             autoOpen: false,
             modal: true,
-            height: 700,
-            width: 1100
+            height: (jQuery(window).height() - 150),
+            width: 1500,
+            open: function() {
+                if ((jQuery(window).width() - 50) < 1500) {
+                    $('#mod_selectIcon').dialog({width: jQuery(window).width() - 50});
+                }
+                $("body").css({overflow: 'hidden'});
+            },
+            beforeClose: function(event, ui) {
+                $("body").css({overflow: 'inherit'});
+            }
         });
         jQuery.ajaxSetup({async: false});
         $('#mod_selectIcon').load('index.php?v=d&modal=icon.selector');
