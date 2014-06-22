@@ -330,6 +330,9 @@ class market {
         log::add('update', 'update', __('Début de la mise de : ' . $this->getLogicalId(), __FILE__) . "\n");
         $tmp_dir = dirname(__FILE__) . '/../../tmp';
         $tmp = $tmp_dir . '/' . $this->getLogicalId() . '.zip';
+        if (!file_exists($tmp)) {
+            unlink($tmp);
+        }
         if (!is_writable($tmp_dir)) {
             throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
         }
@@ -385,7 +388,7 @@ class market {
             $update->setLogicalId($this->getLogicalId());
             $update->setType($this->getType());
         }
-        $update->setLocalVersion($this->getDatetime());
+        $update->setLocalVersion($this->getDatetime($_version));
         $update->setConfiguration('version', $_version);
         $update->save();
         $update->checkUpdate();

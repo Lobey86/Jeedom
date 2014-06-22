@@ -124,18 +124,18 @@ if ($market->getPurchase() == 1) {
                         echo '</span>';
                     }
                     if ($market->getStatus('beta') == 1) {
-                        echo '<span class="label label-warning">';
+                        echo ' <span class="label label-warning">';
                         echo 'Beta : ';
                         echo $market->getDatetime('beta');
                         echo '</span>';
                     }
                     if (is_object($update) && $update->getConfiguration('version', 'stable') == 'beta' && $market->getStatus('stable') == 1) {
                         if (strtotime($market->getDatetime('stable')) > strtotime($update->getLocalVersion())) {
-                            echo '<span class="label label-success">';
+                            echo '<br/><span class="label label-info">';
                             echo '{{Le retour à la version stable est possible}}';
                             echo '</span>';
                         } else {
-                             echo '<span class="label label-danger">';
+                             echo '<br/><span class="label label-danger">';
                             echo '{{Le retour à la version stable est dangereux}}';
                             echo '</span>';
                         }
