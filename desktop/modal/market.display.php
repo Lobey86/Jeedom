@@ -64,15 +64,9 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
-                <label class="col-lg-4 control-label">{{ID}}</label>
-                <div class="col-lg-8">
-                    <input class="form-control marketAttr" data-l1key="id" style="display: none;">
-                    <span class="label label-success marketAttr" data-l1key="logicalId" placeholder="{{Nom}}"></span>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-lg-4 control-label">{{Nom}}</label>
                 <div class="col-lg-8">
+                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <span class="label label-success marketAttr" data-l1key="name" placeholder="{{Nom}}"></span>
                 </div>
             </div>
@@ -171,7 +165,7 @@ if (config::byKey('installVersionDate', $market->getLogicalId()) != '' && config
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Dernière modification de l'archive}}</label>
                 <div class="col-lg-6">
-                    <span class="marketAttr label label-info" data-l1key="datetime"></span>
+                    <span class="marketAttr" data-l1key="datetime"></span>
                 </div>
             </div>
             <?php if (config::byKey('installVersionDate', $market->getName()) != '') { ?>
