@@ -12,7 +12,7 @@ if (init('logicalId') != '') {
 if (!isset($market)) {
     throw new Exception('404 not found');
 }
-
+include_file('3rdparty', 'jquery.lazyload/jquery.lazyload', 'js');
 include_file('3rdparty', 'bootstrap.rating/bootstrap.rating', 'js');
 
 $market_array = utils::o2a($market);
@@ -135,7 +135,7 @@ if ($market->getPurchase() == 1) {
                             echo '{{Le retour à la version stable est possible}}';
                             echo '</span>';
                         } else {
-                             echo '<br/><span class="label label-danger">';
+                            echo '<br/><span class="label label-danger">';
                             echo '{{Le retour à la version stable est dangereux}}';
                             echo '</span>';
                         }
@@ -191,14 +191,10 @@ if ($market->getPurchase() == 1) {
                         } else {
                             if ($market->getImg('beta')) {
                                 $urlPath = config::byKey('market::address') . '/' . $market->getImg('beta');
-                            } else {
-                                $urlPath = 'core/img/no_image.gif';
                             }
                         }
-                        if (fopen($urlPath, "r")) {
-                            ?>
-                            <img   src="<?php echo $urlPath; ?>"  class="img-responsive img-thumbnail" />
-                        <?php } ?>
+                        echo '<img src="core/img/no_image.gif" data-original="' . $urlPath . '"  class="lazy img-responsive img-thumbnail"/>';
+                        ?>
                     </center>
                 </div>
             </div>
@@ -214,6 +210,11 @@ if ($market->getPurchase() == 1) {
     $('#bt_paypalClick').on('click', function() {
         $(this).hide();
     });
+
+    $("img.lazy").lazyload({
+        event: "sporty"
+    });
+    $("img.lazy").trigger("sporty");
 
     $("#div_comments").dialog({
         autoOpen: false,

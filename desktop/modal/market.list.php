@@ -5,9 +5,9 @@ if (!isConnect('admin')) {
 include_file('3rdparty', 'jquery.lazyload/jquery.lazyload', 'js');
 include_file('3rdparty', 'bootstrap.rating/bootstrap.rating', 'js');
 
-$markets = market::byStatusAndType('Validé', init('type'));
+$markets = market::byStatusAndType('stable', init('type'));
 if (config::byKey('market::showToValidateMarket') == 1) {
-    $markets = array_merge($markets, market::byStatusAndType('A valider', init('type')));
+    $markets = array_merge($markets, market::byStatusAndType('beta', init('type')));
 } else {
     if (config::byKey('market::apikey') != '') {
         foreach (market::byMe() as $myMarket) {
@@ -35,14 +35,21 @@ if (config::byKey('market::showToValidateMarket') == 1) {
     <tbody>
         <?php
         foreach ($markets as $market) {
-            $rating =  $market->getRating();
+            $rating = $market->getRating();
             echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor" style="height:70px;">';
-            echo '<td><center><img src="core/img/no_image.gif" data-original="' . config::byKey('market::address') . '/market/' . $market->getType() . '/' . $market->getLogicalId() . '.jpg"  class="lazy" height="70" /></center></td>';
+            if ($market->getStatus('stable') == 1 && $market->getImg('stable')) {
+                $urlPath = config::byKey('market::address') . '/' . $market->getImg('stable');
+            } else {
+                if ($market->getImg('beta')) {
+                    $urlPath = config::byKey('market::address') . '/' . $market->getImg('beta');
+                }
+            }
+            echo '<td><center><img src="core/img/no_image.gif" data-original="' . $urlPath . '"  class="lazy" height="70" /></center></td>';
             echo '<td>' . $market->getCategorie() . '</td>';
             echo '<td>' . $market->getName() . '</td>';
             echo '<td>' . $market->getDescription() . '</td>';
             echo '<td>' . $market->getStatus() . '</td>';
-            echo '<td><center><input type="number" class="rating" data-max="5" data-empty-value="0" data-min="1" value="'. $market->getRating(). '" data-disabled="1" /></center></td>';
+            echo '<td><center><input type="number" class="rating" data-max="5" data-empty-value="0" data-min="1" value="' . $market->getRating() . '" data-disabled="1" /></center></td>';
             echo '<td><center>' . $market->getDownloaded() . '</center></td>';
             echo '</tr>';
         }
@@ -53,9 +60,9 @@ if (config::byKey('market::showToValidateMarket') == 1) {
 <script>
     $(function() {
         $("img.lazy").lazyload({
-            event : "sporty"
+            event: "sporty"
         });
-         $("img.lazy").trigger("sporty");
+        $("img.lazy").trigger("sporty");
         initTableSorter();
 
 
