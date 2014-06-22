@@ -20,6 +20,7 @@ $(function() {
         $.hideAlert();
         $('.li_plugin').removeClass('active');
         $(this).addClass('active');
+        $.showLoading();
         jeedom.plugin.get($(this).attr('data-plugin_id'), function(data) {
             $('#span_plugin_id').html(data.id);
             $('#span_plugin_name').html(data.name);
