@@ -40,6 +40,9 @@ jeedom.cmd.changeType = function(_cmd, _subType) {
             modifyWithoutSave = false;
         }
         jeedom.cmd.changeSubType(_cmd);
+        if ('function' == typeof (initExpertMode)) {
+            initExpertMode();
+        }
     });
 };
 
@@ -78,6 +81,9 @@ jeedom.cmd.changeSubType = function(_cmd) {
         }
         if (_cmd.find('.cmdAttr[data-l1key=subType]').value() == 'slider' || _cmd.find('.cmdAttr[data-l1key=subType]').value() == 'color') {
             _cmd.find('.cmdAttr[data-l1key=value]').show();
+        }
+        if ('function' == typeof (initExpertMode)) {
+            initExpertMode();
         }
     });
 };

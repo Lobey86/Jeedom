@@ -35,7 +35,6 @@ $(function() {
                 }
             }
             initTooltips();
-            initExpertMode();
             modifyWithoutSave = false;
             $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
                 jeedom.cmd.changeType($(this).closest('.cmd'));
@@ -44,6 +43,7 @@ $(function() {
             $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function() {
                 jeedom.cmd.changeSubType($(this).closest('.cmd'));
             });
+            initExpertMode();
         });
         return false;
     });
