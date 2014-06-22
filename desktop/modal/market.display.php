@@ -19,14 +19,13 @@ $market_array = utils::o2a($market);
 $market_array['rating'] = $market->getRating();
 $update = update::byLogicalId($market->getLogicalId());
 sendVarToJS('market_display_info', $market_array);
-
-
-
+if (is_object($update) && $update->getConfiguration('version', 'stable') == 'beta') {
+    echo '<div class="alert alert-danger">{{Attention vous utilisez actuelement une version beta. Celle-ci peut ne pas être stable}}</div>';
+}
 if (is_object($update) && $update->getStatus() == 'update') {
-    echo '<div style="width : 100%" class="alert alert-warning" id="div_pluginUpdate">{{Une mise à jour est disponible. Cliquez sur installer pour l\'effectuer}}</div>';
+    echo '<div class="alert alert-warning" id="div_pluginUpdate">{{Une mise à jour est disponible. Cliquez sur installer pour l\'effectuer}}</div>';
 }
 ?>
-
 <div style="display: none;width : 100%" id="div_alertMarketDisplay"></div>
 <?php
 if ($market->getPurchase() == 1) {
