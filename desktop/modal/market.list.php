@@ -6,17 +6,18 @@ include_file('3rdparty', 'jquery.lazyload/jquery.lazyload', 'js');
 include_file('3rdparty', 'bootstrap.rating/bootstrap.rating', 'js');
 
 $markets = market::byStatusAndType('stable', init('type'));
-if (config::byKey('market::showToValidateMarket') == 1) {
+if (config::byKey('market::showBetaMarket') == 1) {
     $markets = array_merge($markets, market::byStatusAndType('beta', init('type')));
 } else {
     if (config::byKey('market::apikey') != '') {
         foreach (market::byMe() as $myMarket) {
-            if ($myMarket->getStatus() != 'Validé' && $myMarket->getType() == init('type')) {
+            if ($myMarket->getStatus() != 'stable' && $myMarket->getType() == init('type')) {
                 $markets[] = $myMarket;
             }
         }
     }
 }
+$findMarket = array();
 ?>
 
 
@@ -35,23 +36,26 @@ if (config::byKey('market::showToValidateMarket') == 1) {
     <tbody>
         <?php
         foreach ($markets as $market) {
-            $rating = $market->getRating();
-            echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor" style="height:70px;">';
-            if ($market->getStatus('stable') == 1 && $market->getImg('stable')) {
-                $urlPath = config::byKey('market::address') . '/' . $market->getImg('stable');
-            } else {
-                if ($market->getImg('beta')) {
-                    $urlPath = config::byKey('market::address') . '/' . $market->getImg('beta');
+            if (!isset($findMarket[$market->getId()])) {
+                $findMarket[$market->getId()] = true;
+                $rating = $market->getRating();
+                echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor" style="height:70px;">';
+                if ($market->getStatus('stable') == 1 && $market->getImg('stable')) {
+                    $urlPath = config::byKey('market::address') . '/' . $market->getImg('stable');
+                } else {
+                    if ($market->getImg('beta')) {
+                        $urlPath = config::byKey('market::address') . '/' . $market->getImg('beta');
+                    }
                 }
+                echo '<td><center><img src="core/img/no_image.gif" data-original="' . $urlPath . '"  class="lazy" height="70" /></center></td>';
+                echo '<td>' . $market->getCategorie() . '</td>';
+                echo '<td>' . $market->getName() . '</td>';
+                echo '<td>' . $market->getDescription() . '</td>';
+                echo '<td>' . $market->getStatus() . '</td>';
+                echo '<td><center><input type="number" class="rating" data-max="5" data-empty-value="0" data-min="1" value="' . $market->getRating() . '" data-disabled="1" /></center></td>';
+                echo '<td><center>' . $market->getDownloaded() . '</center></td>';
+                echo '</tr>';
             }
-            echo '<td><center><img src="core/img/no_image.gif" data-original="' . $urlPath . '"  class="lazy" height="70" /></center></td>';
-            echo '<td>' . $market->getCategorie() . '</td>';
-            echo '<td>' . $market->getName() . '</td>';
-            echo '<td>' . $market->getDescription() . '</td>';
-            echo '<td>' . $market->getStatus() . '</td>';
-            echo '<td><center><input type="number" class="rating" data-max="5" data-empty-value="0" data-min="1" value="' . $market->getRating() . '" data-disabled="1" /></center></td>';
-            echo '<td><center>' . $market->getDownloaded() . '</center></td>';
-            echo '</tr>';
         }
         ?>
     </tbody>
