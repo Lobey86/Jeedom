@@ -80,7 +80,7 @@ class market {
 
     public static function byId($_id) {
         $market = self::getJsonRpc();
-        if ($market->sendRequest('market::byId', array('id' => $_id))) {
+        if ($market->sendRequest('market::byId', array('id' => $_id), 2, null, 2)) {
             return self::construct($market->getResult());
         } else {
             throw new Exception($market->getError());
@@ -89,7 +89,7 @@ class market {
 
     public static function byLogicalId($_logicalId) {
         $market = self::getJsonRpc();
-        if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId))) {
+        if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId), 2, null, 2)) {
             return self::construct($market->getResult());
         } else {
             throw new Exception($market->getError());
@@ -98,7 +98,7 @@ class market {
 
     public static function byMe() {
         $market = self::getJsonRpc();
-        if ($market->sendRequest('market::byAuthor', array())) {
+        if ($market->sendRequest('market::byAuthor', array(), 4, null, 2)) {
             $return = array();
             foreach ($market->getResult() as $result) {
                 $return[] = self::construct($result);
@@ -111,7 +111,7 @@ class market {
 
     public static function byStatusAndType($_status, $_type) {
         $market = self::getJsonRpc();
-        if ($market->sendRequest('market::byStatusAndType', array('status' => $_status, 'type' => $_type))) {
+        if ($market->sendRequest('market::byStatusAndType', array('status' => $_status, 'type' => $_type), 4, null, 2)) {
             $return = array();
             foreach ($market->getResult() as $result) {
                 $return[] = self::construct($result);
@@ -124,7 +124,7 @@ class market {
 
     public static function byStatus($_status) {
         $market = self::getJsonRpc();
-        if ($market->sendRequest('market::byStatus', array('status' => $_status))) {
+        if ($market->sendRequest('market::byStatus', array('status' => $_status), 4, null, 2)) {
             $return = array();
             foreach ($market->getResult() as $result) {
                 $return[] = self::construct($result);
