@@ -81,12 +81,14 @@ $plugins_list = plugin::listPlugin(true, true);
 
     <body>
         <?php
+        sendVarToJS('jeedom_langage', config::byKey('language'));
         if (!isConnect()) {
             include_file('desktop', 'connection', 'php');
         } else {
             sendVarToJS('userProfils', $_SESSION['user']->getOptions());
             sendVarToJS('user_id', $_SESSION['user']->getId());
             sendVarToJS('user_login', $_SESSION['user']->getLogin());
+
             if (config::byKey('enableNodeJs') == 1) {
                 sendVarToJS('nodeJsKey', config::byKey('nodeJsKey'));
             } else {
@@ -142,11 +144,10 @@ $plugins_list = plugin::listPlugin(true, true);
                                                     <li class='expertModeVisible'><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> {{Log}}</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> {{Interaction}}</a></li>
-                                            <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
                                             <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> {{Objet}}</a></li>
                                             <li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> {{Plugins}}</a></li>
-
+                                            <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> {{Interaction}}</a></li>
+                                            <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
                                         </ul>
                                     </li>
                                 <?php } ?>

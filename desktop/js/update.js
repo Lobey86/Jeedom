@@ -157,18 +157,13 @@ function addUpdate(_update) {
     tr += '<td><span class="updateAttr" data-l1key="localVersion"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="remoteVersion"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="status"></span></td>';
-    tr += '<td>';
+    tr += '<td style="width : 400px;">';
     if (_update.status == 'update') {
         tr += '<a class="btn btn-info btn-xs pull-right update tooltips" style="color : white;" title="{{Mettre à jour}}"><i class="fa fa-refresh"></i> Metrre à jour</a>';
     }
 
     if (_update.type != 'core') {
         tr += '<a class="btn btn-danger btn-xs pull-right remove expertModeVisible tooltips" data-state="unhold" style="color : white;" ><i class="fa fa-trash-o"></i> {{Supprimer}}</a>';
-        if (_update.status != 'hold') {
-            tr += '<a class="btn btn-warning btn-xs pull-right changeState expertModeVisible tooltips" data-state="hold" style="color : white;"><i class="fa fa-lock"></i> {{Bloquer}}</a>';
-        } else {
-            tr += '<a class="btn btn-success btn-xs pull-right changeState expertModeVisible tooltips" data-state="unhold" style="color : white;"><i class="fa fa-unlock"></i> {{Débloquer}}</a>';
-        }
         if (isset(_update.configuration) && isset(_update.configuration.market_owner) && _update.configuration.market_owner == 1) {
             tr += '<a class="btn btn-success btn-xs pull-right sendToMarket tooltips cursor expertModeVisible" style="color : white;" title="{{Envoyer sur le market}}"><i class="fa fa-cloud-upload"></i> {{Partager}}</a>';
         }

@@ -59,6 +59,12 @@ $(function() {
 
     /************************Help*************************/
 
+    if (isset(jeedom_langage)) {
+        bootbox.setDefaults({
+            locale: jeedom_langage.substr(0,2),
+        });
+    }
+
     //Display report bug
     $("#md_reportBug").dialog({
         autoOpen: false,

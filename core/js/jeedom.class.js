@@ -234,4 +234,4 @@ jeedom.getConfiguration = function(_key, _default, _callback) {
             }
         }
     });
-}
+};

@@ -33,7 +33,7 @@ if (!isConnect('admin')) {
                     <th>{{Version actuel}}</th>
                     <th>{{Version disponible}}</th>
                     <th>{{Status}}</th>
-                    <th data-sorter="false" data-filter="false" style="width: 400px;">{{Action}}</th>
+                    <th data-sorter="false" data-filter="false" style="width: 400px;">{{Actions}}</th>
                 </tr>
             </thead>
             <tbody>

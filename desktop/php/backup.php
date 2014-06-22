@@ -50,6 +50,9 @@ include_file('3rdparty', 'jquery.fileupload/jquery.fileupload', 'js');
                     <?php } ?>
                 </fieldset>
             </form>
+            <div class="form-actions" style="height: 20px;">
+                <a class="btn btn-success" id="bt_saveBackup"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
+            </div><br/><br/>
             <legend>{{Sauvegardes locales}}</legend>
             <form class="form-horizontal">
                 <fieldset>
@@ -124,7 +127,6 @@ include_file('3rdparty', 'jquery.fileupload/jquery.fileupload', 'js');
                 </form>
             <?php } ?>
         </div>
-
         <div class="col-lg-6">
             <legend>{{Informations sauvegardes}}</legend>
             <pre id="pre_backupInfo"></pre>
@@ -133,10 +135,6 @@ include_file('3rdparty', 'jquery.fileupload/jquery.fileupload', 'js');
 
             </pre>
         </div>
-    </div>
-
-    <div class="form-actions" style="height: 20px;">
-        <a class="btn btn-success" id="bt_saveBackup"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
     </div>
 </div>
 
