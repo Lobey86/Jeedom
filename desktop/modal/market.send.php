@@ -67,32 +67,9 @@ if (init('type') == 'plugin') {
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">{{Statut}}</label>
-                <div class="col-lg-6">
-                    <select class="form-control marketAttr" data-l1key="status" >
-                        <option>{{A valider}}</option>
-                        <option>{{Validé}}</option>
-                        <option>{{Refusé}}</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
                 <label class="col-lg-4 control-label">{{Catégorie}}</label>
                 <div class="col-lg-6">
                     <input class="form-control marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-lg-4 control-label">{{Version}}</label>
-                <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="version" placeholder="{{Version}}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-lg-4 control-label">{{Dernière modification de l'archive}}</label>
-                <div class="col-lg-6">
-                    <span class="marketAttr label label-info" data-l1key="datetime"></span>
                 </div>
             </div>
         </div> 

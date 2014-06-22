@@ -129,8 +129,18 @@ if ($market->getPurchase() == 1) {
                         echo $market->getDatetime('beta');
                         echo '</span>';
                     }
+                    if (is_object($update) && $update->getConfiguration('version', 'stable') == 'beta' && $market->getStatus('stable') == 1) {
+                        if (strtotime($market->getDatetime('stable')) > strtotime($update->getLocalVersion())) {
+                            echo '<span class="label label-success">';
+                            echo '{{Le retour à la version stable est possible}}';
+                            echo '</span>';
+                        } else {
+                             echo '<span class="label label-danger">';
+                            echo '{{Le retour à la version stable est dangereux}}';
+                            echo '</span>';
+                        }
+                    }
                     ?>
-                    <span class="marketAttr" data-l1key="status"></span>
                 </div>
             </div>
 
@@ -248,11 +258,7 @@ if ($market->getPurchase() == 1) {
                     return;
                 }
                 $.showLoading();
-                /* bootbox.confirm('L\'installation a été réalisée avec succès. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
-                 if (result) {*/
                 window.location.reload();
-                /*  }
-                 });*/
             }
         });
     });
@@ -276,16 +282,10 @@ if ($market->getPurchase() == 1) {
                     return;
                 }
                 $.showLoading();
-                /*bootbox.confirm('La désinstallation a été réalisée avec succès. La page doit etre rafraichir mais toute les données non sauvegardées seront perdu, voulez-vous continuer ?', function(result) {
-                 if (result) {*/
                 window.location.reload();
-                /*      }
-                 });*/
             }
         });
     });
-
-
 
     $('#in_myRating').on('change', function() {
         var id = $('.marketAttr[data-l1key=id]').value();
