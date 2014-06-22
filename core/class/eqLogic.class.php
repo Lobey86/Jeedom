@@ -753,6 +753,9 @@ class eqLogic {
     }
 
     public function getCategory($_key = '', $_default = '') {
+        if ($_key == 'other' && strpos($this->category, "1") === false) {
+            return 1;
+        }
         return utils::getJsonAttr($this->category, $_key, $_default);
     }
 
