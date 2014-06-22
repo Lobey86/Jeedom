@@ -16,11 +16,12 @@ curl_setopt_array($ch, array
     CURLOPT_TIMEOUT => 10
 ));
 $response = curl_exec($ch);
-curl_close($ch);
 
-if (curl_errno($ch) || strpos($response,'404 Not Found') !== false) {
+if (curl_errno($ch) || strpos($response, '404 Not Found') !== false) {
+    curl_close($ch);
     echo '<div class="alert alert-warning">{{Aucune aide n\'éxiste pour le moment sur cette page}}</div>';
 } else {
+    curl_close($ch);
     echo str_replace('<img src="', '<img src="http://jeedom.fr/', $response);
 }
 ?>
