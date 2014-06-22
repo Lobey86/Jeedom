@@ -78,7 +78,7 @@ class connection {
     }
 
     public static function protectedIp($_ip) {
-        $subnets = explode(',',config::byKey('security::protectIp'));
+        $subnets = explode(',', config::byKey('security::protectIp'));
         foreach ($subnets as $subnet) {
             if (netMatch($subnet, $_ip)) {
                 return true;
@@ -129,10 +129,29 @@ class connection {
             try {
                 $http = new com_http('http://ipinfo.io/' . $this->getIp());
                 $details = json_decode($http->exec(1, 2), true);
-                $this->setLocalisation($details['country'] . ' - ' . $details['region'] . ' (' . $details['postal'] . ')  - ' . $details['city']);
-                $this->setInformations('coordonate', $details['loc']);
-                $this->setInformations('org', $details['org']);
-                $this->setInformations('hostname', $details['hostname']);
+                $localisation = '';
+                if (isset($details['country'])) {
+                    $localisation .= $details['country'] . ' - ';
+                }
+                if (isset($details['region'])) {
+                    $localisation .= $details['region'] . ' - ';
+                }
+                if (isset($details['postal'])) {
+                    $localisation .= ' (' . $details['postal'] . ') ';
+                }
+                if (isset($details['city'])) {
+                    $localisation .= $details['city'] . ' - ';
+                }
+                $this->setLocalisation($localisation);
+                if (isset($details['loc'])) {
+                    $this->setInformations('coordonate', $details['loc']);
+                }
+                if (isset($details['org'])) {
+                    $this->setInformations('org', $details['org']);
+                }
+                if (isset($details['hostname'])) {
+                    $this->setInformations('hostname', $details['hostname']);
+                }
             } catch (Exception $e) {
                 $this->setLocalisation('Unknow');
             }
