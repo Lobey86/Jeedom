@@ -103,7 +103,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                             <div class="col-lg-1">
                                 <input type="checkbox" class="scenarioAttr" data-l1key="isActive">
                             </div>
-                            <label class="col-lg-4 control-label">{{Visible}}</label>
+                            <label class="col-lg-3 control-label">{{Visible}}</label>
                             <div class="col-lg-1">
                                 <input type="checkbox" class="scenarioAttr" data-l1key="isVisible">
                             </div>
