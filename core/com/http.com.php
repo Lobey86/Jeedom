@@ -36,7 +36,7 @@ class com_http {
 
     /*     * ************* Functions ************************************ */
 
-    function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true, $_ping = true) {
+    function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true, $_ping = false) {
         if ($_ping) {
             $url = parse_url($this->url);
             $host = $url['host'];
