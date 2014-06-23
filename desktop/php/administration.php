@@ -124,6 +124,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                 <div class="panel-body">
                     <form class="form-horizontal">
                         <fieldset>
+                             <div class="form-group">
+                                <label class="col-lg-2 control-label">{{Afficher statistique sur les widgets}}</label>
+                                <div class="col-lg-3">
+                                    <input type="text"  class="configKey form-control" data-l1key="displayStatsWidget" />
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">{{Période de calcul pour min, max, moyenne (en heure)}}</label>
                                 <div class="col-lg-3">
