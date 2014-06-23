@@ -40,11 +40,9 @@ class com_http {
         $url = parse_url($this->url);
         $host = $url['host'];
         if (!ip2long($host)) {
-            if (!ip2long($host)) {
-                exec("timeout 1 ping -n -c 1 -W 1 $host", $output, $retval);
-                if ($retval != 0) {
-                    throw new Exception('Impossible de résoudre le DNS. Pas d\'internet ?');
-                }
+            exec("timeout 2 ping -n -c 1 -W 2 $host", $output, $retval);
+            if ($retval != 0) {
+                throw new Exception('Impossible de résoudre le DNS. Pas d\'internet ?');
             }
         }
         $nbRetry = 0;
