@@ -726,7 +726,7 @@ class cmd {
             }
             $replace['#state#'] = $value;
             $replace['#collectDate#'] = $this->getCollectDate();
-            if ($this->getIsHistorized() && strpos($template, '#displayHistory#') !== false) {
+       /*     if ($this->getIsHistorized() && strpos($template, '#displayHistory#') !== false) {
                 $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculPeriod') . ' hour'));
                 $replace['#displayHistory#'] = '';
                 $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
@@ -748,7 +748,7 @@ class cmd {
                     self::$_templateArray[$_version . 'cmd.info.history.default'] = getTemplate('core', $_version, 'cmd.info.history.default');
                 }
                 $html .= template_replace($replace, self::$_templateArray[$_version . 'cmd.info.history.default']);
-            }
+            }*/
             $html .= template_replace($replace, $template);
         } else {
             $cmdValue = $this->getCmdValue();
