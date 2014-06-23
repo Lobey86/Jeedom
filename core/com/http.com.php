@@ -36,13 +36,15 @@ class com_http {
 
     /*     * ************* Functions ************************************ */
 
-    function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true) {
-        $url = parse_url($this->url);
-        $host = $url['host'];
-        if (!ip2long($host)) {
-            exec("timeout 2 ping -n -c 1 -W 2 $host", $output, $retval);
-            if ($retval != 0) {
-                throw new Exception(__('Impossible de résoudre le DNS : ', __FILE__) . $host . __('. Pas d\'internet ?', __FILE__));
+    function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true, $_ping = true) {
+        if ($_ping) {
+            $url = parse_url($this->url);
+            $host = $url['host'];
+            if (!ip2long($host)) {
+                exec("timeout 2 ping -n -c 1 -W 2 $host", $output, $retval);
+                if ($retval != 0) {
+                    throw new Exception(__('Impossible de résoudre le DNS : ', __FILE__) . $host . __('. Pas d\'internet ?', __FILE__));
+                }
             }
         }
         $nbRetry = 0;
