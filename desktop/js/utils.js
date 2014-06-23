@@ -83,11 +83,8 @@ $(function() {
         autoOpen: false,
         modal: true,
         height: (jQuery(window).height() - 150),
-        width: 1500,
+        width: ((jQuery(window).width() - 50) < 1500) ? (jQuery(window).width() - 50) : 1500,
         open: function() {
-            if ((jQuery(window).width() - 50) < 1500) {
-                $('#md_modal').dialog({width: jQuery(window).width() - 50});
-            }
             $("body").css({overflow: 'hidden'});
         },
         beforeClose: function(event, ui) {
@@ -99,12 +96,9 @@ $(function() {
         autoOpen: false,
         modal: true,
         height: (jQuery(window).height() - 150),
-        width: 1500,
+        width: ((jQuery(window).width() - 50) < 1500) ? (jQuery(window).width() - 50) : 1500,
         position: {my: 'center', at: 'center', of: window},
         open: function() {
-            if ((jQuery(window).width() - 50) < 1500) {
-                $('#md_modal').dialog({width: jQuery(window).width() - 50});
-            }
             $("body").css({overflow: 'hidden'});
         },
         beforeClose: function(event, ui) {
@@ -116,12 +110,9 @@ $(function() {
         autoOpen: false,
         modal: true,
         height: (jQuery(window).height() - 250),
-        width: 1200,
+        width: ((jQuery(window).width() - 50) < 1200) ? (jQuery(window).width() - 50) : 1200,
         position: {my: 'center', at: 'center', of: window},
         open: function() {
-            if ((jQuery(window).width() - 50) < 1500) {
-                $('#md_modal2').dialog({width: jQuery(window).width() - 50});
-            }
             $("body").css({overflow: 'hidden'});
         },
         beforeClose: function(event, ui) {
