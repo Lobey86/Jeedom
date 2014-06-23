@@ -79,8 +79,9 @@ $(function() {
     });
 
     $("#span_plugin_toggleState").delegate(".togglePlugin", 'click', function() {
-        jeedom.plugin.toggle($(this).attr('data-plugin_id'), $(this).attr('data-state'), function() {
-            window.location.replace('index.php?v=d&p=plugin&id=' + $(this).attr('data-plugin_id'));
+        var _el = $(this);
+        jeedom.plugin.toggle(_el.attr('data-plugin_id'), _el.attr('data-state'), function() {
+            window.location.replace('index.php?v=d&p=plugin&id=' + _el.attr('data-plugin_id'));
         });
     });
 

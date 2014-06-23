@@ -330,7 +330,7 @@ class market {
         log::add('update', 'update', __('Début de la mise de : ' . $this->getLogicalId(), __FILE__) . "\n");
         $tmp_dir = dirname(__FILE__) . '/../../tmp';
         $tmp = $tmp_dir . '/' . $this->getLogicalId() . '.zip';
-        if (!file_exists($tmp)) {
+        if (file_exists($tmp)) {
             unlink($tmp);
         }
         if (!is_writable($tmp_dir)) {
