@@ -81,15 +81,17 @@ class cmd {
         return __CLASS__;
     }
 
-    public static function byId($_id) {
+    public static function byId($_id, $_class = null) {
         $values = array(
             'id' => $_id
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
                 WHERE id=:id';
-
-        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, self::getClass($_id));
+        if ($_class == null) {
+            $_class = self::getClass($_id);
+        }
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, $_class);
     }
 
     public static function all() {
@@ -134,8 +136,12 @@ class cmd {
         $sql .= ' ORDER BY `order`';
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         $return = array();
+        $class = null;
         foreach ($results as $result) {
-            $return[] = self::byId($result['id']);
+            if ($class == null) {
+                $class = self::getClass($result['id']);
+            }
+            $return[] = self::byId($result['id'], $class);
         }
         return $return;
     }
