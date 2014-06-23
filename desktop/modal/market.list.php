@@ -37,6 +37,7 @@ $findMarket = array();
         <?php
         foreach ($markets as $market) {
             if (!isset($findMarket[$market->getId()])) {
+                $update = update::byLogicalId($market->getLogicalId());
                 $findMarket[$market->getId()] = true;
                 $rating = $market->getRating();
                 echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor" style="height:70px;">';
@@ -51,7 +52,32 @@ $findMarket = array();
                 echo '<td>' . $market->getCategorie() . '</td>';
                 echo '<td>' . $market->getName() . '</td>';
                 echo '<td>' . $market->getDescription() . '</td>';
-                echo '<td>' . $market->getStatus() . '</td>';
+                echo '<td>';
+                if ($market->getStatus('stable') == 1) {
+                    echo '<span class="label label-success">';
+                    echo '{{Stable}} : ';
+                    echo $market->getDatetime('stable');
+                    echo '</span><br/>';
+                }
+                if ($market->getStatus('beta') == 1) {
+                    echo '<span class="label label-warning">';
+                    echo '{{Beta}} : ';
+                    echo $market->getDatetime('beta');
+                    echo '</span><br/>';
+                }
+                if (is_object($update)) {
+                    if ($update->getConfiguration('version', 'stable') == 'beta') {
+                        echo '<span class="label label-danger">';
+                        echo '{{Installé en BETA}}';
+                        echo '</span>';
+                    } else {
+                        echo '<span class="label label-info">';
+                        echo '{{Installé en STABLE}}';
+                        echo '</span>';
+                    }
+                }
+
+                echo '</td>';
                 echo '<td><center><input type="number" class="rating" data-max="5" data-empty-value="0" data-min="1" value="' . $market->getRating() . '" data-disabled="1" /></center></td>';
                 echo '<td><center>' . $market->getDownloaded() . '</center></td>';
                 echo '</tr>';

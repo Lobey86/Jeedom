@@ -156,7 +156,15 @@ function addUpdate(_update) {
     tr += '<td><span class="updateAttr" data-l1key="name"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="localVersion"></span></td>';
     tr += '<td><span class="updateAttr" data-l1key="remoteVersion"></span></td>';
-    tr += '<td><span class="updateAttr" data-l1key="status"></span></td>';
+    tr += '<td><span class="updateAttr label label-success" data-l1key="status"></span>';
+    if (isset(_update.configuration) && isset(_update.configuration.version)) {
+        if(_update.configuration.version == 'beta'){
+            tr += ' <span class="label label-danger">' + _update.configuration.version + '</span>';
+        }else{
+            tr += ' <span class="label label-info">' + _update.configuration.version + '</span>';
+        }
+    }
+    tr += '</td>';
     tr += '<td style="width : 400px;">';
     if (_update.status == 'update') {
         tr += '<a class="btn btn-info btn-xs pull-right update tooltips" style="color : white;" title="{{Mettre à jour}}"><i class="fa fa-refresh"></i> Metrre à jour</a>';
