@@ -867,7 +867,7 @@ class cmd {
         if ($this->getEventOnly() == 1) {
             return 0;
         }
-        if ($this->getCache('enable') == 0 && $this->getCache('lifetime') == '') {
+        if ($this->getCache('enable', 0) == 0 && $this->getCache('lifetime') == '') {
             return 5;
         }
         $lifetime = $this->getCache('lifetime', config::byKey('lifeTimeMemCache'));
