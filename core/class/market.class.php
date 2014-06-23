@@ -401,6 +401,10 @@ class market {
         }
         switch ($this->getType()) {
             case 'plugin' :
+                $plugin = plugin::byId($this->getLogicalId());
+                if(is_object($plugin)){
+                    $plugin->setIsEnable(0);
+                }
                 $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
                 if (file_exists($cibDir)) {
                     rrmdir($cibDir);
