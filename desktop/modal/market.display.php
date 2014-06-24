@@ -57,7 +57,11 @@ if ($market->getPurchase() == 1) {
             <input class="pull-right" id='bt_paypalClick' alt="{{Effectuez vos paiements via PayPal : une solution rapide, gratuite et sécurisée}}" name="submit" src="https://www.paypal.com/fr_FR/FR/i/btn/btn_buynow_LG.gif" type="image" style="display: inline-block;"/><img class="pull-right" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" border="0" alt="" width="1" height="1" style="display: inline-block;"/>
         </form>
         <?php
+    } else {
+        echo '<div class="alert alert-info">{{Cet article est payant vous devez avoir un compte sur le maket et avoir renseigné la clef API de celui-ci dans Jeedom pour pouvoir l\'acheter}}</div>';
     }
+} else {
+    echo '<div class="alert alert-info">{{Cet article est payant vous devez avoir un compte sur le maket et avoir renseigné la clef API de celui-ci dans Jeedom pour pouvoir l\'acheter}}</div>';
 }
 ?>
 <?php if (is_object($update)) { ?>
