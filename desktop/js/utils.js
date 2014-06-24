@@ -49,6 +49,21 @@ $(function() {
         }
     });
 
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "positionClass": "toast-top-right",
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
     $.fn.modal.Constructor.prototype.enforceFocus = function() {
     };
 
@@ -263,27 +278,16 @@ function refreshMessageNumber() {
     });
 }
 
-function notify(_title, _text, _class_name, _cleanBefore) {
+function notify(_title, _text, _class_name) {
     if (_title == '' && _text == '') {
         return true;
     }
-    if (init(_cleanBefore, false)) {
-        $.gritter.removeAll();
-    }
-    if (isset(_class_name) != '') {
-        $.gritter.add({
-            title: _title,
-            text: _text,
-            class_name: _class_name
-        });
+    if (isset(_class_name) != '' && isset(toastr[_class_name])) {
+        toastr[_class_name](_text, _title);
     } else {
-        $.gritter.add({
-            title: _title,
-            text: _text
-        });
+        toastr.info(_text, _title);
     }
 }
-
 
 jQuery.fn.findAtDepth = function(selector, maxDepth) {
     var depths = [], i;

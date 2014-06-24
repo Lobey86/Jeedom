@@ -4,13 +4,10 @@ if (!isConnect()) {
 }
 
 $notifyTheme = array(
-    'none' => '{{Aucune}}',
-    '' => '{{Noir}}',
-    'gritter-light' => '{{Blanc}}',
-    'gritter-red' => '{{Rouge}}',
-    'gritter-green' => '{{Vert}}',
-    'gritter-blue' => '{{Bleu}}',
-    'gritter-yellow' => '{{Jaune}}',
+    'info' => '{{Bleu}}',
+    'error' => '{{Rouge}}',
+    'success' => '{{Vert}}',
+    'warning' => '{{Jaune}}',
 );
 
 $homePage = array(
