@@ -119,7 +119,7 @@ if (is_object($market)) {
             url: "core/ajax/market.ajax.php", // url du fichier php
             data: {
                 action: "save",
-                market: json_encode(market,JSON_UNESCAPED_UNICODE),
+                market: json_encode(market),
             },
             dataType: 'json',
             error: function(request, status, error) {

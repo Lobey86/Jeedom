@@ -137,7 +137,7 @@ class viewData {
 
     public function setConfiguration($_key, $_value) {
         if ($this->configuration == '' || !@json_decode($this->configuration, true)) {
-            $this->configuration = json_encode(array($_key => $_value,JSON_UNESCAPED_UNICODE));
+            $this->configuration = json_encode(array($_key => $_value),JSON_UNESCAPED_UNICODE);
         } else {
             $options = json_decode($this->configuration, true);
             $options[$_key] = $_value;

@@ -136,7 +136,7 @@ class utils {
             }
         } else {
             if ($_attr == '' || !is_json($_attr)) {
-                $_attr = json_encode(array($_key => $_value,JSON_UNESCAPED_UNICODE));
+                $_attr = json_encode(array($_key => $_value),JSON_UNESCAPED_UNICODE);
             } else {
                 $attr = json_decode($_attr, true);
                 $attr[$_key] = $_value;
