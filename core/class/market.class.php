@@ -247,7 +247,7 @@ class market {
                 if (is_object($update)) {
                     $updateDateTime = $update->getLocalVersion();
                 }
-                if ($updateDateTime < $market->getDatetime($_version)) {
+                if ($updateDateTime < $market->getDatetime($_version, $updateDateTime)) {
                     $return['status'] = 'update';
                 } else {
                     $return['status'] = 'ok';
@@ -402,7 +402,7 @@ class market {
         switch ($this->getType()) {
             case 'plugin' :
                 $plugin = plugin::byId($this->getLogicalId());
-                if(is_object($plugin)){
+                if (is_object($plugin)) {
                     $plugin->setIsEnable(0);
                 }
                 $cibDir = dirname(__FILE__) . '/../../plugins/' . $this->getLogicalId();
