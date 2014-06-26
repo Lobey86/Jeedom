@@ -22,8 +22,15 @@ $(function() {
         var mode = $(this).attr('data-mode');
         bootbox.confirm('{{Etes-vous sur de vouloir faire les mises à jour ?}} ', function(result) {
             if (result) {
-                jeedom.update.doAll(mode, level, function() {
-                    getJeedomLog(1, 'update');
+                jeedom.update.doAll({
+                    mode: mode,
+                    level: level,
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        getJeedomLog(1, 'update');
+                    }
                 });
             }
         });
@@ -40,8 +47,15 @@ $(function() {
         var state = $(this).attr('data-state');
         bootbox.confirm('{{Etez vous sur de vouloir changer l\'état de l\'objet ?}}', function(result) {
             if (result) {
-                jeedom.update.changeState(id, state, function() {
-                    printUpdate();
+                jeedom.update.changeState({
+                    id: id,
+                    state: state,
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        printUpdate();
+                    }
                 });
             }
         });
@@ -52,8 +66,14 @@ $(function() {
         var id = $(this).closest('tr').attr('data-id');
         bootbox.confirm('{{Etez vous sur de vouloir mettre a jour cet objet ?}}', function(result) {
             if (result) {
-                jeedom.update.do(id, function() {
-                    getJeedomLog(1, 'update');
+                jeedom.update.do({
+                    id: id,
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        getJeedomLog(1, 'update');
+                    }
                 });
             }
         });
@@ -63,8 +83,14 @@ $(function() {
         var id = $(this).closest('tr').attr('data-id');
         bootbox.confirm('{{Etez vous sur de vouloir supprimer cet objet ?}}', function(result) {
             if (result) {
-                jeedom.update.remove(id, function() {
-                    printUpdate();
+                jeedom.update.remove({
+                    id: id,
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        printUpdate();
+                    }
                 });
             }
         });
@@ -134,13 +160,18 @@ function getJeedomLog(_autoUpdate, _log) {
 }
 
 function printUpdate() {
-    jeedom.update.get(function(data) {
-        $('#table_update tbody').empty();
-        for (var i in data) {
-            addUpdate(data[i]);
+    jeedom.update.get({
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            $('#table_update tbody').empty();
+            for (var i in data) {
+                addUpdate(data[i]);
+            }
+            $('#table_update').trigger('update');
+            initTooltips();
         }
-        $('#table_update').trigger('update');
-        initTooltips();
     });
 }
 
@@ -158,9 +189,9 @@ function addUpdate(_update) {
     tr += '<td><span class="updateAttr" data-l1key="remoteVersion"></span></td>';
     tr += '<td><span class="updateAttr label label-success" data-l1key="status"></span>';
     if (isset(_update.configuration) && isset(_update.configuration.version)) {
-        if(_update.configuration.version == 'beta'){
+        if (_update.configuration.version == 'beta') {
             tr += ' <span class="label label-danger">' + _update.configuration.version + '</span>';
-        }else{
+        } else {
             tr += ' <span class="label label-info">' + _update.configuration.version + '</span>';
         }
     }

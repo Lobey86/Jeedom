@@ -20,14 +20,14 @@ jeedom.update = function() {
 };
 
 
-jeedom.update.doAll = function(_mode, _level, _callback) {
+jeedom.update.doAll = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
         data: {
             action: 'updateAll',
-            level: _level,
-            mode: _mode
+            level: _params.level,
+            mode: _params.mode
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -35,24 +35,24 @@ jeedom.update.doAll = function(_mode, _level, _callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
-jeedom.update.changeState = function(_id, _state, _callback) {
+jeedom.update.changeState = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
         data: {
             action: 'changeState',
-            id: _id,
-            state: _state
+            id: _params.id,
+            state: _params.state
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -60,23 +60,23 @@ jeedom.update.changeState = function(_id, _state, _callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
-jeedom.update.do = function(_id, _callback) {
+jeedom.update.do = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
         data: {
             action: 'update',
-            id: _id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -84,23 +84,23 @@ jeedom.update.do = function(_id, _callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
-jeedom.update.remove = function(_id, _callback) {
+jeedom.update.remove = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
         data: {
             action: 'remove',
-            id: _id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -108,17 +108,17 @@ jeedom.update.remove = function(_id, _callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
-jeedom.update.checkAll = function(_callback) {
+jeedom.update.checkAll = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
@@ -131,18 +131,18 @@ jeedom.update.checkAll = function(_callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
 
-jeedom.update.get = function(_callback) {
+jeedom.update.get = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/update.ajax.php',
@@ -155,11 +155,11 @@ jeedom.update.get = function(_callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-             if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
