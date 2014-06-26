@@ -28,8 +28,12 @@ $(function() {
     });
 
     $("#bt_save").on('click', function() {
-        jeedom.cron.save($('#table_cron tbody tr').getValues('.cronAttr'), function() {
-            printCron();
+        jeedom.cron.save({
+            crons: $('#table_cron tbody tr').getValues('.cronAttr'),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: printCron
         });
     });
 
@@ -52,14 +56,24 @@ $(function() {
     });
 
     $("#table_cron").delegate(".stop", 'click', function() {
-        jeedom.cron.changeStateCron('stop', $(this).closest('tr').attr('id'), function() {
-            printCron();
+        jeedom.cron.setState({
+            state: 'stop',
+            id: $(this).closest('tr').attr('id'),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: printCron
         });
     });
 
     $("#table_cron").delegate(".start", 'click', function() {
-        jeedom.cron.changeStateCron('start', $(this).closest('tr').attr('id'), function() {
-            printCron();
+        jeedom.cron.setState({
+            state: 'start',
+            id: $(this).closest('tr').attr('id'),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: printCron
         });
     });
 
@@ -77,19 +91,21 @@ $(function() {
 });
 
 function printCron() {
-    jeedom.cron.all(function(data) {
-        $('#table_cron tbody').empty();
-        for (var i in data.crons) {
-            addCron(data.crons[i]);
+    jeedom.cron.all({
+        success: function(data) {
+            $('#table_cron tbody').empty();
+            for (var i in data.crons) {
+                addCron(data.crons[i]);
+            }
+            $('#span_jeecronMasterRuns').html(data.nbMasterCronRun);
+            $('#span_jeecronRuns').html(data.nbCronRun);
+            $('#span_nbProcess').html(data.nbProcess);
+            $('#span_loadAvg1').html(data.loadAvg[0]);
+            $('#span_loadAvg5').html(data.loadAvg[1]);
+            $('#span_loadAvg15').html(data.loadAvg[2]);
+            $("#table_cron").trigger("update");
+            modifyWithoutSave = false;
         }
-        $('#span_jeecronMasterRuns').html(data.nbMasterCronRun);
-        $('#span_jeecronRuns').html(data.nbCronRun);
-        $('#span_nbProcess').html(data.nbProcess);
-        $('#span_loadAvg1').html(data.loadAvg[0]);
-        $('#span_loadAvg5').html(data.loadAvg[1]);
-        $('#span_loadAvg15').html(data.loadAvg[2]);
-        $("#table_cron").trigger("update");
-        modifyWithoutSave = false;
     });
 }
 

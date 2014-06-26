@@ -19,14 +19,14 @@
 jeedom.cron = function() {
 };
 
-jeedom.cron.changeStateCron = function(_state, _id, _callback) {
+jeedom.cron.setState = function(_params) {
     $.hideAlert();
     $.ajax({
         type: 'POST',
         url: 'core/ajax/cron.ajax.php',
         data: {
-            action: _state,
-            id: _id
+            action: _params.state,
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -34,18 +34,18 @@ jeedom.cron.changeStateCron = function(_state, _id, _callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
 
-jeedom.cron.all = function(_callback) {
+jeedom.cron.all = function(_params) {
     $.hideAlert();
     $.ajax({
         type: 'POST',
@@ -59,24 +59,24 @@ jeedom.cron.all = function(_callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 }
 
-jeedom.cron.save = function(_crons, _callback) {
+jeedom.cron.save = function(_params) {
     $.hideAlert();
     $.ajax({
         type: 'POST',
         url: 'core/ajax/cron.ajax.php',
         data: {
             action: 'save',
-            crons: json_encode(_crons),
+            crons: json_encode(_params.crons),
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -84,11 +84,11 @@ jeedom.cron.save = function(_crons, _callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
