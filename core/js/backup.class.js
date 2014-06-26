@@ -19,7 +19,7 @@
 jeedom.backup = function() {
 };
 
-jeedom.backup.backup = function(_callback) {
+jeedom.backup.backup = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/jeedom.ajax.php',
@@ -32,24 +32,24 @@ jeedom.backup.backup = function(_callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 };
 
 
-jeedom.backup.restoreLocal = function(_backup, _callback) {
+jeedom.backup.restoreLocal = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/jeedom.ajax.php',
         data: {
             action: 'restore',
-            backup: _backup,
+            backup: _params.backup,
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -57,23 +57,23 @@ jeedom.backup.restoreLocal = function(_backup, _callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 };
 
-jeedom.backup.remove = function(_backup, _callback) {
+jeedom.backup.remove = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/jeedom.ajax.php',
         data: {
             action: 'removeBackup',
-            backup: _backup,
+            backup: _params.backup,
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -81,23 +81,23 @@ jeedom.backup.remove = function(_backup, _callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 };
 
-jeedom.backup.restoreCloud = function(_backup, _callback) {
+jeedom.backup.restoreCloud = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/jeedom.ajax.php',
         data: {
             action: 'restoreCloud',
-            backup: _backup,
+            backup: _params.backup,
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -105,17 +105,17 @@ jeedom.backup.restoreCloud = function(_backup, _callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 };
 
-jeedom.backup.list = function(_callback) {
+jeedom.backup.list = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/jeedom.ajax.php',
@@ -128,11 +128,11 @@ jeedom.backup.list = function(_callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });

@@ -34,8 +34,13 @@ $(function() {
         bootbox.confirm('{{Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
-                jeedom.backup.backup(function() {
-                    getJeedomLog(1, 'backup');
+                jeedom.backup.backup({
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        getJeedomLog(1, 'backup');
+                    }
                 });
             }
         });
@@ -46,8 +51,14 @@ $(function() {
         bootbox.confirm('{{Etes-vous sûr de vouloir restaurer Jeedom avec}} <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
-                jeedom.backup.restoreLocal($('#sel_restoreBackup').value(), function() {
-                    getJeedomLog(1, 'restore');
+                jeedom.backup.restoreLocal({
+                    backup: $('#sel_restoreBackup').value(),
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        getJeedomLog(1, 'restore');
+                    }
                 });
             }
         });
@@ -58,9 +69,15 @@ $(function() {
         bootbox.confirm('{{Etes-vous sûr de vouloir supprimer la sauvegarde}} <b>' + $('#sel_restoreBackup option:selected').text() + '</b> ?', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
-                jeedom.backup.remove($('#sel_restoreBackup').value(), function() {
-                    updateListBackup();
-                    $('#div_alert').showAlert({message: '{{Sauvegarde supprimé avec succès}}', level: 'success'});
+                jeedom.backup.remove({
+                    backup: $('#sel_restoreBackup').value(),
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        updateListBackup();
+                        $('#div_alert').showAlert({message: '{{Sauvegarde supprimé avec succès}}', level: 'success'});
+                    }
                 });
             }
         });
@@ -69,7 +86,7 @@ $(function() {
     $('#bt_downloadBackup').on('click', function() {
         window.open('core/php/downloadFile.php?pathfile=backup/' + $('#sel_restoreBackup option:selected').text(), "_blank", null);
     });
-    
+
     $('#bt_uploadBackup').fileupload({
         dataType: 'json',
         done: function(e, data) {
@@ -87,8 +104,14 @@ $(function() {
         bootbox.confirm('{{Etes-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud}} <b>' + $('#sel_restoreCloudBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut être annulée}}', function(result) {
             if (result) {
                 el.find('.fa-refresh').show();
-                jeedom.backup.restoreCloud($('#sel_restoreCloudBackup').value(), function() {
-                    getJeedomLog(1, 'restore');
+                jeedom.backup.restoreCloud({
+                    backup: $('#sel_restoreCloudBackup').value(),
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        getJeedomLog(1, 'restore');
+                    }
                 });
             }
         });
@@ -98,7 +121,7 @@ $(function() {
     $.showLoading();
     jeedom.config.load(configuration[0], 'core', function(data) {
         $('#backup').setValues(data, '.configKey');
-         modifyWithoutSave = false;
+        modifyWithoutSave = false;
     });
     updateListBackup();
 
@@ -153,11 +176,16 @@ function getJeedomLog(_autoUpdate, _log) {
 }
 
 function updateListBackup() {
-    jeedom.backup.list(function(data) {
-        var options = '';
-        for (var i in data) {
-            options += '<option value="' + i + '">' + data[i] + '</option>';
+    jeedom.backup.list({
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            var options = '';
+            for (var i in data) {
+                options += '<option value="' + i + '">' + data[i] + '</option>';
+            }
+            $('#sel_restoreBackup').html(options);
         }
-        $('#sel_restoreBackup').html(options);
     });
 }
