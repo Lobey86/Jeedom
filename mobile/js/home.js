@@ -13,12 +13,17 @@ function initHome() {
         $('#ul_objectList').empty().append(li).listview("refresh");
     });
 
-    jeedom.view.all(function(views) {
-        var li = '';
-        for (var i in views) {
-            li += '<li><a href="#" class="link" data-page="view" data-title="' + views[i].name + '" data-option="' + views[i].id + '">' + views[i].name + '</a></li>'
+    jeedom.view.all({
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(views) {
+            var li = '';
+            for (var i in views) {
+                li += '<li><a href="#" class="link" data-page="view" data-title="' + views[i].name + '" data-option="' + views[i].id + '">' + views[i].name + '</a></li>'
+            }
+            $('#ul_viewList').empty().append(li).listview("refresh");
         }
-        $('#ul_viewList').empty().append(li).listview("refresh");
     });
 
 

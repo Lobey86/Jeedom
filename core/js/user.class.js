@@ -182,19 +182,19 @@ jeedom.user.isConnect = function(_params) {
             },
             success: function(data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
-                    if ('function' == typeof (_callback)) {
+                    if ('function' == typeof (_params.success)) {
                         _params.success(false);
                         return;
                     }
                 }
                 jeedom.user.connectCheck = Math.round(+new Date() / 1000);
-                if ('function' == typeof (_callback)) {
+                if ('function' == typeof (_params.success)) {
                     _params.success(true);
                 }
             }
         });
     } else {
-        if ('function' == typeof (_callback)) {
+        if ('function' == typeof (_params.success)) {
             _params.success(true);
         }
     }

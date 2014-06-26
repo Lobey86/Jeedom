@@ -201,7 +201,7 @@ jeedom.processWorkflow = function() {
         jeedom.object.prefetch(list_object, jeedom.display.version);
     }
     if (list_view.length > 0 && isset(jeedom.view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
-        jeedom.view.prefetch(list_view, jeedom.display.version);
+        jeedom.view.prefetch({id: list_view, version: jeedom.display.version});
     }
 }
 
