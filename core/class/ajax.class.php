@@ -29,7 +29,7 @@ class ajax {
             'state' => 'ok',
             'result' => $_data
         );
-        echo json_encode($return);
+        echo json_encode($return,JSON_UNESCAPED_UNICODE);
         die();
     }
 
@@ -39,7 +39,7 @@ class ajax {
             'code' => $_errorCode,
             'result' => $_data
         );
-        echo json_encode($return);
+        echo json_encode($return,JSON_UNESCAPED_UNICODE);
         die();
     }
 

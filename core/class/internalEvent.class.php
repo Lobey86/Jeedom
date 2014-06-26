@@ -59,7 +59,7 @@ class internalEvent {
 
     public static function byEventAndOptions($_event, $_options, $_last = false) {
         if (is_array($_options)) {
-            $_options = json_encode($_options);
+            $_options = json_encode($_options,JSON_UNESCAPED_UNICODE);
         }
         $values = array(
             'event' => $_event,

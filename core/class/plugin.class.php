@@ -296,7 +296,7 @@ class plugin {
         if (!file_exists($dir)) {
             mkdir($dir, 0775, true);
         }
-        file_put_contents($dir . '/' . $_language . '.json', json_encode($_translation, JSON_PRETTY_PRINT));
+        file_put_contents($dir . '/' . $_language . '.json', json_encode($_translation, JSON_PRETTY_PRINT,JSON_UNESCAPED_UNICODE));
     }
 
     /*     * **********************Getteur Setteur*************************** */

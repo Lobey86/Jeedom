@@ -131,11 +131,11 @@ class viewZone {
 
     public function setConfiguration($_key, $_value) {
         if ($this->configuration == '' || !@json_decode($this->configuration, true)) {
-            $this->configuration = json_encode(array($_key => $_value));
+            $this->configuration = json_encode(array($_key => $_value,JSON_UNESCAPED_UNICODE));
         } else {
             $options = json_decode($this->configuration, true);
             $options[$_key] = $_value;
-            $this->configuration = json_encode($options);
+            $this->configuration = json_encode($options,JSON_UNESCAPED_UNICODE);
         }
     }
 

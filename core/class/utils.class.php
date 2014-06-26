@@ -84,7 +84,7 @@ class utils {
                             }
                         }
                     } else {
-                        $_object->$method(json_encode($value));
+                        $_object->$method(json_encode($value,JSON_UNESCAPED_UNICODE));
                     }
                 } else {
                     $_object->$method($value);
@@ -132,15 +132,15 @@ class utils {
             if ($_attr != '' && is_json($_attr)) {
                 $attr = json_decode($_attr, true);
                 unset($attr[$_key]);
-                $_attr = json_encode($attr);
+                $_attr = json_encode($attr,JSON_UNESCAPED_UNICODE);
             }
         } else {
             if ($_attr == '' || !is_json($_attr)) {
-                $_attr = json_encode(array($_key => $_value));
+                $_attr = json_encode(array($_key => $_value,JSON_UNESCAPED_UNICODE));
             } else {
                 $attr = json_decode($_attr, true);
                 $attr[$_key] = $_value;
-                $_attr = json_encode($attr);
+                $_attr = json_encode($attr,JSON_UNESCAPED_UNICODE);
             }
         }
         return $_attr;

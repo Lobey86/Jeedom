@@ -59,7 +59,7 @@ if (config::byKey('market::registerkey') == '') {
             url: "core/ajax/market.ajax.php", // url du fichier php
             data: {
                 action: "sendReportBug",
-                ticket: json_encode(ticket),
+                ticket: json_encode(ticket,JSON_UNESCAPED_UNICODE),
             },
             dataType: 'json',
             error: function(request, status, error) {

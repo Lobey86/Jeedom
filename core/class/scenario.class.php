@@ -584,7 +584,7 @@ class scenario {
 
     public function setSchedule($schedule) {
         if (is_array($schedule)) {
-            $schedule = json_encode($schedule);
+            $schedule = json_encode($schedule,JSON_UNESCAPED_UNICODE);
         }
         $this->schedule = $schedule;
     }
@@ -606,7 +606,7 @@ class scenario {
 
     public function setScenarioElement($scenarioElement) {
         if (is_array($scenarioElement)) {
-            $scenarioElement = json_encode($scenarioElement);
+            $scenarioElement = json_encode($scenarioElement,JSON_UNESCAPED_UNICODE);
         }
         $this->scenarioElement = $scenarioElement;
     }
@@ -620,7 +620,7 @@ class scenario {
 
     public function setTrigger($trigger) {
         if (is_array($trigger)) {
-            $trigger = json_encode($trigger);
+            $trigger = json_encode($trigger,JSON_UNESCAPED_UNICODE);
         }
         $this->trigger = cmd::humanReadableToCmd($trigger);
     }

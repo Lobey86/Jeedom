@@ -391,7 +391,7 @@ class eqLogic {
                 $_input[$key] = self::fromHumanReadable($value);
             }
             if ($isJson) {
-                return json_encode($_input);
+                return json_encode($_input,JSON_UNESCAPED_UNICODE);
             }
             return $_input;
         }

@@ -67,7 +67,7 @@ class cron {
                 WHERE class=:class
                     AND function=:function';
         if ($_option != '') {
-            $_option = json_encode($_option);
+            $_option = json_encode($_option,JSON_UNESCAPED_UNICODE);
             $value['option'] = $_option;
             $sql .= ' AND `option`=:option';
         }
@@ -429,7 +429,7 @@ class cron {
     }
 
     public function setOption($option) {
-        $this->option = json_encode($option);
+        $this->option = json_encode($option,JSON_UNESCAPED_UNICODE);
     }
 
     public function setOnce($once) {

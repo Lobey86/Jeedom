@@ -152,7 +152,7 @@ class dataStore {
 
     public function setValue($value) {
         if (is_object($value) || is_array($value)) {
-            $this->value = json_encode($value);
+            $this->value = json_encode($value,JSON_UNESCAPED_UNICODE);
         } else {
             $this->value = $value;
         }

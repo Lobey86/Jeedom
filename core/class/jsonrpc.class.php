@@ -55,7 +55,7 @@ class jsonrpc {
                 'message' => $_message,
             ),
         );
-        echo json_encode($return);
+        echo json_encode($return,JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -65,7 +65,7 @@ class jsonrpc {
             'id' => $this->id,
             'result' => $_result
         );
-        echo json_encode($return);
+        echo json_encode($return,JSON_UNESCAPED_UNICODE);
         exit;
     }
 

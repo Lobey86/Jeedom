@@ -366,7 +366,7 @@ class cmd {
                 $_input[$key] = self::humanReadableToCmd($value);
             }
             if ($isJson) {
-                return json_encode($_input);
+                return json_encode($_input,JSON_UNESCAPED_UNICODE);
             }
             return $_input;
         }
