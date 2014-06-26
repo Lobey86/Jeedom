@@ -91,7 +91,7 @@ jeedom.init = function() {
                         }
                     });
                     socket.on('eventHistory', function(cmd_id) {
-                        jeedom.history.refreshGraph(cmd_id);
+                        jeedom.history.refreshGraph({cmd_id: cmd_id});
                     });
                     socket.on('notify', function(title, text, category) {
                         var theme = '';

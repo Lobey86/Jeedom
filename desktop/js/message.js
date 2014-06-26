@@ -21,15 +21,27 @@ $(function() {
     });
 
     $("#bt_clearMessage").on('click', function(event) {
-        jeedom.message.clear($('#sel_plugin').value(), function() {
-            window.location.reload();
+        jeedom.message.clear({
+            plugin: $('#sel_plugin').value(),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                window.location.reload();
+            }
         });
     });
 
     $("#table_message").delegate(".removeMessage", 'click', function(event) {
         var tr = $(this).closest('tr');
-        jeedom.message.remove(tr.attr('data-message_id'), function() {
-            tr.remove();
+        jeedom.message.remove({
+            id: tr.attr('data-message_id'),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                tr.remove();
+            }
         });
     });
 });
