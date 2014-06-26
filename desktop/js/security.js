@@ -45,9 +45,15 @@ $(function() {
         var tr = $(this).closest('tr');
         bootbox.confirm("{{Etês-vous sur de vouloir supprimer cette connection ? Si l\'IP :}} " + tr.find('.ip').text() + " {{était banni celle-ci ne le sera plus}}", function(result) {
             if (result) {
-                jeedom.security.remove(tr.attr('data-id'), function() {
-                    modifyWithoutSave = false;
-                    window.location.replace('index.php?v=d&p=security&removeSuccessFull=1');
+                jeedom.security.remove({
+                    id: tr.attr('data-id'),
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        modifyWithoutSave = false;
+                        window.location.replace('index.php?v=d&p=security&removeSuccessFull=1');
+                    }
                 });
             }
         });
@@ -57,9 +63,15 @@ $(function() {
         var tr = $(this).closest('tr');
         bootbox.confirm("{{Etês-vous sur de vouloir bannir cette IP  :}} " + tr.find('.ip').text() + " ?", function(result) {
             if (result) {
-                jeedom.security.ban(tr.attr('data-id'), function() {
-                    modifyWithoutSave = false;
-                    window.location.replace('index.php?v=d&p=security&saveSuccessFull=1');
+                jeedom.security.ban({
+                    id: tr.attr('data-id'),
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        modifyWithoutSave = false;
+                        window.location.replace('index.php?v=d&p=security&saveSuccessFull=1');
+                    }
                 });
             }
         });

@@ -22,13 +22,13 @@ jeedom.security = function() {
 
 
 
-jeedom.security.remove = function(_id, _callback) {
+jeedom.security.remove = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/connection.ajax.php", // url du fichier php
         data: {
             action: "remove",
-            id: _id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -36,23 +36,23 @@ jeedom.security.remove = function(_id, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
-jeedom.security.ban = function(_id, _callback) {
+jeedom.security.ban = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/connection.ajax.php", // url du fichier php
         data: {
             action: "ban",
-            id: _id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -60,11 +60,11 @@ jeedom.security.ban = function(_id, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
