@@ -27,21 +27,33 @@ $(function() {
     $("#bt_newUserSave").on('click', function(event) {
         $.hideAlert();
         var user = [{login: $('#in_newUserLogin').value(), password: $('#in_newUserMdp').value()}];
-        jeedom.user.save(user, function() {
-            printUsers();
-            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
-            modifyWithoutSave = false;
-            $('#md_newUser').modal('hide');
+        jeedom.user.save({
+            user: user,
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                printUsers();
+                $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+                modifyWithoutSave = false;
+                $('#md_newUser').modal('hide');
+            }
         });
 
     });
 
     $("#bt_saveUser").on('click', function(event) {
         var users = $('#table_user tbody tr').getValues('.userAttr');
-        jeedom.user.save(users, function() {
-            printUsers();
-            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
-            modifyWithoutSave = false;
+        jeedom.user.save({
+            user: users,
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                printUsers();
+                $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+                modifyWithoutSave = false;
+            }
         });
     });
 
@@ -50,9 +62,15 @@ $(function() {
         var user = {id: $(this).closest('tr').find('.userAttr[data-l1key=id]').value()};
         bootbox.confirm('{{Etes-vous sûr de vouloir supprimer cet utilisateur ?}}', function(result) {
             if (result) {
-                jeedom.user.remove(user.id, function() {
-                    printUsers();
-                    $('#div_alert').showAlert({message: '{{L\'utilisateur a bien été supprimé}}', level: 'success'});
+                jeedom.user.remove({
+                    id: user.id,
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        printUsers();
+                        $('#div_alert').showAlert({message: '{{L\'utilisateur a bien été supprimé}}', level: 'success'});
+                    }
                 });
             }
         });
@@ -64,7 +82,17 @@ $(function() {
         bootbox.prompt("{{Quel est le nouveau mot de passe ?}}", function(result) {
             if (result !== null) {
                 user.password = result;
-                addEditUser(user);
+                jeedom.user.save({
+                    user: user,
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        printUsers();
+                        $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+                        modifyWithoutSave = false;
+                    }
+                });
             }
         });
     });
@@ -79,26 +107,31 @@ $(function() {
 });
 
 function printUsers() {
-    jeedom.user.all(function(data) {
-        $('#table_user tbody').empty();
-        for (var i in data) {
-            var ligne = '<tr><td class="login">';
-            ligne += '<span class="userAttr" data-l1key="id" style="display : none;"/>';
-            ligne += '<span class="userAttr" data-l1key="login" />';
-            ligne += '</td>';
-            ligne += '<td>';
-            if (ldapEnable != '1') {
-                ligne += '<a class="btn btn-xs btn-danger pull-right del_user"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>';
-                ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user"><i class="fa fa-pencil"></i> {{Changer le mot de passe}}</a>';
+    jeedom.user.all({
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            $('#table_user tbody').empty();
+            for (var i in data) {
+                var ligne = '<tr><td class="login">';
+                ligne += '<span class="userAttr" data-l1key="id" style="display : none;"/>';
+                ligne += '<span class="userAttr" data-l1key="login" />';
+                ligne += '</td>';
+                ligne += '<td>';
+                if (ldapEnable != '1') {
+                    ligne += '<a class="btn btn-xs btn-danger pull-right del_user"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>';
+                    ligne += '<a class="btn btn-xs btn-warning pull-right change_mdp_user"><i class="fa fa-pencil"></i> {{Changer le mot de passe}}</a>';
+                }
+                ligne += '</td>';
+                ligne += '<td>';
+                ligne += '<input type="checkbox" class="userAttr" data-l1key="rights" data-l2key="admin"/> Admin';
+                ligne += '</td>';
+                ligne += '</tr>';
+                $('#table_user tbody').append(ligne);
+                $('#table_user tbody tr:last').setValues(data[i], '.userAttr');
+                modifyWithoutSave = false;
             }
-            ligne += '</td>';
-            ligne += '<td>';
-            ligne += '<input type="checkbox" class="userAttr" data-l1key="rights" data-l2key="admin"/> Admin';
-            ligne += '</td>';
-            ligne += '</tr>';
-            $('#table_user tbody').append(ligne);
-            $('#table_user tbody tr:last').setValues(data[i], '.userAttr');
-            modifyWithoutSave = false;
         }
     });
 }
