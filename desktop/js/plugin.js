@@ -21,67 +21,80 @@ $(function() {
         $('.li_plugin').removeClass('active');
         $(this).addClass('active');
         $.showLoading();
-        jeedom.plugin.get($(this).attr('data-plugin_id'), function(data) {
-            $('#span_plugin_id').html(data.id);
-            $('#span_plugin_name').html(data.name);
-            $('#span_plugin_author').html(data.author);
-            $('#span_plugin_description').html(data.description);
-            $('#span_plugin_licence').html(data.licence);
-            $('#span_plugin_installation').html(data.installation);
+        jeedom.plugin.get({
+            id: $(this).attr('data-plugin_id'),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(data) {
+                $('#span_plugin_id').html(data.id);
+                $('#span_plugin_name').html(data.name);
+                $('#span_plugin_author').html(data.author);
+                $('#span_plugin_description').html(data.description);
+                $('#span_plugin_licence').html(data.licence);
+                $('#span_plugin_installation').html(data.installation);
 
-            $('#span_plugin_market').empty();
-            if (data.status.market == 1) {
-                $('#span_plugin_market').append('<a class="btn btn-default btn-xs viewOnMarket" data-market_logicalId="' + data.id + '" style="margin-right : 5px;"><i class="fa fa-cloud-download"></i> {{Voir sur le market}}</a>')
-            }
-
-            if (data.status.market_owner == 1) {
-                $('#span_plugin_market').append('<a class="btn btn-warning btn-xs sendOnMarket" data-market_logicalId="' + data.id + '"><i class="fa fa-cloud-upload"></i> {{Envoyer sur le market}}</a>')
-            }
-
-            if (data.checkVersion != -1) {
-                $('#span_plugin_require').html('<span>' + data.require + '</span>');
-            } else {
-                $('#span_plugin_require').html('<span class="label label-danger">' + data.require + '</span>');
-            }
-            $('#span_plugin_version').html(data.version);
-
-            $('#span_plugin_toggleState').empty();
-            if (data.checkVersion != -1) {
-                if (data.activate == 1) {
-                    var btn = '<a class="btn btn-danger togglePlugin" data-state="0" data-plugin_id="' + data.id + '" style="margin : 5px;"><i class="fa fa-times"></i> {{Désactiver}}</a>';
-                } else {
-                    var btn = '<a class="btn btn-success togglePlugin" data-state="1" data-plugin_id="' + data.id + '" style="margin : 5px;"><i class="fa fa-check"></i> {{Activer}}</a>';
+                $('#span_plugin_market').empty();
+                if (data.status.market == 1) {
+                    $('#span_plugin_market').append('<a class="btn btn-default btn-xs viewOnMarket" data-market_logicalId="' + data.id + '" style="margin-right : 5px;"><i class="fa fa-cloud-download"></i> {{Voir sur le market}}</a>')
                 }
-                $('#span_plugin_toggleState').html(btn);
-            }
 
-            $('#div_plugin_configuration').empty();
-            if (data.checkVersion != -1) {
-                if (data.configurationPath != '' && data.activate == 1) {
-                    $('#div_plugin_configuration').load(data.configurationPath, function() {
-                        var configuration = $('#div_plugin_configuration').getValues('.configKey');
-                        jeedom.config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function(data) {
-                            $('#div_plugin_configuration').setValues(data, '.configKey');
-                            $('#div_plugin_configuration').parent().show();
-                            modifyWithoutSave = false;
+                if (data.status.market_owner == 1) {
+                    $('#span_plugin_market').append('<a class="btn btn-warning btn-xs sendOnMarket" data-market_logicalId="' + data.id + '"><i class="fa fa-cloud-upload"></i> {{Envoyer sur le market}}</a>')
+                }
+
+                if (data.checkVersion != -1) {
+                    $('#span_plugin_require').html('<span>' + data.require + '</span>');
+                } else {
+                    $('#span_plugin_require').html('<span class="label label-danger">' + data.require + '</span>');
+                }
+                $('#span_plugin_version').html(data.version);
+
+                $('#span_plugin_toggleState').empty();
+                if (data.checkVersion != -1) {
+                    if (data.activate == 1) {
+                        var btn = '<a class="btn btn-danger togglePlugin" data-state="0" data-plugin_id="' + data.id + '" style="margin : 5px;"><i class="fa fa-times"></i> {{Désactiver}}</a>';
+                    } else {
+                        var btn = '<a class="btn btn-success togglePlugin" data-state="1" data-plugin_id="' + data.id + '" style="margin : 5px;"><i class="fa fa-check"></i> {{Activer}}</a>';
+                    }
+                    $('#span_plugin_toggleState').html(btn);
+                }
+
+                $('#div_plugin_configuration').empty();
+                if (data.checkVersion != -1) {
+                    if (data.configurationPath != '' && data.activate == 1) {
+                        $('#div_plugin_configuration').load(data.configurationPath, function() {
+                            var configuration = $('#div_plugin_configuration').getValues('.configKey');
+                            jeedom.config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function(data) {
+                                $('#div_plugin_configuration').setValues(data, '.configKey');
+                                $('#div_plugin_configuration').parent().show();
+                                modifyWithoutSave = false;
+                            });
                         });
-                    });
+                    } else {
+                        $('#div_plugin_configuration').parent().hide();
+                    }
                 } else {
                     $('#div_plugin_configuration').parent().hide();
                 }
-            } else {
-                $('#div_plugin_configuration').parent().hide();
+                $('#div_confPlugin').show();
+                modifyWithoutSave = false;
             }
-            $('#div_confPlugin').show();
-            modifyWithoutSave = false;
         });
         return false;
     });
 
     $("#span_plugin_toggleState").delegate(".togglePlugin", 'click', function() {
         var _el = $(this);
-        jeedom.plugin.toggle(_el.attr('data-plugin_id'), _el.attr('data-state'), function() {
-            window.location.replace('index.php?v=d&p=plugin&id=' + _el.attr('data-plugin_id'));
+        jeedom.plugin.toggle({
+            id: _el.attr('data-plugin_id'),
+            state: _el.attr('data-state'),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                window.location.replace('index.php?v=d&p=plugin&id=' + _el.attr('data-plugin_id'));
+            }
         });
     });
 

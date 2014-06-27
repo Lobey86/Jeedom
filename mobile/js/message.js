@@ -6,12 +6,17 @@ function initMessage() {
     rightPanel += '<ul data-role="listview" data-theme="a" data-dividertheme="a" class="ui-icon-alt">';
     rightPanel += '<li data-role="list-divider">{{Logfile}}</li>';
     rightPanel += '<li><a class="messageFilter" data-plugin="">{{Tout}}</a></li>';
-    jeedom.plugin.all(function(plugins) {
-        for (var i in plugins) {
-            rightPanel += '<li><a class="messageFilter" data-plugin="' + plugins[i].name + '">' + plugins[i].name + '</a></li>';
+    jeedom.plugin.all({
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(plugins) {
+            for (var i in plugins) {
+                rightPanel += '<li><a class="messageFilter" data-plugin="' + plugins[i].name + '">' + plugins[i].name + '</a></li>';
+            }
+            rightPanel += '</ul>';
+            panel(rightPanel);
         }
-        rightPanel += '</ul>';
-        panel(rightPanel);
     });
 
     getAllMessage();

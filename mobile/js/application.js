@@ -176,8 +176,10 @@ function panel(_content) {
 }
 
 function refreshMessageNumber() {
-    jeedom.message.number(function(_number) {
-        $('.span_nbMessage').html(_number);
+    jeedom.message.number({
+        success: function(_number) {
+            $('.span_nbMessage').html(_number);
+        }
     });
 }
 
