@@ -15,7 +15,6 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 jeedom.config = function() {
 };
 
@@ -68,4 +67,4 @@ jeedom.config.load = function(_params) {
             }
         }
     });
-}
+};

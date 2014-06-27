@@ -14,9 +14,9 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 function jeedom() {
 }
+
 
 jeedom.cache = [];
 jeedom.nodeJs = {state: -1};
@@ -235,3 +235,4 @@ jeedom.getConfiguration = function(_params) {
         }
     });
 };
+

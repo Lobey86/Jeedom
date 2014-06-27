@@ -15,7 +15,6 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 jeedom.cmd = function() {
 };
 
@@ -377,5 +376,3 @@ jeedom.cmd.displayActionOption = function(_expression, _options, _callback) {
     });
     return html;
 };
-
-

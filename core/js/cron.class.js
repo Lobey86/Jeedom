@@ -93,3 +93,4 @@ jeedom.cron.save = function(_params) {
         }
     });
 }
+
