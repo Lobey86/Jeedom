@@ -319,24 +319,9 @@ jeedom.history.refreshGraph = function(_params) {
 }
 
 jeedom.history.changePoint = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/cmd.ajax.php", // url du fichier php
-        data: {
-            action: "changeHistoryPoint",
-            cmd_id: _params.cmd_id,
-            datetime: _params.datetime,
-            value: _params.value
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {
+        success: function(result) {
             $('#div_alert').showAlert({message: '{{La valeur a été éditée avec succès}}', level: 'success'});
             var serie = null;
             for (var i in jeedom.history.chart) {
@@ -353,5 +338,21 @@ jeedom.history.changePoint = function(_params) {
                 }
             }
         }
-    });
+    };
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/cmd.ajax.php';
+    paramsAJAX.data = {
+        action: 'changeHistoryPoint',
+        cmd_id: _params.cmd_id,
+        datetime: _params.datetime,
+        value: _params.value
+    };
+    $.ajax(paramsAJAX);
 }
