@@ -39,16 +39,15 @@ jeedom.scenario.all = function(_params) {
         (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
         return;
     }
-    if (isset(jeedom.scenario.cache.all) && 'function' == typeof (_params.success)) {
-        _params.success(jeedom.scenario.cache.all);
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    if (isset(jeedom.scenario.cache.all)) {
+        params.success(jeedom.scenario.cache.all);
         return;
     }
-
-    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
     var paramsAJAX = jeedom.private.getParamsAJAX(params);
     paramsAJAX.url = 'core/ajax/scenario.ajax.php';
     paramsAJAX.data = {
-        action: "all",
+        action: 'all',
     };
     $.ajax(paramsAJAX);
 }

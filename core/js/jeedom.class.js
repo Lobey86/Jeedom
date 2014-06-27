@@ -206,33 +206,31 @@ jeedom.processWorkflow = function() {
 }
 
 jeedom.getConfiguration = function(_params) {
-    if (init(_params.default, 0) == 0 && isset(jeedom.cache.getConfiguration[_params.key]) && 'function' == typeof (_params.success)) {
-        _params.success(jeedom.cache.getConfiguration[_params.key]);
+    var paramsRequired = ['key'];
+    var paramsSpecifics = {
+        pre_success: function(data) {
+            jeedom.cache.getConfiguration[_params.key] = data.result;
+            return data;
+        }
+    };
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
         return;
     }
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/jeedom.ajax.php", // url du fichier php
-        data: {
-            action: "getConfiguration",
-            key: _params.key,
-            default: init(_params.default, 0)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $.hideLoading();
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            jeedom.cache.getConfiguration[_params.key] = data.result;
-            if ('function' == typeof (_params.success)) {
-                _params.success(jeedom.cache.getConfiguration[_params.key]);
-            }
-        }
-    });
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    if (init(params.default, 0) == 0 && isset(jeedom.cache.getConfiguration[params.key])) {
+        _params.success(jeedom.cache.getConfiguration[params.key]);
+        return;
+    }
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeedom.ajax.php';
+    paramsAJAX.data = {
+        action: 'getConfiguration',
+        key: _params.key,
+        default: init(_params.default, 0)
+    };
+    $.ajax(paramsAJAX);
 };
 

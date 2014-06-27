@@ -26,40 +26,38 @@ if (!isset(jeedom.view.cache.html)) {
 }
 
 jeedom.view.all = function(_params) {
-    if (isset(jeedom.view.cache.all) && 'function' == typeof (_callback)) {
+    var paramsRequired = [];
+    var paramsSpecifics = {
+        pre_success: function(data) {
+            jeedom.view.cache.all = data.result;
+            return data;
+        }
+    };
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    if (isset(jeedom.view.cache.all) && 'function' == typeof (_params.success)) {
         _params.success(jeedom.view.cache.all);
         return;
     }
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/view.ajax.php", // url du fichier php
-        data: {
-            action: "all",
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            jeedom.view.cache.all = data.result;
-            if ('function' == typeof (_params.success)) {
-                _params.success(jeedom.view.cache.all);
-                return;
-            }
-        }
-    });
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/view.ajax.php';
+    paramsAJAX.data = {
+        action: 'all',
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.view.prefetch = function(_params) {
-    if (_params.version  == 'mobile') {
+    if (_params.version == 'mobile') {
         _params.version = 'mview';
     }
-    if (_params.version  == 'dashboard') {
-        _params.version  = 'dview';
+    if (_params.version == 'dashboard') {
+        _params.version = 'dview';
     }
     if (!isset(jeedom.view.cache.html)) {
         jeedom.view.cache.html = Array();
@@ -81,25 +79,9 @@ jeedom.view.toHtml = function(_params) {
         _params.success(jeedom.view.cache.html[_params.id]);
         return;
     }
-
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/view.ajax.php", // url du fichier php
-        data: {
-            action: "get",
-            id: ($.isArray(_params.id)) ? json_encode(_params.id) : _params.id,
-            version: _params.version,
-        },
-        dataType: 'json',
-        global: _params.globalAjax || true,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
+    var paramsRequired = ['id', 'version'];
+    var paramsSpecifics = {
+        pre_success: function(data) {
             var result = {html: '', scenario: [], cmd: [], eqLogic: []};
             if (_params.id == 'all' || $.isArray(_params.id)) {
                 for (var i in data.result) {
@@ -109,11 +91,29 @@ jeedom.view.toHtml = function(_params) {
                 result = jeedom.view.handleViewAjax({view: data.result});
                 jeedom.view.cache.html[_params.id] = result;
             }
-            if ('function' == typeof (_params.success)) {
-                _params.success(result);
-            }
+            data.result = result;
+            return data;
         }
-    });
+    };
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    if (isset(jeedom.view.cache.all) && 'function' == typeof (_params.success)) {
+        _params.success(jeedom.view.cache.all);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/view.ajax.php';
+    paramsAJAX.data = {
+        action: "get",
+        id: ($.isArray(_params.id)) ? json_encode(_params.id) : _params.id,
+        version: _params.version,
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.view.handleViewAjax = function(_params) {
@@ -152,75 +152,60 @@ jeedom.view.handleViewAjax = function(_params) {
 
 
 jeedom.view.remove = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/view.ajax.php',
-        data: {
-            action: 'remove',
-            id: _params.id,
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/view.ajax.php';
+    paramsAJAX.data = {
+        action: 'remove',
+        id: _params.id,
+    };
+    $.ajax(paramsAJAX);
 }
 
 
 jeedom.view.save = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/view.ajax.php',
-        data: {
-            action: 'save',
-            view_id: _params.id,
-            viewZones: json_encode(_params.viewZones),
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['id', 'viewZones'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/view.ajax.php';
+    paramsAJAX.data = {
+        action: 'save',
+        view_id: _params.id,
+        viewZones: json_encode(_params.viewZones),
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.view.get = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/view.ajax.php',
-        data: {
-            action: 'get',
-            id: _params.id,
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/view.ajax.php';
+    paramsAJAX.data = {
+        action: 'get',
+        id: _params.id,
+    };
+    $.ajax(paramsAJAX);
 }
