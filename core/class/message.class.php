@@ -111,20 +111,25 @@ class message {
     /*     * *********************Methode d'instance************************* */
 
     public function save() {
-        $values = array(
-            'message' => $this->getMessage(),
-            'logicalId' => $this->getLogicalId(),
-            'plugin' => $this->getPlugin()
-        );
-        $sql = 'SELECT count(*)
+        if ($this->getLogicalId() == '') {
+            DB::save($this);
+            @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
+        } else {
+            $values = array(
+                'message' => $this->getMessage(),
+                'logicalId' => $this->getLogicalId(),
+                'plugin' => $this->getPlugin()
+            );
+            $sql = 'SELECT count(*)
                 FROM message
                 WHERE plugin=:plugin
                       AND ( logicalId=:logicalId 
                         OR message=:message ) ';
-        $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        if ($result['count(*)'] == 0) {
-            DB::save($this);
-            @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
+            $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+            if ($result['count(*)'] == 0) {
+                DB::save($this);
+                @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
+            }
         }
     }
 
