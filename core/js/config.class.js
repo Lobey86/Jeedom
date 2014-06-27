@@ -20,14 +20,14 @@ jeedom.config = function() {
 };
 
 
-jeedom.config.save = function(_configuration, _plugin, _callback) {
+jeedom.config.save = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/config.ajax.php", // url du fichier php
         data: {
             action: "addKey",
-            value: json_encode(_configuration),
-            plugin: init(_plugin, 'core')
+            value: json_encode(_params.configuration),
+            plugin: _params.plugin || 'core'
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -35,24 +35,24 @@ jeedom.config.save = function(_configuration, _plugin, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 }
 
-jeedom.config.load = function(_configuration, _plugin, _callback) {
+jeedom.config.load = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/config.ajax.php", // url du fichier php
         data: {
             action: "getKey",
-            plugin: init(_plugin, 'core'),
-            key: json_encode(_configuration)
+            plugin: _params.plugin || 'core',
+            key: json_encode(_params.configuration)
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -60,11 +60,11 @@ jeedom.config.load = function(_configuration, _plugin, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });

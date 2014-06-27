@@ -30,14 +30,24 @@ $(function() {
     }
 
     $('#bt_saveSecurityConfig').on('click', function() {
-        var configuration = $('#config').getValues('.configKey');
-        jeedom.config.save(configuration[0], 'core', function() {
-            var configuration = $('#config').getValues('.configKey');
-            jeedom.config.load(configuration[0], 'core', function(data) {
-                $('#config').setValues(data, '.configKey');
-                modifyWithoutSave = false;
-                $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
-            });
+        jeedom.config.save({
+            configuration: $('#config').getValues('.configKey')[0],
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                jeedom.config.load({
+                    configuration: $('#config').getValues('.configKey')[0],
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function(data) {
+                        $('#config').setValues(data, '.configKey');
+                        modifyWithoutSave = false;
+                        $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
+                    }
+                });
+            }
         });
     });
 
@@ -77,11 +87,13 @@ $(function() {
         });
     });
 
-    var configuration = $('#config').getValues('.configKey');
     $.showLoading();
-    jeedom.config.load(configuration[0], 'core', function(data) {
-        $('#config').setValues(data, '.configKey');
-        modifyWithoutSave = false;
+    jeedom.config.load({
+        configuration: $('#config').getValues('.configKey')[0],
+        success: function(data) {
+            $('#config').setValues(data, '.configKey');
+            modifyWithoutSave = false;
+        }
     });
 
     $('body').delegate('.configKey', 'change', function() {

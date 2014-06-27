@@ -18,14 +18,25 @@
 $(function() {
     $("#bt_saveBackup").on('click', function(event) {
         $.hideAlert();
-        var configuration = $('#backup').getValues('.configKey');
-        jeedom.config.save(configuration[0], 'core', function() {
-            var configuration = $('#backup').getValues('.configKey');
-            jeedom.config.load(configuration[0], 'core', function(data) {
-                $('#backup').setValues(data, '.configKey');
-                modifyWithoutSave = false;
-                $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
-            });
+        jeedom.config.save({
+            configuration: $('#backup').getValues('.configKey')[0],
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                jeedom.config.load({
+                    configuration: $('#backup').getValues('.configKey')[0],
+                    plugin: 'core',
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function(data) {
+                        $('#backup').setValues(data, '.configKey');
+                        modifyWithoutSave = false;
+                        $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
+                    }
+                });
+            }
         });
     });
 
@@ -117,11 +128,16 @@ $(function() {
         });
     });
 
-    var configuration = $('#backup').getValues('.configKey');
     $.showLoading();
-    jeedom.config.load(configuration[0], 'core', function(data) {
-        $('#backup').setValues(data, '.configKey');
-        modifyWithoutSave = false;
+    jeedom.config.load({
+        configuration: $('#backup').getValues('.configKey')[0],
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            $('#backup').setValues(data, '.configKey');
+            modifyWithoutSave = false;
+        }
     });
     updateListBackup();
 

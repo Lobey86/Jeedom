@@ -50,14 +50,19 @@ $(function() {
 
     $("#bt_changeAllScenarioState").on('click', function() {
         var el = $(this);
-        var value = {enableScenario: el.attr('data-state')};
-        jeedom.config.save(value, 'core', function() {
-            if (el.attr('data-state') == 1) {
-                el.find('i').removeClass('fa-check').addClass('fa-times');
-                el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 0);
-            } else {
-                el.find('i').removeClass('fa-times').addClass('fa-check');
-                el.removeClass('btn-danger').addClass('btn-success').attr('data-state', 1);
+        jeedom.config.save({
+            configuration: {enableScenario: el.attr('data-state')},
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                if (el.attr('data-state') == 1) {
+                    el.find('i').removeClass('fa-check').addClass('fa-times');
+                    el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 0);
+                } else {
+                    el.find('i').removeClass('fa-times').addClass('fa-check');
+                    el.removeClass('btn-danger').addClass('btn-success').attr('data-state', 1);
+                }
             }
         });
     });

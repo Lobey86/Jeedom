@@ -64,11 +64,17 @@ $(function() {
                 if (data.checkVersion != -1) {
                     if (data.configurationPath != '' && data.activate == 1) {
                         $('#div_plugin_configuration').load(data.configurationPath, function() {
-                            var configuration = $('#div_plugin_configuration').getValues('.configKey');
-                            jeedom.config.load(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function(data) {
-                                $('#div_plugin_configuration').setValues(data, '.configKey');
-                                $('#div_plugin_configuration').parent().show();
-                                modifyWithoutSave = false;
+                            jeedom.config.load({
+                                configuration: $('#div_plugin_configuration').getValues('.configKey')[0],
+                                plugin: $('.li_plugin.active').attr('data-plugin_id'),
+                                error: function(error) {
+                                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                                },
+                                success: function(data) {
+                                    $('#div_plugin_configuration').setValues(data, '.configKey');
+                                    $('#div_plugin_configuration').parent().show();
+                                    modifyWithoutSave = false;
+                                }
                             });
                         });
                     } else {
@@ -134,10 +140,16 @@ $(function() {
 });
 
 function savePluginConfig() {
-    var configuration = $('#div_plugin_configuration').getValues('.configKey');
-    jeedom.config.save(configuration[0], $('.li_plugin.active').attr('data-plugin_id'), function() {
-        $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
-        modifyWithoutSave = false;
+    jeedom.config.save({
+        configuration: $('#div_plugin_configuration').getValues('.configKey')[0],
+        plugin: $('.li_plugin.active').attr('data-plugin_id'),
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function() {
+            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+            modifyWithoutSave = false;
+        }
     });
 }
 

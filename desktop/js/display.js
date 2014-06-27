@@ -45,10 +45,15 @@ $(function() {
 
 
 function saveConfiguration(_el) {
-    var configuration = _el.getValues('.configKey');
-    jeedom.config.save(configuration[0], 'core', function() {
-        $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
-        modifyWithoutSave = false;
+    jeedom.config.save({
+        configuration: _el.getValues('.configKey')[0],
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function() {
+            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+            modifyWithoutSave = false;
+        }
     });
 }
 
