@@ -1,12 +1,19 @@
 function initScenario() {
-    jeedom.scenario.toHtml('all', 'mobile', function(htmls) {
-        var html = '';
-        for (var i in htmls) {
-            html += htmls[i];
+    jeedom.scenario.toHtml({
+        id: 'all',
+        version: 'mobile',
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(htmls) {
+            var html = '';
+            for (var i in htmls) {
+                html += htmls[i];
+            }
+            $('#div_displayScenario').append(html);
+            setTileSize('.scenario');
         }
-        $('#div_displayScenario').append(html);
-        setTileSize('.scenario');
-    })
+    });
     $(window).on("orientationchange", function(event) {
         setTileSize('.scenario');
     });

@@ -84,7 +84,7 @@ jeedom.init = function() {
                         }
                     });
                     socket.on('eventScenario', function(scenario_id) {
-                        jeedom.scenario.refreshValue(scenario_id);
+                        jeedom.scenario.refreshValue({id: scenario_id});
                         if ($.mobile) {
                             jeedom.workflow.scenario[scenario_id] = true;
                             jeedom.scheduleWorkflow();

@@ -72,17 +72,23 @@ $(function() {
         bootbox.prompt("Nom du scénario ?", function(result) {
             if (result !== null) {
                 $.hideAlert();
-                jeedom.scenario.save({name: result}, function(data) {
-                    var vars = getUrlVars();
-                    var url = 'index.php?';
-                    for (var i in vars) {
-                        if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
-                            url += i + '=' + vars[i].replace('#', '') + '&';
+                jeedom.scenario.save({
+                    scenario: {name: result},
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function(data) {
+                        var vars = getUrlVars();
+                        var url = 'index.php?';
+                        for (var i in vars) {
+                            if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                                url += i + '=' + vars[i].replace('#', '') + '&';
+                            }
                         }
+                        url += 'id=' + data.id + '&saveSuccessFull=1';
+                        modifyWithoutSave = false;
+                        window.location.href = url;
                     }
-                    url += 'id=' + data.id + '&saveSuccessFull=1';
-                    modifyWithoutSave = false;
-                    window.location.href = url;
                 });
             }
         });
@@ -96,9 +102,15 @@ $(function() {
         $.hideAlert();
         bootbox.confirm('{{Etes-vous sûr de vouloir supprimer le scénario}} <span style="font-weight: bold ;">' + $('.scenarioAttr[data-l1key=name]').value() + '</span> ?', function(result) {
             if (result) {
-                jeedom.scenario.remove($('.scenarioAttr[data-l1key=id]').value(), function() {
-                    modifyWithoutSave = false;
-                    window.location.replace('index.php?v=d&p=scenario');
+                jeedom.scenario.remove({
+                    id: $('.scenarioAttr[data-l1key=id]').value(),
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        modifyWithoutSave = false;
+                        window.location.replace('index.php?v=d&p=scenario');
+                    }
                 });
             }
         });
@@ -106,24 +118,45 @@ $(function() {
 
     $("#bt_testScenario").on('click', function() {
         $.hideAlert();
-        jeedom.scenario.changeState($('.scenarioAttr[data-l1key=id]').value(), 'start', function() {
-            $('#div_alert').showAlert({message: '{{Lancement du scénario réussie}}', level: 'success'});
+        jeedom.scenario.changeState({
+            id: $('.scenarioAttr[data-l1key=id]').value(),
+            state: 'start',
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                $('#div_alert').showAlert({message: '{{Lancement du scénario réussie}}', level: 'success'});
+            }
         });
     });
 
     $("#bt_copyScenario").on('click', function() {
         bootbox.prompt("Nom du scénario ?", function(result) {
             if (result !== null) {
-                jeedom.scenario.copy($('.scenarioAttr[data-l1key=id]').value(), result, function(data) {
-                    window.location.replace('index.php?v=d&p=scenario&id=' + data.id);
+                jeedom.scenario.copy({
+                    id: $('.scenarioAttr[data-l1key=id]').value(),
+                    name: result,
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function(data) {
+                        window.location.replace('index.php?v=d&p=scenario&id=' + data.id);
+                    }
                 });
             }
         });
     });
 
     $("#bt_stopScenario").on('click', function() {
-        jeedom.scenario.changeState($('.scenarioAttr[data-l1key=id]').value(), 'stop', function() {
-            printScenario($('.scenarioAttr[data-l1key=id]').value());
+        jeedom.scenario.changeState({
+            id: $('.scenarioAttr[data-l1key=id]').value(),
+            state: 'stop',
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                printScenario($('.scenarioAttr[data-l1key=id]').value());
+            }
         });
     });
 
@@ -372,85 +405,91 @@ function setAutocomplete() {
 
 function printScenario(_id) {
     $.showLoading();
-    jeedom.scenario.get(_id, function(data) {
-        pColor = 0;
-        $('.scenarioAttr').value('');
-        $('#table_scenarioCondition tbody').empty();
-        $('#table_scenarioAction tbody').empty();
-        $('#table_trigger tbody').empty();
-        $('body').setValues(data, '.scenarioAttr');
-        $('#span_type').text(data.type);
-        data.lastLaunch = (data.lastLaunch == null) ? '{{Jamais}}' : data.lastLaunch;
-        $('#span_lastLaunch').text(data.lastLaunch);
+    jeedom.scenario.get({
+        id: _id,
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            pColor = 0;
+            $('.scenarioAttr').value('');
+            $('#table_scenarioCondition tbody').empty();
+            $('#table_scenarioAction tbody').empty();
+            $('#table_trigger tbody').empty();
+            $('body').setValues(data, '.scenarioAttr');
+            $('#span_type').text(data.type);
+            data.lastLaunch = (data.lastLaunch == null) ? '{{Jamais}}' : data.lastLaunch;
+            $('#span_lastLaunch').text(data.lastLaunch);
 
-        $('#div_scenarioElement').empty();
-        $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a>');
-        $('.provokeMode').empty();
-        $('.scheduleMode').empty();
-        $('.scenarioAttr[data-l1key=mode]').trigger('change');
-        for (var i in data.schedules) {
-            $('#div_schedules').schedule.display(data.schedules[i]);
-        }
-        $('#bt_stopScenario').hide();
-        switch (data.state) {
-            case 'error' :
-                $('#span_ongoing').text('Erreur');
-                $('#span_ongoing').removeClass('label-info label-danger label-success').addClass('label-warning');
-                break;
-            case 'on' :
-                $('#span_ongoing').text('Actif');
-                $('#span_ongoing').removeClass('label-info label-danger label-warning').addClass('label-success');
-                break;
-            case 'in progress' :
-                $('#span_ongoing').text('En cours');
-                $('#span_ongoing').addClass('label-success');
-                $('#span_ongoing').removeClass('label-success label-danger label-warning').addClass('label-info');
-                $('#bt_stopScenario').show();
-                break;
-            case 'stop' :
-                $('#span_ongoing').text('Arrêté');
-                $('#span_ongoing').removeClass('label-info label-success label-warning').addClass('label-danger');
-                break;
-        }
-        if (data.isActive != 1) {
-            $('#in_ongoing').text('Inactif');
-            $('#in_ongoing').removeClass('label-danger');
-            $('#in_ongoing').removeClass('label-success');
-        }
-        if ($.isArray(data.trigger)) {
-            for (var i in data.trigger) {
-                if (data.trigger[i] != '' && data.trigger[i] != null) {
-                    addTrigger(data.trigger[i]);
+            $('#div_scenarioElement').empty();
+            $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a>');
+            $('.provokeMode').empty();
+            $('.scheduleMode').empty();
+            $('.scenarioAttr[data-l1key=mode]').trigger('change');
+            for (var i in data.schedules) {
+                $('#div_schedules').schedule.display(data.schedules[i]);
+            }
+            $('#bt_stopScenario').hide();
+            switch (data.state) {
+                case 'error' :
+                    $('#span_ongoing').text('Erreur');
+                    $('#span_ongoing').removeClass('label-info label-danger label-success').addClass('label-warning');
+                    break;
+                case 'on' :
+                    $('#span_ongoing').text('Actif');
+                    $('#span_ongoing').removeClass('label-info label-danger label-warning').addClass('label-success');
+                    break;
+                case 'in progress' :
+                    $('#span_ongoing').text('En cours');
+                    $('#span_ongoing').addClass('label-success');
+                    $('#span_ongoing').removeClass('label-success label-danger label-warning').addClass('label-info');
+                    $('#bt_stopScenario').show();
+                    break;
+                case 'stop' :
+                    $('#span_ongoing').text('Arrêté');
+                    $('#span_ongoing').removeClass('label-info label-success label-warning').addClass('label-danger');
+                    break;
+            }
+            if (data.isActive != 1) {
+                $('#in_ongoing').text('Inactif');
+                $('#in_ongoing').removeClass('label-danger');
+                $('#in_ongoing').removeClass('label-success');
+            }
+            if ($.isArray(data.trigger)) {
+                for (var i in data.trigger) {
+                    if (data.trigger[i] != '' && data.trigger[i] != null) {
+                        addTrigger(data.trigger[i]);
+                    }
+                }
+            } else {
+                if (data.trigger != '' && data.trigger != null) {
+                    addTrigger(data.trigger);
                 }
             }
-        } else {
-            if (data.trigger != '' && data.trigger != null) {
-                addTrigger(data.trigger);
-            }
-        }
-        if ($.isArray(data.schedule)) {
-            for (var i in data.schedule) {
-                if (data.schedule[i] != '' && data.schedule[i] != null) {
-                    addSchedule(data.schedule[i]);
+            if ($.isArray(data.schedule)) {
+                for (var i in data.schedule) {
+                    if (data.schedule[i] != '' && data.schedule[i] != null) {
+                        addSchedule(data.schedule[i]);
+                    }
+                }
+            } else {
+                if (data.schedule != '' && data.schedule != null) {
+                    addSchedule(data.schedule);
                 }
             }
-        } else {
-            if (data.schedule != '' && data.schedule != null) {
-                addSchedule(data.schedule);
+            for (var i in data.elements) {
+                $('#div_scenarioElement').append(addElement(data.elements[i]));
             }
-        }
-        for (var i in data.elements) {
-            $('#div_scenarioElement').append(addElement(data.elements[i]));
-        }
-        updateSortable();
-        setEditor();
-        setAutocomplete();
-        $('#div_editScenario').show();
-        $.hideLoading();
-        modifyWithoutSave = false;
-        setTimeout(function() {
+            updateSortable();
+            setEditor();
+            setAutocomplete();
+            $('#div_editScenario').show();
+            $.hideLoading();
             modifyWithoutSave = false;
-        }, 1000);
+            setTimeout(function() {
+                modifyWithoutSave = false;
+            }, 1000);
+        }
     });
 }
 
@@ -463,17 +502,23 @@ function saveScenario() {
         elements.push(getElement($(this)));
     });
     scenario.elements = elements;
-    jeedom.scenario.save(scenario, function(data) {
-        var vars = getUrlVars();
-        var url = 'index.php?';
-        for (var i in vars) {
-            if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
-                url += i + '=' + vars[i].replace('#', '') + '&';
+    jeedom.scenario.save({
+        scenario: scenario,
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            var vars = getUrlVars();
+            var url = 'index.php?';
+            for (var i in vars) {
+                if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                    url += i + '=' + vars[i].replace('#', '') + '&';
+                }
             }
+            url += 'id=' + data.id + '&saveSuccessFull=1';
+            modifyWithoutSave = false;
+            window.location.href = url;
         }
-        url += 'id=' + data.id + '&saveSuccessFull=1';
-        modifyWithoutSave = false;
-        window.location.href = url;
     });
 }
 

@@ -11,7 +11,13 @@
     </center>
     <script>
         $('.scenario[data-scenario_id=#id#] .changeScenarioState').on('click', function() {
-            jeedom.scenario.changeState($(this).closest('.scenario').attr('data-scenario_id'), $(this).attr('data-state'));
+            jeedom.scenario.changeState({
+                id: $(this).closest('.scenario').attr('data-scenario_id'),
+                state: $(this).attr('data-state'),
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+            });
         });
         if ('#isActive#' == '1') {
             if ('#state#' == 'in progress') {

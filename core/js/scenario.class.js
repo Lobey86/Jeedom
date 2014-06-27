@@ -25,9 +25,9 @@ if (!isset(jeedom.scenario.cache.html)) {
     jeedom.scenario.cache.html = Array();
 }
 
-jeedom.scenario.all = function(_callback) {
-    if (isset(jeedom.scenario.cache.all) && 'function' == typeof (_callback)) {
-        _callback(jeedom.scenario.cache.all);
+jeedom.scenario.all = function(_params) {
+    if (isset(jeedom.scenario.cache.all) && 'function' == typeof (_params.success)) {
+        _params.success(jeedom.scenario.cache.all);
         return;
     }
     $.ajax({// fonction permettant de faire de l'ajax
@@ -42,25 +42,25 @@ jeedom.scenario.all = function(_callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
             jeedom.scenario.cache.all = data.result;
-            if ('function' == typeof (_callback)) {
-                _callback(jeedom.scenario.cache.all);
+            if ('function' == typeof (_params.success)) {
+                _params.success(jeedom.scenario.cache.all);
             }
         }
     });
 }
 
-jeedom.scenario.toHtml = function(_id, _version, _callback) {
+jeedom.scenario.toHtml = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
         data: {
             action: "toHtml",
-            id: ($.isArray(_id)) ? json_encode(_id) : _id,
-            version: _version
+            id: ($.isArray(_params.id)) ? json_encode(_params.id) : _params.id,
+            version: _params.version
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -68,36 +68,35 @@ jeedom.scenario.toHtml = function(_id, _version, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $.hideLoading();
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if (_id == 'all' || $.isArray(_id)) {
+            if (_params.id == 'all' || $.isArray(_params.id)) {
                 for (var i in data.result) {
                     jeedom.scenario.cache.html[i] = data.result[i];
                 }
             } else {
-                if (isset(jeedom) && isset(jeedom.workflow) && isset(jeedom.workflow.scenario) && jeedom.workflow.scenario[_id]) {
-                    jeedom.workflow.object[_id] = false;
+                if (isset(jeedom) && isset(jeedom.workflow) && isset(jeedom.workflow.scenario) && jeedom.workflow.scenario[_params.id]) {
+                    jeedom.workflow.object[_params.id] = false;
                 }
-                jeedom.scenario.cache.html[_id] = data.result;
+                jeedom.scenario.cache.html[_params.id] = data.result;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 }
 
 
-jeedom.scenario.changeState = function(_id, _state, _callback) {
+jeedom.scenario.changeState = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
         data: {
             action: "changeState",
-            id: _id,
-            state: _state
+            id: _params.id,
+            state: _params.state
         },
         dataType: 'json',
         global: false,
@@ -106,27 +105,27 @@ jeedom.scenario.changeState = function(_id, _state, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 }
 
 
-jeedom.scenario.refreshValue = function(_scenario_id) {
-    if ($('.scenario[data-scenario_id=' + _scenario_id + ']').html() != undefined) {
-        var version = $('.scenario[data-scenario_id=' + _scenario_id + ']').attr('data-version');
+jeedom.scenario.refreshValue = function(_params) {
+    if ($('.scenario[data-scenario_id=' + _params.id + ']').html() != undefined) {
+        var version = $('.scenario[data-scenario_id=' + _params.id + ']').attr('data-version');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/scenario.ajax.php", // url du fichier php
             data: {
                 action: "toHtml",
-                id: _scenario_id,
-                version: version
+                id: _params.id,
+                version: _params.version || version
             },
             dataType: 'json',
             global: false,
@@ -135,12 +134,12 @@ jeedom.scenario.refreshValue = function(_scenario_id) {
             },
             success: function(data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    _params.error({message: data.result, code: 0});
                     return;
                 }
-                $('.scenario[data-scenario_id=' + _scenario_id + ']').replaceWith(data.result);
+                $('.scenario[data-scenario_id=' + _params.id + ']').replaceWith(data.result);
                 if ($.mobile) {
-                    $('.scenario[data-scenario_id=' + _scenario_id + ']').trigger("create");
+                    $('.scenario[data-scenario_id=' + _params.id + ']').trigger("create");
                     setTileSize('.scenario');
                 }
             }
@@ -149,14 +148,14 @@ jeedom.scenario.refreshValue = function(_scenario_id) {
 };
 
 
-jeedom.scenario.copy = function(_id, _name, _callback) {
+jeedom.scenario.copy = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
         data: {
             action: "copy",
-            id: _id,
-            name: _name
+            id: _params.id,
+            name: _params.name
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -164,24 +163,24 @@ jeedom.scenario.copy = function(_id, _name, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_copyScenarioAlert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 };
 
 
-jeedom.scenario.get = function(_id, _callback) {
+jeedom.scenario.get = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
         data: {
             action: "get",
-            id: _id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -189,24 +188,23 @@ jeedom.scenario.get = function(_id, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $.hideLoading();
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 };
 
-jeedom.scenario.save = function(_scenario, _callback) {
+jeedom.scenario.save = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
         data: {
             action: "save",
-            scenario: json_encode(_scenario),
+            scenario: json_encode(_params.scenario),
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -214,23 +212,23 @@ jeedom.scenario.save = function(_scenario, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 };
 
-jeedom.scenario.remove = function(_id, _callback) {
-   $.ajax({// fonction permettant de faire de l'ajax
+jeedom.scenario.remove = function(_params) {
+    $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/scenario.ajax.php", // url du fichier php
         data: {
             action: "remove",
-            id: _id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -238,15 +236,12 @@ jeedom.scenario.remove = function(_id, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $.hideLoading();
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
-            modifyWithoutSave = false;
-            window.location.replace('index.php?v=d&p=scenario');
         }
     });
 };
