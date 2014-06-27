@@ -20,7 +20,6 @@ $(function() {
             id: view_id,
             version: 'dashboard',
             useCache: true,
-            globalAjax: true,
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },

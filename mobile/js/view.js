@@ -18,7 +18,6 @@ function initView(_view_id) {
             id: _view_id,
             version: 'mobile',
             useCache: true,
-            globalAjax: true,
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
@@ -32,7 +31,6 @@ function initView(_view_id) {
                                 id: _view_id,
                                 version: 'mobile',
                                 useCache: false,
-                                globalAjax: true,
                                 error: function(error) {
                                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                                 },
