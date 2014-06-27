@@ -86,6 +86,7 @@ class jsonrpcClient {
             curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             $response = curl_exec($ch);
+            $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $nbRetry++;
             if (curl_errno($ch) && $nbRetry < $_maxRetry) {
                 curl_close($ch);
@@ -93,6 +94,9 @@ class jsonrpcClient {
             } else {
                 $nbRetry = $_maxRetry + 1;
             }
+        }
+        if ($http_status != 200) {
+            $this->error = 'Erreur http : ' . $http_status . ' Details : ' . $response;
         }
         if (curl_errno($ch)) {
             $this->error = 'Erreur curl sur : ' . $this->apiAddr . '. Détail :' . curl_error($ch);

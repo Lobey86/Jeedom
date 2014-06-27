@@ -54,7 +54,7 @@ if (init('api') != '' && init('type') != '') {
 
         $IP = getClientIp();
         log::add('api', 'info', init('request') . ' - IP :' . $IP);
-
+        
         $jsonrpc = new jsonrpc(init('request'));
 
         if (!mySqlIsHere()) {
@@ -62,12 +62,12 @@ if (init('api') != '' && init('type') != '') {
         }
 
         if ($jsonrpc->getJsonrpc() != '2.0') {
-            throw new Exception('Requete invalide', -32001);
+            throw new Exception('Requete invalide. Jsonrpc version invalide : ' . $jsonrpc->getJsonrpc(), -32001);
         }
 
         $params = $jsonrpc->getParams();
 
-        if (config::byKey('api') != $params['api']) {
+        if (config::byKey('api') != $params['apikey']) {
             connection::failed();
             throw new Exception('Clef API invalide', -32001);
         }
