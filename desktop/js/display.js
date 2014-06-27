@@ -234,82 +234,87 @@ function displayObject(_object_id) {
 /***********************EqLogic***************************/
 function displayEqLogic(_eqLogic_id) {
     $.hideAlert();
+    jeedom.eqLogic.byId({
+        id: _eqLogic_id,
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            $('#div_displayInfo').empty();
+            var div = '<div class="row">';
+            div += '<div class="col-lg-6" >';
+            div += '<form class="form-horizontal">';
+            div += '<fieldset>';
 
-    jeedom.eqLogic.byId(_eqLogic_id, function(data) {
-        $('#div_displayInfo').empty();
-        var div = '<div class="row">';
-        div += '<div class="col-lg-6" >';
-        div += '<form class="form-horizontal">';
-        div += '<fieldset>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{ID}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="eqLogicAttr label label-primary" data-l1key="id"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{ID}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="eqLogicAttr label label-primary" data-l1key="id"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Nom}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="eqLogicAttr label label-primary" data-l1key="name"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Nom}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="eqLogicAttr label label-primary" data-l1key="name"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Logical ID}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="eqLogicAttr label label-primary" data-l1key="logicalId"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Logical ID}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="eqLogicAttr label label-primary" data-l1key="logicalId"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Object ID}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="eqLogicAttr label label-primary" data-l1key="object_id"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Object ID}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="eqLogicAttr label label-primary" data-l1key="object_id"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '</fieldset>';
+            div += '</form>';
+            div += '</div>';
+            div += '<div class="col-lg-6" >';
+            div += '<form class="form-horizontal">';
+            div += '<fieldset>';
 
-        div += '</fieldset>';
-        div += '</form>';
-        div += '</div>';
-        div += '<div class="col-lg-6" >';
-        div += '<form class="form-horizontal">';
-        div += '<fieldset>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Type}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="eqLogicAttr label label-primary" data-l1key="eqType_name"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Type}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="eqLogicAttr label label-primary" data-l1key="eqType_name"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Activer}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="eqLogicAttr label label-primary" data-l1key="isEnable"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Activer}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="eqLogicAttr label label-primary" data-l1key="isEnable"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Visible}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="eqLogicAttr label label-primary" data-l1key="isVisible"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Visible}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="eqLogicAttr label label-primary" data-l1key="isVisible"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Tentative échouée}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="eqLogicAttr label label-primary" data-l1key="status" data-l2key="numberTryWithoutSuccess"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Tentative échouée}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="eqLogicAttr label label-primary" data-l1key="status" data-l2key="numberTryWithoutSuccess"></span>';
-        div += '</div>';
-        div += '</div>';
-
-        div += '</fieldset>';
-        div += '</form>';
-        div += '</div>';
-        div += '</div>';
-        $('#div_displayInfo').html(div);
-        $('#div_displayInfo').setValues(data, '.eqLogicAttr');
+            div += '</fieldset>';
+            div += '</form>';
+            div += '</div>';
+            div += '</div>';
+            $('#div_displayInfo').html(div);
+            $('#div_displayInfo').setValues(data, '.eqLogicAttr');
+        }
     });
 }

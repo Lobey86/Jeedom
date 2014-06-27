@@ -96,14 +96,20 @@ include_file('core', 'js.inc', 'php');
     }
 
     mod_insertCmd.changeEqLogic = function(_select) {
-        jeedom.eqLogic.builSelectCmd(_select.value(), mod_insertCmd.options.cmd, function(html) {
-            _select.closest('tr').find('.mod_insertCmdValue_cmd').empty();
-            var selectCmd = '<select class="form-control">';
-            selectCmd += html;
-            selectCmd += '</select>';
-            _select.closest('tr').find('.mod_insertCmdValue_cmd').append(selectCmd);
+        jeedom.eqLogic.builSelectCmd({
+            id: _select.value(),
+            filter: mod_insertCmd.options.cmd,
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(html) {
+                _select.closest('tr').find('.mod_insertCmdValue_cmd').empty();
+                var selectCmd = '<select class="form-control">';
+                selectCmd += html;
+                selectCmd += '</select>';
+                _select.closest('tr').find('.mod_insertCmdValue_cmd').append(selectCmd);
+            }
         });
-
     }
 
     mod_insertCmd.changeObjectCmd($('#table_mod_insertCmdValue_valueEqLogicToMessage td.mod_insertCmdValue_object select'), mod_insertCmd.options);

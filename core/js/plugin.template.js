@@ -22,28 +22,34 @@ $(function() {
         $('.li_eqLogic').removeClass('active');
         $(this).addClass('active');
         $.showLoading();
-        jeedom.eqLogic.print(eqType, $(this).attr('data-eqLogic_id'), function(data) {
-            $('body .eqLogicAttr').value('');
-            $('body').setValues(data, '.eqLogicAttr');
-            if ('function' == typeof (printEqLogic)) {
-                printEqLogic(data);
-            }
-            if ('function' == typeof (addCmdToTable)) {
-                $('.cmd').remove();
-                for (var i in data.cmd) {
-                    addCmdToTable(data.cmd[i]);
+        jeedom.eqLogic.print({
+            type: eqType, id: $(this).attr('data-eqLogic_id'),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(data) {
+                $('body .eqLogicAttr').value('');
+                $('body').setValues(data, '.eqLogicAttr');
+                if ('function' == typeof (printEqLogic)) {
+                    printEqLogic(data);
                 }
-            }
-            initTooltips();
-            modifyWithoutSave = false;
-            $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
-                jeedom.cmd.changeType($(this).closest('.cmd'));
-            });
+                if ('function' == typeof (addCmdToTable)) {
+                    $('.cmd').remove();
+                    for (var i in data.cmd) {
+                        addCmdToTable(data.cmd[i]);
+                    }
+                }
+                initTooltips();
+                modifyWithoutSave = false;
+                $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
+                    jeedom.cmd.changeType($(this).closest('.cmd'));
+                });
 
-            $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function() {
-                jeedom.cmd.changeSubType($(this).closest('.cmd'));
-            });
-            initExpertMode();
+                $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function() {
+                    jeedom.cmd.changeSubType($(this).closest('.cmd'));
+                });
+                initExpertMode();
+            }
         });
         return false;
     });
@@ -69,17 +75,24 @@ $(function() {
             eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
             eqLogics.push(eqLogic);
         });
-        jeedom.eqLogic.save(eqType, eqLogics, function(_data) {
-            var vars = getUrlVars();
-            var url = 'index.php?';
-            for (var i in vars) {
-                if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
-                    url += i + '=' + vars[i].replace('#', '') + '&';
+        jeedom.eqLogic.save({
+            type: eqType,
+            eqLogics: eqLogics,
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(_data) {
+                var vars = getUrlVars();
+                var url = 'index.php?';
+                for (var i in vars) {
+                    if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                        url += i + '=' + vars[i].replace('#', '') + '&';
+                    }
                 }
+                modifyWithoutSave = false;
+                url += 'id=' + _data.id + '&saveSuccessFull=1';
+                window.location.href = url;
             }
-            modifyWithoutSave = false;
-            url += 'id=' + _data.id + '&saveSuccessFull=1';
-            window.location.href = url;
         });
         return false;
     });
@@ -88,17 +101,24 @@ $(function() {
         if ($('.li_eqLogic.active').attr('data-eqLogic_id') != undefined) {
             bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'équipement}} ' + eqType + ' <b>' + $('.li_eqLogic.active a:first').text() + '</b> ?', function(result) {
                 if (result) {
-                    jeedom.eqLogic.remove(eqType, $('.li_jeedom.eqLogic.active').attr('data-eqLogic_id'), function() {
-                        var vars = getUrlVars();
-                        var url = 'index.php?';
-                        for (var i in vars) {
-                            if (i != 'id' && i != 'removeSuccessFull' && i != 'saveSuccessFull') {
-                                url += i + '=' + vars[i].replace('#', '') + '&';
+                    jeedom.eqLogic.remove({
+                        type: eqType,
+                        id: $('.li_jeedom.eqLogic.active').attr('data-eqLogic_id'),
+                        error: function(error) {
+                            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                        },
+                        success: function() {
+                            var vars = getUrlVars();
+                            var url = 'index.php?';
+                            for (var i in vars) {
+                                if (i != 'id' && i != 'removeSuccessFull' && i != 'saveSuccessFull') {
+                                    url += i + '=' + vars[i].replace('#', '') + '&';
+                                }
                             }
+                            modifyWithoutSave = false;
+                            url += 'removeSuccessFull=1';
+                            window.location.href = url;
                         }
-                        modifyWithoutSave = false;
-                        url += 'removeSuccessFull=1';
-                        window.location.href = url;
                     });
                 }
             });
@@ -111,17 +131,24 @@ $(function() {
     $('.eqLogicAction[data-action=add]').on('click', function() {
         bootbox.prompt("{{Nom de l'équipement ?}}", function(result) {
             if (result !== null) {
-                jeedom.eqLogic.save(eqType, [{name: result}], function(_data) {
-                    var vars = getUrlVars();
-                    var url = 'index.php?';
-                    for (var i in vars) {
-                        if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
-                            url += i + '=' + vars[i].replace('#', '') + '&';
+                jeedom.eqLogic.save({
+                    type: eqType,
+                    eqLogics: [{name: result}],
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function(_data) {
+                        var vars = getUrlVars();
+                        var url = 'index.php?';
+                        for (var i in vars) {
+                            if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                                url += i + '=' + vars[i].replace('#', '') + '&';
+                            }
                         }
+                        modifyWithoutSave = false;
+                        url += 'id=' + _data.id + '&saveSuccessFull=1';
+                        window.location.href = url;
                     }
-                    modifyWithoutSave = false;
-                    url += 'id=' + _data.id + '&saveSuccessFull=1';
-                    window.location.href = url;
                 });
             }
         });
