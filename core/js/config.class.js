@@ -20,51 +20,41 @@ jeedom.config = function() {
 
 
 jeedom.config.save = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: "addKey",
-            value: json_encode(_params.configuration),
-            plugin: _params.plugin || 'core'
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['configuration'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/config.ajax.php';
+    paramsAJAX.data = {
+        action: 'addKey',
+        value: json_encode(_params.configuration),
+        plugin: _params.plugin || 'core'
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.config.load = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/config.ajax.php", // url du fichier php
-        data: {
-            action: "getKey",
-            plugin: _params.plugin || 'core',
-            key: json_encode(_params.configuration)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['configuration'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/config.ajax.php';
+    paramsAJAX.data = {
+        action: 'getKey',
+        key: json_encode(_params.configuration),
+        plugin: _params.plugin || 'core'
+    };
+    $.ajax(paramsAJAX);
 };

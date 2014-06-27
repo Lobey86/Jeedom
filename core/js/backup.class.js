@@ -20,120 +20,94 @@ jeedom.backup = function() {
 };
 
 jeedom.backup.backup = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/jeedom.ajax.php',
-        data: {
-            action: 'backup',
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = [];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeedom.ajax.php';
+    paramsAJAX.data = {
+        action: 'backup',
+    };
+    $.ajax(paramsAJAX);
 };
 
 
 jeedom.backup.restoreLocal = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/jeedom.ajax.php',
-        data: {
-            action: 'restore',
-            backup: _params.backup,
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = [];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeedom.ajax.php';
+    paramsAJAX.data = {
+        action: 'restore',
+    };
+    $.ajax(paramsAJAX);
 };
 
 jeedom.backup.remove = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/jeedom.ajax.php',
-        data: {
-            action: 'removeBackup',
-            backup: _params.backup,
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['backup'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeedom.ajax.php';
+    paramsAJAX.data = {
+        action: 'removeBackup',
+        backup: _params.backup,
+    };
+    $.ajax(paramsAJAX);
 };
 
 jeedom.backup.restoreCloud = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/jeedom.ajax.php',
-        data: {
-            action: 'restoreCloud',
-            backup: _params.backup,
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['backup'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeedom.ajax.php';
+    paramsAJAX.data = {
+        action: 'restoreCloud',
+        backup: _params.backup,
+    };
+    $.ajax(paramsAJAX);
 };
 
 jeedom.backup.list = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/jeedom.ajax.php',
-        data: {
-            action: 'listBackup',
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = [];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeedom.ajax.php';
+    paramsAJAX.data = {
+        action: 'listBackup',
+    };
+    $.ajax(paramsAJAX);
 };
