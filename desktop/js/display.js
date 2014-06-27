@@ -66,124 +66,135 @@ function saveConfiguration(_el) {
 
 /***************************Commandes****************************/
 function displayCmd(_cmd_id) {
-    jeedom.cmd.byId(_cmd_id, function(data) {
-        $('#div_displayInfo').empty();
-        var div = '<div class="row">';
-        div += '<div class="col-lg-6" >';
-        div += '<form class="form-horizontal">';
-        div += '<fieldset>';
+    jeedom.cmd.byId({
+        id: _cmd_id,
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            $('#div_displayInfo').empty();
+            var div = '<div class="row">';
+            div += '<div class="col-lg-6" >';
+            div += '<form class="form-horizontal">';
+            div += '<fieldset>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{ID}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="cmdAttr label label-primary" data-l1key="id"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{ID}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="cmdAttr label label-primary" data-l1key="id"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Nom}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="cmdAttr label label-primary" data-l1key="name"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Nom}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="cmdAttr label label-primary" data-l1key="name"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Type}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="cmdAttr label label-primary" data-l1key="type"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Type}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="cmdAttr label label-primary" data-l1key="type"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Sous-type}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="cmdAttr label label-primary" data-l1key="subType"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Sous-type}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="cmdAttr label label-primary" data-l1key="subType"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '</fieldset>';
-        div += '</form>';
-        div += '</div>';
-        div += '<div class="col-lg-6" >';
-
-
-        div += '<form class="form-horizontal">';
-        div += '<fieldset>';
-
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Unité}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="cmdAttr label label-primary" data-l1key="unite"></span>';
-        div += '</div>';
-        div += '</div>';
-
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Memcache}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="cmdAttr label label-primary tooltips" data-l1key="cache" data-l2key="enable" title="{{Actif}}"></span> ';
-        div += '<span class="label label-default tooltips" title="{{Durée du cache}}"><span class="cmdAttr" data-l1key="cache" data-l2key="lifetime"></span> {{seconde(s)}}</span>';
-        div += '</div>';
-        div += '</div>';
-
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Historisé}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="cmdAttr label label-primary" data-l1key="isHistorized"></span>';
-        div += '</div>';
-        div += '</div>';
-
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-4 control-label">{{Evenement seulement}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="cmdAttr label label-primary" data-l1key="eventOnly"></span>';
-        div += '</div>';
-        div += '</div>';
-
-        div += '</fieldset>';
-        div += '</form>';
-        div += '</div>';
-        div += '</div>';
+            div += '</fieldset>';
+            div += '</form>';
+            div += '</div>';
+            div += '<div class="col-lg-6" >';
 
 
-        div += '<div>';
-        div += '<legend>{{Configuration}}</legend>';
-        div += '<form class="form-horizontal">';
-        div += '<fieldset>';
+            div += '<form class="form-horizontal">';
+            div += '<fieldset>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-2 control-label">{{Dashboard widget}}</label>';
-        div += '<div class="col-lg-3">';
-        div += '<select class="form-control cmdAttr" data-l1key="template" data-l2key="dashboard">';
-        for (var i in cmd_widgetDashboard[data.type][data.subType]) {
-            div += '<option>' + cmd_widgetDashboard[data.type][data.subType][i].name + '</option>';
-        }
-        div += '</select>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Unité}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="cmdAttr label label-primary" data-l1key="unite"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-2 control-label">{{Mobile widget}}</label>';
-        div += '<div class="col-lg-3">';
-        div += '<select class="form-control cmdAttr" data-l1key="template" data-l2key="mobile">';
-        for (var i in cmd_widgetMobile[data.type][data.subType]) {
-            div += '<option>' + cmd_widgetMobile[data.type][data.subType][i].name + '</option>';
-        }
-        div += '</select>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Memcache}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="cmdAttr label label-primary tooltips" data-l1key="cache" data-l2key="enable" title="{{Actif}}"></span> ';
+            div += '<span class="label label-default tooltips" title="{{Durée du cache}}"><span class="cmdAttr" data-l1key="cache" data-l2key="lifetime"></span> {{seconde(s)}}</span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '</fieldset>';
-        div += '</form>';
-        div += '<a class="btn btn-success" id="saveCmd"><i class="fa fa-check-circle"></i> {{Enregistrer}}</a>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Historisé}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="cmdAttr label label-primary" data-l1key="isHistorized"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        $('#div_displayInfo').html(div);
-        $('#div_displayInfo').setValues(data, '.cmdAttr');
-        $('#saveCmd').off().on('click', function() {
-            var cmd = $('#div_displayInfo').getValues('.cmdAttr');
-            jeedom.cmd.save(cmd[0], function() {
-                $('#div_alert').showAlert({message: '{{Enregistrement réussi}}', level: 'success'});
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Evenement seulement}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="cmdAttr label label-primary" data-l1key="eventOnly"></span>';
+            div += '</div>';
+            div += '</div>';
+
+            div += '</fieldset>';
+            div += '</form>';
+            div += '</div>';
+            div += '</div>';
+
+
+            div += '<div>';
+            div += '<legend>{{Configuration}}</legend>';
+            div += '<form class="form-horizontal">';
+            div += '<fieldset>';
+
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-2 control-label">{{Dashboard widget}}</label>';
+            div += '<div class="col-lg-3">';
+            div += '<select class="form-control cmdAttr" data-l1key="template" data-l2key="dashboard">';
+            for (var i in cmd_widgetDashboard[data.type][data.subType]) {
+                div += '<option>' + cmd_widgetDashboard[data.type][data.subType][i].name + '</option>';
+            }
+            div += '</select>';
+            div += '</div>';
+            div += '</div>';
+
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-2 control-label">{{Mobile widget}}</label>';
+            div += '<div class="col-lg-3">';
+            div += '<select class="form-control cmdAttr" data-l1key="template" data-l2key="mobile">';
+            for (var i in cmd_widgetMobile[data.type][data.subType]) {
+                div += '<option>' + cmd_widgetMobile[data.type][data.subType][i].name + '</option>';
+            }
+            div += '</select>';
+            div += '</div>';
+            div += '</div>';
+
+            div += '</fieldset>';
+            div += '</form>';
+            div += '<a class="btn btn-success" id="saveCmd"><i class="fa fa-check-circle"></i> {{Enregistrer}}</a>';
+
+            $('#div_displayInfo').html(div);
+            $('#div_displayInfo').setValues(data, '.cmdAttr');
+            $('#saveCmd').off().on('click', function() {
+                var cmd = $('#div_displayInfo').getValues('.cmdAttr');
+                jeedom.cmd.save({
+                    cmd: cmd[0],
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        $('#div_alert').showAlert({message: '{{Enregistrement réussi}}', level: 'success'});
+                    }});
             });
-        });
+        }
     });
 }
 

@@ -6,11 +6,11 @@
         $(function() {
             $('.cmd[data-cmd_id=#id#] .action_colorpicker_change').value(('#state#' != '') ? '#state#' : '#000000');
             $('.cmd[data-cmd_id=#id#] .action_colorpicker_off').on('click', function() {
-                jeedom.cmd.execute('#id#', {color: '#000000'});
+                jeedom.cmd.execute({id: '#id#', value: {color: '#000000'}});
                 $('.cmd[data-cmd_id=#id#] .action_colorpicker_change').value('#000000');
             });
             $('.cmd[data-cmd_id=#id#] .action_colorpicker_change').on('change', function() {
-                jeedom.cmd.execute('#id#', {color: $(this).value()});
+                jeedom.cmd.execute({id: '#id#', value: {color: $(this).value()}});
             });
         });
     </script>

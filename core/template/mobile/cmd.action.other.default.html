@@ -3,7 +3,7 @@
     <script>
         $(function() {
             $('.cmd[data-cmd_id=#id#] .action').click(function() {
-                jeedom.cmd.execute('#id#', '');
+                jeedom.cmd.execute({id: '#id#'});
             });
             var name = "#name#";
             if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {

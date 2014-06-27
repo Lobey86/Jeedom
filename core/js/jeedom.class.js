@@ -75,7 +75,7 @@ jeedom.init = function() {
                     });
                     socket.on('eventCmd', function(_options) {
                         _options = json_decode(_options);
-                        jeedom.cmd.refreshValue(_options.cmd_id);
+                        jeedom.cmd.refreshValue({id: _options.cmd_id});
                         if ($.mobile) {
                             jeedom.workflow.cmd[_options.cmd_id] = true;
                             jeedom.workflow.eqLogic[_options.eqLogic_id] = true;

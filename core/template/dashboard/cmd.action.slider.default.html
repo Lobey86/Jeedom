@@ -9,7 +9,7 @@
                 max: ('#maxValue#' == '') ? 100 : parseInt('#maxValue#'),
                 value: ('#state#' == '') ? 0 : parseInt('#state#'),
                 change: function(event, ui) {
-                    jeedom.cmd.execute('#id#', {slider: ui.value});
+                    jeedom.cmd.execute({id: '#id#', value: {slider: ui.value}});
                 }
             });
         });
