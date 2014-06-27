@@ -66,10 +66,15 @@ class log {
 
             foreach ($logs as $log) {
                 $path = dirname(__FILE__) . '/../../log/' . $log;
-                if (filesize($path) > 200000) {
+                if (filesize($path) > 20000) {
+                    if (filesize($path) > 1000000) {
+                        unlink($path);
+                        touch($path);
+                        continue;
+                    }
                     $f = @fopen($path, "r+");
                     if ($f !== false) {
-                        ftruncate($f, 200000);
+                        ftruncate($f, 20000);
                         fclose($f);
                     } else {
                         unlink($path);
