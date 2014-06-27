@@ -205,9 +205,9 @@ jeedom.processWorkflow = function() {
     }
 }
 
-jeedom.getConfiguration = function(_key, _default, _callback) {
-    if (init(_default, 0) == 0 && isset(jeedom.cache.getConfiguration[_key]) && 'function' == typeof (_callback)) {
-        _callback(jeedom.cache.getConfiguration[_key]);
+jeedom.getConfiguration = function(_params) {
+    if (init(_params.default, 0) == 0 && isset(jeedom.cache.getConfiguration[_params.key]) && 'function' == typeof (_params.success)) {
+        _params.success(jeedom.cache.getConfiguration[_params.key]);
         return;
     }
     $.ajax({// fonction permettant de faire de l'ajax
@@ -215,8 +215,8 @@ jeedom.getConfiguration = function(_key, _default, _callback) {
         url: "core/ajax/jeedom.ajax.php", // url du fichier php
         data: {
             action: "getConfiguration",
-            key: _key,
-            default: init(_default, 0)
+            key: _params.key,
+            default: init(_params.default, 0)
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -228,9 +228,9 @@ jeedom.getConfiguration = function(_key, _default, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            jeedom.cache.getConfiguration[_key] = data.result;
-            if ('function' == typeof (_callback)) {
-                _callback(jeedom.cache.getConfiguration[_key]);
+            jeedom.cache.getConfiguration[_params.key] = data.result;
+            if ('function' == typeof (_params.success)) {
+                _params.success(jeedom.cache.getConfiguration[_params.key]);
             }
         }
     });

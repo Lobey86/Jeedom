@@ -28,62 +28,76 @@ if (!isset(jeedom.cmd.cache.byId)) {
 jeedom.cmd.changeType = function(_cmd, _subType) {
     var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control input-sm" data-l1key="subType">';
     var type = _cmd.find('.cmdAttr[data-l1key=type]').value();
-    jeedom.getConfiguration('cmd:type:' + type + ':subtype', 0, function(subType) {
-        for (var i in subType) {
-            selSubType += '<option value="' + i + '">' + subType[i].name + '</option>';
-        }
-        selSubType += '</select>';
-        _cmd.find('.subType').empty();
-        _cmd.find('.subType').append(selSubType);
-        if (isset(_subType)) {
-            _cmd.find('.cmdAttr[data-l1key=subType]').value(_subType);
-            modifyWithoutSave = false;
-        }
-        jeedom.cmd.changeSubType(_cmd);
-        if ('function' == typeof (initExpertMode)) {
-            initExpertMode();
+    jeedom.getConfiguration({
+        key: 'cmd:type:' + type + ':subtype',
+        default: 0,
+        error: function(error) {
+            _params.error(error);
+        },
+        success: function(subType) {
+            for (var i in subType) {
+                selSubType += '<option value="' + i + '">' + subType[i].name + '</option>';
+            }
+            selSubType += '</select>';
+            _cmd.find('.subType').empty();
+            _cmd.find('.subType').append(selSubType);
+            if (isset(_subType)) {
+                _cmd.find('.cmdAttr[data-l1key=subType]').value(_subType);
+                modifyWithoutSave = false;
+            }
+            jeedom.cmd.changeSubType(_cmd);
+            if ('function' == typeof (initExpertMode)) {
+                initExpertMode();
+            }
         }
     });
 };
 
 jeedom.cmd.changeSubType = function(_cmd) {
-    jeedom.getConfiguration('cmd:type:' + _cmd.find('.cmdAttr[data-l1key=type]').value() + ':subtype:' + _cmd.find('.cmdAttr[data-l1key=subType]').value(), 0, function(subtype) {
-        for (var i in subtype) {
-            if (isset(subtype[i].visible)) {
-                var el = _cmd.find('.cmdAttr[data-l1key=' + i + ']');
-                if (el.attr('type') == 'checkbox' && el.parent().is('span')) {
-                    el = el.parent();
-                }
-                if (subtype[i].visible) {
-                    el.show();
-                    el.removeClass('hide');
-                } else {
-                    el.hide();
-                    el.addClass('hide');
-                }
-            } else {
-                for (var j in subtype[i]) {
-                    var el = _cmd.find('.cmdAttr[data-l1key=' + i + '][data-l2key=' + j + ']');
+    jeedom.getConfiguration({
+        key: 'cmd:type:' + _cmd.find('.cmdAttr[data-l1key=type]').value() + ':subtype:' + _cmd.find('.cmdAttr[data-l1key=subType]').value(),
+        default: 0,
+        error: function(error) {
+            _params.error(error);
+        },
+        success: function(subtype) {
+            for (var i in subtype) {
+                if (isset(subtype[i].visible)) {
+                    var el = _cmd.find('.cmdAttr[data-l1key=' + i + ']');
                     if (el.attr('type') == 'checkbox' && el.parent().is('span')) {
                         el = el.parent();
                     }
-                    if (isset(subtype[i][j].visible)) {
-                        if (subtype[i][j].visible) {
-                            el.show();
-                            el.removeClass('hide');
-                        } else {
-                            el.hide();
-                            el.addClass('hide');
+                    if (subtype[i].visible) {
+                        el.show();
+                        el.removeClass('hide');
+                    } else {
+                        el.hide();
+                        el.addClass('hide');
+                    }
+                } else {
+                    for (var j in subtype[i]) {
+                        var el = _cmd.find('.cmdAttr[data-l1key=' + i + '][data-l2key=' + j + ']');
+                        if (el.attr('type') == 'checkbox' && el.parent().is('span')) {
+                            el = el.parent();
+                        }
+                        if (isset(subtype[i][j].visible)) {
+                            if (subtype[i][j].visible) {
+                                el.show();
+                                el.removeClass('hide');
+                            } else {
+                                el.hide();
+                                el.addClass('hide');
+                            }
                         }
                     }
                 }
             }
-        }
-        if (_cmd.find('.cmdAttr[data-l1key=subType]').value() == 'slider' || _cmd.find('.cmdAttr[data-l1key=subType]').value() == 'color') {
-            _cmd.find('.cmdAttr[data-l1key=value]').show();
-        }
-        if ('function' == typeof (initExpertMode)) {
-            initExpertMode();
+            if (_cmd.find('.cmdAttr[data-l1key=subType]').value() == 'slider' || _cmd.find('.cmdAttr[data-l1key=subType]').value() == 'color') {
+                _cmd.find('.cmdAttr[data-l1key=value]').show();
+            }
+            if ('function' == typeof (initExpertMode)) {
+                initExpertMode();
+            }
         }
     });
 };

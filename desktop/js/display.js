@@ -37,8 +37,15 @@ $(function() {
     });
 
     $('.bt_resetColor').on('click', function() {
-        jeedom.getConfiguration($(this).attr('data-l1key'), 1, function(data) {
-            $('.configKey[data-l1key="' + $(this).attr('data-l1key') + '"]').value(data);
+        jeedom.getConfiguration({
+            key: $(this).attr('data-l1key'),
+            default: 1,
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(data) {
+                $('.configKey[data-l1key="' + $(this).attr('data-l1key') + '"]').value(data);
+            }
         });
     });
 });
