@@ -160,63 +160,58 @@ jeedom.cmd.refreshValue = function(_params) {
 
 
 jeedom.cmd.save = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/cmd.ajax.php", // url du fichier php
-        data: {
-            action: "save",
-            cmd: json_encode(_params.cmd)
-        },
-        dataType: 'json',
-        global: false,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
+    var paramsRequired = ['cmd'];
+    var paramsSpecifics = {
+        pre_success: function(data) {
             if (isset(jeedom.cmd.cache.byId[data.result.id])) {
                 delete jeedom.cmd.cache.byId[data.result.id];
             }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
+            return data;
         }
-    });
+    };
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/cmd.ajax.php';
+    paramsAJAX.data = {
+        action: 'save',
+        cmd: json_encode(_params.cmd)
+    };
+    $.ajax(paramsAJAX);
 }
 
 
 jeedom.cmd.byId = function(_params) {
-    if (isset(jeedom.cmd.cache.byId[_params.id]) && 'function' == typeof (_params.success)) {
-        _params.success(jeedom.cmd.cache.byId[_params.id]);
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {
+        pre_success: function(data) {
+            jeedom.cmd.cache.byId[data.result.id] = data.result;
+            return data;
+        }
+    };
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
         return;
     }
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/cmd.ajax.php", // url du fichier php
-        data: {
-            action: "byId",
-            id: _params.id
-        },
-        dataType: 'json',
-        cache: true,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $.hideLoading();
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            jeedom.cmd.cache.byId[_params.id] = data.result;
-            if ('function' == typeof (_params.success)) {
-                _params.success(jeedom.cmd.cache.byId[_params.id]);
-            }
-        }
-    });
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    if (isset(jeedom.cmd.cache.byId[params.id])) {
+        params.success(jeedom.cmd.cache.byId[params.id]);
+        return;
+    }
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/cmd.ajax.php';
+    paramsAJAX.data = {
+        action: 'byId',
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
 }
 
 
