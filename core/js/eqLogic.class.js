@@ -66,7 +66,7 @@ jeedom.eqLogic.remove = function(_params) {
         data: {
             action: "remove",
             type: _params.type,
-            id: _params.eqLogic_Id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -95,7 +95,7 @@ jeedom.eqLogic.print = function(_params) {
         data: {
             action: "get",
             type: _params.type,
-            id: _params.eqLogic_id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -148,7 +148,7 @@ jeedom.eqLogic.getCmd = function(_params) {
         url: "core/ajax/cmd.ajax.php", // url du fichier php
         data: {
             action: "byEqLogic",
-            eqLogic_id: _params.eqLogic_id
+            eqLogic_id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -178,7 +178,7 @@ jeedom.eqLogic.byId = function(_params) {
         url: "core/ajax/eqLogic.ajax.php", // url du fichier php
         data: {
             action: "byId",
-            id: _params.eqLogic_id
+            id: _params.id
         },
         dataType: 'json',
         cache: true,
