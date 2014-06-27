@@ -36,7 +36,7 @@ class nodejs {
 
     public static function pushUpdate($_event, $_option) {
         if (is_object($_option) || is_array($_option)) {
-            $_option = json_encode($_option);
+            $_option = json_encode($_option,JSON_UNESCAPED_UNICODE);
         }
         $url = self::baseUrl() . 'type=' . urlencode($_event) . '&options=' . urlencode($_option);
         try {

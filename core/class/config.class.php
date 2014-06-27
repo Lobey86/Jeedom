@@ -54,7 +54,7 @@ class config {
      */
     public static function save($_key, $_value, $_plugin = 'core') {
         if (is_object($_value) || is_array($_value)) {
-            $_value = json_encode($_value);
+            $_value = json_encode($_value,JSON_UNESCAPED_UNICODE);
         }
         $defaultConfiguration = self::getDefaultConfiguration($_plugin);
         if (isset($defaultConfiguration[$_plugin][$_key]) && $_value == $defaultConfiguration[$_plugin][$_key]) {

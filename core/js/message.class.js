@@ -21,13 +21,13 @@ jeedom.message = function() {
 
 jeedom.message.cache = Array();
 
-jeedom.message.all = function(_plugin, _callback) {
+jeedom.message.all = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/message.ajax.php", // url du fichier php
         data: {
             action: "all",
-            plugin: init(_plugin, '')
+            plugin: _params.plugin || ''
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -35,23 +35,23 @@ jeedom.message.all = function(_plugin, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 }
 
-jeedom.message.remove = function(_id, _callback) {
+jeedom.message.remove = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/message.ajax.php", // url du fichier php
         data: {
             action: "removeMessage",
-            id: _id,
+            id: _params.id,
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -59,23 +59,23 @@ jeedom.message.remove = function(_id, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(true);
+            if ('function' == typeof (_params.success)) {
+                _params.success(true);
             }
         }
     });
 }
 
-jeedom.message.clear = function(_plugin,_callback) {
+jeedom.message.clear = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/message.ajax.php", // url du fichier php
         data: {
             action: "clearMessage",
-            plugin: init(_plugin, '')
+            plugin: _params.plugin || ''
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -83,17 +83,17 @@ jeedom.message.clear = function(_plugin,_callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(true);
+            if ('function' == typeof (_params.success)) {
+                _params.success(true);
             }
         }
     });
 }
 
-jeedom.message.number = function(_callback) {
+jeedom.message.number = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/message.ajax.php", // url du fichier php
@@ -107,11 +107,11 @@ jeedom.message.number = function(_callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });

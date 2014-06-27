@@ -53,13 +53,13 @@ class market {
         $market->setId($_arrayMarket['id']);
         $market->setName($_arrayMarket['name']);
         $market->setType($_arrayMarket['type']);
-        $market->datetime = json_encode($_arrayMarket['datetime']);
+        $market->datetime = json_encode($_arrayMarket['datetime'],JSON_UNESCAPED_UNICODE);
         $market->setDescription($_arrayMarket['description']);
         $market->setDownloaded($_arrayMarket['downloaded']);
         $market->setUser_id($_arrayMarket['user_id']);
         $market->setVersion($_arrayMarket['version']);
         $market->setCategorie($_arrayMarket['categorie']);
-        $market->status = json_encode($_arrayMarket['status']);
+        $market->status = json_encode($_arrayMarket['status'],JSON_UNESCAPED_UNICODE);
         $market->setAuthor($_arrayMarket['author']);
         $market->setChangelog($_arrayMarket['changelog']);
         $market->setLogicalId($_arrayMarket['logicalId']);
@@ -67,7 +67,7 @@ class market {
         $market->setPurchase($_arrayMarket['purchase']);
         $market->setCost($_arrayMarket['cost']);
         $market->rating = ($_arrayMarket['rating']);
-        $market->img = json_encode($_arrayMarket['img']);
+        $market->img = json_encode($_arrayMarket['img'],JSON_UNESCAPED_UNICODE);
 
         $market->setRealcost($_arrayMarket['realCost']);
         if (!isset($_arrayMarket['api_author'])) {

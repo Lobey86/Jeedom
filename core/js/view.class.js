@@ -25,9 +25,9 @@ if (!isset(jeedom.view.cache.html)) {
     jeedom.view.cache.html = Array();
 }
 
-jeedom.view.all = function(_callback) {
+jeedom.view.all = function(_params) {
     if (isset(jeedom.view.cache.all) && 'function' == typeof (_callback)) {
-        _callback(jeedom.view.cache.all);
+        _params.success(jeedom.view.cache.all);
         return;
     }
     $.ajax({// fonction permettant de faire de l'ajax
@@ -46,39 +46,39 @@ jeedom.view.all = function(_callback) {
                 return;
             }
             jeedom.view.cache.all = data.result;
-            if ('function' == typeof (_callback)) {
-                _callback(jeedom.view.cache.all);
+            if ('function' == typeof (_params.success)) {
+                _params.success(jeedom.view.cache.all);
                 return;
             }
         }
     });
 }
 
-jeedom.view.prefetch = function(_id, _version) {
-    if (_version == 'mobile') {
-        _version = 'mview';
+jeedom.view.prefetch = function(_params) {
+    if (_params.version  == 'mobile') {
+        _params.version = 'mview';
     }
-    if (_version == 'dashboard') {
-        _version = 'dview';
+    if (_params.version  == 'dashboard') {
+        _params.version  = 'dview';
     }
     if (!isset(jeedom.view.cache.html)) {
         jeedom.view.cache.html = Array();
     }
-    if (!isset(jeedom.view.cache.html[_id])) {
-        jeedom.view.toHtml(_id, _version, false, false);
+    if (!isset(jeedom.view.cache.html[_params.id])) {
+        jeedom.view.toHtml({id: _params.id, version: _params.version, useCache: false, globalAjax: false});
     }
 
 }
 
-jeedom.view.toHtml = function(_id, _version, _useCache, _globalAjax, _callback) {
-    if (_version == 'mobile') {
-        _version = 'mview';
+jeedom.view.toHtml = function(_params) {
+    if (_params.version == 'mobile') {
+        _params.version = 'mview';
     }
-    if (_version == 'dashboard') {
-        _version = 'dview';
+    if (_params.version == 'dashboard') {
+        _params.version = 'dview';
     }
-    if (init(_useCache, false) == true && isset(jeedom.view.cache.html[_id]) && 'function' == typeof (_callback)) {
-        _callback(jeedom.view.cache.html[_id]);
+    if (init(_params.useCache, false) == true && isset(jeedom.view.cache.html[_params.id]) && 'function' == typeof (_params.success)) {
+        _params.success(jeedom.view.cache.html[_params.id]);
         return;
     }
 
@@ -87,11 +87,11 @@ jeedom.view.toHtml = function(_id, _version, _useCache, _globalAjax, _callback) 
         url: "core/ajax/view.ajax.php", // url du fichier php
         data: {
             action: "get",
-            id: ($.isArray(_id)) ? json_encode(_id) : _id,
-            version: _version,
+            id: ($.isArray(_params.id)) ? json_encode(_params.id) : _params.id,
+            version: _params.version,
         },
         dataType: 'json',
-        global: init(_globalAjax, true),
+        global: _params.globalAjax || true,
         error: function(request, status, error) {
             handleAjaxError(request, status, error);
         },
@@ -101,25 +101,25 @@ jeedom.view.toHtml = function(_id, _version, _useCache, _globalAjax, _callback) 
                 return;
             }
             var result = {html: '', scenario: [], cmd: [], eqLogic: []};
-            if (_id == 'all' || $.isArray(_id)) {
+            if (_params.id == 'all' || $.isArray(_params.id)) {
                 for (var i in data.result) {
-                    jeedom.view.cache.html[i] = jeedom.view.handleViewAjax(data.result[i]);
+                    jeedom.view.cache.html[i] = jeedom.view.handleViewAjax({view: data.result[i]});
                 }
             } else {
-                result = jeedom.view.handleViewAjax(data.result);
-                jeedom.view.cache.html[_id] = result;
+                result = jeedom.view.handleViewAjax({view: data.result});
+                jeedom.view.cache.html[_params.id] = result;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(result);
             }
         }
     });
 }
 
-jeedom.view.handleViewAjax = function(_view) {
+jeedom.view.handleViewAjax = function(_params) {
     var result = {html: '', scenario: [], cmd: [], eqLogic: []};
-    for (var i in _view.viewZone) {
-        var viewZone = _view.viewZone[i];
+    for (var i in _params.view.viewZone) {
+        var viewZone = _params.view.viewZone[i];
         result.html += '<div>';
         result.html += '<legend style="color : #716b7a">' + viewZone.name + '</legend>';
         var div_id = 'div_viewZone' + viewZone.id;
@@ -140,7 +140,7 @@ jeedom.view.handleViewAjax = function(_view) {
             for (var j in viewZone.viewData) {
                 var viewData = viewZone.viewData[j];
                 var configuration = json_encode(viewData.configuration);
-                result.html += 'jeedom.history.drawChart(' + viewData.link_id + ',"' + div_id + '","' + viewZone.configuration.dateRange + ' ",jQuery.parseJSON("' + configuration.replace(/\"/g, "\\\"") + '"));';
+                result.html += 'jeedom.history.drawChart({cmd_id : ' + viewData.link_id + ',el : "' + div_id + '",daterange : "' + viewZone.configuration.dateRange + ' ",option : jQuery.parseJSON("' + configuration.replace(/\"/g, "\\\"") + '")});';
             }
             result.html += '</script>';
             result.html += '</div>';
@@ -151,13 +151,13 @@ jeedom.view.handleViewAjax = function(_view) {
 }
 
 
-jeedom.view.remove = function(_id, _callback) {
+jeedom.view.remove = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/view.ajax.php',
         data: {
             action: 'remove',
-            id: _id,
+            id: _params.id,
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -168,22 +168,22 @@ jeedom.view.remove = function(_id, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 }
 
 
-jeedom.view.save = function(_view_id, viewZones, _callback) {
+jeedom.view.save = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/view.ajax.php',
         data: {
             action: 'save',
-            view_id: _view_id,
-            viewZones: json_encode(viewZones),
+            view_id: _params.id,
+            viewZones: json_encode(_params.viewZones),
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -194,20 +194,20 @@ jeedom.view.save = function(_view_id, viewZones, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 }
 
-jeedom.view.get = function(_view_id, _callback) {
+jeedom.view.get = function(_params) {
     $.ajax({
         type: 'POST',
         url: 'core/ajax/view.ajax.php',
         data: {
             action: 'get',
-            id: _view_id,
+            id: _params.id,
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -218,8 +218,8 @@ jeedom.view.get = function(_view_id, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });

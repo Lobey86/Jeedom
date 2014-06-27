@@ -358,7 +358,7 @@ class DB {
             }
         }
         if (is_array($retval) || is_object($retval)) {
-            $retval = json_encode($retval);
+            $retval = json_encode($retval,JSON_UNESCAPED_UNICODE);
         }
         return $retval;
     }

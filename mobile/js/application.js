@@ -64,8 +64,11 @@ function initApplication(_reinit) {
                 panel(false);
                 if (data.code == -1234) {
                     if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
-                        jeedom.user.logByKey(localStorage.getItem("deviceKey"), function(result) {
-                            initApplication();
+                        jeedom.user.logByKey({
+                            key: localStorage.getItem("deviceKey"),
+                            success: function() {
+                                initApplication();
+                            }
                         });
                     } else {
                         page('connection', 'Connexion');
@@ -94,7 +97,7 @@ function initApplication(_reinit) {
                         $.showLoading();
                         $.include(include, function() {
                             jeedom.object.prefetch('all', 'mobile');
-                            jeedom.view.prefetch('all', 'mobile');
+                            jeedom.view.prefetch({id: 'all', version: 'mobile'});
                             page("home", 'Accueil');
                         });
                     });
@@ -117,31 +120,33 @@ function page(_page, _title, _option, _plugin) {
         });
         return;
     }
-    jeedom.user.isConnect(function(result) {
-        if (!result) {
-            initApplication(true);
-            return;
-        }
-        var page = 'index.php?v=m&p=' + _page;
-        if (init(_plugin) != '') {
-            page += '&m=' + _plugin;
-        }
-        $('#page').load(page, function() {
-            $('#page').trigger('create');
-            var functionName = '';
+    jeedom.user.isConnect({
+        success: function(result) {
+            if (!result) {
+                initApplication(true);
+                return;
+            }
+            var page = 'index.php?v=m&p=' + _page;
             if (init(_plugin) != '') {
-                functionName = 'init' + _plugin.charAt(0).toUpperCase() + _plugin.substring(1).toLowerCase() + _page.charAt(0).toUpperCase() + _page.substring(1).toLowerCase();
-            } else {
-                functionName = 'init' + _page.charAt(0).toUpperCase() + _page.substring(1).toLowerCase();
+                page += '&m=' + _plugin;
             }
-            if ('function' == typeof (window[functionName])) {
-                if (init(_option) != '') {
-                    window[functionName](_option);
+            $('#page').load(page, function() {
+                $('#page').trigger('create');
+                var functionName = '';
+                if (init(_plugin) != '') {
+                    functionName = 'init' + _plugin.charAt(0).toUpperCase() + _plugin.substring(1).toLowerCase() + _page.charAt(0).toUpperCase() + _page.substring(1).toLowerCase();
                 } else {
-                    window[functionName]();
+                    functionName = 'init' + _page.charAt(0).toUpperCase() + _page.substring(1).toLowerCase();
                 }
-            }
-        });
+                if ('function' == typeof (window[functionName])) {
+                    if (init(_option) != '') {
+                        window[functionName](_option);
+                    } else {
+                        window[functionName]();
+                    }
+                }
+            });
+        }
     });
 }
 

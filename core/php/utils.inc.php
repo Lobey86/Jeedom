@@ -167,7 +167,7 @@ function init($_name, $_default = '') {
 function sendVarToJS($_varName, $_value) {
     if (is_array($_value)) {
         echo '<script>';
-        echo 'var ' . $_varName . ' = jQuery.parseJSON("' . addslashes(json_encode($_value)) . '");';
+        echo 'var ' . $_varName . ' = jQuery.parseJSON("' . addslashes(json_encode($_value,JSON_UNESCAPED_UNICODE)) . '");';
         echo '</script>';
     } else {
         echo '<script>';

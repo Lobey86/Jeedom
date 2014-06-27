@@ -16,12 +16,21 @@
 
 $(function() {
     if (view_id != '') {
-        jeedom.view.toHtml(view_id, 'dashboard', true, true, function(html) {
-            $('#div_displayView').empty().html(html.html);
-            positionEqLogic();
-            $('.eqLogicZone').each(function() {
-                $(this).masonry({columnWidth: 1});
-            });
+        jeedom.view.toHtml({
+            id: view_id,
+            version: 'dashboard',
+            useCache: true,
+            globalAjax: true,
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(html) {
+                $('#div_displayView').empty().html(html.html);
+                positionEqLogic();
+                $('.eqLogicZone').each(function() {
+                    $(this).masonry({columnWidth: 1});
+                });
+            }
         });
     }
 });

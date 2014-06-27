@@ -105,7 +105,7 @@ class cache {
     public function save() {
         $options = $this->getOptions();
         if (is_array($options) || is_object($options)) {
-            $options = json_encode($options);
+            $options = json_encode($options,JSON_UNESCAPED_UNICODE);
         }
         $values = array(
             'key' => $this->getKey(),

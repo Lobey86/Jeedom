@@ -91,7 +91,7 @@ jeedom.init = function() {
                         }
                     });
                     socket.on('eventHistory', function(cmd_id) {
-                        jeedom.history.refreshGraph(cmd_id);
+                        jeedom.history.refreshGraph({cmd_id: cmd_id});
                     });
                     socket.on('notify', function(title, text, category) {
                         var theme = '';
@@ -201,7 +201,7 @@ jeedom.processWorkflow = function() {
         jeedom.object.prefetch(list_object, jeedom.display.version);
     }
     if (list_view.length > 0 && isset(jeedom.view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
-        jeedom.view.prefetch(list_view, jeedom.display.version);
+        jeedom.view.prefetch({id: list_view, version: jeedom.display.version});
     }
 }
 

@@ -27,18 +27,24 @@ $(function() {
         $.hideAlert();
         $(".li_view").removeClass('active');
         $(this).addClass('active');
-        jeedom.view.get($(this).attr('data-view_id'), function(data) {
-            $('#div_viewZones').empty();
-            for (var i in data.viewZone) {
-                var viewZone = data.viewZone[i];
-                addEditviewZone(viewZone);
-                for (var j in viewZone.viewData) {
-                    var viewData = viewZone.viewData[j];
-                    var span = addServiceToviewZone(viewData);
-                    $('#div_viewZones .viewZone:last .div_viewData').append(span);
+        jeedom.view.get({
+            id: $(this).attr('data-view_id'),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(data) {
+                $('#div_viewZones').empty();
+                for (var i in data.viewZone) {
+                    var viewZone = data.viewZone[i];
+                    addEditviewZone(viewZone);
+                    for (var j in viewZone.viewData) {
+                        var viewData = viewZone.viewData[j];
+                        var span = addServiceToviewZone(viewData);
+                        $('#div_viewZones .viewZone:last .div_viewData').append(span);
+                    }
                 }
+                modifyWithoutSave = false;
             }
-            modifyWithoutSave = false;
         });
         return false;
     });
@@ -79,9 +85,16 @@ $(function() {
             viewZones.push(viewZoneInfo);
         });
 
-        jeedom.view.save($(".li_view.active").attr('data-view_id'), viewZones, function() {
-            $('#div_alert').showAlert({message: '{{Modification enregistré}}', level: 'success'});
-            modifyWithoutSave = false;
+        jeedom.view.save({
+            id: $(".li_view.active").attr('data-view_id'),
+            viewZones: viewZones,
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                $('#div_alert').showAlert({message: '{{Modification enregistré}}', level: 'success'});
+                modifyWithoutSave = false;
+            }
         });
         return;
     });
@@ -90,9 +103,15 @@ $(function() {
         $.hideAlert();
         bootbox.confirm('{{Etez-vous sûr de vouloir supprimer la vue}} <span style="font-weight: bold ;">' + $(".li_view.active a").text() + '</span> ?', function(result) {
             if (result) {
-                jeedom.view.remove($(".li_view.active").attr('data-view_id'), function() {
-                    modifyWithoutSave = false;
-                    window.location.reload();
+                jeedom.view.remove({
+                    id: $(".li_view.active").attr('data-view_id'),
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function() {
+                        modifyWithoutSave = false;
+                        window.location.reload();
+                    }
                 });
             }
         });

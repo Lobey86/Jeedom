@@ -19,16 +19,13 @@
 jeedom.interact = function() {
 };
 
-
-
-
-jeedom.interact.remove = function(_id, _callback) {
+jeedom.interact.remove = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/interact.ajax.php", // url du fichier php
         data: {
             action: "remove",
-            id: _id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -36,24 +33,24 @@ jeedom.interact.remove = function(_id, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
 
-jeedom.interact.get = function(_id, _callback) {
+jeedom.interact.get = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/interact.ajax.php", // url du fichier php
         data: {
             action: "byId",
-            id: _id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -61,24 +58,24 @@ jeedom.interact.get = function(_id, _callback) {
         },
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 }
 
-jeedom.interact.save = function(_interact, _callback) {
+jeedom.interact.save = function(_params) {
     $.hideAlert();
     $.ajax({
         type: 'POST',
         url: "core/ajax/interact.ajax.php", // url du fichier php
         data: {
             action: 'save',
-            interact: json_encode(_interact),
+            interact: json_encode(_params.interact),
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -86,11 +83,11 @@ jeedom.interact.save = function(_interact, _callback) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                _params.error({message: data.result, code: 0});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });

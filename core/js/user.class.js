@@ -20,7 +20,7 @@ jeedom.user = function() {
 };
 jeedom.user.connectCheck = 0;
 
-jeedom.user.all = function(_callback) {
+jeedom.user.all = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
@@ -36,20 +36,20 @@ jeedom.user.all = function(_callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 }
 
-jeedom.user.remove = function(_id, _callback) {
+jeedom.user.remove = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
             action: "remove",
-            id: _id
+            id: _params.id
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -60,20 +60,20 @@ jeedom.user.remove = function(_id, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
-jeedom.user.save = function(_users, _callback) {
+jeedom.user.save = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
             action: "save",
-            users: json_encode(_users)
+            users: json_encode(_params.users)
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -84,21 +84,21 @@ jeedom.user.save = function(_users, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
 
-jeedom.user.saveProfils = function(user, _callback) {
+jeedom.user.saveProfils = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
             action: "saveProfils",
-            user: json_encode(user)
+            user: json_encode(_params.profils)
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -109,14 +109,14 @@ jeedom.user.saveProfils = function(user, _callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback();
+            if ('function' == typeof (_params.success)) {
+                _params.success();
             }
         }
     });
 }
 
-jeedom.user.get = function(_callback) {
+jeedom.user.get = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
@@ -132,20 +132,20 @@ jeedom.user.get = function(_callback) {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            if ('function' == typeof (_callback)) {
-                _callback(data.result);
+            if ('function' == typeof (_params.success)) {
+                _params.success(data.result);
             }
         }
     });
 };
 
-jeedom.user.logByKey = function(_key, _callback) {
+jeedom.user.logByKey = function(_params) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/user.ajax.php", // url du fichier php
         data: {
             action: "login",
-            key: _key
+            key: _params.key
         },
         dataType: 'json',
         error: function(request, status, error) {
@@ -154,20 +154,20 @@ jeedom.user.logByKey = function(_key, _callback) {
         success: function(data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 localStorage.setItem("deviceKey", '');
-                if ('function' == typeof (_callback)) {
-                    _callback(false);
+                if ('function' == typeof (_params.success)) {
+                    _params.success(false);
                 }
             } else {
                 localStorage.setItem("deviceKey", data.result.deviceKey);
-                if ('function' == typeof (_callback)) {
-                    _callback(true);
+                if ('function' == typeof (_params.success)) {
+                    _params.success(true);
                 }
             }
         }
     });
 };
 
-jeedom.user.isConnect = function(_callback) {
+jeedom.user.isConnect = function(_params) {
     var unix = Math.round(+new Date() / 1000);
     if (unix > (jeedom.user.connectCheck + 300)) {
         $.ajax({// fonction permettant de faire de l'ajax
@@ -182,20 +182,20 @@ jeedom.user.isConnect = function(_callback) {
             },
             success: function(data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
-                    if ('function' == typeof (_callback)) {
-                        _callback(false);
+                    if ('function' == typeof (_params.success)) {
+                        _params.success(false);
                         return;
                     }
                 }
                 jeedom.user.connectCheck = Math.round(+new Date() / 1000);
-                if ('function' == typeof (_callback)) {
-                    _callback(true);
+                if ('function' == typeof (_params.success)) {
+                    _params.success(true);
                 }
             }
         });
     } else {
-        if ('function' == typeof (_callback)) {
-            _callback(true);
+        if ('function' == typeof (_params.success)) {
+            _params.success(true);
         }
     }
 }

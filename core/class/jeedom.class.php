@@ -125,7 +125,7 @@ class jeedom {
                 };
                 $usbMapping[$vendor . ' ' . $model] = '/dev/' . $usb;
             }
-            cache::set('jeedom::usbMapping', json_encode($usbMapping), 0);
+            cache::set('jeedom::usbMapping', json_encode($usbMapping,JSON_UNESCAPED_UNICODE), 0);
         } else {
             $usbMapping = json_decode($cache->getValue(), true);
         }
