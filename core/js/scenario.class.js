@@ -89,7 +89,7 @@ jeedom.scenario.toHtml = function(_params) {
 
 jeedom.scenario.changeState = function(_params) {
     var paramsRequired = ['id', 'state'];
-    var paramsSpecifics = {};
+    var paramsSpecifics = {global: false};
     try {
         jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
     } catch (e) {
@@ -111,31 +111,32 @@ jeedom.scenario.changeState = function(_params) {
 jeedom.scenario.refreshValue = function(_params) {
     if ($('.scenario[data-scenario_id=' + _params.id + ']').html() != undefined) {
         var version = $('.scenario[data-scenario_id=' + _params.id + ']').attr('data-version');
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/scenario.ajax.php", // url du fichier php
-            data: {
-                action: "toHtml",
-                id: _params.id,
-                version: _params.version || version
-            },
-            dataType: 'json',
+        var paramsRequired = ['id'];
+        var paramsSpecifics = {
             global: false,
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    _params.error({message: data.result, code: 0});
-                    return;
-                }
-                $('.scenario[data-scenario_id=' + _params.id + ']').replaceWith(data.result);
+            success: function(result) {
+                $('.scenario[data-scenario_id=' + params.id + ']').replaceWith(result);
                 if ($.mobile) {
-                    $('.scenario[data-scenario_id=' + _params.id + ']').trigger("create");
+                    $('.scenario[data-scenario_id=' + params.id + ']').trigger("create");
                     setTileSize('.scenario');
                 }
             }
-        });
+        };
+        try {
+            jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+        } catch (e) {
+            (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+            return;
+        }
+        var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+        var paramsAJAX = jeedom.private.getParamsAJAX(params);
+        paramsAJAX.url = 'core/ajax/scenario.ajax.php';
+        paramsAJAX.data = {
+            action: 'toHtml',
+            id: _params.id,
+            version: _params.version || version
+        };
+        $.ajax(paramsAJAX);
     }
 };
 

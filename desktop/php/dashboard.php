@@ -92,7 +92,7 @@ $child_object = object::buildTree($object);
         <legend><i class="fa fa-history"></i> {{Scénarios}}</legend>
         <?php
         if (init('object_id') == '') {
-            foreach (scenario::byObjectId(null) as $scenario) {
+            foreach (scenario::byObjectId(null,false) as $scenario) {
                 if ($scenario->getIsVisible() == 1) {
                     echo $scenario->toHtml('dashboard');
                 }

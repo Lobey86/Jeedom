@@ -26,7 +26,7 @@ jeedom.private = {
             return _data;
         },
         success: function(_data) {
-            console.log(_data);
+            //console.log(_data);
         },
         complete: function() {
         },
@@ -74,6 +74,7 @@ jeedom.private.getParamsAJAX = function(params) {
         type: 'POST',
         dataType: params.dataType,
         async: params.async,
+        global: params.global,
         error: function(_request, _status, _error) {
             params.error(jeedom.private.handleAjaxErrorAPI(_request, _status, _error));
         },
