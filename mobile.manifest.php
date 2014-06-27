@@ -13,6 +13,7 @@ $js_file = array(
     '3rdparty/jquery.alert/jquery.alert.js',
     '3rdparty/jquery.loading/jquery.loading.js',
     'core/js/cmd.class.js',
+    'core/js/private.class.js',
     'core/js/core.js',
     'core/js/eqLogic.class.js',
     'core/js/user.class.js',

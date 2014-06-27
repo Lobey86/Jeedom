@@ -88,114 +88,104 @@ jeedom.eqLogic.remove = function(_params) {
 }
 
 jeedom.eqLogic.print = function(_params) {
-    $.showLoading();
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/eqLogic.ajax.php", // url du fichier php
-        data: {
-            action: "get",
-            type: _params.type,
-            id: _params.id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['id', 'type'];
+    var paramsSpecifics = {};
+    _params = (typeof _params === 'number' && {id: _params}) || _params || {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/eqLogic.ajax.php';
+    paramsAJAX.data = {
+        action: 'get',
+        type: _params.type,
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.eqLogic.toHtml = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/eqLogic.ajax.php", // url du fichier php
-        data: {
-            action: "toHtml",
-            id: _params.id,
-            version: _params.version
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['id', 'version'];
+    var paramsSpecifics = {};
+    _params = (typeof _params === 'number' && {id: _params}) || _params || {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/eqLogic.ajax.php';
+    paramsAJAX.data = {
+        action: 'toHtml',
+        id: _params.id,
+        version: _params.version
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.eqLogic.getCmd = function(_params) {
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {
+        pre_success: function(result) {
+            jeedom.eqLogic.cache.getCmd[_params.eqLogic_id] = result;
+            return result;
+        }
+    };
+    _params = (typeof _params === 'number' && {id: _params}) || _params || {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
     if (isset(jeedom.eqLogic.cache.getCmd[_params.eqLogic_id]) && 'function' == typeof (_params.success)) {
         _params.success(jeedom.eqLogic.cache.getCmd[_params.eqLogic_id]);
         return;
     }
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/cmd.ajax.php", // url du fichier php
-        data: {
-            action: "byEqLogic",
-            eqLogic_id: _params.id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            jeedom.eqLogic.cache.getCmd[_params.eqLogic_id] = data.result;
-            if ('function' == typeof (_params.success)) {
-                _params.success(jeedom.eqLogic.cache.getCmd[_params.eqLogic_id]);
-            }
-        }
-    });
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/cmd.ajax.php';
+    paramsAJAX.data = {
+        action: 'byEqLogic',
+        eqLogic_id: _params.id
+    };
+    $.ajax(paramsAJAX);
 }
 
 
 jeedom.eqLogic.byId = function(_params) {
-    if (isset(jeedom.eqLogic.cache.byId[_params.eqLogic_id]) && 'function' == typeof (_params.success)) {
+     var paramsRequired = ['id'];
+    var paramsSpecifics = {
+        pre_success: function(result) {
+             jeedom.eqLogic.cache.byId[_params.eqLogic_id] = result;
+            return result;
+        }
+    };
+    _params = (typeof _params === 'number' && {id: _params}) || _params || {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+     if (isset(jeedom.eqLogic.cache.byId[_params.eqLogic_id]) && 'function' == typeof (_params.success)) {
         _params.success(jeedom.eqLogic.cache.byId[_params.eqLogic_id]);
         return;
     }
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/eqLogic.ajax.php", // url du fichier php
-        data: {
-            action: "byId",
-            id: _params.id
-        },
-        dataType: 'json',
-        cache: true,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            jeedom.eqLogic.cache.byId[_params.eqLogic_id] = data.result;
-            if ('function' == typeof (_params.success)) {
-                _params.success(jeedom.eqLogic.cache.byId[_params.eqLogic_id]);
-            }
-        }
-    });
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/cmd.ajax.php';
+    paramsAJAX.data = {
+        action: 'byEqLogic',
+        eqLogic_id: _params.id
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.eqLogic.builSelectCmd = function(_params) {
