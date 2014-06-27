@@ -22,27 +22,22 @@ jeedom.message = function() {
 jeedom.message.cache = Array();
 
 jeedom.message.all = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/message.ajax.php", // url du fichier php
-        data: {
-            action: "all",
-            plugin: _params.plugin || ''
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = [];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/message.ajax.php';
+    paramsAJAX.data = {
+        action: "all",
+        plugin: _params.plugin || ''
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.message.remove = function(_params) {

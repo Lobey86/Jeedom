@@ -20,75 +20,59 @@ jeedom.interact = function() {
 };
 
 jeedom.interact.remove = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/interact.ajax.php", // url du fichier php
-        data: {
-            action: "remove",
-            id: _params.id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/interact.ajax.php';
+    paramsAJAX.data = {
+        action: "remove",
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
 }
 
 
 jeedom.interact.get = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/interact.ajax.php", // url du fichier php
-        data: {
-            action: "byId",
-            id: _params.id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/interact.ajax.php';
+    paramsAJAX.data = {
+        action: "byId",
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.interact.save = function(_params) {
-    $.hideAlert();
-    $.ajax({
-        type: 'POST',
-        url: "core/ajax/interact.ajax.php", // url du fichier php
-        data: {
-            action: 'save',
-            interact: json_encode(_params.interact),
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['interact'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/interact.ajax.php';
+    paramsAJAX.data = {
+        action: 'save',
+        interact: json_encode(_params.interact),
+    };
+    $.ajax(paramsAJAX);
 }
