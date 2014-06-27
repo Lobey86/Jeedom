@@ -75,7 +75,7 @@ jeedom.private.getParamsAJAX = function(params) {
         dataType: params.dataType,
         async: params.async,
         error: function(_request, _status, _error) {
-            params.error(handleAjaxErrorAPI(_request, _status, _error));
+            params.error(jeedom.private.handleAjaxErrorAPI(_request, _status, _error));
         },
         success: function(data) {
             data = params.pre_success(data);

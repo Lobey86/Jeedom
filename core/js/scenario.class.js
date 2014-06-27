@@ -26,51 +26,37 @@ if (!isset(jeedom.scenario.cache.html)) {
 }
 
 jeedom.scenario.all = function(_params) {
+    var paramsRequired = [];
+    var paramsSpecifics = {
+        pre_success: function(data) {
+            jeedom.scenario.cache.all = data.result;
+            return data;
+        }
+    };
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
     if (isset(jeedom.scenario.cache.all) && 'function' == typeof (_params.success)) {
         _params.success(jeedom.scenario.cache.all);
         return;
     }
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "all",
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            jeedom.scenario.cache.all = data.result;
-            if ('function' == typeof (_params.success)) {
-                _params.success(jeedom.scenario.cache.all);
-            }
-        }
-    });
+
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/scenario.ajax.php';
+    paramsAJAX.data = {
+        action: "all",
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.scenario.toHtml = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "toHtml",
-            id: ($.isArray(_params.id)) ? json_encode(_params.id) : _params.id,
-            version: _params.version
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
+    var paramsRequired = ['id', 'version'];
+    var paramsSpecifics = {
+        pre_success: function(data) {
             if (_params.id == 'all' || $.isArray(_params.id)) {
                 for (var i in data.result) {
                     jeedom.scenario.cache.html[i] = data.result[i];
@@ -81,38 +67,45 @@ jeedom.scenario.toHtml = function(_params) {
                 }
                 jeedom.scenario.cache.html[_params.id] = data.result;
             }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
+            return data;
         }
-    });
+    };
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/scenario.ajax.php';
+    paramsAJAX.data = {
+        action: 'toHtml',
+        id: ($.isArray(_params.id)) ? json_encode(_params.id) : _params.id,
+        version: _params.version
+    };
+    $.ajax(paramsAJAX);
 }
 
 
 jeedom.scenario.changeState = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "changeState",
-            id: _params.id,
-            state: _params.state
-        },
-        dataType: 'json',
-        global: false,
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['id', 'state'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/scenario.ajax.php';
+    paramsAJAX.data = {
+        action: 'changeState',
+        id: _params.id,
+        state: _params.state
+    };
+    $.ajax(paramsAJAX);
 }
 
 
@@ -149,99 +142,79 @@ jeedom.scenario.refreshValue = function(_params) {
 
 
 jeedom.scenario.copy = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "copy",
-            id: _params.id,
-            name: _params.name
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('#div_copyScenarioAlert'));
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['id', 'name'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/scenario.ajax.php';
+    paramsAJAX.data = {
+        action: 'copy',
+        id: _params.id,
+        name: _params.name
+    };
+    $.ajax(paramsAJAX);
 };
 
 
 jeedom.scenario.get = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "get",
-            id: _params.id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/scenario.ajax.php';
+    paramsAJAX.data = {
+        action: 'get',
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
 };
 
 jeedom.scenario.save = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "save",
-            scenario: json_encode(_params.scenario),
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = ['scenario'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/scenario.ajax.php';
+    paramsAJAX.data = {
+        action: 'save',
+        scenario: json_encode(_params.scenario)
+    };
+    $.ajax(paramsAJAX);
 };
 
 jeedom.scenario.remove = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/scenario.ajax.php", // url du fichier php
-        data: {
-            action: "remove",
-            id: _params.id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/scenario.ajax.php';
+    paramsAJAX.data = {
+        action: 'remove',
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
 };

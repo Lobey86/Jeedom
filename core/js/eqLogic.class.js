@@ -32,10 +32,11 @@ if (!isset(jeedom.eqLogic.cache.byId)) {
 jeedom.eqLogic.save = function(_params) {
     var paramsRequired = ['type', 'eqLogics'];
     var paramsSpecifics = {
-        pre_success: function(result) {
-            if (isset(jeedom.eqLogic.cache.byId[result.id])) {
-                delete jeedom.eqLogic.cache.byId[result.id];
+        pre_success: function(data) {
+            if (isset(jeedom.eqLogic.cache.byId[data.result.id])) {
+                delete jeedom.eqLogic.cache.byId[data.result.id];
             }
+            return data;
         }
     };
     try {
@@ -58,10 +59,11 @@ jeedom.eqLogic.save = function(_params) {
 jeedom.eqLogic.remove = function(_params) {
     var paramsRequired = ['id', 'type'];
     var paramsSpecifics = {
-        pre_success: function(result) {
+        pre_success: function(data) {
             if (isset(jeedom.eqLogic.cache.byId[_params.eqLogic_Id])) {
                 delete jeedom.eqLogic.cache.byId[_params.eqLogic_Id];
             }
+            return data;
         }
     };
     try {
@@ -124,9 +126,9 @@ jeedom.eqLogic.toHtml = function(_params) {
 jeedom.eqLogic.getCmd = function(_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {
-        pre_success: function(result) {
-            jeedom.eqLogic.cache.getCmd[_params.eqLogic_id] = result;
-            return result;
+        pre_success: function(data) {
+            jeedom.eqLogic.cache.getCmd[_params.eqLogic_id] = data.result;
+            return data;
         }
     };
     try {

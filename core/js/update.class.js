@@ -21,146 +21,116 @@ jeedom.update = function() {
 
 
 jeedom.update.doAll = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'updateAll',
-            level: _params.level,
-            mode: _params.mode
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['level', 'mode'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/update.ajax.php';
+    paramsAJAX.data = {
+        action: 'updateAll',
+        level: _params.level,
+        mode: _params.mode
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.update.changeState = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'changeState',
-            id: _params.id,
-            state: _params.state
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['id', 'state'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/update.ajax.php';
+    paramsAJAX.data = {
+        action: 'changeState',
+        id: _params.id,
+        state: _params.state
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.update.do = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'update',
-            id: _params.id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/update.ajax.php';
+    paramsAJAX.data = {
+        action: 'update',
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.update.remove = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'remove',
-            id: _params.id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/update.ajax.php';
+    paramsAJAX.data = {
+        action: 'remove',
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.update.checkAll = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'checkAllUpdate'
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = [];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/update.ajax.php';
+    paramsAJAX.data = {
+        action: 'checkAllUpdate'
+    };
+    $.ajax(paramsAJAX);
 }
 
 
 jeedom.update.get = function(_params) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/update.ajax.php',
-        data: {
-            action: 'all'
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) {
-            if (data.state != 'ok') {
-                _params.error({message: data.result, code: 0});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = [];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/update.ajax.php';
+    paramsAJAX.data = {
+        action: 'all'
+    };
+    $.ajax(paramsAJAX);
 }

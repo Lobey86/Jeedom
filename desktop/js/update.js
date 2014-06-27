@@ -37,8 +37,13 @@ $(function() {
     });
 
     $('#bt_checkAllUpdate').on('click', function() {
-        jeedom.update.checkAll(function() {
-            printUpdate();
+        jeedom.update.checkAll({
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+                printUpdate();
+            }
         });
     });
 

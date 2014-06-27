@@ -21,178 +21,155 @@ jeedom.user = function() {
 jeedom.user.connectCheck = 0;
 
 jeedom.user.all = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "all"
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = [];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/user.ajax.php';
+    paramsAJAX.data = {
+        action: 'all',
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.user.remove = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "remove",
-            id: _params.id
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/user.ajax.php';
+    paramsAJAX.data = {
+        action: 'remove',
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.user.save = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "save",
-            users: json_encode(_params.users)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['users'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/user.ajax.php';
+    paramsAJAX.data = {
+        action: 'save',
+        users: json_encode(_params.users)
+    };
+    $.ajax(paramsAJAX);
 }
 
 
 jeedom.user.saveProfils = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "saveProfils",
-            user: json_encode(_params.profils)
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success();
-            }
-        }
-    });
+    var paramsRequired = ['profils'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/user.ajax.php';
+    paramsAJAX.data = {
+        action: 'saveProfils',
+        profils: json_encode(_params.profils)
+    };
+    $.ajax(paramsAJAX);
 }
 
 jeedom.user.get = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "get",
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error);
-        },
-        success: function(data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            if ('function' == typeof (_params.success)) {
-                _params.success(data.result);
-            }
-        }
-    });
+    var paramsRequired = [];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/user.ajax.php';
+    paramsAJAX.data = {
+        action: 'get',
+        profils: json_encode(_params.profils)
+    };
+    $.ajax(paramsAJAX);
 };
 
 jeedom.user.logByKey = function(_params) {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/user.ajax.php", // url du fichier php
-        data: {
-            action: "login",
-            key: _params.key
-        },
-        dataType: 'json',
-        error: function(request, status, error) {
-            handleAjaxError(request, status, error, $('#div_alert'));
-        },
-        success: function(data) { // si l'appel a bien fonctionné
+    var paramsRequired = [];
+    var paramsSpecifics = {
+        pre_success: function(data) {
             if (data.state != 'ok') {
                 localStorage.setItem("deviceKey", '');
-                if ('function' == typeof (_params.success)) {
-                    _params.success(false);
-                }
+                return {state: 'ok', result: false};
             } else {
                 localStorage.setItem("deviceKey", data.result.deviceKey);
-                if ('function' == typeof (_params.success)) {
-                    _params.success(true);
-                }
+                return {state: 'ok', result: true};
             }
         }
-    });
+    };
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/user.ajax.php';
+    paramsAJAX.data = {
+        action: 'login',
+        key: _params.key
+    };
+    $.ajax(paramsAJAX);
 };
 
 jeedom.user.isConnect = function(_params) {
-    var unix = Math.round(+new Date() / 1000);
-    if (unix > (jeedom.user.connectCheck + 300)) {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/user.ajax.php", // url du fichier php
-            data: {
-                action: "isConnect",
-            },
-            dataType: 'json',
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error, $('#div_alert'));
-            },
-            success: function(data) { // si l'appel a bien fonctionné
+    if (Math.round(+new Date() / 1000) > (jeedom.user.connectCheck + 300)) {
+        var paramsRequired = [];
+        var paramsSpecifics = {
+            pre_success: function(data) {
                 if (data.state != 'ok') {
-                    if ('function' == typeof (_params.success)) {
-                        _params.success(false);
-                        return;
-                    }
-                }
-                jeedom.user.connectCheck = Math.round(+new Date() / 1000);
-                if ('function' == typeof (_params.success)) {
-                    _params.success(true);
+                    return {state: 'ok', result: false};
+                } else {
+                    jeedom.user.connectCheck = Math.round(+new Date() / 1000);
+                    return {state: 'ok', result: true};
                 }
             }
-        });
+        };
+        try {
+            jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+        } catch (e) {
+            (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+            return;
+        }
+        var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+        var paramsAJAX = jeedom.private.getParamsAJAX(params);
+        paramsAJAX.url = 'core/ajax/user.ajax.php';
+        paramsAJAX.data = {
+            action: 'isConnect',
+        };
+        $.ajax(paramsAJAX);
     } else {
         if ('function' == typeof (_params.success)) {
             _params.success(true);
