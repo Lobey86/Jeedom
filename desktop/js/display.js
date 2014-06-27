@@ -182,39 +182,45 @@ function displayCmd(_cmd_id) {
 
 /***********************Objet***************************/
 function displayObject(_object_id) {
-    jeedom.object.byId(_object_id, function(data) {
-        $('#div_displayInfo').empty();
-        var div = '<div class="row">';
-        div += '<form class="form-horizontal">';
-        div += '<fieldset>';
+    jeedom.object.byId({
+        id: _object_id,
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            $('#div_displayInfo').empty();
+            var div = '<div class="row">';
+            div += '<form class="form-horizontal">';
+            div += '<fieldset>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-2 control-label">{{ID}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="objectAttr label label-primary" data-l1key="id"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-2 control-label">{{ID}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="objectAttr label label-primary" data-l1key="id"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-2 control-label">{{Nom}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="objectAttr label label-primary" data-l1key="name"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-2 control-label">{{Nom}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="objectAttr label label-primary" data-l1key="name"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '<div class="form-group">';
-        div += '<label class="col-lg-2 control-label">{{Visible}}</label>';
-        div += '<div class="col-lg-4">';
-        div += '<span class="objectAttr label label-primary" data-l1key="isVisible"></span>';
-        div += '</div>';
-        div += '</div>';
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-2 control-label">{{Visible}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="objectAttr label label-primary" data-l1key="isVisible"></span>';
+            div += '</div>';
+            div += '</div>';
 
-        div += '</fieldset>';
-        div += '</form>';
-        div += '</div>';
-        $('#div_displayInfo').html(div);
-        $('#div_displayInfo').setValues(data, '.objectAttr');
+            div += '</fieldset>';
+            div += '</form>';
+            div += '</div>';
+            $('#div_displayInfo').html(div);
+            $('#div_displayInfo').setValues(data, '.objectAttr');
 
+        }
     });
 }
 

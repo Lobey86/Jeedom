@@ -70,21 +70,27 @@ include_file('core', 'js.inc', 'php');
     }
 
     mod_insertCmd.changeObjectCmd = function(_select) {
-        jeedom.object.getEqLogic(_select.value(), function(eqLogics) {
-            _select.closest('tr').find('.mod_insertCmdValue_eqLogic').empty();
-            var selectEqLogic = '<select class="form-control">';
-            for (var i in eqLogics) {
-                selectEqLogic += '<option value="' + eqLogics[i].id + '">' + eqLogics[i].name + '</option>';
+        jeedom.object.getEqLogic({
+            id: _select.value(),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(eqLogics) {
+                _select.closest('tr').find('.mod_insertCmdValue_eqLogic').empty();
+                var selectEqLogic = '<select class="form-control">';
+                for (var i in eqLogics) {
+                    selectEqLogic += '<option value="' + eqLogics[i].id + '">' + eqLogics[i].name + '</option>';
+                }
+                selectEqLogic += '</select>';
+                _select.closest('tr').find('.mod_insertCmdValue_eqLogic').append(selectEqLogic);
+                _select.closest('tr').find('.mod_insertCmdValue_eqLogic select').change(function() {
+                    mod_insertCmd.changeEqLogic($(this), mod_insertCmd.options);
+                });
+                if (isset(mod_insertCmd.options.object.id)) {
+                    _select.closest('tr').find('.mod_insertCmdValue_eqLogic select').value(mod_insertCmd.options.eqLogic.id);
+                }
+                mod_insertCmd.changeEqLogic(_select.closest('tr').find('.mod_insertCmdValue_eqLogic select'), mod_insertCmd.options);
             }
-            selectEqLogic += '</select>';
-            _select.closest('tr').find('.mod_insertCmdValue_eqLogic').append(selectEqLogic);
-            _select.closest('tr').find('.mod_insertCmdValue_eqLogic select').change(function() {
-                mod_insertCmd.changeEqLogic($(this), mod_insertCmd.options);
-            });
-            if (isset(mod_insertCmd.options.object.id)) {
-                _select.closest('tr').find('.mod_insertCmdValue_eqLogic select').value(mod_insertCmd.options.eqLogic.id);
-            }
-            mod_insertCmd.changeEqLogic(_select.closest('tr').find('.mod_insertCmdValue_eqLogic select'), mod_insertCmd.options);
         });
 
     }

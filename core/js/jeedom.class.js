@@ -198,7 +198,7 @@ jeedom.processWorkflow = function() {
     }
 
     if (list_object.length > 0 && isset(jeedom.object) && isset(jeedom.object.cache) && isset(jeedom.object.cache.html)) {
-        jeedom.object.prefetch(list_object, jeedom.display.version);
+        jeedom.object.prefetch({id: list_object, version: jeedom.display.version});
     }
     if (list_view.length > 0 && isset(jeedom.view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
         jeedom.view.prefetch({id: list_view, version: jeedom.display.version});

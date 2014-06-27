@@ -56,17 +56,23 @@ include_file('core', 'js.inc', 'php');
     }
 
     mod_insertEqLogic.changeObjectCmd = function(_select) {
-        var eqLogics = jeedom.object.getEqLogic(_select.value(), function(eqLogics) {
-            _select.closest('tr').find('.mod_insertEqLogicValue_eqLogic').empty();
-            var selectEqLogic = '<select class="form-control">';
-            for (var i in eqLogics) {
-                selectEqLogic += '<option value="' + eqLogics[i].id + '">' + eqLogics[i].name + '</option>';
+        jeedom.object.getEqLogic({
+            id: _select.value(),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            succes: function(eqLogics) {
+                _select.closest('tr').find('.mod_insertEqLogicValue_eqLogic').empty();
+                var selectEqLogic = '<select class="form-control">';
+                for (var i in eqLogics) {
+                    selectEqLogic += '<option value="' + eqLogics[i].id + '">' + eqLogics[i].name + '</option>';
+                }
+                selectEqLogic += '</select>';
+                _select.closest('tr').find('.mod_insertEqLogicValue_eqLogic').append(selectEqLogic);
+                _select.closest('tr').find('.mod_insertEqLogicValue_eqLogic select').change(function() {
+                    mod_insertEqLogic.changeEqLogic($(this), mod_insertEqLogic.options);
+                });
             }
-            selectEqLogic += '</select>';
-            _select.closest('tr').find('.mod_insertEqLogicValue_eqLogic').append(selectEqLogic);
-            _select.closest('tr').find('.mod_insertEqLogicValue_eqLogic select').change(function() {
-                mod_insertEqLogic.changeEqLogic($(this), mod_insertEqLogic.options);
-            });
         });
     }
 

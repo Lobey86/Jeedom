@@ -29,12 +29,18 @@ $(function() {
         $('#div_conf').show();
         $('.li_object').removeClass('active');
         $(this).addClass('active');
-        jeedom.object.byId($(this).attr('data-object_id'), function(data) {
-            $('.objectAttr').value('');
-            $('.objectAttr[data-l1key=father_id] option').show();
-            $('.object').setValues(data, '.objectAttr');
-            $('.objectAttr[data-l1key=father_id] option[value=' + data.id + ']').hide();
-            modifyWithoutSave = false;
+        jeedom.object.byId({
+            id: $(this).attr('data-object_id'),
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(data) {
+                $('.objectAttr').value('');
+                $('.objectAttr[data-l1key=father_id] option').show();
+                $('.object').setValues(data, '.objectAttr');
+                $('.objectAttr[data-l1key=father_id] option[value=' + data.id + ']').hide();
+                modifyWithoutSave = false;
+            }
         });
         return false;
     });
@@ -42,9 +48,15 @@ $(function() {
     $("#bt_addObject").on('click', function(event) {
         bootbox.prompt("Nom de l'objet ?", function(result) {
             if (result !== null) {
-                jeedom.object.save({name: result, isVisible: 1}, function(data) {
-                    modifyWithoutSave = false;
-                    window.location.replace('index.php?v=d&p=object&id=' + data.id + '&saveSuccessFull=1');
+                jeedom.object.save({
+                    object: {name: result, isVisible: 1},
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function(data) {
+                        modifyWithoutSave = false;
+                        window.location.replace('index.php?v=d&p=object&id=' + data.id + '&saveSuccessFull=1');
+                    }
                 });
             }
         });
@@ -52,10 +64,15 @@ $(function() {
 
     $("#bt_saveObject").on('click', function(event) {
         if ($('.li_object.active').attr('data-object_id') != undefined) {
-            var object = $('.object').getValues('.objectAttr');
-            jeedom.object.save(object[0], function(data) {
-                modifyWithoutSave = false;
-                window.location.replace('index.php?v=d&p=object&id=' + data.id + '&saveSuccessFull=1');
+            jeedom.object.save({
+                object: $('.object').getValues('.objectAttr')[0],
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function(data) {
+                    modifyWithoutSave = false;
+                    window.location.replace('index.php?v=d&p=object&id=' + data.id + '&saveSuccessFull=1');
+                }
             });
         } else {
             $('#div_alert').showAlert({message: '{{Veuillez d\'abord sélectionner un objet}}', level: 'danger'});
@@ -68,9 +85,15 @@ $(function() {
             $.hideAlert();
             bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'objet}} <span style="font-weight: bold ;">' + $('.li_object.active a').text() + '</span> ?', function(result) {
                 if (result) {
-                    jeedom.object.remove($('.li_object.active').attr('data-object_id'), function() {
-                        modifyWithoutSave = false;
-                        window.location.replace('index.php?v=d&p=object&removeSuccessFull=1');
+                    jeedom.object.remove({
+                        id: $('.li_object.active').attr('data-object_id'),
+                        error: function(error) {
+                            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                        },
+                        success: function() {
+                            modifyWithoutSave = false;
+                            window.location.replace('index.php?v=d&p=object&removeSuccessFull=1');
+                        }
                     });
                 }
             });
@@ -95,7 +118,12 @@ $(function() {
                 $('#ul_object .li_object').each(function() {
                     objects.push($(this).attr('data-object_id'));
                 });
-                jeedom.object.setOrder(objects);
+                jeedom.object.setOrder({
+                    objects: objects,
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    }
+                });
             }
         });
         $("#ul_object").sortable("enable");

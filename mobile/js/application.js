@@ -96,7 +96,7 @@ function initApplication(_reinit) {
                         ];
                         $.showLoading();
                         $.include(include, function() {
-                            jeedom.object.prefetch('all', 'mobile');
+                            jeedom.object.prefetch({id: 'all', version: 'mobile'});
                             jeedom.view.prefetch({id: 'all', version: 'mobile'});
                             page("home", 'Accueil');
                         });
