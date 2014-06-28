@@ -57,7 +57,7 @@ jeedom.object.getEqLogic = function(_params) {
         return;
     }
     var paramsAJAX = jeedom.private.getParamsAJAX(params);
-    paramsAJAX.url = 'core/ajax/object.ajax.php';
+    paramsAJAX.url = 'core/ajax/eqLogic.ajax.php';
     paramsAJAX.data = {
         action: "listByObject",
         object_id: _params.id,
