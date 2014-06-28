@@ -119,7 +119,7 @@ try {
         }
         $eqLogic = eqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new Exception(__('EqLogic inconnu verifié l\'id', __FILE__));
+            throw new Exception(__('EqLogic inconnu verifié l\'id : ', __FILE__).init('id'));
         }
         $eqLogic->remove();
         ajax::success();

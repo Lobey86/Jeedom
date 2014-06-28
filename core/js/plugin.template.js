@@ -103,7 +103,7 @@ $(function() {
                 if (result) {
                     jeedom.eqLogic.remove({
                         type: eqType,
-                        id: $('.li_jeedom.eqLogic.active').attr('data-eqLogic_id'),
+                        id: $('.li_eqLogic.active').attr('data-eqLogic_id'),
                         error: function(error) {
                             $('#div_alert').showAlert({message: error.message, level: 'danger'});
                         },
