@@ -84,7 +84,7 @@ if ($market->getPurchase() == 1) {
                 <div class="col-lg-8">
                     <?php
                     if ($market->getCost() > 0) {
-                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1em;">' . $market->getRealcost() . ' € (TVA non applicable, article 293 B du CGI)</span>';
+                        echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1em;">' . $market->getRealcost() . ' €</span> (TVA non applicable, article 293 B du CGI)';
                     } else {
                         echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1em;">{{Gratuit}}</span>';
                     }

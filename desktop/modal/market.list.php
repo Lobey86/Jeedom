@@ -28,6 +28,7 @@ $findMarket = array();
             <th>{{Catégorie}}</th>
             <th>{{Nom}}</th>
             <th>{{Description}}</th>
+            <th>{{Prix}}</th>
             <th>{{Statut}}</th>
             <th style="width: 110px;">{{Note}}</th>
             <th>{{Téléchargé}}</th>
@@ -52,6 +53,13 @@ $findMarket = array();
                 echo '<td>' . $market->getCategorie() . '</td>';
                 echo '<td>' . $market->getName() . '</td>';
                 echo '<td>' . $market->getDescription() . '</td>';
+                echo '<td>';
+                if ($market->getCost() > 0) {
+                    echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1em;">' . $market->getRealcost() . ' €</span>';
+                } else {
+                    echo '<span class="label label-success" data-l1key="rating" style="font-size: 1em;">Gratuit</span>';
+                }
+                echo '</td>';
                 echo '<td>';
                 if ($market->getStatus('stable') == 1) {
                     echo '<span class="label label-success">';
@@ -78,7 +86,10 @@ $findMarket = array();
                 }
 
                 echo '</td>';
-                echo '<td><center><input type="number" class="rating" data-max="5" data-empty-value="0" data-min="1" value="' . $market->getRating() . '" data-disabled="1" /></center></td>';
+                echo '<td><center>';
+                echo '<input type="number" class="rating" data-max="5" data-empty-value="0" data-min="1" value="' . $market->getRating() . '" data-disabled="1" />';
+                echo $market->getRating('total') . ' vote(s)';
+                echo '</center></td>';
                 echo '<td><center>' . $market->getDownloaded() . '</center></td>';
                 echo '</tr>';
             }
