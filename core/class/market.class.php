@@ -465,6 +465,7 @@ class market {
             $update->setLogicalId($this->getLogicalId());
             $update->setType($this->getType());
         }
+        $update->setConfiguration('version', 'beta');
         $update->setLocalVersion(date('Y-m-d H:i:s'));
         $update->save();
         $update->checkUpdate();
