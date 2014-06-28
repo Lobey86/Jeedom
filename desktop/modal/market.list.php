@@ -55,7 +55,7 @@ $findMarket = array();
                 echo '<td>' . $market->getDescription() . '</td>';
                 echo '<td>';
                 if ($market->getCost() > 0) {
-                    echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1em;">' . $market->getRealcost() . ' €</span>';
+                    echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1em;">' . $market->getCost() . ' €</span>';
                 } else {
                     echo '<span class="label label-success" data-l1key="rating" style="font-size: 1em;">Gratuit</span>';
                 }
