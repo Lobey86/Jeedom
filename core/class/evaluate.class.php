@@ -60,6 +60,13 @@ class evaluate {
             ' OR ' => ' || ',
         );
         $chaine = str_replace(array_keys($replace), array_values($replace), $chaine);
+
+        $chaine = str_replace('!~', '§~', $chaine);
+        $chaine = str_replace('!=', '§=', $chaine);
+        $chaine = str_replace('!', '1 !', $chaine);
+        $chaine = str_replace('§~', '!~', $chaine);
+        $chaine = str_replace('§=', '!=', $chaine);
+
         //DECOMPOSITION DES PARAMETRES
         $lstParam = $this->Eval_Trouver_Liste_Param($chaine);
         //ERREUR SI UN OPERATEUR EST SITUE EN FIN DE CHAINE
@@ -187,7 +194,7 @@ class evaluate {
                 $res = pow($valeur1, $valeur2);
                 break;
         }
-        
+
         return $res;
     }
 
