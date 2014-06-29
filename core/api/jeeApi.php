@@ -26,9 +26,9 @@ if (isset($argv)) {
     }
 }
 
-if (init('api') != '' && init('type') != '') {
+if (init('apikey') != '' && init('type') != '') {
     try {
-        if (config::byKey('api') != init('api')) {
+        if (config::byKey('apikey') != init('apikey')) {
             connection::failed();
             throw new Exception('Clef API non valide, vous n\'etez pas autorisé à effectuer cette action (jeeApi)');
         }

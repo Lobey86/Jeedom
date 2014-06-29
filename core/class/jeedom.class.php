@@ -95,7 +95,7 @@ class jeedom {
             echo "OK\n";
             echo "Nettoyage du cache : ";
             $cache = cache::byKey('jeedom::usbMapping');
-            if ($cache->getValue() === '' || $cache->getValue() == 'false') {
+            if ($cache->getValue() != '') {
                 $cache->remove();
             }
             echo "OK\n";
@@ -125,7 +125,7 @@ class jeedom {
                 };
                 $usbMapping[$vendor . ' ' . $model] = '/dev/' . $usb;
             }
-            cache::set('jeedom::usbMapping', json_encode($usbMapping,JSON_UNESCAPED_UNICODE), 0);
+            cache::set('jeedom::usbMapping', json_encode($usbMapping, JSON_UNESCAPED_UNICODE), 0);
         } else {
             $usbMapping = json_decode($cache->getValue(), true);
         }
@@ -292,6 +292,10 @@ class jeedom {
                 jeedom::start();
                 plugin::start();
                 internalEvent::start();
+                $cache = cache::byKey('jeedom::usbMapping');
+                if ($cache->getValue() != '') {
+                    $cache->remove();
+                }
                 cache::set('jeedom::startOK', 1, 0);
                 self::event('start');
                 log::add('core', 'info', 'Démarrage de Jeedom OK');
