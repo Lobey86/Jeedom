@@ -127,7 +127,7 @@ jeedom.eqLogic.getCmd = function(_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {
         pre_success: function(data) {
-            jeedom.eqLogic.cache.getCmd[_params.eqLogic_id] = data.result;
+            jeedom.eqLogic.cache.getCmd[_params.id] = data.result;
             return data;
         }
     };
@@ -137,8 +137,8 @@ jeedom.eqLogic.getCmd = function(_params) {
         (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
         return;
     }
-    if (isset(jeedom.eqLogic.cache.getCmd[_params.eqLogic_id]) && 'function' == typeof (_params.success)) {
-        _params.success(jeedom.eqLogic.cache.getCmd[_params.eqLogic_id]);
+    if (isset(jeedom.eqLogic.cache.getCmd[_params.id]) && 'function' == typeof (_params.success)) {
+        _params.success(jeedom.eqLogic.cache.getCmd[_params.id]);
         return;
     }
     var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
