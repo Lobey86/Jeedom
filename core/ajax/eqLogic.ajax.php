@@ -181,7 +181,7 @@ try {
                     }
                     $cmd->setEqLogic_id($eqLogic->getId());
                     $cmd->setOrder($cmd_order);
-                    utils::a2o($cmd, $cmd_info);
+                    utils::a2o($cmd, jeedom::fromHumanReadable($cmd_info));
                     $cmd->save();
                     $cmd_order++;
                     $enableList[$cmd->getId()] = true;

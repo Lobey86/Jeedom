@@ -94,7 +94,7 @@ class evaluate {
 
     private function Eval_Evaluer_Liste_Parametres($lstParam) {
         $tabOperateursComparaison = array('&&', '||', '=', '!=', '<', '<=', '>', '>=', '~', '!~');
-        $tabOperateursoperation = array('&', '^', '%', '*', '/', '-', '+');
+        $tabOperateursoperation = array('&', '^', '%', '*', '/', '-', '!', '+');
 
         //ON CHERCHE UN EVENTUEL OPERATEUR DE COMPARAISON
         $trouve = false;
@@ -158,10 +158,8 @@ class evaluate {
       --------------------------------------------------------------- */
 
     private function Eval_Faire_Operation($valeur1, $valeur2, $operateur) {
-        if ($operateur != "&") {
-            if (!is_numeric($valeur1) || !is_numeric($valeur2)) {
-                throw new Exception(__('ERREUR attention l\'operateur', __FILE__) . $operateur . __(' necessite deux numeriques !', __FILE__));
-            }
+        if ($operateur != "&" && $operateur != "!" && (!is_numeric($valeur1) || !is_numeric($valeur2))) {
+            throw new Exception(__('ERREUR attention l\'operateur ', __FILE__) . $operateur . __(' necessite deux numeriques.', __FILE__));
         }
         switch ($operateur) {
             case "+":
@@ -179,6 +177,9 @@ class evaluate {
             case "%":
                 $res = $valeur1 % $valeur2;
                 break;
+            case "!":
+                $res = (!$valeur2) ? 1 : 0;
+                break;
             case "&":
                 $res = $valeur1 . $valeur2;
                 break;
@@ -186,6 +187,7 @@ class evaluate {
                 $res = pow($valeur1, $valeur2);
                 break;
         }
+        
         return $res;
     }
 
@@ -255,13 +257,6 @@ class evaluate {
                 break;
             case "&&":
                 if ($valeur1 && $valeur2) {
-                    $res = true;
-                } else {
-                    $res = false;
-                }
-                break;
-            case "!":
-                if (!$valeur1) {
                     $res = true;
                 } else {
                     $res = false;
@@ -357,7 +352,7 @@ class evaluate {
                             }
                         } else {
                             if ($lastNum == -1) {
-                                throw new Exception(__("ERREUR expression attend paramètre avant symbole !", __FILE__));
+                                throw new Exception(__("ERREUR expression attend paramètre avant symbole : " . $lettre, __FILE__));
                             } else {
                                 $lstP[$lastNum]["operateur"] = $lettre;
                             }
