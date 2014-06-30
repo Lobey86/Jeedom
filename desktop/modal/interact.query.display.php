@@ -73,10 +73,12 @@ if (count($interactQueries) == 0) {
                     tr.removeClass('danger').addClass('success');
                     btn.attr('data-state', 0);
                     btn.removeClass('btn-success').addClass('btn-danger');
+                    btn.text('{{Désactiver}}');
                 } else {
                     tr.removeClass('success').addClass('danger');
                     btn.attr('data-state', 1);
                     btn.removeClass('btn-danger').addClass('btn-success');
+                    btn.text('{{Activer}}');
                 }
             }
         });

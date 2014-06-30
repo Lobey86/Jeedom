@@ -66,13 +66,13 @@ if (!isConnect('admin')) {
                         <div class="form-group">
                             <label class="col-lg-4 control-label">{{Nombre de phrases générées}}</label>
                             <div class="col-lg-8">
-                                <span class="label label-success interactAttr" data-l1key="nbEnableInteractQuery"></span>
+                                <span class="label label-success interactAttr" data-l1key="nbInteractQuery"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">{{Nombre de phrases actives}}</label>
                             <div class="col-lg-8">
-                                <span class="label label-success interactAttr" data-l1key="nbInteractQuery"></span>
+                                <span class="label label-success interactAttr" data-l1key="nbEnableInteractQuery"></span>
                             </div>
                         </div>
                     </fieldset>
