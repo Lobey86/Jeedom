@@ -91,20 +91,18 @@ class interactDef {
             if (in_array($event[0], array('update', 'create', 'remove'))) {
                 switch ($event[1]) {
                     case 'cmd':
-                        $eventName = 'commande';
+                        $updatedObject['commande'] = true;
                         break;
                     case 'eqLogic':
-                        $eventName = 'equipement';
+                        $updatedObject['equipement'] = true;
                         break;
                     case 'object':
-                        $eventName = 'objet';
+                        $updatedObject['objet'] = true;
+                        $updatedObject['object'] = true;
                         break;
                     default:
                         continue;
                         break;
-                }
-                if ($eventName != '' && !isset($updatedObject[$eventName])) {
-                    $updatedObject[$eventName] = true;
                 }
             }
         }
