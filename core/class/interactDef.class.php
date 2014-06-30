@@ -97,7 +97,7 @@ class interactDef {
                         $eventName = 'equipement';
                         break;
                     case 'object':
-                        $eventName = 'object';
+                        $eventName = 'objet';
                         break;
                     default:
                         continue;
