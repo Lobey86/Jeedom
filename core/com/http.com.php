@@ -27,7 +27,7 @@ class com_http {
     private $password;
     private $logError = true;
     private $ping = false;
-    private $noSslCHeck = true;
+    private $noSslCheck = true;
 
     /*     * ********************Functions static********************* */
 
@@ -55,7 +55,7 @@ class com_http {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $this->url);
             curl_setopt($ch, CURLOPT_HEADER, false);
-            if ($this->getNoSslCHeck()) {
+            if ($this->getNoSslCheck()) {
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             }
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: close'));
@@ -92,16 +92,16 @@ class com_http {
         return $this->ping;
     }
 
-    public function getNoSslCHeck() {
-        return $this->noSslCHeck;
+    public function getNoSslCheck() {
+        return $this->noSslCheck;
     }
 
     public function setPing($ping) {
         $this->ping = $ping;
     }
 
-    public function setNoSslCHeck($noSslCHeck) {
-        $this->noSslCHeck = $noSslCHeck;
+    public function setNoSslCheck($noSslCHeck) {
+        $this->noSslCheck = $noSslCHeck;
     }
     
     public function getLogError() {
