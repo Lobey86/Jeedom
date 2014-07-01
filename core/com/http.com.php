@@ -36,7 +36,7 @@ class com_http {
 
     /*     * ************* Functions ************************************ */
 
-    function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true, $_ping = false) {
+    function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true, $_ping = false, $_checkSSL = true) {
         if ($_ping) {
             $url = parse_url($this->url);
             $host = $url['host'];
@@ -52,7 +52,7 @@ class com_http {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $this->url);
             curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $_checkSSL);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: close'));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, $_timeout);
