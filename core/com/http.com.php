@@ -25,6 +25,9 @@ class com_http {
     private $url;
     private $username;
     private $password;
+    private $logError = true;
+    private $ping = false;
+    private $noSslCHeck = true;
 
     /*     * ********************Functions static********************* */
 
@@ -36,8 +39,8 @@ class com_http {
 
     /*     * ************* Functions ************************************ */
 
-    function exec($_timeout = 2, $_maxRetry = 3, $_logErrorIfNoResponse = true, $_ping = false, $_checkSSL = true) {
-        if ($_ping) {
+    function exec($_timeout = 2, $_maxRetry = 3) {
+        if ($this->getPing()) {
             $url = parse_url($this->url);
             $host = $url['host'];
             if (!ip2long($host)) {
@@ -52,7 +55,7 @@ class com_http {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $this->url);
             curl_setopt($ch, CURLOPT_HEADER, false);
-            if (!$_checkSSL) {
+            if ($this->getNoSslCHeck()) {
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             }
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: close'));
@@ -74,7 +77,7 @@ class com_http {
             }
         }
         if (curl_errno($ch)) {
-            if ($_logErrorIfNoResponse) {
+            if ($this->getLogError()) {
                 log::add('http.com', 'error', __('Erreur curl : ', __FILE__) . curl_error($ch) . __(' sur la commande ', __FILE__) . $this->url . __(' après ', __FILE__) . $nbRetry . __(' relance(s)', __FILE__));
             }
             curl_close($ch);
@@ -83,6 +86,30 @@ class com_http {
         curl_close($ch);
         log::add('http.com', 'Debug', __('Url : ', __FILE__) . $this->url . __("\nReponse : ", __FILE__) . $response);
         return $response;
+    }
+
+    public function getPing() {
+        return $this->ping;
+    }
+
+    public function getNoSslCHeck() {
+        return $this->noSslCHeck;
+    }
+
+    public function setPing($ping) {
+        $this->ping = $ping;
+    }
+
+    public function setNoSslCHeck($noSslCHeck) {
+        $this->noSslCHeck = $noSslCHeck;
+    }
+    
+    public function getLogError() {
+        return $this->logError;
+    }
+
+    public function setLogError($logError) {
+        $this->logError = $logError;
     }
 
 }
