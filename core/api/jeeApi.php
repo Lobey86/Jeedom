@@ -26,9 +26,9 @@ if (isset($argv)) {
     }
 }
 
-if (init('apikey') != '' && init('type') != '') {
+if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
     try {
-        if (config::byKey('apikey') != init('apikey')) {
+        if (config::byKey('apikey') != init('apikey') && config::byKey('apikey') != init('api')) {
             connection::failed();
             throw new Exception('Clef API non valide, vous n\'etez pas autorisé à effectuer cette action (jeeApi)');
         }
@@ -67,7 +67,7 @@ if (init('apikey') != '' && init('type') != '') {
 
         $params = $jsonrpc->getParams();
 
-        if (config::byKey('api') != $params['apikey']) {
+        if (config::byKey('api') != $params['apikey'] && config::byKey('api') != $params['api']) {
             connection::failed();
             throw new Exception('Clef API invalide', -32001);
         }
