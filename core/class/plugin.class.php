@@ -120,9 +120,10 @@ class plugin {
                     AND `value`='1'";
             $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
             foreach ($results as $result) {
-                $plugin = plugin::byId($result['plugin']);
-                if ($plugin != null) {
-                    $listPlugin[] = $plugin;
+                try {
+                    $listPlugin[] = plugin::byId($result['plugin']);
+                } catch (Exception $e) {
+                    log::add('plugin', 'error', $e->getMessage(), 'pluginNotFound::' . $result['plugin']);
                 }
             }
         } else {
@@ -130,7 +131,11 @@ class plugin {
             foreach (ls($rootPluginPath, '*') as $dirPlugin) {
                 $pathInfoPlugin = $rootPluginPath . '/' . $dirPlugin . '/plugin_info/info.xml';
                 if (file_exists($pathInfoPlugin)) {
-                    $listPlugin[] = plugin::byId($pathInfoPlugin);
+                    try {
+                        $listPlugin[] = plugin::byId($pathInfoPlugin);
+                    } catch (Exception $e) {
+                        log::add('plugin', 'error', $e->getMessage(), 'pluginNotFound::' . $pathInfoPlugin);
+                    }
                 }
             }
         }
