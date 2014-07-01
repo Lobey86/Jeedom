@@ -26,7 +26,9 @@ jeedom.private = {
             return _data;
         },
         success: function(_data) {
-            //console.log(_data);
+            console.log(_data);
+        },
+        post_success: function(_data) {
         },
         complete: function() {
         },
@@ -69,31 +71,57 @@ jeedom.private.handleAjaxErrorAPI = function(_request, _status, _error) {
 /**
  * Retourne les paramètres AJAX de l'API en fonction des paramètres choisis par l'utilisateur
  */
-jeedom.private.getParamsAJAX = function(params) {
-    return {
-        type: 'POST',
-        dataType: params.dataType,
-        async: params.async,
-        global: params.global,
+jeedom.private.getParamsAJAX = function(_params) {
+    // cas particulier du type dans les paramètres
+    var typeInData = false;
+
+    // si type est dans les paramètres et est différent de POST ou GET
+    if ($.inArray(_params.type, ['POST', 'GET']) === -1)
+    {
+        typeInData = true;
+        _params.data = _params.data || {};
+        _params._type = _params.type; // on stocke la donnée
+        _params.type = 'POST'; // post par défaut
+    }
+
+    var paramsAJAX = {
+        type: _params.type,
+        dataType: _params.dataType,
+        async: _params.async,
         error: function(_request, _status, _error) {
-            params.error(jeedom.private.handleAjaxErrorAPI(_request, _status, _error));
+            _params.error(jeedom.private.handleAjaxErrorAPI(_request, _status, _error));
         },
         success: function(data) {
-            data = params.pre_success(data);
+            data = _params.pre_success(data);
             if (data.state != 'ok') {
-                params.error({
+                _params.error({
                     type: 'PHP',
                     message: data.result || 'Error - ' + no_result || '',
                     code: data.code || no_error_code || ''
                 });
-            } else {
+            }
+            else {
                 // On envoie les données à l'utilisateur, tout s'est bien passé
                 // Il récupère l'objet qu'il a demandé directement
-                params.success(data.result || 'Success - ' + no_result || '');
+                var result = data.result || 'Success - ' + no_result || '';
+
+                if (data.result === false) {
+                    result = false;
+                }
+
+                _params.success(result);
             }
+            _params.post_success(data);
         },
-        complete: params.complete
-    }; // return
+        complete: _params.complete,
+        data: {}
+    };
+
+    if (typeInData) {
+        paramsAJAX.data.type = _params._type;
+    }
+
+    return paramsAJAX; // return
 };
 /**
  * Fonction qui va checker si la valeur d'un paramètre vérifie une regexp
@@ -109,7 +137,7 @@ jeedom.private.getParamsAJAX = function(params) {
 // try { jeedom.private.checkParamsValue({value : [{test : 'check', test2 :'eeee'},{test : 'oefop', test2 : 'kfefe', test3 : 10}], regexp : /a|e|ch|1|zec/}); } catch(e) { console.log(e); }
 jeedom.private.checkParamValue = function(_params) {
     try {
-        jeedom.private.checkParamsRequired(_params, ['value', 'regexp']);
+        checkParamsRequired(_params, ['value', 'regexp']);
     } catch (e) {
         throw {type: 'API', code: code, message: 'Une erreur est présente dans l\'API SARA JS. Les paramètres spécifiés dans checkParamValue ne sont pas complets. ' + e.message};
     }
@@ -127,7 +155,8 @@ jeedom.private.checkParamValue = function(_params) {
                 regexp: regexp
             });
         }
-    } else {
+    }
+    else {
         value += ''; // on convertie la valeur en string
 
         // pour faire un inArray, utiliser la regexp : /mot1|mot2|mot3|mot4/
@@ -155,17 +184,23 @@ jeedom.private.checkParamsRequired = function(_params, _paramsRequired) {
     var missingAtLeastOneParam = false;
     var optionalGroupNumber = 0;
 
-    for (var key in _paramsRequired) {
-        if (typeof _paramsRequired[key] === 'object') {
+    for (var key in _paramsRequired)
+    {
+        if (typeof _paramsRequired[key] === 'object')
+        {
             optionalGroupNumber++;
 
             // il y a plusieurs clés, il faut qu'au moins l'une d'entre elles soit présente
             var ok = false;
-            for (var key2 in _paramsRequired[key]) {
-                if (_params.hasOwnProperty(_paramsRequired[key][key2])) {
+            for (var key2 in _paramsRequired[key])
+            {
+                if (_params.hasOwnProperty(_paramsRequired[key][key2]))
+                {
                     ok = true;
                     // pas de break, on veut savoir quels paramètres sont présents et lesquels ne le sont pas.
-                } else {
+                }
+                else
+                {
                     missings.push({
                         name: _paramsRequired[key][key2],
                         optional: true,
@@ -182,10 +217,13 @@ jeedom.private.checkParamsRequired = function(_params, _paramsRequired) {
             };
 
             // de manière plus globale, on indique s'il manque un paramètre obligatoire ou pas
-            if (!ok) {
+            if (!ok)
+            {
                 missingAtLeastOneParam = true;
             }
-        } else if (!_params.hasOwnProperty(_paramsRequired[key])) {
+        }
+        else if (!_params.hasOwnProperty(_paramsRequired[key]))
+        {
             missings.push({
                 name: _paramsRequired[key],
                 optional: false,
@@ -198,22 +236,21 @@ jeedom.private.checkParamsRequired = function(_params, _paramsRequired) {
         }
     }
 
-    var tostring = 'Parameters missing : ';
-    for (var i in missings) {
-        var miss = missings[i];
-        tostring += miss.name + ' ';
-
-        // dans le cas des paramètres optionnels, on rajoute une information pour savoir si le groupe d'options (optionnels donc) a été rempli (via une autre option non manquante donc) ou non
-        var checkedstring = miss.optional && (group[miss.group.id].checked) ? 'yes' : 'no' || '';
-
-        tostring += (miss.optional) ? '[optional, group=' + miss.group.id + ' checked=' + checkedstring + ']' : '[needed]';
-        tostring += ', ';
-    }
-
-    // on enlève la virgule et l'espace en trop
-    tostring = tostring.substring(0, tostring.length - 2);
-
     if (missingAtLeastOneParam) {
+        var tostring = 'Parameters missing : ';
+        for (var i in missings) {
+            var miss = missings[i];
+            tostring += miss.name + ' ';
+
+            // dans le cas des paramètres optionnels, on rajoute une information pour savoir si le groupe d'options (optionnels donc) a été rempli (via une autre option non manquante donc) ou non
+            var checkedstring = miss.optional && (group[miss.group.id].checked) ? 'yes' : 'no' || '';
+
+            tostring += (miss.optional) ? '[optional, group=' + miss.group.id + ' checked=' + checkedstring + ']' : '[needed]';
+            tostring += ', ';
+        }
+
+        // on enlève la virgule et l'espace en trop
+        tostring = tostring.substring(0, tostring.length - 2);
         throw {
             type: 'API',
             code: code,
@@ -221,7 +258,6 @@ jeedom.private.checkParamsRequired = function(_params, _paramsRequired) {
         };
     }
     return;
-    //return {result : !missingAtLeastOneParam, missing : missings, toString : tostring};
 };
 
 /**
