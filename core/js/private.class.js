@@ -66,8 +66,6 @@ jeedom.private.handleAjaxErrorAPI = function(_request, _status, _error) {
 };
 
 
-
-
 /**
  * Retourne les paramètres AJAX de l'API en fonction des paramètres choisis par l'utilisateur
  */
@@ -88,6 +86,7 @@ jeedom.private.getParamsAJAX = function(_params) {
         type: _params.type,
         dataType: _params.dataType,
         async: _params.async,
+        global: _params.global,
         error: function(_request, _status, _error) {
             _params.error(jeedom.private.handleAjaxErrorAPI(_request, _status, _error));
         },
