@@ -332,7 +332,7 @@ class jeedom {
             return true;
         }
         $ntptime = strtotime(getNtpTime());
-        if (($ntptime + 3600) > strtotime('now') && ($ntptime - 3600) < strtotime('now')) {
+        if ($ntptime !== false && ($ntptime + 3600) > strtotime('now') && ($ntptime - 3600) < strtotime('now')) {
             cache::set('jeedom::lastDate', date('Y-m-d H:00:00'), 0);
             message::removeAll('core', 'dateCheckFailed');
             return true;
