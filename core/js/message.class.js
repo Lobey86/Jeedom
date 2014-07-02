@@ -80,7 +80,9 @@ jeedom.message.clear = function(_params) {
 
 jeedom.message.number = function(_params) {
     var paramsRequired = [];
-    var paramsSpecifics = {};
+    var paramsSpecifics = {
+        global: false,
+    };
     try {
         jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
     } catch (e) {
