@@ -28,7 +28,7 @@ $(function() {
         $.hideAlert();
         var user = [{login: $('#in_newUserLogin').value(), password: $('#in_newUserMdp').value()}];
         jeedom.user.save({
-            user: user,
+            users: user,
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
@@ -45,7 +45,7 @@ $(function() {
     $("#bt_saveUser").on('click', function(event) {
         var users = $('#table_user tbody tr').getValues('.userAttr');
         jeedom.user.save({
-            user: users,
+            users: users,
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
@@ -83,7 +83,7 @@ $(function() {
             if (result !== null) {
                 user.password = result;
                 jeedom.user.save({
-                    user: user,
+                    users: user,
                     error: function(error) {
                         $('#div_alert').showAlert({message: error.message, level: 'danger'});
                     },
