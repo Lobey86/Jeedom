@@ -2,7 +2,6 @@
 if (!isConnect()) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-include_file('core', 'js.inc', 'php');
 ?>
 
 <style>
