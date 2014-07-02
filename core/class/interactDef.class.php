@@ -126,6 +126,7 @@ class interactDef {
         if ($this->getQuery() == '') {
             throw new Exception(__('La commande (demande) ne peut etre vide', __FILE__));
         }
+        $this->setLink_id(str_replace('#', '', jeedom::fromHumanReadable($this->getLink_id())));
         return DB::save($this);
     }
 
