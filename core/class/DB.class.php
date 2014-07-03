@@ -159,8 +159,8 @@ class DB {
             throw new Exception('DB cannot refresh object without id');
         }
         $parameters = array('id' => self::getField($object, 'id'));
-        $sql = 'SELECT ' . self::buildField(get_class($object)) . 
-                ' FROM `' . self::getTableName($object) .'` '.
+        $sql = 'SELECT ' . self::buildField(get_class($object)) .
+                ' FROM `' . self::getTableName($object) . '` ' .
                 ' WHERE ';
         foreach ($parameters as $field => $value) {
             if ($value != '') {
@@ -182,6 +182,67 @@ class DB {
             $property->setAccessible(false);
         }
         return true;
+    }
+
+    /**
+     * Retourne une liste d'objets ou un objet en fonction de filtres
+     * @param $_filters Filtres à appliquer
+     * @param $_object Objet sur lequel appliquer les filtres
+     * @return Objet ou liste d'objets correspondant à la requête
+     */
+    public static function getWithFilter($_filters, $_object) {
+        // check filters
+        if (!is_array($_filters)) {
+            throw new Exception('Filter sent isn\'t an array.');
+        }
+        // operators have to remain in this order. If you put '<' before '<=', algorithm won't make the difference & will think a '<=' is a '<'
+        $operators = array('!=', '<=', '>=', '<', '>', 'NOT LIKE', 'LIKE', '=');
+        $fields = self::getFields($_object);
+        $class = self::getReflectionClass($_object)->getName();
+        // create query
+        $query = 'SELECT ' . self::buildField($class) . ' FROM ' . $class . '';
+        $values = array();
+        $where = ' WHERE ';
+        foreach ($fields as $property) {
+            foreach ($_filters as $key => $value) {
+                if ($property == $key && $value != '') {
+                    // traitement à faire sur value pour obtenir l'opérateur
+                    $thereIsOperator = false;
+                    $operatorInformation = array(
+                        'index' => -1,
+                        'value' => '=', // by default '='
+                        'length' => 0
+                    );
+                    foreach ($operators as $operator) {
+                        if (($index = strpos($value, $operator)) !== false) {
+                            $thereIsOperator = true;
+                            $operatorInformation['index'] = $index;
+                            $operatorInformation['value'] = $operator;
+                            $operatorInformation['length'] = strlen($operator);
+                            break;
+                        }
+                    }
+                    if ($thereIsOperator) {
+                        // extract operator from value
+                        $value = substr($value, $operatorInformation['length'] + 1); // +1 because of space
+                        // add % % to LIKE operator
+                        if (in_array($operatorInformation['value'], ['LIKE', 'NOT LIKE'])) {
+                            $value = '%' . $value . '%';
+                        }
+                    }
+
+                    $where .= $property . ' ' . $operatorInformation['value'] . ' :' . $property . ' AND ';
+                    $values[$property] = $value;
+                    break;
+                }
+            }
+        }
+        if ($where != ' WHERE ') {
+            $where = substr($where, 0, strlen($where) - 5); // on enlève le dernier ' AND '
+            $query .= $where;
+        }
+        // si values contient id, on sait qu'il n'y aura au plus qu'une valeur
+        return self::Prepare($query . ';', $values, in_array('id', $values) ? self::FETCH_TYPE_ROW : self::FETCH_TYPE_ALL);
     }
 
     /**
@@ -358,7 +419,7 @@ class DB {
             }
         }
         if (is_array($retval) || is_object($retval)) {
-            $retval = json_encode($retval,JSON_UNESCAPED_UNICODE);
+            $retval = json_encode($retval, JSON_UNESCAPED_UNICODE);
         }
         return $retval;
     }
