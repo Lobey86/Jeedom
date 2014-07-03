@@ -65,7 +65,7 @@ try {
         if (isset($interact_json['id'])) {
             $interact = interactDef::byId($interact_json['id']);
         }
-        if (!is_object($interact)) {
+        if (!isset($interact) || !is_object($interact)) {
             $interact = new interactDef();
         }
         utils::a2o($interact, $interact_json);
