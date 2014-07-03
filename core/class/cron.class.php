@@ -42,7 +42,7 @@ class cron {
 
     /**
      * Return an array of all cron object
-     * @return type : array
+     * @return array
      */
     public static function all() {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
@@ -51,6 +51,11 @@ class cron {
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    /**
+     * Get cron object associate to id
+     * @param int $_id
+     * @return object
+     */
     public static function byId($_id) {
         $value = array(
             'id' => $_id,
