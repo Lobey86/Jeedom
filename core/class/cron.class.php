@@ -66,6 +66,13 @@ class cron {
         return DB::Prepare($sql, $value, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    /**
+     * Return cron object corresponding to parameters
+     * @param string $_class
+     * @param string $_function
+     * @param string $_option
+     * @return object
+     */
     public static function byClassAndFunction($_class, $_function, $_option = '') {
         $value = array(
             'class' => $_class,
@@ -83,19 +90,34 @@ class cron {
         return DB::Prepare($sql, $value, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    /**
+     * Return number of cron running
+     * @return int
+     */
     public static function nbCronRun() {
         return exec('ps ax | grep jeeCron.php | grep -v "grep" | grep -v "sudo" | grep -v "shell=/bin/bash - " | grep -v "/bin/bash -c " | grep -v "/bin/sh -c " | grep -v ' . posix_getppid() . ' | grep -v ' . getmypid() . ' | wc -l');
     }
 
+    /**
+     * Return number of process on system
+     * @return int
+     */
     public static function nbProcess() {
         $result = exec('ps ax | wc -l');
         return $result;
     }
 
+    /**
+     * Return array of load average
+     * @return array
+     */
     public static function loadAvg() {
         return sys_getloadavg();
     }
 
+    /**
+     * Set jeecron pid of current process
+     */
     public static function setPidFile() {
         $path = dirname(__FILE__) . '/../../jeeCron.pid';
         $fp = fopen($path, 'w');
@@ -103,6 +125,10 @@ class cron {
         fclose($fp);
     }
 
+    /**
+     * Return the current pid of jeecron or empty if not running
+     * @return int
+     */
     public static function getPidFile() {
         $path = dirname(__FILE__) . '/../../jeeCron.pid';
         if (file_exists($path)) {
@@ -111,6 +137,10 @@ class cron {
         return '';
     }
 
+    /**
+     * Return state of jeecron master
+     * @return boolean
+     */
     public static function jeeCronRun() {
         $pid = self::getPidFile();
         if ($pid == '' || !is_numeric($pid)) {
@@ -125,6 +155,10 @@ class cron {
 
     /*     * *********************Methode d'instance************************* */
 
+    /**
+     * Check if cron object is valid before save
+     * @throws Exception
+     */
     public function preSave() {
         if ($this->getFunction() == '') {
             throw new Exception(__('La fonction ne peut etre vide', __FILE__));
@@ -134,10 +168,18 @@ class cron {
         }
     }
 
+    /**
+     * Save cron object
+     * @return boolean
+     */
     public function save() {
         return DB::save($this);
     }
 
+    /**
+     * Remove cron object
+     * @return boolean
+     */
     public function remove() {
         if ($this->running()) {
             $this->stop();
@@ -145,6 +187,9 @@ class cron {
         return DB::remove($this);
     }
 
+    /**
+     * Set cron to be start
+     */
     public function start() {
         if (!$this->running()) {
             $this->setState('starting');
@@ -152,18 +197,30 @@ class cron {
         }
     }
 
+    /**
+     * Number of this cron running
+     * @return int
+     */
     public function getNbRun() {
         $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
         return jeedom::checkOngoingThread($cmd);
     }
 
+    /**
+     * Return pid of this cron (if running)
+     * @return int
+     */
     public function retrievePid() {
         $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
         return jeedom::retrievePidThread($cmd);
     }
 
+    /**
+     * Launch cron (this method must be only call by jeecron master)
+     * @throws Exception
+     */
     public function run() {
         $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
@@ -182,6 +239,10 @@ class cron {
         }
     }
 
+    /**
+     * Check if this cron is currently running
+     * @return boolean
+     */
     public function running() {
         if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && $this->getPID() > 0 && $this->getServer() == gethostname()) {
             exec('ps ' . $this->pid, $pState);
@@ -201,6 +262,10 @@ class cron {
         return false;
     }
 
+    /**
+     * Refresh DB state of this cron
+     * @return boolean
+     */
     public function refresh() {
         DB::refresh($this);
         if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && !$this->running()) {
@@ -212,6 +277,9 @@ class cron {
         return true;
     }
 
+    /*
+     * Set this cron to stop
+     */
     public function stop() {
         if ($this->running()) {
             $this->setState('stoping');
@@ -219,6 +287,9 @@ class cron {
         }
     }
 
+    /*
+     * Stop immediatly cron (this method must be only call by jeecron master)
+     */
     public function halt() {
         if (!is_numeric($this->getPID())) {
             return true;
@@ -266,6 +337,10 @@ class cron {
         }
     }
 
+    /**
+     * Check if it's time to launch cron
+     * @return boolean
+     */
     public function isDue() {
         //if never sent
         if ($this->getLastRun() == '' || $this->getLastRun() == '0000-00-00 00:00:00') {
@@ -308,6 +383,10 @@ class cron {
         return false;
     }
 
+    /**
+     * Get human name of cron
+     * @return string
+     */
     public function getName() {
         if ($this->getClass() != '') {
             return $this->getClass() . '::' . $this->getFunction() . '()';
