@@ -11,7 +11,7 @@ if (init('id') == '') {
         }
     }
     $list_view = view::all();
-    if (is_object($list_view[0])) {
+    if (isset($list_view[0]) && is_object($list_view[0])) {
         redirect('index.php?v=d&p=view&id=' . $list_view[0]->getId());
     }
 }

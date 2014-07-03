@@ -56,7 +56,7 @@ try {
         if (isset($object_json['id'])) {
             $object = object::byId($object_json['id']);
         }
-        if (!is_object($object)) {
+        if (!isset($object) || !is_object($object)) {
             $object = new object();
         }
         utils::a2o($object, $object_json);
