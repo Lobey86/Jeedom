@@ -186,25 +186,25 @@ class scenario {
             }
         }
 
-        $sql = 'DELETE FROM scenarioExpression WHERE id NOT IN (';
+        $sql = 'DELETE FROM scenarioExpression WHERE id NOT IN (-1';
         foreach ($ids['expression'] as $expression_id) {
-            $sql .= $expression_id . ',';
+            $sql .= ',' . $expression_id;
         }
-        $sql = trim($sql, ',') . ')';
+        $sql .= ')';
         DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
 
-        $sql = 'DELETE FROM scenarioSubElement WHERE id NOT IN (';
+        $sql = 'DELETE FROM scenarioSubElement WHERE id NOT IN (-1';
         foreach ($ids['subelement'] as $subelement_id) {
-            $sql .= $subelement_id . ',';
+            $sql .= ',' . $subelement_id;
         }
-        $sql = trim($sql, ',') . ')';
+        $sql .= ')';
         DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
 
-        $sql = 'DELETE FROM scenarioElement WHERE id NOT IN (';
+        $sql = 'DELETE FROM scenarioElement WHERE id NOT IN (-1';
         foreach ($ids['element'] as $element_id) {
-            $sql .= $element_id . ',';
+            $sql .= ',' . $element_id;
         }
-        $sql = trim($sql, ',') . ')';
+        $sql .= ')';
         DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
     }
 
@@ -584,7 +584,7 @@ class scenario {
 
     public function setSchedule($schedule) {
         if (is_array($schedule)) {
-            $schedule = json_encode($schedule,JSON_UNESCAPED_UNICODE);
+            $schedule = json_encode($schedule, JSON_UNESCAPED_UNICODE);
         }
         $this->schedule = $schedule;
     }
@@ -606,7 +606,7 @@ class scenario {
 
     public function setScenarioElement($scenarioElement) {
         if (is_array($scenarioElement)) {
-            $scenarioElement = json_encode($scenarioElement,JSON_UNESCAPED_UNICODE);
+            $scenarioElement = json_encode($scenarioElement, JSON_UNESCAPED_UNICODE);
         }
         $this->scenarioElement = $scenarioElement;
     }
@@ -620,7 +620,7 @@ class scenario {
 
     public function setTrigger($trigger) {
         if (is_array($trigger)) {
-            $trigger = json_encode($trigger,JSON_UNESCAPED_UNICODE);
+            $trigger = json_encode($trigger, JSON_UNESCAPED_UNICODE);
         }
         $this->trigger = cmd::humanReadableToCmd($trigger);
     }
