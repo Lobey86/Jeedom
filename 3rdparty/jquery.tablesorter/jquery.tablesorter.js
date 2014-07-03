@@ -1,5 +1,5 @@
 /**!
-* TableSorter 2.17.1 - Client-side table sorting with ease!
+* TableSorter 2.17.3 - Client-side table sorting with ease!
 * @requires jQuery v1.2.6+
 *
 * Copyright (c) 2007 Christian Bach
@@ -24,7 +24,7 @@
 
 			var ts = this;
 
-			ts.version = "2.17.1";
+			ts.version = "2.17.3";
 
 			ts.parsers = [];
 			ts.widgets = [];
@@ -1181,9 +1181,9 @@
 							return this.sortDisabled ? false : ts.isValueInArray( parseFloat($(this).attr('data-column')), c.sortList) >= 0;
 						});
 					}
-					$h.addClass(ts.css.processing + ' ' + c.cssProcessing);
+					table.add($h).addClass(ts.css.processing + ' ' + c.cssProcessing);
 				} else {
-					$h.removeClass(ts.css.processing + ' ' + c.cssProcessing);
+					table.add($h).removeClass(ts.css.processing + ' ' + c.cssProcessing);
 				}
 			};
 
@@ -1205,7 +1205,7 @@
 			};
 
 			ts.clearTableBody = function(table) {
-				$(table)[0].config.$tbodies.detach();
+				$(table)[0].config.$tbodies.children().detach();
 			};
 
 			ts.bindEvents = function(table, $headers, core){

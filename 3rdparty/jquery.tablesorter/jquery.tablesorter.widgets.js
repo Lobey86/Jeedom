@@ -1,4 +1,4 @@
-/*! tableSorter 2.16+ widgets - updated 5/28/2014 (v2.17.1)
+/*! tableSorter 2.16+ widgets - updated 6/28/2014 (v2.17.3)
  *
  * Column Styles
  * Column Filters
@@ -568,6 +568,9 @@ ts.filter = {
 		}
 		c.$table.addClass('hasFilters');
 
+		// define searchTimer so using clearTimeout won't cause an undefined error
+		wo.searchTimer = null;
+
 		$.extend( regex, {
 			child : new RegExp(c.cssChildRow),
 			filtered : new RegExp(wo.filter_filteredRow),
@@ -592,6 +595,7 @@ ts.filter = {
 				ts.filter.buildDefault(table, true);
 			}
 			if (event.type === 'filterReset') {
+				c.$table.find('.' + ts.css.filter).add(wo.filter_$externalFilters).val('');
 				ts.filter.searching(table, []);
 			} else if (event.type === 'filterEnd') {
 				ts.filter.buildDefault(table, true);
@@ -681,13 +685,16 @@ ts.filter = {
 			filters = ts.filter.setDefaults(table, c, wo) || [];
 			if (filters.length) {
 				ts.setFilters(table, filters, true);
+				// ts.filter.checkFilters(table, filters);
 			}
 			c.$table.trigger('filterFomatterUpdate');
-			ts.filter.checkFilters(table, filters);
+			if (!wo.filter_initialized) {
+				// filter widget initialized
+				wo.filter_initialized = true;
+				c.$table.trigger('filterInit');
+			}
 		});
-		// filter widget initialized
-		wo.filter_initialized = true;
-		c.$table.trigger('filterInit');
+
 	},
 	setDefaults: function(table, c, wo) {
 		var isArray, saved, indx,
@@ -785,29 +792,45 @@ ts.filter = {
 		.attr('data-lastSearchTime', new Date().getTime())
 		.unbind('keypress keyup search change '.split(' ').join(c.namespace + 'filter '))
 		// include change for select - fixes #473
-		.bind('keyup search change '.split(' ').join(c.namespace + 'filter '), function(event) {
+		.bind('keyup' + c.namespace + 'filter', function(event) {
 			$(this).attr('data-lastSearchTime', new Date().getTime());
 			// emulate what webkit does.... escape clears the filter
 			if (event.which === 27) {
 				this.value = '';
-			// liveSearch can contain a min value length; ignore arrow and meta keys, but allow backspace
-			} else if ( (typeof wo.filter_liveSearch === 'number' && this.value.length < wo.filter_liveSearch && this.value !== '') ||
-				( event.type === 'keyup' && ( (event.which < 32 && event.which !== 8 && wo.filter_liveSearch === true && event.which !== 13) ||
-				( event.which >= 37 && event.which <= 40 ) || (event.which !== 13 && wo.filter_liveSearch === false) ) ) ) {
-					return;
+			// live search
+			} else if ( wo.filter_liveSearch === false ) {
+				return;
+				// don't return if the search value is empty (all rows need to be revealed)
+			} else if ( this.value !== '' && (
+				// liveSearch can contain a min value length; ignore arrow and meta keys, but allow backspace
+				( typeof wo.filter_liveSearch === 'number' && this.value.length < wo.filter_liveSearch ) ||
+				// let return & backspace continue on, but ignore arrows & non-valid characters
+				( event.which !== 13 && event.which !== 8 && ( event.which < 32 || (event.which >= 37 && event.which <= 40) ) ) ) ) {
+				return;
 			}
 			// change event = no delay; last true flag tells getFilters to skip newest timed input
-			ts.filter.searching( table, event.type !== 'change', true );
+			ts.filter.searching( table, true, true );
 		})
-		.bind('keypress.' + c.namespace + 'filter', function(event){
-			if (event.which === 13) {
+		.bind('search change keypress '.split(' ').join(c.namespace + 'filter '), function(event){
+			if (event.which === 13 || event.type === 'search' || event.type === 'change') {
 				event.preventDefault();
-				$(this).blur();
+				// init search with no delay
+				ts.filter.searching( table, false, true );
 			}
 		});
-		c.$table.bind('filterReset', function(){
-			$el.val('');
-		});
+	},
+	searching: function(table, filter, skipFirst) {
+		var wo = table.config.widgetOptions;
+		clearTimeout(wo.searchTimer);
+		if (typeof filter === 'undefined' || filter === true) {
+			// delay filtering
+			wo.searchTimer = setTimeout(function() {
+				ts.filter.checkFilters(table, filter, skipFirst );
+			}, wo.filter_liveSearch ? wo.filter_searchDelay : 10);
+		} else {
+			// skip delay
+			ts.filter.checkFilters(table, filter, skipFirst);
+		}
 	},
 	checkFilters: function(table, filter, skipFirst) {
 		var c = table.config,
@@ -820,6 +843,7 @@ ts.filter = {
 		// add filter array back into inputs
 		if (filterArray) {
 			ts.setFilters( table, filters, false, skipFirst !== true );
+			if (!wo.filter_initialized) { c.lastCombinedFilter = ''; }
 		}
 		if (wo.filter_hideFilters) {
 			// show/hide filter row as needed
@@ -834,7 +858,7 @@ ts.filter = {
 			c.lastCombinedFilter = null;
 			c.lastSearch = [];
 		}
-		c.$table.trigger('filterStart', [filters]);
+		if (wo.filter_initialized) { c.$table.trigger('filterStart', [filters]); }
 		if (c.showProcessing) {
 			// give it time for the processing icon to kick in
 			setTimeout(function() {
@@ -1074,7 +1098,7 @@ ts.filter = {
 		if (c.debug) {
 			ts.benchmark("Completed filter widget search", time);
 		}
-		c.$table.trigger('filterEnd');
+		if (wo.filter_initialized) { c.$table.trigger('filterEnd'); }
 		setTimeout(function(){
 			c.$table.trigger('applyWidgets'); // make sure zebra widget is applied
 		}, 0);
@@ -1116,7 +1140,7 @@ ts.filter = {
 			$.each(arry, function(i, v){
 				// parse array data using set column parser; this DOES NOT pass the original
 				// table cell to the parser format function
-				parsed.push({ t : v, p : c.parsers && c.parsers[column].format( v, table, [], column ) || v });
+				parsed.push({ t : v, p : c.parsers && c.parsers[column].format( v, table, [], column ) });
 			});
 
 			// sort parsed select options
@@ -1216,19 +1240,6 @@ ts.filter = {
 			if (($header.hasClass('filter-select') || ts.getColumnData( table, wo.filter_functions, columnIndex ) === true) && !$header.hasClass('filter-false')) {
 				ts.filter.buildSelect(table, columnIndex, updating, $header.hasClass(wo.filter_onlyAvail));
 			}
-		}
-	},
-	searching: function(table, filter, skipFirst) {
-		if (typeof filter === 'undefined' || filter === true) {
-			var wo = table.config.widgetOptions;
-			// delay filtering
-			clearTimeout(wo.searchTimer);
-			wo.searchTimer = setTimeout(function() {
-				ts.filter.checkFilters(table, filter, skipFirst );
-			}, wo.filter_liveSearch ? wo.filter_searchDelay : 10);
-		} else {
-			// skip delay
-			ts.filter.checkFilters(table, filter, skipFirst);
 		}
 	}
 };
