@@ -20,7 +20,7 @@ if (config::byKey('market::showBetaMarket') == 1) {
 $findMarket = array();
 ?>
 
-
+<span class="pull-right"><input type="checkbox" id="bt_marketListDisplayInstallObject" /> Afficher les objets installés</span>
 <table id="table_market" class="table table-bordered table-condensed tablesorter" data-sortlist="[[2,0]]">
     <thead>
         <tr>
@@ -41,7 +41,11 @@ $findMarket = array();
                 $update = update::byLogicalId($market->getLogicalId());
                 $findMarket[$market->getId()] = true;
                 $rating = $market->getRating();
-                echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor" style="height:70px;">';
+                $install = "install";
+                if (!is_object($update)) {
+                    $install = "notInstall";
+                }
+                echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor '.$install.'" style="height:70px;">';
                 if ($market->getStatus('stable') == 1 && $market->getImg('stable')) {
                     $urlPath = config::byKey('market::address') . '/' . $market->getImg('stable');
                 } else {
@@ -105,6 +109,16 @@ $findMarket = array();
         });
         $("img.lazy").trigger("sporty");
         initTableSorter();
+        
+        $('#table_market tbody tr.install').hide();
+        
+        $('#bt_marketListDisplayInstallObject').on('change',function(){
+            if($(this).value() == 1){
+                $('#table_market tbody tr.install').show();
+            }else{
+                $('#table_market tbody tr.install').hide();
+            }
+        });
 
 
         $('#table_market tbody tr').on('click', function() {
