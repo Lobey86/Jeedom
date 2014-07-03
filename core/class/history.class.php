@@ -308,7 +308,7 @@ class history {
                     }
                 }
             } catch (Exception $e) {
-                
+                log::add('historized', 'error', 'Erreur sur ' . $cmd->getHumanName() . ' : ' . $e->getMessage(), 'historized::cmd::' . $cmd->getId());
             }
         }
     }
