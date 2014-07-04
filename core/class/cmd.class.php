@@ -456,6 +456,9 @@ class cmd {
         if ($this->getSubType() == '') {
             throw new Exception(__('Le sous-type de la commande ne peut etre vide :', __FILE__) . print_r($this, true));
         }
+         if ($this->getEqLogic_id() == '') {
+            throw new Exception(__('Vous ne pouvez creer une commande sans la ratacher à un équipement', __FILE__));
+        }
         if ($this->getEqType() == '') {
             $this->setEqType($this->getEqLogic()->getEqType_name());
         }
