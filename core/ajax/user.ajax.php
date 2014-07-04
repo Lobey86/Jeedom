@@ -107,7 +107,7 @@ try {
     }
 
     if (init('action') == 'saveProfils') {
-        $user_json = json_decode(init('user'), true);
+        $user_json = json_decode(init('profils'), true);
         if (isset($user_json['id']) && $user_json['id'] != $_SESSION['user']->getId()) {
             throw new Exception('401 unautorized');
         }

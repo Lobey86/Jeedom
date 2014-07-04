@@ -44,10 +44,15 @@ $(function() {
         return false;
     });
 
-    jeedom.user.get(function(data) {
-        $('body').setValues(data, '.userAttr');
-        $('#in_passwordCheck').value(data.password);
-        modifyWithoutSave = false;
+    jeedom.user.get({
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            $('body').setValues(data, '.userAttr');
+            $('#in_passwordCheck').value(data.password);
+            modifyWithoutSave = false;
+        }
     });
 
     $('body').delegate('.userAttr', 'change', function() {
