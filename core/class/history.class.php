@@ -79,7 +79,7 @@ class history {
         $list_sensors = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         foreach ($list_sensors as $sensors) {
             $cmd = cmd::byId($sensors['cmd_id']);
-            if (is_object($cmd) && $cmd->getType() == 'info') {
+            if (is_object($cmd) && $cmd->getType() == 'info' && $cmd->getIsHistorized() == 1) {
                 if ($cmd->getSubType() == 'binary') {
                     $values = array(
                         'cmd_id' => $cmd->getId(),
@@ -386,7 +386,10 @@ class history {
     public function save() {
         $cmd = $this->getCmd();
         if ($cmd->getType() != 'info') {
-            throw new Exception(__('Impossible d\'historiser une commande qui n\'est pas de type info', __FILE__));
+            throw new Exception(__('Impossible d\'historiser cette commande car elle n\'est pas de type info : ', __FILE__) . $cmd->getHumanName());
+        }
+        if ($cmd->getIsHistorized() != 1) {
+            throw new Exception(__('Impossible d\'historiser cette commande car elle n\'est pas marquer comme "à historiser" : ', __FILE__) . $cmd->getHumanName());
         }
         if ($this->getTableName() == 'history' && (!jeedom::isStarted() || !jeedom::isDateOk())) {
             return;
