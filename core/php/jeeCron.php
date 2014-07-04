@@ -135,8 +135,8 @@ if (init('cron_id') != '') {
         $cron->setServer('');
         $cron->setDuration(-1);
         $cron->save();
-        echo '[Erreur] ' . $cron->getName() . ' : ' . $e->getMessage();
-        log::add('cron', 'error', __('Erreur sur ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage());
+        echo '[Erreur] ' . $cron->getName() . ' : ' . print_r($e, true);
+        log::add('cron', 'error', __('Erreur sur ', __FILE__) . $cron->getName() . ' : ' . print_r($e, true));
     }
 } else {
     if (config::byKey('enableCron') == 0) {
@@ -206,8 +206,8 @@ if (init('cron_id') != '') {
                 $cron->setServer('');
                 $cron->setDuration(-1);
                 $cron->save();
-                echo __('[Erreur] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage();
-                log::add('cron', 'error', __('[Erreur] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage());
+                echo __('[Erreur master] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage();
+                log::add('cron', 'error', __('[Erreur master] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage());
             }
         }
         if ($sleepTime > 59) {
