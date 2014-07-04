@@ -46,17 +46,15 @@ class cmd {
     /*     * ***********************Methode static*************************** */
 
     private static function cast($_inputs) {
+        if (is_object($_inputs) && class_exists($_inputs->getEqType() . 'Cmd')) {
+            return cast($_inputs, $_inputs->getEqType() . 'Cmd');
+        }
         if (is_array($_inputs)) {
             $return = array();
             foreach ($_inputs as $input) {
                 $return[] = self::cast($input);
             }
             return $return;
-        }
-        if (is_object($_inputs)) {
-            if (class_exists($_inputs->getEqType() . 'Cmd')) {
-                return cast($_inputs, $_inputs->getEqType() . 'Cmd');
-            }
         }
         return $_inputs;
     }

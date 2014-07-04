@@ -51,13 +51,6 @@ class eqLogic {
     }
 
     private static function cast($_inputs) {
-        if (is_array($_inputs)) {
-            $return = array();
-            foreach ($_inputs as $input) {
-                $return[] = self::cast($input);
-            }
-            return $return;
-        }
         if (is_object($_inputs)) {
             if ($_inputs->getIsEnable() == 0) {
                 return $_inputs;
@@ -65,6 +58,13 @@ class eqLogic {
             if (class_exists($_inputs->getEqType_name())) {
                 return cast($_inputs, $_inputs->getEqType_name());
             }
+        }
+        if (is_array($_inputs)) {
+            $return = array();
+            foreach ($_inputs as $input) {
+                $return[] = self::cast($input);
+            }
+            return $return;
         }
         return $_inputs;
     }
