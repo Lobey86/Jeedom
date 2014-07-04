@@ -289,13 +289,13 @@ class jeedom {
         try {
             if (!self::isStarted()) {
                 cache::restore();
-                jeedom::start();
-                plugin::start();
-                internalEvent::start();
                 $cache = cache::byKey('jeedom::usbMapping');
                 if ($cache->getValue() != '') {
                     $cache->remove();
                 }
+                jeedom::start();
+                plugin::start();
+                internalEvent::start();
                 cache::set('jeedom::startOK', 1, 0);
                 self::event('start');
                 log::add('core', 'info', 'Démarrage de Jeedom OK');
