@@ -18,7 +18,7 @@
 //
 
 $_POST['dir'] = urldecode($_POST['dir']);
-
+$root = '';
 if (file_exists($root . $_POST['dir'])) {
     $files = scandir($root . $_POST['dir']);
     natcasesort($files);
