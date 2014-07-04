@@ -72,7 +72,7 @@ try {
             $user = user::byId($user_json['id']);
             if (!is_object($user)) {
                 if (config::byKey('ldap::enable') == '1') {
-                    throw new Exception(__('Vous devez desactiver l\'authentification LDAP pour pouvoir editer un utilisateur', __FILE__));
+                    throw new Exception(__('Vous devez desactiver l\'authentification LDAP pour pouvoir ajouter un utilisateur', __FILE__));
                 }
                 $user = new user();
             }

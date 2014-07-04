@@ -43,9 +43,8 @@ $(function() {
     });
 
     $("#bt_saveUser").on('click', function(event) {
-        var users = $('#table_user tbody tr').getValues('.userAttr');
         jeedom.user.save({
-            users: users,
+            users: $('#table_user tbody tr').getValues('.userAttr'),
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
@@ -83,7 +82,7 @@ $(function() {
             if (result !== null) {
                 user.password = result;
                 jeedom.user.save({
-                    users: user,
+                    users: [user],
                     error: function(error) {
                         $('#div_alert').showAlert({message: error.message, level: 'danger'});
                     },
