@@ -79,7 +79,7 @@ class history {
         $list_sensors = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         foreach ($list_sensors as $sensors) {
             $cmd = cmd::byId($sensors['cmd_id']);
-            if (is_object($cmd)) {
+            if (is_object($cmd) && $cmd->getType() == 'info') {
                 if ($cmd->getSubType() == 'binary') {
                     $values = array(
                         'cmd_id' => $cmd->getId(),
