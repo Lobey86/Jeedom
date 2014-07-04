@@ -1,0 +1,12 @@
+<div class="cmd cmd-widget" data-type="action" data-subtype="message" data-cmd_id="#id#">
+    <input placeholder="Title" data-cmd_id="#id#"/>
+    <textarea rows="2" style="margin-top : 5px; resize:vertical;height: 50px;" placeholder="Message" data-cmd_id="#id#"></textarea>
+    <center><a class="action ui-btn ui-mini ui-btn-inline execute" >#name#</a></center>
+    <script>
+        $(function() {
+            $('.cmd[data-cmd_id=#id#] .execute').on('clic', function() {
+                jeedom.cmd.execute({id: '#id#', value: {title: $('.cmd[data-cmd_id=#id#] .title'), message: $('.cmd[data-cmd_id=#id#] .message')}});
+            });
+        });
+    </script>
+</div>
