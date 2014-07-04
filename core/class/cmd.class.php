@@ -24,6 +24,7 @@ class cmd {
 
     protected $id;
     protected $logicalId;
+    protected $eqType;
     protected $name;
     protected $order;
     protected $type;
@@ -44,46 +45,34 @@ class cmd {
 
     /*     * ***********************Methode static*************************** */
 
-    private static function getClass($_id) {
-        if (get_called_class() != __CLASS__) {
-            return get_called_class();
+    private static function cast($_inputs) {
+        if (is_array($_inputs)) {
+            $return = array();
+            foreach ($_inputs as $input) {
+                $return[] = self::cast($input);
+            }
+            return $return;
         }
-        $values = array(
-            'id' => $_id
-        );
-        $sql = 'SELECT el.eqType_name, el.isEnable
-                FROM cmd c
-                    INNER JOIN eqLogic el ON c.eqLogic_id=el.id
-                WHERE c.id=:id';
-        $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        $eqTyme_name = $result['eqType_name'];
-        if ($result['isEnable'] == 0) {
-            return __CLASS__;
+        if (is_object($_inputs)) {
+            if (class_exists($_inputs->getEqType() . 'Cmd')) {
+                return cast($_inputs, $_inputs->getEqType() . 'Cmd');
+            }
         }
-        if (class_exists($eqTyme_name) && method_exists($eqTyme_name, 'getClassCmd')) {
-            return $eqTyme_name::getClassCmd();
-        }
-        if (class_exists($eqTyme_name . 'Cmd')) {
-            return $eqTyme_name . 'Cmd';
-        }
-        return __CLASS__;
+        return $_inputs;
     }
 
-    public static function byId($_id, $_class = null) {
+    public static function byId($_id) {
         $values = array(
             'id' => $_id
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
                 WHERE id=:id';
-        if ($_class == null) {
-            $_class = self::getClass($_id);
-        }
-        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, $_class);
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function all() {
-        $sql = 'SELECT id
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
                 ORDER BY id';
         $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
@@ -95,26 +84,21 @@ class cmd {
     }
 
     public static function allHistoryCmd($_notEventOnly = false) {
-        $sql = 'SELECT id
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
                 WHERE isHistorized=1
                     AND type=\'info\'';
         if ($_notEventOnly) {
             $sql .= ' AND eventOnly=0';
         }
-        $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
-        $return = array();
-        foreach ($results as $result) {
-            $return[] = self::byId($result['id']);
-        }
-        return $return;
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byEqLogicId($_eqLogic_id, $_type = null) {
         $values = array(
             'eqLogic_id' => $_eqLogic_id
         );
-        $sql = 'SELECT id
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
                 WHERE eqLogic_id=:eqLogic_id';
         if ($_type != null) {
@@ -122,23 +106,14 @@ class cmd {
             $sql .= ' AND `type`=:type';
         }
         $sql .= ' ORDER BY `order`';
-        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
-        $return = array();
-        $class = null;
-        foreach ($results as $result) {
-            if ($class == null) {
-                $class = self::getClass($result['id']);
-            }
-            $return[] = self::byId($result['id'], $class);
-        }
-        return $return;
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byLogicalId($_logical_id, $_type = null) {
         $values = array(
             'logicalId' => $_logical_id
         );
-        $sql = 'SELECT id
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
                 WHERE logicalId=:logicalId';
         if ($_type != null) {
@@ -146,12 +121,7 @@ class cmd {
             $sql .= ' AND `type`=:type';
         }
         $sql .= ' ORDER BY `order`';
-        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
-        $return = array();
-        foreach ($results as $result) {
-            $return[] = self::byId($result['id']);
-        }
-        return $return;
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byEqLogicIdAndLogicalId($_eqLogic_id, $_logicalId) {
@@ -159,28 +129,22 @@ class cmd {
             'eqLogic_id' => $_eqLogic_id,
             'logicalId' => $_logicalId
         );
-        $sql = 'SELECT id
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
                 WHERE eqLogic_id=:eqLogic_id
                     AND logicalId=:logicalId';
-        $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        return self::byId($id['id']);
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byValue($_value) {
         $values = array(
             'value' => $_value
         );
-        $sql = 'SELECT id
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
                 WHERE value=:value
                 ORDER BY `order`';
-        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
-        $return = array();
-        foreach ($results as $result) {
-            $return[] = self::byId($result['id']);
-        }
-        return $return;
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byTypeEqLogicNameCmdName($_eqType_name, $_eqLogic_name, $_cmd_name) {
@@ -189,14 +153,13 @@ class cmd {
             'eqLogic_name' => $_eqLogic_name,
             'cmd_name' => $_cmd_name,
         );
-        $sql = 'SELECT c.id
+        $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
                 FROM cmd c
                     INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                 WHERE c.name=:cmd_name
                     AND el.name=:eqLogic_name
                     AND el.eqType_name=:eqType_name';
-        $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        return self::byId($id['id']);
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byEqLogicIdCmdName($_eqLogic_id, $_cmd_name) {
@@ -204,12 +167,11 @@ class cmd {
             'eqLogic_id' => $_eqLogic_id,
             'cmd_name' => $_cmd_name,
         );
-        $sql = 'SELECT c.id
+        $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
                 FROM cmd c
                 WHERE c.name=:cmd_name
                     AND c.eqLogic_id=:eqLogic_id';
-        $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        return self::byId($id['id']);
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byObjectNameEqLogicNameCmdName($_object_name, $_eqLogic_name, $_cmd_name) {
@@ -219,7 +181,7 @@ class cmd {
         );
 
         if ($_object_name == __('Aucun', __FILE__)) {
-            $sql = 'SELECT c.id
+            $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
                     FROM cmd c
                         INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                     WHERE c.name=:cmd_name
@@ -227,7 +189,7 @@ class cmd {
                         AND el.object_id IS NULL';
         } else {
             $values['object_name'] = $_object_name;
-            $sql = 'SELECT c.id
+            $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
                     FROM cmd c
                         INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                         INNER JOIN object ob ON el.object_id=ob.id
@@ -235,8 +197,7 @@ class cmd {
                         AND el.name=:eqLogic_name
                         AND ob.name=:object_name';
         }
-        $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        return self::byId($id['id']);
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byObjectNameCmdName($_object_name, $_cmd_name) {
@@ -244,33 +205,27 @@ class cmd {
             'object_name' => $_object_name,
             'cmd_name' => $_cmd_name,
         );
-        $sql = 'SELECT c.id
+        $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
                 FROM cmd c
                     INNER JOIN eqLogic el ON c.eqLogic_id=el.id
                     INNER JOIN object ob ON el.object_id=ob.id
                 WHERE c.name=:cmd_name
                     AND ob.name=:object_name';
-        $id = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        return self::byId($id['id']);
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byTypeSubType($_type, $_subType = '') {
         $values = array(
             'type' => $_type,
         );
-        $sql = 'SELECT c.id
+        $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
                 FROM cmd c
                 WHERE c.type=:type';
         if ($_subType != '') {
             $values['subtype'] = $_subType;
             $sql .= ' AND c.subtype=:subtype';
         }
-        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
-        $return = array();
-        foreach ($results as $result) {
-            $return[] = self::byId($result['id']);
-        }
-        return $return;
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function collect() {
@@ -502,6 +457,9 @@ class cmd {
         }
         if ($this->getSubType() == '') {
             throw new Exception(__('Le sous-type de la commande ne peut etre vide :', __FILE__) . print_r($this, true));
+        }
+        if ($this->getEqType() == '') {
+            $this->setEqType($this->getEqLogic()->getEqType_name());
         }
         if ($this->getInternalEvent() == 1) {
             $internalEvent = new internalEvent();
@@ -1080,6 +1038,14 @@ class cmd {
 
     public function setLogicalId($logicalId) {
         $this->logicalId = $logicalId;
+    }
+
+    public function getEqType() {
+        return $this->eqType;
+    }
+
+    public function setEqType($eqType) {
+        $this->eqType = $eqType;
     }
 
 }

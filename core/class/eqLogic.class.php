@@ -47,14 +47,7 @@ class eqLogic {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM eqLogic
                 WHERE id=:id';
-        $eqLogic = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
-        if ($eqLogic->getIsEnable() == 0) {
-            return $eqLogic;
-        }
-        if (class_exists($eqLogic->getEqType_name())) {
-            return cast($eqLogic, $eqLogic->getEqType_name());
-        }
-        return $eqLogic;
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__));
     }
 
     private static function cast($_inputs) {
