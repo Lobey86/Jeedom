@@ -84,6 +84,11 @@ try {
     echo __("Reastauration des fichiers...", __FILE__);
     rcopy($tmp, dirname(__FILE__) . '/..', false, array('common.config.php'));
     echo __("OK\n", __FILE__);
+    
+    if(!file_exists(dirname(__FILE__).'/../install')){
+        mkdir(dirname(__FILE__).'/../install');
+        shell_exec('cd '.dirname(__FILE__).'/../install;wget http://git.jeedom.fr/jeedom/core/raw/master/install/backup.php;wget http://git.jeedom.fr/jeedom/core/raw/master/install/install.php');
+    }
 
     foreach (plugin::listPlugin(true) as $plugin) {
         $plugin_id = $plugin->getId();
