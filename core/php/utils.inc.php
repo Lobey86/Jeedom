@@ -167,7 +167,7 @@ function init($_name, $_default = '') {
 function sendVarToJS($_varName, $_value) {
     if (is_array($_value)) {
         echo '<script>';
-        echo 'var ' . $_varName . ' = jQuery.parseJSON("' . addslashes(json_encode($_value,JSON_UNESCAPED_UNICODE)) . '");';
+        echo 'var ' . $_varName . ' = jQuery.parseJSON("' . addslashes(json_encode($_value, JSON_UNESCAPED_UNICODE)) . '");';
         echo '</script>';
     } else {
         echo '<script>';
@@ -685,4 +685,26 @@ function getNtpTime() {
         }
     }
     return false;
+}
+
+function cast($sourceObject, $destination) {
+    if (is_string($destination)) {
+        $destination = new $destination();
+    }
+    $sourceReflection = new ReflectionObject($sourceObject);
+    $destinationReflection = new ReflectionObject($destination);
+    $sourceProperties = $sourceReflection->getProperties();
+    foreach ($sourceProperties as $sourceProperty) {
+        $sourceProperty->setAccessible(true);
+        $name = $sourceProperty->getName();
+        $value = $sourceProperty->getValue($sourceObject);
+        if ($destinationReflection->hasProperty($name)) {
+            $propDest = $destinationReflection->getProperty($name);
+            $propDest->setAccessible(true);
+            $propDest->setValue($destination, $value);
+        } else {
+            $destination->$name = $value;
+        }
+    }
+    return $destination;
 }

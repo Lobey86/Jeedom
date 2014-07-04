@@ -58,22 +58,10 @@ class cmd {
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         $eqTyme_name = $result['eqType_name'];
         if ($result['isEnable'] == 0) {
-            try {
-                $plugin = null;
-                if ($eqTyme_name != '') {
-                    $plugin = plugin::byId($eqTyme_name);
-                }
-                if (!is_object($plugin) || $plugin->isActive() == 0) {
-                    return __CLASS__;
-                }
-            } catch (Exception $e) {
-                return __CLASS__;
-            }
+            return __CLASS__;
         }
-        if (class_exists($eqTyme_name)) {
-            if (method_exists($eqTyme_name, 'getClassCmd')) {
-                return $eqTyme_name::getClassCmd();
-            }
+        if (class_exists($eqTyme_name) && method_exists($eqTyme_name, 'getClassCmd')) {
+            return $eqTyme_name::getClassCmd();
         }
         if (class_exists($eqTyme_name . 'Cmd')) {
             return $eqTyme_name . 'Cmd';
@@ -366,7 +354,7 @@ class cmd {
                 $_input[$key] = self::humanReadableToCmd($value);
             }
             if ($isJson) {
-                return json_encode($_input,JSON_UNESCAPED_UNICODE);
+                return json_encode($_input, JSON_UNESCAPED_UNICODE);
             }
             return $_input;
         }
