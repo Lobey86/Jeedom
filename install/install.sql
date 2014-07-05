@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 05 Juillet 2014 à 13:39
+-- Généré le: Sam 05 Juillet 2014 à 20:06
 -- Version du serveur: 5.6.17-0ubuntu0.14.04.1
 -- Version de PHP: 5.5.9-1ubuntu4.2
 
@@ -345,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `message` text,
   `action` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=746 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=764 ;
 
 -- --------------------------------------------------------
 
@@ -389,6 +389,7 @@ CREATE TABLE IF NOT EXISTS `scenario` (
   `timeout` int(11) DEFAULT NULL,
   `isVisible` tinyint(1) DEFAULT '1',
   `object_id` int(11) DEFAULT NULL,
+  `hlogs` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`,`group`,`object_id`),
   KEY `group` (`group`),

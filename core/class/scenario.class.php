@@ -37,6 +37,7 @@ class scenario {
     private $timeout = 0;
     private $object_id = null;
     private $isVisible = 1;
+    private $hlogs;
     private static $_templateArray;
 
     /*     * ***********************Methode static*************************** */
@@ -252,6 +253,16 @@ class scenario {
     }
 
     public function clearLog() {
+        $logs = $this->getHlogs();
+        if (is_array($logs)) {
+            if (count($logs) > 5) {
+                array_pop($logs);
+            }
+            array_unshift($logs, $this->getConsolidateLog());
+            $this->setHlogs($logs);
+        } else {
+            $this->setHlogs(array($this->getConsolidateLog()));
+        }
         $this->setLog('');
         foreach ($this->getElement() as $element) {
             $element->clearLog();
@@ -663,6 +674,21 @@ class scenario {
 
     public function setIsVisible($isVisible) {
         $this->isVisible = $isVisible;
+    }
+
+    public function getHlogs() {
+        if (is_json($this->hlogs)) {
+            return json_decode($this->hlogs, true);
+        }
+        return $this->hlogs;
+    }
+
+    public function setHlogs($hlogs) {
+        if (is_array($hlogs)) {
+            $this->hlogs = json_encode($hlogs);
+        } else {
+            $this->hlogs = $hlogs;
+        }
     }
 
 }
