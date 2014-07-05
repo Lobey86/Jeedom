@@ -66,9 +66,10 @@ try {
 
     echo __("Restauration de Jeedom avec le fichier : ", __FILE__) . $backup . "\n";
 
-
+    echo __("Nettoyage des anciens fichiers...", __FILE__);
     $tmp = dirname(__FILE__) . '/../tmp/backup';
     rrmdir($tmp);
+    echo __("OK\n", __FILE__);
     if (!file_exists($tmp)) {
         mkdir($tmp, 0770, true);
     }
@@ -85,8 +86,9 @@ try {
     foreach ($tables as $table) {
         $table = array_values($table);
         $table = $table[0];
-        echo __("Suppression de la table : ", __FILE__) . $table;
+        echo __("Suppression de la table : ", __FILE__) . $table . ' ...';
         DB::Prepare("DROP TABLE IF EXISTS " . $table, array(), DB::FETCH_TYPE_ROW);
+        echo __("OK\n", __FILE__);
     }
     echo __("Réactivation des contraintes...", __FILE__);
     DB::Prepare("SET foreign_key_checks = 1", array(), DB::FETCH_TYPE_ROW);
