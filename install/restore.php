@@ -63,6 +63,7 @@ try {
     if (!file_exists($backup)) {
         throw new Exception(__('Backup non trouvé.', __FILE__) . $backup);
     }
+    $jeedom_dir = realpath(dirname(__FILE__) . '/../');
 
     echo __("Restauration de Jeedom avec le fichier : ", __FILE__) . $backup . "\n";
 
@@ -102,9 +103,9 @@ try {
     rcopy($tmp, dirname(__FILE__) . '/..', false, array('common.config.php'));
     echo __("OK\n", __FILE__);
 
-    if (!file_exists(dirname(__FILE__) . '/../install')) {
-        mkdir(dirname(__FILE__) . '/../install');
-        shell_exec('cd ' . dirname(__FILE__) . '/../install;wget http://git.jeedom.fr/jeedom/core/raw/master/install/backup.php;wget http://git.jeedom.fr/jeedom/core/raw/master/install/install.php');
+    if (!file_exists($jeedom_dir . '/install')) {
+        mkdir($jeedom_dir . '/install');
+        shell_exec('cd ' . $jeedom_dir . '/install;wget http://git.jeedom.fr/jeedom/core/raw/master/install/backup.php;wget http://git.jeedom.fr/jeedom/core/raw/master/install/install.php');
     }
 
     foreach (plugin::listPlugin(true) as $plugin) {
