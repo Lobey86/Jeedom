@@ -28,6 +28,7 @@ if ($logfile == '') {
 ?>
 <a class="btn btn-danger pull-right" id="bt_removeLog"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>
 <a class="btn btn-warning pull-right" id="bt_clearLog"><i class="fa fa-times"></i> {{Vider}}</a>
+<a class="btn btn-success pull-right" id="bt_downloadLog"><i class="fa fa-cloud-download"></i> {{Télécharger}}</a>
 <select id="sel_log" class="pull-left form-control" style="width: 200px;">
     <?php
     foreach ($list_logfile as $file) {
@@ -144,6 +145,10 @@ if (isset($log[0][0]) && $log[0][0] == '') {
     $(function() {
         $('.changePage').click(function() {
             window.location = 'index.php?v=d&p=log&page=' + $(this).attr('data-page') + '&logfile=' + $('#sel_log').value();
+        });
+        
+         $('#bt_downloadLog').click(function() {
+            window.open('core/php/downloadFile.php?pathfile=log/' + $('#sel_log').value(), "_blank", null);
         });
 
         $("#sel_log").on('change', function() {
