@@ -51,8 +51,21 @@ try {
         if (!file_exists($backup_dir)) {
             mkdir($backup_dir, 0770, true);
         }
-        $backup = scandir($backup_dir, SCANDIR_SORT_DESCENDING);
-        $backup = $backup_dir . '/' . $backup[0];
+        $backup = null;
+        $mtime = null;
+        foreach (scandir($backup_dir) as $file) {
+            if ($file != "." && $file != "..") {
+                $s = stat($backup_dir . '/' . $file);
+                if ($backup == null || $mtime == null) {
+                    $backup = $backup_dir . '/' . $file;
+                    $mtime = $s['mtime'];
+                }
+                if ($mtime < $s['mtime']) {
+                    $backup = $backup_dir . '/' . $file;
+                    $mtime = $s['mtime'];
+                }
+            }
+        }
     } else {
         $backup = $_GET['backup'];
     }
@@ -88,7 +101,7 @@ try {
         $table = array_values($table);
         $table = $table[0];
         echo __("Suppression de la table : ", __FILE__) . $table . ' ...';
-        DB::Prepare('DROP TABLE IF EXISTS `' . $table.'`', array(), DB::FETCH_TYPE_ROW);
+        DB::Prepare('DROP TABLE IF EXISTS `' . $table . '`', array(), DB::FETCH_TYPE_ROW);
         echo __("OK\n", __FILE__);
     }
     echo __("Réactivation des contraintes...", __FILE__);
