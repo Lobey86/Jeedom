@@ -64,7 +64,7 @@ class jsonrpcClient {
         if (!ip2long($host)) {
             exec("timeout 2 ping -n -c 1 -W 2 $host", $output, $retval);
             if ($retval != 0) {
-                throw new Exception(__('Impossible de résoudre le DNS : ', __FILE__) . $host . __('. Pas d\'internet ?', __FILE__));
+                throw new Exception(__('Impossible de résoudre le DNS : ', __FILE__) . $host . __('. Pas d\'internet ?', __FILE__),3456);
             }
         }
         if ($_file !== null) {

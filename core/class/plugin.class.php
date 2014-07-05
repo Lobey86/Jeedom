@@ -223,6 +223,9 @@ class plugin {
         if (version_compare(getVersion('jeedom'), $this->getRequire()) == -1 && $_state == 1) {
             throw new Exception('Votre version de jeedom n\'est pas assez récente pour activer ce plugin');
         }
+        if ($_state == 1) {
+            market::checkPayment($this->getId());
+        }
         $alreadyActive = config::byKey('active', $this->getId(), 0);
         config::save('active', $_state, $this->getId());
         if ($_state == 0) {
