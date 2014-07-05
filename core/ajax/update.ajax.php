@@ -67,7 +67,7 @@ try {
     }
 
     if (init('action') == 'updateAll') {
-        update::makeUpdateLevel(init('force'), init('level'));
+        update::makeUpdateLevel(init('mode'), init('level'));
         ajax::success();
     }
 
