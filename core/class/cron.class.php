@@ -280,6 +280,7 @@ class cron {
     /*
      * Set this cron to stop
      */
+
     public function stop() {
         if ($this->running()) {
             $this->setState('stoping');
@@ -290,6 +291,7 @@ class cron {
     /*
      * Stop immediatly cron (this method must be only call by jeecron master)
      */
+
     public function halt() {
         if (!is_numeric($this->getPID())) {
             return true;
@@ -366,7 +368,7 @@ class cron {
             try {
                 $prev = $c->getPreviousRunDate();
                 $lastCheck = new DateTime($this->getLastRun());
-                $diff = round(abs((strtotime('now') - strtotime($prev)) / 60));
+                $diff = round(abs((strtotime('now') - $prev->getTimestamp()) / 60));
                 if ($lastCheck < $prev && $diff <= config::byKey('maxCatchAllow') || config::byKey('maxCatchAllow') == -1) {
                     if ($diff > 3) {
                         log::add('cron', 'error', __('Retard de ', __FILE__) . $diff . ' min : ' . $this->getClass() . '::' . $this->getFunction() . __('(). Rattrapage en cours...', __FILE__));
