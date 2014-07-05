@@ -52,6 +52,7 @@ jeedom.backup.restoreLocal = function(_params) {
     paramsAJAX.url = 'core/ajax/jeedom.ajax.php';
     paramsAJAX.data = {
         action: 'restore',
+        backup : _params.backup
     };
     $.ajax(paramsAJAX);
 };
