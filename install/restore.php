@@ -87,7 +87,7 @@ try {
         $table = array_values($table);
         $table = $table[0];
         echo __("Suppression de la table : ", __FILE__) . $table . ' ...';
-        DB::Prepare("DROP TABLE IF EXISTS " . $table, array(), DB::FETCH_TYPE_ROW);
+        DB::Prepare('DROP TABLE IF EXISTS `' . $table.'`', array(), DB::FETCH_TYPE_ROW);
         echo __("OK\n", __FILE__);
     }
     echo __("Réactivation des contraintes...", __FILE__);
@@ -122,10 +122,10 @@ try {
     echo __("***************Fin de la restoration de Jeedom***************\n", __FILE__);
     echo "[END RESTORE SUCCESS]\n";
 } catch (Exception $e) {
-    jeedom::start();
     echo __('Erreur durant le backup : ', __FILE__) . $e->getMessage();
     echo __('Détails : ', __FILE__) . print_r($e->getTrace());
     echo "[END RESTORE ERROR]\n";
+    jeedom::start();
     throw $e;
 }
 ?>
