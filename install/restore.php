@@ -60,10 +60,6 @@ try {
         $backup = dirname(__FILE__) . '/../' . $backup;
     }
 
-    
-    
-   
-    
     if (!file_exists($backup)) {
         throw new Exception(__('Backup non trouvé.', __FILE__) . $backup);
     }
