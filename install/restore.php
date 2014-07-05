@@ -105,7 +105,7 @@ try {
 
     if (!file_exists($jeedom_dir . '/install')) {
         mkdir($jeedom_dir . '/install');
-        shell_exec('cd ' . $jeedom_dir . '/install;wget http://git.jeedom.fr/jeedom/core/raw/master/install/backup.php;wget http://git.jeedom.fr/jeedom/core/raw/master/install/install.php');
+        shell_exec('cd ' . $jeedom_dir . '/install;wget http://git.jeedom.fr/jeedom/core/raw/master/install/backup.php;wget http://git.jeedom.fr/jeedom/core/raw/master/install/install.php;wget http://git.jeedom.fr/jeedom/core/raw/master/install/restore.php');
     }
 
     foreach (plugin::listPlugin(true) as $plugin) {
