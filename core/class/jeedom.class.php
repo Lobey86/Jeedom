@@ -177,12 +177,11 @@ class jeedom {
             log::clear('restore');
             $cmd = 'nohup php ' . dirname(__FILE__) . '/../../install/restore.php backup=' . $_backup;
             $cmd.= ' >> ' . log::getPathToLog('restore') . ' 2>&1 &';
-            echo $cmd;
-            //shell_exec($cmd);
+            shell_exec($cmd);
         } else {
             global $BACKUP_FILE;
             $BACKUP_FILE = $_backup;
-            //require_once dirname(__FILE__) . '/../../install/restore.php';
+            require_once dirname(__FILE__) . '/../../install/restore.php';
         }
     }
 
