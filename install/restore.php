@@ -77,17 +77,32 @@ try {
     echo "OK\n";
 
     jeedom::stop();
+    echo __("Suppression de toutes les tables", __FILE__);
+    $tables = DB::Prepare("SHOW TABLES", array(), DB::FETCH_TYPE_ALL);
+    echo __("Désactivation des contraintes...", __FILE__);
+    DB::Prepare("SET foreign_key_checks = 0", array(), DB::FETCH_TYPE_ROW);
+    echo __("OK\n", __FILE__);
+    foreach ($tables as $table) {
+        $table = array_values($table);
+        $table = $table[0];
+        echo __("Suppression de la table : ", __FILE__) . $table;
+        DB::Prepare("DROP TABLE IF EXISTS " . $table, array(), DB::FETCH_TYPE_ROW);
+    }
+    echo __("Réactivation des contraintes...", __FILE__);
+    DB::Prepare("SET foreign_key_checks = 1", array(), DB::FETCH_TYPE_ROW);
+    echo __("OK\n", __FILE__);
+
     echo __("Reastauration de la base de données...", __FILE__);
     system("mysql --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'] . "  < " . $tmp . "/DB_backup.sql");
-    echo "OK\n";
+    echo __("OK\n", __FILE__);
 
     echo __("Reastauration des fichiers...", __FILE__);
     rcopy($tmp, dirname(__FILE__) . '/..', false, array('common.config.php'));
     echo __("OK\n", __FILE__);
-    
-    if(!file_exists(dirname(__FILE__).'/../install')){
-        mkdir(dirname(__FILE__).'/../install');
-        shell_exec('cd '.dirname(__FILE__).'/../install;wget http://git.jeedom.fr/jeedom/core/raw/master/install/backup.php;wget http://git.jeedom.fr/jeedom/core/raw/master/install/install.php');
+
+    if (!file_exists(dirname(__FILE__) . '/../install')) {
+        mkdir(dirname(__FILE__) . '/../install');
+        shell_exec('cd ' . dirname(__FILE__) . '/../install;wget http://git.jeedom.fr/jeedom/core/raw/master/install/backup.php;wget http://git.jeedom.fr/jeedom/core/raw/master/install/install.php');
     }
 
     foreach (plugin::listPlugin(true) as $plugin) {
