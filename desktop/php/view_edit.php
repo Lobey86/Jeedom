@@ -24,7 +24,7 @@ if (!isConnect()) {
         <div class="bs-sidebar">
             <ul id="ul_view" class="nav nav-list bs-sidenav">
                 <a id="bt_addView" class="btn btn-default" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle"></i> {{Creer une vue}}</a>
-                <li class="filter" style="margin-bottom: 5px;"><input class="filter" placeholder="{{Rechercher}}" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
                 foreach (view::all() as $view) {
                     echo '<li class="cursor li_view" data-view_id="' . $view->getId() . '"><a>' . $view->getName() . '</a></li>';
