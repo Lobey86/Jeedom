@@ -24,8 +24,11 @@ if (!function_exists('cast')) {
     }
 }
 
-
+$sql = 'UPDATE cmd SET eqType=:eqType WHERE id=:id';
 foreach (cmd::all() as $cmd) {
-    $cmd->setEqType($cmd->getEqLogic()->getEqType_name());
-    $cmd->save();
+    $values = array(
+        'id' => $cmd->getId(),
+        'eqType' => $cmd->getEqLogic()->getEqType_name(),
+    );
+    DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
 }
