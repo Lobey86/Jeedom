@@ -89,7 +89,7 @@ class cmd {
         if ($_notEventOnly) {
             $sql .= ' AND eventOnly=0';
         }
-        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
+        return self::cast(DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byEqLogicId($_eqLogic_id, $_type = null) {
@@ -456,7 +456,7 @@ class cmd {
         if ($this->getSubType() == '') {
             throw new Exception(__('Le sous-type de la commande ne peut etre vide :', __FILE__) . print_r($this, true));
         }
-         if ($this->getEqLogic_id() == '') {
+        if ($this->getEqLogic_id() == '') {
             throw new Exception(__('Vous ne pouvez creer une commande sans la ratacher à un équipement', __FILE__));
         }
         if ($this->getEqType() == '') {
