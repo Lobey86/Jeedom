@@ -50,6 +50,24 @@ if (!isConnect('admin')) {
                             echo $cmd->getHumanName();
                         }
                     }
+                    if (strpos($internalEvent->getEvent(), 'eqLogic') !== false) {
+                        $eqLogic = eqLogic::byId($value);
+                        if (is_object($eqLogic)) {
+                            echo $eqLogic->getHumanName();
+                        }
+                    }
+                    if (strpos($internalEvent->getEvent(), 'scenario') !== false) {
+                        $scenario = scenario::byId($value);
+                        if (is_object($scenario)) {
+                            echo $scenario->getHumanName();
+                        }
+                    }
+                    if (strpos($internalEvent->getEvent(), 'object') !== false) {
+                        $object = object::byId($value);
+                        if (is_object($object)) {
+                            echo $object->getHumanName();
+                        }
+                    }
                     echo '</td>';
                 }
             }

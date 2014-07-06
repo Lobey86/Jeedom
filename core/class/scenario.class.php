@@ -38,6 +38,7 @@ class scenario {
     private $object_id = null;
     private $isVisible = 1;
     private $hlogs;
+    protected $_internalEvent = 0;
     private static $_templateArray;
 
     /*     * ***********************Methode static*************************** */
@@ -225,6 +226,10 @@ class scenario {
     }
 
     public function execute($_message = '') {
+        $internalEvent = new internalEvent();
+        $internalEvent->setEvent('launch::scenario');
+        $internalEvent->setOptions('id', $this->getId());
+        $internalEvent->save();
         $this->clearLog();
         $initialState = $this->getState();
         $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
@@ -234,6 +239,10 @@ class scenario {
         foreach ($this->getElement() as $element) {
             $element->execute($this, $initialState);
         }
+        $internalEvent = new internalEvent();
+        $internalEvent->setEvent('stop::scenario');
+        $internalEvent->setOptions('id', $this->getId());
+        $internalEvent->save();
         $this->save();
         return true;
     }
@@ -309,7 +318,19 @@ class scenario {
             $calculateScheduleDate = $this->calculateScheduleDate();
             $this->setLastLaunch($calculateScheduleDate['prevDate']);
         }
+        if ($this->getInternalEvent() == 1) {
+            $internalEvent = new internalEvent();
+            if ($this->getId() == '') {
+                $internalEvent->setEvent('create::scenario');
+            } else {
+                $internalEvent->setEvent('update::scenario');
+            }
+        }
         DB::save($this);
+        if (isset($internalEvent)) {
+            $internalEvent->setOptions('id', $this->getId());
+            $internalEvent->save();
+        }
         @nodejs::pushUpdate('eventScenario', $this->getId());
     }
 
@@ -320,10 +341,14 @@ class scenario {
     public function remove() {
         viewData::removeByTypeLinkId('scenario', $this->getId());
         dataStore::removeByTypeLinkId('scenario', $this->getId());
+        $internalEvent = new internalEvent();
+        $internalEvent->setEvent('remove::scenario');
+        $internalEvent->setOptions('id', $this->getId());
         foreach ($this->getElement() as $element) {
             $element->remove();
         }
         DB::remove($this);
+        $internalEvent->save();
     }
 
     public function removeData($_key, $_private = true) {
@@ -555,10 +580,16 @@ class scenario {
     }
 
     public function setName($name) {
+        if ($name != $this->getName()) {
+            $this->setInternalEvent(1);
+        }
         $this->name = $name;
     }
 
     public function setIsActive($isActive) {
+        if ($isActive != $this->getIsActive()) {
+            $this->setInternalEvent(1);
+        }
         $this->isActive = $isActive;
     }
 
@@ -689,6 +720,14 @@ class scenario {
         } else {
             $this->hlogs = $hlogs;
         }
+    }
+
+    public function getInternalEvent() {
+        return $this->_internalEvent;
+    }
+
+    public function setInternalEvent($_internalEvent) {
+        $this->_internalEvent = $_internalEvent;
     }
 
 }
