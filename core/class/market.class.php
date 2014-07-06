@@ -368,7 +368,8 @@ class market {
                 }
                 log::add('update', 'update', __('Décompression de l\'archive...', __FILE__));
                 $zip = new ZipArchive;
-                if ($zip->open($tmp) === TRUE) {
+                $res = $zip->open($tmp);
+                if ($res === TRUE) {
                     if (!$zip->extractTo($cibDir . '/')) {
                         throw new Exception(__('Impossible d\'installer le plugin. Les fichiers n\'ont pu etre décompressés', __FILE__));
                     }
@@ -387,7 +388,7 @@ class market {
                         $plugin->setIsEnable(1);
                     }
                 } else {
-                    throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp);
+                    throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp . __('. Erreur : ', __FILE__) . $res);
                 }
                 break;
             default :
