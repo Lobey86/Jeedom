@@ -90,5 +90,9 @@ $PAGE_DESCRIPTOR_DESKTOP = array(
         'pageName' => 'backup',
         'title' => 'Sauvegarde'
     ),
+     'timeline' => array(
+        'pageName' => 'timeline',
+        'title' => 'Timeline'
+    ),
         /*         * *************************Mobile*********************************** */
 );
