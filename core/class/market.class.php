@@ -417,7 +417,7 @@ class market {
                             $ErrMsg = "Unknow (Code $res)";
                             break;
                     }
-                    throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp . __('. Erreur : ', __FILE__) . $ErrMsg);
+                    throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp . __('. Erreur : ', __FILE__) . $ErrMsg.'. Si l\'application est payante, l\'avez vous achetée ?');
                 }
                 break;
             default :
