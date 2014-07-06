@@ -61,33 +61,35 @@ class utils {
     }
 
     public static function a2o(&$_object, $_data) {
-        foreach ($_data as $key => $value) {
-            $method = 'set' . ucfirst($key);
-            if (method_exists($_object, $method)) {
-                $function = new ReflectionMethod($_object, $method);
-                if (is_json($value)) {
-                    $value = json_decode($value, true);
-                }
-                if (is_array($value)) {
-                    if ($function->getNumberOfRequiredParameters() == 2) {
-                        foreach ($value as $arrayKey => $arrayValue) {
-                            if (is_array($arrayValue)) {
-                                if ($function->getNumberOfRequiredParameters() == 3) {
-                                    foreach ($arrayValue as $arrayArraykey => $arrayArrayvalue) {
-                                        $_object->$method($arrayKey, $arrayArraykey, $arrayArrayvalue);
+        if (is_array($_data)) {
+            foreach ($_data as $key => $value) {
+                $method = 'set' . ucfirst($key);
+                if (method_exists($_object, $method)) {
+                    $function = new ReflectionMethod($_object, $method);
+                    if (is_json($value)) {
+                        $value = json_decode($value, true);
+                    }
+                    if (is_array($value)) {
+                        if ($function->getNumberOfRequiredParameters() == 2) {
+                            foreach ($value as $arrayKey => $arrayValue) {
+                                if (is_array($arrayValue)) {
+                                    if ($function->getNumberOfRequiredParameters() == 3) {
+                                        foreach ($arrayValue as $arrayArraykey => $arrayArrayvalue) {
+                                            $_object->$method($arrayKey, $arrayArraykey, $arrayArrayvalue);
+                                        }
+                                    } else {
+                                        $_object->$method($arrayKey, $arrayValue);
                                     }
                                 } else {
                                     $_object->$method($arrayKey, $arrayValue);
                                 }
-                            } else {
-                                $_object->$method($arrayKey, $arrayValue);
                             }
+                        } else {
+                            $_object->$method(json_encode($value, JSON_UNESCAPED_UNICODE));
                         }
                     } else {
-                        $_object->$method(json_encode($value,JSON_UNESCAPED_UNICODE));
+                        $_object->$method($value);
                     }
-                } else {
-                    $_object->$method($value);
                 }
             }
         }
@@ -132,15 +134,15 @@ class utils {
             if ($_attr != '' && is_json($_attr)) {
                 $attr = json_decode($_attr, true);
                 unset($attr[$_key]);
-                $_attr = json_encode($attr,JSON_UNESCAPED_UNICODE);
+                $_attr = json_encode($attr, JSON_UNESCAPED_UNICODE);
             }
         } else {
             if ($_attr == '' || !is_json($_attr)) {
-                $_attr = json_encode(array($_key => $_value),JSON_UNESCAPED_UNICODE);
+                $_attr = json_encode(array($_key => $_value), JSON_UNESCAPED_UNICODE);
             } else {
                 $attr = json_decode($_attr, true);
                 $attr[$_key] = $_value;
-                $_attr = json_encode($attr,JSON_UNESCAPED_UNICODE);
+                $_attr = json_encode($attr, JSON_UNESCAPED_UNICODE);
             }
         }
         return $_attr;
