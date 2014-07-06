@@ -227,18 +227,13 @@ class cmd {
     }
 
     public static function collect() {
-        $caches = cache::search('collect');
         $cmd = null;
-        foreach ($caches as $cache) {
+        foreach (cache::search('collect') as $cache) {
             $cmd = self::byId($cache->getValue());
             if (is_object($cmd)) {
                 if ($cmd->getEqLogic()->getIsEnable() == 1) {
-                    $cmd->execCmd(null, 1, false);
+                    $cmd->execCmd(null, 1);
                     log::add('collect', 'info', __('La commande :', __FILE__) . $cmd->getHumanName() . __(' est collectée', __FILE__));
-                    nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
-                    foreach (self::byValue($cmd->getId()) as $cmd_link) {
-                        nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd_link->getId(), 'eqLogic_id' => $cmd_link->getEqLogic_id(), 'object_id' => $cmd_link->getEqLogic()->getObject_id()));
-                    }
                 }
             }
         }
@@ -512,9 +507,16 @@ class cmd {
         }
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId());
-            if (!$mc->hasExpired() || $cache == 2) {
-                if ($mc->hasExpired()) {
+            $valueOk = ($mc->getValue() !== '' && $mc->getValue() !== false) ? true : false;
+            $recollectImmediat = ($cache == 2 && !$valueOk && $this->getEventOnly() == 0) ? true : false;
+            if ((!$mc->hasExpired() && $valueOk) || $cache == 2) {
+                if ($mc->hasExpired() || $recollectImmediat) {
                     $this->setCollect(1);
+                    if ($recollectImmediat) {
+                        $cron = cron::byClassAndFunction('cmd', 'collect');
+                        $cron->start();
+                        return __('Collecte en cours', __FILE__);
+                    }
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
                 return $mc->getValue();
@@ -664,7 +666,7 @@ class cmd {
             $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
             $replace['#state#'] = '';
             $replace['#tendance#'] = '';
-            $value = $this->execCmd(null, 2);
+            $value = trim($this->execCmd(null, 2));
             if ($value === null) {
                 return template_replace($replace, $template);
             }
@@ -824,10 +826,10 @@ class cmd {
             return 0;
         }
         if ($this->getCache('enable', 0) == 0 && $this->getCache('lifetime') == '') {
-            return 5;
+            return 10;
         }
         $lifetime = $this->getCache('lifetime', config::byKey('lifeTimeMemCache'));
-        return ($lifetime < 5) ? 5 : $lifetime;
+        return ($lifetime < 10) ? 10 : $lifetime;
     }
 
     public function getCmdValue() {

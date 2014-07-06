@@ -127,7 +127,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">{{Afficher statistique sur les widgets}}</label>
                                 <div class="col-lg-3">
-                                    <input type="checkbox"  class="configKey form-control" data-l1key="displayStatsWidget" />
+                                    <input type="checkbox"  class="configKey" data-l1key="displayStatsWidget" />
                                 </div>
                             </div>
                             <div class="form-group">

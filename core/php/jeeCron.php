@@ -55,7 +55,7 @@ if (init('cron_id') != '') {
         die();
     }
     if ($cron->getNbRun() > 1) {
-        log::add('cron', 'Error', __('Le cron : ', __FILE__) . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
+        log::add('cron', 'info', __('Le cron : ', __FILE__) . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
         die('Le cron : ' . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
     }
     log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' avec le PID : ', __FILE__) . getmypid());
