@@ -39,7 +39,7 @@ if (!isConnect('admin')) {
             echo '<tbody>';
             echo '<tr>';
             foreach ($internalEvent->getOptions() as $key => $value) {
-                echo '<td>';
+                echo '<td style="width: 200px;">';
                 echo $value;
                 echo '</td>';
                 if ($key == 'id') {

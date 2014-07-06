@@ -139,6 +139,7 @@ $plugins_list = plugin::listPlugin(true, true);
                                                     <li><a href="index.php?v=d&p=user"><i class="fa fa-users"></i> {{Utilisateurs}}</a></li>
                                                     <li><a href="index.php?v=d&p=backup"><i class="fa fa-floppy-o"></i> {{Sauvegarde}}</a></li>
                                                     <li><a href="index.php?v=d&p=update"><i class="fa fa-refresh"></i> {{Centre de mise à jour}}</a></li>
+                                                    <li class="expertModeVisible"><a href="index.php?v=d&p=timeline"><i class="fa fa-history"></i> {{Timeline}}</a></li>
                                                     <li class="expertModeVisible"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
                                                     <li class='expertModeVisible'><a href="index.php?v=d&p=security"><i class="fa fa-lock"></i> {{Sécurité}}</a></li>
                                                     <li class='expertModeVisible'><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> {{Log}}</a></li>

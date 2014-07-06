@@ -128,6 +128,7 @@ class connection {
         if ($this->getLocalisation() == '') {
             try {
                 $http = new com_http('http://ipinfo.io/' . $this->getIp());
+                $http->setLogError(false);
                 $details = json_decode($http->exec(1, 2), true);
                 $localisation = '';
                 if (isset($details['country'])) {
