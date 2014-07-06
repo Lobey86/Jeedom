@@ -160,16 +160,12 @@ $(function() {
         $('.cmd:last .cmdAttr[data-l1key=type]').trigger('change');
     });
 
-
-
     $('body').delegate('.cmd .cmdAction[data-l1key=chooseIcon]', 'click', function() {
         var cmd = $(this).closest('.cmd');
         chooseIcon(function(_icon) {
             cmd.find('.cmdAttr[data-l1key=display][data-l2key=icon]').empty().append(_icon);
         });
     });
-
-
 
     $('body').delegate('.cmd .cmdAttr[data-l1key=eventOnly]', 'change', function() {
         if ($(this).value() == 1) {

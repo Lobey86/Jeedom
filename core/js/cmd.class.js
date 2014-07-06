@@ -293,6 +293,9 @@ jeedom.cmd.changeSubType = function(_cmd) {
             if (_cmd.find('.cmdAttr[data-l1key=subType]').value() == 'slider' || _cmd.find('.cmdAttr[data-l1key=subType]').value() == 'color') {
                 _cmd.find('.cmdAttr[data-l1key=value]').show();
             }
+            _cmd.find('.cmdAttr[data-l1key=eventOnly]').trigger('change');
+            modifyWithoutSave = false;
+
             if ('function' == typeof (initExpertMode)) {
                 initExpertMode();
             }
