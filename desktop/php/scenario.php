@@ -78,7 +78,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
     <div class="col-lg-10" id="div_editScenario" style="display: none; border-left: solid 1px #EEE; padding-left: 25px;">
         
         <legend style="height: 35px;">{{Scénario}}
-            (<span class="scenarioAttr" data-l1key="id" ></span>)
+            <span class="expertModeVisible">(<span class="scenarioAttr" data-l1key="id" ></span>)</span>
             <a class="btn btn-default btn-xs pull-right" id="bt_copyScenario"><i class="fa fa-copy"></i> {{Dupliquer}}</a>
             <a class="btn btn-default btn-xs pull-right" id="bt_logScenario"><i class="fa fa-file-text-o"></i> {{Log}}</a>
             <a class="btn btn-danger btn-xs pull-right" id="bt_stopScenario"><i class="fa fa-stop"></i> {{Arrêter}}</a>
