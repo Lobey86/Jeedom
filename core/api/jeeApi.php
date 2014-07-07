@@ -34,15 +34,48 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
         }
         connection::success('api');
         $type = init('type');
-        if (class_exists($type)) {
-            if (method_exists($type, 'event')) {
-                log::add('api', 'info', 'Appels de ' . $type . '::event()');
-                $type::event();
-            } else {
-                throw new Exception('Aucune methode correspondante : ' . $type . '::event()');
+        if ($type == 'cmd') {
+            $cmd = cmd::byId(init('id'));
+            if (!is_object($cmd)) {
+                throw new Exception('Aucune commande correspondant à l\'id : ' . init('id'));
             }
+            $cmd->execCmd($_REQUEST);
+            echo 'ok';
+        } else if ($type == 'scenario') {
+            $scenario = scneario::byId(init('id'));
+            if (!is_object($scenario)) {
+                throw new Exception('Aucun scénario correspondant à l\'id : ' . init('id'));
+            }
+            switch (init('action')) {
+                case 'start':
+                    $scenario->launch(false, __('Lancement provoque par un appel api ', __FILE__));
+                    break;
+                case 'stop':
+                    $scenario->stop();
+                    break;
+                case 'deactivate':
+                    $scenario->setIsActive(0);
+                    $scenario->save();
+                    break;
+                case 'activate':
+                    $scenario->setIsActive(1);
+                    $scenario->save();
+                    break;
+                default :
+                    throw new Exception('Action non trouvée ou invalide [start,stop,deactivate,activate]');
+            }
+            echo 'ok';
         } else {
-            throw new Exception('Aucune plugin correspondant : ' . $type);
+            if (class_exists($type)) {
+                if (method_exists($type, 'event')) {
+                    log::add('api', 'info', 'Appels de ' . $type . '::event()');
+                    $type::event();
+                } else {
+                    throw new Exception('Aucune methode correspondante : ' . $type . '::event()');
+                }
+            } else {
+                throw new Exception('Aucune plugin correspondant : ' . $type);
+            }
         }
     } catch (Exception $e) {
         echo $e->getMessage();
@@ -54,7 +87,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
 
         $IP = getClientIp();
         log::add('api', 'info', init('request') . ' - IP :' . $IP);
-        
+
         $jsonrpc = new jsonrpc(init('request'));
 
         if (!mySqlIsHere()) {
