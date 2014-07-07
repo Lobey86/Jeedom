@@ -39,8 +39,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             if (!is_object($cmd)) {
                 throw new Exception('Aucune commande correspondant à l\'id : ' . init('id'));
             }
-            $cmd->execCmd($_REQUEST);
-            echo 'ok';
+            echo $cmd->execCmd($_REQUEST);
         } else if ($type == 'scenario') {
             $scenario = scneario::byId(init('id'));
             if (!is_object($scenario)) {
