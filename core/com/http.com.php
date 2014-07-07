@@ -64,7 +64,7 @@ class com_http {
             curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             if ($this->username != '') {
-                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY | CURLAUTH_ANYSAFE);
+              //  curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY | CURLAUTH_ANYSAFE);
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
             }
             $response = curl_exec($ch);
