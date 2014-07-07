@@ -152,23 +152,13 @@ $(function() {
             $(this).find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
         }
         initExpertMode();
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/user.ajax.php", // url du fichier php
-            data: {
-                action: "saveProfils",
-                user: json_encode(value)
-            },
-            dataType: 'json',
+        jeedom.user.saveProfils({
+            profils: value,
             global: false,
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
-            success: function(data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
+            success: function() {
             }
         });
     });

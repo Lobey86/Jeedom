@@ -133,7 +133,7 @@ $plugins_list = plugin::listPlugin(true, true);
                                     <li class="dropdown cursor">
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> {{Général}} <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
-                                            <li class="dropdown-submenu"><a href="#"><i class="fa fa-cogs"></i> Administration</a>
+                                            <li class="dropdown-submenu"><a href="#"><i class="fa fa-cogs"></i> {{Administration}}</a>
                                                 <ul class="dropdown-menu">
                                                     <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> {{Configuration}}</a></li>
                                                     <li><a href="index.php?v=d&p=user"><i class="fa fa-users"></i> {{Utilisateurs}}</a></li>
