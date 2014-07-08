@@ -44,7 +44,8 @@ class com_http {
             $url = parse_url($this->url);
             $host = $url['host'];
             if (!ip2long($host)) {
-                exec("timeout 2 ping -n -c 1 -W 2 $host", $output, $retval);
+                $timeout = config::byKey('http::ping_timeout');
+                exec("timeout 2 ping -n -c 1 -W $timeout $host", $output, $retval);
                 if ($retval != 0) {
                     throw new Exception(__('Impossible de résoudre le DNS : ', __FILE__) . $host . __('. Pas d\'internet ?', __FILE__));
                 }

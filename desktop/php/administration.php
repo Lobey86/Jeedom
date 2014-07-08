@@ -503,6 +503,29 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                     </div>
                 </div>
             </div>
+            <div class="panel panel-default expertModeVisible">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_http">
+                            {{HTTP}}
+                        </a>
+                    </h3>
+                </div>
+                <div id="configuration_http" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group expertModeVisible">
+                                    <label class="col-lg-2 control-label">{{Timeout de resolution DNS sur les requetes HTTP}}</label>
+                                    <div class="col-lg-1">
+                                        <input class="configKey form-control" data-l1key="http::ping_timeout"/>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="form-actions" style="height: 20px;">
                 <a class="btn btn-success" id="bt_saveGeneraleConfig"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
             </div>
