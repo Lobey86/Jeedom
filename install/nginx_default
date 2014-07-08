@@ -3,7 +3,7 @@ server {
         #listen   [::]:80 default_server ipv6only=on; ## listen for ipv6
         root /usr/share/nginx/www;
         index index.html index.htm index.php;
-        access_log /usr/share/nginx/www/jeedom/log/nginx.access;
+        access_log off;
         error_log /usr/share/nginx/www/jeedom/log/nginx.error;
        
         location /jeedom/ {
