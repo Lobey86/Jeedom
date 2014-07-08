@@ -72,10 +72,15 @@ if (init('type') == 'plugin') {
                     <input class="form-control marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}">
                 </div>
             </div>
+             <div class="form-group">
+                <label class="col-lg-4 control-label">{{Prix (€)}}</label>
+                <div class="col-lg-6">
+                    <input class="form-control marketAttr" data-l1key="cost" placeholder="{{Prix (€)}}">
+                </div>
+            </div>
         </div> 
         <div class="col-lg-6">
             <div class="form-group">
-
                 <div class="form-group">
                     <label class="col-lg-4 control-label">{{Description}}</label>
                     <div class="col-lg-6">
