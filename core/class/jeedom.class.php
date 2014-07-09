@@ -122,8 +122,12 @@ class jeedom {
                     if (strpos($line, 'E: ID_VENDOR=') !== false) {
                         $vendor = trim(str_replace(array('E: ID_VENDOR=', '"'), '', $line));
                     }
-                };
-                $usbMapping[$vendor . ' ' . $model] = '/dev/' . $usb;
+                }
+                if ($vendor = '' && $model = '') {
+                    $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
+                } else {
+                    $usbMapping[$vendor . ' ' . $model] = '/dev/' . $usb;
+                }
             }
             cache::set('jeedom::usbMapping', json_encode($usbMapping, JSON_UNESCAPED_UNICODE), 0);
         } else {
