@@ -62,10 +62,10 @@ class jsonrpcClient {
         $url = parse_url($this->apiAddr);
         $host = $url['host'];
         if (!ip2long($host)) {
-            $timeout = config::byKey('http::ping_timeout',2);
+            $timeout = config::byKey('http::ping_timeout', 2);
             exec("timeout $timeout ping -n -c 1 -W 2 $host", $output, $retval);
             if ($retval != 0) {
-                throw new Exception(__('Impossible de résoudre le DNS : ', __FILE__) . $host . __('. Pas d\'internet ?', __FILE__),3456);
+                throw new Exception(__('Impossible de résoudre le DNS : ', __FILE__) . $host . __('. Pas d\'internet ?', __FILE__), 3456);
             }
         }
         if ($_file !== null) {
