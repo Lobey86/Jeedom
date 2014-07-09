@@ -231,6 +231,18 @@ $(function() {
             }
         });
     });
+    
+     $('body').delegate('.bt_selectScenarioExpression', 'click', function(event) {
+        var expression = $(this).closest('.expression');
+        jeedom.scenario.getSelectModal({}, function(result) {
+            if (expression.find('.expressionAttr[data-l1key=type]').value() == 'action') {
+                expression.find('.expressionAttr[data-l1key=expression]').value(result.human);
+            }
+            if (expression.find('.expressionAttr[data-l1key=type]').value() == 'condition') {
+                expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert', result.human);
+            }
+        });
+    });
 
     $('body').delegate('.expression .expressionAttr[data-l1key=expression]', 'focusout', function(event) {
         var el = $(this);
@@ -577,6 +589,7 @@ function addExpression(_expression) {
             retour += '</div>';
             retour += '<div class="col-lg-1">';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" style="position : relative; top : 3px;"><i class="fa fa-list-alt"></i></a>';
+            retour += ' <a class="btn btn-default btn-sm cursor bt_selectScenarioExpression" style="position : relative; top : 3px;"><i class="fa fa-fa-history"></i></a>';
             retour += '</div>';
             break;
         case 'element' :

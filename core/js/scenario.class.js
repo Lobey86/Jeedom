@@ -218,3 +218,37 @@ jeedom.scenario.remove = function(_params) {
     };
     $.ajax(paramsAJAX);
 };
+
+jeedom.scenario.getSelectModal = function(_options, callback) {
+    if (!isset(_options)) {
+        _options = {};
+    }
+    if ($("#mod_insertScenarioValue").length == 0) {
+        $('body').append('<div id="mod_insertScenarioValue" title="{{Sélectionner le scénario}}" ></div>');
+
+        $("#mod_insertScenarioValue").dialog({
+            autoOpen: false,
+            modal: true,
+            height: 250,
+            width: 800
+        });
+        jQuery.ajaxSetup({async: false});
+        $('#mod_insertScenarioValue').load('index.php?v=d&modal=scenario.human.insert');
+        jQuery.ajaxSetup({async: true});
+    }
+    mod_insertScenario.setOptions(_options);
+    $("#mod_insertScenarioValue").dialog('option', 'buttons', {
+        "Annuler": function() {
+            $(this).dialog("close");
+        },
+        "Valider": function() {
+            var retour = {};
+            retour.human = mod_insertScenario.getValue();
+            if ($.trim(retour) != '') {
+                callback(retour);
+            }
+            $(this).dialog('close');
+        }
+    });
+    $('#mod_insertScenarioValue').dialog('open');
+};

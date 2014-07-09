@@ -83,6 +83,7 @@ class scenarioExpression {
         return $return;
     }
 
+    /**********************Fonction utiliser dans le calcule des conditions**********************************/
     public static function rand($_min, $_max) {
         return rand($_min, $_max);
     }

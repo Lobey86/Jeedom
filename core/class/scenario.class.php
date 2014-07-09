@@ -210,6 +210,132 @@ class scenario {
         DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
     }
 
+    public static function byObjectNameGroupNameScenarioName($_object_name, $_group_name, $_scenario_name) {
+        $values = array(
+            'scneario_name' => html_entity_decode($_scenario_name),
+        );
+
+        if ($_object_name == __('Aucun', __FILE__)) {
+            if ($_group_name == __('Aucun', __FILE__)) {
+                $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
+                        FROM scenario s
+                        WHERE s.name=:scneario_name
+                            AND group IS NULL
+                            AND el.object_id IS NULL';
+            } else {
+                $values['group_name'] = $_group_name;
+                $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
+                        FROM scenario s
+                        WHERE s.name=:scneario_name
+                            AND el.object_id IS NULL
+                            AND group=:group_name';
+            }
+        } else {
+            $values['object_name'] = $_object_name;
+            if ($_group_name == __('Aucun', __FILE__)) {
+                $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
+                        FROM scenario s
+                        INNER JOIN object ob ON el.object_id=ob.id
+                        WHERE s.name=:scneario_name
+                            AND ob.name=:object_name
+                            AND el.object_id IS NULL';
+            } else {
+                $values['group_name'] = $_group_name;
+                $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
+                        FROM scenario s
+                        INNER JOIN object ob ON el.object_id=ob.id
+                        WHERE s.name=:scneario_name
+                            AND ob.name=:object_name
+                            AND group=:group_name';
+            }
+        }
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__));
+    }
+
+    public static function toHumanReadable($_input) {
+        if (is_object($_input)) {
+            $reflections = array();
+            $uuid = spl_object_hash($_input);
+            if (!isset($reflections[$uuid])) {
+                $reflections[$uuid] = new ReflectionClass($_input);
+            }
+            $reflection = $reflections[$uuid];
+            $properties = $reflection->getProperties();
+            foreach ($properties as $property) {
+                $property->setAccessible(true);
+                $value = $property->getValue($_input);
+                $property->setValue($_input, self::toHumanReadable($value));
+                $property->setAccessible(false);
+            }
+            return $_input;
+        }
+        if (is_array($_input)) {
+            foreach ($_input as $key => $value) {
+                $_input[$key] = self::toHumanReadable($value);
+            }
+            return $_input;
+        }
+        $text = $_input;
+        preg_match_all("/#scenario([0-9]*)#/", $text, $matches);
+        foreach ($matches[1] as $scenario_id) {
+            if (is_numeric($scenario_id)) {
+                $scenario = self::byId($scenario_id);
+                if (is_object($scenario)) {
+                    $text = str_replace('#scenario' . $scenario_id . '#', '#' . $scenario->getHumanName(true) . '#', $text);
+                }
+            }
+        }
+        return $text;
+    }
+
+    public static function fromHumanReadable($_input) {
+        $isJson = false;
+        if (is_json($_input)) {
+            $isJson = true;
+            $_input = json_decode($_input, true);
+        }
+        if (is_object($_input)) {
+            $reflections = array();
+            $uuid = spl_object_hash($_input);
+            if (!isset($reflections[$uuid])) {
+                $reflections[$uuid] = new ReflectionClass($_input);
+            }
+            $reflection = $reflections[$uuid];
+            $properties = $reflection->getProperties();
+            foreach ($properties as $property) {
+                $property->setAccessible(true);
+                $value = $property->getValue($_input);
+                $property->setValue($_input, self::fromHumanReadable($value));
+                $property->setAccessible(false);
+            }
+            return $_input;
+        }
+        if (is_array($_input)) {
+            foreach ($_input as $key => $value) {
+                $_input[$key] = self::fromHumanReadable($value);
+            }
+            if ($isJson) {
+                return json_encode($_input, JSON_UNESCAPED_UNICODE);
+            }
+            return $_input;
+        }
+        $text = $_input;
+
+        preg_match_all("/#\[(.*?)\]\[(.*?)\]\[(.*?)\]#/", $text, $matches);
+        if (count($matches) == 4) {
+            for ($i = 0; $i < count($matches[0]); $i++) {
+                if (isset($matches[1][$i]) && isset($matches[2][$i]) && isset($matches[3][$i])) {
+                    $scenario = self::byObjectNameGroupNameScenarioName($matches[1][$i], $matches[2][$i], $matches[3][$i]);
+                    if (is_object($scenario)) {
+                        $text = str_replace($matches[0][$i], '#scenario' . $scenario->getId() . '#', $text);
+                    }
+                }
+            }
+        }
+
+        return $text;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function launch($_force = false, $_message = '') {
@@ -537,13 +663,21 @@ class scenario {
         return object::byId($this->object_id);
     }
 
-    public function getHumanName() {
+    public function getHumanName($_complete = false) {
         $return = '';
         if ($this->getGroup() != '') {
             $return .= '[' . $this->getGroup() . ']';
+        } else {
+            if ($_complete) {
+                $return .= '['.__('Aucun', __FILE__).']';
+            }
         }
         if (is_numeric($this->getObject_id())) {
             $return .= '[' . $this->getObject()->getName() . ']';
+        } else {
+            if ($_complete) {
+                $return .= '['.__('Aucun', __FILE__).']';
+            }
         }
         $return .= '[' . $this->getName() . ']';
         return $return;

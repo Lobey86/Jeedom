@@ -6,7 +6,7 @@ if (!isConnect()) {
 <select id="mod_insertScenariocValue_value">
     <?php
     foreach (scenario::all() as $scenario) {
-        echo '<option>' . $scenario->getHumanName() . '</option>';
+        echo '<option value="#' . $scenario->getHumanName(true) . '#">' . $scenario->getHumanName(true) . '</option>';
     }
     ?>
 </select>
@@ -15,6 +15,6 @@ if (!isConnect()) {
     }
 
     mod_insertScenario.getValue = function() {
-        return '#[' + object_name + '][' + group_name + '][' + scenario_name + ']#';
+        return $('#mod_insertScenariocValue_value').value();
     }
 </script>
