@@ -588,8 +588,8 @@ function addExpression(_expression) {
             retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="font-weight:bold;"/>';
             retour += '</div>';
             retour += '<div class="col-lg-1">';
-            retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" style="position : relative; top : 3px;"><i class="fa fa-list-alt"></i></a>';
-            retour += ' <a class="btn btn-default btn-sm cursor bt_selectScenarioExpression" style="position : relative; top : 3px;"><i class="fa fa-fa-history"></i></a>';
+            retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" style="position : relative; top : 3px;" title="Rechercher une commande"><i class="fa fa-list-alt"></i></a>';
+            retour += ' <a class="btn btn-default btn-sm cursor bt_selectScenarioExpression" style="position : relative; top : 3px;" title="Rechercher un scenario"><i class="fa fa-history"></i></a>';
             retour += '</div>';
             break;
         case 'element' :

@@ -354,7 +354,7 @@ class scenarioExpression {
     }
 
     public function setExpression($expression) {
-        $this->expression = cmd::humanReadableToCmd($expression);
+        $this->expression = jeedom::fromHumanReadable($expression);
     }
 
     public function getOptions($_key = '', $_default = '') {
@@ -362,7 +362,7 @@ class scenarioExpression {
     }
 
     public function setOptions($_key, $_value) {
-        $_value = cmd::humanReadableToCmd($_value);
+        $_value = jeedom::fromHumanReadable($_value);
         $this->options = utils::setJsonAttr($this->options, $_key, $_value);
     }
 

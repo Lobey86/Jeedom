@@ -119,7 +119,7 @@ try {
             throw new Exception(__('Scénario ID inconnu', __FILE__));
         }
         $return = utils::o2a($scenario);
-        $return['trigger'] = cmd::cmdToHumanReadable($return['trigger']);
+        $return['trigger'] = jeedom::toHumanReadable($return['trigger']);
         $return['forecast'] = $scenario->calculateScheduleDate();
         $return['elements'] = array();
         foreach ($scenario->getElement() as $element) {

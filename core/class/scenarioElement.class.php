@@ -176,7 +176,7 @@ class scenarioElement {
                         $expression_ajax['element'] = $element->getAjaxElement();
                     }
                 }
-                $expression_ajax['expression'] = cmd::cmdToHumanReadable($expression_ajax['expression']);
+                $expression_ajax['expression'] = jeedom::toHumanReadable($expression_ajax['expression']);
                 $subElement_ajax['expressions'][] = $expression_ajax;
             }
             $return['subElements'][] = $subElement_ajax;

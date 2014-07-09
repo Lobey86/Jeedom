@@ -212,44 +212,44 @@ class scenario {
 
     public static function byObjectNameGroupNameScenarioName($_object_name, $_group_name, $_scenario_name) {
         $values = array(
-            'scneario_name' => html_entity_decode($_scenario_name),
+            'scenario_name' => html_entity_decode($_scenario_name),
         );
 
         if ($_object_name == __('Aucun', __FILE__)) {
             if ($_group_name == __('Aucun', __FILE__)) {
-                $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
+                $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '
                         FROM scenario s
-                        WHERE s.name=:scneario_name
-                            AND group IS NULL
+                        WHERE s.name=:scenario_name
+                            AND `group` IS NULL
                             AND el.object_id IS NULL';
             } else {
                 $values['group_name'] = $_group_name;
-                $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
+                $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '
                         FROM scenario s
-                        WHERE s.name=:scneario_name
+                        WHERE s.name=:scenario_name
                             AND el.object_id IS NULL
-                            AND group=:group_name';
+                            AND `group`=:group_name';
             }
         } else {
             $values['object_name'] = $_object_name;
             if ($_group_name == __('Aucun', __FILE__)) {
-                $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
+                $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '
                         FROM scenario s
-                        INNER JOIN object ob ON el.object_id=ob.id
-                        WHERE s.name=:scneario_name
+                        INNER JOIN object ob ON s.object_id=ob.id
+                        WHERE s.name=:scenario_name
                             AND ob.name=:object_name
-                            AND el.object_id IS NULL';
+                            AND `group` IS NULL';
             } else {
                 $values['group_name'] = $_group_name;
-                $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
+                $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '
                         FROM scenario s
-                        INNER JOIN object ob ON el.object_id=ob.id
-                        WHERE s.name=:scneario_name
+                        INNER JOIN object ob ON s.object_id=ob.id
+                        WHERE s.name=:scenario_name
                             AND ob.name=:object_name
-                            AND group=:group_name';
+                            AND `group`=:group_name';
             }
         }
-        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__));
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
     public static function toHumanReadable($_input) {
@@ -322,6 +322,7 @@ class scenario {
         $text = $_input;
 
         preg_match_all("/#\[(.*?)\]\[(.*?)\]\[(.*?)\]#/", $text, $matches);
+
         if (count($matches) == 4) {
             for ($i = 0; $i < count($matches[0]); $i++) {
                 if (isset($matches[1][$i]) && isset($matches[2][$i]) && isset($matches[3][$i])) {
@@ -665,18 +666,18 @@ class scenario {
 
     public function getHumanName($_complete = false) {
         $return = '';
-        if ($this->getGroup() != '') {
-            $return .= '[' . $this->getGroup() . ']';
-        } else {
-            if ($_complete) {
-                $return .= '['.__('Aucun', __FILE__).']';
-            }
-        }
         if (is_numeric($this->getObject_id())) {
             $return .= '[' . $this->getObject()->getName() . ']';
         } else {
             if ($_complete) {
-                $return .= '['.__('Aucun', __FILE__).']';
+                $return .= '[' . __('Aucun', __FILE__) . ']';
+            }
+        }
+        if ($this->getGroup() != '') {
+            $return .= '[' . $this->getGroup() . ']';
+        } else {
+            if ($_complete) {
+                $return .= '[' . __('Aucun', __FILE__) . ']';
             }
         }
         $return .= '[' . $this->getName() . ']';

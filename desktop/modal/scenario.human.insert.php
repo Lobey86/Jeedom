@@ -3,15 +3,21 @@ if (!isConnect()) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
 ?>
-<select id="mod_insertScenariocValue_value">
-    <?php
-    foreach (scenario::all() as $scenario) {
-        echo '<option value="#' . $scenario->getHumanName(true) . '#">' . $scenario->getHumanName(true) . '</option>';
-    }
-    ?>
-</select>
+<center>
+    <select id="mod_insertScenariocValue_value" class="form-control">
+        <?php
+        foreach (scenario::all() as $scenario) {
+            echo '<option value="#' . $scenario->getHumanName(true) . '#">' . $scenario->getHumanName(true) . '</option>';
+        }
+        ?>
+    </select>
+</center>
 <script>
     function mod_insertScenario() {
+    }
+
+    mod_insertScenario.setOptions = function(_options) {
+
     }
 
     mod_insertScenario.getValue = function() {
