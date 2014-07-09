@@ -48,6 +48,9 @@ if (isConnect() && (!isset($_SESSION['userHash']) || getUserHash() != $_SESSION[
 if (init('login') != '' && init('login') != '') {
     login(init('login'), init('mdp'));
 }
+if (init('connect') == '1' && (init('mdp') == '' || init('login') == '')) {
+    header('Location:../../index.php?v=' . $_GET['v'] . '&p=connection&error=1');
+}
 
 if (init('logout') == 1) {
     logout();
