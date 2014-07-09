@@ -220,7 +220,7 @@ jeedom.getConfiguration = function(_params) {
         return;
     }
     var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
-    if (init(params.default, 0) == 0 && isset(jeedom.cache.getConfiguration[params.key])) {
+    if (isset(jeedom.cache.getConfiguration[params.key])) {
         _params.success(jeedom.cache.getConfiguration[params.key]);
         return;
     }

@@ -229,6 +229,7 @@ jeedom.cmd.changeType = function(_cmd, _subType) {
     jeedom.getConfiguration({
         key: 'cmd:type:' + type + ':subtype',
         default: 0,
+        async: false,
         error: function(error) {
             _params.error(error);
         },
@@ -255,6 +256,7 @@ jeedom.cmd.changeSubType = function(_cmd) {
     jeedom.getConfiguration({
         key: 'cmd:type:' + _cmd.find('.cmdAttr[data-l1key=type]').value() + ':subtype:' + _cmd.find('.cmdAttr[data-l1key=subType]').value(),
         default: 0,
+        async: false,
         error: function(error) {
             _params.error(error);
         },
