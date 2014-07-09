@@ -62,6 +62,8 @@ if (!isConnect()) {
     Ex : tendance(#[Salle de bain][Hydrometrie][Humidité]#,1 hour) : Renvoi 1 si en augmentation, 0 si constant et -1 si en diminution}}
 {{variable(mavariable,valeur par default) : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut
     Ex : variable(plop,10) renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas}}
+{{scenario(scenario) : donne le statut du scenario
+    Ex : tendance(#[Salle de bain][Lumière][Auto]#) : Renvoi 1 en cours, 0 si arreté et -1 si desactivé}}
                 </pre>
             </div>
         </div>
