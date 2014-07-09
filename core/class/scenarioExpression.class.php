@@ -83,7 +83,8 @@ class scenarioExpression {
         return $return;
     }
 
-    /**********************Fonction utiliser dans le calcule des conditions**********************************/
+    /*     * ********************Fonction utiliser dans le calcule des conditions********************************* */
+
     public static function rand($_min, $_max) {
         return rand($_min, $_max);
     }
@@ -93,6 +94,21 @@ class scenarioExpression {
         if (is_object($dataStore)) {
             return $dataStore->getValue($_default);
         }
+    }
+
+    public static function scenario($_scenario) {
+        $scenario = scenario::byId(str_replace(array('scenario', '#'), '', $_scenario));
+        $state = $scenario->getState();
+        if ($scenario->getIsActive() == 0) {
+            return -1;
+        }
+        switch ($state) {
+            case 'stop':
+                return 0;
+            case 'in progress':
+                return 1;
+        }
+        return -2;
     }
 
     public static function tendance($_cmd_id, $_period = '1 hour') {
