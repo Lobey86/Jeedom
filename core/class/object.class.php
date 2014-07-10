@@ -87,21 +87,23 @@ class object {
     /*     * *********************Methode d'instance************************* */
 
     public function preSave() {
-        if ($this->getFather_id() == $this->getId()) {
+        if (is_numeric($this->getFather_id()) && $this->getFather_id() == $this->getId()) {
             throw new Exception(__('L\'objet ne peut etre son propre père', __FILE__));
         }
         $this->checkTreeConsistency();
     }
 
     public function checkTreeConsistency($_fathers = array()) {
-        if (in_array($this->getFather_id(), $_fathers)) {
-            throw new Exception(__('Problème dans l\'arbre des objets', __FILE__));
-        }
-        $_fathers[] = $this->getId();
         $father = $this->getFather();
         if (!is_object($father)) {
             return;
         }
+        if (in_array($this->getFather_id(), $_fathers)) {
+            throw new Exception(__('Problème dans l\'arbre des objets', __FILE__));
+        }
+        $_fathers[] = $this->getId();
+
+
         $father->checkTreeConsistency($_fathers);
     }
 
