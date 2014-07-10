@@ -70,7 +70,8 @@ class com_http {
             if ($this->username != '') {
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
             }
-            if ($this->getPost() != '' && is_array($this->getPost())) {
+            if (is_array($this->getPost())) {
+                log::add('http.com', 'debug', 'post field : ' . print_r($this->getPost(), true));
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getPost());
             }
@@ -135,7 +136,7 @@ class com_http {
     public function setPost($post) {
         $this->post = $post;
     }
-    
+
     public function getHeader() {
         return $this->header;
     }
