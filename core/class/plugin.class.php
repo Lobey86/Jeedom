@@ -239,31 +239,29 @@ class plugin {
             log::add('plugin', 'debug', 'Recherche de ' . dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/plugin_info/install.php');
             if (file_exists(dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/plugin_info/install.php')) {
                 log::add('plugin', 'debug', 'Fichier d\'installation trouvé pour  : ' . $this->getId());
-                include_once dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/plugin_info/install.php';
+                require dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/plugin_info/install.php';
                 ob_start();
                 if ($_state == 1) {
                     if ($alreadyActive == 1) {
                         if (function_exists('update')) {
-                            log::add('plugin', 'debug', 'Lancement fonction d\'update');
                             update();
                         }
                     } else {
                         if (function_exists('install')) {
-                            log::add('plugin', 'debug', 'Lancement fonction d\'install');
                             install();
                         }
                     }
                 } else {
                     if (function_exists('install')) {
-                        log::add('plugin', 'debug', 'Lancement fonction remove');
                         remove();
                     }
                 }
                 $out = ob_get_clean();
-                log::add($this->getId(), 'info', $out);
+                log::add($this->getId(), 'info', "Result : ".$out);
             }
         } catch (Exception $e) {
             config::save('active', $alreadyActive, $this->getId());
+            log::add('plugin', 'error', $e->getMessage());
             throw $e;
         }
 

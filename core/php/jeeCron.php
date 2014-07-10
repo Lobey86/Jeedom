@@ -206,7 +206,7 @@ if (init('cron_id') != '') {
                 $cron->setServer('');
                 $cron->setDuration(-1);
                 $cron->save();
-                echo __('[Erreur master] ', __FILE__) . $cron->getName() . ' : ' . print_r($e);
+                echo __('[Erreur master] ', __FILE__) . $cron->getName() . ' : ' . print_r($e, true);
                 log::add('cron', 'error', __('[Erreur master] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage());
             }
         }
