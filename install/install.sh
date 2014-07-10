@@ -1,25 +1,72 @@
-echo "Etez-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de nginx s'il elle existe !"
-while true
-do
-        echo -n "oui/non: "
-        read ANSWER < /dev/tty
-        case $ANSWER in
-                oui)
-                        break
-                        ;;
-                non)
-                         echo "Annulation de l'installation"
-                        exit 1
-                        ;;
-        esac
-        echo "Répondez oui ou non"
-done
+webserver=${1-nginx}
+
+if [ "${webserver}" = "nginx" ] ; then
+    echo "Etez-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de NGINX s'il elle existe !"
+    while true
+    do
+            echo -n "oui/non: "
+            read ANSWER < /dev/tty
+            case $ANSWER in
+                    oui)
+                            break
+                            ;;
+                    non)
+                             echo "Annulation de l'installation"
+                            exit 1
+                            ;;
+            esac
+            echo "Répondez oui ou non"
+    done
+fi
+
+if [ "${webserver}" = "apache" ] ; then
+    echo "Etez-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de APACHE s'il elle existe !"
+    while true
+    do
+            echo -n "oui/non: "
+            read ANSWER < /dev/tty
+            case $ANSWER in
+                    oui)
+                            break
+                            ;;
+                    non)
+                             echo "Annulation de l'installation"
+                            exit 1
+                            ;;
+            esac
+            echo "Répondez oui ou non"
+    done
+fi
 
 echo "********************************************************"
 echo "*             Installation des dépendances             *"
 echo "********************************************************"
 sudo apt-get update
-sudo apt-get install -y nginx-common nginx-full
+
+if [ "${webserver}" = "nginx" ] ; then 
+    sudo apt-get install -y nginx-common nginx-full
+fi
+
+if [ "${webserver}" = "apache" ] ; then 
+    sudo apt-get install autoconf make subversion
+    sudo svn checkout http://svn.apache.org/repos/asf/httpd/httpd/tags/2.2.22/ httpd-2.2.22
+    sudo wget http://cafarelli.fr/gentoo/apache-2.2.24-wstunnel.patch
+    sudo cd httpd-2.2.22
+    sudo patch -p1 < ../apache-2.2.24-wstunnel.patch
+    sudo svn co http://svn.apache.org/repos/asf/apr/apr/branches/1.4.x srclib/apr
+    sudo svn co http://svn.apache.org/repos/asf/apr/apr-util/branches/1.3.x srclib/apr-util
+    sudo ./buildconf
+    sudo ./configure --enable-proxy=shared --enable-proxy_wstunnel=shared
+    sudo make
+    sudo cp modules/proxy/.libs/mod_proxy{_wstunnel,}.so /usr/lib/apache2/modules/
+    sudo chmod 644 /usr/lib/apache2/modules/mod_proxy{_wstunnel,}.so
+    echo -e "# Depends: proxy\nLoadModule proxy_wstunnel_module /usr/lib/apache2/modules/mod_proxy_wstunnel.so" | sudo tee -a /etc/apache2/mods-available/proxy_wstunnel.load
+    sudo a2enmod proxy_wstunnel
+    sudo a2enmod proxy_http
+    sudo a2enmod proxy
+    sudo service apache2 restart
+fi
+
 sudo apt-get install -y ffmpeg
 sudo apt-get install -y libssh2-php
 sudo apt-get install -y ntp
@@ -58,9 +105,17 @@ sudo apt-get install -y usb-modeswitch python-serial
 echo "********************************************************"
 echo "* Création des répertoire et mise en place des droits  *"
 echo "********************************************************"
-sudo mkdir -p /usr/share/nginx/www
-cd /usr/share/nginx/www
-chown www-data:www-data -R /usr/share/nginx/www
+
+if [ "${webserver}" = "nginx" ] ; then 
+    sudo mkdir -p /usr/share/nginx/www
+    cd /usr/share/nginx/www
+    chown www-data:www-data -R /usr/share/nginx/www
+fi
+if [ "${webserver}" = "apache" ] ; then 
+    sudo mkdir -p /var/www
+    cd /var/www
+    chown www-data:www-data -R /var/www
+fi
 
 echo "********************************************************"
 echo "*             Copie des fichiers de Jeedom             *"
@@ -77,9 +132,16 @@ if [  $? -ne 0 ] ; then
     fi
 fi
 unzip jeedom.zip -d jeedom
-sudo mkdir /usr/share/nginx/www/jeedom/tmp
-sudo chmod 775 -R /usr/share/nginx/www
-sudo chown -R www-data:www-data /usr/share/nginx/www
+if [ "${webserver}" = "nginx" ] ; then 
+    sudo mkdir /usr/share/nginx/www/jeedom/tmp
+    sudo chmod 775 -R /usr/share/nginx/www
+    sudo chown -R www-data:www-data /usr/share/nginx/www
+fi
+if [ "${webserver}" = "apache" ] ; then 
+    sudo mkdir /var/www/jeedom/tmp
+    sudo chmod 775 -R /var/www
+    sudo chown -R www-data:www-data /var/www
+fi
 rm -rf jeedom.zip
 cd jeedom
 
@@ -129,40 +191,64 @@ sudo php install/install.php mode=force
 echo "********************************************************"
 echo "*                Mise en place du cron                 *"
 echo "********************************************************"
-
-croncmd="su --shell=/bin/bash - www-data -c '/usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php' >> /dev/null"
+if [ "${webserver}" = "nginx" ] ; then 
+    croncmd="su --shell=/bin/bash - www-data -c '/usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php' >> /dev/null"
+fi
+if [ "${webserver}" = "apache" ] ; then
+    croncmd="su --shell=/bin/bash - www-data -c '/usr/bin/php /var/www/jeedom/core/php/jeeCron.php' >> /dev/null"
+fi
 cronjob="* * * * * $croncmd"
 ( crontab -l | grep -v "$croncmd" ; echo "$cronjob" ) | crontab -
 
 
-echo "********************************************************"
-echo "*                Configuration de nginx                *"
-echo "********************************************************"
-if [ -f '/etc/init.d/apache2' ]; then
-    sudo service apache2 stop
-    sudo update-rc.d apache2 remove
-fi
-if [ -f '/etc/init.d/apache' ]; then
-    sudo service apache stop
-    sudo update-rc.d apache remove
+if [ "${webserver}" = "nginx" ] ; then 
+    echo "********************************************************"
+    echo "*                Configuration de NGINX                *"
+    echo "********************************************************"
+    if [ -f '/etc/init.d/apache2' ]; then
+        sudo service apache2 stop
+        sudo update-rc.d apache2 remove
+    fi
+    if [ -f '/etc/init.d/apache' ]; then
+        sudo service apache stop
+        sudo update-rc.d apache remove
+    fi
+
+    sudo service nginx stop
+    if [ -f '/etc/nginx/sites-available/defaults' ]; then
+        sudo rm /etc/nginx/sites-available/default
+    fi
+    sudo cp install/nginx_default /etc/nginx/sites-available/default
+    if [ ! -f '/etc/nginx/sites-enabled/default' ]; then
+        sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+    fi
+    sudo service nginx restart
+    sudo adduser www-data dialout
+    sudo adduser www-data gpio
+    sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
+    sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 1G/g' /etc/php5/fpm/php.ini
+    sudo sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
+    sudo service php5-fpm restart
+    sudo /etc/init.d/php5-fpm restart
 fi
 
-sudo service nginx stop
-if [ -f '/etc/nginx/sites-available/defaults' ]; then
-    sudo rm /etc/nginx/sites-available/default
+if [ "${webserver}" = "apache" ] ; then 
+    echo "********************************************************"
+    echo "*                Configuration de APACHE                *"
+    echo "********************************************************"
+    sudo cp install/apache_default /etc/apache2/sites-available/default
+    if [ ! -f '/etc/apache2/sites-enabled/default' ]; then
+        sudo a2ensite default
+    fi
+    sudo service apache2 restart
+    sudo adduser www-data dialout
+    sudo adduser www-data gpio
+    sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
+    sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 1G/g' /etc/php5/fpm/php.ini
+    sudo sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
+    sudo service php5-fpm restart
+    sudo /etc/init.d/php5-fpm restart
 fi
-sudo cp install/nginx_default /etc/nginx/sites-available/default
-if [ ! -f '/etc/nginx/sites-enabled/default' ]; then
-    sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-fi
-sudo service nginx restart
-sudo adduser www-data dialout
-sudo adduser www-data gpio
-sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
-sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 1G/g' /etc/php5/fpm/php.ini
-sudo sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
-sudo service php5-fpm restart
-sudo /etc/init.d/php5-fpm restart
 
 echo "********************************************************"
 echo "*             Mise en place service nodeJS             *"
