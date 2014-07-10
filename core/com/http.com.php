@@ -44,7 +44,7 @@ class com_http {
             $url = parse_url($this->url);
             $host = $url['host'];
             if (!ip2long($host)) {
-                $timeout = config::byKey('http::ping_timeout');
+                $timeout = config::byKey('http::ping_timeout', 'core', 2);
                 exec("timeout $timeout ping -n -c 1 -W 2 $host", $output, $retval);
                 if ($retval != 0) {
                     throw new Exception(__('Impossible de résoudre le DNS : ', __FILE__) . $host . __('. Pas d\'internet ?', __FILE__));
@@ -65,7 +65,7 @@ class com_http {
             curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             if ($this->username != '') {
-              //  curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY | CURLAUTH_ANYSAFE);
+                //  curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY | CURLAUTH_ANYSAFE);
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
             }
             $response = curl_exec($ch);
@@ -104,7 +104,7 @@ class com_http {
     public function setNoSslCheck($noSslCHeck) {
         $this->noSslCheck = $noSslCHeck;
     }
-    
+
     public function getLogError() {
         return $this->logError;
     }
