@@ -28,6 +28,7 @@ class com_http {
     private $logError = true;
     private $ping = false;
     private $noSslCheck = true;
+    private $sleepTime = 500000;
 
     /*     * ********************Functions static********************* */
 
@@ -65,24 +66,24 @@ class com_http {
             curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             if ($this->username != '') {
-              //  curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY | CURLAUTH_ANYSAFE);
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
             }
             $response = curl_exec($ch);
             $nbRetry++;
             if (curl_errno($ch) && $nbRetry < $_maxRetry) {
                 curl_close($ch);
-                usleep(500000);
+                usleep($this->getSleepTime());
             } else {
                 $nbRetry = $_maxRetry + 1;
             }
         }
         if (curl_errno($ch)) {
+            $curl_error = curl_error($ch);
             if ($this->getLogError()) {
-                log::add('http.com', 'error', __('Erreur curl : ', __FILE__) . curl_error($ch) . __(' sur la commande ', __FILE__) . $this->url . __(' après ', __FILE__) . $nbRetry . __(' relance(s)', __FILE__));
+                log::add('http.com', 'error', __('Erreur curl : ', __FILE__) . $curl_error . __(' sur la commande ', __FILE__) . $this->url . __(' après ', __FILE__) . $nbRetry . __(' relance(s)', __FILE__));
             }
             curl_close($ch);
-            throw new Exception(__('Echec de la requete http : ', __FILE__) . $this->url, 404);
+            throw new Exception(__('Echec de la requete http : ', __FILE__) . $this->url . ' Curl error : ' . $curl_error, 404);
         }
         curl_close($ch);
         log::add('http.com', 'Debug', __('Url : ', __FILE__) . $this->url . __("\nReponse : ", __FILE__) . $response);
@@ -104,13 +105,21 @@ class com_http {
     public function setNoSslCheck($noSslCHeck) {
         $this->noSslCheck = $noSslCHeck;
     }
-    
+
     public function getLogError() {
         return $this->logError;
     }
 
     public function setLogError($logError) {
         $this->logError = $logError;
+    }
+
+    public function getSleepTime() {
+        return $this->sleepTime;
+    }
+
+    public function setSleepTime($sleepTime) {
+        $this->sleepTime = $sleepTime * 1000000;
     }
 
 }
