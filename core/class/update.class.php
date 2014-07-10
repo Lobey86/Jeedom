@@ -153,8 +153,8 @@ class update {
             $update = self::byTypeAndLogicalId('plugin', $plugin_id);
             if (!is_object($update)) {
                 $update = new update();
-                $update->setLogicalId('plugin');
-                $update->setType($plugin_id);
+                $update->setLogicalId($plugin_id);
+                $update->setType('plugin');
                 $update->setLocalVersion(date('Y-m-d H:i:s'));
                 $update->save();
             }
