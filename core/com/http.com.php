@@ -29,6 +29,7 @@ class com_http {
     private $ping = false;
     private $noSslCheck = true;
     private $sleepTime = 500000;
+    private $post = '';
 
     /*     * ********************Functions static********************* */
 
@@ -67,6 +68,10 @@ class com_http {
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             if ($this->username != '') {
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
+            }
+            if ($this->getPost() != '' && is_array($this->getPost())) {
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getPost());
             }
             $response = curl_exec($ch);
             $nbRetry++;
@@ -120,6 +125,14 @@ class com_http {
 
     public function setSleepTime($sleepTime) {
         $this->sleepTime = $sleepTime * 1000000;
+    }
+
+    public function getPost() {
+        return $this->post;
+    }
+
+    public function setPost($post) {
+        $this->post = $post;
     }
 
 }
