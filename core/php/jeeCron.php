@@ -201,13 +201,15 @@ if (init('cron_id') != '') {
                         break;
                 }
             } catch (Exception $e) {
-                $cron->setState('error');
-                $cron->setPID('');
-                $cron->setServer('');
-                $cron->setDuration(-1);
-                $cron->save();
-                echo __('[Erreur master] ', __FILE__) . $cron->getName() . ' : ' . print_r($e, true);
-                log::add('cron', 'error', __('[Erreur master] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage());
+                if ($cron->getOnce() == 1 && is_object(cron::byId($this->getId()))) {
+                    $cron->setState('error');
+                    $cron->setPID('');
+                    $cron->setServer('');
+                    $cron->setDuration(-1);
+                    $cron->save();
+                    echo __('[Erreur master] ', __FILE__) . $cron->getName() . ' : ' . print_r($e, true);
+                    log::add('cron', 'error', __('[Erreur master] ', __FILE__) . $cron->getName() . ' : ' . $e->getMessage());
+                }
             }
         }
         if ($sleepTime > 59) {
