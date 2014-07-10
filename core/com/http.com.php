@@ -30,6 +30,7 @@ class com_http {
     private $noSslCheck = true;
     private $sleepTime = 500000;
     private $post = '';
+    private $header = array('Connection: close');
 
     /*     * ********************Functions static********************* */
 
@@ -61,7 +62,7 @@ class com_http {
             if ($this->getNoSslCheck()) {
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             }
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: close'));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeader());
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, $_timeout);
             curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
@@ -133,6 +134,14 @@ class com_http {
 
     public function setPost($post) {
         $this->post = $post;
+    }
+    
+    public function getHeader() {
+        return $this->header;
+    }
+
+    public function setHeader($header) {
+        $this->header = $header;
     }
 
 }
