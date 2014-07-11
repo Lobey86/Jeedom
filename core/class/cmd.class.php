@@ -92,7 +92,7 @@ class cmd {
         return self::cast(DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
-    public static function byEqLogicId($_eqLogic_id, $_type = null) {
+    public static function byEqLogicId($_eqLogic_id, $_type = null, $_visible = null) {
         $values = array(
             'eqLogic_id' => $_eqLogic_id
         );
@@ -102,6 +102,9 @@ class cmd {
         if ($_type != null) {
             $values['type'] = $_type;
             $sql .= ' AND `type`=:type';
+        }
+        if ($_visible != null) {
+            $sql .= ' AND `isVisible`=1';
         }
         $sql .= ' ORDER BY `order`';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
@@ -605,6 +608,7 @@ class cmd {
     }
 
     public function toHtml($_version = 'dashboard', $options = '') {
+        $start = getmicrotime();
         if ($_version == '') {
             throw new Exception(__('La version demandée ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
         }
@@ -612,6 +616,7 @@ class cmd {
         $html = '';
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($_version, 'default');
         $template = '';
+        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Start get template : ' . round(getmicrotime() - $start, 3));
         if (!is_array(self::$_templateArray)) {
             self::$_templateArray == array();
         }
@@ -647,6 +652,7 @@ class cmd {
         } else {
             $template = self::$_templateArray[$_version . '::' . $template_name];
         }
+        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish get template : ' . round(getmicrotime() - $start, 3));
         $replace = array(
             '#id#' => $this->getId(),
             '#name#' => ($this->getDisplay('icon') != '') ? $this->getDisplay('icon') : $this->getName(),
@@ -661,12 +667,15 @@ class cmd {
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
         $replace['#unite#'] = $this->getUnite();
+        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Specifique type : ' . round(getmicrotime() - $start, 3));
         if ($this->getType() == 'info') {
             $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
             $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
             $replace['#state#'] = '';
             $replace['#tendance#'] = '';
+            log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Start get value : ' . round(getmicrotime() - $start, 3));
             $value = trim($this->execCmd(null, 2));
+            log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish get value : ' . round(getmicrotime() - $start, 3));
             if ($value === null) {
                 return template_replace($replace, $template);
             }
@@ -700,6 +709,8 @@ class cmd {
                 }
                 $html .= template_replace($replace, self::$_templateArray[$_version . 'cmd.info.history.default']);
             }
+            
+            log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish array : ' . round(getmicrotime() - $start, 3));
 
             $html .= template_replace($replace, $template);
         } else {
@@ -728,6 +739,7 @@ class cmd {
                 }
             }
         }
+        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish to html : ' . round(getmicrotime() - $start, 3));
         return $html;
     }
 

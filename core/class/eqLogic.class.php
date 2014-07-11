@@ -384,19 +384,15 @@ class eqLogic {
         $cmd_display = array(
             '#cmdColor#' => (!is_array($cmdColor)) ? $cmdColor : '#C1C1C1'
         );
-        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Start generate cmd : ' . round(getmicrotime() - $start, 3));
         if ($this->getIsEnable()) {
-            foreach ($this->getCmd() as $cmd) {
-                if ($cmd->getIsVisible() == 1) {
-                    if ($cmd->getType() == 'action') {
-                        $action.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmd_display);
-                    } else {
-                        $info.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmd_display);
-                    }
+            foreach ($this->getCmd(null, null, true) as $cmd) {
+                if ($cmd->getType() == 'action') {
+                    $action.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmd_display);
+                } else {
+                    $info.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmd_display);
                 }
             }
         }
-        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish generate cmd : ' . round(getmicrotime() - $start, 3));
 
         $replace = array(
             '#id#' => $this->getId(),
@@ -407,7 +403,6 @@ class eqLogic {
             '#action#' => $action,
             '#info#' => $info,
         );
-        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Array generate : ' . round(getmicrotime() - $start, 3));
         if ($_version == 'dview') {
             $object = $this->getObject();
             $replace['#name#'] = (is_object($object)) ? $object->getName() . ' - ' . $replace['#name#'] : $replace['#name#'];
@@ -423,7 +418,6 @@ class eqLogic {
         if (!isset(self::$_templateArray[jeedom::versionAlias($_version)])) {
             self::$_templateArray[jeedom::versionAlias($_version)] = getTemplate('core', jeedom::versionAlias($_version), 'eqLogic');
         }
-        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish to html : ' . round(getmicrotime() - $start, 3));
         return template_replace($replace, self::$_templateArray[jeedom::versionAlias($_version)]);
     }
 
@@ -596,11 +590,11 @@ class eqLogic {
         return $this->isEnable;
     }
 
-    public function getCmd($_type = null, $_logicalId = null) {
+    public function getCmd($_type = null, $_logicalId = null, $_visible = null) {
         if ($_logicalId != null) {
             return cmd::byEqLogicIdAndLogicalId($this->id, $_logicalId);
         }
-        return cmd::byEqLogicId($this->id, $_type);
+        return cmd::byEqLogicId($this->id, $_type, $_visible);
     }
 
     public function getEqReal_id() {
