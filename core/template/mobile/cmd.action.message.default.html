@@ -4,8 +4,8 @@
     <center><a class="action ui-btn ui-mini ui-btn-inline execute" >#name#</a></center>
     <script>
         $(function() {
-            $('.cmd[data-cmd_id=#id#] .execute').on('clic', function() {
-                jeedom.cmd.execute({id: '#id#', value: {title: $('.cmd[data-cmd_id=#id#] .title'), message: $('.cmd[data-cmd_id=#id#] .message')}});
+            $('.cmd[data-cmd_id=#id#] .execute').on('click', function() {
+                edom.cmd.execute({id: '#id#', value: {title: $('.cmd[data-cmd_id=#id#] .title').value(), message: $('.cmd[data-cmd_id=#id#] .message').value()}});
             });
         });
     </script>
