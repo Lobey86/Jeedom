@@ -660,12 +660,10 @@ class cmd {
             if ($_version == 'mobile') {
                 $vcolor = 'mcmdColor';
             }
-            $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $eqLogic->getPrimaryCategory() . ':' . $vcolor);
+            $replace['#cmdColor#'] = jeedom::getConfiguration('eqLogic:category:' . $eqLogic->getPrimaryCategory() . ':' . $vcolor);
         } else {
-            $cmdColor = $_cmdColor;
+            $replace['#cmdColor#'] = $_cmdColor;
         }
-
-        $replace['#cmdColor#'] = (!is_array($cmdColor)) ? $cmdColor : '#C1C1C1';
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
         $replace['#unite#'] = $this->getUnite();
@@ -674,9 +672,7 @@ class cmd {
             $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
             $replace['#state#'] = '';
             $replace['#tendance#'] = '';
-            log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Start get value : ' . round(getmicrotime() - $start, 3));
             $value = trim($this->execCmd(null, 2));
-            log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish get value : ' . round(getmicrotime() - $start, 3));
             if ($value === null) {
                 return template_replace($replace, $template);
             }
