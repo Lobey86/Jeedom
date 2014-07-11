@@ -90,14 +90,15 @@ class scenarioExpression {
     }
 
     public static function variable($_name, $_default = '') {
-        $dataStore = dataStore::byTypeLinkIdKey('scenario', -1, $_name);
+        $dataStore = dataStore::byTypeLinkIdKey('scenario', -1, trim($_name));
         if (is_object($dataStore)) {
             return $dataStore->getValue($_default);
         }
+        return -1;
     }
 
     public static function scenario($_scenario) {
-        $scenario = scenario::byId(str_replace(array('scenario', '#'), '', $_scenario));
+        $scenario = scenario::byId(str_replace(array('scenario', '#'), '', trim($_scenario)));
         $state = $scenario->getState();
         if ($scenario->getIsActive() == 0) {
             return -1;
