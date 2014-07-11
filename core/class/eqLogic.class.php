@@ -370,6 +370,7 @@ class eqLogic {
     }
 
     public function toHtml($_version = 'dashboard') {
+        $start = getmicrotime();
         if ($_version == '') {
             throw new Exception(__('La version demandé ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
         }
@@ -383,6 +384,7 @@ class eqLogic {
         $cmd_display = array(
             '#cmdColor#' => (!is_array($cmdColor)) ? $cmdColor : '#C1C1C1'
         );
+        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Start generate cmd : ' . round(getmicrotime() - $start, 3));
         if ($this->getIsEnable()) {
             foreach ($this->getCmd() as $cmd) {
                 if ($cmd->getIsVisible() == 1) {
@@ -394,6 +396,7 @@ class eqLogic {
                 }
             }
         }
+        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish generate cmd : ' . round(getmicrotime() - $start, 3));
 
         $replace = array(
             '#id#' => $this->getId(),
@@ -404,6 +407,7 @@ class eqLogic {
             '#action#' => $action,
             '#info#' => $info,
         );
+        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Array generate : ' . round(getmicrotime() - $start, 3));
         if ($_version == 'dview') {
             $object = $this->getObject();
             $replace['#name#'] = (is_object($object)) ? $object->getName() . ' - ' . $replace['#name#'] : $replace['#name#'];
@@ -419,6 +423,7 @@ class eqLogic {
         if (!isset(self::$_templateArray[jeedom::versionAlias($_version)])) {
             self::$_templateArray[jeedom::versionAlias($_version)] = getTemplate('core', jeedom::versionAlias($_version), 'eqLogic');
         }
+        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish to html : ' . round(getmicrotime() - $start, 3));
         return template_replace($replace, self::$_templateArray[jeedom::versionAlias($_version)]);
     }
 
