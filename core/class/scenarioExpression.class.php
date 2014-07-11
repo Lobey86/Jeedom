@@ -55,7 +55,7 @@ class scenarioExpression {
     }
 
     public static function getExpressionOptions($_expression, $_options) {
-        $return = array('html' => '');
+        $startLoadTime = getmicrotime();
         $cmd = cmd::byId(str_replace('#', '', cmd::humanReadableToCmd($_expression)));
         if (is_object($cmd)) {
             $return['html'] = trim($cmd->toHtml('scenario', $_options));
