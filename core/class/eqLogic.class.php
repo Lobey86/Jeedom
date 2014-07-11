@@ -31,6 +31,7 @@ class eqLogic {
     protected $isVisible = 0;
     protected $isEnable = 0;
     protected $configuration;
+    protected $specificCapatibilities;
     protected $timeout;
     protected $category;
     protected $_internalEvent = 0;
@@ -361,18 +362,6 @@ class eqLogic {
 
         return $text;
     }
-    
-    public static function persist() {
-        DB::Prepare('TRUNCATE TABLE `eqLogic_persist`', array(), DB::FETCH_TYPE_ROW);
-        DB::Prepare('REPLACE `eqLogic_persist` SELECT * FROM `eqLogic`', array(), DB::FETCH_TYPE_ROW);
-        return true;
-    }
-
-    public static function restore() {
-        DB::Prepare('TRUNCATE TABLE `eqLogic`', array(), DB::FETCH_TYPE_ROW);
-        DB::Prepare('REPLACE `eqLogic` SELECT * FROM `eqLogic_persist`', array(), DB::FETCH_TYPE_ROW);
-        return true;
-    }
 
     /*     * *********************Methode d'instance************************* */
 
@@ -688,6 +677,14 @@ class eqLogic {
 
     public function setStatus($_key, $_value) {
         return cache::set('core::eqLogic' . $this->getId() . '::' . $_key, $_value, 0);
+    }
+
+    public function getSpecificCapatibilities($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->specificCapatibilities, $_key, $_default);
+    }
+
+    public function setSpecificCapatibilities($_key, $_value) {
+        $this->specificCapatibilities = utils::setJsonAttr($this->specificCapatibilities, $_key, $_value);
     }
 
     public function getInternalEvent() {
