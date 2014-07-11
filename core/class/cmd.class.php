@@ -640,7 +640,7 @@ class cmd {
                     $this->save();
                 }
             }
-            if ($template == '') {
+            if ($template == '' && $_version != 'scenario') {
                 $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
                 $template = getTemplate('core', $_version, $template_name);
             }
