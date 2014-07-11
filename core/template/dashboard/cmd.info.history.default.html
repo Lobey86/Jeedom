@@ -7,55 +7,53 @@
     </select>
 
     <script>
-        $(function() {
-            $('.sel_chartType[data-cmd_id=#id#]').off();
-            $('.history[data-cmd_id=#id#]').off().unbind();
+        $('.sel_chartType[data-cmd_id=#id#]').off();
+        $('.history[data-cmd_id=#id#]').off().unbind();
 
-            if ($(".md_history[data-cmd_id=#id#]").length > 1) {
-                while ($(".md_history[data-cmd_id=#id#]").length > 1) {
-                    $(".md_history[data-cmd_id=#id#]").eq(0).remove();
-                }
+        if ($(".md_history[data-cmd_id=#id#]").length > 1) {
+            while ($(".md_history[data-cmd_id=#id#]").length > 1) {
+                $(".md_history[data-cmd_id=#id#]").eq(0).remove();
             }
+        }
 
-            $(".md_history[data-cmd_id=#id#]").dialog({
-                autoOpen: false,
-                modal: true,
-                resizable: false,
-                height: 520,
-                width: 1100,
-                open: function() {
-                    $("body").css({overflow: 'hidden'})
-                },
-                beforeClose: function(event, ui) {
-                    $("body").css({overflow: 'inherit'})
-                }
+        $(".md_history[data-cmd_id=#id#]").dialog({
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            height: 520,
+            width: 1100,
+            open: function() {
+                $("body").css({overflow: 'hidden'})
+            },
+            beforeClose: function(event, ui) {
+                $("body").css({overflow: 'inherit'})
+            }
+        });
+
+
+        $('.sel_chartType[data-cmd_id=#id#]').on('change', function() {
+            $('#div_historyChart#id#').empty();
+            $(".md_history[data-cmd_id=#id#]").dialog("open");
+            var container = $('#div_historyChart#id#').css('position', 'relative');
+            container.css({
+                width: 1000
             });
+            var option = {graphType: $('.sel_chartType[data-cmd_id=#id#]').value()};
+            delete jeedom.history.chart['div_historyChart#id#'];
+            jeedom.history.drawChart({cmd_id: '#id#', el: 'div_historyChart#id#', daterange: 'all', option: option});
+        });
 
 
-            $('.sel_chartType[data-cmd_id=#id#]').on('change', function() {
-                $('#div_historyChart#id#').empty();
-                $(".md_history[data-cmd_id=#id#]").dialog("open");
-                var container = $('#div_historyChart#id#').css('position', 'relative');
-                container.css({
-                    width: 1000
-                });
-                var option = {graphType: $('.sel_chartType[data-cmd_id=#id#]').value()};
-                delete jeedom.history.chart['div_historyChart#id#'];
-                jeedom.history.drawChart({cmd_id: '#id#', el: 'div_historyChart#id#', daterange: 'all', option: option});
+        $('.history[data-cmd_id=#id#]').on('click', function() {
+            $('#div_historyChart#id#').empty();
+            $(".md_history[data-cmd_id=#id#]").dialog("open");
+            var container = $('#div_historyChart#id#').css('position', 'relative');
+            container.css({
+                width: 1000
             });
-
-
-            $('.history[data-cmd_id=#id#]').on('click', function() {
-                $('#div_historyChart#id#').empty();
-                $(".md_history[data-cmd_id=#id#]").dialog("open");
-                var container = $('#div_historyChart#id#').css('position', 'relative');
-                container.css({
-                    width: 1000
-                });
-                var option = {graphType: $('.sel_chartType[cmd_id=#id#]').value()};
-                delete jeedom.history.chart['div_historyChart#id#'];
-                jeedom.history.drawChart({cmd_id: '#id#', el: 'div_historyChart#id#', daterange: 'all', option: option});
-            });
+            var option = {graphType: $('.sel_chartType[cmd_id=#id#]').value()};
+            delete jeedom.history.chart['div_historyChart#id#'];
+            jeedom.history.drawChart({cmd_id: '#id#', el: 'div_historyChart#id#', daterange: 'all', option: option});
         });
     </script>
 </div>

@@ -3,10 +3,8 @@
     <textarea class="form-control input-sm message" rows="2" style="margin-top : 5px; resize:vertical;height: 50px;" placeholder="Message" data-cmd_id="#id#"></textarea>
     <center><a class='btn btn-success btn-xs execute'>#name#</a></center>
     <script>
-        $(function() {
-            $('.cmd[data-cmd_id=#id#] .execute').on('click', function() {
-              jeedom.cmd.execute({id: '#id#', value: {title: $('.cmd[data-cmd_id=#id#] .title').value(), message: $('.cmd[data-cmd_id=#id#] .message').value()}});
-            });
+        $('.cmd[data-cmd_id=#id#] .execute').on('click', function() {
+            jeedom.cmd.execute({id: '#id#', value: {title: $('.cmd[data-cmd_id=#id#] .title').value(), message: $('.cmd[data-cmd_id=#id#] .message').value()}});
         });
     </script>
 </div>

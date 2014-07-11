@@ -6,18 +6,16 @@
     </div>
 
     <script>
-        $(function() {
-            $('.cmd[data-cmd_id=#id#] .bt_plus').on('click', function() {
-                $('.cmd[data-cmd_id=#id#] .value').val((parseInt($('.cmd[data-cmd_id] .value').val()) + 1));
-                $('.cmd[data-cmd_id=#id#] .value').trigger('change');
-            });
-            $('.cmd[data-cmd_id=#id#] .bt_minus').on('click', function() {
-                $('.cmd[data-cmd_id=#id#] .value').val((parseInt($('.cmd[data-cmd_id] .value').val()) - 1));
-                $('.cmd[data-cmd_id=#id#] .value').trigger('change');
-            });
-            $('.cmd[data-cmd_id=#id#] .value').on('change', function() {
-                jeedom.cmd.execute({id : '#id#',value :  {slider: $('.cmd[data-cmd_id] .value').val()}});
-            });
+        $('.cmd[data-cmd_id=#id#] .bt_plus').on('click', function() {
+            $('.cmd[data-cmd_id=#id#] .value').val((parseInt($('.cmd[data-cmd_id] .value').val()) + 1));
+            $('.cmd[data-cmd_id=#id#] .value').trigger('change');
+        });
+        $('.cmd[data-cmd_id=#id#] .bt_minus').on('click', function() {
+            $('.cmd[data-cmd_id=#id#] .value').val((parseInt($('.cmd[data-cmd_id] .value').val()) - 1));
+            $('.cmd[data-cmd_id=#id#] .value').trigger('change');
+        });
+        $('.cmd[data-cmd_id=#id#] .value').on('change', function() {
+            jeedom.cmd.execute({id: '#id#', value: {slider: $('.cmd[data-cmd_id] .value').val()}});
         });
     </script>
 </div>

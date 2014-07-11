@@ -4,10 +4,8 @@
     </div>
 
     <script>
-        $(function() {
-            $('.cmd[data-cmd_id=#id#] .slider').on("slidestop", function(event, ui) {
-                jeedom.cmd.execute({id: '#id#', value: {slider: $(this).find('input').value()}});
-            });
+        $('.cmd[data-cmd_id=#id#] .slider').on("slidestop", function(event, ui) {
+            jeedom.cmd.execute({id: '#id#', value: {slider: $(this).find('input').value()}});
         });
     </script>
 </div>
