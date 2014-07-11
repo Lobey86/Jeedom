@@ -63,9 +63,8 @@ jeedom.view.prefetch = function(_params) {
         jeedom.view.cache.html = Array();
     }
     if (!isset(jeedom.view.cache.html[_params.id])) {
-        jeedom.view.toHtml({id: _params.id, version: _params.version, useCache: false, global: false});
+        jeedom.view.toHtml({id: _params.id, version: _params.version, useCache: false, global: false,success : function(){}});
     }
-
 }
 
 jeedom.view.toHtml = function(_params) {

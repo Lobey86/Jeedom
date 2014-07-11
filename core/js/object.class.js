@@ -94,7 +94,7 @@ jeedom.object.all = function(_params) {
 
 jeedom.object.prefetch = function(_params) {
     if (!isset(jeedom.object.cache.html[_params.id])) {
-        jeedom.object.toHtml({id: _params.id, version: _params.version, useCache: false, global: false});
+        jeedom.object.toHtml({id: _params.id, version: _params.version, useCache: false, global: false,success : function(){}});
     }
 };
 

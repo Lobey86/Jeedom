@@ -1,13 +1,6 @@
 /***************Fonction d'initialisation*********************/
 $(function() {
-    $.mobile.orientationChangeEnabled = false
-
-    $(document).ajaxStart(function() {
-        $.showLoading();
-    });
-    $(document).ajaxStop(function() {
-        $.hideLoading();
-    });
+    $.mobile.orientationChangeEnabled = false;
 
     $(window).on("orientationchange", function(event) {
         deviceInfo = getDeviceType();
@@ -16,7 +9,6 @@ $(function() {
     initApplication();
 
     $('body').delegate('a.link', 'click', function() {
-        $.showLoading();
         modal(false);
         panel(false);
         page($(this).attr('data-page'), $(this).attr('data-title'), $(this).attr('data-option'), $(this).attr('data-plugin'));
@@ -46,6 +38,7 @@ function initExpertMode() {
 
 
 function initApplication(_reinit) {
+    $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/jeedom.ajax.php", // url du fichier php
@@ -70,7 +63,9 @@ function initApplication(_reinit) {
                                 initApplication();
                             }
                         });
+                        $.hideLoading();
                     } else {
+                        $.hideLoading();
                         page('connection', 'Connexion');
                     }
                     return;
@@ -98,6 +93,7 @@ function initApplication(_reinit) {
                         $.include(include, function() {
                             jeedom.object.prefetch({id: 'all', version: 'mobile'});
                             jeedom.view.prefetch({id: 'all', version: 'mobile'});
+                            $.hideLoading();
                             page("home", 'Accueil');
                         });
                     });
@@ -130,9 +126,9 @@ function page(_page, _title, _option, _plugin) {
             if (init(_plugin) != '') {
                 page += '&m=' + _plugin;
             }
-            $.ajaxSettings.global = false; 
+            $.ajaxSettings.global = false;
             $('#page').load(page, function() {
-                $.ajaxSettings.global = true; 
+                $.ajaxSettings.global = true;
                 $('#page').trigger('create');
                 var functionName = '';
                 if (init(_plugin) != '') {
@@ -148,7 +144,7 @@ function page(_page, _title, _option, _plugin) {
                     }
                 }
             });
-            $.ajaxSettings.global = true; 
+            $.ajaxSettings.global = true;
         }
     });
 }
