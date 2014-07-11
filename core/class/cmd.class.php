@@ -607,8 +607,7 @@ class cmd {
         return $value;
     }
 
-    public function toHtml($_version = 'dashboard', $options = '') {
-        $start = getmicrotime();
+    public function toHtml($_version = 'dashboard', $options = '', $_cmdColor = null) {
         if ($_version == '') {
             throw new Exception(__('La version demandée ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
         }
@@ -616,7 +615,6 @@ class cmd {
         $html = '';
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($_version, 'default');
         $template = '';
-        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Start get template : ' . round(getmicrotime() - $start, 3));
         if (!is_array(self::$_templateArray)) {
             self::$_templateArray == array();
         }
@@ -652,22 +650,25 @@ class cmd {
         } else {
             $template = self::$_templateArray[$_version . '::' . $template_name];
         }
-        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish get template : ' . round(getmicrotime() - $start, 3));
         $replace = array(
             '#id#' => $this->getId(),
             '#name#' => ($this->getDisplay('icon') != '') ? $this->getDisplay('icon') : $this->getName(),
         );
-        $eqLogic = $this->getEqLogic();
-        $vcolor = 'cmdColor';
-        if ($_version == 'mobile') {
-            $vcolor = 'mcmdColor';
+        if ($_cmdColor == null) {
+            $eqLogic = $this->getEqLogic();
+            $vcolor = 'cmdColor';
+            if ($_version == 'mobile') {
+                $vcolor = 'mcmdColor';
+            }
+            $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $eqLogic->getPrimaryCategory() . ':' . $vcolor);
+        } else {
+            $cmdColor = $_cmdColor;
         }
-        $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $eqLogic->getPrimaryCategory() . ':' . $vcolor);
+
         $replace['#cmdColor#'] = (!is_array($cmdColor)) ? $cmdColor : '#C1C1C1';
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
         $replace['#unite#'] = $this->getUnite();
-        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Specifique type : ' . round(getmicrotime() - $start, 3));
         if ($this->getType() == 'info') {
             $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
             $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
@@ -709,9 +710,6 @@ class cmd {
                 }
                 $html .= template_replace($replace, self::$_templateArray[$_version . 'cmd.info.history.default']);
             }
-            
-            log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish array : ' . round(getmicrotime() - $start, 3));
-
             $html .= template_replace($replace, $template);
         } else {
             $cmdValue = $this->getCmdValue();
@@ -739,7 +737,6 @@ class cmd {
                 }
             }
         }
-        log::add('profiling', 'debug', '[' . $this->getId() . ']' . 'Finish to html : ' . round(getmicrotime() - $start, 3));
         return $html;
     }
 

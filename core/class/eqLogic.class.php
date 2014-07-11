@@ -381,15 +381,12 @@ class eqLogic {
             $vcolor = 'mcmdColor';
         }
         $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
-        $cmd_display = array(
-            '#cmdColor#' => (!is_array($cmdColor)) ? $cmdColor : '#C1C1C1'
-        );
         if ($this->getIsEnable()) {
             foreach ($this->getCmd(null, null, true) as $cmd) {
                 if ($cmd->getType() == 'action') {
-                    $action.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmd_display);
+                    $action.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmdColor);
                 } else {
-                    $info.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmd_display);
+                    $info.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmdColor);
                 }
             }
         }
