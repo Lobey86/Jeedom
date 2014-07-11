@@ -5,7 +5,7 @@
     <script>
         $(function() {
             $('.cmd[data-cmd_id=#id#] .execute').on('click', function() {
-                edom.cmd.execute({id: '#id#', value: {title: $('.cmd[data-cmd_id=#id#] .title').value(), message: $('.cmd[data-cmd_id=#id#] .message').value()}});
+                jeedom.cmd.execute({id: '#id#', value: {title: $('.cmd[data-cmd_id=#id#] .title').value(), message: $('.cmd[data-cmd_id=#id#] .message').value()}});
             });
         });
     </script>
