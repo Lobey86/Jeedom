@@ -25,11 +25,12 @@ if (!isset(jeedom.cmd.cache.byId)) {
 }
 
 jeedom.cmd.execute = function(_params) {
-    if (init(_params.notify, true)) {
+    var notify = _params.notify || true;
+    if (notify) {
         var eqLogic = $('.cmd[data-cmd_id=' + _params.id + ']').closest('.eqLogic');
         eqLogic.find('.statusCmd').empty().append('<i class="fa fa-spinner fa-spin"></i>');
     }
-    if (init(_params.value) != '' && (is_array(_params.value) || is_object(_params.value))) {
+    if (_params.value != 'undefined' && (is_array(_params.value) || is_object(_params.value))) {
         _params.value = json_encode(_params.value);
     }
 
@@ -42,7 +43,7 @@ jeedom.cmd.execute = function(_params) {
                 if ('function' != typeof (_params.error)) {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 }
-                if (init(params.notify, true)) {
+                if (notify) {
                     eqLogic.find('.statusCmd').empty().append('<i class="fa fa-times"></i>');
                     setTimeout(function() {
                         eqLogic.find('.statusCmd').empty();
@@ -50,7 +51,7 @@ jeedom.cmd.execute = function(_params) {
                 }
                 return data;
             }
-            if (init(params.notify, true)) {
+            if (notify) {
                 eqLogic.find('.statusCmd').empty().append('<i class="fa fa-rss"></i>');
                 setTimeout(function() {
                     eqLogic.find('.statusCmd').empty();
@@ -71,7 +72,7 @@ jeedom.cmd.execute = function(_params) {
     paramsAJAX.data = {
         action: 'execCmd',
         id: _params.id,
-        cache: init(_params.cache, 1),
+        cache: _params.cache || 1,
         value: _params.value || ''
     };
     $.ajax(paramsAJAX);
