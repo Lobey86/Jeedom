@@ -166,6 +166,7 @@ jeedom.user.isConnect = function(_params) {
         var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
         var paramsAJAX = jeedom.private.getParamsAJAX(params);
         paramsAJAX.url = 'core/ajax/user.ajax.php';
+        paramsAJAX.global = false;
         paramsAJAX.data = {
             action: 'isConnect',
         };
