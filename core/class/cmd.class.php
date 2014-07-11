@@ -426,6 +426,18 @@ class cmd {
         }
         return $return;
     }
+    
+    public static function persist() {
+        DB::Prepare('TRUNCATE TABLE `cmd_persist`', array(), DB::FETCH_TYPE_ROW);
+        DB::Prepare('REPLACE `cmd_persist` SELECT * FROM `cmd`', array(), DB::FETCH_TYPE_ROW);
+        return true;
+    }
+
+    public static function restore() {
+        DB::Prepare('TRUNCATE TABLE `cmd`', array(), DB::FETCH_TYPE_ROW);
+        DB::Prepare('REPLACE `cmd` SELECT * FROM `cmd_persist`', array(), DB::FETCH_TYPE_ROW);
+        return true;
+    }
 
     /*     * *********************Methode d'instance************************* */
 

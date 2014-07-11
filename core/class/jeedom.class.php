@@ -292,6 +292,9 @@ class jeedom {
     public static function persist() {
         try {
             if (!self::isStarted()) {
+                object::restore();
+                eqLogic::restore();
+                cmd::restore();
                 cache::restore();
                 $cache = cache::byKey('jeedom::usbMapping');
                 if ($cache->getValue() != '') {
@@ -307,6 +310,9 @@ class jeedom {
             $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
             if ($c->isDue()) {
                 cache::persist();
+                cmd::persist();
+                eqLogic::persist();
+                object::persist();
             }
         } catch (Exception $e) {
             log::add('cache', 'error', $e->getMessage());

@@ -84,6 +84,18 @@ class object {
         return $return;
     }
 
+    public static function persist() {
+        DB::Prepare('TRUNCATE TABLE `object_persist`', array(), DB::FETCH_TYPE_ROW);
+        DB::Prepare('REPLACE `object_persist` SELECT * FROM `object`', array(), DB::FETCH_TYPE_ROW);
+        return true;
+    }
+
+    public static function restore() {
+        DB::Prepare('TRUNCATE TABLE `object`', array(), DB::FETCH_TYPE_ROW);
+        DB::Prepare('REPLACE `object` SELECT * FROM `object_persist`', array(), DB::FETCH_TYPE_ROW);
+        return true;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function preSave() {
