@@ -41,6 +41,7 @@ class cmd {
     protected $value = null;
     protected $isVisible = 1;
     protected $_internalEvent = 0;
+    protected $_eqLogic = null;
     private static $_templateArray;
 
     /*     * ***********************Methode static*************************** */
@@ -897,7 +898,10 @@ class cmd {
     }
 
     public function getEqLogic() {
-        return eqLogic::byId($this->eqLogic_id);
+        if ($this->_eqLogic == null) {
+            $this->_eqLogic = eqLogic::byId($this->eqLogic_id);
+        }
+        return $this->_eqLogic;
     }
 
     public function getEventOnly() {
