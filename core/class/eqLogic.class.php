@@ -370,23 +370,23 @@ class eqLogic {
     }
 
     public function toHtml($_version = 'dashboard') {
-        $start = getmicrotime();
         if ($_version == '') {
             throw new Exception(__('La version demandé ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
         }
         $info = '';
         $action = '';
+        $_version = jeedom::versionAlias($_version);
         $vcolor = 'cmdColor';
-        if (jeedom::versionAlias($_version) == 'mobile') {
+        if ($_version == 'mobile') {
             $vcolor = 'mcmdColor';
         }
         $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
         if ($this->getIsEnable()) {
             foreach ($this->getCmd(null, null, true) as $cmd) {
                 if ($cmd->getType() == 'action') {
-                    $action.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmdColor);
+                    $action.=$cmd->toHtml($_version, '', $cmdColor);
                 } else {
-                    $info.=$cmd->toHtml(jeedom::versionAlias($_version), '', $cmdColor);
+                    $info.=$cmd->toHtml($_version, '', $cmdColor);
                 }
             }
         }
@@ -396,7 +396,7 @@ class eqLogic {
             '#name#' => ($this->getIsEnable()) ? $this->getName() : '<del>' . $this->getName() . '</del>',
             '#eqLink#' => $this->getLinkToConfiguration(),
             '#category#' => $this->getPrimaryCategory(),
-            '#background_color#' => $this->getBackgroundColor(jeedom::versionAlias($_version)),
+            '#background_color#' => $this->getBackgroundColor($_version),
             '#action#' => $action,
             '#info#' => $info,
         );
@@ -412,10 +412,10 @@ class eqLogic {
         if (!isset(self::$_templateArray)) {
             self::$_templateArray = array();
         }
-        if (!isset(self::$_templateArray[jeedom::versionAlias($_version)])) {
-            self::$_templateArray[jeedom::versionAlias($_version)] = getTemplate('core', jeedom::versionAlias($_version), 'eqLogic');
+        if (!isset(self::$_templateArray[$_version])) {
+            self::$_templateArray[$_version] = getTemplate('core', $_version, 'eqLogic');
         }
-        return template_replace($replace, self::$_templateArray[jeedom::versionAlias($_version)]);
+        return template_replace($replace, self::$_templateArray[$_version]);
     }
 
     public function getShowOnChild() {
