@@ -670,14 +670,13 @@ class cmd {
             $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
             $replace['#state#'] = '';
             $replace['#tendance#'] = '';
-            $value = trim($this->execCmd(null, 2));
-            if ($value === null) {
+            $replace['#state#'] = trim($this->execCmd(null, 2));
+            if ($replace['#state#'] === null) {
                 return template_replace($replace, $template);
             }
             if ($this->getSubType() == 'binary' && $this->getDisplay('invertBinary') == 1) {
-                $value = ($value == 1) ? 0 : 1;
+                $replace['#state#'] = ($replace['#state#'] == 1) ? 0 : 1;
             }
-            $replace['#state#'] = $value;
             $replace['#collectDate#'] = $this->getCollectDate();
             if (config::byKey('displayStatsWidget') == 1 && $this->getIsHistorized() == 1 && strpos($template, '#displayHistory#') !== false) {
                 $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculPeriod') . ' hour'));
