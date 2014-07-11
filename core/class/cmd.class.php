@@ -628,21 +628,23 @@ class cmd {
                     }
                 }
             }
-            if ($template == '' && config::byKey('market::autoInstallMissingWidget') == 1 && $_version != 'scenario') {
-                try {
-                    $market = market::byLogicalId(str_replace('.cmd', '', $_version . '.' . $template_name));
-                    if (is_object($market)) {
-                        $market->install();
-                        $template = getTemplate('core', $_version, $template_name, 'widget');
+            if ($this->getTemplate($_version, 'default') != 'default') {
+                if ($template == '' && config::byKey('market::autoInstallMissingWidget') == 1) {
+                    try {
+                        $market = market::byLogicalId(str_replace('.cmd', '', $_version . '.' . $template_name));
+                        if (is_object($market)) {
+                            $market->install();
+                            $template = getTemplate('core', $_version, $template_name, 'widget');
+                        }
+                    } catch (Exception $e) {
+                        $this->setTemplate($_version, 'default');
+                        $this->save();
                     }
-                } catch (Exception $e) {
-                    $this->setTemplate($_version, 'default');
-                    $this->save();
                 }
-            }
-            if ($template == '' && $_version != 'scenario') {
-                $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
-                $template = getTemplate('core', $_version, $template_name);
+                if ($template == '') {
+                    $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
+                    $template = getTemplate('core', $_version, $template_name);
+                }
             }
             self::$_templateArray[$_version . '::' . $template_name] = $template;
         } else {
