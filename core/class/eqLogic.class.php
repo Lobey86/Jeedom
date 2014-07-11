@@ -390,7 +390,6 @@ class eqLogic {
                 }
             }
         }
-
         $replace = array(
             '#id#' => $this->getId(),
             '#name#' => ($this->getIsEnable()) ? $this->getName() : '<del>' . $this->getName() . '</del>',
@@ -400,15 +399,10 @@ class eqLogic {
             '#action#' => $action,
             '#info#' => $info,
         );
-        if ($_version == 'dview') {
+        if ($_version == 'dview' || $_version == 'mview') {
             $object = $this->getObject();
             $replace['#name#'] = (is_object($object)) ? $object->getName() . ' - ' . $replace['#name#'] : $replace['#name#'];
         }
-        if ($_version == 'mview') {
-            $object = $this->getObject();
-            $replace['#name#'] = (is_object($object)) ? $object->getName() . ' - ' . $replace['#name#'] : $replace['#name#'];
-        }
-
         if (!isset(self::$_templateArray)) {
             self::$_templateArray = array();
         }
