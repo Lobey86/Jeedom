@@ -502,9 +502,6 @@ class cmd {
      * @throws Exception
      */
     public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
-        if ($this->getEqLogic()->getIsEnable() != 1) {
-            throw new Exception(__('Cet équipement est désactivé :', __FILE__) . $this->getEqLogic()->getHumanName());
-        }
         if ($this->getEventOnly() && $cache == 0) {
             $cache = 1;
         }
