@@ -75,6 +75,19 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('3rdparty', 'jquery.utils/jquery.utils', 'css');
         include_file('3rdparty', 'jquery/jquery.min', 'js');
         include_file('3rdparty', 'php.js/php.min', 'js');
+        include_file('core', 'core', 'js');
+        include_file('3rdparty', 'bootstrap/bootstrap.min', 'js');
+        include_file('3rdparty', 'jquery.ui/jquery-ui.min', 'js');
+        include_file('3rdparty', 'jquery.ui/jquery.ui.datepicker.fr', 'js');
+        include_file('core', 'js.inc', 'php');
+        include_file('3rdparty', 'jquery.utils/jquery.utils', 'js');
+        include_file('3rdparty', 'bootbox/bootbox.min', 'js');
+        include_file('3rdparty', 'highstock/highstock', 'js');
+        include_file('3rdparty', 'highstock/highcharts-more', 'js');
+        include_file('3rdparty', 'highstock/modules/solid-gauge', 'js');
+        include_file('desktop', 'utils', 'js');
+        include_file('3rdparty', 'jquery.toastr/jquery.toastr.min', 'js');
+        include_file('3rdparty', 'jquery.at.caret/jquery.at.caret.min', 'js');
         ?>
     </head>
 
@@ -272,24 +285,10 @@ $plugins_list = plugin::listPlugin(true, true);
 
                 </main>
             </div>
-        <?php } ?>
-        <?php
-        include_file('core', 'core', 'js');
-        include_file('3rdparty', 'bootstrap/bootstrap.min', 'js');
-        include_file('3rdparty', 'jquery.ui/jquery-ui.min', 'js');
-        include_file('3rdparty', 'jquery.ui/jquery.ui.datepicker.fr', 'js');
-        include_file('core', 'js.inc', 'php');
-        include_file('3rdparty', 'jquery.utils/jquery.utils', 'js');
-        include_file('3rdparty', 'bootbox/bootbox.min', 'js');
-        include_file('3rdparty', 'highstock/highstock', 'js');
-        include_file('3rdparty', 'highstock/highcharts-more', 'js');
-        include_file('3rdparty', 'highstock/modules/solid-gauge', 'js');
-        include_file('desktop', 'utils', 'js');
-        include_file('3rdparty', 'jquery.toastr/jquery.toastr.min', 'js');
-        include_file('3rdparty', 'jquery.at.caret/jquery.at.caret.min', 'js');
-        ?>
-
-        <?php if (isConnect()) { ?>
+            <?php
+        }
+        if (isConnect()) {
+            ?>
             <footer>
                 <span class="pull-left">Node JS <span class="span_nodeJsState binary red tooltips"></span> - </span>
                 <span class="pull-left">&copy; <a id="bt_jeedomAbout" class="cursor">Jeedom</a> (v<?php echo getVersion('jeedom') ?> 
