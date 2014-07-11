@@ -93,8 +93,8 @@ function initApplication(_reinit) {
                         $.include(include, function() {
                             jeedom.object.prefetch({id: 'all', version: 'mobile'});
                             jeedom.view.prefetch({id: 'all', version: 'mobile'});
-                            $.hideLoading();
                             page("home", 'Accueil');
+                            $.hideLoading();
                         });
                     });
                 }
