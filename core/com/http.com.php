@@ -31,6 +31,7 @@ class com_http {
     private $sleepTime = 500000;
     private $post = '';
     private $header = array('Connection: close');
+    private $cookiesession = false;
 
     /*     * ********************Functions static********************* */
 
@@ -67,6 +68,9 @@ class com_http {
             curl_setopt($ch, CURLOPT_TIMEOUT, $_timeout);
             curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+            if ($this->getCookiesession()) {
+                curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+            }
             if ($this->username != '') {
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
             }
@@ -143,6 +147,14 @@ class com_http {
 
     public function setHeader($header) {
         $this->header = $header;
+    }
+
+    public function getCookiesession() {
+        return $this->cookiesession;
+    }
+
+    public function setCookiesession($cookiesession) {
+        $this->cookiesession = $cookiesession;
     }
 
 }
