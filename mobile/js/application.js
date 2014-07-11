@@ -130,7 +130,9 @@ function page(_page, _title, _option, _plugin) {
             if (init(_plugin) != '') {
                 page += '&m=' + _plugin;
             }
+            $.ajaxSettings.global = false; 
             $('#page').load(page, function() {
+                $.ajaxSettings.global = true; 
                 $('#page').trigger('create');
                 var functionName = '';
                 if (init(_plugin) != '') {
@@ -146,6 +148,7 @@ function page(_page, _title, _option, _plugin) {
                     }
                 }
             });
+            $.ajaxSettings.global = true; 
         }
     });
 }
