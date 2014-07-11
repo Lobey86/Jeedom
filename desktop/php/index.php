@@ -72,8 +72,7 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('core', 'core', 'css');
         include_file('3rdparty', 'jquery.toastr/jquery.toastr.min', 'css');
         include_file('3rdparty', 'jquery.ui/jquery-ui-bootstrap/jquery-ui', 'css');
-        include_file('3rdparty', 'jquery.loading/jquery.loading', 'css');
-        include_file('3rdparty', 'jquery.tablesorter/theme.bootstrap', 'css');
+        include_file('3rdparty', 'jquery.utils/jquery.utils', 'css');
         include_file('3rdparty', 'jquery/jquery.min', 'js');
         include_file('3rdparty', 'php.js/php.min', 'js');
         ?>
@@ -280,24 +279,14 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('3rdparty', 'jquery.ui/jquery-ui.min', 'js');
         include_file('3rdparty', 'jquery.ui/jquery.ui.datepicker.fr', 'js');
         include_file('core', 'js.inc', 'php');
-        include_file('3rdparty', 'jquery.value/jquery.value', 'js');
-        include_file('3rdparty', 'jquery.alert/jquery.alert', 'js');
-        include_file('3rdparty', 'jquery.loading/jquery.loading', 'js');
-        include_file('3rdparty', 'jquery.include/jquery.include', 'js');
+        include_file('3rdparty', 'jquery.utils/jquery.utils', 'js');
         include_file('3rdparty', 'bootbox/bootbox.min', 'js');
         include_file('3rdparty', 'highstock/highstock', 'js');
         include_file('3rdparty', 'highstock/highcharts-more', 'js');
         include_file('3rdparty', 'highstock/modules/solid-gauge', 'js');
-        include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
-        include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'js');
-        include_file('3rdparty', 'jquery.tableUtils/jquery.tableUtils', 'js');
         include_file('desktop', 'utils', 'js');
         include_file('3rdparty', 'jquery.toastr/jquery.toastr.min', 'js');
-        include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
         include_file('3rdparty', 'jquery.at.caret/jquery.at.caret.min', 'js');
-        include_file('3rdparty', 'jquery.fileupload/jquery.ui.widget', 'js');
-        include_file('3rdparty', 'jquery.fileupload/jquery.iframe-transport', 'js');
-        include_file('3rdparty', 'jquery.fileupload/jquery.fileupload', 'js');
         ?>
 
         <?php if (isConnect()) { ?>

@@ -366,6 +366,4 @@ function positionEqLogic(_id, _noResize) {
             }
         }
     });
-
-
 }

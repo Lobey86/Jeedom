@@ -17,6 +17,138 @@
 
 
 (function($) {
+    var scriptsCache = [];
+    $.include = function(_path, _callback) {
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+            if (options.dataType == 'script' || originalOptions.dataType == 'script') {
+                options.cache = true;
+            }
+        });
+        for (var i in _path) {
+            if (jQuery.inArray(_path[i], scriptsCache) == -1) {
+                var extension = _path[i].substr(_path[i].length - 3);
+
+                if (extension == 'css') {
+                    $('<link rel="stylesheet" href="' + _path[i] + '" type="text/css" />').appendTo('head');
+                }
+                if (extension == '.js') {
+                    if (_path[i].indexOf('core/php/getJS.php?file=') >= 0) {
+                        $('<script type="text/javascript" src="' + _path[i] + '"></script>').appendTo('head');
+                    } else {
+                        $('<script type="text/javascript" src="core/php/getJS.php?file=' + _path[i] + '"></script>').appendTo('head');
+                    }
+                }
+
+                scriptsCache.push(_path[i]);
+            }
+        }
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+            if (options.dataType == 'script' || originalOptions.dataType == 'script') {
+                options.cache = false;
+            }
+        });
+        _callback();
+        return;
+    };
+
+    /********************************loading************************/
+    $.showLoading = function() {
+        if ($.mobile) {
+            $.mobile.loading('show', {
+                text: 'Chargement...',
+                textVisible: true,
+            });
+        } else {
+            if ($('#jqueryLoadingDiv').length == 0) {
+                $('body').append('<div id="jqueryLoadingDiv"><div class="overlay"></div><i class="fa fa-cog fa-spin loadingImg"></i></div>');
+            }
+            $('#jqueryLoadingDiv').show();
+        }
+    };
+    $.hideLoading = function() {
+        if ($.mobile) {
+            $.mobile.loading('hide');
+        } else {
+            $('#jqueryLoadingDiv').hide();
+        }
+    };
+
+    /*********************jquery alert*************************************/
+    $.fn.showAlert = function(_options) {
+        var options = init(_options, {});
+        options.message = init(options.message, '');
+        options.level = init(options.level, '');
+        options.emptyBefore = init(options.emptyBefore, true);
+        options.show = init(options.show, true);
+        if ($.mobile) {
+            $(this).empty();
+            $(this).addClass('jqAlert');
+            $(this).html('<a href="#" data-rel="back" data-role="button" data-theme="h" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>' + options.message);
+            $(this).enhanceWithin().popup();
+            $(this).popup('open');
+        } else {
+            if (options.emptyBefore == false) {
+                var html = $(this).find('.displayError').html();
+                if (isset(html)) {
+                    options.message = html + '<br/>' + options.message;
+                }
+            }
+            $(this).empty();
+            $(this).html('<span href="#" class="btn_closeAlert pull-right cursor" style="position : relative; left : 30px;color : grey">×</span><span class="displayError">' + options.message + '</span>');
+            $(this).removeClass('alert alert-warning alert-danger alert-info alert-success jqAlert');
+            $(this).addClass('alert jqAlert');
+            if (options.level != '') {
+                $(this).addClass('alert-' + options.level);
+            }
+            if (options.show) {
+                $(this).show();
+                $(this).css('padding', '7px 35px 7px 15px');
+                $(this).css('margin-bottom', '5px');
+                $(this).css('overflow', 'auto');
+                $(this).css('max-height', $(window).height() - 100 + 'px');
+                $(this).css('z-index', '9999');
+            }
+
+            if ($(this).offset().top - $(window).scrollTop() < $(this).height()) {
+                $('html, body').animate({
+                    scrollTop: $(this).offset().top - 60
+                }, 650);
+            }
+
+            $(this).find('.btn_closeAlert').on('click', function() {
+                $(this).closest('.jqAlert').hide();
+            });
+        }
+        //Hide/show debug trace
+        $(this).find('.bt_errorShowTrace').on('click', function() {
+            var errorTrace = $(this).parent().find('.pre_errorTrace');
+            if (errorTrace.is(':visible')) {
+                errorTrace.hide();
+                $(this).text('Show traces');
+            } else {
+                errorTrace.show();
+                $(this).text('Hide traces');
+            }
+        });
+        return this;
+    };
+
+    $.fn.hideAlert = function() {
+        $('#jqAlertSpacer' + $(this).attr('id')).remove();
+        $(this).text('').hide();
+        return $(this);
+    };
+
+    $.hideAlert = function() {
+        if ($.mobile) {
+            $('.jqAlert').popup("close");
+        } else {
+            $('.jqAlert').text('');
+            $('.jqAlert').hide();
+        }
+    };
+
+    /**********************Jquery.value******************************/
     function init(_value, _default) {
         if (!isset(_default)) {
             _default = '';
@@ -248,6 +380,68 @@
         }
     }
 
+
+    /**************LI FILTER*****************************/
+
+    $.initTableFilter = function() {
+        $("body").delegate("ul li input.filter", 'keyup', function() {
+            $(this).closest('ul').ulFilter();
+        });
+    };
+
+
+    $.fn.ulFilter = function() {
+        var ul = $(this);
+        var li = $(this).find('li:not(.filter):not(.nav-header):first');
+        var find = 'li.filter input.filter';
+        delete inputs;
+        var inputs = new Array();
+        ul.find(find).each(function(i) {
+            var filterOn = '';
+            if ($(this).is(':visible')) {
+                var value = $(this).value();
+                var filterOn = $(this).attr('filterOn');
+            }
+            if (filterOn != '' && value != '') {
+                var infoInput = new Array();
+                infoInput[0] = filterOn;
+                infoInput[1] = value.toLowerCase();
+                inputs.push(infoInput);
+            }
+        });
+        var searchText = 1;
+        var showLi = true;
+        while (li.html() != undefined) {
+            showLi = true;
+            for (var i = 0; i < inputs.length; i++) {
+                searchText = li.find('a').text().toLowerCase().stripAccents().indexOf(inputs[i][1].stripAccents());
+                if (searchText < 0) {
+                    showLi = false;
+                    break;
+                }
+            }
+            if (showLi) {
+                li.show();
+            } else {
+                li.hide();
+            }
+            li = li.next();
+        }
+        return this;
+    };
+
+    String.prototype.stripAccents = function() {
+        var in_chrs = 'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ',
+                out_chrs = 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY',
+                transl = {};
+        eval('var chars_rgx = /[' + in_chrs + ']/g');
+        for (var i = 0; i < in_chrs.length; i++) {
+            transl[in_chrs.charAt(i)] = out_chrs.charAt(i);
+        }
+        return this.replace(chars_rgx, function(match) {
+            return transl[match];
+        });
+    };
 })(jQuery);
 
 

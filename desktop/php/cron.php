@@ -2,6 +2,9 @@
 if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
+include_file('3rdparty', 'jquery.tablesorter/theme.bootstrap', 'css');
+include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
+include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'js');
 ?>
 
 {{Processus Jeecron :}} <span class="label label-default"><span class="tooltips" id="span_jeecronMasterRuns" title="{{Nombre de Jeecron master, doit toujours être inférieur à 2}}"></span> | 

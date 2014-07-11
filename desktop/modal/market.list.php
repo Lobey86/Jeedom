@@ -4,6 +4,9 @@ if (!isConnect('admin')) {
 }
 include_file('3rdparty', 'jquery.lazyload/jquery.lazyload', 'js');
 include_file('3rdparty', 'bootstrap.rating/bootstrap.rating', 'js');
+include_file('3rdparty', 'jquery.tablesorter/theme.bootstrap', 'css');
+include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
+include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'js');
 
 $markets = market::byStatusAndType('stable', init('type'));
 if (config::byKey('market::showBetaMarket') == 1) {

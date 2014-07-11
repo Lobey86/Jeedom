@@ -2,7 +2,7 @@
 if (!isConnect()) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-
+include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
 if (init('id') == '') {
     if ($_SESSION['user']->getOptions('defaultDesktopView') != '') {
         $view = view::byId($_SESSION['user']->getOptions('defaultDesktopView'));

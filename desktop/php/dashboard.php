@@ -2,6 +2,7 @@
 if (!isConnect()) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
+include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
 if (init('object_id') == '') {
     $object = object::byId($_SESSION['user']->getOptions('defaultDashboardObject'));
 } else {
@@ -92,7 +93,7 @@ $child_object = object::buildTree($object);
         <legend><i class="fa fa-history"></i> {{Scénarios}}</legend>
         <?php
         if (init('object_id') == '') {
-            foreach (scenario::byObjectId(null,false) as $scenario) {
+            foreach (scenario::byObjectId(null, false) as $scenario) {
                 if ($scenario->getIsVisible() == 1) {
                     echo $scenario->toHtml('dashboard');
                 }
