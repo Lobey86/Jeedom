@@ -48,7 +48,7 @@ if [ "${webserver}" = "nginx" ] ; then
 fi
 
 if [ "${webserver}" = "apache" ] ; then 
-    sudo apt-get install -y apache2
+    sudo apt-get install -y apache2 libapache2-mod-php5
     sudo apt-get install -y autoconf make subversion
     sudo svn checkout http://svn.apache.org/repos/asf/httpd/httpd/tags/2.2.22/ httpd-2.2.22
     sudo wget http://cafarelli.fr/gentoo/apache-2.2.24-wstunnel.patch
@@ -61,7 +61,7 @@ if [ "${webserver}" = "apache" ] ; then
     sudo make
     sudo cp modules/proxy/.libs/mod_proxy{_wstunnel,}.so /usr/lib/apache2/modules/
     sudo chmod 644 /usr/lib/apache2/modules/mod_proxy{_wstunnel,}.so
-    echo -e "# Depends: proxy\nLoadModule proxy_wstunnel_module /usr/lib/apache2/modules/mod_proxy_wstunnel.so" | sudo tee -a /etc/apache2/mods-available/proxy_wstunnel.load
+    echo "# Depends: proxy\nLoadModule proxy_wstunnel_module /usr/lib/apache2/modules/mod_proxy_wstunnel.so" | sudo tee -a /etc/apache2/mods-available/proxy_wstunnel.load
     sudo a2enmod proxy_wstunnel
     sudo a2enmod proxy_http
     sudo a2enmod proxy
@@ -237,9 +237,9 @@ if [ "${webserver}" = "apache" ] ; then
     echo "********************************************************"
     echo "*                Configuration de APACHE                *"
     echo "********************************************************"
-    sudo cp install/apache_default /etc/apache2/sites-available/default
-    if [ ! -f '/etc/apache2/sites-enabled/default' ]; then
-        sudo a2ensite default
+    sudo cp install/apache_default /etc/apache2/sites-available/000-default.conf
+    if [ ! -f '/etc/apache2/sites-enabled/000-default.conf' ]; then
+        sudo a2ensite 000-default
     fi
     sudo service apache2 restart
     sudo adduser www-data dialout
@@ -257,6 +257,9 @@ echo "********************************************************"
 sudo cp jeedom /etc/init.d/
 sudo chmod +x /etc/init.d/jeedom
 sudo update-rc.d jeedom defaults
+if [ "${webserver}" = "apache" ] ; then 
+    sudo sed -i 's%PATH_TO_JEEDOM="/usr/share/nginx/www/jeedom"%PATH_TO_JEEDOM="/var/www/jeedom"%g' /etc/init.d/jeedom
+fi
 
 
 echo "********************************************************"
