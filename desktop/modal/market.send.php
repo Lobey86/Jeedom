@@ -42,8 +42,8 @@ if (init('type') == 'plugin') {
         <div class="col-lg-6 col-lg-offset-3" id="div_marketPrice">
             <img src="core/img/euro-market.jpg" class="pull-left"/>
             <h2>Monétisez votre création !</h2>
-            0.25€ de frais paypal seront deduis et une commision de 25% sera prélevé pour les developpeurs de Jeedom
-            <h5 style="font-weight:bold;">Fixer le prix de vente public <input class="form-control marketAttr" data-l1key="cost" placeholder="{{Prix}}" style="display : inline-block; width : 80px;"> €</h5>
+            <h4 style="font-weight:bold;">Fixer le prix de vente public <input class="form-control marketAttr" data-l1key="cost" placeholder="{{Prix}}" style="display : inline-block; width : 80px;"> €</h4>
+            Sur ce prix seront prélevés 0,25€ de frais paypal puis 25% destinés à l'équipe du projet Jeedom. Le reste <span id="span_marketDevGain">0</span> €, est pour vous !
         </div>
     </div>
     <div class="row">
@@ -119,6 +119,14 @@ if (is_object($market)) {
         }
     });
 
+    $('.marketAttr[data-l1key=cost]').on('change', function() {
+        if ($(this).value() == '' || isNaN($(this).value()) || $(this).value() < 0) {
+            $('#span_marketDevGain').value('0');
+        } else {
+            $('#span_marketDevGain').value(Math.round(($(this).value() - 0.25) * 75) / 100);
+        }
+
+    });
 
     $('body').setValues(market_display_info, '.marketAttr');
 
