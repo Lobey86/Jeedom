@@ -43,7 +43,7 @@ if (init('type') == 'plugin') {
             <img src="core/img/euro-market.jpg" class="pull-left"/>
             <h2>Monétisez votre création !</h2>
             0.25€ de frais paypal seront deduis et une commision de 25% sera prélevé pour les developpeurs de Jeedom
-            <h5>Fixer le prix de vente public <input class="form-control marketAttr" data-l1key="cost" placeholder="{{Prix}}" style="display : inline-block; width : 80px;"> €</h5>
+            <h5 style="font-weight:bold;">Fixer le prix de vente public <input class="form-control marketAttr" data-l1key="cost" placeholder="{{Prix}}" style="display : inline-block; width : 80px;"> €</h5>
         </div>
     </div>
     <div class="row">
