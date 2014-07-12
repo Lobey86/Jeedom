@@ -48,7 +48,8 @@ if [ "${webserver}" = "nginx" ] ; then
 fi
 
 if [ "${webserver}" = "apache" ] ; then 
-    sudo apt-get install autoconf make subversion
+    sudo apt-get install -y apache2
+    sudo apt-get install -y autoconf make subversion
     sudo svn checkout http://svn.apache.org/repos/asf/httpd/httpd/tags/2.2.22/ httpd-2.2.22
     sudo wget http://cafarelli.fr/gentoo/apache-2.2.24-wstunnel.patch
     sudo cd httpd-2.2.22
