@@ -71,4 +71,14 @@
                 ProxyPassReverse http://127.0.0.1:8070/socket.io/
         </Location>
 
+        <ProxyMatch ^((?!127\.0\.0\.1).)*$>
+                Order deny,allow
+                Deny from all
+        </ProxyMatch>
+
+        <ProxyMatch 127\.0\.0\.1>
+                Order deny,allow
+                Allow from all
+        </ProxyMatch>
+
 </VirtualHost>
