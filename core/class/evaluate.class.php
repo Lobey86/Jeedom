@@ -206,7 +206,7 @@ class evaluate {
         switch ($operateur) {
             case "=":
                 if (!is_numeric($valeur1) && !is_numeric($valeur2)) {
-                    if (strcasecmp($valeur1, $valeur2) == 0) {
+                    if (strcasecmp(strtolower($valeur1), strtolower($valeur2)) == 0) {
                         $res = true;
                     } else {
                         $res = false;
