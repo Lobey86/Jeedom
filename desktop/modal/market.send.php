@@ -37,13 +37,20 @@ if (init('type') == 'plugin') {
 
 <a class="btn btn-success pull-right" style="color : white;" id="bt_sendToMarket"><i class="fa fa-cloud-upload"></i> {{Envoyer}}</a>
 
-<br/><br/><br/>
 <form class="form-horizontal" role="form" id="form_sendToMarket">
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3" id="div_marketPrice">
+            <img src="core/img/euro-market.jpg" class="pull-left"/>
+            <h2>Monétisez votre création !</h2>
+            0.25€ de frais paypal seront deduis et une commision de 25% sera prélevé pour les developpeurs de Jeedom
+            <h5>Fixer le prix de vente public <input class="form-control marketAttr" data-l1key="cost" placeholder="{{Prix}}" style="display : inline-block; width : 80px;"> €</h5>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{ID}}</label>
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <input class="form-control marketAttr" data-l1key="logicalId" placeholder="{{ID}}" disabled/>
                 </div>
@@ -72,21 +79,15 @@ if (init('type') == 'plugin') {
                     <input class="form-control marketAttr" data-l1key="categorie" placeholder="{{Catégorie}}">
                 </div>
             </div>
-             <div class="form-group">
-                <label class="col-lg-4 control-label">{{Prix (€)}}</label>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Description}}</label>
                 <div class="col-lg-6">
-                    <input class="form-control marketAttr" data-l1key="cost" placeholder="{{Prix (€)}}">
+                    <textarea class="form-control marketAttr" data-l1key="description" placeholder="{{Description}}" style="height: 150px;"></textarea>
                 </div>
             </div>
         </div> 
         <div class="col-lg-6">
             <div class="form-group">
-                <div class="form-group">
-                    <label class="col-lg-4 control-label">{{Description}}</label>
-                    <div class="col-lg-6">
-                        <textarea class="form-control marketAttr" data-l1key="description" placeholder="{{Description}}" style="height: 150px;"></textarea>
-                    </div>
-                </div>
                 <div class="form-group">
                     <label class="col-lg-4 control-label">{{Utilisation}}</label>
                     <div class="col-lg-6">
@@ -104,13 +105,20 @@ if (init('type') == 'plugin') {
     </div> 
 </form>
 
-
 <?php
 if (is_object($market)) {
     sendVarToJS('market_display_info', utils::o2a($market));
 }
 ?>
 <script>
+    $('.marketAttr[data-l1key=type]').on('change', function() {
+        if ($(this).value() == 'plugin') {
+            $('#div_marketPrice').show();
+        } else {
+            $('#div_marketPrice').hide();
+        }
+    });
+
 
     $('body').setValues(market_display_info, '.marketAttr');
 
