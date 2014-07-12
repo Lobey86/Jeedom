@@ -222,7 +222,7 @@ class cron {
      * @throws Exception
      */
     public function run() {
-        $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
+        $cmd = 'nice -n 19 php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
         if ($this->getNbRun() == 0) {
             shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
