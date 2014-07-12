@@ -742,10 +742,8 @@ class cmd {
         if ($this->getType() != 'info') {
             return;
         }
-        if ($this->getCollectDate() != '' && (strtotime('now') - strtotime($this->getCollectDate())) > 3600) {
-            return;
-        }
-        if ($this->getCollectDate() != '' && (strtotime('now') + 300 ) < strtotime($this->getCollectDate())) {
+        $collectDate = strtotime($this->getCollectDate());
+        if ($this->getCollectDate() != '' && ((strtotime('now') - $collectDate) > 3600 || (strtotime('now') + 300 ) < $collectDate)) {
             return;
         }
         $newUpdate = true;
@@ -756,7 +754,7 @@ class cmd {
                     $_value = 1;
                 }
                 if (strpos($_value, 'error') === false) {
-                    if ($this->getCollectDate() == '' || strtotime($this->getCollectDate()) >= strtotime($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')))) {
+                    if ($this->getCollectDate() == '' || $collectDate >= strtotime($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')))) {
                         $eqLogic->setStatus('numberTryWithoutSuccess', 0);
                         $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
                     }
@@ -764,8 +762,8 @@ class cmd {
                 if ($this->getCollectDate() != '') {
                     $internalEvent = internalEvent::byEventAndOptions('event::cmd', '"id":"' . $this->getId() . '"', true);
                     if (is_object($internalEvent) && strtotime($internalEvent->getDatetime()) < strtotime('now') &&
-                            (strtotime($internalEvent->getDatetime()) > strtotime($this->getCollectDate()) ||
-                            (strtotime($internalEvent->getDatetime()) == strtotime($this->getCollectDate()) && $internalEvent->setOptions('value', $_value) == $_value))) {
+                            (strtotime($internalEvent->getDatetime()) > $collectDate ||
+                            (strtotime($internalEvent->getDatetime()) == $collectDate && $internalEvent->setOptions('value', $_value) == $_value))) {
                         $newUpdate = false;
                     }
                 }
