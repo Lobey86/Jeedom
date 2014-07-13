@@ -120,10 +120,15 @@ if (is_object($market)) {
     });
 
     $('.marketAttr[data-l1key=cost]').on('change', function() {
-        if ($(this).value() == '' || isNaN($(this).value()) || $(this).value() < 0) {
+        if ($(this).value() == '' || isNaN($(this).value()) || parseInt($(this).value()) < 0.99) {
             $('#span_marketDevGain').value('0');
         } else {
-            $('#span_marketDevGain').value(Math.round(($(this).value() - 0.25) * 75) / 100);
+            var result = Math.round(($(this).value() - 0.25) * 75) / 100;
+            if (result < 0) {
+                $('#span_marketDevGain').value('0');
+            } else {
+                $('#span_marketDevGain').value(result);
+            }
         }
 
     });
