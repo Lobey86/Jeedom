@@ -412,6 +412,7 @@ class scenario {
             '#state#' => $this->getState(),
             '#isActive#' => $this->getIsActive(),
             '#name#' => $this->getHumanName(),
+            '#icon#' => $this->getIcon(),
             '#lastLaunch#' => $this->getLastLaunch(),
             '#scenarioLink#' => $this->getLinkToConfiguration(),
         );
@@ -422,6 +423,21 @@ class scenario {
             self::$_templateArray[$_version] = getTemplate('core', $_version, 'scenario');
         }
         return template_replace($replace, self::$_templateArray[$_version]);
+    }
+
+    public function getIcon() {
+        if ($this->getIsActive() == 1) {
+            switch ($this->getState()) {
+                case 'in progress':
+                    return '<i class="fa fa-spinner fa-spin"></i>';
+                case 'error':
+                    return '<i class="fa fa-exclamation-triangle"></i>';
+                default:
+                    return '<i class="fa fa-check"></i>';
+            }
+        } else {
+            return '<i class="fa fa-times"></i>';
+        }
     }
 
     public function getLinkToConfiguration() {

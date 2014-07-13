@@ -2,7 +2,7 @@
     <center>
         #name#
         <br/>
-        <span class="state" style="font-size: 2em;"></span>
+        <span class="state" style="font-size: 2em;">#icon#</span>
         <br/>
         <a class="ui-btn ui-btn-a ui-mini ui-btn-inline changeScenarioState" data-state="start" style="display: none;"><i class="fa fa-play"></i></a>
         <a class="ui-btn ui-btn-b ui-mini ui-btn-inline changeScenarioState" data-state="stop" style="display: none;"><i class="fa fa-stop"></i></a>
@@ -23,21 +23,17 @@
             if ('#state#' == 'in progress') {
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=stop]').show();
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
-                $('.scenario[data-scenario_id=#id#] .state').empty().append('<i class="fa fa-spinner fa-spin"></i>');
             }
             if ('#state#' == 'error') {
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=start]').show();
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
-                $('.scenario[data-scenario_id=#id#] .state').empty().append('<i class="fa fa-exclamation-triangle"></i>');
             }
             if ('#state#' == 'stop') {
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=start]').show();
                 $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=deactivate]').show();
-                $('.scenario[data-scenario_id=#id#] .state').empty().append('<i class="fa fa-check"></i>');
             }
         } else {
             $('.scenario[data-scenario_id=#id#] .changeScenarioState[data-state=activate]').show();
-            $('.scenario[data-scenario_id=#id#] .state').empty().append('<i class="fa fa-times"></i>');
         }
     </script>
 </div>

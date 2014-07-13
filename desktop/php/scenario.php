@@ -52,21 +52,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                     echo '<a>';
                     echo $scenario->getHumanName();
                     echo '<span class="pull-right">';
-                    if ($scenario->getIsActive() == 1) {
-                        switch ($scenario->getState()) {
-                            case 'in progress':
-                                echo '<i class="fa fa-spinner fa-spin"></i>';
-                                break;
-                            case 'error':
-                                echo '<i class="fa fa-exclamation-triangle"></i>';
-                                break;
-                            default:
-                                echo '<i class="fa fa-check"></i>';
-                                break;
-                        }
-                    } else {
-                        echo '<i class="fa fa-times"></i>';
-                    }
+                    echo $scenario->getIcon();
                     echo '</span>';
                     echo '</a>';
                     echo '</li>';
