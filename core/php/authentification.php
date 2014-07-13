@@ -132,6 +132,7 @@ function loginByKey($_key, $_ajax = false) {
 }
 
 function logout() {
+    @session_start();
     setcookie('sess_id', '', time() - 3600, "/", '', false, true);
     if (isset($_SESSION['user'])) {
         $_SESSION['user'] == null;

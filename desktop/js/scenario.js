@@ -35,7 +35,7 @@ autoCompleteCondition = [
     {val: 'variable(mavariable,defaut)'},
     {val: 'tendance(commande,periode)'},
 ];
-autoCompleteAction = ['sleep', 'variable', 'scenario', 'stop'];
+autoCompleteAction = ['sleep', 'variable', 'scenario', 'stop','icon'];
 
 if (getUrlVars('saveSuccessFull') == 1) {
     $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
