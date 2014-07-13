@@ -79,6 +79,12 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                                 <input class="form-control scenarioAttr input-sm" data-l1key="name" type="text" placeholder="{{Nom du scénario}}"/>
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label class="col-lg-6 control-label" >{{Nom à afficher}}</label>
+                            <div class="col-lg-6">
+                                <input class="form-control scenarioAttr input-sm tooltips" title="{{Ne rien mettre pour laisser le nom par default}}" data-l1key="display" data-l2key="name" type="text" placeholder="{{Nom à afficher}}"/>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-lg-6 control-label" >{{Groupe}}</label>
                             <div class="col-lg-6">

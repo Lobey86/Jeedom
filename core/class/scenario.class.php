@@ -413,7 +413,7 @@ class scenario {
             '#id#' => $this->getId(),
             '#state#' => $this->getState(),
             '#isActive#' => $this->getIsActive(),
-            '#name#' => $this->getHumanName(),
+            '#name#' => ($this->getDisplay('name') != '') ? $this->getDisplay('name') : $this->getHumanName(),
             '#icon#' => $this->getIcon(),
             '#lastLaunch#' => $this->getLastLaunch(),
             '#scenarioLink#' => $this->getLinkToConfiguration(),
