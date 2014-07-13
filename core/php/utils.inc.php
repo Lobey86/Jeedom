@@ -30,15 +30,11 @@ define('MODAL', 'modal');
 define('API', 'api');
 
 function include_file($_folder, $_fn, $_type, $_plugin = '') {
-    $found = false;
     if ($_folder == '3rdparty') {
-        $found = true;
         $_folder = $_folder;
         $_fn = $_fn . '.' . $_type;
         $path = dirname(__FILE__) . "/../../$_folder/$_fn";
-    }
-    if ($_folder == CORE) {
-        $found = true;
+    } else if ($_folder == CORE) {
         if ($_type == 'class') {
             $_folder .= '/class';
             $_fn = $_fn . '.class.php';
@@ -79,9 +75,7 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
             $_folder .= '/html';
             $_fn = $_fn . '.html';
         }
-    }
-
-    if (!$found) {
+    } else {
         if ($_type == MODAL) {
             $_folder = $_folder . '/modal';
             $_fn = $_fn . '.php';
@@ -132,13 +126,13 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
 }
 
 function getTemplate($_folder, $_version, $_filename, $_plugin = '') {
-    if (trim($_plugin) == '') {
-        $path = $_folder . '/template/' . $_version . '/' . $_filename . '.html';
+    if ($_plugin == '') {
+        $path = dirname(__FILE__) . '/../../' . $_folder . '/template/' . $_version . '/' . $_filename . '.html';
     } else {
-        $path = 'plugins/' . $_plugin . '/core/template/' . $_version . '/' . $_filename . '.html';
+        $path = dirname(__FILE__) . '/../../plugins/' . $_plugin . '/core/template/' . $_version . '/' . $_filename . '.html';
     }
-    if (file_exists(dirname(__FILE__) . '/../../' . $path)) {
-        return translate::exec(file_get_contents(dirname(__FILE__) . '/../../' . $path), $path);
+    if (file_exists($path)) {
+        return file_get_contents($path);
     }
     return '';
 }
