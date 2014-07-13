@@ -412,12 +412,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         <form class="form-horizontal">
                             <fieldset>
                                 <div class="form-group expertModeVisible">
-                                    <label class="col-lg-2 control-label">{{Activer NodeJS}}</label>
-                                    <div class="col-lg-1">
-                                        <input type="checkbox" class="configKey" data-l1key="enableNodeJs"/>
-                                    </div>
-                                </div>
-                                <div class="form-group expertModeVisible">
                                     <label class="col-lg-2 control-label">{{Port interne NodeJS}}</label>
                                     <div class="col-lg-3">
                                         <input type="text"  class="configKey" data-l1key="nodeJsInternalPort" />

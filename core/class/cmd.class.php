@@ -744,6 +744,7 @@ class cmd {
         }
         $newUpdate = true;
         $eqLogic = $this->getEqLogic();
+
         if (is_object($eqLogic) && $eqLogic->getIsEnable() == 1) {
             if ($this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
                 $_value = 1;
@@ -754,6 +755,7 @@ class cmd {
                     $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
                 }
             }
+
             if ($this->getCollectDate() != '') {
                 $internalEvent = internalEvent::byEventAndOptions('event::cmd', '"id":"' . $this->getId() . '"', true);
                 if (is_object($internalEvent) && strtotime($internalEvent->getDatetime()) < strtotime('now') &&
@@ -762,7 +764,9 @@ class cmd {
                     $newUpdate = false;
                 }
             }
+
             cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
+
             if ($newUpdate) {
                 if (strpos($_value, 'error') === false) {
                     $this->addHistoryValue($_value, $this->getCollectDate());
@@ -790,19 +794,14 @@ class cmd {
         return history::emptyHistory($this->getId());
     }
 
-    public function addHistoryValue($_value, $_datetime = null) {
-        if ($this->getIsHistorized() == 1) {
-            if ($_value <= $this->getConfiguration('maxValue', $_value) && $_value >= $this->getConfiguration('minValue', $_value)) {
-                $hitory = new history();
-                $hitory->setCmd_id($this->getId());
-                $hitory->setValue($_value);
-                if ($_datetime != null && $_datetime != '') {
-                    $hitory->setDatetime($_datetime);
-                }
-                return $hitory->save();
-            }
+    public function addHistoryValue($_value, $_datetime = '') {
+        if ($this->getIsHistorized() == 1 && $_value <= $this->getConfiguration('maxValue', $_value) && $_value >= $this->getConfiguration('minValue', $_value)) {
+            $hitory = new history();
+            $hitory->setCmd_id($this->getId());
+            $hitory->setValue($_value);
+            $hitory->setDatetime($_datetime);
+            return $hitory->save($this);
         }
-        return false;
     }
 
     public function getStatistique($_startTime, $_endTime) {

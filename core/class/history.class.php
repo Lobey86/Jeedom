@@ -383,33 +383,31 @@ class history {
 
     /*     * *********************Methode d'instance************************* */
 
-    public function save() {
-        $cmd = $this->getCmd();
-        if ($cmd->getType() != 'info') {
-            throw new Exception(__('Impossible d\'historiser cette commande car elle n\'est pas de type info : ', __FILE__) . $cmd->getHumanName());
-        }
-        if ($cmd->getIsHistorized() != 1) {
-            throw new Exception(__('Impossible d\'historiser cette commande car elle n\'est pas marquer comme "à historiser" : ', __FILE__) . $cmd->getHumanName());
+    public function save($_cmd = null) {
+        if ($_cmd == null) {
+            $cmd = $this->getCmd();
+            if ($cmd->getType() != 'info') {
+                throw new Exception(__('Impossible d\'historiser cette commande car elle n\'est pas de type info : ', __FILE__) . $cmd->getHumanName());
+            }
+            if ($cmd->getIsHistorized() != 1) {
+                throw new Exception(__('Impossible d\'historiser cette commande car elle n\'est pas marquer comme "à historiser" : ', __FILE__) . $cmd->getHumanName());
+            }
+        } else {
+            $cmd = $_cmd;
         }
         if ($this->getTableName() == 'history' && (!jeedom::isStarted() || !jeedom::isDateOk())) {
             return;
         }
-
         if ($this->getDatetime() == '') {
             $this->setDatetime(date('Y-m-d H:i:s'));
         }
-
         if ($cmd->getSubType() != 'binary') {
             if ($this->getTableName() == 'history') {
                 $minute = date('i', strtotime($this->getDatetime()));
                 if ($minute != 0) {
                     $decimal = floor($minute / 10) * 10;
                     $first = $minute - $decimal;
-                    if ($first >= 5) {
-                        $minute = $decimal + 5;
-                    } else {
-                        $minute = $decimal;
-                    }
+                    $minute = ($first >= 5) ? $decimal + 5 : $decimal;
                 }
                 $this->setDatetime(date('Y-m-d H:' . $minute . ':00', strtotime($this->getDatetime())));
                 $values = array(
@@ -428,22 +426,12 @@ class history {
                             'datetime' => date('Y-m-d H:i:00', strtotime($this->getDatetime()) + 300),
                             'value' => $this->getValue(),
                         );
-                        $sql = 'REPLACE INTO ' . $this->getTableName() . '
+                        $sql = 'REPLACE INTO history
                                 SET cmd_id=:cmd_id, 
                                     `datetime`=:datetime,
                                     value=:value';
                         DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-                    } else {
-                        $values = array(
-                            'cmd_id' => $this->getCmd_id(),
-                            'datetime' => date('Y-m-d H:i:00', strtotime($this->getDatetime()) + 300),
-                            'value' => 0,
-                        );
-                        $sql = 'DELETE FROM history
-                                WHERE cmd_id=:cmd_id 
-                                    AND `datetime`=:datetime
-                                    AND value=:value';
-                        DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+                        return;
                     }
                     $this->setValue(($old->getValue() + $this->getValue()) / 2);
                 }
@@ -454,8 +442,7 @@ class history {
         } else {
             if ($this->getValue() > 1) {
                 $this->setValue(1);
-            }
-            if ($this->getValue() < 0) {
+            } else {
                 $this->setValue(0);
             }
         }
@@ -469,9 +456,6 @@ class history {
                     `datetime`=:datetime,
                     value=:value';
         DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        if ($this->getTableName() == 'history') {
-            nodejs::pushUpdate('eventHistory', $this->getCmd_id());
-        }
     }
 
     public function remove() {

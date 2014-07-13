@@ -286,38 +286,6 @@ jeedom.history.generatePlotBand = function(_startTime, _endTime) {
     return plotBands;
 }
 
-jeedom.history.refreshGraph = function(_params) {
-    var series = [];
-    for (var i in jeedom.history.chart) {
-        series.push({
-            chart: jeedom.history.chart[i].chart.get(intval(_params.cmd_id)),
-            cmd_id: _params.cmd_id
-        });
-    }
-    for (var i in series) {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/cmd.ajax.php", // url du fichier php
-            data: {
-                action: "getHistory",
-                id: series[i].cmd_id
-            },
-            dataType: 'json',
-            global: false,
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) {
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                series[i].chart.addPoint(data.result.data[data.result.data.length - 1], true, true);
-            }
-        });
-    }
-}
-
 jeedom.history.changePoint = function(_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {
