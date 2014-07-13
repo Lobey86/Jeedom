@@ -132,7 +132,7 @@ function getTemplate($_folder, $_version, $_filename, $_plugin = '') {
         $path = dirname(__FILE__) . '/../../plugins/' . $_plugin . '/core/template/' . $_version . '/' . $_filename . '.html';
     }
     if (file_exists($path)) {
-        return file_get_contents($path);
+        return file_get_contents(translate::exec($path));
     }
     return '';
 }
