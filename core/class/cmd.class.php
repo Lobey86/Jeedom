@@ -573,11 +573,7 @@ class cmd {
             }
         }
         if ($this->getType() == 'info' && $value !== false) {
-            if ($this->getCollectDate() == '') {
-                cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime());
-            } else {
-                cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
-            }
+            cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
         }
 
         if ($this->getType() == 'action' && $options !== null) {
@@ -748,51 +744,42 @@ class cmd {
         }
         $newUpdate = true;
         $eqLogic = $this->getEqLogic();
-        if (is_object($eqLogic)) {
-            if ($eqLogic->getIsEnable() == 1) {
-                if ($this->getType() == 'info' && $this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
-                    $_value = 1;
+        if (is_object($eqLogic) && $eqLogic->getIsEnable() == 1) {
+            if ($this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
+                $_value = 1;
+            }
+            if (strpos($_value, 'error') === false) {
+                if ($this->getCollectDate() == '' || $collectDate >= strtotime($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')))) {
+                    $eqLogic->setStatus('numberTryWithoutSuccess', 0);
+                    $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
                 }
+            }
+            if ($this->getCollectDate() != '') {
+                $internalEvent = internalEvent::byEventAndOptions('event::cmd', '"id":"' . $this->getId() . '"', true);
+                if (is_object($internalEvent) && strtotime($internalEvent->getDatetime()) < strtotime('now') &&
+                        (strtotime($internalEvent->getDatetime()) > $collectDate ||
+                        (strtotime($internalEvent->getDatetime()) == $collectDate && $internalEvent->setOptions('value', $_value) == $_value))) {
+                    $newUpdate = false;
+                }
+            }
+            cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
+            if ($newUpdate) {
                 if (strpos($_value, 'error') === false) {
-                    if ($this->getCollectDate() == '' || $collectDate >= strtotime($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')))) {
-                        $eqLogic->setStatus('numberTryWithoutSuccess', 0);
-                        $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-                    }
+                    $this->addHistoryValue($_value, $this->getCollectDate());
                 }
-                if ($this->getCollectDate() != '') {
-                    $internalEvent = internalEvent::byEventAndOptions('event::cmd', '"id":"' . $this->getId() . '"', true);
-                    if (is_object($internalEvent) && strtotime($internalEvent->getDatetime()) < strtotime('now') &&
-                            (strtotime($internalEvent->getDatetime()) > $collectDate ||
-                            (strtotime($internalEvent->getDatetime()) == $collectDate && $internalEvent->setOptions('value', $_value) == $_value))) {
-                        $newUpdate = false;
-                    }
+                $this->setCollect(0);
+                nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
+                foreach (self::byValue($this->getId()) as $cmd) {
+                    nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
                 }
-                if ($this->getCollectDate() == '') {
-                    cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime());
-                } else {
-                    cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
-                }
-
-                if ($newUpdate) {
-                    if (strpos($_value, 'error') === false) {
-                        $this->addHistoryValue($_value, $this->getCollectDate());
-                    }
-                    $this->setCollect(0);
-                    nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
-                    foreach (self::byValue($this->getId()) as $cmd) {
-                        nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
-                    }
-                    log::add($eqLogic->getEqType_name(), 'Event', __('Message venant de', __FILE__) . $this->getHumanName() . ' : ' . $_value . __(' /cache lifetime =>', __FILE__) . $this->getCacheLifetime());
-                    $internalEvent = new internalEvent();
-                    $internalEvent->setEvent('event::cmd');
-                    $internalEvent->setOptions('id', $this->getId());
-                    $internalEvent->setOptions('value', $_value);
-                    if ($this->getCollectDate() != '') {
-                        $internalEvent->setDatetime($this->getCollectDate());
-                    }
-                    $internalEvent->save();
-                    scenario::check($this->getId());
-                }
+                //log::add($eqLogic->getEqType_name(), 'Event', __('Message venant de', __FILE__) . $this->getHumanName() . ' : ' . $_value . __(' /cache lifetime =>', __FILE__) . $this->getCacheLifetime());
+                $internalEvent = new internalEvent();
+                $internalEvent->setEvent('event::cmd');
+                $internalEvent->setOptions('id', $this->getId());
+                $internalEvent->setOptions('value', $_value);
+                $internalEvent->setDatetime($this->getCollectDate());
+                $internalEvent->save();
+                scenario::check($this->getId());
             }
         } else {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . print_r($this, true));
