@@ -30,10 +30,10 @@ if (is_object($update) && $update->getStatus() == 'update') {
 <?php
 if ($market->getPurchase() == 1) {
     if ($market->getStatus('stable') == 1) {
-        echo '<a class="btn btn-success pull-right bt_installFromMarket" data-version="stable" style="color : white;" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer stable}}</a>';
+        echo '<a class="btn btn-success pull-right bt_installFromMarket" data-version="stable" style="color : white;" data-market_logicalId="'.$market->getLogicalId().'" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer stable}}</a>';
     }
     if ($market->getStatus('beta') == 1) {
-        echo '<a class="btn btn-warning pull-right bt_installFromMarket" data-version="beta" style="color : white;" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer beta}}</a>';
+        echo '<a class="btn btn-warning pull-right bt_installFromMarket" data-version="beta" style="color : white;" data-market_logicalId="'.$market->getLogicalId().'" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer beta}}</a>';
     }
 } else if (config::byKey('market::apikey') != '') {
     $purchase_info = market::getPurchaseInfo();
@@ -101,7 +101,6 @@ if ($market->getPurchase() == 1) {
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Note}}</label>
                 <div class="col-lg-2">
-                    <input class="form-control marketAttr" data-l1key="id" style="display: none;">
                     <span class="label label-primary marketAttr" data-l1key="rating" style="font-size: 1.2em;"></span>
                 </div>
                 <?php if (config::byKey('market::apikey') != '') { ?>
@@ -245,6 +244,7 @@ if ($market->getPurchase() == 1) {
 
     $('.bt_installFromMarket').on('click', function() {
         var id = $(this).attr('data-market_id');
+        var logicalId = $(this).attr('data-market_logicalId');
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/market.ajax.php", // url du fichier php
@@ -262,8 +262,13 @@ if ($market->getPurchase() == 1) {
                     $('#div_alertMarketDisplay').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $.showLoading();
-                window.location.reload();
+                var url = window.location.href;
+                if (url.indexOf('p=plugin') > 0) {
+                    window.location.href = 'index.php?v=d&p=plugin&id='+logicalId;
+                } else {
+                    $.showLoading();
+                    window.location.reload();
+                }
             }
         });
     });
