@@ -14,22 +14,20 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function() {
-    if (view_id != '') {
-        jeedom.view.toHtml({
-            id: view_id,
-            version: 'dashboard',
-            useCache: true,
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function(html) {
-                $('#div_displayView').empty().html(html.html);
-                positionEqLogic();
-                $('.eqLogicZone').each(function() {
-                    $(this).masonry({columnWidth: 1});
-                });
-            }
-        });
-    }
-});
+if (view_id != '') {
+    jeedom.view.toHtml({
+        id: view_id,
+        version: 'dashboard',
+        useCache: true,
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(html) {
+            $('#div_displayView').empty().html(html.html);
+            positionEqLogic();
+            $('.eqLogicZone').each(function() {
+                $(this).masonry({columnWidth: 1});
+            });
+        }
+    });
+}

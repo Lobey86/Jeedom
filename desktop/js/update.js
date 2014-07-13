@@ -14,106 +14,105 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function() {
+
+printUpdate();
+
+$('.bt_updateAll').on('click', function() {
+    var level = $(this).attr('data-level');
+    var mode = $(this).attr('data-mode');
+    bootbox.confirm('{{Etes-vous sur de vouloir faire les mises à jour ?}} ', function(result) {
+        if (result) {
+            jeedom.update.doAll({
+                mode: mode,
+                level: level,
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function() {
+                    getJeedomLog(1, 'update');
+                }
+            });
+        }
+    });
+});
+
+$('#bt_checkAllUpdate').on('click', function() {
+    jeedom.update.checkAll({
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function() {
+            printUpdate();
+        }
+    });
+});
+
+$('#table_update').delegate('.changeState', 'click', function() {
+    var id = $(this).closest('tr').attr('data-id');
+    var state = $(this).attr('data-state');
+    bootbox.confirm('{{Etez vous sur de vouloir changer l\'état de l\'objet ?}}', function(result) {
+        if (result) {
+            jeedom.update.changeState({
+                id: id,
+                state: state,
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function() {
+                    printUpdate();
+                }
+            });
+        }
+    });
+
+});
+
+$('#table_update').delegate('.update', 'click', function() {
+    var id = $(this).closest('tr').attr('data-id');
+    bootbox.confirm('{{Etez vous sur de vouloir mettre a jour cet objet ?}}', function(result) {
+        if (result) {
+            jeedom.update.do({
+                id: id,
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function() {
+                    getJeedomLog(1, 'update');
+                }
+            });
+        }
+    });
+});
+
+$('#table_update').delegate('.remove', 'click', function() {
+    var id = $(this).closest('tr').attr('data-id');
+    bootbox.confirm('{{Etez vous sur de vouloir supprimer cet objet ?}}', function(result) {
+        if (result) {
+            jeedom.update.remove({
+                id: id,
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function() {
+                    printUpdate();
+                }
+            });
+        }
+    });
+});
+
+$('#table_update').delegate('.view', 'click', function() {
+    $('#md_modal').dialog({title: "Market"});
+    $('#md_modal').load('index.php?v=d&modal=market.display&type=' + $(this).closest('tr').attr('data-type') + '&logicalId=' + encodeURI($(this).closest('tr').attr('data-logicalId'))).dialog('open');
+});
+
+$('#table_update').delegate('.sendToMarket', 'click', function() {
+    $('#md_modal').dialog({title: "Partager sur le market"});
+    $('#md_modal').load('index.php?v=d&modal=market.send&type=' + $(this).closest('tr').attr('data-type') + '&logicalId=' + encodeURI($(this).closest('tr').attr('data-logicalId')) + '&name=' + encodeURI($(this).closest('tr').attr('data-logicalId'))).dialog('open');
+});
+
+$('#bt_expertMode').on('click', function() {
     printUpdate();
-
-    $('.bt_updateAll').on('click', function() {
-        var level = $(this).attr('data-level');
-        var mode = $(this).attr('data-mode');
-        bootbox.confirm('{{Etes-vous sur de vouloir faire les mises à jour ?}} ', function(result) {
-            if (result) {
-                jeedom.update.doAll({
-                    mode: mode,
-                    level: level,
-                    error: function(error) {
-                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                    },
-                    success: function() {
-                        getJeedomLog(1, 'update');
-                    }
-                });
-            }
-        });
-    });
-
-    $('#bt_checkAllUpdate').on('click', function() {
-        jeedom.update.checkAll({
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function() {
-                printUpdate();
-            }
-        });
-    });
-
-    $('#table_update').delegate('.changeState', 'click', function() {
-        var id = $(this).closest('tr').attr('data-id');
-        var state = $(this).attr('data-state');
-        bootbox.confirm('{{Etez vous sur de vouloir changer l\'état de l\'objet ?}}', function(result) {
-            if (result) {
-                jeedom.update.changeState({
-                    id: id,
-                    state: state,
-                    error: function(error) {
-                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                    },
-                    success: function() {
-                        printUpdate();
-                    }
-                });
-            }
-        });
-
-    });
-
-    $('#table_update').delegate('.update', 'click', function() {
-        var id = $(this).closest('tr').attr('data-id');
-        bootbox.confirm('{{Etez vous sur de vouloir mettre a jour cet objet ?}}', function(result) {
-            if (result) {
-                jeedom.update.do({
-                    id: id,
-                    error: function(error) {
-                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                    },
-                    success: function() {
-                        getJeedomLog(1, 'update');
-                    }
-                });
-            }
-        });
-    });
-
-    $('#table_update').delegate('.remove', 'click', function() {
-        var id = $(this).closest('tr').attr('data-id');
-        bootbox.confirm('{{Etez vous sur de vouloir supprimer cet objet ?}}', function(result) {
-            if (result) {
-                jeedom.update.remove({
-                    id: id,
-                    error: function(error) {
-                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                    },
-                    success: function() {
-                        printUpdate();
-                    }
-                });
-            }
-        });
-    });
-
-    $('#table_update').delegate('.view', 'click', function() {
-        $('#md_modal').dialog({title: "Market"});
-        $('#md_modal').load('index.php?v=d&modal=market.display&type=' + $(this).closest('tr').attr('data-type') + '&logicalId=' + encodeURI($(this).closest('tr').attr('data-logicalId'))).dialog('open');
-    });
-
-    $('#table_update').delegate('.sendToMarket', 'click', function() {
-        $('#md_modal').dialog({title: "Partager sur le market"});
-        $('#md_modal').load('index.php?v=d&modal=market.send&type=' + $(this).closest('tr').attr('data-type') + '&logicalId=' + encodeURI($(this).closest('tr').attr('data-logicalId')) + '&name=' + encodeURI($(this).closest('tr').attr('data-logicalId'))).dialog('open');
-    });
-
-    $('#bt_expertMode').on('click', function() {
-        printUpdate();
-    });
 });
 
 function getJeedomLog(_autoUpdate, _log) {

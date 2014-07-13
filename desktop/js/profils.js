@@ -15,49 +15,47 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function() {
-    $("#bt_saveProfils").on('click', function(event) {
-        $.hideAlert();
-        var profil = $('body').getValues('.userAttr');
-        if (profil[0].password != $('#in_passwordCheck').value()) {
-            $('#div_alert').showAlert({message: "{{Les deux mots de passe ne sont identiques}}", level: 'danger'});
-            return;
-        }
-        jeedom.user.saveProfils({
-            profils: profil[0],
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function() {
-                $('#div_alert').showAlert({message: "{{Sauvegarde effectuée}}", level: 'success'});
-                jeedom.user.get({
-                    error: function(error) {
-                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                    },
-                    success: function(data) {
-                        $('body').setValues(data, '.userAttr');
-                        modifyWithoutSave = false;
-                    }
-                });
-            }
-        });
-        return false;
-    });
-
-    jeedom.user.get({
+$("#bt_saveProfils").on('click', function(event) {
+    $.hideAlert();
+    var profil = $('body').getValues('.userAttr');
+    if (profil[0].password != $('#in_passwordCheck').value()) {
+        $('#div_alert').showAlert({message: "{{Les deux mots de passe ne sont identiques}}", level: 'danger'});
+        return;
+    }
+    jeedom.user.saveProfils({
+        profils: profil[0],
         error: function(error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(data) {
-            $('body').setValues(data, '.userAttr');
-            $('#in_passwordCheck').value(data.password);
-            modifyWithoutSave = false;
+        success: function() {
+            $('#div_alert').showAlert({message: "{{Sauvegarde effectuée}}", level: 'success'});
+            jeedom.user.get({
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function(data) {
+                    $('body').setValues(data, '.userAttr');
+                    modifyWithoutSave = false;
+                }
+            });
         }
     });
+    return false;
+});
 
-    $('body').delegate('.userAttr', 'change', function() {
-        modifyWithoutSave = true;
-    });
+jeedom.user.get({
+    error: function(error) {
+        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+    },
+    success: function(data) {
+        $('body').setValues(data, '.userAttr');
+        $('#in_passwordCheck').value(data.password);
+        modifyWithoutSave = false;
+    }
+});
+
+$('body').delegate('.userAttr', 'change', function() {
+    modifyWithoutSave = true;
 });
 
 

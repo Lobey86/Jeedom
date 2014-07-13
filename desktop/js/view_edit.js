@@ -15,259 +15,257 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function() {
-    $("#md_addViewData").dialog({
-        autoOpen: false,
-        modal: true,
-        height: (jQuery(window).height() - 150),
-        width: (jQuery(window).width() - 450)
-    });
+$("#md_addViewData").dialog({
+    autoOpen: false,
+    modal: true,
+    height: (jQuery(window).height() - 150),
+    width: (jQuery(window).width() - 450)
+});
 
-    $(".li_view").on('click', function(event) {
-        $.hideAlert();
-        $(".li_view").removeClass('active');
-        $(this).addClass('active');
-        jeedom.view.get({
-            id: $(this).attr('data-view_id'),
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function(data) {
-                $('#div_viewZones').empty();
-                for (var i in data.viewZone) {
-                    var viewZone = data.viewZone[i];
-                    addEditviewZone(viewZone);
-                    for (var j in viewZone.viewData) {
-                        var viewData = viewZone.viewData[j];
-                        var span = addServiceToviewZone(viewData);
-                        $('#div_viewZones .viewZone:last .div_viewData').append(span);
-                    }
+$(".li_view").on('click', function(event) {
+    $.hideAlert();
+    $(".li_view").removeClass('active');
+    $(this).addClass('active');
+    jeedom.view.get({
+        id: $(this).attr('data-view_id'),
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            $('#div_viewZones').empty();
+            for (var i in data.viewZone) {
+                var viewZone = data.viewZone[i];
+                addEditviewZone(viewZone);
+                for (var j in viewZone.viewData) {
+                    var viewData = viewZone.viewData[j];
+                    var span = addServiceToviewZone(viewData);
+                    $('#div_viewZones .viewZone:last .div_viewData').append(span);
                 }
-                modifyWithoutSave = false;
             }
-        });
-        return false;
-    });
-
-    $('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').on('change', function() {
-        setColorSelect($(this).closest('select'));
-    });
-
-    $("#bt_addView").on('click', function(event) {
-        $.hideAlert();
-        $('#in_addViewName').value('');
-        $('#in_addViewId').value('');
-        $('#md_addView').modal('show');
-        return false;
-    });
-
-    $("#bt_editView").on('click', function(event) {
-        $.hideAlert();
-        $('#in_addViewName').value($('.li_view.active a').text());
-        $('#in_addViewId').value($('.li_view.active').attr('data-view_id'));
-        $('#md_addView').modal('show');
-        return false;
-    });
-
-    $("#bt_addViewSave").on('click', function(event) {
-        editView();
-        return;
-    });
-
-    $('#bt_saveView').on('click', function(event) {
-        $.hideAlert();
-        var viewZones = [];
-        $('.viewZone').each(function() {
-            viewZoneInfo = {};
-            var viewZoneInfo = $(this).getValues('.viewZoneAttr');
-            viewZoneInfo = viewZoneInfo[0];
-            viewZoneInfo.viewData = $(this).find('span.viewData').getValues('.viewDataAttr');
-            viewZones.push(viewZoneInfo);
-        });
-
-        jeedom.view.save({
-            id: $(".li_view.active").attr('data-view_id'),
-            viewZones: viewZones,
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function() {
-                $('#div_alert').showAlert({message: '{{Modification enregistré}}', level: 'success'});
-                modifyWithoutSave = false;
-            }
-        });
-        return;
-    });
-
-    $("#bt_removeView").on('click', function(event) {
-        $.hideAlert();
-        bootbox.confirm('{{Etez-vous sûr de vouloir supprimer la vue}} <span style="font-weight: bold ;">' + $(".li_view.active a").text() + '</span> ?', function(result) {
-            if (result) {
-                jeedom.view.remove({
-                    id: $(".li_view.active").attr('data-view_id'),
-                    error: function(error) {
-                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                    },
-                    success: function() {
-                        modifyWithoutSave = false;
-                        window.location.reload();
-                    }
-                });
-            }
-        });
-    });
-
-    if (is_numeric(getUrlVars('id'))) {
-        if ($('#ul_view .li_view[data-view_id=' + getUrlVars('id') + ']').length != 0) {
-            $('#ul_view .li_view[data-view_id=' + getUrlVars('id') + ']').click();
-        } else {
-            $('#ul_view .li_view:first').click();
+            modifyWithoutSave = false;
         }
+    });
+    return false;
+});
+
+$('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').on('change', function() {
+    setColorSelect($(this).closest('select'));
+});
+
+$("#bt_addView").on('click', function(event) {
+    $.hideAlert();
+    $('#in_addViewName').value('');
+    $('#in_addViewId').value('');
+    $('#md_addView').modal('show');
+    return false;
+});
+
+$("#bt_editView").on('click', function(event) {
+    $.hideAlert();
+    $('#in_addViewName').value($('.li_view.active a').text());
+    $('#in_addViewId').value($('.li_view.active').attr('data-view_id'));
+    $('#md_addView').modal('show');
+    return false;
+});
+
+$("#bt_addViewSave").on('click', function(event) {
+    editView();
+    return;
+});
+
+$('#bt_saveView').on('click', function(event) {
+    $.hideAlert();
+    var viewZones = [];
+    $('.viewZone').each(function() {
+        viewZoneInfo = {};
+        var viewZoneInfo = $(this).getValues('.viewZoneAttr');
+        viewZoneInfo = viewZoneInfo[0];
+        viewZoneInfo.viewData = $(this).find('span.viewData').getValues('.viewDataAttr');
+        viewZones.push(viewZoneInfo);
+    });
+
+    jeedom.view.save({
+        id: $(".li_view.active").attr('data-view_id'),
+        viewZones: viewZones,
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function() {
+            $('#div_alert').showAlert({message: '{{Modification enregistré}}', level: 'success'});
+            modifyWithoutSave = false;
+        }
+    });
+    return;
+});
+
+$("#bt_removeView").on('click', function(event) {
+    $.hideAlert();
+    bootbox.confirm('{{Etez-vous sûr de vouloir supprimer la vue}} <span style="font-weight: bold ;">' + $(".li_view.active a").text() + '</span> ?', function(result) {
+        if (result) {
+            jeedom.view.remove({
+                id: $(".li_view.active").attr('data-view_id'),
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function() {
+                    modifyWithoutSave = false;
+                    window.location.reload();
+                }
+            });
+        }
+    });
+});
+
+if (is_numeric(getUrlVars('id'))) {
+    if ($('#ul_view .li_view[data-view_id=' + getUrlVars('id') + ']').length != 0) {
+        $('#ul_view .li_view[data-view_id=' + getUrlVars('id') + ']').click();
     } else {
         $('#ul_view .li_view:first').click();
     }
+} else {
+    $('#ul_view .li_view:first').click();
+}
 
-    $("#div_viewZones").sortable({axis: "y", cursor: "move", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$("#div_viewZones").sortable({axis: "y", cursor: "move", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
-    $('.enable').on('click', function() {
-        var selectTr = $(this).closest('tr');
-        if ($(this).value() == 1) {
-            selectTr.find('div.option').show();
-            if (selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').length) {
-                var color = selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').value();
-                var colorChange = true;
-                var colorNumberChange = 0;
-                while (colorChange) {
-                    colorChange = false;
-                    $('#table_addViewData tbody tr').each(function() {
-                        if ($(this).find('.enable').value() == 1 && color == $(this).closest('tr').find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').value()) {
-                            color = selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor] option[value=' + color + ']').next().value();
-                            colorChange = true;
-                            colorNumberChange++;
-                        }
-                    });
-                    if (colorNumberChange > selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor] option').length) {
-                        return;
+$('.enable').on('click', function() {
+    var selectTr = $(this).closest('tr');
+    if ($(this).value() == 1) {
+        selectTr.find('div.option').show();
+        if (selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').length) {
+            var color = selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').value();
+            var colorChange = true;
+            var colorNumberChange = 0;
+            while (colorChange) {
+                colorChange = false;
+                $('#table_addViewData tbody tr').each(function() {
+                    if ($(this).find('.enable').value() == 1 && color == $(this).closest('tr').find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').value()) {
+                        color = selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor] option[value=' + color + ']').next().value();
+                        colorChange = true;
+                        colorNumberChange++;
                     }
-                }
-                selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor] option[value=' + color + ']').prop('selected', true);
-                setColorSelect(selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]'));
-            }
-        } else {
-            selectTr.find('div.option').hide();
-        }
-    });
-
-    /*****************************viewZone****************************************/
-    $('#bt_addviewZone').on('click', function() {
-        $('#in_addEditviewZoneEmplacement').val('');
-        $('#in_addEditviewZoneName').val('');
-        $('#sel_addEditviewZoneType').prop('disabled', false);
-        $('#md_addEditviewZone').modal('show');
-    });
-
-    $('#bt_addEditviewZoneSave').on('click', function() {
-        if ($.trim($('#in_addEditviewZoneName').val()) != '') {
-            var viewZone = {name: $('#in_addEditviewZoneName').value(), emplacement: $('#in_addEditviewZoneEmplacement').value(), type: $('#sel_addEditviewZoneType').value()};
-            addEditviewZone(viewZone);
-            $('#md_addEditviewZone').modal('hide');
-        } else {
-            alert('div_addEditviewZoneError', 'Le nom de la viewZone ne peut être vide')
-        }
-    });
-
-    $('#div_viewZones').delegate('.bt_removeviewZone', 'click', function() {
-        $(this).closest('.viewZone').remove();
-    });
-
-    $('#div_viewZones').delegate('.bt_editviewZone', 'click', function() {
-        $('#md_addEditviewZone').modal('show');
-        $('#in_addEditviewZoneName').val($(this).closest('.viewZone').find('.viewZoneAttr[data-l1key=name]').text());
-        $('#sel_addEditviewZoneType').val($(this).closest('.viewZone').find('.viewZoneAttr[data-l1key=type]').val());
-        $('#sel_addEditviewZoneType').prop('disabled', true);
-        $('#in_addEditviewZoneEmplacement').val($(this).closest('.viewZone').attr('id'));
-    });
-
-    /*****************************DATA****************************************/
-
-    $('#div_viewZones').delegate('.bt_addViewData', 'click', function() {
-        $('#table_addViewData .filter').value('');
-        var viewZone = $(this).closest('.viewZone');
-        $('#table_addViewData tbody tr .enable').prop('checked', false);
-        var type = viewZone.find('.viewZoneAttr[data-l1key=type]').value();
-        if (type == 'graph') {
-            $('#table_addViewDataHidden tbody').append($('#table_addViewData tr[data-type=widget]'));
-            $('#table_addViewData tbody').append($('#table_addViewDataHidden tr[data-type=graph]'));
-        }
-        if (type == 'widget') {
-            $('#table_addViewDataHidden tbody').append($('#table_addViewData tr[data-type=graph]'));
-            $('#table_addViewData tbody').append($('#table_addViewDataHidden tr[data-type=widget]'));
-        }
-        $('#table_addViewData tbody tr div.option').hide();
-
-
-        var viewDatas = [];
-        viewZone.find('span.viewData').each(function() {
-            viewDatas.push($(this));
-        });
-        for (var i = (viewDatas.length - 1); i >= 0; i--) {
-            var viewData = $('#table_addViewData tbody tr[data-viewDataType=' + viewDatas[i].find('.viewDataAttr[data-l1key=type]').value() + '][data-link_id=' + viewDatas[i].find('.viewDataAttr[data-l1key=link_id]').value() + ']');
-            if (viewData != null) {
-                viewData.find('.enable').value(1);
-                viewData.find('.option').show();
-                viewDatas[i].find('.viewDataAttr').each(function() {
-                    viewData.find('.viewDataOption[data-l1key=' + $(this).attr('data-l1key') + '][data-l2key=' + $(this).attr('data-l2key') + ']').value($(this).value());
                 });
-                setColorSelect(viewData.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]'));
-                $('#table_addViewData tbody').prepend(viewData);
-            }
-        }
-
-        $("#md_addViewData").dialog('option', 'buttons', {
-            "Annuler": function() {
-                $(this).dialog("close");
-            },
-            "Valider": function() {
-                var span = '';
-                var tr = $('#table_addViewData tbody tr:first');
-                while (tr.attr('data-link_id') != undefined) {
-                    if (tr.find('.enable').is(':checked')) {
-                        var viewData = tr.getValues('.viewDataOption');
-                        viewData = viewData[0];
-                        viewData.link_id = tr.attr('data-link_id');
-                        viewData.name = '';
-                        if (tr.find('.object_name').text() != '') {
-                            viewData.name += '[' + tr.find('.object_name').text() + ']';
-                        } else {
-                            if (tr.find('.type').text() == 'Scénario') {
-                                viewData.name += '[Scénario]';
-                            }
-                        }
-                        viewData.name += '[' + tr.find('.name').text() + ']';
-                        span += addServiceToviewZone(viewData);
-                    }
-                    tr = tr.next();
+                if (colorNumberChange > selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor] option').length) {
+                    return;
                 }
-                viewZone.find('span.viewData').remove();
-                viewZone.find('.div_viewData').append(span);
-                $(this).dialog('close');
             }
-        });
-        $("#md_addViewData").dialog('open');
-    });
+            selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor] option[value=' + color + ']').prop('selected', true);
+            setColorSelect(selectTr.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]'));
+        }
+    } else {
+        selectTr.find('div.option').hide();
+    }
+});
 
-    $('#div_viewZones').delegate('.bt_removeViewData', 'click', function() {
-        $(this).closest('span').remove();
-    });
+/*****************************viewZone****************************************/
+$('#bt_addviewZone').on('click', function() {
+    $('#in_addEditviewZoneEmplacement').val('');
+    $('#in_addEditviewZoneName').val('');
+    $('#sel_addEditviewZoneType').prop('disabled', false);
+    $('#md_addEditviewZone').modal('show');
+});
+
+$('#bt_addEditviewZoneSave').on('click', function() {
+    if ($.trim($('#in_addEditviewZoneName').val()) != '') {
+        var viewZone = {name: $('#in_addEditviewZoneName').value(), emplacement: $('#in_addEditviewZoneEmplacement').value(), type: $('#sel_addEditviewZoneType').value()};
+        addEditviewZone(viewZone);
+        $('#md_addEditviewZone').modal('hide');
+    } else {
+        alert('div_addEditviewZoneError', 'Le nom de la viewZone ne peut être vide')
+    }
+});
+
+$('#div_viewZones').delegate('.bt_removeviewZone', 'click', function() {
+    $(this).closest('.viewZone').remove();
+});
+
+$('#div_viewZones').delegate('.bt_editviewZone', 'click', function() {
+    $('#md_addEditviewZone').modal('show');
+    $('#in_addEditviewZoneName').val($(this).closest('.viewZone').find('.viewZoneAttr[data-l1key=name]').text());
+    $('#sel_addEditviewZoneType').val($(this).closest('.viewZone').find('.viewZoneAttr[data-l1key=type]').val());
+    $('#sel_addEditviewZoneType').prop('disabled', true);
+    $('#in_addEditviewZoneEmplacement').val($(this).closest('.viewZone').attr('id'));
+});
+
+/*****************************DATA****************************************/
+
+$('#div_viewZones').delegate('.bt_addViewData', 'click', function() {
+    $('#table_addViewData .filter').value('');
+    var viewZone = $(this).closest('.viewZone');
+    $('#table_addViewData tbody tr .enable').prop('checked', false);
+    var type = viewZone.find('.viewZoneAttr[data-l1key=type]').value();
+    if (type == 'graph') {
+        $('#table_addViewDataHidden tbody').append($('#table_addViewData tr[data-type=widget]'));
+        $('#table_addViewData tbody').append($('#table_addViewDataHidden tr[data-type=graph]'));
+    }
+    if (type == 'widget') {
+        $('#table_addViewDataHidden tbody').append($('#table_addViewData tr[data-type=graph]'));
+        $('#table_addViewData tbody').append($('#table_addViewDataHidden tr[data-type=widget]'));
+    }
+    $('#table_addViewData tbody tr div.option').hide();
 
 
-    $('body').delegate('.viewZoneAttr', 'change', function() {
-        modifyWithoutSave = true;
+    var viewDatas = [];
+    viewZone.find('span.viewData').each(function() {
+        viewDatas.push($(this));
     });
+    for (var i = (viewDatas.length - 1); i >= 0; i--) {
+        var viewData = $('#table_addViewData tbody tr[data-viewDataType=' + viewDatas[i].find('.viewDataAttr[data-l1key=type]').value() + '][data-link_id=' + viewDatas[i].find('.viewDataAttr[data-l1key=link_id]').value() + ']');
+        if (viewData != null) {
+            viewData.find('.enable').value(1);
+            viewData.find('.option').show();
+            viewDatas[i].find('.viewDataAttr').each(function() {
+                viewData.find('.viewDataOption[data-l1key=' + $(this).attr('data-l1key') + '][data-l2key=' + $(this).attr('data-l2key') + ']').value($(this).value());
+            });
+            setColorSelect(viewData.find('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]'));
+            $('#table_addViewData tbody').prepend(viewData);
+        }
+    }
 
-    $('body').delegate('.viewDataAttr', 'change', function() {
-        modifyWithoutSave = true;
+    $("#md_addViewData").dialog('option', 'buttons', {
+        "Annuler": function() {
+            $(this).dialog("close");
+        },
+        "Valider": function() {
+            var span = '';
+            var tr = $('#table_addViewData tbody tr:first');
+            while (tr.attr('data-link_id') != undefined) {
+                if (tr.find('.enable').is(':checked')) {
+                    var viewData = tr.getValues('.viewDataOption');
+                    viewData = viewData[0];
+                    viewData.link_id = tr.attr('data-link_id');
+                    viewData.name = '';
+                    if (tr.find('.object_name').text() != '') {
+                        viewData.name += '[' + tr.find('.object_name').text() + ']';
+                    } else {
+                        if (tr.find('.type').text() == 'Scénario') {
+                            viewData.name += '[Scénario]';
+                        }
+                    }
+                    viewData.name += '[' + tr.find('.name').text() + ']';
+                    span += addServiceToviewZone(viewData);
+                }
+                tr = tr.next();
+            }
+            viewZone.find('span.viewData').remove();
+            viewZone.find('.div_viewData').append(span);
+            $(this).dialog('close');
+        }
     });
+    $("#md_addViewData").dialog('open');
+});
+
+$('#div_viewZones').delegate('.bt_removeViewData', 'click', function() {
+    $(this).closest('span').remove();
+});
+
+
+$('body').delegate('.viewZoneAttr', 'change', function() {
+    modifyWithoutSave = true;
+});
+
+$('body').delegate('.viewDataAttr', 'change', function() {
+    modifyWithoutSave = true;
 });
 
 function setColorSelect(_select) {

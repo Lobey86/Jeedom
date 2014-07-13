@@ -19,27 +19,25 @@ var chart;
 var noChart = 1;
 var colorChart = 0;
 
-$(function() {
-    $(".li_history .history").on('click', function(event) {
-        $.hideAlert();
-        if ($(this).closest('.li_history').hasClass('active')) {
-            $(this).closest('.li_history').removeClass('active');
-            addChart($(this).closest('.li_history').attr('data-cmd_id'), 0);
-        } else {
-            $(this).closest('.li_history').addClass('active');
-            addChart($(this).closest('.li_history').attr('data-cmd_id'), 1);
-        }
-        return false;
-    });
+$(".li_history .history").on('click', function(event) {
+    $.hideAlert();
+    if ($(this).closest('.li_history').hasClass('active')) {
+        $(this).closest('.li_history').removeClass('active');
+        addChart($(this).closest('.li_history').attr('data-cmd_id'), 0);
+    } else {
+        $(this).closest('.li_history').addClass('active');
+        addChart($(this).closest('.li_history').attr('data-cmd_id'), 1);
+    }
+    return false;
+});
 
-    $(".li_history .remove").on('click', function() {
-        var bt_remove = $(this);
-        $.hideAlert();
-        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'historique de}} <span style="font-weight: bold ;">' + bt_remove.closest('.li_history').find('.history').text() + '</span> ?', function(result) {
-            if (result) {
-                emptyHistory(bt_remove.closest('.li_history').attr('data-cmd_id'));
-            }
-        });
+$(".li_history .remove").on('click', function() {
+    var bt_remove = $(this);
+    $.hideAlert();
+    bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'historique de}} <span style="font-weight: bold ;">' + bt_remove.closest('.li_history').find('.history').text() + '</span> ?', function(result) {
+        if (result) {
+            emptyHistory(bt_remove.closest('.li_history').attr('data-cmd_id'));
+        }
     });
 });
 

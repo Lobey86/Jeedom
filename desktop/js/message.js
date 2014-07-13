@@ -15,33 +15,32 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function() {
-    $("#sel_plugin").on('change', function() {
-        window.location = 'index.php?v=d&p=message&plugin=' + $('#sel_plugin').value();
-    });
 
-    $("#bt_clearMessage").on('click', function(event) {
-        jeedom.message.clear({
-            plugin: $('#sel_plugin').value(),
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function() {
-                window.location.reload();
-            }
-        });
-    });
+$("#sel_plugin").on('change', function() {
+    window.location = 'index.php?v=d&p=message&plugin=' + $('#sel_plugin').value();
+});
 
-    $("#table_message").delegate(".removeMessage", 'click', function(event) {
-        var tr = $(this).closest('tr');
-        jeedom.message.remove({
-            id: tr.attr('data-message_id'),
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function() {
-                tr.remove();
-            }
-        });
+$("#bt_clearMessage").on('click', function(event) {
+    jeedom.message.clear({
+        plugin: $('#sel_plugin').value(),
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function() {
+            window.location.reload();
+        }
+    });
+});
+
+$("#table_message").delegate(".removeMessage", 'click', function(event) {
+    var tr = $(this).closest('tr');
+    jeedom.message.remove({
+        id: tr.attr('data-message_id'),
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function() {
+            tr.remove();
+        }
     });
 });

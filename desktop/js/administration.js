@@ -15,95 +15,93 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function() {
-    $("#bt_genKeyAPI").on('click', function(event) {
-        $.hideAlert();
-        genKeyAPI();
-    });
+$("#bt_genKeyAPI").on('click', function(event) {
+    $.hideAlert();
+    genKeyAPI();
+});
 
-    $("#bt_nodeJsKey").on('click', function(event) {
-        $.hideAlert();
-        genNodeJsKey();
-    });
+$("#bt_nodeJsKey").on('click', function(event) {
+    $.hideAlert();
+    genNodeJsKey();
+});
 
-    $("#bt_flushMemcache").on('click', function(event) {
-        $.hideAlert();
-        flushMemcache();
-    });
+$("#bt_flushMemcache").on('click', function(event) {
+    $.hideAlert();
+    flushMemcache();
+});
 
-    $("#bt_clearJeedomLastDate").on('click', function(event) {
-        $.hideAlert();
-        clearJeedomDate();
-    });
+$("#bt_clearJeedomLastDate").on('click', function(event) {
+    $.hideAlert();
+    clearJeedomDate();
+});
 
 
-    $("#bt_saveGeneraleConfig").on('click', function(event) {
-        $.hideAlert();
-        saveConvertColor();
-        jeedom.config.save({
-            configuration: $('#config').getValues('.configKey')[0],
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function() {
-                jeedom.config.load({
-                    configuration: $('#config').getValues('.configKey')[0],
-                    error: function(error) {
-                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                    },
-                    success: function(data) {
-                        $('#config').setValues(data, '.configKey');
-                        modifyWithoutSave = false;
-                        $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
-                    }
-                });
-            }
-        });
-    });
-
-    $("#bt_testLdapConnection").on('click', function(event) {
-        $.hideAlert();
-        $.ajax({
-            type: 'POST',
-            url: 'core/ajax/user.ajax.php',
-            data: {
-                action: 'testLdapConneciton',
-            },
-            dataType: 'json',
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function(data) {
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: '{{Connexion échoué :}} ' + data.result, level: 'danger'});
-                    return;
-                }
-                $('#div_alert').showAlert({message: '{{Connexion réussie}}', level: 'success'});
-            }
-        });
-        return false;
-    });
-
-    $('#bt_addColorConvert').on('click', function() {
-        addConvertColor();
-    });
-
-    printConvertColor();
-
-    $.showLoading();
-    jeedom.config.load({
+$("#bt_saveGeneraleConfig").on('click', function(event) {
+    $.hideAlert();
+    saveConvertColor();
+    jeedom.config.save({
         configuration: $('#config').getValues('.configKey')[0],
         error: function(error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(data) {
-            $('#config').setValues(data, '.configKey');
-            modifyWithoutSave = false;
+        success: function() {
+            jeedom.config.load({
+                configuration: $('#config').getValues('.configKey')[0],
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function(data) {
+                    $('#config').setValues(data, '.configKey');
+                    modifyWithoutSave = false;
+                    $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
+                }
+            });
         }
     });
-    $('body').delegate('.configKey', 'change', function() {
-        modifyWithoutSave = true;
+});
+
+$("#bt_testLdapConnection").on('click', function(event) {
+    $.hideAlert();
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/user.ajax.php',
+        data: {
+            action: 'testLdapConneciton',
+        },
+        dataType: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function(data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: '{{Connexion échoué :}} ' + data.result, level: 'danger'});
+                return;
+            }
+            $('#div_alert').showAlert({message: '{{Connexion réussie}}', level: 'success'});
+        }
     });
+    return false;
+});
+
+$('#bt_addColorConvert').on('click', function() {
+    addConvertColor();
+});
+
+printConvertColor();
+
+$.showLoading();
+jeedom.config.load({
+    configuration: $('#config').getValues('.configKey')[0],
+    error: function(error) {
+        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+    },
+    success: function(data) {
+        $('#config').setValues(data, '.configKey');
+        modifyWithoutSave = false;
+    }
+});
+$('body').delegate('.configKey', 'change', function() {
+    modifyWithoutSave = true;
 });
 
 function genKeyAPI() {

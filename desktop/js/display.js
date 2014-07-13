@@ -15,38 +15,36 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function() {
 
-    $('#div_tree').on('select_node.jstree', function(node, selected) {
-        if (selected.node.a_attr.class == 'infoObject') {
-            displayObject(selected.node.a_attr['data-object_id']);
+$('#div_tree').on('select_node.jstree', function(node, selected) {
+    if (selected.node.a_attr.class == 'infoObject') {
+        displayObject(selected.node.a_attr['data-object_id']);
+    }
+    if (selected.node.a_attr.class == 'infoEqLogic') {
+        displayEqLogic(selected.node.a_attr['data-eqlogic_id']);
+    }
+    if (selected.node.a_attr.class == 'infoCmd') {
+        displayCmd(selected.node.a_attr['data-cmd_id']);
+    }
+});
+$('#div_tree').jstree();
+
+
+$("#bt_displayConfig").on('click', function(event) {
+    $.hideAlert();
+    saveConfiguration($('#display_configuration'));
+});
+
+$('.bt_resetColor').on('click', function() {
+    jeedom.getConfiguration({
+        key: $(this).attr('data-l1key'),
+        default: 1,
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            $('.configKey[data-l1key="' + $(this).attr('data-l1key') + '"]').value(data);
         }
-        if (selected.node.a_attr.class == 'infoEqLogic') {
-            displayEqLogic(selected.node.a_attr['data-eqlogic_id']);
-        }
-        if (selected.node.a_attr.class == 'infoCmd') {
-            displayCmd(selected.node.a_attr['data-cmd_id']);
-        }
-    });
-    $('#div_tree').jstree();
-
-
-    $("#bt_displayConfig").on('click', function(event) {
-        $.hideAlert();
-        saveConfiguration($('#display_configuration'));
-    });
-
-    $('.bt_resetColor').on('click', function() {
-        jeedom.getConfiguration({
-            key: $(this).attr('data-l1key'),
-            default: 1,
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function(data) {
-                $('.configKey[data-l1key="' + $(this).attr('data-l1key') + '"]').value(data);
-            }
-        });
     });
 });
 

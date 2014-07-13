@@ -15,112 +15,111 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function() {
-    if (getUrlVars('saveSuccessFull') == 1) {
-        $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
-    }
 
-    if (getUrlVars('removeSuccessFull') == 1) {
-        $('#div_alert').showAlert({message: '{{Suppression effectuée avec succès}}', level: 'success'});
-    }
+if (getUrlVars('saveSuccessFull') == 1) {
+    $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
+}
 
-    $(".li_interact").on('click', function(event) {
-        $('#div_conf').show();
-        $('.li_interact').removeClass('active');
-        $(this).addClass('active');
-        jeedom.interact.get({
-            id: $(this).attr('data-interact_id'),
-            success: function(data) {
-                $('.interactAttr').value('');
-                $('.interact').setValues(data, '.interactAttr');
-                modifyWithoutSave = false;
-            }
-        });
-        return false;
-    });
+if (getUrlVars('removeSuccessFull') == 1) {
+    $('#div_alert').showAlert({message: '{{Suppression effectuée avec succès}}', level: 'success'});
+}
 
-
-    if (is_numeric(getUrlVars('id'))) {
-        if ($('#ul_interact .li_interact[data-interact_id=' + getUrlVars('id') + ']').length != 0) {
-            $('#ul_interact .li_interact[data-interact_id=' + getUrlVars('id') + ']').click();
-        } else {
-            $('#ul_interact .li_interact:first').click();
+$(".li_interact").on('click', function(event) {
+    $('#div_conf').show();
+    $('.li_interact').removeClass('active');
+    $(this).addClass('active');
+    jeedom.interact.get({
+        id: $(this).attr('data-interact_id'),
+        success: function(data) {
+            $('.interactAttr').value('');
+            $('.interact').setValues(data, '.interactAttr');
+            modifyWithoutSave = false;
         }
+    });
+    return false;
+});
+
+
+if (is_numeric(getUrlVars('id'))) {
+    if ($('#ul_interact .li_interact[data-interact_id=' + getUrlVars('id') + ']').length != 0) {
+        $('#ul_interact .li_interact[data-interact_id=' + getUrlVars('id') + ']').click();
     } else {
         $('#ul_interact .li_interact:first').click();
     }
+} else {
+    $('#ul_interact .li_interact:first').click();
+}
 
-    $('body').delegate('.interactAttr', 'change', function() {
-        modifyWithoutSave = true;
+$('body').delegate('.interactAttr', 'change', function() {
+    modifyWithoutSave = true;
+});
+
+$(".interactAttr[data-l1key=link_type]").on('change', function() {
+    changeLinkType({link_type: $(this).value()});
+});
+
+$('.displayInteracQuery').on('click', function() {
+    $('#md_modal').dialog({title: "{{Liste des interactions}}"});
+    $('#md_modal').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + $('.interactAttr[data-l1key=id]').value()).dialog('open');
+});
+
+$('body').delegate('.listEquipementInfo', 'click', function() {
+    jeedom.cmd.getSelectModal({}, function(result) {
+        $('.interactAttr[data-l1key=link_id]').value(result.human);
     });
+});
 
-    $(".interactAttr[data-l1key=link_type]").on('change', function() {
-        changeLinkType({link_type: $(this).value()});
+$("#bt_saveInteract").on('click', function(data) {
+    var interact = $('.interact').getValues('.interactAttr');
+    jeedom.interact.save({
+        interact: interact[0],
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function() {
+            modifyWithoutSave = false;
+            window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
+        }
     });
+});
 
-    $('.displayInteracQuery').on('click', function() {
-        $('#md_modal').dialog({title: "{{Liste des interactions}}"});
-        $('#md_modal').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + $('.interactAttr[data-l1key=id]').value()).dialog('open');
+$("#bt_addInteract").on('click', function() {
+    bootbox.prompt("Demande ?", function(result) {
+        if (result !== null) {
+            jeedom.interact.save({
+                interact: {query: result},
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function(data) {
+                    modifyWithoutSave = false;
+                    window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
+                }
+            });
+        }
     });
+});
 
-    $('body').delegate('.listEquipementInfo', 'click', function() {
-        jeedom.cmd.getSelectModal({}, function(result) {
-            $('.interactAttr[data-l1key=link_id]').value(result.human);
-        });
-    });
-
-    $("#bt_saveInteract").on('click', function(data) {
-        var interact = $('.interact').getValues('.interactAttr');
-        jeedom.interact.save({
-            interact: interact[0],
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function() {
-                modifyWithoutSave = false;
-                window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
-            }
-        });
-    });
-
-    $("#bt_addInteract").on('click', function() {
-        bootbox.prompt("Demande ?", function(result) {
-            if (result !== null) {
-                jeedom.interact.save({
-                    interact: {query: result},
+$("#bt_removeInteract").on('click', function() {
+    if ($('.li_interact.active').attr('data-interact_id') != undefined) {
+        $.hideAlert();
+        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'intéraction}} <span style="font-weight: bold ;">' + $('.li_interact.active a').text() + '</span> ?', function(result) {
+            if (result) {
+                jeedom.interact.remove({
+                    id: $('.li_interact.active').attr('data-interact_id'),
                     error: function(error) {
                         $('#div_alert').showAlert({message: error.message, level: 'danger'});
                     },
-                    success: function(data) {
+                    success: function() {
                         modifyWithoutSave = false;
-                        window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
+                        window.location.replace('index.php?v=d&p=interact&removeSuccessFull=1');
                     }
                 });
             }
         });
-    });
-
-    $("#bt_removeInteract").on('click', function() {
-        if ($('.li_interact.active').attr('data-interact_id') != undefined) {
-            $.hideAlert();
-            bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'intéraction}} <span style="font-weight: bold ;">' + $('.li_interact.active a').text() + '</span> ?', function(result) {
-                if (result) {
-                    jeedom.interact.remove({
-                        id: $('.li_interact.active').attr('data-interact_id'),
-                        error: function(error) {
-                            $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                        },
-                        success: function() {
-                            modifyWithoutSave = false;
-                            window.location.replace('index.php?v=d&p=interact&removeSuccessFull=1');
-                        }
-                    });
-                }
-            });
-        } else {
-            $('#div_alert').showAlert({message: '{{Veuillez d\'abord sélectionner un objet}}', level: 'danger'});
-        }
-    });
+    } else {
+        $('#div_alert').showAlert({message: '{{Veuillez d\'abord sélectionner un objet}}', level: 'danger'});
+    }
 });
 
 function changeLinkType(_options) {

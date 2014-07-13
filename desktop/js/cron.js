@@ -15,84 +15,83 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function() {
+
+printCron();
+
+$("#bt_refreshCron").on('click', function() {
     printCron();
 
-    $("#bt_refreshCron").on('click', function() {
-        printCron();
+});
 
+$("#bt_addCron").on('click', function() {
+    addCron({});
+});
+
+$("#bt_save").on('click', function() {
+    jeedom.cron.save({
+        crons: $('#table_cron tbody tr').getValues('.cronAttr'),
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: printCron
     });
+});
 
-    $("#bt_addCron").on('click', function() {
-        addCron({});
-    });
-
-    $("#bt_save").on('click', function() {
-        jeedom.cron.save({
-            crons: $('#table_cron tbody tr').getValues('.cronAttr'),
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: printCron
-        });
-    });
-
-    $("#bt_changeCronState").on('click', function() {
-        var el = $(this);
-        jeedom.config.save({
-            configuration: {enableCron: el.attr('data-state')},
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function() {
-                if (el.attr('data-state') == 1) {
-                    el.find('i').removeClass('fa-check').addClass('fa-times');
-                    el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 1);
-                } else {
-                    el.find('i').removeClass('fa-times').addClass('fa-check');
-                    el.removeClass('btn-danger').addClass('btn-success').attr('data-state', 1);
-                }
+$("#bt_changeCronState").on('click', function() {
+    var el = $(this);
+    jeedom.config.save({
+        configuration: {enableCron: el.attr('data-state')},
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function() {
+            if (el.attr('data-state') == 1) {
+                el.find('i').removeClass('fa-check').addClass('fa-times');
+                el.removeClass('btn-success').addClass('btn-danger').attr('data-state', 1);
+            } else {
+                el.find('i').removeClass('fa-times').addClass('fa-check');
+                el.removeClass('btn-danger').addClass('btn-success').attr('data-state', 1);
             }
-        });
-    });
-
-    $("#table_cron").delegate(".remove", 'click', function() {
-        $(this).closest('tr').remove();
-    });
-
-    $("#table_cron").delegate(".stop", 'click', function() {
-        jeedom.cron.setState({
-            state: 'stop',
-            id: $(this).closest('tr').attr('id'),
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: printCron
-        });
-    });
-
-    $("#table_cron").delegate(".start", 'click', function() {
-        jeedom.cron.setState({
-            state: 'start',
-            id: $(this).closest('tr').attr('id'),
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: printCron
-        });
-    });
-
-    $('#table_cron').delegate('.cronAttr[data-l1key=deamon]', 'change', function() {
-        if ($(this).value() == 1) {
-            $(this).closest('tr').find('.cronAttr[data-l1key=deamonSleepTime]').show();
-        } else {
-            $(this).closest('tr').find('.cronAttr[data-l1key=deamonSleepTime]').hide();
         }
     });
+});
 
-    $('body').delegate('.cronAttr', 'change', function() {
-        modifyWithoutSave = true;
+$("#table_cron").delegate(".remove", 'click', function() {
+    $(this).closest('tr').remove();
+});
+
+$("#table_cron").delegate(".stop", 'click', function() {
+    jeedom.cron.setState({
+        state: 'stop',
+        id: $(this).closest('tr').attr('id'),
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: printCron
     });
+});
+
+$("#table_cron").delegate(".start", 'click', function() {
+    jeedom.cron.setState({
+        state: 'start',
+        id: $(this).closest('tr').attr('id'),
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: printCron
+    });
+});
+
+$('#table_cron').delegate('.cronAttr[data-l1key=deamon]', 'change', function() {
+    if ($(this).value() == 1) {
+        $(this).closest('tr').find('.cronAttr[data-l1key=deamonSleepTime]').show();
+    } else {
+        $(this).closest('tr').find('.cronAttr[data-l1key=deamonSleepTime]').hide();
+    }
+});
+
+$('body').delegate('.cronAttr', 'change', function() {
+    modifyWithoutSave = true;
 });
 
 function printCron() {
