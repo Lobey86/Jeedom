@@ -139,9 +139,8 @@ function getTemplate($_folder, $_version, $_filename, $_plugin = '') {
     }
     if (file_exists(dirname(__FILE__) . '/../../' . $path)) {
         return translate::exec(file_get_contents(dirname(__FILE__) . '/../../' . $path), $path);
-    } else {
-        throw new Exception("Fichier non trouvé : $_filename à $_folder / $_version (" . trim($_plugin) . ") : " . dirname(__FILE__) . '/../../' . "$path");
     }
+    return '';
 }
 
 function template_replace($_array, $_subject) {

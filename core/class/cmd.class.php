@@ -613,18 +613,16 @@ class cmd {
             self::$_templateArray == array();
         }
         if (!isset(self::$_templateArray[$_version . '::' . $template_name])) {
-            try {
-                $template = getTemplate('core', $_version, $template_name);
-            } catch (Exception $e) {
-                foreach (plugin::listPlugin(true) as $plugin) {
-                    try {
+            if ($this->getTemplate($_version, 'default') != 'default') {
+                $template = getTemplate('core', $_version, $template_name, 'widget');
+                if ($template == '') {
+                    foreach (plugin::listPlugin(true) as $plugin) {
                         $template = getTemplate('core', $_version, $template_name, $plugin->getId());
-                    } catch (Exception $e) {
-                        
+                        if ($template != '') {
+                            break;
+                        }
                     }
                 }
-            }
-            if ($this->getTemplate($_version, 'default') != 'default') {
                 if ($template == '' && config::byKey('market::autoInstallMissingWidget') == 1) {
                     try {
                         $market = market::byLogicalId(str_replace('.cmd', '', $_version . '.' . $template_name));
@@ -637,11 +635,12 @@ class cmd {
                         $this->save();
                     }
                 }
-
                 if ($template == '') {
                     $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
                     $template = getTemplate('core', $_version, $template_name);
                 }
+            } else {
+                $template = getTemplate('core', $_version, $template_name);
             }
             self::$_templateArray[$_version . '::' . $template_name] = $template;
         } else {
