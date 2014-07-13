@@ -179,6 +179,12 @@ class scenarioExpression {
                 }
             }
             if ($this->getType() == 'action') {
+                if ($this->getExpression() == 'icon') {
+                    $this->setLog(__('Changement de l\'icone du scénario', __FILE__));
+                    $scenario->setDisplay('icon', $options['icon']);
+                    $scenario->save();
+                    return;
+                }
                 if ($this->getExpression() == 'sleep') {
                     if (isset($options['duration']) && is_numeric(intval($options['duration']))) {
                         $this->setLog(__('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));

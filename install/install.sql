@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 05 Juillet 2014 à 20:06
+-- Généré le: Dim 13 Juillet 2014 à 11:57
 -- Version du serveur: 5.6.17-0ubuntu0.14.04.1
--- Version de PHP: 5.5.9-1ubuntu4.2
+-- Version de PHP: 5.5.9-1ubuntu4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `cmd` (
   `logicalId` varchar(127) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `configuration` text,
+  `configuration` text CHARACTER SET utf8 COLLATE utf8_bin,
   `template` text,
   `isHistorized` varchar(45) NOT NULL,
   `type` varchar(45) DEFAULT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `cmd` (
   KEY `eqLogic_id` (`eqLogic_id`),
   KEY `value` (`value`),
   KEY `order` (`order`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1749 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1756 ;
 
 -- --------------------------------------------------------
 
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `connection` (
   `informations` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip_UNIQUE` (`ip`)
-) ENGINE=MEMORY  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MEMORY  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
 
 -- --------------------------------------------------------
 
@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `cron` (
   UNIQUE KEY `class_function` (`class`,`function`,`option`),
   KEY `type` (`class`),
   KEY `logicalId_Type` (`class`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=472 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=506 ;
 
 -- --------------------------------------------------------
 
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `dataStore` (
   `value` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE` (`type`,`link_id`,`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `energy` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `eqLogic_id` (`eqLogic_id`),
   KEY `category` (`category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 -- --------------------------------------------------------
 
@@ -228,9 +228,9 @@ CREATE TABLE IF NOT EXISTS `eqLogic` (
   KEY `logical_id` (`logicalId`),
   KEY `logica_id_eqTypeName` (`logicalId`,`eqType_name`),
   KEY `object_id` (`object_id`),
-  KEY `eqReal_id` (`eqReal_id`),
-  KEY `timeout` (`timeout`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=423 ;
+  KEY `timeout` (`timeout`),
+  KEY `eqReal_id` (`eqReal_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=429 ;
 
 -- --------------------------------------------------------
 
@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `interactQuery` (
   PRIMARY KEY (`id`),
   KEY `fk_sarahQuery_sarahDef1_idx` (`interactDef_id`),
   FULLTEXT KEY `query` (`query`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4815 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4947 ;
 
 -- --------------------------------------------------------
 
@@ -345,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `message` text,
   `action` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=764 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1360 ;
 
 -- --------------------------------------------------------
 
@@ -365,7 +365,7 @@ CREATE TABLE IF NOT EXISTS `object` (
   UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `fk_object_object1_idx1` (`father_id`),
   KEY `position` (`position`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
 
 -- --------------------------------------------------------
 
@@ -390,11 +390,12 @@ CREATE TABLE IF NOT EXISTS `scenario` (
   `isVisible` tinyint(1) DEFAULT '1',
   `object_id` int(11) DEFAULT NULL,
   `hlogs` text,
+  `display` text,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`,`group`,`object_id`),
+  UNIQUE KEY `name` (`group`,`object_id`,`name`),
   KEY `group` (`group`),
   KEY `fk_scenario_object1_idx` (`object_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=65 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=66 ;
 
 -- --------------------------------------------------------
 
@@ -410,7 +411,7 @@ CREATE TABLE IF NOT EXISTS `scenarioElement` (
   `options` text,
   `log` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=198 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=199 ;
 
 -- --------------------------------------------------------
 
@@ -429,7 +430,7 @@ CREATE TABLE IF NOT EXISTS `scenarioExpression` (
   `log` text,
   PRIMARY KEY (`id`),
   KEY `fk_scenarioExpression_scenarioSubElement1_idx` (`scenarioSubElement_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=457 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=459 ;
 
 -- --------------------------------------------------------
 
@@ -448,7 +449,7 @@ CREATE TABLE IF NOT EXISTS `scenarioSubElement` (
   `log` text,
   PRIMARY KEY (`id`),
   KEY `fk_scenarioSubElement_scenarioElement1_idx` (`scenarioElement_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=417 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=418 ;
 
 -- --------------------------------------------------------
 
@@ -466,7 +467,7 @@ CREATE TABLE IF NOT EXISTS `update` (
   `status` varchar(127) DEFAULT NULL,
   `configuration` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=124 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=130 ;
 
 -- --------------------------------------------------------
 

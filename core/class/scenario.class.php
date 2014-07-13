@@ -38,6 +38,7 @@ class scenario {
     private $object_id = null;
     private $isVisible = 1;
     private $hlogs;
+    private $display;
     protected $_internalEvent = 0;
     private static $_templateArray;
 
@@ -358,6 +359,7 @@ class scenario {
         $internalEvent->setOptions('id', $this->getId());
         $internalEvent->save();
         $this->clearLog();
+        $this->setDisplay('icon', '');
         $initialState = $this->getState();
         $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
         $this->setState('in progress');
@@ -433,6 +435,9 @@ class scenario {
                 case 'error':
                     return '<i class="fa fa-exclamation-triangle"></i>';
                 default:
+                    if ($this->getDisplay('icon') != '') {
+                        return $this->getDisplay('icon');
+                    }
                     return '<i class="fa fa-check"></i>';
             }
         } else {
@@ -879,6 +884,14 @@ class scenario {
 
     public function setInternalEvent($_internalEvent) {
         $this->_internalEvent = $_internalEvent;
+    }
+
+    public function getDisplay($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->display, $_key, $_default);
+    }
+
+    public function setDisplay($_key, $_value) {
+        $this->display = utils::setJsonAttr($this->display, $_key, $_value);
     }
 
 }

@@ -25,6 +25,25 @@ if (!isConnect()) {
         color: white;
     }
 </style>
+<?php
+foreach (ls('core/css/icon', '*') as $dir) {
+    if (is_dir('core/css/icon/' . $dir) && file_exists('core/css/icon/' . $dir . '/style.css')) {
+        $css = file_get_contents('core/css/icon/' . $dir . '/style.css');
+        $research = strtolower(str_replace('/', '', $dir));
+        preg_match_all("/\." . $research . "-(.*?):/", $css, $matches, PREG_SET_ORDER);
+        $height = (ceil(count($matches) / 14) * 40) + 80;
+        echo '<div style="height : ' . $height . 'px;"><legend>{{' . str_replace('/', '', $dir) . '}}</legend>';
+
+        foreach ($matches as $match) {
+            if (isset($match[0])) {
+                $icon = str_replace(array(':', '.'), '', $match[0]);
+                echo '<li class="iconSel"><i class="icon ' . $icon . '"></i></li>';
+            }
+        }
+        echo "</div><br/>";
+    }
+}
+?>
 <div style="height: 650px;">
     <legend>{{Générale}}</legend>
     <li class="iconSel"><i class="fa fa-glass"></i></li>
@@ -196,26 +215,6 @@ if (!isConnect()) {
     <li class="iconSel"><i class="fa fa-pagelines"></i></li>
     <li class="iconSel"><i class="fa fa-wheelchair"></i></li>
 </div>
-<?php
-foreach (ls('core/css/icon', '*') as $dir) {
-    if (is_dir('core/css/icon/' . $dir) && file_exists('core/css/icon/' . $dir . '/style.css')) {
-        $css = file_get_contents('core/css/icon/' . $dir . '/style.css');
-        $research = strtolower(str_replace('/', '', $dir));
-        preg_match_all("/\." . $research . "-(.*?):/", $css, $matches, PREG_SET_ORDER);
-        $height = (ceil(count($matches) / 14) * 40) + 80;
-        echo '<div style="height : ' . $height . 'px;"><legend>{{' . str_replace('/', '', $dir) . '}}</legend>';
-
-        foreach ($matches as $match) {
-            if (isset($match[0])) {
-                $icon = str_replace(array(':', '.'), '', $match[0]);
-                echo '<li class="iconSel"><i class="icon ' . $icon . '"></i></li>';
-            }
-        }
-        echo "</div><br/>";
-    }
-}
-?>
-
 <script>
     $('.iconSel').on('click', function() {
         $('.iconSelected').removeClass('iconSelected');
