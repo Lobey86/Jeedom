@@ -222,13 +222,13 @@ class scenario {
                         FROM scenario s
                         WHERE s.name=:scenario_name
                             AND `group` IS NULL
-                            AND el.object_id IS NULL';
+                            AND s.object_id IS NULL';
             } else {
                 $values['group_name'] = $_group_name;
                 $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '
                         FROM scenario s
                         WHERE s.name=:scenario_name
-                            AND el.object_id IS NULL
+                            AND s.object_id IS NULL
                             AND `group`=:group_name';
             }
         } else {
