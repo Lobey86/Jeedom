@@ -83,7 +83,8 @@ if (!isConnect()) {
 {{sleep : pause de x seconde(s)
 variable : création/modification d'une ou de la valeur d'une variable
 scenario : permet le controle des scénarios
-stop : arrête le scénario}}
+stop : arrête le scénario
+icon : permet de changer l'icone de représentation du scenario}}
                 </pre>
                 {{Vous pouvez aussi utiliser les tags suivants dans les options : }}
                 <pre>
