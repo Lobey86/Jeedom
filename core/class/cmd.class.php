@@ -558,7 +558,7 @@ class cmd {
                 $eqLogic->setIsEnable(0);
                 $eqLogic->save();
             }
-            log::add($type, 'error', __('Erreur sur', __FILE__) . $eqLogic->getName() . ' : ' . $e->getMessage());
+            log::add($type, 'error', __('Erreur sur ', __FILE__) . $eqLogic->getName() . ' : ' . $e->getMessage());
             throw $e;
         }
         if (strpos($value, 'error') === false) {
