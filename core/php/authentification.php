@@ -50,7 +50,7 @@ if (init('login') != '' && init('mdp') != '') {
     login(init('login'), init('mdp'));
 }
 if (init('connect') == '1' && (init('mdp') == '' || init('login') == '')) {
-   header('Location:../../index.php?v=' . $_GET['v'] . '&p=connection&error=1');
+    header('Location:../../index.php?v=' . $_GET['v'] . '&p=connection&error=1');
 }
 
 if (init('logout') == 1) {
@@ -147,15 +147,11 @@ function isConnect($_right = '') {
         if ($_SESSION['user']->is_Connected()) {
             if ($_right != '') {
                 return ($_SESSION['user']->getRights($_right) == 1) ? true : false;
-            } else {
-                return true;
             }
-        } else {
-            return false;
+            return true;
         }
-    } else {
-        return false;
     }
+    return false;
 }
 
 function getUserHash() {

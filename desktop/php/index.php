@@ -17,7 +17,6 @@ if (isConnect() && init('p') == '') {
         redirect('index.php?v=d&p=dashboard');
     }
 }
-$page = '{{Connexion}}';
 if (isConnect() && init('p') != '') {
     $page = init('p');
 }
@@ -75,7 +74,6 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('3rdparty', 'jquery.utils/jquery.utils', 'css');
         include_file('3rdparty', 'jquery/jquery.min', 'js');
         include_file('3rdparty', 'jquery.utils/jquery.utils', 'js');
-        //include_file('3rdparty', 'php.js/php.min', 'js');
         include_file('core', 'core', 'js');
         include_file('3rdparty', 'bootstrap/bootstrap.min', 'js');
         include_file('3rdparty', 'jquery.ui/jquery-ui.min', 'js');
@@ -90,7 +88,6 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('3rdparty', 'jquery.at.caret/jquery.at.caret.min', 'js');
         ?>
     </head>
-
     <body>
         <?php
         sendVarToJS('jeedom_langage', config::byKey('language'));
@@ -100,12 +97,7 @@ $plugins_list = plugin::listPlugin(true, true);
             sendVarToJS('userProfils', $_SESSION['user']->getOptions());
             sendVarToJS('user_id', $_SESSION['user']->getId());
             sendVarToJS('user_login', $_SESSION['user']->getLogin());
-
-            if (config::byKey('enableNodeJs') == 1) {
-                sendVarToJS('nodeJsKey', config::byKey('nodeJsKey'));
-            } else {
-                sendVarToJS('nodeJsKey', '');
-            }
+            sendVarToJS('nodeJsKey', config::byKey('nodeJsKey'));
             ?>
             <div id="wrap">
                 <header class="navbar navbar-fixed-top navbar-default">
@@ -299,8 +291,7 @@ $plugins_list = plugin::listPlugin(true, true);
                     }
                     echo ') ';
                     echo date('Y');
-                    $pageLoadTime = round(getmicrotime() - $startLoadTime, 3);
-                    echo ' - {{Page générée en}} ' . $pageLoadTime . 's';
+                    echo ' - {{Page générée en}} ' . round(getmicrotime() - $startLoadTime, 3) . 's';
                     ?>
                 </span>
             </footer>
