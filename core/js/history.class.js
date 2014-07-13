@@ -59,8 +59,8 @@ jeedom.history.drawChart = function(_params) {
                 $('#div_alert').showAlert({message: message, level: 'danger'});
                 return;
             }
-            if (isset(jeedom.history.chart[_params.el]) && isset(jeedom.history.chart[_params.el].cmd[intval(_params.cmd_id)])) {
-                jeedom.history.chart[_params.el].cmd[intval(_params.cmd_id)] = null;
+            if (isset(jeedom.history.chart[_params.el]) && isset(jeedom.history.chart[_params.el].cmd[parseInt(_params.cmd_id)])) {
+                jeedom.history.chart[_params.el].cmd[parseInt(_params.cmd_id)] = null;
             }
             _params.option = init(_params.option, {});
             _params.option.graphType = init(_params.option.graphType, 'line');
@@ -83,7 +83,7 @@ jeedom.history.drawChart = function(_params) {
             if (_params.option.graphScale == undefined) {
                 _params.option.graphScale = 0;
             } else {
-                _params.option.graphScale = intval(_params.option.graphScale);
+                _params.option.graphScale = parseInt(_params.option.graphScale);
             }
 
             var series = {
@@ -91,7 +91,7 @@ jeedom.history.drawChart = function(_params) {
                     enabled: false
                 },
                 type: _params.option.graphType,
-                id: intval(_params.cmd_id),
+                id: parseInt(_params.cmd_id),
                 cursor: 'pointer',
                 name: (isset(_params.option.name)) ? _params.option.name : data.result.history_name,
                 data: data.result.data,
@@ -261,7 +261,7 @@ jeedom.history.drawChart = function(_params) {
             }
             var yaxis = jeedom.history.chart[_params.el].chart.yAxis[0].getExtremes();
             jeedom.history.chart[_params.el].chart.yAxis[0].setExtremes(yaxis.dataMin, yaxis.dataMax);
-            jeedom.history.chart[_params.el].cmd[intval(_params.cmd_id)] = {option: _params.option, dateRange: _params.dateRange};
+            jeedom.history.chart[_params.el].cmd[parseInt(_params.cmd_id)] = {option: _params.option, dateRange: _params.dateRange};
             jeedom.history.chart[_params.el].color++;
             if (jeedom.history.chart[_params.el].color > 9) {
                 jeedom.history.chart[_params.el].color = 0;
@@ -293,15 +293,15 @@ jeedom.history.changePoint = function(_params) {
             $('#div_alert').showAlert({message: '{{La valeur a été éditée avec succès}}', level: 'success'});
             var serie = null;
             for (var i in jeedom.history.chart) {
-                serie = jeedom.history.chart[i].chart.get(intval(_params.cmd_id));
+                serie = jeedom.history.chart[i].chart.get(parseInt(_params.cmd_id));
                 if (serie != null && serie != undefined) {
                     serie.remove();
                     serie = null;
                     jeedom.history.drawChart({
                         cmd_id: _params.cmd_id,
                         el: i,
-                        dateRange: jeedom.history.chart[i].cmd[intval(_params.cmd_id)].dateRange,
-                        option: jeedom.history.chart[i].cmd[intval(_params.cmd_id)].option
+                        dateRange: jeedom.history.chart[i].cmd[parseInt(_params.cmd_id)].dateRange,
+                        option: jeedom.history.chart[i].cmd[parseInt(_params.cmd_id)].option
                     });
                 }
             }
