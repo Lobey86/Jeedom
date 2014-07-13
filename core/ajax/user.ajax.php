@@ -27,8 +27,10 @@ try {
                 throw new Exception('Appareil inconnu');
             }
             $return['deviceKey'] = config::genKey(255);
+            @session_start();
             $_SESSION['user']->setOptions('registerDevice', $return['deviceKey']);
             $_SESSION['user']->save();
+            @session_write_close();
         } else {
             if (!login(init('username'), init('password'), true)) {
                 throw new Exception('Mot de passe ou nom d\'utilisateur incorrecteur');
@@ -36,8 +38,10 @@ try {
         }
         if (init('storeConnection') == 1) {
             $return['deviceKey'] = config::genKey(255);
+            @session_start();
             $_SESSION['user']->setOptions('registerDevice', $return['deviceKey']);
             $_SESSION['user']->save();
+            @session_write_close();
         }
         ajax::success($return);
     }
@@ -114,6 +118,7 @@ try {
         $login = $_SESSION['user']->getLogin();
         $rights = $_SESSION['user']->getRights();
         $password = $_SESSION['user']->getPassword();
+        @session_start();
         utils::a2o($_SESSION['user'], $user_json);
         foreach ($rights as $right => $value) {
             $_SESSION['user']->setRights($right, $value);
@@ -123,6 +128,7 @@ try {
             $_SESSION['user']->setPassword(sha1($_SESSION['user']->getPassword()));
         }
         $_SESSION['user']->save();
+        @session_write_close();
         ajax::success();
     }
 

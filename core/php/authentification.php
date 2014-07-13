@@ -24,6 +24,7 @@ if (isset($_COOKIE['sess_id'])) {
     session_id($_COOKIE['sess_id']);
 }
 @session_start();
+@session_write_close();
 setcookie('sess_id', session_id(), time() + 24 * 3600, "/", '', false, true);
 
 if (ini_get('register_globals') == '1') {
@@ -59,11 +60,13 @@ if (init('logout') == 1) {
 /* * **************************Definition des function************************** */
 
 function login($_login, $_password, $_ajax = false) {
+    @session_start();
     $user = user::connect($_login, $_password);
     if (is_object($user)) {
         connection::success($user->getLogin());
         $_SESSION['user'] = $user;
         $_SESSION['userHash'] = getUserHash();
+        @session_write_close();
         log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $_login);
         $getParams = '';
         unset($_GET['auth']);
@@ -79,6 +82,7 @@ function login($_login, $_password, $_ajax = false) {
         }
         return true;
     }
+    @session_write_close();
     connection::failed();
     sleep(5);
     if (!$_ajax) {
@@ -92,11 +96,13 @@ function login($_login, $_password, $_ajax = false) {
 }
 
 function loginByKey($_key, $_ajax = false) {
+    @session_start();
     $user = user::byKey($_key);
     if (is_object($user)) {
         connection::success($user->getLogin());
         $_SESSION['user'] = $user;
         $_SESSION['userHash'] = getUserHash();
+        @session_write_close();
         log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $user->getLogin());
         $getParams = '';
         unset($_GET['auth']);
@@ -112,6 +118,7 @@ function loginByKey($_key, $_ajax = false) {
         }
         return true;
     }
+    @session_write_close();
     connection::failed();
     sleep(5);
     if (!$_ajax) {
