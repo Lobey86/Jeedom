@@ -20,11 +20,8 @@ if (isConnect() && init('p') == '') {
 if (isConnect() && init('p') != '') {
     $page = init('p');
 }
-if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
-    $title = $PAGE_DESCRIPTOR_DESKTOP[$page]['title'];
-} else {
-    $title = $page;
-}
+$title = isset($PAGE_DESCRIPTOR_DESKTOP[$page]) ? $PAGE_DESCRIPTOR_DESKTOP[$page]['title'] : $page;
+
 $plugin = init('m');
 if ($plugin != '') {
     $plugin = plugin::byId($plugin);
@@ -46,11 +43,6 @@ $plugins_list = plugin::listPlugin(true, true);
         <META HTTP-EQUIV="Pragma" CONTENT="private">
         <META HTTP-EQUIV="Cache-Control" CONTENT="private, max-age=5400, pre-check=5400">
         <META HTTP-EQUIV="Expires" CONTENT="<?php echo date(DATE_RFC822, strtotime("1 day")); ?>">
-
-        <!-- Le styles -->
-        <?php
-        include_file('3rdparty', 'bootstrap/css/bootstrap.min', 'css');
-        ?>
         <style type="text/css">
             body {
                 padding-top: 60px;
@@ -64,8 +56,8 @@ $plugins_list = plugin::listPlugin(true, true);
             var clientDatetime = new Date();
             var clientServerDiffDatetime = (<?php echo strtotime('now'); ?> * 1000) - clientDatetime.getTime();
         </script>
-
         <?php
+        include_file('3rdparty', 'bootstrap/css/bootstrap.min', 'css');
         include_file('core', 'icon.inc', 'php');
         include_file('desktop', 'commun', 'css');
         include_file('core', 'core', 'css');
@@ -241,7 +233,6 @@ $plugins_list = plugin::listPlugin(true, true);
                     </div>
                 </header>
                 <main class="container-fluid" id="div_mainContainer">
-
                     <div style="display: none;width : 100%" id="div_alert"></div>
                     <?php
                     try {
@@ -274,7 +265,6 @@ $plugins_list = plugin::listPlugin(true, true);
                         </div>
                     </div>
                     <div id="md_reportBug" title="{{Ouverture d'un ticket}}"></div>
-
                 </main>
             </div>
             <?php
