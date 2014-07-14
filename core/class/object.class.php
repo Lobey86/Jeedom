@@ -67,7 +67,7 @@ class object {
     public static function buildTree($_object = null, $_visible = true) {
         $return = array();
         if (!is_object($_object)) {
-            $object_list = self::rootObject(true, true);
+            $object_list = self::rootObject(true, $_visible);
         } else {
             $object_list = $_object->getChild($_visible);
         }
