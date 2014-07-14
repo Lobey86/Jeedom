@@ -139,7 +139,7 @@ function getTemplate($_folder, $_version, $_filename, $_plugin = '') {
 
 function template_replace($_array, $_subject) {
     if (is_array($_array)) {
-        return str_replace(array_keys($_array), array_values($_array), $_subject);
+        return @str_replace(array_keys($_array), array_values($_array), $_subject);
     }
     return $_subject;
 }
