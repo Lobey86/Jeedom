@@ -113,7 +113,7 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
     if (file_exists($path)) {
         if ($_type == PHP || $_folder == AJAX || $_type == 'class' || $_type == COM || $_type == CONFIG || $_type == MODAL || $_type == API || $_type == HTML) {
             ob_start();
-            require_once($path);
+            require ($path);
             echo translate::exec(ob_get_clean(), "$_folder/$_fn");
         } else if ($_type == CSS) {
             echo "<link href=\"$_folder/$_fn?md5=" . md5_file($path) . "\" rel=\"stylesheet\" />";
