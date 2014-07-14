@@ -40,10 +40,10 @@ function initExpertMode() {
 function initApplication(_reinit) {
     $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "core/ajax/jeedom.ajax.php", // url du fichier php
+        type: 'POST', // methode de transmission des données au fichier php
+        url: 'core/ajax/jeedom.ajax.php', // url du fichier php
         data: {
-            action: "getInfoApplication"
+            action: 'getInfoApplication'
         },
         dataType: 'json',
         error: function(request, status, error) {

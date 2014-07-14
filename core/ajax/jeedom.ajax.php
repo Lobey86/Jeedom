@@ -20,11 +20,10 @@ try {
     require_once(dirname(__FILE__) . '/../../core/php/core.inc.php');
     include_file('core', 'authentification', 'php');
 
-    if (!isConnect('admin')) {
-        throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);
-    }
-
     if (init('action') == 'getInfoApplication') {
+        if (!isConnect()) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);
+        }
         $return = array();
         $return['user_id'] = $_SESSION['user']->getId();
         $return['nodeJsKey'] = config::byKey('nodeJsKey');
@@ -36,6 +35,10 @@ try {
             }
         }
         ajax::success($return);
+    }
+
+    if (!isConnect('admin')) {
+        throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);
     }
 
     if (init('action') == 'update') {
@@ -96,16 +99,16 @@ try {
         cache::set('jeedom::startOK', 1, 0);
         ajax::success();
     }
-    
-     if (init('action') == 'backupupload') {
-        $uploaddir = dirname(__FILE__) . '/../../backup' ;
+
+    if (init('action') == 'backupupload') {
+        $uploaddir = dirname(__FILE__) . '/../../backup';
         if (!file_exists($uploaddir)) {
             mkdir($uploaddir);
         }
         if (!file_exists($uploaddir)) {
             throw new Exception(__('Répertoire d\'upload non trouvé : ', __FILE__) . $uploaddir);
         }
-        if(!isset($_FILES['file'])){
+        if (!isset($_FILES['file'])) {
             throw new Exception(__('Aucun fichier trouvé. Vérifié parametre PHP (post size limit)', __FILE__));
         }
         if (filesize($_FILES['file']['tmp_name']) > 30000000) {

@@ -24,16 +24,16 @@ if (isset($_COOKIE['sess_id'])) {
     session_id($_COOKIE['sess_id']);
 }
 @session_start();
-@session_write_close();
 setcookie('sess_id', session_id(), time() + 24 * 3600, "/", '', false, true);
+@session_write_close();
 
 if (ini_get('register_globals') == '1') {
     echo __('Vous devriez mettre <b>register_globals</b> à <b>Off</b><br/>', __FILE__);
 }
 
 if (isConnect() && (!isset($_SESSION['userHash']) || getUserHash() != $_SESSION['userHash'])) {
-    session_destroy();
-    setcookie('sess_id', session_id(), 0, "/", '', false, true);
+    error_log(getUserHash() . '!=' . $_SESSION['userHash']);
+    logout();
     $getParams = '';
     unset($_GET['auth']);
     foreach ($_GET AS $var => $value) {
@@ -60,10 +60,10 @@ if (init('logout') == 1) {
 /* * **************************Definition des function************************** */
 
 function login($_login, $_password, $_ajax = false) {
-    @session_start();
     $user = user::connect($_login, $_password);
     if (is_object($user)) {
         connection::success($user->getLogin());
+        @session_start();
         $_SESSION['user'] = $user;
         $_SESSION['userHash'] = getUserHash();
         @session_write_close();
@@ -82,7 +82,6 @@ function login($_login, $_password, $_ajax = false) {
         }
         return true;
     }
-    @session_write_close();
     connection::failed();
     sleep(5);
     if (!$_ajax) {
@@ -96,12 +95,13 @@ function login($_login, $_password, $_ajax = false) {
 }
 
 function loginByKey($_key, $_ajax = false) {
-    @session_start();
     $user = user::byKey($_key);
     if (is_object($user)) {
         connection::success($user->getLogin());
+        @session_start();
         $_SESSION['user'] = $user;
         $_SESSION['userHash'] = getUserHash();
+        error_log(getUserHash());
         @session_write_close();
         log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $user->getLogin());
         $getParams = '';
@@ -118,7 +118,6 @@ function loginByKey($_key, $_ajax = false) {
         }
         return true;
     }
-    @session_write_close();
     connection::failed();
     sleep(5);
     if (!$_ajax) {
@@ -163,13 +162,7 @@ function isConnect($_right = '') {
 }
 
 function getUserHash() {
-    $hash = getClientIp() . $_SERVER["HTTP_USER_AGENT"];
-    if (isConnect()) {
-        $hash .= $_SESSION['user']->getLogin();
-        $hash .= $_SESSION['user']->getId();
-        $hash .= $_SESSION['user']->getHash();
-    }
-    return sha1($hash);
+    return sha1(getClientIp() . $_SERVER["HTTP_USER_AGENT"]);
 }
 
 ?>

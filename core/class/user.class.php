@@ -186,11 +186,7 @@ class user {
      * @return boolean vrai si l'utilisateur est valide
      */
     public function is_Connected() {
-        if (is_numeric($this->id) && $this->login != '') {
-            return true;
-        } else {
-            return false;
-        }
+        return (is_numeric($this->id) && $this->login != '');
     }
 
     /*     * **********************Getteur Setteur*************************** */
@@ -244,7 +240,9 @@ class user {
     }
 
     public function setHash($hash) {
+        @session_start();
         $this->hash = $hash;
+        @session_write_close();
     }
 
 }
