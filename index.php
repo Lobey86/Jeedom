@@ -18,7 +18,6 @@
 
 if (!isset($_GET['v'])) {
     $useragent = $_SERVER["HTTP_USER_AGENT"];
-    echo $useragent;
     if (stristr($useragent, "Android") || strpos($useragent, "iPod") || strpos($useragent, "iPhone") || strpos($useragent, "Mobile") || strpos($useragent, "WebOS") || strpos($useragent, "mobile") || strpos($useragent, "hp-tablet")) {
         header("location: index.php?v=m");
     } else {
