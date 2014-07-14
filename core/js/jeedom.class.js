@@ -44,88 +44,67 @@ jeedom.init = function() {
             weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
         }
     });
-    if (nodeJsKey != '') {
-        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-            if (options.dataType == 'script' || originalOptions.dataType == 'script') {
-                options.cache = true;
+    if (nodeJsKey != '' && io) {
+        socket = io.connect();
+        socket.on('error', function(reason) {
+            console.log('Unable to connect Socket.IO', reason);
+        });
+        socket.on('connect', function() {
+            socket.emit('authentification', nodeJsKey, user_id);
+            $('.span_nodeJsState').removeClass('red').addClass('green');
+            jeedom.nodeJs.state = true;
+            $('body').trigger('nodeJsConnect');
+        });
+        socket.on('authentification_failed', function() {
+            notify('Node JS erreur', '{{Erreur d\'authentification sur node JS, clef invalide}}', 'error');
+            $('.span_nodeJsState').removeClass('green').addClass('red');
+            jeedom.nodeJs.state = false;
+        });
+        socket.on('eventCmd', function(_options) {
+            _options = json_decode(_options);
+            jeedom.cmd.refreshValue({id: _options.cmd_id});
+            if ($.mobile) {
+                jeedom.workflow.cmd[_options.cmd_id] = true;
+                jeedom.workflow.eqLogic[_options.eqLogic_id] = true;
+                jeedom.workflow.object[_options.object_id] = true;
+                jeedom.scheduleWorkflow();
             }
         });
-        $.getScript("/nodeJS/socket.io/socket.io.js")
-                .done(function(script, textStatus) {
-                    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-                        if (options.dataType == 'script' || originalOptions.dataType == 'script') {
-                            options.cache = false;
-                        }
-                    });
-                    socket = io.connect();
-
-                    socket.on('error', function(reason) {
-                        console.log('Unable to connect Socket.IO', reason);
-                    });
-                    socket.on('connect', function() {
-                        socket.emit('authentification', nodeJsKey, user_id);
-                        $('.span_nodeJsState').removeClass('red').addClass('green');
-                        jeedom.nodeJs.state = true;
-                        $('body').trigger('nodeJsConnect');
-                    });
-                    socket.on('authentification_failed', function() {
-                        notify('Node JS erreur', '{{Erreur d\'authentification sur node JS, clef invalide}}', 'error');
-                        $('.span_nodeJsState').removeClass('green').addClass('red');
-                        jeedom.nodeJs.state = false;
-                    });
-                    socket.on('eventCmd', function(_options) {
-                        _options = json_decode(_options);
-                        jeedom.cmd.refreshValue({id: _options.cmd_id});
-                        if ($.mobile) {
-                            jeedom.workflow.cmd[_options.cmd_id] = true;
-                            jeedom.workflow.eqLogic[_options.eqLogic_id] = true;
-                            jeedom.workflow.object[_options.object_id] = true;
-                            jeedom.scheduleWorkflow();
-                        }
-                    });
-                    socket.on('eventScenario', function(scenario_id) {
-                        jeedom.scenario.refreshValue({id: scenario_id});
-                        if ($.mobile) {
-                            jeedom.workflow.scenario[scenario_id] = true;
-                            jeedom.scheduleWorkflow();
-                        }
-                    });
-                    socket.on('notify', function(title, text, category) {
-                        var theme = '';
-                        switch (init(category)) {
-                            case 'event' :
-                                if (init(userProfils.notifyEvent) == 'none') {
-                                    return;
-                                } else {
-                                    theme = userProfils.notifyEvent;
-                                }
-                                break;
-                            case 'scenario' :
-                                if (init(userProfils.notifyLaunchScenario) == 'none') {
-                                    return;
-                                } else {
-                                    theme = userProfils.notifyLaunchScenario;
-                                }
-                                break;
-                            case 'message' :
-                                if (init(userProfils.notifyNewMessage) == 'none') {
-                                    return;
-                                } else {
-                                    theme = userProfils.notifyNewMessage;
-                                }
-                                refreshMessageNumber();
-                                break;
-                        }
-                        notify(title, text, theme);
-                    });
-                })
-                .fail(function(jqxhr, settings, exception) {
-                    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-                        if (options.dataType == 'script' || originalOptions.dataType == 'script') {
-                            options.cache = false;
-                        }
-                    });
-                });
+        socket.on('eventScenario', function(scenario_id) {
+            jeedom.scenario.refreshValue({id: scenario_id});
+            if ($.mobile) {
+                jeedom.workflow.scenario[scenario_id] = true;
+                jeedom.scheduleWorkflow();
+            }
+        });
+        socket.on('notify', function(title, text, category) {
+            var theme = '';
+            switch (init(category)) {
+                case 'event' :
+                    if (init(userProfils.notifyEvent) == 'none') {
+                        return;
+                    } else {
+                        theme = userProfils.notifyEvent;
+                    }
+                    break;
+                case 'scenario' :
+                    if (init(userProfils.notifyLaunchScenario) == 'none') {
+                        return;
+                    } else {
+                        theme = userProfils.notifyLaunchScenario;
+                    }
+                    break;
+                case 'message' :
+                    if (init(userProfils.notifyNewMessage) == 'none') {
+                        return;
+                    } else {
+                        theme = userProfils.notifyNewMessage;
+                    }
+                    refreshMessageNumber();
+                    break;
+            }
+            notify(title, text, theme);
+        });
     } else {
         $('.span_nodeJsState').removeClass('red').addClass('grey');
         jeedom.nodeJs.state = null;

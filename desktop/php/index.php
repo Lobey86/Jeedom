@@ -56,6 +56,7 @@ $plugins_list = plugin::listPlugin(true, true);
             var clientDatetime = new Date();
             var clientServerDiffDatetime = (<?php echo strtotime('now'); ?> * 1000) - clientDatetime.getTime();
         </script>
+        <script type="text/javascript" src="/nodeJS/socket.io/socket.io.js?1.0.6"></script>
         <?php
         include_file('3rdparty', 'bootstrap/css/bootstrap.min', 'css');
         include_file('core', 'icon.inc', 'php');
@@ -79,6 +80,7 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('3rdparty', 'jquery.toastr/jquery.toastr.min', 'js');
         include_file('3rdparty', 'jquery.at.caret/jquery.at.caret.min', 'js');
         ?>
+
     </head>
     <body>
         <?php
