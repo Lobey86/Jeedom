@@ -410,7 +410,7 @@ function rcopy($src, $dst, $_emptyDest = true, $_exclude = array()) {
             }
         }
     } else if (file_exists($src)) {
-        if (!in_array(basename($file), $_exclude)) {
+        if (!in_array(basename($src), $_exclude)) {
             return copy($src, $dst);
         }
     }
