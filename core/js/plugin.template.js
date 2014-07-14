@@ -79,17 +79,21 @@ $('.eqLogicAction[data-action=save]').on('click', function() {
         error: function(error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(_data) {
-            var vars = getUrlVars();
-            var url = 'index.php?';
-            for (var i in vars) {
-                if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
-                    url += i + '=' + vars[i].replace('#', '') + '&';
-                }
-            }
+        success: function(data) {
             modifyWithoutSave = false;
-            url += 'id=' + _data.id + '&saveSuccessFull=1';
-            window.location.href = url;
+            if ($('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + ']').length != 0) {
+                $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + ']').click();
+            } else {
+                var vars = getUrlVars();
+                var url = 'index.php?';
+                for (var i in vars) {
+                    if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                        url += i + '=' + vars[i].replace('#', '') + '&';
+                    }
+                }
+                url += 'id=' + data.id + '&saveSuccessFull=1';
+                window.location.href = url;
+            }
         }
     });
     return false;

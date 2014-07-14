@@ -35,7 +35,7 @@ autoCompleteCondition = [
     {val: 'variable(mavariable,defaut)'},
     {val: 'tendance(commande,periode)'},
 ];
-autoCompleteAction = ['sleep', 'variable', 'scenario', 'stop','icon'];
+autoCompleteAction = ['sleep', 'variable', 'scenario', 'stop', 'icon'];
 
 if (getUrlVars('saveSuccessFull') == 1) {
     $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
@@ -524,16 +524,20 @@ function saveScenario() {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function(data) {
-            var vars = getUrlVars();
-            var url = 'index.php?';
-            for (var i in vars) {
-                if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
-                    url += i + '=' + vars[i].replace('#', '') + '&';
-                }
-            }
-            url += 'id=' + data.id + '&saveSuccessFull=1';
             modifyWithoutSave = false;
-            window.location.href = url;
+            if ($('#ul_scenario .li_scenario[data-scenario_id=' + data.id + ']').length != 0) {
+                $('#ul_scenario .li_scenario[data-scenario_id=' + data.id + ']').click();
+            } else {
+                var vars = getUrlVars();
+                var url = 'index.php?';
+                for (var i in vars) {
+                    if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                        url += i + '=' + vars[i].replace('#', '') + '&';
+                    }
+                }
+                url += 'id=' + data.id + '&saveSuccessFull=1';
+                window.location.href = url;
+            }
         }
     });
 }
