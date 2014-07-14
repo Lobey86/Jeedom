@@ -80,7 +80,6 @@ $plugins_list = plugin::listPlugin(true, true);
         include_file('3rdparty', 'jquery.toastr/jquery.toastr.min', 'js');
         include_file('3rdparty', 'jquery.at.caret/jquery.at.caret.min', 'js');
         ?>
-
     </head>
     <body>
         <?php
