@@ -61,13 +61,13 @@ class object {
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function buildTree($_object = null) {
+    public static function buildTree($_object = null, $_visible = true) {
         $return = array();
         if ($_object == null) {
             $object_list = self::rootObject(true);
         } else {
             if (is_object($_object)) {
-                $object_list = $_object->getChild();
+                $object_list = $_object->getChild($_visible);
             } else {
                 return array();
             }
@@ -75,7 +75,7 @@ class object {
         foreach ($object_list as $object) {
             if (is_object($object)) {
                 $return[] = $object;
-                $childs = self::buildTree($object);
+                $childs = self::buildTree($object,$_visible);
                 if (count($childs) > 0) {
                     $return = array_merge($return, $childs);
                 }
@@ -120,15 +120,17 @@ class object {
         return true;
     }
 
-    public function getChild() {
+    public function getChild($_visible = true) {
         $values = array(
             'id' => $this->id
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM object
-                WHERE father_id=:id
-                    AND isVisible=1
-                ORDER BY position';
+                WHERE father_id=:id';
+        if ($_visible) {
+            $sql .= ' AND isVisible=1 ';
+        }
+        $sql .= ' ORDER BY position';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
