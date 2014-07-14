@@ -215,7 +215,7 @@ $plugins_list = plugin::listPlugin(true, true);
                                 <li>
                                     <a class="bt_pageHelp cursor tooltips" title="{{Aide sur la page en cours}}"
                                     <?php
-                                    echo 'data-name="' . init('p') . '"';
+                                    echo 'data-name="' . $page . '"';
                                     if (isset($plugin) && is_object($plugin)) {
                                         echo 'data-plugin="' . $plugin->getId() . '"';
                                     }
