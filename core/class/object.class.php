@@ -63,23 +63,14 @@ class object {
 
     public static function buildTree($_object = null, $_visible = true) {
         $return = array();
-        if ($_object == null) {
+        if (!is_object($_object)) {
             $object_list = self::rootObject(true);
         } else {
-            if (is_object($_object)) {
-                $object_list = $_object->getChild($_visible);
-            } else {
-                return array();
-            }
+            $object_list = $_object->getChild($_visible);
         }
         foreach ($object_list as $object) {
-            if (is_object($object)) {
-                $return[] = $object;
-                $childs = self::buildTree($object,$_visible);
-                if (count($childs) > 0) {
-                    $return = array_merge($return, $childs);
-                }
-            }
+            $return[] = $object;
+            $return = array_merge($return, self::buildTree($object, $_visible));
         }
         return $return;
     }
@@ -143,12 +134,12 @@ class object {
         return $return;
     }
 
-    public function getEqLogic($_onlyEnable = true) {
-        return eqLogic::byObjectId($this->getId(), $_onlyEnable);
+    public function getEqLogic($_onlyEnable = true, $_onlyVisible = false) {
+        return eqLogic::byObjectId($this->getId(), $_onlyEnable, $_onlyVisible);
     }
 
-    public function getScenario($_onlyEnable = true) {
-        return scenario::byObjectId($this->getId(), $_onlyEnable);
+    public function getScenario($_onlyEnable = true,$_onlyVisible = false) {
+        return scenario::byObjectId($this->getId(), $_onlyEnable,$_onlyVisible);
     }
 
     public function preRemove() {
@@ -173,16 +164,14 @@ class object {
             return 0;
         }
         $fatherNumber = 0;
-        while (true) {
+        while ($fatherNumber < 50) {
             $fatherNumber++;
             $father = $father->getFather();
             if (!is_object($father)) {
                 return $fatherNumber;
             }
-            if ($fatherNumber > 50) {
-                throw new Exception(__('Erreur boucle dans les relation entre objects', __FILE__));
-            }
         }
+        return 0;
     }
 
     public function getHumanName() {

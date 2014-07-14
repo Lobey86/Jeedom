@@ -92,7 +92,7 @@ class eqLogic {
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
-    public static function byObjectId($_object_id, $_onlyEnable = true) {
+    public static function byObjectId($_object_id, $_onlyEnable = true, $_onlyVisible = false) {
         $values = array();
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM eqLogic';
@@ -104,6 +104,9 @@ class eqLogic {
         }
         if ($_onlyEnable) {
             $sql .= ' AND isEnable = 1';
+        }
+        if ($_onlyVisible) {
+            $sql .= ' AND isVisible = 1';
         }
         $sql .= ' ORDER BY category DESC';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));

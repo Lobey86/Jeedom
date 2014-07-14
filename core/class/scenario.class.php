@@ -98,7 +98,7 @@ class scenario {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function byObjectId($_object_id, $_onlyEnable = true) {
+    public static function byObjectId($_object_id, $_onlyEnable = true, $_onlyVisible = false) {
         $values = array();
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '  
                 FROM scenario';
@@ -110,6 +110,9 @@ class scenario {
         }
         if ($_onlyEnable) {
             $sql .= ' AND isActive = 1';
+        }
+        if ($_onlyVisible) {
+            $sql .= ' AND isVisible = 1';
         }
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }

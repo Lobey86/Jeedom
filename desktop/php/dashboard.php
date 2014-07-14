@@ -15,6 +15,7 @@ if (!is_object($object)) {
     throw new Exception('{{Aucun objet racine trouvé. Pour en créer un allez dans Générale -> Objet.<br/> Si vous ne savez pas quoi faire ou que c\'est la premiere fois que vous utilisez Jeedom n\'hésitez pas a consulter cette <a href="http://jeedom.fr/premier_pas.php" target="_blank">page</a>}}');
 }
 $child_object = object::buildTree($object);
+$parentNumber = array();
 ?>
 
 <div class="row row-overflow">
@@ -26,7 +27,6 @@ $child_object = object::buildTree($object);
             } else {
                 echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
             }
-
             foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
                 if (init('category', 'all') == $key) {
                     echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-primary btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
@@ -48,13 +48,12 @@ $child_object = object::buildTree($object);
                 <?php
                 $allObject = object::buildTree();
                 foreach ($allObject as $object_li) {
-                    if ($object_li->getIsVisible() == 1) {
-                        $margin = 15 * $object_li->parentNumber();
-                        if ($object_li->getId() == $object->getId()) {
-                            echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
-                        } else {
-                            echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
-                        }
+                    $parentNumber[$object_li->getId()] = $object_li->parentNumber();
+                    $margin = 15 * $parentNumber[$object_li->getId()];
+                    if ($object_li->getId() == $object->getId()) {
+                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
+                    } else {
+                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
                     }
                 }
                 ?>
@@ -67,19 +66,19 @@ $child_object = object::buildTree($object);
         echo '<div object_id="' . $object->getId() . '">';
         echo '<legend>' . $object->getDisplay('icon') . ' ' . $object->getName() . '</legend>';
         echo '<div class="div_displayEquipement" style="width: 100%;">';
-        foreach ($object->getEqLogic() as $eqLogic) {
-            if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
+        foreach ($object->getEqLogic(true, true) as $eqLogic) {
+            if ((init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
                 echo $eqLogic->toHtml('dashboard');
             }
         }
         echo '</div>';
         foreach ($child_object as $child) {
-            $margin = 40 * $child->parentNumber();
+            $margin = 40 * $parentNumber[$child->getId()];
             echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
             echo '<legend>' . $child->getDisplay('icon') . ' ' . $child->getName() . '</legend>';
             echo '<div class="div_displayEquipement" id="div_ob' . $child->getId() . '" style="width: 100%;">';
-            foreach ($child->getEqLogic() as $eqLogic) {
-                if ($eqLogic->getIsVisible() == '1' && (init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
+            foreach ($child->getEqLogic(true, true) as $eqLogic) {
+                if ((init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
                     echo $eqLogic->toHtml('dashboard');
                 }
             }
@@ -93,22 +92,16 @@ $child_object = object::buildTree($object);
         <legend><i class="fa fa-history"></i> {{Scénarios}}</legend>
         <?php
         if (init('object_id') == '') {
-            foreach (scenario::byObjectId(null, false) as $scenario) {
-                if ($scenario->getIsVisible() == 1) {
-                    echo $scenario->toHtml('dashboard');
-                }
-            }
-        }
-        foreach ($object->getScenario(false) as $scenario) {
-            if ($scenario->getIsVisible() == 1) {
+            foreach (scenario::byObjectId(null, false, true) as $scenario) {
                 echo $scenario->toHtml('dashboard');
             }
         }
+        foreach ($object->getScenario(false, true) as $scenario) {
+            echo $scenario->toHtml('dashboard');
+        }
         foreach ($child_object as $child) {
-            foreach ($child->getScenario(false) as $scenario) {
-                if ($scenario->getIsVisible() == 1) {
-                    echo $scenario->toHtml('dashboard');
-                }
+            foreach ($child->getScenario(false, true) as $scenario) {
+                echo $scenario->toHtml('dashboard');
             }
         }
         ?>
