@@ -29,8 +29,8 @@ class translate {
         return self::exec("{{" . $_content . "}}", $_name, $_backslash);
     }
 
-    public static function exec($_content, $_name, $_backslash = false) {
-        if ($_content == '') {
+    public static function exec($_content, $_name = '', $_backslash = false) {
+        if ($_content == '' || $_name == '') {
             return '';
         }
         if (substr($_name, 0, 1) == '/') {
