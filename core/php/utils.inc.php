@@ -16,93 +16,71 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define('PHP', 'php');
-define('CSS', 'css');
-define('JS', 'js');
-define('CLASSJS', 'class.js');
-define('AJAX', 'ajax');
-define('HTML', 'html');
-define('COM', 'com');
-define('CONFIG', 'config');
-define('PLUGINS', 'plugins');
-define('CORE', 'core');
-define('MODAL', 'modal');
-define('API', 'api');
-
 function include_file($_folder, $_fn, $_type, $_plugin = '') {
+    $php = false;
+    $css = false;
+    $js = false;
     if ($_folder == '3rdparty') {
         $_folder = $_folder;
         $_fn = $_fn . '.' . $_type;
         $path = dirname(__FILE__) . "/../../$_folder/$_fn";
-    } else if ($_folder == CORE) {
+        if ($_type == 'css') {
+            $css = true;
+        } else if ($_type == 'js') {
+            $js = true;
+        } else {
+            $php = true;
+        }
+    } else {
         if ($_type == 'class') {
             $_folder .= '/class';
             $_fn = $_fn . '.class.php';
+            $php = true;
         }
-        if ($_folder == AJAX) {
-            $_folder .= '/ajax';
-            $_fn = $_fn . '.ajax.php';
-        }
-        if ($_type == COM) {
+        if ($_type == 'com') {
             $_folder .= '/com';
             $_fn = $_fn . '.com.php';
+            $php = true;
         }
-        if ($_type == CONFIG) {
+        if ($_type == 'config') {
             $_folder .= '/config';
             $_fn = $_fn . '.config.php';
+            $php = true;
         }
-        if ($_type == PHP) {
-            $_folder .= '/php';
-            $_fn = $_fn . '.php';
-        }
-        if ($_type == JS) {
-            $_folder .= '/js';
-            $_fn = $_fn . '.js';
-        }
-        if ($_type == CSS) {
-            $_folder .= '/css';
-            $_fn = $_fn . '.css';
-        }
-        if ($_type == CLASSJS) {
-            $_folder .= '/js';
-            $_fn = $_fn . '.class.js';
-        }
-        if ($_type == API) {
-            $_folder .= '/api';
-            $_fn = $_fn . '.api.php';
-        }
-        if ($_type == HTML) {
-            $_folder .= '/html';
-            $_fn = $_fn . '.html';
-        }
-    } else {
-        if ($_type == MODAL) {
+        if ($_type == 'modal') {
             $_folder = $_folder . '/modal';
             $_fn = $_fn . '.php';
+            $php = true;
         }
-        if ($_type == PHP) {
+        if ($_type == 'php') {
             $_folder = $_folder . '/php';
             $_fn = $_fn . '.php';
+            $php = true;
         }
-        if ($_type == CSS) {
+        if ($_type == 'css') {
             $_folder = $_folder . '/css';
             $_fn = $_fn . '.css';
+            $css = true;
         }
-        if ($_type == JS) {
+        if ($_type == 'js') {
             $_folder = $_folder . '/js';
             $_fn = $_fn . '.js';
+            $js = true;
         }
-        if ($_type == CLASSJS) {
+        if ($_type == 'class.js') {
             $_folder = $_folder . '/js';
             $_fn = $_fn . '.class.js';
+            $js = true;
         }
-        if ($_type == API) {
+        if ($_type == 'api') {
             $_folder .= '/api';
             $_fn = $_fn . '.api.php';
+            $php = true;
         }
-        if ($_type == HTML) {
+        if ($_type == 'html') {
             $_folder .= '/html';
             $_fn = $_fn . '.html';
+            $php = true;
         }
     }
     if ($_plugin != '') {
@@ -111,13 +89,13 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
 
     $path = dirname(__FILE__) . "/../../$_folder/$_fn";
     if (file_exists($path)) {
-        if ($_type == PHP || $_folder == AJAX || $_type == 'class' || $_type == COM || $_type == CONFIG || $_type == MODAL || $_type == API || $_type == HTML) {
+        if ($php) {
             ob_start();
             require ($path);
             echo translate::exec(ob_get_clean(), "$_folder/$_fn");
-        } else if ($_type == CSS) {
+        } else if ($css) {
             echo "<link href=\"$_folder/$_fn?md5=" . md5_file($path) . "\" rel=\"stylesheet\" />";
-        } else if ($_type == JS || $_type == CLASSJS) {
+        } else if ($js) {
             echo "<script type=\"text/javascript\" src=\"core/php/getJS.php?file=$_folder/$_fn&md5=" . md5_file($path) . "\"></script>";
         }
     } else {

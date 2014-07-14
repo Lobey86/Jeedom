@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . "/../../core/php/core.inc.php";
 include_file('core', 'authentification', 'php');
 $startLoadTime = getmicrotime();
-include_file("core", "pageDescriptor", "config");
+include_file('core', 'pageDescriptor', 'config');
 global $PAGE_DESCRIPTOR_DESKTOP;
 global $JEEDOM_INTERNAL_CONFIG;
 if (isConnect() && init('p') == '') {
