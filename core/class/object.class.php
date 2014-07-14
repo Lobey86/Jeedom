@@ -49,11 +49,14 @@ class object {
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function rootObject($_all = false) {
+    public static function rootObject($_all = false, $_onlyVisible = false) {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM object
-                WHERE father_id IS NULL
-                ORDER BY position';
+                WHERE father_id IS NULL';
+        if ($_onlyVisible) {
+            $sql .= ' AND isVisible = 1';
+        }
+        $sql .= ' ORDER BY position';
         if ($_all === false) {
             $sql .= ' LIMIT 1';
             return DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
@@ -64,7 +67,7 @@ class object {
     public static function buildTree($_object = null, $_visible = true) {
         $return = array();
         if (!is_object($_object)) {
-            $object_list = self::rootObject(true);
+            $object_list = self::rootObject(true, true);
         } else {
             $object_list = $_object->getChild($_visible);
         }
@@ -138,8 +141,8 @@ class object {
         return eqLogic::byObjectId($this->getId(), $_onlyEnable, $_onlyVisible);
     }
 
-    public function getScenario($_onlyEnable = true,$_onlyVisible = false) {
-        return scenario::byObjectId($this->getId(), $_onlyEnable,$_onlyVisible);
+    public function getScenario($_onlyEnable = true, $_onlyVisible = false) {
+        return scenario::byObjectId($this->getId(), $_onlyEnable, $_onlyVisible);
     }
 
     public function preRemove() {

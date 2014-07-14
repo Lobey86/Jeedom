@@ -46,7 +46,7 @@ $parentNumber = array();
                 <li class="nav-header">{{Liste objets}} </li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
-                $allObject = object::buildTree();
+                $allObject = object::buildTree(null,true);
                 foreach ($allObject as $object_li) {
                     $parentNumber[$object_li->getId()] = $object_li->parentNumber();
                     $margin = 15 * $parentNumber[$object_li->getId()];
