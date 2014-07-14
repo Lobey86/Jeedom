@@ -143,13 +143,11 @@ function logout() {
 }
 
 function isConnect($_right = '') {
-    if (isset($_SESSION['user']) && is_object($_SESSION['user'])) {
-        if ($_SESSION['user']->is_Connected()) {
-            if ($_right != '') {
-                return ($_SESSION['user']->getRights($_right) == 1) ? true : false;
-            }
-            return true;
+    if (isset($_SESSION['user']) && is_object($_SESSION['user']) && $_SESSION['user']->is_Connected()) {
+        if ($_right != '') {
+            return ($_SESSION['user']->getRights($_right) == 1) ? true : false;
         }
+        return true;
     }
     return false;
 }

@@ -41,8 +41,6 @@ if (init('cron_id') != '') {
     $datetime = date('Y-m-d H:i:s');
     $cron = cron::byId(init('cron_id'));
     if (!is_object($cron)) {
-        echo __('Cron job non trouvé : ', __FILE__) . init('cron_id');
-        log::add('cron', 'Error', __('Cron job non trouvé : ', __FILE__) . init('cron_id'));
         die();
     }
 
