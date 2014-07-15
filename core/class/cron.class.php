@@ -221,20 +221,22 @@ class cron {
      * Launch cron (this method must be only call by jeecron master)
      * @throws Exception
      */
-    public function run() {
+    public function run($_noErrorReport = false) {
         $cmd = 'nice -n 19 php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
         if ($this->getNbRun() == 0) {
             shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
         } else {
-            $this->setPID($this->retrievePid());
-            $this->setServer(gethostname());
-            $this->setState('run');
-            $this->halt();
-            if ($this->getNbRun() == 0) {
-                shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
-            } else {
-                throw new Exception(__('Impossible de lancer la tache car elle est déjà en cours (', __FILE__) . $this->getNbRun() . ') : ' . $cmd);
+            if (!$_noErrorReport) {
+                $this->setPID($this->retrievePid());
+                $this->setServer(gethostname());
+                $this->setState('run');
+                $this->halt();
+                if ($this->getNbRun() == 0) {
+                    shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
+                } else {
+                    throw new Exception(__('Impossible de lancer la tache car elle est déjà en cours (', __FILE__) . $this->getNbRun() . ') : ' . $cmd);
+                }
             }
         }
     }

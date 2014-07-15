@@ -515,7 +515,7 @@ class cmd {
                     $this->setCollect(1);
                     if ($recollectImmediat) {
                         $cron = cron::byClassAndFunction('cmd', 'collect');
-                        $cron->start();
+                        $cron->run(true);
                         return __('Collecte en cours', __FILE__);
                     }
                 }
