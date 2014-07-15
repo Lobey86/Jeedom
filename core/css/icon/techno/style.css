@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'techno';
-	src:url('fonts/techno.eot?rg0fane');
-	src:url('fonts/techno.eot?#iefixrg0fanz') format('embedded-opentype'),
-		url('fonts/techno.woff?rg0fanz') format('woff'),
-		url('fonts/techno.ttf?rg0fanz') format('truetype'),
-		url('fonts/techno.svg?rg0fanz#techno') format('svg');
+	src:url('fonts/techno.eot?-hn98ry');
+	src:url('fonts/techno.eot?#iefix-hn98ry') format('embedded-opentype'),
+		url('fonts/techno.woff?-hn98ry') format('woff'),
+		url('fonts/techno.ttf?-hn98ry') format('truetype'),
+		url('fonts/techno.svg?-hn98ry#techno') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,24 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.techno-courbes:before {
+	content: "\e626";
+}
+.techno-courbes2:before {
+	content: "\e627";
+}
+.techno-courbes3:before {
+	content: "\e628";
+}
+.techno-courbes4:before {
+	content: "\e629";
+}
+.techno-fleches:before {
+	content: "\e62a";
+}
+.techno-tv:before {
+	content: "\e62b";
+}
 .techno-freebox:before {
 	content: "\e622";
 }
