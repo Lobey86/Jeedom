@@ -71,7 +71,7 @@ function emptyHistory(_cmd_id) {
 function addChart(_cmd_id, _action) {
     if (_action == 0) {
         if (isset(jeedom.history.chart['div_graph'])) {
-            jeedom.history.chart['div_graph'].chart.get(intval(_cmd_id)).remove();
+            jeedom.history.chart['div_graph'].chart.get(parseInt(_cmd_id)).remove();
         }
     } else {
         var option = {graphType: $('#sel_chartType').value()};
