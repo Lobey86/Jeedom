@@ -71,6 +71,7 @@ if (!isConnect()) {
     mod_insertCmd.changeObjectCmd = function(_select) {
         jeedom.object.getEqLogic({
             id: _select.value(),
+            onlyEnable: 0,
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },

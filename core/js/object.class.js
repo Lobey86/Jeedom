@@ -61,6 +61,7 @@ jeedom.object.getEqLogic = function(_params) {
     paramsAJAX.data = {
         action: "listByObject",
         object_id: _params.id,
+        onlyEnable: _params.onlyEnable,
     };
     $.ajax(paramsAJAX);
 };

@@ -77,7 +77,7 @@ try {
 
     if (init('action') == 'listByObject') {
         $object_id = (init('object_id') != -1) ? init('object_id') : null;
-        ajax::success(utils::o2a(eqLogic::byObjectId($object_id)));
+        ajax::success(utils::o2a(eqLogic::byObjectId($object_id, init('onlyEnable', true))));
     }
 
     if (init('action') == 'listByTypeAndCmdType') {
@@ -119,7 +119,7 @@ try {
         }
         $eqLogic = eqLogic::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new Exception(__('EqLogic inconnu verifié l\'id : ', __FILE__).init('id'));
+            throw new Exception(__('EqLogic inconnu verifié l\'id : ', __FILE__) . init('id'));
         }
         $eqLogic->remove();
         ajax::success();
