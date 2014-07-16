@@ -23,6 +23,7 @@ jeedom.history.chart = [];
 
 
 jeedom.history.drawChart = function(_params) {
+    $.showLoading();
     if ($.type(_params.dateRange) == 'object') {
         _params.dateRange = json_encode(_params.dateRange);
     }
@@ -266,6 +267,7 @@ jeedom.history.drawChart = function(_params) {
             if (jeedom.history.chart[_params.el].color > 9) {
                 jeedom.history.chart[_params.el].color = 0;
             }
+            $.hideLoading();
         }
     });
 }
