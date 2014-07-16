@@ -601,7 +601,7 @@ class cmd {
         return $value;
     }
 
-    public function toHtml($_version = 'dashboard', $options = '', $_cmdColor = null) {
+    public function toHtml($_version = 'dashboard', $options = '', $_cmdColor = null,$_cache = 2) {
         if ($_version == '') {
             throw new Exception(__('La version demandée ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
         }
@@ -670,7 +670,7 @@ class cmd {
             $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
             $replace['#state#'] = '';
             $replace['#tendance#'] = '';
-            $value = trim($this->execCmd(null, 2));
+            $value = trim($this->execCmd(null, $_cache));
             if ($value === null) {
                 return template_replace($replace, $template);
             }

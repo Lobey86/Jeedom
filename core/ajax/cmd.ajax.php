@@ -31,7 +31,7 @@ try {
         }
         $info_cmd = array();
         $info_cmd['id'] = $cmd->getId();
-        $info_cmd['html'] = $cmd->toHtml(init('version'));
+        $info_cmd['html'] = $cmd->toHtml(init('version'), init('option'), init('cmdColor', null), init('cache', 2));
         ajax::success($info_cmd);
     }
 
