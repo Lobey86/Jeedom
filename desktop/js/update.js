@@ -22,6 +22,7 @@ $('.bt_updateAll').on('click', function() {
     var mode = $(this).attr('data-mode');
     bootbox.confirm('{{Etes-vous sur de vouloir faire les mises à jour ?}} ', function(result) {
         if (result) {
+            $.hideAlert();
             jeedom.update.doAll({
                 mode: mode,
                 level: level,
@@ -37,6 +38,7 @@ $('.bt_updateAll').on('click', function() {
 });
 
 $('#bt_checkAllUpdate').on('click', function() {
+    $.hideAlert();
     jeedom.update.checkAll({
         error: function(error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
@@ -52,6 +54,7 @@ $('#table_update').delegate('.changeState', 'click', function() {
     var state = $(this).attr('data-state');
     bootbox.confirm('{{Etez vous sur de vouloir changer l\'état de l\'objet ?}}', function(result) {
         if (result) {
+            $.hideAlert();
             jeedom.update.changeState({
                 id: id,
                 state: state,
@@ -71,6 +74,7 @@ $('#table_update').delegate('.update', 'click', function() {
     var id = $(this).closest('tr').attr('data-id');
     bootbox.confirm('{{Etez vous sur de vouloir mettre a jour cet objet ?}}', function(result) {
         if (result) {
+            $.hideAlert();
             jeedom.update.do({
                 id: id,
                 error: function(error) {
@@ -88,6 +92,7 @@ $('#table_update').delegate('.remove', 'click', function() {
     var id = $(this).closest('tr').attr('data-id');
     bootbox.confirm('{{Etez vous sur de vouloir supprimer cet objet ?}}', function(result) {
         if (result) {
+            $.hideAlert();
             jeedom.update.remove({
                 id: id,
                 error: function(error) {
@@ -180,7 +185,6 @@ function printUpdate() {
 }
 
 function addUpdate(_update) {
-    $.hideAlert();
     if (_update.status != 'update' && _update.type != 'core') {
         if ($('#bt_expertMode').attr('state') == 0) {
             return;
