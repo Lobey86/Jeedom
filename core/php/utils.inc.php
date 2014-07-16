@@ -91,7 +91,7 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
     if (file_exists($path)) {
         if ($php) {
             ob_start();
-            require ($path);
+            require_once($path);
             echo translate::exec(ob_get_clean(), "$_folder/$_fn");
         } else if ($css) {
             echo "<link href=\"$_folder/$_fn?md5=" . md5_file($path) . "\" rel=\"stylesheet\" />";
