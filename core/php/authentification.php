@@ -139,7 +139,7 @@ function logout() {
     }
     session_unset();
     session_destroy();
-    unset($isConnect[-1]); 
+    $isConnect = array(); 
     return;
 }
 
