@@ -288,7 +288,7 @@ class plugin {
         if (jeedom::checkOngoingThread($cmd) > 0) {
             return true;
         }
-        shell_exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('plugin') . ' 2>&1 &');
+        shell_exec('nohup ' . $cmd . ' 2>&1 &');
         return true;
     }
 
