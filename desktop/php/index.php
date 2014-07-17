@@ -55,6 +55,7 @@ $plugins_list = plugin::listPlugin(true, true);
         <script>
             var clientDatetime = new Date();
             var clientServerDiffDatetime = (<?php echo strtotime('now'); ?> * 1000) - clientDatetime.getTime();
+            var io = null;
         </script>
         <script type="text/javascript" src="/nodeJS/socket.io/socket.io.js?1.0.6"></script>
         <?php

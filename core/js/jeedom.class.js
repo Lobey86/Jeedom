@@ -44,7 +44,7 @@ jeedom.init = function() {
             weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
         }
     });
-    if (nodeJsKey != '' && io) {
+    if (nodeJsKey != '' && io != null) {
         socket = io.connect();
         socket.on('error', function(reason) {
             console.log('Unable to connect Socket.IO', reason);

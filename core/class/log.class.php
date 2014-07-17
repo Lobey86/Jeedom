@@ -34,7 +34,7 @@ class log {
      */
     public static function add($_log, $_type, $_message, $_logicalId = '') {
         $_type = strtolower($_type);
-        if ($_log != '' && $_type != '' && $_message != '' && self::isTypeLog($_type)) {
+        if ($_log != '' && $_type != '' && trim($_message) != '' && self::isTypeLog($_type)) {
             $_message = str_replace(";", ',', str_replace("\n", '<br/>', $_message));
             $path = self::getPathToLog($_log);
             $message = date("d-m-Y H:i:s") . ' | ' . $_type . ' | ' . $_message . "\r\n";
