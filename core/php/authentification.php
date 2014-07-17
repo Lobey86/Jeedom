@@ -131,6 +131,7 @@ function loginByKey($_key, $_ajax = false) {
 }
 
 function logout() {
+     global $isConnect;
     @session_start();
     setcookie('sess_id', '', time() - 3600, "/", '', false, true);
     if (isset($_SESSION['user'])) {
@@ -138,6 +139,7 @@ function logout() {
     }
     session_unset();
     session_destroy();
+    unset($isConnect[-1]); 
     return;
 }
 
