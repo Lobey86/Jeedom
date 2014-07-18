@@ -509,14 +509,14 @@ class cmd {
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false);
             $valueOk = ($mc->getValue() !== '' && $mc->getValue() !== false) ? true : false;
-            if (!$mc->hasExpired() || $cache == 2) {
+            if ($mc->hasExpired() !== false || $cache == 2) {
                 if ($mc->hasExpired()) {
                     $this->setCollect(1);
                     $cron = cron::byClassAndFunction('cmd', 'collect');
                     $cron->run(true);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
-                return ($valueOk) ? $mc->getValue() : 'Collect en cours';
+                return ($valueOk) ? $mc->getValue() : 'Collect en cours' ;
             }
             if ($this->getEventOnly() == 1) {
                 return null;
