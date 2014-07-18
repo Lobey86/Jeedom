@@ -31,7 +31,7 @@ class cache {
 
     /*     * ***********************Methode static*************************** */
 
-    public static function byKey($_key) {
+    public static function byKey($_key, $_noRemove = false) {
         $values = array(
             'key' => $_key
         );
@@ -44,7 +44,7 @@ class cache {
             $cache->setKey($_key);
             $cache->setDatetime(date('Y-m-d H:i:s'));
         } else {
-            if ($cache->hasExpired()) {
+            if (!$_noRemove && $cache->hasExpired()) {
                 $cache->remove();
             }
         }
@@ -105,7 +105,7 @@ class cache {
     public function save() {
         $options = $this->getOptions();
         if (is_array($options) || is_object($options)) {
-            $options = json_encode($options,JSON_UNESCAPED_UNICODE);
+            $options = json_encode($options, JSON_UNESCAPED_UNICODE);
         }
         $values = array(
             'key' => $this->getKey(),

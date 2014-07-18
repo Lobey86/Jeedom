@@ -507,20 +507,16 @@ class cmd {
             $cache = 1;
         }
         if ($this->getType() == 'info' && $cache != 0) {
-            $mc = cache::byKey('cmd' . $this->getId());
+            $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false);
             $valueOk = ($mc->getValue() !== '' && $mc->getValue() !== false) ? true : false;
-            $recollectImmediat = ($cache == 2 && !$valueOk && $this->getEventOnly() == 0) ? true : false;
-            if ((!$mc->hasExpired() && $valueOk) || $cache == 2) {
-                if ($mc->hasExpired() || $recollectImmediat) {
+            if (!$mc->hasExpired() || $cache == 2) {
+                if ($mc->hasExpired()) {
                     $this->setCollect(1);
-                    if ($recollectImmediat) {
-                        $cron = cron::byClassAndFunction('cmd', 'collect');
-                        $cron->run(true);
-                        return __('Collecte en cours', __FILE__);
-                    }
+                    $cron = cron::byClassAndFunction('cmd', 'collect');
+                    $cron->run(true);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
-                return $mc->getValue();
+                return ($valueOk) ? $mc->getValue() : 'Collect en cours';
             }
             if ($this->getEventOnly() == 1) {
                 return null;
@@ -601,7 +597,7 @@ class cmd {
         return $value;
     }
 
-    public function toHtml($_version = 'dashboard', $options = '', $_cmdColor = null,$_cache = 2) {
+    public function toHtml($_version = 'dashboard', $options = '', $_cmdColor = null, $_cache = 2) {
         if ($_version == '') {
             throw new Exception(__('La version demandée ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
         }
