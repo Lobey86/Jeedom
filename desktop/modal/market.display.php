@@ -133,7 +133,7 @@ if ($market->getPurchase() == 1) {
                         echo '</span>';
                     }
                     if (is_object($update) && $update->getConfiguration('version', 'stable') == 'beta' && $market->getStatus('stable') == 1) {
-                        if (strtotime($market->getDatetime('stable')) > strtotime($update->getLocalVersion())) {
+                        if (strtotime($market->getDatetime('stable')) >= strtotime($update->getLocalVersion())) {
                             echo '<br/><span class="label label-info">';
                             echo '{{Le retour à la version stable est possible}}';
                             echo '</span>';
