@@ -440,7 +440,7 @@ class history {
                 $this->setDatetime(date('Y-m-d H:00:00', strtotime($this->getDatetime())));
             }
         } else {
-            if ($this->getValue() > 1) {
+            if ($this->getValue() >= 1) {
                 $this->setValue(1);
             } else {
                 $this->setValue(0);
