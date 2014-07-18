@@ -27,7 +27,7 @@ class cache {
     private $lifetime = 1;
     private $datetime;
     private $options = null;
-    private $_hasExpired = null;
+    private $_hasExpired = -1;
 
     /*     * ***********************Methode static*************************** */
 
@@ -128,7 +128,7 @@ class cache {
     }
 
     public function hasExpired() {
-        if ($this->_hasExpired !== null) {
+        if ($this->_hasExpired !== -1) {
             return $this->_hasExpired;
         } else {
             if ($this->getValue() === false) {
