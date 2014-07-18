@@ -515,7 +515,7 @@ class cmd {
                     $cron->run(true);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
-                return ($mc->hasExpired() !== false) ? $mc->getValue() : 'Collect en cours' ;
+                return $mc->getValue() ;
             }
             if ($this->getEventOnly() == 1) {
                 return null;
