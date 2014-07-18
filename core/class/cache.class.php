@@ -128,20 +128,13 @@ class cache {
     }
 
     public function hasExpired() {
-        if ($this->_hasExpired !== -1) {
-            return $this->_hasExpired;
-        } else {
-            if ($this->getValue() === false) {
-                $this->_hasExpired = false;
-                return false;
-            }
-            if ($this->getLifetime() != 0 && (strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime('now')) {
-                $this->_hasExpired = true;
-                return true;
-            }
-            $this->_hasExpired = false;
+        if ($this->getValue() === false) {
             return false;
         }
+        if ($this->getLifetime() != 0 && (strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime('now')) {
+            return true;
+        }
+        return false;
     }
 
     /*     * **********************Getteur Setteur*************************** */
