@@ -276,6 +276,13 @@ jeedom.cmd.changeSubType = function(_cmd) {
                         el.hide();
                         el.addClass('hide');
                     }
+                    if (subtype[i].parentVisible) {
+                        el.parent().show();
+                        el.parent().removeClass('hide');
+                    } else {
+                        el.parent().hide();
+                        el.parent().addClass('hide');
+                    }
                 } else {
                     for (var j in subtype[i]) {
                         var el = _cmd.find('.cmdAttr[data-l1key=' + i + '][data-l2key=' + j + ']');
