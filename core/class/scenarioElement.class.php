@@ -126,36 +126,30 @@ class scenarioElement {
     }
 
     public function execute(&$_scenario) {
-        $return = false;
         $this->setLog(__('Exécution de l\'élément : ', __FILE__) . $this->getType());
-        switch ($this->getType()) {
-            case 'if':
-                if ($this->getSubElement('if')->execute($_scenario)) {
-                    $return = $this->getSubElement('then')->execute($_scenario);
-                } else {
-                    $return = $this->getSubElement('else')->execute($_scenario);
-                }
-                break;
-            case 'for':
-                $for = $this->getSubElement('for');
-                $limits = $for->getExpression();
-                $limits = scenarioExpression::setTags($limits[0]->getExpression());
-                if (!is_numeric($limits)) {
-                    $this->setLog(__('[ERREUR] La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
-                    throw new Exception(__('La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
-                }
-                for ($i = 1; $i <= $limits; $i++) {
-                    $return = $this->getSubElement('do')->execute($_scenario);
-                }
-                break;
-            case 'code':
-                $return = $this->getSubElement('code')->execute($_scenario);
-                break;
-            case 'action':
-                $return = $this->getSubElement('action')->execute($_scenario);
-                break;
+        if ($this->getType() == 'if') {
+            if ($this->getSubElement('if')->execute($_scenario)) {
+                return $this->getSubElement('then')->execute($_scenario);
+            }
+            return $this->getSubElement('else')->execute($_scenario);
+        } else if ($this->getType() == 'action') {
+            return $this->getSubElement('code')->execute($_scenario);
+        } else if ($this->getType() == 'code') {
+            return $this->getSubElement('code')->execute($_scenario);
+        } else if ($this->getType() == 'for') {
+            $for = $this->getSubElement('for');
+            $limits = $for->getExpression();
+            $limits = scenarioExpression::setTags($limits[0]->getExpression());
+            if (!is_numeric($limits)) {
+                $this->setLog(__('[ERREUR] La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
+                throw new Exception(__('La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
+            }
+            $return = false;
+            for ($i = 1; $i <= $limits; $i++) {
+                $return = $this->getSubElement('do')->execute($_scenario);
+            }
+            return $return;
         }
-        return $return;
     }
 
     public function getSubElement($_type = '') {

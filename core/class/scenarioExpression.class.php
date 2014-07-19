@@ -184,23 +184,20 @@ class scenarioExpression {
                     $scenario->setDisplay('icon', $options['icon']);
                     $scenario->save();
                     return;
-                }
-                if ($this->getExpression() == 'sleep') {
+                } else if ($this->getExpression() == 'sleep') {
                     if (isset($options['duration']) && is_numeric(intval($options['duration']))) {
                         $this->setLog(__('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));
                         return sleep(intval($options['duration']));
                     }
                     $this->setLog(__('Aucune durée trouvée pour l\'action sleep : ', __FILE__) . $options['duration']);
                     return;
-                }
-                if ($this->getExpression() == 'stop') {
+                } else if ($this->getExpression() == 'stop') {
                     $this->setLog(__('Arret du scénario', __FILE__));
                     $scenario->setState('stop');
                     $scenario->setPID('');
                     $scenario->save();
                     die();
-                }
-                if ($this->getExpression() == 'scenario') {
+                } else if ($this->getExpression() == 'scenario') {
                     $actionScenario = scenario::byId($this->getOptions('scenario_id'));
                     if (!is_object($actionScenario)) {
                         throw new Exception(__('Action sur scénario impossible. Scénario introuvable vérifier l\'id : ', __FILE__) . $this->getOptions('scenario_id'));
@@ -226,8 +223,7 @@ class scenarioExpression {
                             break;
                     }
                     return;
-                }
-                if ($this->getExpression() == 'variable') {
+                } else if ($this->getExpression() == 'variable') {
                     $value = self::setTags($this->getOptions('value'));
                     $message = __('Affectation de la variable ', __FILE__) . $this->getOptions('name') . __(' à [', __FILE__) . $value . '] = ';
                     try {
@@ -243,20 +239,20 @@ class scenarioExpression {
                     $this->setLog($message);
                     $scenario->setData($this->getOptions('name'), $result);
                     return;
-                }
-                $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
-                if (is_object($cmd)) {
-                    if (count($options) != 0) {
-                        $this->setLog(__('Exécution de la commande ', __FILE__) . $cmd->getHumanName() . __(" avec comme option(s) : \n", __FILE__) . print_r($options, true));
-                    } else {
-                        $this->setLog(__('Exécution de la commande ', __FILE__) . $cmd->getHumanName());
+                } else {
+                    $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
+                    if (is_object($cmd)) {
+                        if (count($options) != 0) {
+                            $this->setLog(__('Exécution de la commande ', __FILE__) . $cmd->getHumanName() . __(" avec comme option(s) : \n", __FILE__) . print_r($options, true));
+                        } else {
+                            $this->setLog(__('Exécution de la commande ', __FILE__) . $cmd->getHumanName());
+                        }
+                        return $cmd->execCmd($options);
                     }
-                    return $cmd->execCmd($options);
+                    $this->setLog(__('[Erreur] Aucune commande trouvée pour ', __FILE__) . $this->getExpression());
+                    return;
                 }
-                $this->setLog(__('[Erreur] Aucune commande trouvée pour ', __FILE__) . $this->getExpression());
-                return;
-            }
-            if ($this->getType() == 'condition') {
+            }else if ($this->getType() == 'condition') {
                 $test = new evaluate();
                 $expression = self::setTags($this->getExpression());
                 $message = __('Evaluation de la condition : [', __FILE__) . $expression . '] = ';
