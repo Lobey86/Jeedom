@@ -511,8 +511,6 @@ class cmd {
             if ($mc->hasExpired() !== false || $cache == 2) {
                 if ($mc->hasExpired() === false) {
                     $this->setCollect(1);
-                    $cron = cron::byClassAndFunction('cmd', 'collect');
-                    $cron->run(true);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
                 return $mc->getValue('Collect en cours') ;

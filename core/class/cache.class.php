@@ -23,10 +23,11 @@ class cache {
     /*     * *************************Attributs****************************** */
 
     private $key;
-    private $value = '';
+    private $value = null;
     private $lifetime = 1;
     private $datetime;
     private $options = null;
+    private $_hasExpired = -1;
 
     /*     * ***********************Methode static*************************** */
 
@@ -50,7 +51,7 @@ class cache {
         return $cache;
     }
 
-    public static function search($_search) {
+    public static function search($_search, $_noRemove = false) {
         $values = array(
             'key' => '%' . $_search . '%'
         );
@@ -58,9 +59,11 @@ class cache {
                 FROM cache
                 WHERE `key` LIKE :key';
         $caches = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
-        foreach ($caches as $cache) {
-            if ($cache->hasExpired()) {
-                $cache->remove();
+        if (!$_noRemove) {
+            foreach ($caches as $cache) {
+                if ($cache->hasExpired()) {
+                    $cache->remove();
+                }
             }
         }
         return $caches;
@@ -127,12 +130,18 @@ class cache {
     }
 
     public function hasExpired() {
-        if (trim($this->getValue()) == '' || $this->getValue() === false) {
+        if($this->_hasExpired != -1){
+            return $this->_hasExpired;
+        }
+        if ($this->getValue(null) === null) {
+            $this->_hasExpired = false;
             return false;
         }
         if ($this->getLifetime() != 0 && (strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime('now')) {
+            $this->_hasExpired = true;
             return true;
         }
+        $this->_hasExpired = true;
         return false;
     }
 
@@ -147,7 +156,7 @@ class cache {
     }
 
     public function getValue($_default = '') {
-        return (trim($this->value) === '') ? $_default : $this->value;
+        return (trim($this->value) === '' || $this->value === false || $this->value === null) ? $_default : $this->value;
     }
 
     public function setValue($value) {
