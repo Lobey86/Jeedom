@@ -83,7 +83,7 @@ class market {
         if ($market->sendRequest('market::byId', array('id' => $_id))) {
             return self::construct($market->getResult());
         } else {
-            throw new Exception($market->getError());
+             throw new Exception($market->getError(),$market->getErrorCode());
         }
     }
 
@@ -92,7 +92,7 @@ class market {
         if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId))) {
             return self::construct($market->getResult());
         } else {
-            throw new Exception($market->getError());
+            throw new Exception($market->getError(),$market->getErrorCode());
         }
     }
 
@@ -105,7 +105,7 @@ class market {
             }
             return $return;
         } else {
-            throw new Exception($market->getError());
+            throw new Exception($market->getError(),$market->getErrorCode());
         }
     }
 
@@ -118,7 +118,7 @@ class market {
             }
             return $return;
         } else {
-            throw new Exception($market->getError());
+            throw new Exception($market->getError(),$market->getErrorCode());
         }
     }
 
@@ -131,7 +131,7 @@ class market {
             }
             return $return;
         } else {
-            throw new Exception($market->getError());
+             throw new Exception($market->getError(),$market->getErrorCode());
         }
     }
 
