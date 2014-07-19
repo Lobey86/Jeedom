@@ -67,10 +67,7 @@ sendVarToJS('select_id', init('id', '-1'));
             </fieldset>
         </form>
         <hr/>
-        <div id="div_objectImage">
-
-
-        </div>
+        <div id="div_objectImage"></div>
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
