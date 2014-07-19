@@ -133,7 +133,7 @@ class cache {
         if($this->_hasExpired != -1){
             return $this->_hasExpired;
         }
-        if ($this->getValue(null) === null) {
+        if ($this->getValue() === '') {
             $this->_hasExpired = false;
             return false;
         }
@@ -156,7 +156,7 @@ class cache {
     }
 
     public function getValue($_default = '') {
-        return (trim($this->value) === '' || $this->value === false || $this->value === null) ? $_default : $this->value;
+        return (trim($this->value) === '') ? $_default : $this->value;
     }
 
     public function setValue($value) {

@@ -508,7 +508,7 @@ class cmd {
         }
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false);
-            if ($mc->hasExpired() !== false || $cache == 2) {
+            if ($mc->hasExpired() !== false || $cache == 2 || $this->getEventOnly() == 1) {
                 if ($mc->hasExpired() === false) {
                     $this->setCollect(1);
                 }
