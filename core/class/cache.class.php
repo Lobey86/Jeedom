@@ -23,7 +23,7 @@ class cache {
     /*     * *************************Attributs****************************** */
 
     private $key;
-    private $value = null;
+    private $value = '';
     private $lifetime = 1;
     private $datetime;
     private $options = null;
@@ -133,7 +133,7 @@ class cache {
         if($this->_hasExpired != -1){
             return $this->_hasExpired;
         }
-        if ($this->getValue() === '') {
+        if ($this->getValue() === '' || $this->getValue() === false) {
             $this->_hasExpired = false;
             return false;
         }
@@ -141,7 +141,7 @@ class cache {
             $this->_hasExpired = true;
             return true;
         }
-        $this->_hasExpired = true;
+        $this->_hasExpired = false;
         return false;
     }
 
