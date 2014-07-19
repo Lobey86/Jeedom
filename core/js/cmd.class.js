@@ -290,6 +290,13 @@ jeedom.cmd.changeSubType = function(_cmd) {
                                 el.hide();
                                 el.addClass('hide');
                             }
+                            if (subtype[i][j].parentVisible) {
+                                el.parent().show();
+                                el.parent().removeClass('hide');
+                            } else {
+                                el.parent().hide();
+                                el.parent().addClass('hide');
+                            }
                         }
                     }
                 }

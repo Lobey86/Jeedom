@@ -20,11 +20,11 @@ global $JEEDOM_INTERNAL_CONFIG;
 $JEEDOM_INTERNAL_CONFIG = array(
     'eqLogic' => array(
         'category' => array(
-            'heating' => array('name' => 'Chauffage', 'color' => '#2980b9', 'mcolor' => '#2980b9','cmdColor' => '#3498db','mcmdColor' => '#3498db'),
-            'security' => array('name' => 'Sécurité', 'color' => '#745cb0', 'mcolor' => '#745cb0','cmdColor' => '#ac92ed','mcmdColor' => '#ac92ed'),
-            'energy' => array('name' => 'Energie', 'color' => '#2eb04b', 'mcolor' => '#2eb04b','cmdColor' => '#69e283','mcmdColor' => '#69e283'),
-            'light' => array('name' => 'Lumière', 'color' => '#f39c12', 'mcolor' => '#f39c12','cmdColor' => '#f1c40f','mcmdColor' => '#f1c40f'),
-            'automatism' => array('name' => 'Automatisme', 'color' => '#808080', 'mcolor' => '#808080','cmdColor' => '#c2beb8','mcmdColor' => '#c2beb8'),
+            'heating' => array('name' => 'Chauffage', 'color' => '#2980b9', 'mcolor' => '#2980b9', 'cmdColor' => '#3498db', 'mcmdColor' => '#3498db'),
+            'security' => array('name' => 'Sécurité', 'color' => '#745cb0', 'mcolor' => '#745cb0', 'cmdColor' => '#ac92ed', 'mcmdColor' => '#ac92ed'),
+            'energy' => array('name' => 'Energie', 'color' => '#2eb04b', 'mcolor' => '#2eb04b', 'cmdColor' => '#69e283', 'mcmdColor' => '#69e283'),
+            'light' => array('name' => 'Lumière', 'color' => '#f39c12', 'mcolor' => '#f39c12', 'cmdColor' => '#f1c40f', 'mcmdColor' => '#f1c40f'),
+            'automatism' => array('name' => 'Automatisme', 'color' => '#808080', 'mcolor' => '#808080', 'cmdColor' => '#c2beb8', 'mcmdColor' => '#c2beb8'),
         ),
     ),
     'plugin' => array(
@@ -38,7 +38,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
             'communication' => array('name' => 'Communication', 'icon' => 'fa-comment-o'),
             'multimedia' => array('name' => 'Multimedia', 'icon' => 'fa-sliders'),
             'wellness' => array('name' => 'Bien-être', 'icon' => 'fa-user'),
-            'jeedomBox' => array('name' => 'Jeedom Box', 'icon' => 'fa-dropbox'),            
+            'jeedomBox' => array('name' => 'Jeedom Box', 'icon' => 'fa-dropbox'),
         ),
     ),
     'cmd' => array(
@@ -59,6 +59,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
                         ),
                         'display' => array(
                             'invertBinary' => array('visible' => false),
+                            'icon' => array('visible' => false, 'parentVisible' => false),
                         ),
                     ),
                     'binary' => array('name' => 'Binaire',
@@ -74,6 +75,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
                         ),
                         'display' => array(
                             'invertBinary' => array('visible' => true),
+                            'icon' => array('visible' => false, 'parentVisible' => false),
                         ),
                     ),
                     'string' => array('name' => 'Autre',
@@ -89,6 +91,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
                         ),
                         'display' => array(
                             'invertBinary' => array('visible' => false),
+                            'icon' => array('visible' => false, 'parentVisible' => false),
                         ),
                     ),
                 )
@@ -109,6 +112,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
                         ),
                         'display' => array(
                             'invertBinary' => array('visible' => false),
+                            'icon' => array('visible' => true, 'parentVisible' => true),
                         ),
                     ),
                     'slider' => array('name' => 'Slider',
@@ -124,6 +128,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
                         ),
                         'display' => array(
                             'invertBinary' => array('visible' => false),
+                            'icon' => array('visible' => true, 'parentVisible' => true),
                         ),
                     ),
                     'message' => array('name' => 'Message',
@@ -139,6 +144,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
                         ),
                         'display' => array(
                             'invertBinary' => array('visible' => false),
+                            'icon' => array('visible' => true, 'parentVisible' => true),
                         ),
                     ),
                     'color' => array('name' => 'Couleur',
@@ -154,6 +160,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
                         ),
                         'display' => array(
                             'invertBinary' => array('visible' => false),
+                            'icon' => array('visible' => true, 'parentVisible' => true),
                         ),
                     ),
                 ),

@@ -169,6 +169,10 @@ $('body').delegate('.cmd .cmdAction[data-l1key=chooseIcon]', 'click', function()
     });
 });
 
+$('body').delegate('.cmd .cmdAttr[data-l1key=display][data-l2key=icon]', 'click', function() {
+    $(this).empty();
+});
+
 $('body').delegate('.cmd .cmdAttr[data-l1key=eventOnly]', 'change', function() {
     if ($(this).value() == 1) {
         $(this).closest('.cmd').find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').hide();
