@@ -27,7 +27,6 @@ class cache {
     private $lifetime = 1;
     private $datetime;
     private $options = null;
-    private $_hasExpired = -1;
 
     /*     * ***********************Methode static*************************** */
 
@@ -128,7 +127,7 @@ class cache {
     }
 
     public function hasExpired() {
-        if ($this->getValue() === false) {
+        if (trim($this->getValue()) == '' || $this->getValue() === false) {
             return false;
         }
         if ($this->getLifetime() != 0 && (strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime('now')) {
@@ -148,7 +147,7 @@ class cache {
     }
 
     public function getValue($_default = '') {
-        return ($this->value === '') ? $_default : $this->value;
+        return (trim($this->value) === '') ? $_default : $this->value;
     }
 
     public function setValue($value) {

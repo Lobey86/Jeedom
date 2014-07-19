@@ -518,7 +518,7 @@ class cmd {
                 return $mc->getValue('Collect en cours') ;
             }
             if ($this->getEventOnly() == 1) {
-                return null;
+                return 'Aucune valeur';
             }
         }
 
