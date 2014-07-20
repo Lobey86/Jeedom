@@ -22,7 +22,7 @@ function initEquipment(_object_id) {
     if (isset(_object_id) && is_numeric(_object_id)) {
         jeedom.object.toHtml({
             id: _object_id,
-            verison: 'mobile',
+            version: 'mobile',
             useCache: !jeedom.workflow.object[_object_id],
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
