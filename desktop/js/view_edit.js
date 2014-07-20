@@ -53,24 +53,19 @@ $('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').on('change
 });
 
 $("#bt_addView").on('click', function(event) {
-    $.hideAlert();
-    $('#in_addViewName').value('');
-    $('#in_addViewId').value('');
-    $('#md_addView').modal('show');
-    return false;
+    bootbox.prompt("Nom de la vue ?", function(result) {
+        if (result !== null) {
+            editView({id: '', name: result});
+        }
+    });
 });
 
 $("#bt_editView").on('click', function(event) {
-    $.hideAlert();
-    $('#in_addViewName').value($('.li_view.active a').text());
-    $('#in_addViewId').value($('.li_view.active').attr('data-view_id'));
-    $('#md_addView').modal('show');
-    return false;
-});
-
-$("#bt_addViewSave").on('click', function(event) {
-    editView();
-    return;
+    bootbox.prompt("Nom de la vue ?", function(result) {
+        if (result !== null) {
+            editView({id: $('.li_view.active').attr('data-view_id'), name: result});
+        }
+    });
 });
 
 $('#bt_saveView').on('click', function(event) {
@@ -272,14 +267,14 @@ function setColorSelect(_select) {
     _select.css('background-color', _select.find('option:selected').val());
 }
 
-function editView() {
+function editView(_view) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/view.ajax.php", // url du fichier php
         data: {
             action: "edit",
-            name: $('#in_addViewName').value(),
-            id: $('#in_addViewId').value(),
+            name: _view.name,
+            id: _view.id,
         },
         dataType: 'json',
         error: function(request, status, error) {
