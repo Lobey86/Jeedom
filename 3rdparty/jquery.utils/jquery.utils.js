@@ -421,10 +421,13 @@ function init(_value, _default) {
             $(this).each(function() {
                 var value = {};
                 $(this).findAtDepth(_attr, init(_depth, 0)).each(function() {
+                    var elValue = $(this).value();
                     try {
-                        var elValue = JSON.parse($(this).value());
+                        if ($.trim(elValue).substr(0, 1) == '{') {
+                            var elValue = JSON.parse($(this).value());
+                        }
                     } catch (e) {
-                        var elValue = $(this).value();
+
                     }
                     if ($(this).attr('data-l1key') != undefined && $(this).attr('data-l1key') != '') {
                         var l1key = $(this).attr('data-l1key');
@@ -475,10 +478,13 @@ function init(_value, _default) {
             var value = {};
             $(this).findAtDepth(_attr, init(_depth, 0)).each(function() {
                 if ($(this).attr('data-l1key') != undefined && $(this).attr('data-l1key') != '') {
+                    var elValue = $(this).value();
                     try {
-                        var elValue = JSON.parse($(this).value());
+                        if ($.trim(elValue).substr(0, 1) == '{') {
+                            var elValue = JSON.parse($(this).value());
+                        }
                     } catch (e) {
-                        var elValue = $(this).value();
+
                     }
                     var l1key = $(this).attr('data-l1key');
                     if ($(this).attr('data-l2key') !== undefined) {
