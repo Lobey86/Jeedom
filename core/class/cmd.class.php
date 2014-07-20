@@ -551,7 +551,7 @@ class cmd {
             log::add($type, 'error', __('Erreur sur ', __FILE__) . $eqLogic->getName() . ' : ' . $e->getMessage());
             throw $e;
         }
-        if (strpos($value, 'error') === false) {
+        if (!is_array($value) && strpos($value, 'error') === false) {
             $eqLogic->setStatus('numberTryWithoutSuccess', 0);
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
         }

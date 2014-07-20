@@ -133,7 +133,7 @@ class scenarioElement {
             }
             return $this->getSubElement('else')->execute($_scenario);
         } else if ($this->getType() == 'action') {
-            return $this->getSubElement('code')->execute($_scenario);
+            return $this->getSubElement('action')->execute($_scenario);
         } else if ($this->getType() == 'code') {
             return $this->getSubElement('code')->execute($_scenario);
         } else if ($this->getType() == 'for') {
