@@ -513,7 +513,7 @@ class cmd {
                     $this->setCollect(1);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
-                return $mc->getValue('Collect en cours') ;
+                return $mc->getValue() ;
             }
         }
 
