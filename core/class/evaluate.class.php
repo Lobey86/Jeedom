@@ -341,7 +341,7 @@ class evaluate {
                 if (array_search($lettre, $tabSignes) !== false) {
                     if ($paramNom != "") {
                         if (!isset($lstP[$lastNum]["operateur"]) && $lastNum != -1) {
-                            throw new Exception(__("ERREUR deux parametre sans signe de separation", __FILE__));
+                            throw new Exception(__("ERREUR deux parametre sans signe de separation : ", __FILE__) . $param);
                         }
                         $num = sizeof($lstP);
                         $lstP[$num] = array();
