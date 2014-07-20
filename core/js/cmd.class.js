@@ -276,12 +276,14 @@ jeedom.cmd.changeSubType = function(_cmd) {
                         el.hide();
                         el.addClass('hide');
                     }
-                    if (subtype[i].parentVisible) {
-                        el.parent().show();
-                        el.parent().removeClass('hide');
-                    } else {
-                        el.parent().hide();
-                        el.parent().addClass('hide');
+                    if (isset(subtype[i].parentVisible)) {
+                        if (subtype[i].parentVisible) {
+                            el.parent().show();
+                            el.parent().removeClass('hide');
+                        } else {
+                            el.parent().hide();
+                            el.parent().addClass('show');
+                        }
                     }
                 } else {
                     for (var j in subtype[i]) {
@@ -297,12 +299,14 @@ jeedom.cmd.changeSubType = function(_cmd) {
                                 el.hide();
                                 el.addClass('hide');
                             }
-                            if (subtype[i][j].parentVisible) {
-                                el.parent().show();
-                                el.parent().removeClass('hide');
-                            } else {
-                                el.parent().hide();
-                                el.parent().addClass('hide');
+                            if (isset(subtype[i][j].parentVisible)) {
+                                if (subtype[i][j].parentVisible) {
+                                    el.parent().show();
+                                    el.parent().removeClass('hide');
+                                } else {
+                                    el.parent().hide();
+                                    el.parent().addClass('show');
+                                }
                             }
                         }
                     }
