@@ -54,33 +54,6 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
 
 </div>
 
-<div class="modal fade" id="md_addView">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{{Ajouter une vue}}</h4>
-            </div>
-            <div class="modal-body">
-                <div style="display: none;" id="div_addViewAlert"></div>
-                <input class="form-control" type="text" id="in_addViewId" style="display : none;"/>
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-lg-4 control-label" >{{Nom}}</label>
-                        <div class="col-lg-8">
-                            <input class="form-control" type="text" id="in_addViewName" placeholder="{{Nom de la vue}}"/>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-danger" data-dismiss="modal"><i class="fa fa-minus-circle"></i> {{Annuler}}</a>
-                <a class="btn btn-success" id="bt_addViewSave"><i class="fa fa-check-circle"></i> {{Enregistrer}}</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="md_addEditviewZone">
     <div class="modal-dialog">
         <div class="modal-content">
