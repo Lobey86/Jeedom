@@ -170,11 +170,9 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                 </form>
             </div>
         </div>
+        <textarea class="form-control scenarioAttr" data-l1key="description" placeholder="Description"></textarea><br/>
 
-
-        <div id="div_scenarioElement" class="element">
-
-        </div>
+        <div id="div_scenarioElement" class="element"></div>
 
 
         <div class="form-actions">

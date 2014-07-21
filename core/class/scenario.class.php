@@ -39,7 +39,8 @@ class scenario {
     private $isVisible = 1;
     private $hlogs;
     private $display;
-    protected $_internalEvent = 0;
+    private $description;
+    private $_internalEvent = 0;
     private static $_templateArray;
 
     /*     * ***********************Methode static*************************** */
@@ -895,6 +896,14 @@ class scenario {
 
     public function setDisplay($_key, $_value) {
         $this->display = utils::setJsonAttr($this->display, $_key, $_value);
+    }
+    
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function setDescription($description) {
+        $this->description = $description;
     }
 
 }
