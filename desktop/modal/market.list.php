@@ -94,7 +94,7 @@ $findMarket = array();
 
                 echo '</td>';
                 echo '<td><center>';
-                echo '<input type="number" class="rating" data-max="5" data-empty-value="0" data-min="1" value="' . $market->getRating() . '" data-disabled="1" />';
+                echo '<input type="number" class="rating" data-max="5" data-empty-value="0" data-min="1" value="' . ceil($market->getRating()) . '" data-disabled="1" />';
                 echo $market->getRating('total') . ' vote(s)';
                 echo '</center></td>';
                 echo '<td><center>' . $market->getDownloaded() . '</center></td>';
