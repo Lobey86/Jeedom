@@ -112,8 +112,22 @@ try {
     system("mysql --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'] . "  < " . $tmp . "/DB_backup.sql");
     echo __("OK\n", __FILE__);
 
+    echo __("Sauvegarde des identifiants de connection de la BDD...", __FILE__);
+    if (file_exists(dirname(__FILE__) . '/../core/config/common.config.php.bck')) {
+        unlink(dirname(__FILE__) . '/../core/config/common.config.php.bck');
+    }
+    copy(dirname(__FILE__) . '/../core/config/common.config.php', dirname(__FILE__) . '/../core/config/common.config.php.bck');
+    echo __("OK\n", __FILE__);
+
     echo __("Reastauration des fichiers...", __FILE__);
     rcopy($tmp, dirname(__FILE__) . '/..', false, array('common.config.php'));
+    echo __("OK\n", __FILE__);
+
+    echo __("Restauration des identifiants de connection de la BDD...", __FILE__);
+    if (file_exists(dirname(__FILE__) . '/../core/config/common.config.php')) {
+        unlink(dirname(__FILE__) . '/../core/config/common.config.php');
+    }
+    copy(dirname(__FILE__) . '/../core/config/common.config.php.bck', dirname(__FILE__) . '/../core/config/common.config.php');
     echo __("OK\n", __FILE__);
 
     if (!file_exists($jeedom_dir . '/install')) {
