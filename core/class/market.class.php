@@ -83,7 +83,7 @@ class market {
         if ($market->sendRequest('market::byId', array('id' => $_id))) {
             return self::construct($market->getResult());
         } else {
-             throw new Exception($market->getError(),$market->getErrorCode());
+            throw new Exception($market->getError(), $market->getErrorCode());
         }
     }
 
@@ -92,7 +92,7 @@ class market {
         if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId))) {
             return self::construct($market->getResult());
         } else {
-            throw new Exception($market->getError(),$market->getErrorCode());
+            throw new Exception($market->getError(), $market->getErrorCode());
         }
     }
 
@@ -105,7 +105,7 @@ class market {
             }
             return $return;
         } else {
-            throw new Exception($market->getError(),$market->getErrorCode());
+            throw new Exception($market->getError(), $market->getErrorCode());
         }
     }
 
@@ -118,7 +118,7 @@ class market {
             }
             return $return;
         } else {
-            throw new Exception($market->getError(),$market->getErrorCode());
+            throw new Exception($market->getError(), $market->getErrorCode());
         }
     }
 
@@ -131,7 +131,7 @@ class market {
             }
             return $return;
         } else {
-             throw new Exception($market->getError(),$market->getErrorCode());
+            throw new Exception($market->getError(), $market->getErrorCode());
         }
     }
 
@@ -286,8 +286,13 @@ class market {
         if (!file_exists($tmp)) {
             throw new Exception(__('Impossible de télécharger le backup : ', __FILE__) . $url . '.');
         }
+        if (!file_exists(dirname(__FILE__) . '/../../backup/')) {
+            mkdir(dirname(__FILE__) . '/../../backup/');
+        }
         $backup_path = dirname(__FILE__) . '/../../backup/' . $_backup;
-        copy($tmp, $backup_path);
+        if (!copy($tmp, $backup_path)) {
+            throw new Exception(__('Impossible de copier le fichier de  : ', __FILE__) . $tmp . '.');
+        }
         if (!file_exists($backup_path)) {
             throw new Exception(__('Impossible de trouver le fichier : ', __FILE__) . $backup_path . '.');
         }
@@ -417,7 +422,7 @@ class market {
                             $ErrMsg = "Unknow (Code $res)";
                             break;
                     }
-                    throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp . __('. Erreur : ', __FILE__) . $ErrMsg.'. Si l\'application est payante, l\'avez vous achetée ?');
+                    throw new Exception(__('Impossible de décompresser le zip : ', __FILE__) . $tmp . __('. Erreur : ', __FILE__) . $ErrMsg . '. Si l\'application est payante, l\'avez vous achetée ?');
                 }
                 break;
             default :
@@ -513,7 +518,7 @@ class market {
             $update->setType($this->getType());
         }
         $update->setConfiguration('version', 'beta');
-        $update->setLocalVersion(date('Y-m-d H:i:s',  strtotime('+1 minute'.date('Y-m-d H:i:s'))));
+        $update->setLocalVersion(date('Y-m-d H:i:s', strtotime('+1 minute' . date('Y-m-d H:i:s'))));
         $update->save();
         $update->checkUpdate();
     }
