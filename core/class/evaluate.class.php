@@ -168,6 +168,8 @@ class evaluate {
         if ($operateur != "&" && $operateur != "!" && (!is_numeric($valeur1) || !is_numeric($valeur2))) {
             throw new Exception(__('ERREUR attention l\'operateur ', __FILE__) . $operateur . __(' necessite deux numeriques.', __FILE__));
         }
+        $valeur1 = trim($valeur1);
+        $valeur2 = trim($valeur2);
         switch ($operateur) {
             case "+":
                 $res = $valeur1 + $valeur2;
@@ -203,6 +205,8 @@ class evaluate {
       --------------------------------------------------------------- */
 
     private function Eval_Comparer($valeur1, $valeur2, $operateur) {
+        $valeur1 = trim($valeur1);
+        $valeur2 = trim($valeur2);
         switch ($operateur) {
             case "=":
                 if (!is_numeric($valeur1) && !is_numeric($valeur2)) {
