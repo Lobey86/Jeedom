@@ -17,6 +17,7 @@ if (isConnect() && init('p') == '') {
         redirect('index.php?v=d&p=dashboard');
     }
 }
+$page = '';
 if (isConnect() && init('p') != '') {
     $page = init('p');
 }
