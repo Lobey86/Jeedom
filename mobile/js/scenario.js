@@ -10,14 +10,11 @@ function initScenario() {
             for (var i in htmls) {
                 html += htmls[i];
             }
-            $('#div_displayScenario').append(html);
             $('#div_displayScenario').empty().html(html).trigger('create');
             setTileSize('.scenario');
-            $('#div_displayScenario').masonry();
         }
     });
     $(window).on("orientationchange", function(event) {
         setTileSize('.scenario');
-        $('#div_displayScenario').masonry();
     });
 }
