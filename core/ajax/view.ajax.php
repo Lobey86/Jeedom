@@ -87,11 +87,14 @@ try {
             utils::a2o($viewZone, $viewZone_info);
             $viewZone->save();
             if (isset($viewZone_info['viewData'])) {
+                $order = 0;
                 foreach ($viewZone_info['viewData'] as $viewData_info) {
                     $viewData = new viewData();
                     $viewData->setviewZone_id($viewZone->getId());
+                    $viewData->setOrder($order);
                     utils::a2o($viewData, $viewData_info);
                     $viewData->save();
+                    $order++;
                 }
             }
         }

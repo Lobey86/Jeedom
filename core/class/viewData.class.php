@@ -12,6 +12,7 @@ class viewData {
     /*     * *************************Attributs****************************** */
 
     private $id;
+    private $order;
     private $viewZone_id;
     private $type;
     private $link_id;
@@ -31,7 +32,8 @@ class viewData {
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM viewData
-                WHERE id=:id';
+                WHERE id=:id
+                ORDER BY `order`';
         return DB::Prepare($sql, $value, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -43,7 +45,8 @@ class viewData {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM viewData
                 WHERE type=:type
-                    AND link_id=:link_id';
+                    AND link_id=:link_id
+                ORDER BY `order`';
         return DB::Prepare($sql, $value, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -53,7 +56,8 @@ class viewData {
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM viewData
-                WHERE viewZone_id=:viewZone_id';
+                WHERE viewZone_id=:viewZone_id
+                ORDER BY `order`';
         return DB::Prepare($sql, $value, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -80,6 +84,14 @@ class viewData {
     }
 
     /*     * **********************Getteur Setteur*************************** */
+    
+    public function getOrder() {
+        return $this->order;
+    }
+
+    public function setOrder($order) {
+        $this->order = $order;
+    }
 
     public function getId() {
         return $this->id;
