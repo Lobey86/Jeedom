@@ -5,15 +5,5 @@
         $('.cmd[data-cmd_id=#id#] .action').on('click', function() {
             jeedom.cmd.execute({id: '#id#'});
         });
-        var name = "#name#";
-        if (name.toLowerCase().indexOf('on') >= 0) {
-            $('.cmd[data-cmd_id=#id#] .action').addClass('btn-default');
-            $('.cmd[data-cmd_id=#id#] .action').css('color', 'black');
-        } else {
-            if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
-                $('.cmd[data-cmd_id=#id#] .action').addClass('btn-black');
-                $('.cmd[data-cmd_id=#id#] .action').css('color', 'white');
-            }
-        }
     </script>
 </span>

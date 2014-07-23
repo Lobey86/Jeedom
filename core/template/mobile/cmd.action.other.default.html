@@ -1,15 +1,8 @@
 <span class="cmd" data-type="action" data-subtype="other" data-cmd_id="#id#" >
-    <a class="action ui-btn ui-mini ui-btn-inline" >#name#</a>
+    <a class="action ui-btn ui-mini ui-btn-inline ui-btn-b" >#name#</a>
     <script>
         $('.cmd[data-cmd_id=#id#] .action').click(function() {
             jeedom.cmd.execute({id: '#id#'});
         });
-        var name = "#name#";
-        if (name.toLowerCase().indexOf('off') >= 0 || name.toLowerCase().indexOf('descendre') >= 0) {
-            $('.cmd[data-cmd_id=#id#] .action').addClass('ui-btn-b');
-        }
-        if (name.toLowerCase().indexOf('on') >= 0) {
-            $('.cmd[data-cmd_id=#id#] .action').addClass('ui-btn-a');
-        }
     </script>
 </span>
