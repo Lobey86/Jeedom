@@ -123,9 +123,6 @@ try {
     rcopy($tmp, dirname(__FILE__) . '/..', false);
     rcopy($tmp.'/plugins', dirname(__FILE__) . '/../plugins', false);
     echo __("OK\n", __FILE__);
-    
-    
-    
 
     echo __("Restauration des identifiants de connection de la BDD...", __FILE__);
     if (file_exists(dirname(__FILE__) . '/../core/config/common.config.php')) {
