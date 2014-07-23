@@ -120,7 +120,7 @@ try {
     echo __("OK\n", __FILE__);
 
     echo __("Reastauration des fichiers...", __FILE__);
-    rcopy($tmp, dirname(__FILE__) . '/..', false, array('common.config.php'));
+    rcopy($tmp, dirname(__FILE__) . '/..', false);
     echo __("OK\n", __FILE__);
 
     echo __("Restauration des identifiants de connection de la BDD...", __FILE__);
