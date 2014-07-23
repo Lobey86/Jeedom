@@ -3,7 +3,7 @@
 if (!isConnect()) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-$url = 'http://jeedom.fr/' . init('page');
+$url = 'https://jeedom.fr/' . init('page');
 
 $ch = curl_init();
 curl_setopt_array($ch, array
@@ -22,7 +22,7 @@ if (curl_errno($ch) || strpos($response, '404 Not Found') !== false) {
     echo '<div class="alert alert-warning">{{Aucune aide n\'éxiste pour le moment sur cette page}}</div>';
 } else {
     curl_close($ch);
-    echo str_replace('<img src="', '<img src="http://jeedom.fr/', $response);
+    echo str_replace('<img src="', '<img src="https://jeedom.fr/', $response);
 }
 ?>
 
