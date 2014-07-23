@@ -14,7 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
-
+function in_array(a, b, d) {
+    var c = "";
+    if (d)
+        for (c in b) {
+            if (b[c] === a)
+                return!0
+        }
+    else
+        for (c in b)
+            if (b[c] == a)
+                return!0;
+    return!1
+}
 function json_decode(a) {
     var b = this.window.JSON;
     if ("object" === typeof b && "function" === typeof b.parse)
