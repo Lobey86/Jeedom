@@ -282,7 +282,7 @@ jeedom.cmd.changeSubType = function(_cmd) {
                             el.parent().removeClass('hide');
                         } else {
                             el.parent().hide();
-                            el.parent().addClass('show');
+                            el.parent().addClass('hide');
                         }
                     }
                 } else {
@@ -299,14 +299,15 @@ jeedom.cmd.changeSubType = function(_cmd) {
                                 el.hide();
                                 el.addClass('hide');
                             }
-                            if (isset(subtype[i][j].parentVisible)) {
-                                if (subtype[i][j].parentVisible) {
-                                    el.parent().show();
-                                    el.parent().removeClass('hide');
-                                } else {
-                                    el.parent().hide();
-                                    el.parent().addClass('show');
-                                }
+
+                        }
+                        if (isset(subtype[i][j].parentVisible)) {
+                            if (subtype[i][j].parentVisible) {
+                                el.parent().show();
+                                el.parent().removeClass('hide');
+                            } else {
+                                el.parent().hide();
+                                el.parent().addClass('hide');
                             }
                         }
                     }
