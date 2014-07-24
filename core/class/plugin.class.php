@@ -227,7 +227,6 @@ class plugin {
             market::checkPayment($this->getId());
         }
         $alreadyActive = config::byKey('active', $this->getId(), 0);
-        config::save('active', $_state, $this->getId());
         if ($_state == 0) {
             foreach (eqLogic::byType($this->getId()) as $eqLogic) {
                 $eqLogic->setIsEnable($_state);
@@ -257,14 +256,14 @@ class plugin {
                     }
                 }
                 $out = ob_get_clean();
-                log::add($this->getId(), 'info', "Result : ".$out);
+                log::add($this->getId(), 'info', "Result : " . $out);
             }
         } catch (Exception $e) {
             config::save('active', $alreadyActive, $this->getId());
             log::add('plugin', 'error', $e->getMessage());
             throw $e;
         }
-
+        config::save('active', $_state, $this->getId());
         if ($alreadyActive == 0) {
             $this->start();
         }
