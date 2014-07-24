@@ -137,12 +137,14 @@ class eqLogic {
 
     public static function byCategorie($_category) {
         $values = array(
-            'category' => '%"' . $_category . '":1%'
+            'category' => '%"' . $_category . '":1%',
+            'category2' => '%"' . $_category . '":"1"%'
         );
 
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM eqLogic
                 WHERE category LIKE :category
+                    OR category LIKE :category2
                 ORDER BY name';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
