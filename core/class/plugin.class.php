@@ -241,6 +241,7 @@ class plugin {
                 require dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/plugin_info/install.php';
                 ob_start();
                 if ($_state == 1) {
+                    config::save('active', $_state, $this->getId());
                     if ($alreadyActive == 1) {
                         if (function_exists('update')) {
                             update();
@@ -254,6 +255,7 @@ class plugin {
                     if (function_exists('install')) {
                         remove();
                     }
+                    config::save('active', $_state, $this->getId());
                 }
                 $out = ob_get_clean();
                 log::add($this->getId(), 'info', "Result : " . $out);
@@ -263,7 +265,6 @@ class plugin {
             log::add('plugin', 'error', $e->getMessage());
             throw $e;
         }
-        config::save('active', $_state, $this->getId());
         if ($alreadyActive == 0) {
             $this->start();
         }
