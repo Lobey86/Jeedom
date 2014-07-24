@@ -30,7 +30,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
     try {
         if (config::byKey('api') != init('apikey') && config::byKey('api') != init('api')) {
             connection::failed();
-            throw new Exception('Clef API non valide, vous n\'etez pas autorisé à effectuer cette action (jeeApi)');
+            throw new Exception('Clef API non valide, vous n\'etes pas autorisé à effectuer cette action (jeeApi)');
         }
         connection::success('api');
         $type = init('type');

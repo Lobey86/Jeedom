@@ -95,7 +95,7 @@ $('#bt_saveView').on('click', function(event) {
 
 $("#bt_removeView").on('click', function(event) {
     $.hideAlert();
-    bootbox.confirm('{{Etez-vous sûr de vouloir supprimer la vue}} <span style="font-weight: bold ;">' + $(".li_view.active a").text() + '</span> ?', function(result) {
+    bootbox.confirm('{{Etes-vous sûr de vouloir supprimer la vue}} <span style="font-weight: bold ;">' + $(".li_view.active a").text() + '</span> ?', function(result) {
         if (result) {
             jeedom.view.remove({
                 id: $(".li_view.active").attr('data-view_id'),

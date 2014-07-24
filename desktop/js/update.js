@@ -52,7 +52,7 @@ $('#bt_checkAllUpdate').on('click', function() {
 $('#table_update').delegate('.changeState', 'click', function() {
     var id = $(this).closest('tr').attr('data-id');
     var state = $(this).attr('data-state');
-    bootbox.confirm('{{Etez vous sur de vouloir changer l\'état de l\'objet ?}}', function(result) {
+    bootbox.confirm('{{Etes vous sur de vouloir changer l\'état de l\'objet ?}}', function(result) {
         if (result) {
             $.hideAlert();
             jeedom.update.changeState({
@@ -72,7 +72,7 @@ $('#table_update').delegate('.changeState', 'click', function() {
 
 $('#table_update').delegate('.update', 'click', function() {
     var id = $(this).closest('tr').attr('data-id');
-    bootbox.confirm('{{Etez vous sur de vouloir mettre a jour cet objet ?}}', function(result) {
+    bootbox.confirm('{{Etes vous sur de vouloir mettre a jour cet objet ?}}', function(result) {
         if (result) {
             $.hideAlert();
             jeedom.update.do({
@@ -90,7 +90,7 @@ $('#table_update').delegate('.update', 'click', function() {
 
 $('#table_update').delegate('.remove', 'click', function() {
     var id = $(this).closest('tr').attr('data-id');
-    bootbox.confirm('{{Etez vous sur de vouloir supprimer cet objet ?}}', function(result) {
+    bootbox.confirm('{{Etes vous sur de vouloir supprimer cet objet ?}}', function(result) {
         if (result) {
             $.hideAlert();
             jeedom.update.remove({

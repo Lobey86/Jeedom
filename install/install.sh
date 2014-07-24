@@ -1,7 +1,7 @@
 webserver=${1-nginx}
 
 if [ "${webserver}" = "nginx" ] ; then
-    echo "Etez-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de NGINX s'il elle existe !"
+    echo "Etes-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de NGINX s'il elle existe !"
     while true
     do
             echo -n "oui/non: "
@@ -20,7 +20,7 @@ if [ "${webserver}" = "nginx" ] ; then
 fi
 
 if [ "${webserver}" = "apache" ] ; then
-    echo "Etez-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de APACHE s'il elle existe !"
+    echo "Etes-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de APACHE s'il elle existe !"
     while true
     do
             echo -n "oui/non: "
