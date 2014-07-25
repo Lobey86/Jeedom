@@ -69,10 +69,15 @@ jeedom.cmd.execute = function(_params) {
     var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
     var paramsAJAX = jeedom.private.getParamsAJAX(params);
     paramsAJAX.url = 'core/ajax/cmd.ajax.php';
+
+    var cache = 1;
+    if (_params.cache !== undefined) {
+        cache = _params.cache;
+    }
     paramsAJAX.data = {
         action: 'execCmd',
         id: _params.id,
-        cache: _params.cache || 1,
+        cache: cache,
         value: _params.value || ''
     };
     $.ajax(paramsAJAX);

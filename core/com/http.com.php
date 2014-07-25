@@ -23,8 +23,8 @@ class com_http {
     /*     * ***********************Attributs************************* */
 
     private $url;
-    private $username;
-    private $password;
+    private $username = '';
+    private $password = '';
     private $logError = true;
     private $ping = false;
     private $noSslCheck = true;
