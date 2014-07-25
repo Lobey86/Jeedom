@@ -13,7 +13,7 @@ sendVarToJS('cmd_widgetMobile', cmd::availableWidget('mobile'));
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tree" data-toggle="tab">{{Arbre domotique}}</a></li>
-    <li><a href="#display_configuration" data-toggle="tab">{{Configuration de l'affichages}}</a></li>
+    <li><a href="#display_configuration" data-toggle="tab">{{Configuration de l'affichage}}</a></li>
 </ul>
 
 <div class="tab-content">
