@@ -27,12 +27,25 @@ if (isset($_COOKIE['sess_id'])) {
 setcookie('sess_id', session_id(), time() + 24 * 3600, "/", '', false, true);
 @session_write_close();
 
+
+if (!isConnect() && isset($_COOKIE['registerDesktop']) && init('v') == 'd') {
+    if (loginByKey($_COOKIE['registerDesktop'], true)) {
+        $key = config::genKey(255);
+        setcookie('registerDesktop', $key, time() + 24 * 3600, "/", '', false, true);
+        @session_start();
+        $_SESSION['user']->setOptions('registerDesktop', $key);
+        $_SESSION['user']->save();
+        @session_write_close();
+    } else {
+        setcookie('registerDesktop', '', time() - 3600, "/", '', false, true);
+    }
+}
+
 if (ini_get('register_globals') == '1') {
     echo __('Vous devriez mettre <b>register_globals</b> à <b>Off</b><br/>', __FILE__);
 }
 
 if (isConnect() && (!isset($_SESSION['userHash']) || getUserHash() != $_SESSION['userHash'])) {
-    error_log(getUserHash() . '!=' . $_SESSION['userHash']);
     logout();
     $getParams = '';
     unset($_GET['auth']);
@@ -65,6 +78,16 @@ function login($_login, $_password, $_ajax = false) {
         connection::success($user->getLogin());
         @session_start();
         $_SESSION['user'] = $user;
+        if (init('v') == 'd' && init('registerDesktop') == 'on') {
+            $key = config::genKey(255);
+            setcookie('registerDesktop', $key, time() + 24 * 3600, "/", '', false, true);
+            $_SESSION['user']->setOptions('registerDesktop', $key);
+            $_SESSION['user']->save();
+        } else {
+            setcookie('registerDesktop', '', time() - 3600, "/", '', false, true);
+            $_SESSION['user']->setOptions('registerDesktop', '');
+            $_SESSION['user']->save();
+        }
         $_SESSION['userHash'] = getUserHash();
         @session_write_close();
         log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $_login);
@@ -101,7 +124,6 @@ function loginByKey($_key, $_ajax = false) {
         @session_start();
         $_SESSION['user'] = $user;
         $_SESSION['userHash'] = getUserHash();
-        error_log(getUserHash());
         @session_write_close();
         log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $user->getLogin());
         $getParams = '';
@@ -131,25 +153,28 @@ function loginByKey($_key, $_ajax = false) {
 }
 
 function logout() {
-     global $isConnect;
+    global $isConnect;
     @session_start();
     setcookie('sess_id', '', time() - 3600, "/", '', false, true);
+    setcookie('registerDesktop', '', time() - 3600, "/", '', false, true);
     if (isset($_SESSION['user'])) {
         $_SESSION['user'] == null;
     }
     session_unset();
     session_destroy();
-    $isConnect = array(); 
+    $isConnect = array();
     return;
 }
 
-function isConnect($_right = '') {
+function isConnect($_right = '', $_refresh = false) {
     global $isConnect;
-    if ($_right == '' && isset($isConnect[-1])) {
-        return $isConnect[-1];
-    }
-    if (isset($isConnect[$_right])) {
-        return $isConnect[$_right];
+    if (!$_refresh) {
+        if ($_right == '' && isset($isConnect[-1])) {
+            return $isConnect[-1];
+        }
+        if (isset($isConnect[$_right])) {
+            return $isConnect[$_right];
+        }
     }
     if (isset($_SESSION['user']) && is_object($_SESSION['user']) && $_SESSION['user']->is_Connected()) {
         if ($_right != '') {

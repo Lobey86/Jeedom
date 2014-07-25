@@ -19,6 +19,7 @@
                 <input type="text" name="connect" id="connect" hidden value="1" style="display: none;"/>
                 <br/><input class="input-block-level" type="text" name="login" id="login" placeholder="{{Nom d'utilisateur}}"/><br/>
                 <br/><input class="input-block-level" type="password" id="mdp" name="mdp" placeholder="{{Mot de passe}}"/><br/>
+                <br/><input class="input-block-level" type="checkbox" id="registerDesktop" name="registerDesktop"/> Enregistrer cet ordinateur<br/>
                 <button type="submit" class="btn-lg btn-primary btn-block" style="margin-top: 10px;"><i class="fa fa-sign-in"></i> {{Connexion}}</button>
             </form>
         </center>

@@ -134,7 +134,8 @@ class user {
                 WHERE options LIKE :key';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
         if (is_object($result)) {
-            if ($result->getOptions('registerDevice') == $_key) {
+            
+            if ($result->getOptions('registerDevice') == $_key || $result->getOptions('registerDesktop') == $_key) {
                 return $result;
             }
         }
