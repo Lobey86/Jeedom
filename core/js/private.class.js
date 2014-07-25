@@ -102,7 +102,9 @@ jeedom.private.getParamsAJAX = function(_params) {
             else {
                 // On envoie les données à l'utilisateur, tout s'est bien passé
                 // Il récupère l'objet qu'il a demandé directement
-                var result = data.result || 'Success - ' + no_result || '';
+                if (data.result !== 0) {
+                    var result = data.result || 'Success - ' + no_result || '';
+                }
 
                 if (data.result === false) {
                     result = false;
