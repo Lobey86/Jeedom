@@ -32,6 +32,7 @@ class com_http {
     private $post = '';
     private $header = array('Connection: close');
     private $cookiesession = false;
+    private $allowEmptyReponse = false;
 
     /*     * ********************Functions static********************* */
 
@@ -91,6 +92,11 @@ class com_http {
         }
         if (curl_errno($ch)) {
             $curl_error = curl_error($ch);
+            if ($this->getAllowEmptyReponse() == true && strpos($curl_error, 'Empty reply from server') !== false) {
+                curl_close($ch);
+                log::add('http.com', 'Debug', __('Url : ', __FILE__) . $this->url . __("\nReponse : ", __FILE__) . $response);
+                return $response;
+            }
             if ($this->getLogError()) {
                 log::add('http.com', 'error', __('Erreur curl : ', __FILE__) . $curl_error . __(' sur la commande ', __FILE__) . $this->url . __(' après ', __FILE__) . $nbRetry . __(' relance(s)', __FILE__));
             }
@@ -156,6 +162,14 @@ class com_http {
 
     public function setCookiesession($cookiesession) {
         $this->cookiesession = $cookiesession;
+    }
+
+    public function getAllowEmptyReponse() {
+        return $this->allowEmptyReponse;
+    }
+
+    public function setAllowEmptyReponse($allowEmptyReponse) {
+        $this->allowEmptyReponse = $allowEmptyReponse;
     }
 
 }
