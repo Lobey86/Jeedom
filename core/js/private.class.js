@@ -3,6 +3,11 @@
  * Ensemble des variables et fonctions de configuration / défaut
  * @namespace jeedom.private
  */
+var init = function(_param, _default) {
+    return (typeof _param == 'number') ? _param : (typeof _param != 'boolean' || _param) && (_param !== false && _param || _default || '');
+}
+
+
 jeedom.private = {
     /**
      * Paramètres par défaut de toutes les fonctions de l'API
@@ -102,11 +107,7 @@ jeedom.private.getParamsAJAX = function(_params) {
             else {
                 // On envoie les données à l'utilisateur, tout s'est bien passé
                 // Il récupère l'objet qu'il a demandé directement
-                if (data.result !== 0) {
-                    var result = data.result || 'Success - ' + no_result || '';
-                }else{
-                    var result = data.result
-                }
+                var result = init(data.result, 'Success - ' + no_result);
 
                 if (data.result === false) {
                     result = false;
