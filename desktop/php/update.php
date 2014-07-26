@@ -10,7 +10,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
     <div class="col-lg-8">
 
 
-        <a class="btn btn-warning pull-right" id="bt_checkAllUpdate"><i class="fa fa-refresh"></i> Verifier les objets et mises à jour</a> 
+        <a class="btn btn-warning pull-right" id="bt_checkAllUpdate"><i class="fa fa-refresh"></i> Vérifier les objets et mises à jour</a> 
         <div class="btn-group pull-right">
             <a href="#" class="bt_updateAll btn btn-default"  data-level="0" data-mode=""><i class="fa fa-check"></i> {{Mettre à jour}}</a>
             <div class="btn-group">
@@ -33,7 +33,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                 <tr>
                     <th>{{Type}}</th>
                     <th>{{Nom}}</th>
-                    <th>{{Version actuel}}</th>
+                    <th>{{Version actuelle}}</th>
                     <th>{{Version disponible}}</th>
                     <th>{{Status}}</th>
                     <th data-sorter="false" data-filter="false" style="width: 400px;">{{Actions}}</th>
