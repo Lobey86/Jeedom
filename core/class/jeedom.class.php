@@ -126,6 +126,9 @@ class jeedom {
                 if ($vendor = '' && $model = '') {
                     $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
                 } else {
+                    if (isset($usbMapping[$vendor . ' ' . $model])) {
+                        $model .= ' 2';
+                    }
                     $usbMapping[$vendor . ' ' . $model] = '/dev/' . $usb;
                 }
             }
