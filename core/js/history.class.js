@@ -120,7 +120,6 @@ jeedom.history.drawChart = function(_params) {
                     }
                 }
             };
-
             if (!$.mobile) {
                 var legend = {
                     enabled: true,
@@ -227,7 +226,7 @@ jeedom.history.drawChart = function(_params) {
                             maxPadding: 0.25,
                             showLastLabel: true,
                         }, {
-                            opposite: true,
+                            opposite: false,
                             format: '{value}',
                             showEmpty: false,
                             gridLineWidth: 0,
