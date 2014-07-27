@@ -185,11 +185,15 @@ class scenarioExpression {
                     $scenario->save();
                     return;
                 } else if ($this->getExpression() == 'sleep') {
-                    if (isset($options['duration']) && is_numeric(intval($options['duration']))) {
-                        $this->setLog(__('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));
-                        return sleep(intval($options['duration']));
+                    if (isset($options['duration'])) {
+                        $test = new evaluate();
+                        $options['duration'] = $test->Evaluer($options['duration']);
+                        if (is_numeric($options['duration']) && $options['duration'] > 0) {
+                            $this->setLog(__('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));
+                            return sleep(intval($options['duration']));
+                        }
                     }
-                    $this->setLog(__('Aucune durée trouvée pour l\'action sleep : ', __FILE__) . $options['duration']);
+                    $this->setLog(__('Aucune durée trouvée pour l\'action sleep ou la durée n\'est pas valide : ', __FILE__) . $options['duration']);
                     return;
                 } else if ($this->getExpression() == 'stop') {
                     $this->setLog(__('Arret du scénario', __FILE__));
@@ -252,7 +256,7 @@ class scenarioExpression {
                     $this->setLog(__('[Erreur] Aucune commande trouvée pour ', __FILE__) . $this->getExpression());
                     return;
                 }
-            }else if ($this->getType() == 'condition') {
+            } else if ($this->getType() == 'condition') {
                 $test = new evaluate();
                 $expression = self::setTags($this->getExpression());
                 $message = __('Evaluation de la condition : [', __FILE__) . $expression . '] = ';
