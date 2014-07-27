@@ -126,10 +126,13 @@ class jeedom {
                 if ($vendor = '' && $model = '') {
                     $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
                 } else {
-                    if (isset($usbMapping[$vendor . ' ' . $model])) {
-                        $model .= ' 2';
+                    $name = $vendor . ' ' . $model;
+                    $number = 2;
+                    while (isset($usbMapping[$name])) {
+                        $name = $vendor . ' ' . $model . ' ' . $number;
+                        $number++;
                     }
-                    $usbMapping[$vendor . ' ' . $model] = '/dev/' . $usb;
+                    $usbMapping[$name] = '/dev/' . $usb;
                 }
             }
             cache::set('jeedom::usbMapping', json_encode($usbMapping, JSON_UNESCAPED_UNICODE), 0);
