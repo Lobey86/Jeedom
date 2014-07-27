@@ -186,8 +186,12 @@ class scenarioExpression {
                     return;
                 } else if ($this->getExpression() == 'sleep') {
                     if (isset($options['duration'])) {
-                        $test = new evaluate();
-                        $options['duration'] = $test->Evaluer($options['duration']);
+                        try {
+                            $test = new evaluate();
+                            $options['duration'] = $test->Evaluer($options['duration']);
+                        } catch (Exception $e) {
+                            
+                        }
                         if (is_numeric($options['duration']) && $options['duration'] > 0) {
                             $this->setLog(__('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));
                             return sleep(intval($options['duration']));
