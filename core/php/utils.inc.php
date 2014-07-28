@@ -110,16 +110,13 @@ function getTemplate($_folder, $_version, $_filename, $_plugin = '') {
         $path = dirname(__FILE__) . '/../../plugins/' . $_plugin . '/core/template/' . $_version . '/' . $_filename . '.html';
     }
     if (file_exists($path)) {
-        return translate::exec(file_get_contents($path), $path);
+        return file_get_contents($path);
     }
     return '';
 }
 
 function template_replace($_array, $_subject) {
-    if (is_array($_array)) {
-        return @str_replace(array_keys($_array), array_values($_array), $_subject);
-    }
-    return $_subject;
+    return @str_replace(array_keys($_array), array_values($_array), $_subject);
 }
 
 function init($_name, $_default = '') {

@@ -508,12 +508,12 @@ class cmd {
         }
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false);
-            if ($this->getEventOnly() == 1 || $mc->hasExpired() === false || $cache == 2) {
+            if ($this->getEventOnly() == 1 || $cache == 2 || $mc->hasExpired() === false) {
                 if ($mc->hasExpired() !== false) {
                     $this->setCollect(1);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
-                return $mc->getValue() ;
+                return $mc->getValue();
             }
         }
 
@@ -642,10 +642,7 @@ class cmd {
         );
         if ($_cmdColor == null && $_version != 'scenario') {
             $eqLogic = $this->getEqLogic();
-            $vcolor = 'cmdColor';
-            if ($_version == 'mobile') {
-                $vcolor = 'mcmdColor';
-            }
+            $vcolor = ($_version == 'mobile') ? 'mcmdColor' : 'cmdColor';
             $replace['#cmdColor#'] = jeedom::getConfiguration('eqLogic:category:' . $eqLogic->getPrimaryCategory() . ':' . $vcolor);
         } else {
             $replace['#cmdColor#'] = $_cmdColor;
@@ -653,11 +650,10 @@ class cmd {
         $replace['#history#'] = '';
         $replace['#displayHistory#'] = 'display : none;';
         $replace['#unite#'] = $this->getUnite();
-
+        $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
+        $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
 
         if ($this->getType() == 'info') {
-            $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
-            $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
             $replace['#state#'] = '';
             $replace['#tendance#'] = '';
             $value = trim($this->execCmd(null, $_cache));
@@ -685,6 +681,7 @@ class cmd {
                     $replace['#tendance#'] = 'fa fa-arrow-down';
                 }
             }
+            $html .= template_replace($replace, $template);
             if ($this->getIsHistorized() == 1) {
                 $replace['#history#'] = 'history cursor';
                 if (!isset(self::$_templateArray[$_version . 'cmd.info.history.default'])) {
@@ -692,7 +689,6 @@ class cmd {
                 }
                 $html .= template_replace($replace, self::$_templateArray[$_version . 'cmd.info.history.default']);
             }
-            $html .= template_replace($replace, $template);
         } else {
             $cmdValue = $this->getCmdValue();
             if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
@@ -700,8 +696,6 @@ class cmd {
             } else {
                 $replace['#state#'] = ($this->getLastValue() != null) ? $this->getLastValue() : '';
             }
-            $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
-            $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
             $html .= template_replace($replace, $template);
             if (trim($html) == '') {
                 return $html;
@@ -719,7 +713,6 @@ class cmd {
                 }
             }
         }
-
         return $html;
     }
 
