@@ -99,6 +99,16 @@ class scenario {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function byElement($_element_id) {
+        $values = array(
+            'element_id' => '%' . $_element_id . '%'
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '  
+                    FROM scenario
+                    WHERE `scenarioElement` LIKE :element_id';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+    }
+
     public static function byObjectId($_object_id, $_onlyEnable = true, $_onlyVisible = false) {
         $values = array();
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '  
@@ -343,19 +353,27 @@ class scenario {
     }
 
     public static function byUsedCommand($_cmd_id) {
-        $return = array();
         $return = self::byTrigger($_cmd_id);
-
-
         $expressions = scenarioExpression::searchExpression('#' . $_cmd_id . '#');
-        $elements = array();
+        
         foreach ($expressions as $expression) {
-            $element[] = $expression->getSubElement()->getElement();
+            $scenarios[] = $expression->getSubElement()->getElement()->getScenario();
         }
-        foreach ($elements as $element) {
-            
+    
+        foreach ($scenarios as $scenario) {
+            if (is_object($scenario)) {
+                $find = false;
+                foreach ($return as $existScenario) {
+                    if ($scenario->getId() == $existScenario->getId()) {
+                        $find = true;
+                        break;
+                    }
+                }
+                if (!$find) {
+                    $return[] = $scenario;
+                }
+            }
         }
-
         return $return;
     }
 

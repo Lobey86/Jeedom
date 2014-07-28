@@ -64,6 +64,17 @@ class scenarioExpression {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function byElement($_element_id) {
+        $values = array(
+            'expression' => $_element_id
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '  
+                FROM ' . __CLASS__ . ' 
+                WHERE expression=:expression
+                    AND `type`= "element"';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+    }
+
     public static function getExpressionOptions($_expression, $_options) {
         $startLoadTime = getmicrotime();
         $cmd = cmd::byId(str_replace('#', '', cmd::humanReadableToCmd($_expression)));
@@ -373,8 +384,8 @@ class scenarioExpression {
     public function getScenarioSubElement_id() {
         return $this->scenarioSubElement_id;
     }
-    
-    public function getSubElement(){
+
+    public function getSubElement() {
         return scenarioSubElement::byId($this->getScenarioSubElement_id());
     }
 

@@ -249,6 +249,18 @@ class scenarioElement {
         }
     }
 
+    public function getScenario() {
+        $scenario = scenario::byElement($this->getId());
+        if (is_object($scenario)) {
+            return $scenario;
+        }
+        $expression = scenarioExpression::byElement($this->getId());
+        if (is_object($expression)) {
+            return $expression->getSubElement()->getElement()->getScenario();
+        }
+        return null;
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {

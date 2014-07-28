@@ -125,10 +125,6 @@ class scenarioSubElement {
             $expression->clearLog();
         }
     }
-    
-    public function getScenario(){
-        
-    }
 
     /*     * **********************Getteur Setteur*************************** */
 

@@ -165,7 +165,7 @@ function displayCmd(_cmd_id) {
                     html += '<label class="col-lg-2 control-label">{{Equipement}}</label>';
                     html += '<div class="col-lg-4">';
                     for (var i in data.eqLogic) {
-                        html += '<span class="label label-primary">' + data.eqLogic[i].humanName + '</span>';
+                        html += ' <span class="label label-primary">' + data.eqLogic[i].humanName + '</span>';
                     }
                     html += '</div>';
                     html += '</div>';
@@ -173,7 +173,7 @@ function displayCmd(_cmd_id) {
                     html += '<label class="col-lg-2 control-label">{{Commandes}}</label>';
                     html += '<div class="col-lg-4">';
                     for (var i in data.cmd) {
-                        html += '<span class="label label-primary">' + data.cmd[i].humanName + '</span>';
+                        html += ' <span class="label label-primary">' + data.cmd[i].humanName + '</span>';
                     }
                     html += '</div>';
                     html += '</div>';
@@ -181,7 +181,7 @@ function displayCmd(_cmd_id) {
                     html += '<label class="col-lg-2 control-label">{{Scénario}}</label>';
                     html += '<div class="col-lg-4">';
                     for (var i in data.scenario) {
-                        html += '<span class="label label-primary">' + data.scenario[i].humanName + '</span>';
+                        html += ' <span class="label label-primary">' + data.scenario[i].humanName + '</span>';
                     }
                     html += '</div>';
                     html += '</div>';
@@ -189,7 +189,7 @@ function displayCmd(_cmd_id) {
                     html += '<label class="col-lg-2 control-label">{{Interaction}}</label>';
                     html += '<div class="col-lg-4">';
                     for (var i in data.interact) {
-                        html += '<span class="label label-primary">' + data.interact[i].humanName + '</span>';
+                        html += ' <span class="label label-primary">' + data.interact[i].humanName + '</span>';
                     }
                     html += '</div>';
                     html += '</div>';
