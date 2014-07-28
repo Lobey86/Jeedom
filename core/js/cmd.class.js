@@ -228,7 +228,24 @@ jeedom.cmd.byId = function(_params) {
     $.ajax(paramsAJAX);
 }
 
-
+jeedom.cmd.usedBy = function(_params) {
+    var paramsRequired = ['id'];
+     var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/cmd.ajax.php';
+    paramsAJAX.data = {
+        action: 'usedBy',
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
+}
 
 jeedom.cmd.changeType = function(_cmd, _subType) {
     var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control input-sm" data-l1key="subType">';

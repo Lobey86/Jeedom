@@ -67,6 +67,35 @@ try {
         ajax::success(utils::o2a($cmd));
     }
 
+    if (init('action') == 'usedBy') {
+        $cmd = cmd::byId(init('id'));
+        if (!is_object($cmd)) {
+            throw new Exception(__('Cmd inconnu : ', __FILE__) . init('id'), 9999);
+        }
+        $result = $cmd->getUsedBy();
+        $return = array('cmd' => array(), 'eqLogic' => array(), 'scenario' => array(), 'interact' => array());
+        foreach ($result['cmd'] as $cmd) {
+            $info = utils::o2a($cmd);
+            $info['humanName'] = $cmd->getHumanName();
+            $return['cmd'][] = $info;
+        }
+        foreach ($result['eqLogic'] as $eqLogic) {
+            $info = utils::o2a($eqLogic);
+            $info['humanName'] = $eqLogic->getHumanName();
+            $return['eqLogic'][] = $info;
+        }
+        foreach ($result['scenario'] as $scenario) {
+            $info = utils::o2a($cmd);
+            $info['humanName'] = $scenario->getHumanName();
+            $return['scenario'][] = $info;
+        }
+        foreach ($result['interact'] as $interact) {
+            $info = utils::o2a($interact);
+            $return['interact'][] = $info;
+        }
+        ajax::success($return);
+    }
+
     if (init('action') == 'getHumanCmdName') {
         ajax::success(cmd::cmdToHumanReadable('#' . init('id') . '#'));
     }

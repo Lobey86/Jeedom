@@ -342,6 +342,10 @@ class scenario {
         return $text;
     }
 
+    public static function byUsedCommand() {
+        
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function launch($_force = false, $_message = '') {
@@ -897,7 +901,7 @@ class scenario {
     public function setDisplay($_key, $_value) {
         $this->display = utils::setJsonAttr($this->display, $_key, $_value);
     }
-    
+
     public function getDescription() {
         return $this->description;
     }

@@ -126,6 +126,17 @@ class cmd {
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
+    public static function searchConfiguration($_configuration) {
+        $values = array(
+            'configuration' => '%' . $_configuration . '%'
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM cmd
+                WHERE configuration LIKE :configuration
+                ORDER BY name';
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
+    }
+
     public static function byEqLogicIdAndLogicalId($_eqLogic_id, $_logicalId) {
         $values = array(
             'eqLogic_id' => $_eqLogic_id,
@@ -784,6 +795,14 @@ class cmd {
             $hitory->setDatetime($_datetime);
             return $hitory->save($this);
         }
+    }
+
+    public function getUsedBy() {
+        $return = array();
+        $return['cmd'] = self::searchConfiguration('#' . $this->getId() . '#');
+        $return['eqLogic'] = eqLogic::searchConfiguration('#' . $this->getId() . '#');
+        
+        return $return;
     }
 
     public function getStatistique($_startTime, $_endTime) {
