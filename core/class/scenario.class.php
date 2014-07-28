@@ -342,8 +342,21 @@ class scenario {
         return $text;
     }
 
-    public static function byUsedCommand() {
-        
+    public static function byUsedCommand($_cmd_id) {
+        $return = array();
+        $return = self::byTrigger($_cmd_id);
+
+
+        $expressions = scenarioExpression::searchExpression('#' . $_cmd_id . '#');
+        $elements = array();
+        foreach ($expressions as $expression) {
+            $element[] = $expression->getSubElement()->getElement();
+        }
+        foreach ($elements as $element) {
+            
+        }
+
+        return $return;
     }
 
     /*     * *********************Methode d'instance************************* */

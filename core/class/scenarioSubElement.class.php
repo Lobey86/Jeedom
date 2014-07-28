@@ -125,6 +125,10 @@ class scenarioSubElement {
             $expression->clearLog();
         }
     }
+    
+    public function getScenario(){
+        
+    }
 
     /*     * **********************Getteur Setteur*************************** */
 
@@ -154,6 +158,10 @@ class scenarioSubElement {
 
     public function getScenarioElement_id() {
         return $this->scenarioElement_id;
+    }
+    
+    public function getElement(){
+        return scenarioElement::byId($this->getScenarioElement_id());
     }
 
     public function setScenarioElement_id($scenarioElement_id) {
