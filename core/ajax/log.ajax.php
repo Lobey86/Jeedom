@@ -35,7 +35,7 @@ try {
     }
     
     if (init('action') == 'removeAll') {
-        log::remove(init('logfile'));
+        log::removeAll();
         ajax::success();
     }
 
