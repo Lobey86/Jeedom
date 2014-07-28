@@ -114,6 +114,25 @@ class interactDef {
         }
     }
 
+    public static function byUsedCommand($_cmd_id) {
+        $return = array();
+        $interactQueries = interactQuery::byTypeAndLinkId('cmd', $_cmd_id);
+        foreach ($interactQueries as $interactQuery) {
+            $interactDef = $interactQuery->getInteractDef();
+            $find = false;
+            foreach ($return as $existInteractDef) {
+                if ($interactDef->getId() == $existInteractDef->getId()) {
+                    $find = true;
+                    break;
+                }
+            }
+            if (!$find) {
+                $return[] = $interactDef;
+            }
+        }
+        return $return;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function selectReply() {
@@ -263,6 +282,10 @@ class interactDef {
             $return[] = $_text;
         }
         return $return;
+    }
+
+    public function getLinkToConfiguration() {
+        return 'index.php?v=d&p=interact&id=' . $this->getId();
     }
 
     /*     * **********************Getteur Setteur*************************** */

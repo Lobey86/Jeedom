@@ -355,11 +355,11 @@ class scenario {
     public static function byUsedCommand($_cmd_id) {
         $return = self::byTrigger($_cmd_id);
         $expressions = scenarioExpression::searchExpression('#' . $_cmd_id . '#');
-        
+
         foreach ($expressions as $expression) {
             $scenarios[] = $expression->getSubElement()->getElement()->getScenario();
         }
-    
+
         foreach ($scenarios as $scenario) {
             if (is_object($scenario)) {
                 $find = false;

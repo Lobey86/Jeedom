@@ -802,6 +802,7 @@ class cmd {
         $return['cmd'] = self::searchConfiguration('#' . $this->getId() . '#');
         $return['eqLogic'] = eqLogic::searchConfiguration('#' . $this->getId() . '#');
         $return['scenario'] = scenario::byUsedCommand($this->getId());
+        $return['interact'] = interactDef::byUsedCommand($this->getId());
         return $return;
     }
 

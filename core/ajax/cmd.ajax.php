@@ -77,20 +77,25 @@ try {
         foreach ($result['cmd'] as $cmd) {
             $info = utils::o2a($cmd);
             $info['humanName'] = $cmd->getHumanName();
+            $info['link'] = $cmd->getEqLogic()->getLinkToConfiguration();
             $return['cmd'][] = $info;
         }
         foreach ($result['eqLogic'] as $eqLogic) {
             $info = utils::o2a($eqLogic);
             $info['humanName'] = $eqLogic->getHumanName();
+            $info['link'] = $eqLogic->getLinkToConfiguration();
             $return['eqLogic'][] = $info;
         }
         foreach ($result['scenario'] as $scenario) {
             $info = utils::o2a($cmd);
             $info['humanName'] = $scenario->getHumanName();
+            $info['link'] = $scenario->getLinkToConfiguration();
             $return['scenario'][] = $info;
         }
         foreach ($result['interact'] as $interact) {
             $info = utils::o2a($interact);
+            $info['humanName'] = $interact->getQuery();
+            $info['link'] = $interact->getLinkToConfiguration();
             $return['interact'][] = $info;
         }
         ajax::success($return);

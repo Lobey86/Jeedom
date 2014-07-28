@@ -65,6 +65,18 @@ class interactQuery {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function byTypeAndLinkId($_type, $_link_id) {
+        $values = array(
+            'type' => $_type,
+            'link_id' => $_link_id
+        );
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM interactQuery
+                WHERE link_type=:type
+                    AND link_id=:link_id';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+    }
+
     public static function all() {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM interactQuery
@@ -277,7 +289,7 @@ class interactQuery {
             }
             switch ($interactDef->getOptions('scenario_action')) {
                 case 'start':
-                    $scenario->launch(false,__('Scenario lance sur interaction (S.A.R.A.H, SMS...)',__FILE__));
+                    $scenario->launch(false, __('Scenario lance sur interaction (S.A.R.A.H, SMS...)', __FILE__));
                     return self::replyOk();
                 case 'stop':
                     $scenario->stop();
