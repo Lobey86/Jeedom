@@ -29,6 +29,7 @@ if ($logfile == '') {
     throw new Exception('No log file');
 }
 ?>
+<a class="btn btn-danger pull-right" id="bt_removeAllLog"><i class="fa fa-trash-o"></i> {{Supprimer tous les logs}}</a>
 <a class="btn btn-danger pull-right" id="bt_removeLog"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>
 <a class="btn btn-warning pull-right" id="bt_clearLog"><i class="fa fa-times"></i> {{Vider}}</a>
 <a class="btn btn-success pull-right" id="bt_downloadLog"><i class="fa fa-cloud-download"></i> {{Télécharger}}</a>
@@ -149,8 +150,8 @@ if (isset($log[0][0]) && $log[0][0] == '') {
         $('.changePage').click(function() {
             window.location = 'index.php?v=d&p=log&page=' + $(this).attr('data-page') + '&logfile=' + $('#sel_log').value();
         });
-        
-         $('#bt_downloadLog').click(function() {
+
+        $('#bt_downloadLog').click(function() {
             window.open('core/php/downloadFile.php?pathfile=log/' + $('#sel_log').value(), "_blank", null);
         });
 
@@ -199,6 +200,31 @@ if (isset($log[0][0]) && $log[0][0] == '') {
                     } else {
                         window.location.href = 'index.php?v=d&p=log';
                     }
+                }
+            });
+        });
+
+        $("#bt_removeAllLog").on('click', function(event) {
+            bootbox.prompt("Etes-vous sur de vouloir supprimer tous les logs ?", function(result) {
+                if (result !== null) {
+                    $.ajax({// fonction permettant de faire de l'ajax
+                        type: "POST", // methode de transmission des données au fichier php
+                        url: "core/ajax/log.ajax.php", // url du fichier php
+                        data: {
+                            action: "removeAll",
+                        },
+                        dataType: 'json',
+                        error: function(request, status, error) {
+                            handleAjaxError(request, status, error);
+                        },
+                        success: function(data) { // si l'appel a bien fonctionné
+                            if (data.state != 'ok') {
+                                $('#div_alertError').showAlert({message: data.result, level: 'danger'});
+                            } else {
+                                window.location.href = 'index.php?v=d&p=log';
+                            }
+                        }
+                    });
                 }
             });
         });

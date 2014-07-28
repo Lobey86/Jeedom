@@ -63,7 +63,6 @@ class log {
             @chmod($path, 0777);
         } else {
             $logs = ls(dirname(__FILE__) . '/../../log/', '*');
-
             foreach ($logs as $log) {
                 $path = dirname(__FILE__) . '/../../log/' . $log;
                 if (filesize($path) > 20000) {
@@ -118,6 +117,15 @@ class log {
     public static function remove($_log) {
         $path = self::getPathToLog($_log);
         unlink($path);
+        return true;
+    }
+
+    public static function removeAll($_log) {
+        $logs = ls(dirname(__FILE__) . '/../../log/', '*');
+        foreach ($logs as $log) {
+            $path = dirname(__FILE__) . '/../../log/' . $log;
+            unlink($path);
+        }
         return true;
     }
 

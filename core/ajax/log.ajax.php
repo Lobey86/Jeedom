@@ -33,6 +33,11 @@ try {
         log::remove(init('logfile'));
         ajax::success();
     }
+    
+    if (init('action') == 'removeAll') {
+        log::remove(init('logfile'));
+        ajax::success();
+    }
 
     if (init('action') == 'get') {
         ajax::success(log::get(init('logfile'), 0, 3000));
