@@ -592,7 +592,10 @@ class cmd {
                 $this->setCollectDate(date('Y-m-d H:i:s'));
             }
             $this->setCollect(0);
-            $this->event($value, $_sendNodeJsEvent);
+            nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
+            foreach (self::byValue($this->getId()) as $cmd) {
+                nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
+            }
         }
         return $value;
     }
@@ -722,7 +725,7 @@ class cmd {
         return $html;
     }
 
-    public function event($_value, $_sendNodeJsEvent = true) {
+    public function event($_value) {
         if ($this->getType() != 'info') {
             return;
         }
@@ -760,11 +763,9 @@ class cmd {
                     $this->addHistoryValue($_value, $this->getCollectDate());
                 }
                 $this->setCollect(0);
-                if ($_sendNodeJsEvent) {
-                    nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
-                    foreach (self::byValue($this->getId()) as $cmd) {
-                        nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
-                    }
+                nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
+                foreach (self::byValue($this->getId()) as $cmd) {
+                    nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
                 }
                 $internalEvent = new internalEvent();
                 $internalEvent->setEvent('event::cmd');
