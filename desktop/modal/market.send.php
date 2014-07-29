@@ -123,7 +123,7 @@ if (is_object($market)) {
         if ($(this).value() == '' || isNaN($(this).value()) || parseFloat($(this).value()) < 0.99) {
             $('#span_marketDevGain').value('0');
         } else {
-            $('#span_marketDevGain').value(Math.round(($(this).value() - 0.25) * 75) / 100);
+            $('#span_marketDevGain').value(Math.round(($(this).value() - (0.25 + 0.034 * $(this).value())) * 75) / 100);
         }
 
     });
