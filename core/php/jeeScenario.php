@@ -42,6 +42,8 @@ if (!is_object($scenario)) {
     die(__('Scenario non trouvé verifier id : ', __FILE__) . init('scenario_id'));
 }
 
+$scenario->clearLog();
+
 if (!jeedom::isStarted()) {
     $scenario->setLog(__('Lancement du scénario annulée car Jeedom n\'a pas encore finis de démarrer : ', __FILE__) . $scenario->getHumanName());
     log::add('scenario', 'info', __('Lancement du scénario annulée car Jeedom n\'a pas encore finis de démarrer : ', __FILE__) . $scenario->getHumanName());

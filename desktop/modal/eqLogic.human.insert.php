@@ -60,7 +60,7 @@ if (!isConnect()) {
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
-            succes: function(eqLogics) {
+            success: function(eqLogics) {
                 _select.closest('tr').find('.mod_insertEqLogicValue_eqLogic').empty();
                 var selectEqLogic = '<select class="form-control">';
                 for (var i in eqLogics) {
