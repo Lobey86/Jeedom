@@ -52,6 +52,10 @@ $('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').on('change
     setColorSelect($(this).closest('select'));
 });
 
+$('#bt_viewResult').on('click',function(){
+    window.location.href = 'index.php?v=d&p=view&id='+$(".li_view.active").attr('data-view_id');
+});
+
 $("#bt_addView").on('click', function(event) {
     bootbox.prompt("Nom de la vue ?", function(result) {
         if (result !== null) {
