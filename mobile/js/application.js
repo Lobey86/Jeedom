@@ -223,7 +223,9 @@ function getDeviceType() {
 
 function setTileSize(_filter) {
     $(_filter).each(function() {
-        $(this).width(deviceInfo.bSize);
+        if (!$(this).hasClass('doNoResize')) {
+            $(this).width(deviceInfo.bSize);
+        }
     });
 }
 
