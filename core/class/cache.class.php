@@ -144,6 +144,14 @@ class cache {
         $this->_hasExpired = false;
         return false;
     }
+    
+    public function invalid(){
+        if(!$this->hasExpired()){
+            $this->setLifetime(1);
+            $this->save();
+        }
+        return true;
+    }
 
     /*     * **********************Getteur Setteur*************************** */
 

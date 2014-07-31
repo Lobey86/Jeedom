@@ -166,7 +166,7 @@ jeedom.cmd.refreshValue = function(_params) {
             action: 'toHtml',
             id: _params.id,
             version: _params.version || version,
-            cache: _params.cache || 2,
+            cache: _params.cache || 1,
         };
         $.ajax(paramsAJAX);
     }

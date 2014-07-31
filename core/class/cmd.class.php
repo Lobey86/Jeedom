@@ -780,6 +780,11 @@ class cmd {
         }
     }
 
+    public function invalidCache() {
+        $mc = cache::byKey('cmd' . $this->getId());
+        $mc->invalid();
+    }
+
     public function emptyHistory() {
         return history::emptyHistory($this->getId());
     }
