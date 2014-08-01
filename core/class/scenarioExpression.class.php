@@ -196,7 +196,7 @@ class scenarioExpression {
             $options = $this->getOptions();
             if (is_array($options)) {
                 foreach ($options as $key => $value) {
-                    $options[$key] = self::setTags($value);
+                    $options[$key] = str_replace('"', '', self::setTags($value));
                 }
             }
             if ($this->getType() == 'action') {
