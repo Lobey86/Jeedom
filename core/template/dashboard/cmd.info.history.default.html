@@ -7,6 +7,7 @@
     </select>
 
     <script>
+
         $('.sel_chartType[data-cmd_id=#id#]').off();
         $('.history[data-cmd_id=#id#]').off().unbind();
 
@@ -30,7 +31,6 @@
             }
         });
 
-
         $('.sel_chartType[data-cmd_id=#id#]').on('change', function() {
             $('#div_historyChart#id#').empty();
             $(".md_history[data-cmd_id=#id#]").dialog("open");
@@ -43,8 +43,7 @@
             jeedom.history.drawChart({cmd_id: '#id#', el: 'div_historyChart#id#', daterange: 'all', option: option});
         });
 
-
-        $('.history[data-cmd_id=#id#]').on('click', function() {
+        $('body').delegate('.history[data-cmd_id=#id#]','click', function() {
             $('#div_historyChart#id#').empty();
             $(".md_history[data-cmd_id=#id#]").dialog("open");
             var container = $('#div_historyChart#id#').css('position', 'relative');

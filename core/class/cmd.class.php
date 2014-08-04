@@ -690,14 +690,17 @@ class cmd {
                     $replace['#tendance#'] = 'fa fa-arrow-down';
                 }
             }
-            $html .= template_replace($replace, $template);
-            if ($this->getIsHistorized() == 1) {
+            if ($this->getIsHistorized() == 1 && $_version == 'dashboard') {
                 $replace['#history#'] = 'history cursor';
                 if (!isset(self::$_templateArray[$_version . 'cmd.info.history.default'])) {
                     self::$_templateArray[$_version . 'cmd.info.history.default'] = getTemplate('core', $_version, 'cmd.info.history.default');
                 }
+               
                 $html .= template_replace($replace, self::$_templateArray[$_version . 'cmd.info.history.default']);
+              
             }
+            
+            $html .= template_replace($replace, $template);
         } else {
             $cmdValue = $this->getCmdValue();
             if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
