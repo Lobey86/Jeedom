@@ -440,10 +440,10 @@ function convertDayEnToFr($_day) {
         return 'lundi';
     }
 
-    if ($_day == 'Thuesday' || $_day == 'Tue') {
+    if ($_day == 'Tuesday' || $_day == 'Tue') {
         return 'Mardi';
     }
-    if ($_day == 'thuesday' || $_day == 'tue') {
+    if ($_day == 'tuesday' || $_day == 'tue') {
         return 'mardi';
     }
 
