@@ -52,8 +52,8 @@ $('.viewDataOption[data-l1key=configuration][data-l2key=graphColor]').on('change
     setColorSelect($(this).closest('select'));
 });
 
-$('#bt_viewResult').on('click',function(){
-    window.location.href = 'index.php?v=d&p=view&id='+$(".li_view.active").attr('data-view_id');
+$('#bt_viewResult').on('click', function() {
+    window.location.href = 'index.php?v=d&p=view&id=' + $(".li_view.active").attr('data-view_id');
 });
 
 $("#bt_addView").on('click', function(event) {
@@ -350,7 +350,7 @@ function addEditviewZone(_viewZone) {
         div += '<div class="div_viewData"></div>';
         div += '</div>';
         $('#div_viewZones').append(div);
-        $('#viewZone' + id + ' .div_viewData').sortable({axis: "x", cursor: "move", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+        $('#viewZone' + id + ' .div_viewData').sortable({axis: "y", cursor: "move", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
     } else {
         $('#' + _viewZone.emplacement).find('.viewZoneAttr[data-l1key=name]').text(_viewZone.name);
     }
@@ -360,7 +360,7 @@ function addServiceToviewZone(_viewData) {
     if (!isset(_viewData.configuration) || _viewData.configuration == '') {
         _viewData.configuration = {};
     }
-    var span = '<span class="label label-default viewData cursor" style="background-color : ' + init(_viewData.configuration.graphColor) + '; font-size : 1.1em;margin:4px;">';
+    var span = '<div><span class="label label-default viewData cursor" style="background-color : ' + init(_viewData.configuration.graphColor) + '; font-size : 1.1em;margin-top:10px;">';
     span += '<i class="fa fa-trash-o cursor bt_removeViewData"></i> ';
     span += init(_viewData.name);
     span += '<input class="viewDataAttr" data-l1key="link_id" value="' + init(_viewData.link_id) + '" style="display  : none;"/>';
@@ -368,6 +368,6 @@ function addServiceToviewZone(_viewData) {
     for (var i in _viewData.configuration) {
         span += '<input class="viewDataAttr" data-l1key="configuration" data-l2key="' + i + '" value="' + init(_viewData.configuration[i]) + '" style="display  : none;"/>';
     }
-    span += '</span>';
+    span += '</span><br/><br/></div>';
     return span;
 }
