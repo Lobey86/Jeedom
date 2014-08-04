@@ -82,6 +82,8 @@ $('.eqLogicAction[data-action=save]').on('click', function() {
         success: function(data) {
             modifyWithoutSave = false;
             if ($('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + ']').length != 0) {
+                var name = $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + '] a').text();
+                $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + '] a').empty().append(name.substr(0, name.lastIndexOf("[")) + '[' + data.name + ']');
                 $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + ']').click();
             } else {
                 var vars = getUrlVars();
