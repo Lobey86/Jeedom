@@ -128,10 +128,11 @@ class eqLogic {
         $values = array(
             'eqType_name' => $_eqType_name
         );
-        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
-                FROM eqLogic
+        $sql = 'SELECT ' . DB::buildField(__CLASS__, 'el') . '
+                FROM eqLogic el
+                INNER JOIN object ob ON el.object_id=ob.id
                 WHERE eqType_name=:eqType_name
-                ORDER BY name';
+                ORDER BY ob.name,el.name';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
@@ -161,8 +162,8 @@ class eqLogic {
                 ORDER BY name';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
-    
-     public static function searchConfiguration($_configuration) {
+
+    public static function searchConfiguration($_configuration) {
         $values = array(
             'configuration' => '%' . $_configuration . '%'
         );
