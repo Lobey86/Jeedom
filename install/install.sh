@@ -147,15 +147,24 @@ rm -rf jeedom.zip
 cd jeedom
 
 if [ ${nodeJS} -ne 0 ] ; then
-    echo "********************************************************"
-    echo "*          Installation de nodeJS manuellement         *"
-    echo "********************************************************"
-    wget https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
-    sudo tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
-    if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
-        sudo ln -s /usr/local/bin/node /usr/bin/nodejs
+    x86=$(uname -a | grep x86_64 | wc -l)
+    if [ ${x86} -ne 0 ] ; then
+        echo "********************************************************"
+        echo "*          Installation de nodeJS manuellement x86     *"
+        echo "********************************************************"
+        sudo deb http://http.debian.net/debian wheezy-backports main
+        sudo apt-get install -y nodejs
+    else
+        echo "********************************************************"
+        echo "*          Installation de nodeJS manuellement ARM     *"
+        echo "********************************************************"
+        wget https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
+        sudo tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
+        if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
+            sudo ln -s /usr/local/bin/node /usr/bin/nodejs
+        fi
+        sudo rm -rf node-v0.10.21-cubie.tar.xz
     fi
-    sudo rm -rf node-v0.10.21-cubie.tar.xz
 fi
 if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
     echo "********************************************************"
