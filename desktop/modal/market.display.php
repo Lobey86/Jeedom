@@ -20,7 +20,7 @@ $market_array['rating'] = $market->getRating();
 $update = update::byLogicalId($market->getLogicalId());
 sendVarToJS('market_display_info', $market_array);
 if (is_object($update) && $update->getConfiguration('version', 'stable') == 'beta') {
-    echo '<div class="alert alert-danger">{{Attention vous utilisez actuelement une version beta. Celle-ci peut ne pas être stable}}</div>';
+    echo '<div class="alert alert-danger">{{Attention vous utilisez actuellement une version beta. Celle-ci peut ne pas être stable}}</div>';
 }
 if (is_object($update) && $update->getStatus() == 'update') {
     echo '<div class="alert alert-warning" id="div_pluginUpdate">{{Une mise à jour est disponible. Cliquez sur installer pour l\'effectuer}}</div>';
