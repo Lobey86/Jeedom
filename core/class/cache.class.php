@@ -130,23 +130,27 @@ class cache {
     }
 
     public function hasExpired() {
-        if($this->_hasExpired != -1){
+        if ($this->_hasExpired != -1) {
             return $this->_hasExpired;
         }
-        if (trim($this->getValue()) === '' || $this->getValue() === false) {
+         if (trim($this->getValue()) === '' || $this->getValue() === false) {
             $this->_hasExpired = true;
             return true;
         }
-        if ($this->getLifetime() != 0 && (strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime('now')) {
+        if ($this->getLifetime() == 0) {
+            $this->_hasExpired = false;
+            return false;
+        }
+        if ((strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime('now')) {
             $this->_hasExpired = true;
             return true;
         }
         $this->_hasExpired = false;
         return false;
     }
-    
-    public function invalid(){
-        if(!$this->hasExpired()){
+
+    public function invalid() {
+        if (!$this->hasExpired()) {
             $this->setLifetime(1);
             $this->save();
         }
