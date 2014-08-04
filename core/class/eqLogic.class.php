@@ -398,18 +398,18 @@ class eqLogic {
         }
         $info = '';
         $action = '';
-        $_version = jeedom::versionAlias($_version);
+        $version = jeedom::versionAlias($_version);
         $vcolor = 'cmdColor';
-        if ($_version == 'mobile') {
+        if ($version == 'mobile') {
             $vcolor = 'mcmdColor';
         }
         $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
         if ($this->getIsEnable()) {
             foreach ($this->getCmd(null, null, true) as $cmd) {
                 if ($cmd->getType() == 'action') {
-                    $action.=$cmd->toHtml($_version, '', $cmdColor);
+                    $action.=$cmd->toHtml($version, '', $cmdColor);
                 } else {
-                    $info.=$cmd->toHtml($_version, '', $cmdColor);
+                    $info.=$cmd->toHtml($version, '', $cmdColor);
                 }
             }
         }
@@ -418,7 +418,7 @@ class eqLogic {
             '#name#' => ($this->getIsEnable()) ? $this->getName() : '<del>' . $this->getName() . '</del>',
             '#eqLink#' => $this->getLinkToConfiguration(),
             '#category#' => $this->getPrimaryCategory(),
-            '#background_color#' => $this->getBackgroundColor($_version),
+            '#background_color#' => $this->getBackgroundColor($version),
             '#action#' => $action,
             '#info#' => $info,
         );
@@ -429,10 +429,10 @@ class eqLogic {
         if (!isset(self::$_templateArray)) {
             self::$_templateArray = array();
         }
-        if (!isset(self::$_templateArray[$_version])) {
-            self::$_templateArray[$_version] = getTemplate('core', $_version, 'eqLogic');
+        if (!isset(self::$_templateArray[$version])) {
+            self::$_templateArray[$version] = getTemplate('core', $version, 'eqLogic');
         }
-        return template_replace($replace, self::$_templateArray[$_version]);
+        return template_replace($replace, self::$_templateArray[$version]);
     }
 
     public function getShowOnChild() {
