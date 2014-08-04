@@ -100,7 +100,7 @@ class scenarioExpression {
             }
         }
         $replace = array('#uid#' => 'exp' . rand());
-        $return['html'] = template_replace($replace, $return['html']);
+        $return['html'] = translate::exec(template_replace($replace, $return['html']), 'core/template/scenario/' . $_expression . '.default');
         return $return;
     }
 
