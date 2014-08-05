@@ -5,7 +5,7 @@
             <img src="core/img/logo-jeedom-grand-nom-couleur.svg"/><br/><br/>
             <?php
             if (init('error') == 1) {
-                echo '<div class="alert alert-danger">{{Nom d\'utilisateur ou mot de passe inccorect !}}</div>';
+                echo '<div class="alert alert-danger">{{Nom d\'utilisateur ou mot de passe incorrect !}}</div>';
             }
             $getParams = "";
             foreach ($_GET AS $var => $value) {

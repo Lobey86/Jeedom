@@ -31,7 +31,7 @@ sendVarToJS('view_id', $view->getId());
     <div class="col-lg-2">
         <div class="bs-sidebar">
             <ul id="ul_view" class="nav nav-list bs-sidenav">
-                <li class="nav-header">{{Liste des vues}}</li>
+                <a class="btn btn-default" style="width : 100%;margin-top : 5px;margin-bottom: 5px;" href="index.php?v=d&p=view_edit"><i class="fa fa-plus-circle"></i> {{Ajouter une vue}}</a>
                 <li class="filter"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
                 foreach (view::all() as $view_info) {
