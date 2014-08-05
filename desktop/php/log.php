@@ -206,7 +206,7 @@ if (isset($log[0][0]) && $log[0][0] == '') {
 
         $("#bt_removeAllLog").on('click', function(event) {
             bootbox.confirm("{{Etes-vous sur de vouloir supprimer tous les logs ?}}", function(result) {
-                if (result !== null) {
+                if (result) {
                     $.ajax({// fonction permettant de faire de l'ajax
                         type: "POST", // methode de transmission des données au fichier php
                         url: "core/ajax/log.ajax.php", // url du fichier php
