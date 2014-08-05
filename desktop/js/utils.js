@@ -351,7 +351,7 @@ function positionEqLogic(_id, _noResize) {
                 }
             });
             if (!init(_noResize, false)) {
-                eqLogic.find('.cmd-widget').height(maxHeight);
+                //eqLogic.find('.cmd-widget').height(maxHeight);
                 var hMarge = (Math.ceil(eqLogic.height() / pasH) - 1) * 6;
                 var wMarge = (Math.ceil(eqLogic.width() / pasW) - 1) * 6;
                 eqLogic.height((Math.ceil((eqLogic.height()) / pasH) * pasH) - 6 + hMarge);
