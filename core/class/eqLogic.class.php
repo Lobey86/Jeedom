@@ -424,7 +424,9 @@ class eqLogic {
         );
         if ($_version == 'dview' || $_version == 'mview') {
             $object = $this->getObject();
-            $replace['#name#'] = (is_object($object)) ? $object->getName() . ' - ' . $replace['#name#'] : $replace['#name#'];
+            $replace['#object_name#'] = (is_object($object)) ? $object->getName()."<br/>" : '';
+        }else{
+            $replace['#object_name#'] = '';
         }
         if (!isset(self::$_templateArray)) {
             self::$_templateArray = array();
