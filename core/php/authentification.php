@@ -166,25 +166,13 @@ function logout() {
     return;
 }
 
-function isConnect($_right = '', $_refresh = false) {
-    global $isConnect;
-    if (!$_refresh) {
-        if ($_right == '' && isset($isConnect[-1])) {
-            return $isConnect[-1];
-        }
-        if (isset($isConnect[$_right])) {
-            return $isConnect[$_right];
-        }
-    }
+function isConnect($_right = '') {
     if (isset($_SESSION['user']) && is_object($_SESSION['user']) && $_SESSION['user']->is_Connected()) {
         if ($_right != '') {
-            $isConnect[$_right] = ($_SESSION['user']->getRights($_right) == 1) ? true : false;
-            return $isConnect[$_right];
+            return ($_SESSION['user']->getRights($_right) == 1) ? true : false;
         }
-        $isConnect[-1] = true;
-        return $isConnect[-1];
+        return true;
     }
-    $isConnect[-1] = false;
     return false;
 }
 
