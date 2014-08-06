@@ -184,6 +184,8 @@ class market {
                 $version = trim($market->getResult());
                 cache::set('jeedom::lastVersion', $version, 86400);
                 return $version;
+            } else {
+                log::add('market', 'error', $jsonrpc->getErrorMessage());
             }
         } catch (Exception $e) {
             
