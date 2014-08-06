@@ -27,6 +27,7 @@ class DB {
     /*     * **************  Attributs  ***************** */
 
     private $connection;
+    private $lastConnection;
     private static $sharedInstance;
 
     /*     * **************  Fonctions statiques  ***************** */
@@ -34,7 +35,7 @@ class DB {
     private function __construct() {
         global $CONFIG;
         try {
-            $this->connection = new PDO('mysql:host=' . $CONFIG['db']['host'] . ';port=' . $CONFIG['db']['port'] . ';dbname=' . $CONFIG['db']['dbname'], $CONFIG['db']['username'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+            $this->connection = new PDO('mysql:host=' . $CONFIG['db']['host'] . ';port=' . $CONFIG['db']['port'] . ';dbname=' . $CONFIG['db']['dbname'], $CONFIG['db']['username'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',PDO::ATTR_PERSISTENT => true));
         } catch (Exception $e) {
             throw new Exception('DB : Incorrect parameters');
         }
@@ -50,7 +51,7 @@ class DB {
     public static function getConnection() {
         if (!isset(self::$sharedInstance)) {
             self::$sharedInstance = new self();
-        } else {
+        } else if (self::$sharedInstance->lastConnection + 59 < strtotime('now')) {
             try {
                 if (!self::$sharedInstance->connection->query('select 1;')) {
                     self::$sharedInstance = new self();
@@ -59,6 +60,7 @@ class DB {
                 self::$sharedInstance = new self();
             }
         }
+        self::$sharedInstance->lastConnection = strtotime('now');
         return self::$sharedInstance->connection;
     }
 
