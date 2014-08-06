@@ -474,7 +474,7 @@ class scenario {
                 case 'error':
                     return '<i class="fa fa-exclamation-triangle"></i>';
                 default:
-                    if ($this->getDisplay('icon') != '') {
+                    if (trim($this->getDisplay('icon')) != '') {
                         return $this->getDisplay('icon');
                     }
                     return '<i class="fa fa-check"></i>';

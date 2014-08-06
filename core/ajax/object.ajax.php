@@ -86,7 +86,7 @@ try {
             }
             $return = array();
             foreach ($objects as $object) {
-                if ($object->getIsVisible() == 1) {
+                if (is_object($object) && $object->getIsVisible() == 1) {
                     $html = '';
                     foreach ($object->getEqLogic() as $eqLogic) {
                         if ($eqLogic->getIsVisible() == '1') {
