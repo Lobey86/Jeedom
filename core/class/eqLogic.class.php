@@ -406,11 +406,11 @@ class eqLogic {
         $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
         if ($this->getIsEnable()) {
             foreach ($this->getCmd(null, null, true) as $cmd) {
-                if ($cmd->getType() == 'action') {
-                    $action.=$cmd->toHtml($version, '', $cmdColor);
-                } else {
+             //   if ($cmd->getType() == 'action') {
                     $info.=$cmd->toHtml($version, '', $cmdColor);
-                }
+              //  } else {
+                 //   $info.=$cmd->toHtml($version, '', $cmdColor);
+              //  }
             }
         }
         $replace = array(
