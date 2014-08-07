@@ -357,7 +357,11 @@ class evaluate {
                         if (isset($lstP[$lastNum]["operateur"]) && $lastNum != -1) {
                             $ope = $lstP[$lastNum]["operateur"] . $lettre;
                             if (array_search($ope, $tabSignes) === false) {
-                                throw new Exception(__("ERREUR deux opérateurs d'affiler", __FILE__));
+                                if ($lettre != '-') {
+                                    throw new Exception(__("ERREUR deux opérateurs d'affilé", __FILE__));
+                                } else {
+                                    $paramNom = '-' . $paramNom;
+                                }
                             } else {
                                 $lstP[$lastNum]["operateur"].=$lettre;
                             }
