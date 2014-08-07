@@ -228,7 +228,7 @@ $plugins_list = plugin::listPlugin(true, true);
                         if (isset($plugin) && is_object($plugin)) {
                             include_file('desktop', $page, 'php', $plugin->getId());
                         } else {
-                            include_file('desktop', init('p'), 'php');
+                            include_file('desktop', $page, 'php');
                         }
                     } catch (Exception $e) {
                         ob_end_clean();
