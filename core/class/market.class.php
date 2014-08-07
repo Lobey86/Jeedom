@@ -179,9 +179,9 @@ class market {
             if (!$_refresh && $cache->getValue('') != '') {
                 return $cache->getValue();
             }
-            $market = self::getJsonRpc();
-            if ($market->sendRequest('jeedom::getCurrentVersion')) {
-                $version = trim($market->getResult());
+            $jsonrpc = self::getJsonRpc();
+            if ($jsonrpc->sendRequest('jeedom::getCurrentVersion')) {
+                $version = trim($jsonrpc->getResult());
                 cache::set('jeedom::lastVersion', $version, 86400);
                 return $version;
             } else {
