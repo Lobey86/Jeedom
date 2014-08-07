@@ -2,10 +2,8 @@
 require_once dirname(__FILE__) . "/../../core/php/core.inc.php";
 include_file('core', 'authentification', 'php');
 $startLoadTime = getmicrotime();
-include_file('core', 'pageDescriptor', 'config');
-global $PAGE_DESCRIPTOR_DESKTOP;
 global $JEEDOM_INTERNAL_CONFIG;
-if (isConnect() && init('p') == '') {
+if (init('p') == '' && isConnect()) {
     $homePage = explode('::', $_SESSION['user']->getOptions('homePage', 'core::dashboard'));
     if (count($homePage) == 2) {
         if ($homePage[0] == 'core') {
@@ -21,8 +19,6 @@ $page = '';
 if (isConnect() && init('p') != '') {
     $page = init('p');
 }
-$title = isset($PAGE_DESCRIPTOR_DESKTOP[$page]) ? $PAGE_DESCRIPTOR_DESKTOP[$page]['title'] : $page;
-
 $plugin = init('m');
 if ($plugin != '') {
     $plugin = plugin::byId($plugin);
@@ -36,7 +32,7 @@ $plugins_list = plugin::listPlugin(true, true);
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Jeedom - <?php echo $title; ?></title>
+        <title>Jeedom - <?php echo init('p'); ?></title>
         <link rel="shortcut icon" href="core/img/logo-jeedom-sans-nom-couleur-25x25.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
@@ -44,15 +40,6 @@ $plugins_list = plugin::listPlugin(true, true);
         <META HTTP-EQUIV="Pragma" CONTENT="private">
         <META HTTP-EQUIV="Cache-Control" CONTENT="private, max-age=5400, pre-check=5400">
         <META HTTP-EQUIV="Expires" CONTENT="<?php echo date(DATE_RFC822, strtotime("1 day")); ?>">
-        <style type="text/css">
-            body {
-                padding-top: 60px;
-                padding-bottom: 40px;
-            }
-            .sidebar-nav {
-                padding: 9px 0;
-            }
-        </style>
         <script>
             var clientDatetime = new Date();
             var clientServerDiffDatetime = (<?php echo strtotime('now'); ?> * 1000) - clientDatetime.getTime();
@@ -85,10 +72,10 @@ $plugins_list = plugin::listPlugin(true, true);
     </head>
     <body>
         <?php
-        sendVarToJS('jeedom_langage', config::byKey('language'));
         if (!isConnect()) {
             include_file('desktop', 'connection', 'php');
         } else {
+            sendVarToJS('jeedom_langage', config::byKey('language'));
             sendVarToJS('userProfils', $_SESSION['user']->getOptions());
             sendVarToJS('user_id', $_SESSION['user']->getId());
             sendVarToJS('user_login', $_SESSION['user']->getLogin());
@@ -239,14 +226,10 @@ $plugins_list = plugin::listPlugin(true, true);
                     <div style="display: none;width : 100%" id="div_alert"></div>
                     <?php
                     try {
-                        if (isset($PAGE_DESCRIPTOR_DESKTOP[$page])) {
-                            include_file('desktop', $PAGE_DESCRIPTOR_DESKTOP[$page]['pageName'], 'php');
-                        } else if (isset($plugin) && is_object($plugin)) {
+                        if (isset($plugin) && is_object($plugin)) {
                             include_file('desktop', $page, 'php', $plugin->getId());
                         } else {
-                            echo '<div class="alert alert-danger div_alert">';
-                            echo '{{404 - Page non trouvée}}';
-                            echo '</div>';
+                            include_file('desktop', init('p'), 'php');
                         }
                     } catch (Exception $e) {
                         ob_end_clean();
