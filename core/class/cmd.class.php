@@ -529,6 +529,9 @@ class cmd {
         }
 
         $eqLogic = $this->getEqLogic();
+        if ($eqLogic->getIsEnable() != 1) {
+            throw new Exception(__('Equipement desactivé impossible d\éxecuter la commande : ' . $this->getHumanName()));
+        }
         $type = $eqLogic->getEqType_name();
         try {
             if ($_options !== null && $_options !== '') {
@@ -695,11 +698,10 @@ class cmd {
                 if (!isset(self::$_templateArray[$_version . 'cmd.info.history.default'])) {
                     self::$_templateArray[$_version . 'cmd.info.history.default'] = getTemplate('core', $_version, 'cmd.info.history.default');
                 }
-               
+
                 $html .= template_replace($replace, self::$_templateArray[$_version . 'cmd.info.history.default']);
-              
             }
-            
+
             $html .= template_replace($replace, $template);
         } else {
             $cmdValue = $this->getCmdValue();
