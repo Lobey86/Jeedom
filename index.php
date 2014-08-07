@@ -25,21 +25,7 @@ if (!isset($_GET['v'])) {
     }
 } else {
     require_once dirname(__FILE__) . "/core/php/core.inc.php";
-    if ($_GET['v'] == "m") {
-        if (isset($_GET['modal'])) {
-            include_file('mobile', init('modal'), 'modal', init('plugin'));
-        } else {
-            if (isset($_GET['p'])) {
-                if (isset($_GET['m'])) {
-                    include_file('mobile', $_GET['p'], 'html', $_GET['m']);
-                } else {
-                    include_file('mobile', $_GET['p'], 'html');
-                }
-            } else {
-                include_file('mobile', 'index', 'html');
-            }
-        }
-    } elseif ($_GET['v'] == "d") {
+    if ($_GET['v'] == "d") {
         if (isset($_GET['modal'])) {
             include_file('core', 'authentification', 'php');
             try {
@@ -59,6 +45,20 @@ if (!isset($_GET['v'])) {
             }
         } else {
             include_file('desktop', 'index', 'php');
+        }
+    } else if ($_GET['v'] == "m") {
+        if (isset($_GET['modal'])) {
+            include_file('mobile', init('modal'), 'modal', init('plugin'));
+        } else {
+            if (isset($_GET['p'])) {
+                if (isset($_GET['m'])) {
+                    include_file('mobile', $_GET['p'], 'html', $_GET['m']);
+                } else {
+                    include_file('mobile', $_GET['p'], 'html');
+                }
+            } else {
+                include_file('mobile', 'index', 'html');
+            }
         }
     } else {
         echo "Erreur veuillez contacter l'administrateur";

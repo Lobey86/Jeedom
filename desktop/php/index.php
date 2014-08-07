@@ -1,7 +1,6 @@
 <?php
-require_once dirname(__FILE__) . "/../../core/php/core.inc.php";
-include_file('core', 'authentification', 'php');
 $startLoadTime = getmicrotime();
+include_file('core', 'authentification', 'php');
 global $JEEDOM_INTERNAL_CONFIG;
 if (init('p') == '' && isConnect()) {
     $homePage = explode('::', $_SESSION['user']->getOptions('homePage', 'core::dashboard'));
