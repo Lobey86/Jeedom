@@ -366,7 +366,7 @@ class cmd {
         foreach ($matches[1] as $cmd_id) {
             if (is_numeric($cmd_id)) {
                 $cmd = self::byId($cmd_id);
-                if ($cmd->getType() == 'info') {
+                if (is_object($cmd) && $cmd->getType() == 'info') {
                     $cmd_value = $cmd->execCmd();
                     if ($cmd->getSubtype() == "string") {
                         $cmd_value = '"' . $cmd_value . '"';
