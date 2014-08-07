@@ -363,7 +363,11 @@ class evaluate {
                             }
                         } else {
                             if ($lastNum == -1) {
-                                throw new Exception(__("ERREUR expression attend paramètre avant symbole : " . $lettre, __FILE__));
+                                if ($lettre != '-') {
+                                    throw new Exception(__("ERREUR expression attend paramètre avant symbole : " . $lettre, __FILE__));
+                                } else {
+                                    $paramNom = '-' . $paramNom;
+                                }
                             } else {
                                 $lstP[$lastNum]["operateur"] = $lettre;
                             }
