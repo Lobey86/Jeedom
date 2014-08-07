@@ -17,85 +17,82 @@
  */
 
 function include_file($_folder, $_fn, $_type, $_plugin = '') {
-    $php = false;
-    $css = false;
-    $js = false;
+    $type = '';
     if ($_folder == '3rdparty') {
         $_folder = $_folder;
         $_fn = $_fn . '.' . $_type;
         $path = dirname(__FILE__) . "/../../$_folder/$_fn";
         if ($_type == 'css') {
-            $css = true;
+            $type = 'css';
         } else if ($_type == 'js') {
-            $js = true;
+            $type = 'js';
         } else {
-            $php = true;
+            $type = 'php';
         }
     } else {
         if ($_type == 'class') {
             $_folder .= '/class';
             $_fn = $_fn . '.class.php';
-            $php = true;
+            $type = 'php';
         }
         if ($_type == 'com') {
             $_folder .= '/com';
             $_fn = $_fn . '.com.php';
-            $php = true;
+            $type = 'php';
         }
         if ($_type == 'config') {
             $_folder .= '/config';
             $_fn = $_fn . '.config.php';
-            $php = true;
+            $type = 'php';
         }
         if ($_type == 'modal') {
             $_folder = $_folder . '/modal';
             $_fn = $_fn . '.php';
-            $php = true;
+            $type = 'php';
         }
         if ($_type == 'php') {
             $_folder = $_folder . '/php';
             $_fn = $_fn . '.php';
-            $php = true;
+            $type = 'php';
         }
         if ($_type == 'css') {
             $_folder = $_folder . '/css';
             $_fn = $_fn . '.css';
-            $css = true;
+            $type = 'css';
         }
         if ($_type == 'js') {
             $_folder = $_folder . '/js';
             $_fn = $_fn . '.js';
-            $js = true;
+            $type = 'js';
         }
         if ($_type == 'class.js') {
             $_folder = $_folder . '/js';
             $_fn = $_fn . '.class.js';
-            $js = true;
+            $type = 'js';
         }
         if ($_type == 'api') {
             $_folder .= '/api';
             $_fn = $_fn . '.api.php';
-            $php = true;
+            $type = 'php';
         }
         if ($_type == 'html') {
             $_folder .= '/html';
             $_fn = $_fn . '.html';
-            $php = true;
+            $type = 'php';
         }
     }
     if ($_plugin != '') {
         $_folder = 'plugins/' . $_plugin . '/' . $_folder;
     }
-
     $path = dirname(__FILE__) . "/../../$_folder/$_fn";
     if (file_exists($path)) {
-        if ($php) {
+        if ($type == 'php') {
             ob_start();
             require_once($path);
             echo translate::exec(ob_get_clean(), "$_folder/$_fn");
-        } else if ($css) {
+        } else if ($type == 'css') {
             echo "<link href=\"$_folder/$_fn?md5=" . md5_file($path) . "\" rel=\"stylesheet\" />";
-        } else if ($js) {
+        } else if ($type == 'js') {
             echo "<script type=\"text/javascript\" src=\"core/php/getJS.php?file=$_folder/$_fn&md5=" . md5_file($path) . "\"></script>";
         }
     } else {
