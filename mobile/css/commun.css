@@ -25,6 +25,16 @@ body{
     background-color:#f2dede;
 }
 
+.eqLogic-widget .ui-btn{
+    background-color: transparent !important;
+    border: 2px solid white !important;
+    color : white !important;
+    font-weight: bold !important;
+    -webkit-border-radius:3px !important;
+    -moz-border-radius:3px !important;
+    border-radius:3px !important;
+}
+
 .eqLogic-widget{
     display: inline-block;
     background-color: #19bc9c;
