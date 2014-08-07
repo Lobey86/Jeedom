@@ -35,7 +35,7 @@ class translate {
         }
         $language = self::getLanguage();
         if ($language == 'fr_FR') {
-            return str_replace(array('{{', '}}'), '', $_content);
+            return preg_replace("/{{(.*?)}}/s", '$1', $_content);
         }
         if (substr($_name, 0, 1) == '/') {
             if (strpos($_name, 'plugins') !== false) {
