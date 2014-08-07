@@ -377,7 +377,9 @@ class history {
         } else {
             $value = $_strcalcul;
         }
-        ksort($value);
+        if (is_array($value)) {
+            ksort($value);
+        }
         return $value;
     }
 

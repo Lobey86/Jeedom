@@ -216,17 +216,19 @@ try {
             }
         } else {
             $histories = history::getHistoryFromCalcul(init('id'), $dateStart, $dateEnd);
-            foreach ($histories as $datetime => $value) {
-                $info_history = array();
-                $info_history[] = floatval($datetime) * 1000;
-                $info_history[] = ($value === null ) ? null : floatval($value);
-                if ($value > $return['maxValue'] || $return['maxValue'] == '') {
-                    $return['maxValue'] = $value;
+            if (is_array($histories)) {
+                foreach ($histories as $datetime => $value) {
+                    $info_history = array();
+                    $info_history[] = floatval($datetime) * 1000;
+                    $info_history[] = ($value === null ) ? null : floatval($value);
+                    if ($value > $return['maxValue'] || $return['maxValue'] == '') {
+                        $return['maxValue'] = $value;
+                    }
+                    if ($value < $return['minValue'] || $return['minValue'] == '') {
+                        $return['minValue'] = $value;
+                    }
+                    $data[] = $info_history;
                 }
-                if ($value < $return['minValue'] || $return['minValue'] == '') {
-                    $return['minValue'] = $value;
-                }
-                $data[] = $info_history;
             }
             $return['cmd_name'] = init('name');
             $return['history_name'] = init('name');
