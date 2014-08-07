@@ -22,14 +22,12 @@ require_once dirname(__FILE__) . '/../../core/php/core.inc.php';
 class config {
     /*     * *************************Attributs****************************** */
 
-    private static $defaultConfiguration;
+    private static $defaultConfiguration = array();
+    private static $cache = array();
 
     /*     * ***********************Methode static*************************** */
 
     public static function getDefaultConfiguration($_plugin = 'core') {
-        if (!is_array(self::$defaultConfiguration)) {
-            self::$defaultConfiguration = array();
-        }
         if (!isset(self::$defaultConfiguration[$_plugin])) {
             if ($_plugin == 'core') {
                 self::$defaultConfiguration[$_plugin] = parse_ini_file(dirname(__FILE__) . '/../../core/config/default.config.ini', true);
@@ -54,7 +52,10 @@ class config {
      */
     public static function save($_key, $_value, $_plugin = 'core') {
         if (is_object($_value) || is_array($_value)) {
-            $_value = json_encode($_value,JSON_UNESCAPED_UNICODE);
+            $_value = json_encode($_value, JSON_UNESCAPED_UNICODE);
+        }
+        if (isset(self::$cache[$_plugin . '::' . $_key])) {
+            unset(self::$cache[$_plugin . '::' . $_key]);
         }
         $defaultConfiguration = self::getDefaultConfiguration($_plugin);
         if (isset($defaultConfiguration[$_plugin][$_key]) && $_value == $defaultConfiguration[$_plugin][$_key]) {
@@ -101,6 +102,9 @@ class config {
      * @return string valeur de la clef
      */
     public static function byKey($_key, $_plugin = 'core', $_default = '') {
+        if (isset(self::$cache[$_plugin . '::' . $_key])) {
+            return self::$cache[$_plugin . '::' . $_key];
+        }
         $values = array(
             'plugin' => $_plugin,
             'key' => $_key,
@@ -122,14 +126,14 @@ class config {
         if (is_json($value['value'])) {
             $value['value'] = json_decode($value['value'], true);
         }
-        return $value['value'];
+        self::$cache[$_plugin . '::' . $_key] = $value['value'];
+        return self::$cache[$_plugin . '::' . $_key];
     }
-    
-    
-     public static function searchKey($_key, $_plugin = 'core') {
+
+    public static function searchKey($_key, $_plugin = 'core') {
         $values = array(
             'plugin' => $_plugin,
-            'key' => '%'.$_key.'%',
+            'key' => '%' . $_key . '%',
         );
         $sql = 'SELECT * 
                 FROM config 

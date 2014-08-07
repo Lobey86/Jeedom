@@ -42,7 +42,7 @@ class cmd {
     protected $isVisible = 1;
     protected $_internalEvent = 0;
     protected $_eqLogic = null;
-    private static $_templateArray;
+    private static $_templateArray = array();
 
     /*     * ***********************Methode static*************************** */
 
@@ -611,9 +611,6 @@ class cmd {
         $html = '';
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($_version, 'default');
         $template = '';
-        if (!is_array(self::$_templateArray)) {
-            self::$_templateArray == array();
-        }
         if (!isset(self::$_templateArray[$_version . '::' . $template_name])) {
             if ($this->getTemplate($_version, 'default') != 'default') {
                 $template = getTemplate('core', $_version, $template_name, 'widget');

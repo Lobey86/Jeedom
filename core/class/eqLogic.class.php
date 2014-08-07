@@ -36,7 +36,8 @@ class eqLogic {
     protected $category;
     protected $_internalEvent = 0;
     protected $_debug = false;
-    private static $_templateArray;
+    protected $_object = null;
+    private static $_templateArray = array();
 
     /*     * ***********************Methode static*************************** */
 
@@ -397,7 +398,6 @@ class eqLogic {
             throw new Exception(__('La version demandé ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
         }
         $info = '';
-        $action = '';
         $version = jeedom::versionAlias($_version);
         $vcolor = 'cmdColor';
         if ($version == 'mobile') {
@@ -406,11 +406,7 @@ class eqLogic {
         $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
         if ($this->getIsEnable()) {
             foreach ($this->getCmd(null, null, true) as $cmd) {
-             //   if ($cmd->getType() == 'action') {
-                    $info.=$cmd->toHtml($version, '', $cmdColor);
-              //  } else {
-                 //   $info.=$cmd->toHtml($version, '', $cmdColor);
-              //  }
+                $info.=$cmd->toHtml($version, '', $cmdColor);
             }
         }
         $replace = array(
@@ -419,17 +415,13 @@ class eqLogic {
             '#eqLink#' => $this->getLinkToConfiguration(),
             '#category#' => $this->getPrimaryCategory(),
             '#background_color#' => $this->getBackgroundColor($version),
-            '#action#' => $action,
             '#info#' => $info,
         );
         if ($_version == 'dview' || $_version == 'mview') {
             $object = $this->getObject();
-            $replace['#object_name#'] = (is_object($object)) ? $object->getName()."<br/>" : '';
-        }else{
+            $replace['#object_name#'] = (is_object($object)) ? $object->getName() . "<br/>" : '';
+        } else {
             $replace['#object_name#'] = '';
-        }
-        if (!isset(self::$_templateArray)) {
-            self::$_templateArray = array();
         }
         if (!isset(self::$_templateArray[$version])) {
             self::$_templateArray[$version] = getTemplate('core', $version, 'eqLogic');
@@ -591,7 +583,10 @@ class eqLogic {
     }
 
     public function getObject() {
-        return object::byId($this->object_id);
+        if ($this->_object == null) {
+            $this->_object = object::byId($this->object_id);
+        }
+        return $this->_object;
     }
 
     public function getEqType_name() {

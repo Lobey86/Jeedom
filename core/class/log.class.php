@@ -171,12 +171,8 @@ class log {
     }
 
     private static function isTypeLog($_type) {
-        if (!isset(self::$logLevel) || !is_array(self::$logLevel)) {
-            try {
-                self::$logLevel = config::byKey('logLevel');
-            } catch (Exception $e) {
-                self::$logLevel = array();
-            }
+        if (!is_array(self::$logLevel)) {
+            self::$logLevel = config::byKey('logLevel');
         }
         if (!isset(self::$logLevel[$_type]) || self::$logLevel[$_type] == 1) {
             return true;
