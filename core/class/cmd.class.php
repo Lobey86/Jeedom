@@ -956,9 +956,6 @@ class cmd {
     }
 
     public function getCache($_key = '', $_default = '') {
-        if ($this->cache != '' && is_json($this->cache)) {
-            $this->cache = json_decode($this->cache, true);
-        }
         return utils::getJsonAttr($this->cache, $_key, $_default);
     }
 
@@ -975,9 +972,6 @@ class cmd {
     }
 
     public function getConfiguration($_key = '', $_default = '') {
-        if ($this->configuration != '' && is_json($this->configuration)) {
-            $this->configuration = json_decode($this->configuration, true);
-        }
         return utils::getJsonAttr($this->configuration, $_key, $_default);
     }
 
@@ -986,9 +980,6 @@ class cmd {
     }
 
     public function getDisplay($_key = '', $_default = '') {
-        if ($this->display != '' && is_json($this->display)) {
-            $this->display = json_decode($this->display, true);
-        }
         return utils::getJsonAttr($this->display, $_key, $_default);
     }
 
