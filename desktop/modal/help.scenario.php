@@ -54,6 +54,7 @@ if (!isConnect()) {
 {{#mois# : mois courant}}
 {{#annee# : année courante}}
 {{#time# : heure et minute courante (ex : 1715 pour 17h15)}}
+{{#timestamp# : retourne le nombre de secondes depuis le 1er janvier 1970}}
 {{#date# : jour et mois courant (ex : 1215 pour le 15 decembre)}}
 {{#semaine# : numéro de la semaine (ex : 51)}}
 {{#sjour# : pour le nom du jour de la semaine (ex : Samedi)}}
@@ -94,6 +95,7 @@ icon : permet de changer l'icone de représentation du scenario}}
 {{#mois# : mois courant}}
 {{#annee# : année courante}}
 {{#time# : heure et minute courante (ex : 1715 pour 17h15)}}
+{{#timestamp# : retourne le nombre de secondes depuis le 1er janvier 1970}}
 {{#date# : jour et mois courant (ex : 1215 pour le 15 decembre)}}
 {{#semaine# : numéro de la semaine (ex : 51)}}
 {{#sjour# : pour le nom du jour de la semaine en anglais (ex : sunday)}}

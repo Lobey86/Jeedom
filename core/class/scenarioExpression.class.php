@@ -161,6 +161,7 @@ class scenarioExpression {
             '#mois#' => date('m'),
             '#annee#' => date('Y'),
             '#time#' => date('Hi'),
+            '#timestamp#' => time(),
             '#date#' => date('md'),
             '#semaine#' => date('W'),
             '#sjour#' => convertDayEnToFr(date('l')),

@@ -29,6 +29,7 @@ autoCompleteCondition = [
     {val: '#annee#'},
     {val: '#date#'},
     {val: '#time#'},
+    {val: '#timestamp#'},
     {val: '#semaine#'},
     {val: '#sjour#'},
     {val: '#minute#'},
