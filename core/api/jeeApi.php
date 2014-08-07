@@ -41,7 +41,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
             echo $cmd->execCmd($_REQUEST);
         } else if ($type == 'scenario') {
-            $scenario = scneario::byId(init('id'));
+            $scenario = scenario::byId(init('id'));
             if (!is_object($scenario)) {
                 throw new Exception('Aucun scénario correspondant à l\'id : ' . init('id'));
             }
