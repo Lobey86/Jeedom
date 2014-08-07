@@ -158,7 +158,7 @@ class utils {
         if ($_attr === '') {
             return $_default;
         }
-        $attr = json_decode($_attr, true);
+        $attr = (is_array($_attr)) ? $_attr : json_decode($_attr, true);
         return (isset($attr[$_key]) && $attr[$_key] !== '') ? $attr[$_key] : $_default;
     }
 

@@ -43,6 +43,7 @@ class cache {
             $cache = new self();
             $cache->setKey($_key);
             $cache->setDatetime(date('Y-m-d H:i:s'));
+            $cache->_hasExpired = true;
         } else {
             if (!$_noRemove && $cache->hasExpired()) {
                 $cache->remove();
@@ -133,7 +134,7 @@ class cache {
         if ($this->_hasExpired != -1) {
             return $this->_hasExpired;
         }
-         if (trim($this->getValue()) === '' || $this->getValue() === false) {
+        if (trim($this->getValue()) === '' || $this->getValue() === false) {
             $this->_hasExpired = true;
             return true;
         }

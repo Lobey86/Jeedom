@@ -514,7 +514,7 @@ class cmd {
      * @throws Exception
      */
     public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
-        if ($this->getEventOnly() && $cache == 0) {
+        if ($cache == 0 && $this->getEventOnly()) {
             $cache = 2;
         }
         if ($this->getType() == 'info' && $cache != 0) {
@@ -604,13 +604,9 @@ class cmd {
     }
 
     public function toHtml($_version = 'dashboard', $options = '', $_cmdColor = null, $_cache = 2) {
-        if ($_version == '') {
-            throw new Exception(__('La version demandée ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
-        }
         $_version = jeedom::versionAlias($_version);
         $html = '';
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($_version, 'default');
-        $template = '';
         if (!isset(self::$_templateArray[$_version . '::' . $template_name])) {
             if ($this->getTemplate($_version, 'default') != 'default') {
                 $template = getTemplate('core', $_version, $template_name, 'widget');
@@ -648,6 +644,11 @@ class cmd {
         $replace = array(
             '#id#' => $this->getId(),
             '#name#' => ($this->getDisplay('icon') != '') ? $this->getDisplay('icon') : $this->getName(),
+            '#history#' => '',
+            '#displayHistory#' => 'display : none;',
+            '#unite#' => $this->getUnite(),
+            '#minValue#' => $this->getConfiguration('minValue', 0),
+            '#maxValue#' => $this->getConfiguration('maxValue', 100)
         );
         if ($_cmdColor == null && $_version != 'scenario') {
             $eqLogic = $this->getEqLogic();
@@ -656,49 +657,39 @@ class cmd {
         } else {
             $replace['#cmdColor#'] = $_cmdColor;
         }
-        $replace['#history#'] = '';
-        $replace['#displayHistory#'] = 'display : none;';
-        $replace['#unite#'] = $this->getUnite();
-        $replace['#minValue#'] = $this->getConfiguration('minValue', 0);
-        $replace['#maxValue#'] = $this->getConfiguration('maxValue', 100);
-
         if ($this->getType() == 'info') {
             $replace['#state#'] = '';
             $replace['#tendance#'] = '';
-            $value = trim($this->execCmd(null, $_cache));
-            if ($value === null) {
-                return template_replace($replace, $template);
-            }
+            $replace['#state#'] = trim($this->execCmd(null, $_cache));
             if ($this->getSubType() == 'binary' && $this->getDisplay('invertBinary') == 1) {
-                $value = ($value == 1) ? 0 : 1;
+                $replace['#state#'] = ($replace['#state#'] == 1) ? 0 : 1;
             }
-            $replace['#state#'] = $value;
             $replace['#collectDate#'] = $this->getCollectDate();
-            if (config::byKey('displayStatsWidget') == 1 && $this->getIsHistorized() == 1 && strpos($template, '#displayHistory#') !== false) {
-                $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculPeriod') . ' hour'));
-                $replace['#displayHistory#'] = '';
-                $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
-                $replace['#averageHistoryValue#'] = round($historyStatistique['avg'], 1);
-                $replace['#minHistoryValue#'] = round($historyStatistique['min'], 1);
-                $replace['#maxHistoryValue#'] = round($historyStatistique['max'], 1);
-                $tendance = $this->getTendance($startHist, date('Y-m-d H:i:s'));
-                $replace['#tendance#'] = 'fa fa-minus';
-                if ($tendance > config::byKey('historyCalculTendanceThresholddMax')) {
-                    $replace['#tendance#'] = 'fa fa-arrow-up';
+            if ($this->getIsHistorized() == 1) {
+                if (config::byKey('displayStatsWidget') == 1 && strpos($template, '#displayHistory#') !== false) {
+                    $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculPeriod') . ' hour'));
+                    $replace['#displayHistory#'] = '';
+                    $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
+                    $replace['#averageHistoryValue#'] = round($historyStatistique['avg'], 1);
+                    $replace['#minHistoryValue#'] = round($historyStatistique['min'], 1);
+                    $replace['#maxHistoryValue#'] = round($historyStatistique['max'], 1);
+                    $tendance = $this->getTendance($startHist, date('Y-m-d H:i:s'));
+                    $replace['#tendance#'] = 'fa fa-minus';
+                    if ($tendance > config::byKey('historyCalculTendanceThresholddMax')) {
+                        $replace['#tendance#'] = 'fa fa-arrow-up';
+                    }
+                    if ($tendance < config::byKey('historyCalculTendanceThresholddMin')) {
+                        $replace['#tendance#'] = 'fa fa-arrow-down';
+                    }
                 }
-                if ($tendance < config::byKey('historyCalculTendanceThresholddMin')) {
-                    $replace['#tendance#'] = 'fa fa-arrow-down';
+                if ($_version == 'dashboard') {
+                    $replace['#history#'] = 'history cursor';
+                    if (!isset(self::$_templateArray[$_version . 'cmd.info.history.default'])) {
+                        self::$_templateArray[$_version . 'cmd.info.history.default'] = getTemplate('core', $_version, 'cmd.info.history.default');
+                    }
+                    $html .= template_replace($replace, self::$_templateArray[$_version . 'cmd.info.history.default']);
                 }
             }
-            if ($this->getIsHistorized() == 1 && $_version == 'dashboard') {
-                $replace['#history#'] = 'history cursor';
-                if (!isset(self::$_templateArray[$_version . 'cmd.info.history.default'])) {
-                    self::$_templateArray[$_version . 'cmd.info.history.default'] = getTemplate('core', $_version, 'cmd.info.history.default');
-                }
-
-                $html .= template_replace($replace, self::$_templateArray[$_version . 'cmd.info.history.default']);
-            }
-
             $html .= template_replace($replace, $template);
         } else {
             $cmdValue = $this->getCmdValue();
@@ -965,6 +956,9 @@ class cmd {
     }
 
     public function getCache($_key = '', $_default = '') {
+        if ($this->cache != '' && is_json($this->cache)) {
+            $this->cache = json_decode($this->cache, true);
+        }
         return utils::getJsonAttr($this->cache, $_key, $_default);
     }
 
@@ -981,6 +975,9 @@ class cmd {
     }
 
     public function getConfiguration($_key = '', $_default = '') {
+        if ($this->configuration != '' && is_json($this->configuration)) {
+            $this->configuration = json_decode($this->configuration, true);
+        }
         return utils::getJsonAttr($this->configuration, $_key, $_default);
     }
 
@@ -989,6 +986,9 @@ class cmd {
     }
 
     public function getDisplay($_key = '', $_default = '') {
+        if ($this->display != '' && is_json($this->display)) {
+            $this->display = json_decode($this->display, true);
+        }
         return utils::getJsonAttr($this->display, $_key, $_default);
     }
 
