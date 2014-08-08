@@ -24,10 +24,12 @@ if (view_id != '') {
         },
         success: function(html) {
             $('#div_displayView').empty().html(html.html);
-            positionEqLogic();
-            $('.eqLogicZone').each(function() {
-                $(this).masonry({columnWidth: 1});
-            });
+            setTimeout(function() {
+                positionEqLogic();
+                $('.eqLogicZone').each(function() {
+                    $(this).masonry({columnWidth: 1});
+                });
+            }, 2);
         }
     });
 }
