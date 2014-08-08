@@ -61,6 +61,60 @@ function initView(_view_id) {
         setTileSize('.scenario');
         $('.eqLogicZone').masonry();
     });
+
+
+
+    $("body:not(.eqLogic)").off("swipeleft").on("swipeleft", function() {
+        jeedom.view.all({
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(views) {
+                modal(false);
+                panel(false);
+                var icon = '';
+                for (var i in views) {
+                    if (_view_id == views[i].id && isset(views[parseInt(i) + 1])) {
+                        if (isset(views[parseInt(i) + 1].display) && isset(views[parseInt(i) + 1].display.icon)) {
+                            icon = views[parseInt(i) + 1].display.icon;
+                        }
+                        page('view', icon.replace(/\"/g, "\'") + ' ' + views[parseInt(i) + 1].name, views[parseInt(i) + 1].id);
+                        return;
+                    }
+                }
+                if (isset(views[0].display) && isset(views[0].display.icon)) {
+                    icon = views[0].display.icon;
+                }
+                page('view', icon.replace(/\"/g, "\'") + ' ' + views[0].name, views[0].id);
+                return;
+            }
+        });
+    });
+
+    $("body:not(.eqLogic)").off("swiperight").on("swiperight", function() {
+         jeedom.view.all({
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(views) {
+                modal(false);
+                panel(false);
+                var icon = '';
+                var previous = null;
+                for (var i in views) {
+                    if (_view_id == views[i].id && previous != null) {
+                        break;
+                    }
+                    previous = views[i];
+                }
+                if (isset(previous.display) && isset(previous.display.icon)) {
+                    icon = previous.display.icon;
+                }
+                page('view', icon.replace(/\"/g, "\'") + ' ' + previous.name, previous.id);
+                return;
+            }
+        });
+    });
 }
 
 function displayView(html) {
