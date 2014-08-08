@@ -37,15 +37,11 @@ class plugin {
     private $display;
     private $mobile;
     private $include = array();
-    private static $_cache;
+    private static $_cache = array();
 
     /*     * ***********************Methode static*************************** */
 
     public static function byId($_id) {
-        if (!is_array(self::$_cache)) {
-            self::$_cache = array();
-        }
-
         if (isset(self::$_cache[$_id])) {
             return self::$_cache[$_id];
         }

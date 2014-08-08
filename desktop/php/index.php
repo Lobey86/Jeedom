@@ -26,6 +26,30 @@ if ($plugin != '') {
     }
 }
 $plugins_list = plugin::listPlugin(true, true);
+$plugin_menu = '';
+$panel_menu = '';
+if (count($plugins_list) > 0) {
+    foreach ($plugins_list as $category_name => $category) {
+        $icon = '';
+        if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'])) {
+            $icon = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'];
+        }
+        $name = $category_name;
+        if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'])) {
+            $name = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'];
+        }
+        $plugin_menu .= '<li class="dropdown-submenu"><a href="#"><i class="fa ' . $icon . '"></i> {{' . $name . '}}</a>';
+        $plugin_menu .= '<ul class="dropdown-menu">';
+        foreach ($category as $pluginList) {
+            $plugin_menu .= '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
+            if ($pluginList->getDisplay() != '') {
+                $panel_menu .= '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getDisplay() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
+            }
+        }
+        $plugin_menu .= '</ul>';
+        $plugin_menu .= '</li>';
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -101,15 +125,8 @@ $plugins_list = plugin::listPlugin(true, true);
                                     <ul class="dropdown-menu">
                                         <li><a href="index.php?v=d&p=dashboard"><i class="fa fa-dashboard"></i> {{Dashboard}}</a></li>
                                         <li><a href="index.php?v=d&p=view"><i class="fa fa-picture-o"></i> {{Vue}}</a></li>
-
                                         <?php
-                                        foreach ($plugins_list as $category) {
-                                            foreach ($category as $pluginList) {
-                                                if ($pluginList->getDisplay() != '') {
-                                                    echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getDisplay() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
-                                                }
-                                            }
-                                        }
+                                        echo $panel_menu;
                                         ?>
                                     </ul>
                                 </li>
@@ -146,23 +163,7 @@ $plugins_list = plugin::listPlugin(true, true);
                                             if (count($plugins_list) == 0) {
                                                 echo '<li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> {{Installer un plugin}}</a></li>';
                                             } else {
-                                                foreach ($plugins_list as $category_name => $category) {
-                                                    $icon = '';
-                                                    if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'])) {
-                                                        $icon = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['icon'];
-                                                    }
-                                                    $name = $category_name;
-                                                    if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'])) {
-                                                        $name = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'];
-                                                    }
-                                                    echo '<li class="dropdown-submenu"><a href="#"><i class="fa ' . $icon . '"></i> {{' . $name . '}}</a>';
-                                                    echo '<ul class="dropdown-menu">';
-                                                    foreach ($category as $pluginList) {
-                                                        echo '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
-                                                    }
-                                                    echo '</ul>';
-                                                    echo '</li>';
-                                                }
+                                                echo $plugin_menu;
                                             }
                                             ?>
                                         </ul>
