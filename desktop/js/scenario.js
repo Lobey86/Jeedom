@@ -170,7 +170,6 @@ $('#bt_displayScenarioVariable').on('click', function() {
     $('#md_modal').closest('.ui-dialog').css('z-index', '1030');
     $('#md_modal').dialog({title: "{{Variable des scénarios}}"});
     $("#md_modal").load('index.php?v=d&modal=dataStore.management&type=scenario').dialog('open');
-
 });
 
 /*******************Element***********************/

@@ -666,6 +666,7 @@ class cmd {
             }
             $replace['#collectDate#'] = $this->getCollectDate();
             if ($this->getIsHistorized() == 1) {
+                $replace['#history#'] = 'history cursor';
                 if (config::byKey('displayStatsWidget') == 1 && strpos($template, '#displayHistory#') !== false) {
                     $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . config::byKey('historyCalculPeriod') . ' hour'));
                     $replace['#displayHistory#'] = '';
@@ -682,15 +683,8 @@ class cmd {
                         $replace['#tendance#'] = 'fa fa-arrow-down';
                     }
                 }
-                if ($_version == 'dashboard') {
-                    $replace['#history#'] = 'history cursor';
-                    if (!isset(self::$_templateArray[$_version . 'cmd.info.history.default'])) {
-                        self::$_templateArray[$_version . 'cmd.info.history.default'] = getTemplate('core', $_version, 'cmd.info.history.default');
-                    }
-                    $html .= template_replace($replace, self::$_templateArray[$_version . 'cmd.info.history.default']);
-                }
             }
-            $html .= template_replace($replace, $template);
+            return template_replace($replace, $template);
         } else {
             $cmdValue = $this->getCmdValue();
             if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
@@ -714,8 +708,8 @@ class cmd {
                     $html = template_replace($replace, $html);
                 }
             }
+            return $html;
         }
-        return $html;
     }
 
     public function event($_value) {
