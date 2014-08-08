@@ -25,7 +25,7 @@ class evaluate {
       --------------------------------------------------------------- */
 
     public function Get_Valeur_Of_Parametre($param) {
-        $tabSignes = array("=", "!=", "&&", "||", "<", "<=", ">", ">=", "~", "!~", "+", "-", "%", "/", "^", "&", "*");
+        $tabSignes = array("=", "!=", "&&", "||", "<", "<=", ">", ">=", "~", "!~", "+", "-", "%", "/", "^", "&", "*", '|^');
         if ((substr($param, 0, 1) == '"' || substr($param, 0, 1) == "'") && substr($param, -1, 1) == substr($param, 0, 1)) {
             $val = str_replace("\\\\", "\\", $param);
             $val = str_replace("\\" . substr($val, 0, 1), substr($val, 0, 1), $val);
@@ -58,6 +58,7 @@ class evaluate {
             ' OU ' => ' || ',
             ' or ' => ' || ',
             ' OR ' => ' || ',
+            ' OR ' => ' |^ ',
         );
         $chaine = str_replace(array_keys($replace), array_values($replace), $chaine);
 
@@ -100,7 +101,7 @@ class evaluate {
       --------------------------------------------------------------- */
 
     private function Eval_Evaluer_Liste_Parametres($lstParam) {
-        $tabOperateursComparaison = array('&&', '||', '=', '!=', '<', '<=', '>', '>=', '~', '!~');
+        $tabOperateursComparaison = array('&&', '||', '=', '!=', '<', '<=', '>', '>=', '~', '!~', '|^');
         $tabOperateursoperation = array('&', '^', '%', '*', '/', '-', '!', '+');
 
         //ON CHERCHE UN EVENTUEL OPERATEUR DE COMPARAISON
@@ -273,6 +274,13 @@ class evaluate {
                     $res = false;
                 }
                 break;
+            case "|^":
+                if ($valeur1 XOR $valeur2) {
+                    $res = true;
+                } else {
+                    $res = false;
+                }
+                break;
             case "~":
                 if (strpos(strtolower($valeur1), strtolower($valeur2)) !== false) {
                     $res = true;
@@ -296,7 +304,7 @@ class evaluate {
       --------------------------------------------------------------- */
 
     private function Eval_Trouver_Liste_Param($param) {
-        $tabSignes = array("=", "!=", "&&", "||", "<", "<=", ">", ">=", "+", "-", "%", "/", "^", "&", "*", "|", "~", "!~", "!");
+        $tabSignes = array("=", "!=", "&&", "||", "<", "<=", ">", ">=", "+", "-", "%", "/", "^", "&", "*", "|", "~", "!~", "!","|^");
 
         $param = trim($param);
         $lstP = array();
