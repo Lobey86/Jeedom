@@ -36,6 +36,7 @@ $("#bt_displayConfig").on('click', function(event) {
 });
 
 $('.bt_resetColor').on('click', function() {
+    var el = $(this);
     jeedom.getConfiguration({
         key: $(this).attr('data-l1key'),
         default: 1,
@@ -43,7 +44,7 @@ $('.bt_resetColor').on('click', function() {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function(data) {
-            $('.configKey[data-l1key="' + $(this).attr('data-l1key') + '"]').value(data);
+            $('.configKey[data-l1key="' + el.attr('data-l1key') + '"]').value(data);
         }
     });
 });
