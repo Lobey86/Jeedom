@@ -45,6 +45,7 @@ if (!isConnect()) {
                 <pre>
 {{&&/ET/et/AND/and : et}}
 {{||/OU/ou/OR/or : ou}}
+{{|^/XOR/xor : ou}}
                 </pre>
                 {{Vous pouvez aussi utiliser les tags suivants :}}
                 <pre>

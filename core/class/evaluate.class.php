@@ -58,7 +58,8 @@ class evaluate {
             ' OU ' => ' || ',
             ' or ' => ' || ',
             ' OR ' => ' || ',
-            ' OR ' => ' |^ ',
+            ' XOR ' => ' |^ ',
+            ' xor ' => ' |^ ',
         );
         $chaine = str_replace(array_keys($replace), array_values($replace), $chaine);
 
@@ -304,7 +305,7 @@ class evaluate {
       --------------------------------------------------------------- */
 
     private function Eval_Trouver_Liste_Param($param) {
-        $tabSignes = array("=", "!=", "&&", "||", "<", "<=", ">", ">=", "+", "-", "%", "/", "^", "&", "*", "|", "~", "!~", "!","|^");
+        $tabSignes = array("=", "!=", "&&", "||", "<", "<=", ">", ">=", "+", "-", "%", "/", "^", "&", "*", "|", "~", "!~", "!", "|^");
 
         $param = trim($param);
         $lstP = array();
