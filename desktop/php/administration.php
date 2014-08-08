@@ -337,6 +337,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             </div>
                         </fieldset>
                     </form>
+                    <div class="alert alert-info">{{N'oubliez pas de sauvegarder la configuration avant de tester}}</div>
                     <a class='btn btn-default' id='bt_testLdapConnection'>{{Tester la connexion}}</a>
                 </div>
             </div>
