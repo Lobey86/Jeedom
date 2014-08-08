@@ -103,16 +103,55 @@ jeedom.cmd.test = function(_params) {
                 case 'action' :
                     switch (result.subType) {
                         case 'other' :
-                            jeedom.cmd.execute({id: _params.id, cache: 0});
+                            jeedom.cmd.execute({
+                                id: _params.id,
+                                cache: 0,
+                                error: function(error) {
+                                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                                },
+                                success: function() {
+                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec success}}', level: 'success'});
+                                }
+                            });
                             break;
                         case 'slider' :
-                            jeedom.cmd.execute({id: _params.id, value: {slider: 50}, cache: 0});
+                            jeedom.cmd.execute({
+                                id: _params.id,
+                                value: {slider: 50},
+                                cache: 0,
+                                error: function(error) {
+                                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                                },
+                                success: function() {
+                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec success}}', level: 'success'});
+                                }
+                            });
                             break;
                         case 'color' :
-                            jeedom.cmd.execute({id: _params.id, value: {color: '#fff000'}, cache: 0});
+                            jeedom.cmd.execute({
+                                id: _params.id,
+                                value: {color: '#fff000'},
+                                cache: 0,
+                                error: function(error) {
+                                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                                },
+                                success: function() {
+                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec success}}', level: 'success'});
+                                }
+                            });
                             break;
                         case 'message' :
-                            jeedom.cmd.execute({id: _params.id, value: {title: '{{[Jeedom] Message de test}}', message: '{{Ceci est un test de message pour la commande}} ' + result.name}, cache: 0});
+                            jeedom.cmd.execute({
+                                id: _params.id,
+                                value: {title: '{{[Jeedom] Message de test}}', message: '{{Ceci est un test de message pour la commande}} ' + result.name},
+                                cache: 0,
+                                error: function(error) {
+                                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                                },
+                                success: function() {
+                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec success}}', level: 'success'});
+                                }
+                            });
                             break;
                     }
                     break;
@@ -230,7 +269,7 @@ jeedom.cmd.byId = function(_params) {
 
 jeedom.cmd.usedBy = function(_params) {
     var paramsRequired = ['id'];
-     var paramsSpecifics = {};
+    var paramsSpecifics = {};
     try {
         jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
     } catch (e) {
