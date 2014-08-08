@@ -164,7 +164,8 @@ jeedom.history.drawChart = function(_params) {
                 jeedom.history.chart[_params.el].chart = new Highcharts.StockChart({
                     chart: {
                         zoomType: 'x',
-                        renderTo: _params.el
+                        renderTo: _params.el,
+                        alignTicks: false,
                     },
                     plotOptions: {
                         series: {
@@ -288,8 +289,11 @@ jeedom.history.generatePlotBand = function(_startTime, _endTime) {
 }
 
 jeedom.history.changePoint = function(_params) {
-    var paramsRequired = ['id'];
+    var paramsRequired = ['cmd_id'];
     var paramsSpecifics = {
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
         success: function(result) {
             $('#div_alert').showAlert({message: '{{La valeur a été éditée avec succès}}', level: 'success'});
             var serie = null;
