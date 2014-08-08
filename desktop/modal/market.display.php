@@ -265,10 +265,8 @@ if ($market->getPurchase() == 1) {
                 var url = window.location.href;
                 if (url.indexOf('p=plugin') > 0) {
                     window.location.href = 'index.php?v=d&p=plugin&id='+logicalId;
-                } else {
-                    $.showLoading();
-                    window.location.reload();
                 }
+                $('#div_alertMarketDisplay').showAlert({message: '{{Objet installé avec succès}}', level: 'success'});
             }
         });
     });
