@@ -61,6 +61,50 @@ if (getUrlVars('removeSuccessFull') == 1) {
 }
 
 /**************************EqLogic*********************************************/
+$('.eqLogicAction[data-action=copy]').on('click', function() {
+    bootbox.prompt("{{Nom la copie de l'équipement ?}}", function(result) {
+        if (result !== null) {
+            var eqLogics = [];
+            $('.eqLogic').each(function() {
+                var eqLogic = $(this).getValues('.eqLogicAttr');
+                eqLogic = eqLogic[0];
+                if ('function' == typeof (saveEqLogic)) {
+                    eqLogic = saveEqLogic(eqLogic);
+                }
+                eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
+                eqLogic.id = '';
+                eqLogic.name = result;
+                eqLogics.push(eqLogic);
+            });
+            jeedom.eqLogic.save({
+                type: eqType,
+                eqLogics: eqLogics,
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function(data) {
+                    modifyWithoutSave = false;
+                    if ($('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + ']').length != 0) {
+                        var name = $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + '] a').text();
+                        $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + '] a').empty().append(name.substr(0, name.lastIndexOf("[")) + '[' + data.name + ']');
+                        $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + ']').click();
+                    } else {
+                        var vars = getUrlVars();
+                        var url = 'index.php?';
+                        for (var i in vars) {
+                            if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+                                url += i + '=' + vars[i].replace('#', '') + '&';
+                            }
+                        }
+                        url += 'id=' + data.id + '&saveSuccessFull=1';
+                        window.location.href = url;
+                    }
+                }
+            });
+            return false;
+        }
+    });
+});
 
 $('.eqLogicAction[data-action=save]').on('click', function() {
     var eqLogics = [];
