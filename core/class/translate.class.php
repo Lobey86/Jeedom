@@ -128,7 +128,11 @@ class translate {
 
     public static function getLanguage() {
         if (!isset(static::$language)) {
-            static::$language = config::byKey('language', 'core', 'fr_FR');
+            try {
+                static::$language = config::byKey('language', 'core', 'fr_FR');
+            } catch (Exception $e) {
+                static::$language = 'fr_FR';
+            }
         }
         return static::$language;
     }
