@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Jeu 24 Juillet 2014 à 20:36
--- Version du serveur: 5.6.17-0ubuntu0.14.04.1
+-- Généré le: Sam 09 Août 2014 à 11:40
+-- Version du serveur: 5.6.19-0ubuntu0.14.04.1
 -- Version de PHP: 5.5.9-1ubuntu4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `calendar_event` (
   `until` datetime DEFAULT NULL,
   `repeat` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 -- --------------------------------------------------------
 
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `cmd` (
   KEY `order` (`order`),
   KEY `logicalID` (`logicalId`),
   KEY `logicalId_eqLogicID` (`eqLogic_id`,`logicalId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1830 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1876 ;
 
 -- --------------------------------------------------------
 
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `connection` (
   `informations` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip_UNIQUE` (`ip`)
-) ENGINE=MEMORY  DEFAULT CHARSET=utf8 AUTO_INCREMENT=56 ;
+) ENGINE=MEMORY  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `cron` (
   UNIQUE KEY `class_function` (`class`,`function`,`option`),
   KEY `type` (`class`),
   KEY `logicalId_Type` (`class`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=511 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=518 ;
 
 -- --------------------------------------------------------
 
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `dataStore` (
   `value` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE` (`type`,`link_id`,`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `eqLogic` (
   KEY `object_id` (`object_id`),
   KEY `timeout` (`timeout`),
   KEY `eqReal_id` (`eqReal_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=449 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=463 ;
 
 -- --------------------------------------------------------
 
@@ -319,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `interactQuery` (
   PRIMARY KEY (`id`),
   KEY `fk_sarahQuery_sarahDef1_idx` (`interactDef_id`),
   FULLTEXT KEY `query` (`query`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5553 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5729 ;
 
 -- --------------------------------------------------------
 
@@ -347,7 +347,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `message` text,
   `action` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1456 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1831 ;
 
 -- --------------------------------------------------------
 
@@ -367,7 +367,7 @@ CREATE TABLE IF NOT EXISTS `object` (
   UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `fk_object_object1_idx1` (`father_id`),
   KEY `position` (`position`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 -- --------------------------------------------------------
 
@@ -398,7 +398,7 @@ CREATE TABLE IF NOT EXISTS `scenario` (
   UNIQUE KEY `name` (`group`,`object_id`,`name`),
   KEY `group` (`group`),
   KEY `fk_scenario_object1_idx` (`object_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=68 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=69 ;
 
 -- --------------------------------------------------------
 
@@ -433,7 +433,7 @@ CREATE TABLE IF NOT EXISTS `scenarioExpression` (
   `log` text,
   PRIMARY KEY (`id`),
   KEY `fk_scenarioExpression_scenarioSubElement1_idx` (`scenarioSubElement_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=479 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=480 ;
 
 -- --------------------------------------------------------
 
@@ -472,7 +472,7 @@ CREATE TABLE IF NOT EXISTS `update` (
   `configuration` text,
   PRIMARY KEY (`id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=139 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=147 ;
 
 -- --------------------------------------------------------
 
@@ -488,7 +488,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `hash` varchar(255) DEFAULT NULL,
   `rights` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -501,7 +501,7 @@ CREATE TABLE IF NOT EXISTS `view` (
   `name` varchar(127) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='<double-click to overwrite multiple objects>' AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='<double-click to overwrite multiple objects>' AUTO_INCREMENT=23 ;
 
 -- --------------------------------------------------------
 
@@ -520,7 +520,7 @@ CREATE TABLE IF NOT EXISTS `viewData` (
   UNIQUE KEY `unique` (`viewZone_id`,`link_id`,`type`),
   KEY `fk_data_zone1_idx` (`viewZone_id`),
   KEY `order` (`order`,`viewZone_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='<double-click to overwrite multiple objects>' AUTO_INCREMENT=611 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='<double-click to overwrite multiple objects>' AUTO_INCREMENT=681 ;
 
 -- --------------------------------------------------------
 
@@ -537,7 +537,7 @@ CREATE TABLE IF NOT EXISTS `viewZone` (
   `configuration` text,
   PRIMARY KEY (`id`),
   KEY `fk_zone_view1` (`view_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='<double-click to overwrite multiple objects>' AUTO_INCREMENT=248 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='<double-click to overwrite multiple objects>' AUTO_INCREMENT=276 ;
 
 --
 -- Contraintes pour les tables exportées
