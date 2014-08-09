@@ -66,19 +66,34 @@ class scenario {
      */
     public static function all($_group = '') {
         if ($_group == '') {
-            $sql = 'SELECT ' . DB::buildField(__CLASS__) . ' 
-                    FROM scenario 
-                    ORDER BY `group`, `name`';
-            return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+            $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . ' 
+                    FROM scenario s
+                    INNER JOIN object ob ON s.object_id=ob.id
+                    ORDER BY ob.name,s.group, s.name';
+            $result1 = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+            $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '  
+                    FROM scenario s
+                    WHERE s.object_id IS NULL
+                    ORDER BY s.group, s.name';
+            $result2 = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+            return array_merge($result1, $result2);
         } else {
             $values = array(
                 'group' => $_group
             );
-            $sql = 'SELECT ' . DB::buildField(__CLASS__) . '  
-                    FROM scenario
+            $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '  
+                    FROM scenario s
+                    INNER JOIN object ob ON s.object_id=ob.id
                     WHERE `group`=:group
-                    ORDER BY `group`, `name`';
-            return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+                    ORDER BY ob.name,s.group, s.name';
+            $result1 = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+            $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '  
+                    FROM scenario s
+                    WHERE `group`=:group
+                        AND s.object_id IS NULL
+                    ORDER BY s.group, s.name';
+            $result2 = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+            return array_merge($result1, $result2);
         }
     }
 
