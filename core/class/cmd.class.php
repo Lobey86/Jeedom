@@ -107,7 +107,7 @@ class cmd {
         if ($_visible != null) {
             $sql .= ' AND `isVisible`=1';
         }
-        $sql .= ' ORDER BY `order`';
+        $sql .= ' ORDER BY `order`,`name`';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
