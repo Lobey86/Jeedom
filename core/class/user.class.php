@@ -92,6 +92,8 @@ class user {
                     return false;
                 }
                 return false;
+            }else{
+                 log::add("connection", "info", __('Impossible de se connecter au LDAP', __FILE__));
             }
         }
         $values = array(
