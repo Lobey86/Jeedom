@@ -29,7 +29,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                     <a class="btn btn-default btn-sm tooltips expertModeVisible" id="bt_displayScenarioVariable" title="{{Voir toutes les variables de scénario}}" style="width : 49%;min-width : 127px;margin-top : 3px;"><i class="fa fa fa-eye" style="font-size : 1.5em;"></i> {{Voir variables}}</a>
                 </center>
                 <a class="btn btn-default" id="bt_addScenario" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle cursor" ></i> Nouveau scénario</a>
-                <li> 
+                <li class="filter"> 
                     <select style="width: 100%;margin-bottom: 5px;" id="sel_group" class="form-control input-sm">
                         <option value=''>{{Tous}}</option>
                         <?php
@@ -44,7 +44,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                         }
                         ?>            
                     </select></li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}"/></li>
+                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
 
                 <?php
                 foreach (scenario::all(init('group')) as $scenario) {
