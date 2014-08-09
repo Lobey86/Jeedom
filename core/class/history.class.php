@@ -495,7 +495,11 @@ class history {
     }
 
     public function setValue($value) {
-        $this->value = str_replace(',', '.', $value);
+        if (strpos($value, '.') !== false) {
+            $this->value = str_replace(',', '', $value);
+        } else {
+            $this->value = str_replace(',', '.', $value);
+        }
     }
 
     public function setDatetime($datetime) {
