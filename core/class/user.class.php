@@ -48,7 +48,7 @@ class user {
      * @return user object user 
      */
     public static function connect($_login, $_mdp) {
-        if (config::byKey('ldap::enable') == '1') {
+        if (config::byKey('ldap:enable') == '1') {
             log::add("connection", "debug", __('Authentification par LDAP', __FILE__));
             $ad = self::connectToLDAP();
             if ($ad !== false) {
