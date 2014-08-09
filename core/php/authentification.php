@@ -41,6 +41,18 @@ if (!isConnect() && isset($_COOKIE['registerDesktop']) && init('v') == 'd') {
     }
 }
 
+if (!isConnect() && config::byKey('sso:allowRemoteUser') == 1) {
+    $user = user::byLogin($_SERVER['REMOTE_USER']);
+    if (is_object($user)) {
+        connection::success($user->getLogin());
+        @session_start();
+        $_SESSION['user'] = $user;
+        $_SESSION['userHash'] = getUserHash();
+        @session_write_close();
+        log::add('connection', 'info', __('Connexion de l\'utilisateur par REMOTE_USER : ', __FILE__) . $user->getLogin());
+    }
+}
+
 if (ini_get('register_globals') == '1') {
     echo __('Vous devriez mettre <b>register_globals</b> à <b>Off</b><br/>', __FILE__);
 }
