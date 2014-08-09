@@ -45,7 +45,7 @@ class com_http {
     /*     * ************* Functions ************************************ */
 
     function exec($_timeout = 2, $_maxRetry = 3) {
-        if ($this->getPing()) {
+        if ($this->getPing() && config::byKey('http::ping_disable') != 1) {
             $url = parse_url($this->url);
             $host = $url['host'];
             if (!ip2long($host)) {

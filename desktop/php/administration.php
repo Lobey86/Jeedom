@@ -522,6 +522,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <input class="configKey form-control" data-l1key="http::ping_timeout"/>
                                     </div>
                                 </div>
+                                 <div class="form-group alert alert-danger expertModeVisible">
+                                    <label class="col-lg-2 control-label">{{Désactiver la verification du ping}}</label>
+                                    <div class="col-lg-1">
+                                        <input type="checkbox" class="configKey" data-l1key="http::ping_disable"/>
+                                    </div>
+                                </div>
                             </fieldset>
                         </form>
                     </div>
