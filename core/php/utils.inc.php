@@ -675,3 +675,29 @@ function cast($sourceObject, $destination) {
     }
     return $destination;
 }
+
+function sudoExec($_user, $_password, $_cmds) {
+    $path = dirname(__FILE__) . '/../../tmp';
+    $pwsh = $path . '/pw.sh';
+    if (file_exists($pwsh)) {
+        unlink($pwsh);
+        if (file_exists($pwsh)) {
+            throw new Exception('Impossible de supprimer  : ' . $pwsh);
+        }
+    }
+    $content = "#!/bin/bash\n";
+    $content .= 'echo "' . $_password . '"';
+    file_put_contents($pwsh, $content);
+    chmod($pwsh, 0770);
+    if (is_array($_cmds)) {
+        foreach ($_cmds as $cmd) {
+            $exec = 'SUDO_ASKPASS=' . $pwsh . ' sudo -A su ' . $_user . ' -c "SUDO_ASKPASS=' . $pwsh . ' sudo -A ' . $cmd . '"';
+            echo $exec; 
+            echo "\n*****************\n";
+            $output = array();
+            echo exec($exec,$output);
+            print_r($output);
+        }
+    }
+    unlink($pwsh);
+}

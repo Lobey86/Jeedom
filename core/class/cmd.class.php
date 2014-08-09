@@ -689,8 +689,10 @@ class cmd {
             $cmdValue = $this->getCmdValue();
             if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
                 $replace['#state#'] = $cmdValue->execCmd(null, 2);
+                $replace['#valueName#'] = $cmdValue->getName();
             } else {
                 $replace['#state#'] = ($this->getLastValue() != null) ? $this->getLastValue() : '';
+                $replace['#valueName#'] = $this->getName();
             }
             $html .= template_replace($replace, $template);
             if (trim($html) == '') {
