@@ -88,7 +88,12 @@ try {
         mkdir($tmp, 0770, true);
     }
     echo __("Décompression du backup...", __FILE__);
-    system('cd ' . $tmp . '; tar xfz ' . $backup . ' ');
+    $return_var = 0;
+    $output = array();
+    exec('cd ' . $tmp . '; tar xfz ' . $backup . ' ', $output, $return_var);
+    if ($return_var != 0) {
+        throw new Exception(__('Impossible de décompresser l\'archive', __FILE__));
+    }
     echo "OK\n";
 
     jeedom::stop();
@@ -121,7 +126,7 @@ try {
 
     echo __("Reastauration des fichiers...", __FILE__);
     rcopy($tmp, dirname(__FILE__) . '/..', false);
-    rcopy($tmp.'/plugins', dirname(__FILE__) . '/../plugins', false);
+    rcopy($tmp . '/plugins', dirname(__FILE__) . '/../plugins', false);
     echo __("OK\n", __FILE__);
 
     echo __("Restauration des identifiants de connection de la BDD...", __FILE__);
