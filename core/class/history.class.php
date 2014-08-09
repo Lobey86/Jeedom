@@ -495,7 +495,7 @@ class history {
     }
 
     public function setValue($value) {
-        $this->value = $value;
+        $this->value = str_replace(',', '.', $value);
     }
 
     public function setDatetime($datetime) {
