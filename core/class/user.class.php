@@ -49,8 +49,10 @@ class user {
      */
     public static function connect($_login, $_mdp) {
         if (config::byKey('ldap::enable') == '1') {
+            log::add("connection", "debug", __('Authentification par LDAP', __FILE__));
             $ad = self::connectToLDAP();
             if ($ad !== false) {
+                log::add("connection", "debug", __('Connection au LDAP OK', __FILE__));
                 $ad = ldap_connect(config::byKey('ldap:host'), config::byKey('ldap:port'));
                 ldap_set_option($ad, LDAP_OPT_PROTOCOL_VERSION, 3);
                 ldap_set_option($ad, LDAP_OPT_REFERRALS, 0);
@@ -58,6 +60,7 @@ class user {
                     log::add("connection", "info", __('Mot de passe erroné (', __FILE__) . $_login . ')');
                     return false;
                 }
+                log::add("connection", "debug", __('Bind user OK', __FILE__));
                 $result = ldap_search($ad, 'uid=' . $_login . ',' . config::byKey('ldap:basedn'), config::byKey('ldap:filter'));
                 log::add("connection", "info", __('Recherche LDAP (', __FILE__) . $_login . ')');
                 if ($result) {
