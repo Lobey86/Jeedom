@@ -59,7 +59,7 @@ class user {
                     return false;
                 }
                 $result = ldap_search($ad, 'uid=' . $_login . ',' . config::byKey('ldap:basedn'), config::byKey('ldap:filter'));
-                log::add("connection", "debug", __('Recherche LDAP (', __FILE__) . $_login . ')');
+                log::add("connection", "info", __('Recherche LDAP (', __FILE__) . $_login . ')');
                 if ($result) {
                     $entries = ldap_get_entries($ad, $result);
                     if ($entries['count'] > 0) {
@@ -73,7 +73,7 @@ class user {
                         $user->setLogin($_login);
                         $user->setPassword(sha1($_mdp));
                         $user->save();
-                        log::add("connection", "INFO", __('Utilisateur creer depuis le LDAP : ', __FILE__) . $_login);
+                        log::add("connection", "info", __('Utilisateur creer depuis le LDAP : ', __FILE__) . $_login);
                         return $user;
                     } else {
                         $user = self::byLogin($_login);
