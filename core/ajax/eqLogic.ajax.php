@@ -113,6 +113,20 @@ try {
 
     /*     * **************************Gloabl Method******************************** */
 
+    if (init('action') == 'copy') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
+        $eqLogic = eqLogic::byId(init('id'));
+        if (!is_object($eqLogic)) {
+            throw new Exception(__('EqLogic inconnu verifié l\'id', __FILE__));
+        }
+        if (init('name') == '') {
+            throw new Exception(__('Le nom de la copie de l\'équipement ne peut etre vide', __FILE__));
+        }
+        ajax::success(utils::o2a($eqLogic->copy(init('name'))));
+    }
+
     if (init('action') == 'remove') {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));

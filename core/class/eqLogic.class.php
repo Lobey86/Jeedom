@@ -389,6 +389,20 @@ class eqLogic {
 
     /*     * *********************Methode d'instance************************* */
 
+    public function copy($_name) {
+        $eqLogicCopy = clone $this;
+        $eqLogicCopy->setName($_name);
+        $eqLogicCopy->setId('');
+        $eqLogicCopy->save();
+        foreach ($this->getCmd() as $cmd) {
+            $cmdCopy = clone $cmd;
+            $cmdCopy->setId('');
+            $cmdCopy->setEqLogic_id($eqLogicCopy->getId());
+            $cmdCopy->save();
+        }
+        return $eqLogicCopy;
+    }
+
     public function getTableName() {
         return 'eqLogic';
     }
