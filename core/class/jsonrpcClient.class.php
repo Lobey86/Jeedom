@@ -61,7 +61,7 @@ class jsonrpcClient {
     private function send($_request, $_timeout = 10, $_file = null, $_maxRetry = 3) {
         $url = parse_url($this->apiAddr);
         $host = $url['host'];
-        if (!ip2long($host)) {
+        if (!ip2long($host) && config::byKey('http::ping_disable') != 1) {
             $timeout = config::byKey('http::ping_timeout', 'core', 2);
             exec("timeout $timeout ping -n -c 1 -W 2 $host", $output, $retval);
             if ($retval != 0) {
