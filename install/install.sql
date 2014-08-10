@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 09 Août 2014 à 11:40
+-- Généré le: Dim 10 Août 2014 à 09:22
 -- Version du serveur: 5.6.19-0ubuntu0.14.04.1
 -- Version de PHP: 5.5.9-1ubuntu4.3
 
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `cmd` (
   KEY `order` (`order`),
   KEY `logicalID` (`logicalId`),
   KEY `logicalId_eqLogicID` (`eqLogic_id`,`logicalId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1876 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1879 ;
 
 -- --------------------------------------------------------
 
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `connection` (
   `informations` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip_UNIQUE` (`ip`)
-) ENGINE=MEMORY  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=MEMORY  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `dataStore` (
   `value` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE` (`type`,`link_id`,`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `eqLogic` (
   KEY `object_id` (`object_id`),
   KEY `timeout` (`timeout`),
   KEY `eqReal_id` (`eqReal_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=463 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=468 ;
 
 -- --------------------------------------------------------
 
@@ -319,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `interactQuery` (
   PRIMARY KEY (`id`),
   KEY `fk_sarahQuery_sarahDef1_idx` (`interactDef_id`),
   FULLTEXT KEY `query` (`query`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5729 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5741 ;
 
 -- --------------------------------------------------------
 
@@ -336,6 +336,22 @@ CREATE TABLE IF NOT EXISTS `internalEvent` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `listener`
+--
+
+CREATE TABLE IF NOT EXISTS `listener` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class` varchar(127) DEFAULT NULL,
+  `function` varchar(127) DEFAULT NULL,
+  `event` varchar(255) DEFAULT NULL,
+  `option` text,
+  PRIMARY KEY (`id`),
+  KEY `event` (`event`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `message`
 --
 
@@ -347,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `message` text,
   `action` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1831 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1839 ;
 
 -- --------------------------------------------------------
 
@@ -472,7 +488,7 @@ CREATE TABLE IF NOT EXISTS `update` (
   `configuration` text,
   PRIMARY KEY (`id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=147 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=149 ;
 
 -- --------------------------------------------------------
 

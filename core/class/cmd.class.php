@@ -767,6 +767,7 @@ class cmd {
                 $internalEvent->setDatetime($this->getCollectDate());
                 $internalEvent->save();
                 scenario::check($this->getId());
+                listener::check($this->getId(),$_value);
             }
         } else {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . print_r($this, true));
