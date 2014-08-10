@@ -182,7 +182,7 @@ class cron {
      */
     public function remove() {
         if ($this->running()) {
-            $this->stop();
+            $this->halt();
         }
         return DB::remove($this);
     }
