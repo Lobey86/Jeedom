@@ -27,6 +27,7 @@ try {
     if (init('action') == 'save') {
         $plans = json_decode(init('plans'), true);
         foreach ($plans as $plan_ajax) {
+           
             $plan = plan::byId($plan_ajax['id']);
             if (!is_object($plan)) {
                 $plan = plan::byLinkTypeLinkIdObjectId($plan_ajax['link_type'], $plan_ajax['link_id'], $plan_ajax['object_id']);
@@ -42,6 +43,18 @@ try {
 
     if (init('action') == 'byObject') {
         ajax::success(utils::o2a(plan::byObjectId(init('object_id'))));
+    }
+
+    if (init('action') == 'get') {
+        $plan = plan::byId(init('id'));
+        if (is_object($plan)) {
+            ajax::success(utils::o2a($plan));
+        }
+        $plan = plan::byLinkTypeLinkIdObjectId(init('link_type'), init('link_id'), init('object_id'));
+        if (is_object($plan)) {
+            ajax::success(utils::o2a($plan));
+        }
+        throw new Exception(__('Aucun plan correspondant'));
     }
 
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));

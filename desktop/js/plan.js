@@ -21,13 +21,17 @@ jeedom.plan.byObject({
     },
     success: function(data) {
         for (var i in data) {
-            if (data[i].link_type == 'widget') {
+            if (data[i].link_type == 'eqLogic') {
                 addEqLogic(data[i].link_id, data[i]);
             }
         }
     },
 });
 
+$('#div_displayObject').delegate('.eqLogic-widget', 'dblclick', function() {
+    $('#md_modal').dialog({title: "{{Configuration du plan}}"});
+    $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=eqLogic&link_id=' + $(this).attr('data-eqLogic_id') + '&object_id=' + $('.li_object.active').attr('data-object_id')).dialog('open');
+});
 
 $('#bt_addEqLogic').on('click', function() {
     jeedom.eqLogic.getSelectModal({}, function(data) {
@@ -44,7 +48,7 @@ $('#bt_savePlan').on('click', function() {
     $('.eqLogic-widget').each(function() {
         var plan = {};
         plan.position = {};
-        plan.link_type = 'widget';
+        plan.link_type = 'eqLogic';
         plan.link_id = $(this).attr('data-eqLogic_id');
         plan.object_id = $('.li_object.active').attr('data-object_id');
         var zoom = $(this).css('zoom');
@@ -78,6 +82,7 @@ function addEqLogic(_id, _plan) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function(data) {
+            $('.eqLogic-widget[data-eqLogic_id=' + _id + ']').remove();
             var parent = {
                 height: $('#div_displayObject img').height(),
                 width: $('#div_displayObject img').width(),
@@ -88,7 +93,9 @@ function addEqLogic(_id, _plan) {
             html.css('left', init(_plan.position.left, '0') * parent.width / init(_plan.css.zoom, 0.65) / 100);
             html.css('zoom', init(_plan.css.zoom, 0.65));
             for (var key in _plan.css) {
-                html.css(key, _plan.css[key]);
+                if (_plan.css[key] != '') {
+                    html.css(key, _plan.css[key]);
+                }
             }
             html.draggable({
                 start: startFix,
