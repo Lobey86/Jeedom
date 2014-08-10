@@ -293,7 +293,7 @@ function editView(_view) {
                 $('#div_addViewAlert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            if ($('#in_addViewId').value() != '') {
+            if ($('.li_view[data-view_id=' + data.result.id + ']').length != 0) {
                 $('.li_view.active a').text($('#in_addViewName').value());
             } else {
                 window.location.replace('index.php?v=d&p=view_edit&id=' + data.result.id);
