@@ -64,6 +64,28 @@ try {
         ajax::success(utils::o2a($object));
     }
 
+    if (init('action') == 'uploadImage') {
+        $object = object::byId(init('id'));
+        if (!is_object($object)) {
+            throw new Exception(__('Objet inconnu verifié l\'id', __FILE__));
+        }
+        if (!isset($_FILES['file'])) {
+            throw new Exception(__('Aucun fichier trouvé. Vérifié parametre PHP (post size limit)', __FILE__));
+        }
+        $extension = strtolower(strrchr($_FILES['file']['name'], '.'));
+        if (!in_array($extension, array('.jpg', '.png'))) {
+            throw new Exception('Extension du fichier non valide (autorisé .jpg .png) : ' . $extension);
+        }
+        if (filesize($_FILES['file']['tmp_name']) > 5000000) {
+            throw new Exception(__('Le fichier est trop gros (miximum 5mo)', __FILE__));
+        }
+        $object->setImage('type', str_replace('.', '', $extension));
+        $object->setImage('size', getimagesize($_FILES['file']['tmp_name']));
+        $object->setImage('data', base64_encode(file_get_contents($_FILES['file']['tmp_name'])));
+        $object->save();
+        ajax::success();
+    }
+
     if (init('action') == 'getChild') {
         $object = object::byId(init('id'));
         if (!is_object($object)) {

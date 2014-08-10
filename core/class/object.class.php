@@ -29,6 +29,7 @@ class object {
     private $position;
     private $configuration;
     private $display;
+    private $image;
 
     /*     * ***********************Methode static*************************** */
 
@@ -237,6 +238,14 @@ class object {
 
     public function setDisplay($_key, $_value) {
         $this->display = utils::setJsonAttr($this->display, $_key, $_value);
+    }
+
+    public function getImage($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->image, $_key, $_default);
+    }
+
+    public function setImage($_key, $_value) {
+        $this->image = utils::setJsonAttr($this->image, $_key, $_value);
     }
 
 }
