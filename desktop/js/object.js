@@ -29,6 +29,7 @@ $(".li_object").on('click', function(event) {
     $(this).addClass('active');
     jeedom.object.byId({
         id: $(this).attr('data-object_id'),
+        cache: false,
         error: function(error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
@@ -37,7 +38,11 @@ $(".li_object").on('click', function(event) {
             $('.objectAttr[data-l1key=father_id] option').show();
             $('.object').setValues(data, '.objectAttr');
             $('.objectAttr[data-l1key=father_id] option[value=' + data.id + ']').hide();
-            $('#div_objectImage').empty().append('<center><img src="data:image/' + data.image.type + ';base64,' + data.image.data + '"/><center>');
+            if (data.image != null) {
+                $('#div_objectImage').empty().append('<center><img src="data:image/' + data.image.type + ';base64,' + data.image.data + '"/><center>');
+            } else {
+                $('#div_objectImage').empty();
+            }
             $('#bt_uploadImage').fileupload({
                 url: 'core/ajax/object.ajax.php?action=uploadImage&id=' + data.id,
                 dataType: 'json',
@@ -47,6 +52,7 @@ $(".li_object").on('click', function(event) {
                         return;
                     }
                     $('#div_alert').showAlert({message: '{{Fichier(s) ajouté(s) avec succes}}', level: 'success'});
+                    $('.li_object.active').click();
                 }
             });
             modifyWithoutSave = false;

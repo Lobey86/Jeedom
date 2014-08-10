@@ -225,7 +225,7 @@ jeedom.object.byId = function(_params) {
         return;
     }
     var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
-    if (isset(jeedom.object.cache.byId[params.id])) {
+    if (isset(jeedom.object.cache.byId[params.id]) && init(_params.cache,true) == true) {
         params.success(jeedom.object.cache.byId[params.id]);
         return;
     }
