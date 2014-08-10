@@ -202,6 +202,7 @@ $('#div_viewZones').delegate('.bt_addViewData', 'click', function() {
         $('#table_addViewDataHidden tbody').append($('#table_addViewData tr[data-type=graph]'));
         $('#table_addViewData tbody').append($('#table_addViewDataHidden tr[data-type=widget]'));
     }
+    $('#table_addViewData').trigger('update');
     $('#table_addViewData tbody tr div.option').hide();
 
 
