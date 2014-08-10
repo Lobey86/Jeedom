@@ -100,7 +100,6 @@ class listener {
     public function run($_event, $_value) {
         $cmd = 'nice -n 19 php ' . dirname(__FILE__) . '/../php/jeeListener.php';
         $cmd.= ' listener_id=' . $this->getId() . ' event_id=' . $_event . ' value=' . $_value;
-        log::add('listener', 'info', $cmd);
         shell_exec('nohup ' . $cmd . ' >> /dev/null 2>&1 &');
     }
 
