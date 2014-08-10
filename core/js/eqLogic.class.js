@@ -199,10 +199,10 @@ jeedom.eqLogic.byId = function(_params) {
     }
     var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
     var paramsAJAX = jeedom.private.getParamsAJAX(params);
-    paramsAJAX.url = 'core/ajax/cmd.ajax.php';
+    paramsAJAX.url = 'core/ajax/eqLogic.ajax.php';
     paramsAJAX.data = {
         action: 'byId',
-        eqLogic_id: _params.id
+        id: _params.id
     };
     $.ajax(paramsAJAX);
 }

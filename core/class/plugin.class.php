@@ -226,8 +226,8 @@ class plugin {
         }
         if ($_state == 0) {
             foreach (eqLogic::byType($this->getId()) as $eqLogic) {
-                $eqLogic->setIsEnable($_state);
-                $eqLogic->setIsVisible($_state);
+                $eqLogic->setIsEnable(0);
+                $eqLogic->setIsVisible(0);
                 $eqLogic->save();
             }
         }
