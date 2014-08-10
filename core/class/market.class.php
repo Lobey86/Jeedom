@@ -391,7 +391,7 @@ class market {
                     }
                     log::add('update', 'update', __("OK\n", __FILE__));
                     $update = update::byTypeAndLogicalId($this->getType(), $this->getLogicalId());
-                    if (!is_object($update) && is_object($plugin) && $plugin->isActive()) {
+                    if (is_object($plugin) && $plugin->isActive()) {
                         $plugin->setIsEnable(1);
                     }
                 } else {
