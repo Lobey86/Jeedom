@@ -56,6 +56,18 @@ try {
         }
         throw new Exception(__('Aucun plan correspondant'));
     }
+    
+     if (init('action') == 'remove') {
+        $plan = plan::byId(init('id'));
+        if (is_object($plan)) {
+            ajax::success($plan->remove());
+        }
+        $plan = plan::byLinkTypeLinkIdObjectId(init('link_type'), init('link_id'), init('object_id'));
+        if (is_object($plan)) {
+            ajax::success($plan->remove());
+        }
+        throw new Exception(__('Aucun plan correspondant'));
+    }
 
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */

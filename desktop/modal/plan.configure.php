@@ -10,14 +10,16 @@ if (!is_object($plan)) {
 sendVarToJS('id', $plan->getId());
 ?>
 <div id="div_alertPlanConfigure"></div>
-<a class='btn btn-success btn-xs pull-right' style="color: white;" id='bt_saveConfigurePlan'><i class="fa fa-check"></i> Sauvegarder</a>
-<a class='btn btn-danger  btn-xs pull-right' style="color: white;" id='bt_removeConfigurePlan'><i class="fa fa-times"></i> Supprimer</a>
+<a class='btn btn-success btn-xs pull-right cursor' style="color: white;" id='bt_saveConfigurePlan'><i class="fa fa-check"></i> Sauvegarder</a>
+<a class='btn btn-danger  btn-xs pull-right cursor' style="color: white;" id='bt_removeConfigurePlan'><i class="fa fa-times"></i> Supprimer</a>
 <form class="form-horizontal">
     <fieldset id="fd_planConfigure">
         <div class="form-group">
             <label class="col-lg-2 control-label">{{Taille du widget}}</label>
             <div class="col-lg-2">
                 <input type="text"  class="planAttr form-control" data-l1key="id" style="display: none;"/>
+                <input type="text"  class="planAttr form-control" data-l1key="link_type" style="display: none;"/>
+                <input type="text"  class="planAttr form-control" data-l1key="link_id" style="display: none;"/>
                 <input type="text" class="planAttr form-control" data-l1key="css" data-l2key="zoom" value="0.65"/>
             </div>
         </div>
@@ -70,7 +72,9 @@ sendVarToJS('id', $plan->getId());
                     return;
                 }
                 $('#fd_planConfigure').setValues(data.result, '.planAttr');
-                addEqLogic(data.result.link_id, data.result);
+                if ($(".planAttr[data-l1key=link_type]").value() == 'eqLogic') {
+                    addEqLogic(data.result.link_id, data.result);
+                }
             }
         });
     }
@@ -106,7 +110,10 @@ sendVarToJS('id', $plan->getId());
                     $('#div_alertPlanConfigure').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('#div_alertPlanConfigure').showAlert({message: 'Dépense supprimé', level: 'success'});
+                $('#div_alertPlanConfigure').showAlert({message: 'Plan supprimé', level: 'success'});
+                if ($(".planAttr[data-l1key=link_type]").value() == 'eqLogic') {
+                    $('.eqLogic-widget[data-eqLogic_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
+                }
             }
         });
     }
