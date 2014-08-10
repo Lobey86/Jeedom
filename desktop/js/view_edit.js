@@ -240,6 +240,9 @@ $('#div_viewZones').delegate('.bt_addViewData', 'click', function() {
                         if (tr.find('.type').text() == 'Scénario') {
                             viewData.name += '[Scénario]';
                         }
+                        if (tr.find('.type').text() == 'Commande') {
+                            viewData.name += '[Aucun]';
+                        }
                     }
                     viewData.name += '[' + tr.find('.name').text() + ']';
                     span += addServiceToviewZone(viewData);

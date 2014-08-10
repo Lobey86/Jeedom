@@ -153,7 +153,6 @@ try {
     }
 
     if (init('action') == 'getHistory') {
-
         $return = array();
         $data = array();
         $dateStart = null;

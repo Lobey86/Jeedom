@@ -118,7 +118,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                     $object = $cmd->getEqLogic()->getObject();
                     echo '<tr data-link_id="' . $cmd->getId() . '" data-type="graph" data-viewDataType="cmd">';
                     echo '<td>';
-                    echo '<input type="checkbox" class="enable form-control" />';
+                    echo '<input type="checkbox" class="enable" />';
                     echo '<input class="viewDataOption" data-l1key="link_id" value="' . $cmd->getId() . '" hidden/>';
                     echo '</td>';
                     echo '<td class="type">';
@@ -131,8 +131,8 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                     }
                     echo '</td>';
                     echo '<td class="name">';
-                    echo $eqLogic->getName() . '/';
-                    echo $cmd->getName();
+                    echo '['.$eqLogic->getName() . '][';
+                    echo $cmd->getName().']';
                     echo '</td>';
                     echo '<td class="display">';
                     echo '<div class="option">';
