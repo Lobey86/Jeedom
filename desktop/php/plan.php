@@ -51,9 +51,9 @@ $parentNumber = array();
                     $parentNumber[$object_li->getId()] = $object_li->parentNumber();
                     $margin = 15 * $parentNumber[$object_li->getId()];
                     if ($object_li->getId() == $object->getId()) {
-                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=plan&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
+                        echo '<li class="cursor li_object active" data-object_id="'.$object_li->getId().'" ><a href="index.php?v=d&p=plan&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
                     } else {
-                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=plan&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
+                        echo '<li class="cursor li_object" data-object_id="'.$object_li->getId().'" ><a href="index.php?v=d&p=plan&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
                     }
                 }
                 ?>
@@ -62,9 +62,10 @@ $parentNumber = array();
     </div>
 
     <div class="col-lg-10">
+        <a class="btn btn-success pull-right btn-xs" style="margin-bottom: 3px;" id="bt_savePlan"><i class="fa fa-check"></i> {{Enregistrer}}</a>
         <a class="btn btn-warning pull-right btn-xs" style="margin-bottom: 3px;"><i class="fa fa-pencil"></i> {{Editer}}</a>
-        <a class="btn btn-success pull-right btn-xs" style="margin-bottom: 3px;"><i class="fa fa-plus-circle"></i> {{Ajouter scenario}}</a>
-        <a class="btn btn-success pull-right btn-xs" style="margin-bottom: 3px;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter equipement}}</a>
+        <a class="btn btn-info pull-right btn-xs" style="margin-bottom: 3px;"><i class="fa fa-plus-circle"></i> {{Ajouter scenario}}</a>
+        <a class="btn btn-info pull-right btn-xs" style="margin-bottom: 3px;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter equipement}}</a>
         <div id="div_displayObject">
             <img src="data:image/<?php echo $object->getImage('type') ?>;base64,<?php echo $object->getImage('data') ?>" class="img-responsive">
         </div>
