@@ -254,6 +254,7 @@ jeedom.eqLogic.getSelectModal = function(_options, callback) {
         "Valider": function() {
             var retour = {};
             retour.human = mod_insertEqLogic.getValue();
+            retour.id = mod_insertEqLogic.getId();
             if ($.trim(retour) != '') {
                 callback(retour);
             }

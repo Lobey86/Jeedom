@@ -53,6 +53,10 @@ if (!isConnect()) {
         }
         return '#[' + object_name + '][' + equipement_name + ']#';
     }
+    
+     mod_insertEqLogic.getId = function() {
+        return $('.mod_insertEqLogicValue_eqLogic select').value();
+    }
 
     mod_insertEqLogic.changeObjectCmd = function(_select) {
         jeedom.object.getEqLogic({
