@@ -26,6 +26,7 @@ $(".li_view").on('click', function(event) {
     $.hideAlert();
     $(".li_view").removeClass('active');
     $(this).addClass('active');
+    $('#div_view').show();
     jeedom.view.get({
         id: $(this).attr('data-view_id'),
         error: function(error) {

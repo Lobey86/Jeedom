@@ -37,7 +37,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
         </div>
     </div>
 
-    <div class="col-lg-10">
+    <div class="col-lg-10" style="display: none;" id="div_view">
         <legend style="height: 35px;">
             <a class="btn btn-default btn-xs" id="bt_editView"><i class="fa fa-pencil"></i> {{Renommer}}</a> {{Vue}}
             <a class="btn btn-success btn-xs pull-right" id="bt_viewResult"><i class="fa fa fa-eye"></i> {{Voir le resultat}}</a>
