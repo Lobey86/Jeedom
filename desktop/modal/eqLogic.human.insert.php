@@ -68,9 +68,6 @@ if (!isConnect()) {
                 }
                 selectEqLogic += '</select>';
                 _select.closest('tr').find('.mod_insertEqLogicValue_eqLogic').append(selectEqLogic);
-                _select.closest('tr').find('.mod_insertEqLogicValue_eqLogic select').change(function() {
-                    mod_insertEqLogic.changeEqLogic($(this), mod_insertEqLogic.options);
-                });
             }
         });
     }
