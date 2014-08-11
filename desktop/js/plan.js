@@ -84,11 +84,12 @@ function savePlan() {
     });
     jeedom.plan.save({
         plans: plans,
-        global : false,
+        global: false,
         error: function(error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function() {},
+        success: function() {
+        },
     });
 }
 
@@ -127,4 +128,11 @@ function displayEqLogic(_id, _html, _plan) {
         }
     }
     $('#div_displayObject').append(html);
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        $('.eqLogic-widget').draggable({
+            stop: function(event, ui) {
+                savePlan();
+            }
+        });
+    }
 }

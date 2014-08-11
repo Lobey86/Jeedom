@@ -239,17 +239,20 @@ class plugin {
                 ob_start();
                 if ($_state == 1) {
                     if ($alreadyActive == 1) {
-                        if (function_exists('update')) {
-                            update();
+                        $function = $this->getId() . '_update';
+                        if (function_exists($this->getId() . '_update')) {
+                            $function();
                         }
                     } else {
-                        if (function_exists('install')) {
-                            install();
+                        $function = $this->getId() . '_install';
+                        if (function_exists($function)) {
+                            $function();
                         }
                     }
                 } else {
-                    if (function_exists('install')) {
-                        remove();
+                    $function = $this->getId() . '_remove';
+                    if (function_exists($this->getId() . '_remove')) {
+                        $function();
                     }
                 }
                 $out = ob_get_clean();

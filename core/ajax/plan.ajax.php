@@ -47,10 +47,12 @@ try {
         foreach ($plans as $plan) {
             if ($plan->getLink_type() == 'eqLogic') {
                 $eqLogic = eqLogic::byId($plan->getLink_id());
-                $return[] = array(
-                    'plan' => utils::o2a($plan),
-                    'html' => $eqLogic->toHtml(init('version', 'dashboard'))
-                );
+                if (is_object($eqLogic)) {
+                    $return[] = array(
+                        'plan' => utils::o2a($plan),
+                        'html' => $eqLogic->toHtml(init('version', 'dashboard'))
+                    );
+                }
             }
         }
         ajax::success($return);
