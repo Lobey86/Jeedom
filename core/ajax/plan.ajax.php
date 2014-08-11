@@ -30,7 +30,7 @@ try {
 
             $plan = plan::byId($plan_ajax['id']);
             if (!is_object($plan)) {
-                $plan = plan::byLinkTypeLinkIdObjectId($plan_ajax['link_type'], $plan_ajax['link_id'], $plan_ajax['object_id']);
+                $plan = plan::byLinkTypeLinkIdPlanHedaerId($plan_ajax['link_type'], $plan_ajax['link_id'], $plan_ajax['planHeader_id']);
                 if (!is_object($plan)) {
                     $plan = new plan();
                 }

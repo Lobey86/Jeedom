@@ -150,7 +150,7 @@ function savePlan() {
             plan.position = {};
             plan.link_type = 'eqLogic';
             plan.link_id = $(this).attr('data-eqLogic_id');
-            plan.object_id = $('.li_object.active').attr('data-object_id');
+            plan.planHeader_id = planHeader_id;
             var zoom = $(this).css('zoom');
             $(this).css('zoom', '100%');
             var position = $(this).position();
