@@ -57,6 +57,12 @@ try {
     rcopy(dirname(__FILE__) . '/..', $tmp, true, array('tmp', 'backup', 'log'));
     echo __("OK\n", __FILE__);
 
+    echo __('Suppression du fichier d\'identification BDD...', __FILE__);
+    if (file_exists($tmp . '/core/config/common.config.php')) {
+        unlink($tmp . '/core/config/common.config.php');
+    }
+    echo __("OK\n", __FILE__);
+
     if (!file_exists($tmp . '/plugin_backup')) {
         mkdir($tmp . '/plugin_backup', 0770, true);
     }
