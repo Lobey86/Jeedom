@@ -8,7 +8,7 @@
 class jsonrpcClient {
     /*     * ********Attributs******************* */
 
-    private $errorCode = '';
+    private $errorCode = 9999;
     private $errorMessage = '';
     private $error = '';
     private $result;
