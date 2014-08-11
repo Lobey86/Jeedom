@@ -83,14 +83,29 @@ class cmd {
     }
 
     public static function allHistoryCmd($_notEventOnly = false) {
-        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
-                FROM cmd
+        $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
+                FROM cmd c
+                INNER JOIN eqLogic el ON c.eqLogic_id=el.id
+                INNER JOIN object ob ON el.object_id=ob.id
                 WHERE isHistorized=1
                     AND type=\'info\'';
         if ($_notEventOnly) {
             $sql .= ' AND eventOnly=0';
         }
-        return self::cast(DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
+        $sql .= ' ORDER BY ob.name,el.name,c.name';
+        $result1 = self::cast(DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
+        $sql = 'SELECT ' . DB::buildField(__CLASS__, 'c') . '
+                FROM cmd c
+                INNER JOIN eqLogic el ON c.eqLogic_id=el.id
+                WHERE el.object_id IS NULL
+                    AND isHistorized=1
+                    AND type=\'info\'';
+        if ($_notEventOnly) {
+            $sql .= ' AND eventOnly=0';
+        }
+        $sql .= ' ORDER BY el.name,c.name';
+        $result2 = self::cast(DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
+        return array_merge($result1, $result2);
     }
 
     public static function byEqLogicId($_eqLogic_id, $_type = null, $_visible = null) {
@@ -770,7 +785,7 @@ class cmd {
                 listener::check($this->getId(), $_value);
             }
         } else {
-            log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) .$this->getHumanName(), 'notFound' . $this->getEqLogic_id());
+            log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
         }
     }
 
