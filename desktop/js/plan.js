@@ -39,6 +39,10 @@ $('#bt_addEqLogic').on('click', function() {
     });
 });
 
+$('#bt_addEqLogic').on('click', function() {
+    
+});
+
 $('#bt_savePlan').on('click', function() {
     var parent = {
         height: $('#div_displayObject img').height(),
@@ -72,9 +76,6 @@ $('#bt_savePlan').on('click', function() {
 
 
 function addEqLogic(_id, _plan) {
-    _plan = init(_plan, {});
-    _plan.position = init(_plan.position, {});
-    _plan.css = init(_plan.css, {});
     jeedom.eqLogic.toHtml({
         id: _id,
         version: 'dashboard',
@@ -88,6 +89,9 @@ function addEqLogic(_id, _plan) {
 }
 
 function displayEqLogic(_id, _html, _plan) {
+    _plan = init(_plan, {});
+    _plan.position = init(_plan.position, {});
+    _plan.css = init(_plan.css, {});
     $('.eqLogic-widget[data-eqLogic_id=' + _id + ']').remove();
     var parent = {
         height: $('#div_displayObject img').height(),
@@ -103,27 +107,6 @@ function displayEqLogic(_id, _html, _plan) {
             html.css(key, _plan.css[key]);
         }
     }
-    html.draggable({
-        start: startFix,
-        drag: function(event, ui) {
-            dragFix(event, ui, $(this).css('zoom'))
-        }
-    });
+    html.draggable();
     $('#div_displayObject').append(html);
-}
-
-function startFix(event, ui) {
-    ui.position.left = 40;
-    ui.position.top = -40;
-}
-
-function dragFix(event, ui, zoomScale) {
-    var changeLeft = ui.position.left - ui.originalPosition.left; // find change in left
-    var newLeft = ui.originalPosition.left + changeLeft / zoomScale; // adjust new left by our zoomScale
-
-    var changeTop = ui.position.top - ui.originalPosition.top; // find change in top
-    var newTop = ui.originalPosition.top + changeTop / zoomScale; // adjust new top by our zoomScale
-
-    ui.position.left = newLeft;
-    ui.position.top = newTop;
 }

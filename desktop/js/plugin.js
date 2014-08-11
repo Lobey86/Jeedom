@@ -145,7 +145,7 @@ function savePluginConfig() {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function() {
-            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Sauvegarde effectuée}}', level: 'success'});
             modifyWithoutSave = false;
         }
     });
