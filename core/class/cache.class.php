@@ -23,7 +23,7 @@ class cache {
     /*     * *************************Attributs****************************** */
 
     private $key;
-    private $value = '';
+    private $value = null;
     private $lifetime = 1;
     private $datetime;
     private $options = null;
@@ -124,7 +124,7 @@ class cache {
         }
         if (trim($this->getValue()) === '' || $this->getValue() === false) {
             $this->_hasExpired = true;
-            return true;
+            //return true;
         }
         if ($this->getLifetime() == 0) {
             $this->_hasExpired = false;
@@ -157,7 +157,7 @@ class cache {
     }
 
     public function getValue($_default = '') {
-        return (trim($this->value) === '') ? $_default : $this->value;
+        return (trim($this->value) === null) ? $_default : $this->value;
     }
 
     public function setValue($value) {
