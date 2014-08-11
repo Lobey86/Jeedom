@@ -92,6 +92,7 @@ class market {
         if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId))) {
             return self::construct($market->getResult());
         } else {
+            log::add('market','debug',print_r($market,true));
             throw new Exception($market->getError(), $market->getErrorCode());
         }
     }
@@ -118,6 +119,7 @@ class market {
             }
             return $return;
         } else {
+            log::add('market','debug',print_r($market,true));
             throw new Exception($market->getError(), $market->getErrorCode());
         }
     }
