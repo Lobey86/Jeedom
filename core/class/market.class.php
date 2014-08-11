@@ -378,7 +378,8 @@ class market {
                 $res = $zip->open($tmp);
                 if ($res === TRUE) {
                     if (!$zip->extractTo($cibDir . '/')) {
-                        throw new Exception(__('Impossible d\'installer le plugin. Les fichiers n\'ont pu etre décompressés', __FILE__));
+                        $content = file_get_contents($tmp);
+                        throw new Exception(__('Impossible d\'installer le plugin. Les fichiers n\'ont pu etre décompressés : ', __FILE__) . substr($content, 255));
                     }
                     $zip->close();
                     log::add('update', 'update', __("OK\n", __FILE__));
