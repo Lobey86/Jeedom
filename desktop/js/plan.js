@@ -63,6 +63,7 @@ $('#bt_editPlan').on('click', function() {
 
 function savePlan() {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
+        $('#div_displayObject').parent().scrollTop(0);
         var parent = {
             height: $('#div_displayObject img').height(),
             width: $('#div_displayObject img').width(),
