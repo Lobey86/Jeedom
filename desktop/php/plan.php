@@ -62,10 +62,9 @@ $parentNumber = array();
     </div>
 
     <div class="col-lg-10">
-        <a class="btn btn-success pull-right btn-xs cursor" style="margin-bottom: 3px;" id="bt_savePlan"><i class="fa fa-check"></i> {{Enregistrer}}</a>
-        <a class="btn btn-warning pull-right btn-xs cursor" style="margin-bottom: 3px;"><i class="fa fa-pencil"></i> {{Editer}}</a>
-        <a class="btn btn-info pull-right btn-xs cursor" style="margin-bottom: 3px;"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>
-        <a class="btn btn-info pull-right btn-xs cursor" style="margin-bottom: 3px;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter équipement}}</a>
+        <a class="btn btn-warning pull-right btn-xs cursor" style="margin-bottom: 3px;" id="bt_editPlan" data-mode="0"><i class="fa fa-pencil"></i> {{Mode édition}}</a>
+        <a class="btn btn-info pull-right btn-xs cursor editMode" style="margin-bottom: 3px;display: none;"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>
+        <a class="btn btn-info pull-right btn-xs cursor editMode" style="margin-bottom: 3px;display: none;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter équipement}}</a>
         <div id="div_displayObject">
             <img src="data:image/<?php echo $object->getImage('type') ?>;base64,<?php echo $object->getImage('data') ?>" class="img-responsive">
         </div>

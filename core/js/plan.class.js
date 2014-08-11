@@ -51,7 +51,9 @@ jeedom.plan.remove = function(_params) {
 
 jeedom.plan.save = function(_params) {
     var paramsRequired = ['plans'];
-    var paramsSpecifics = {};
+    var paramsSpecifics = {
+        global: _params.global || true,
+    };
     try {
         jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
     } catch (e) {

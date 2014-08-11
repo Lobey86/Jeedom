@@ -28,10 +28,7 @@ jeedom.plan.byObject({
     },
 });
 
-$('#div_displayObject').delegate('.eqLogic-widget', 'dblclick', function() {
-    $('#md_modal').dialog({title: "{{Configuration du plan}}"});
-    $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=eqLogic&link_id=' + $(this).attr('data-eqLogic_id') + '&object_id=' + $('.li_object.active').attr('data-object_id')).dialog('open');
-});
+
 
 $('#bt_addEqLogic').on('click', function() {
     jeedom.eqLogic.getSelectModal({}, function(data) {
@@ -39,11 +36,33 @@ $('#bt_addEqLogic').on('click', function() {
     });
 });
 
-$('#bt_addEqLogic').on('click', function() {
-    
+$('#div_displayObject').delegate('.eqLogic-widget', 'dblclick', function() {
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        $('#md_modal').dialog({title: "{{Configuration du plan}}"});
+        $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=eqLogic&link_id=' + $(this).attr('data-eqLogic_id') + '&object_id=' + $('.li_object.active').attr('data-object_id')).dialog('open');
+    }
 });
 
-$('#bt_savePlan').on('click', function() {
+$('#bt_editPlan').on('click', function() {
+    if ($(this).attr('data-mode') == '0') {
+        $('.eqLogic-widget').draggable({
+            stop: function(event, ui) {
+                savePlan();
+            }
+        });
+        $('.editMode').show();
+        $(this).html('<i class="fa fa-pencil"></i> {{Quitter le mode édition}}');
+        $(this).attr('data-mode', '1');
+    } else {
+        $('.eqLogic-widget').draggable("destroy");
+        $('.editMode').hide();
+        $(this).html('<i class="fa fa-pencil"></i> {{Mode édition}}');
+        $(this).attr('data-mode', '0');
+    }
+
+});
+
+function savePlan() {
     var parent = {
         height: $('#div_displayObject img').height(),
         width: $('#div_displayObject img').width(),
@@ -65,14 +84,13 @@ $('#bt_savePlan').on('click', function() {
     });
     jeedom.plan.save({
         plans: plans,
+        global : false,
         error: function(error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function() {
-            $('#div_alert').showAlert({message: 'Plan sauvegardé avec succès', level: 'success'});
-        },
+        success: function() {},
     });
-});
+}
 
 
 function addEqLogic(_id, _plan) {
@@ -84,6 +102,7 @@ function addEqLogic(_id, _plan) {
         },
         success: function(data) {
             displayEqLogic(_id, data.html, _plan);
+            savePlan();
         }
     })
 }
@@ -107,6 +126,5 @@ function displayEqLogic(_id, _html, _plan) {
             html.css(key, _plan.css[key]);
         }
     }
-    html.draggable();
     $('#div_displayObject').append(html);
 }
