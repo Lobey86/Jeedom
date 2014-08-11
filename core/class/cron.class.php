@@ -269,14 +269,14 @@ class cron {
      * @return boolean
      */
     public function refresh() {
-        DB::refresh($this);
-        if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && !$this->running()) {
+        $result = DB::refresh($this);
+        if ($result && ($this->getState() == 'run' || $this->getState() == 'stoping' ) && !$this->running()) {
             $this->setState('stop');
             $this->setPID();
             $this->setServer('');
             $this->save();
         }
-        return true;
+        return $result;
     }
 
     /*

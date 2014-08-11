@@ -119,7 +119,9 @@ if (init('cron_id') != '') {
         if ($cron->getOnce() == 1) {
             $cron->remove();
         } else {
-            $cron->refresh();
+            if(!$cron->refresh()){
+                die();
+            }
             $cron->setState('stop');
             $cron->setPID();
             $cron->setServer('');
@@ -165,7 +167,9 @@ if (init('cron_id') != '') {
         }
         foreach (cron::all() as $cron) {
             try {
-                $cron->refresh();
+                if(!$cron->refresh()){
+                    continue;
+                }
                 $datetime = date('Y-m-d H:i:s');
                 if ($cron->getEnable() == 1 && !$cron->running()) {
                     if ($cron->getDeamon() == 0) {

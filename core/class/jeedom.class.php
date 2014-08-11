@@ -297,7 +297,6 @@ class jeedom {
 
     public static function persist() {
         if (!self::isStarted()) {
-            cache::restore();
             $cache = cache::byKey('jeedom::usbMapping');
             if ($cache->getValue() != '') {
                 $cache->remove();
@@ -315,7 +314,7 @@ class jeedom {
     public static function isStarted() {
         $sql = "SELECT `value` FROM `start` WHERE `key`='start'";
         $result = DB::Prepare($sql, array());
-        if (count($result) > 0) {
+        if (count($result) > 0 && $result['value'] == 'ok') {
             return true;
         }
         return false;

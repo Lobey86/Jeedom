@@ -173,6 +173,9 @@ class DB {
         }
         $sql .= '1';
         $newObject = self::Prepare($sql, $parameters, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, get_class($object));
+        if(!is_object($newObject)){
+            return false;
+        }
         foreach (self::getFields($object) as $field) {
             $reflection = self::getReflectionClass($object);
             $property = $reflection->getProperty($field);
