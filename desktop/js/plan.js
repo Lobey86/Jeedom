@@ -21,8 +21,8 @@ jeedom.plan.byObject({
     },
     success: function(data) {
         for (var i in data) {
-            if (data[i].link_type == 'eqLogic') {
-                addEqLogic(data[i].link_id, data[i]);
+            if (data[i].plan.link_type == 'eqLogic') {
+                displayEqLogic(data[i].plan.link_id, data[i].html, data[i].plan);
             }
         }
     },
@@ -82,30 +82,34 @@ function addEqLogic(_id, _plan) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function(data) {
-            $('.eqLogic-widget[data-eqLogic_id=' + _id + ']').remove();
-            var parent = {
-                height: $('#div_displayObject img').height(),
-                width: $('#div_displayObject img').width(),
-            };
-            var html = $(data.html);
-            html.css('position', 'absolute');
-            html.css('top', init(_plan.position.top, '0') * parent.height / init(_plan.css.zoom, 0.65) / 100);
-            html.css('left', init(_plan.position.left, '0') * parent.width / init(_plan.css.zoom, 0.65) / 100);
-            html.css('zoom', init(_plan.css.zoom, 0.65));
-            for (var key in _plan.css) {
-                if (_plan.css[key] != '') {
-                    html.css(key, _plan.css[key]);
-                }
-            }
-            html.draggable({
-                start: startFix,
-                drag: function(event, ui) {
-                    dragFix(event, ui, $(this).css('zoom'))
-                }
-            });
-            $('#div_displayObject').append(html);
+            displayEqLogic(_id, data.html, _plan);
         }
     })
+}
+
+function displayEqLogic(_id, _html, _plan) {
+    $('.eqLogic-widget[data-eqLogic_id=' + _id + ']').remove();
+    var parent = {
+        height: $('#div_displayObject img').height(),
+        width: $('#div_displayObject img').width(),
+    };
+    var html = $(_html);
+    html.css('position', 'absolute');
+    html.css('top', init(_plan.position.top, '0') * parent.height / init(_plan.css.zoom, 0.65) / 100);
+    html.css('left', init(_plan.position.left, '0') * parent.width / init(_plan.css.zoom, 0.65) / 100);
+    html.css('zoom', init(_plan.css.zoom, 0.65));
+    for (var key in _plan.css) {
+        if (_plan.css[key] != '') {
+            html.css(key, _plan.css[key]);
+        }
+    }
+    html.draggable({
+        start: startFix,
+        drag: function(event, ui) {
+            dragFix(event, ui, $(this).css('zoom'))
+        }
+    });
+    $('#div_displayObject').append(html);
 }
 
 function startFix(event, ui) {

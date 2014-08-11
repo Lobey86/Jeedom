@@ -27,7 +27,7 @@ try {
     if (init('action') == 'save') {
         $plans = json_decode(init('plans'), true);
         foreach ($plans as $plan_ajax) {
-           
+
             $plan = plan::byId($plan_ajax['id']);
             if (!is_object($plan)) {
                 $plan = plan::byLinkTypeLinkIdObjectId($plan_ajax['link_type'], $plan_ajax['link_id'], $plan_ajax['object_id']);
@@ -42,7 +42,18 @@ try {
     }
 
     if (init('action') == 'byObject') {
-        ajax::success(utils::o2a(plan::byObjectId(init('object_id'))));
+        $plans = plan::byObjectId(init('object_id'));
+        $return = array();
+        foreach ($plans as $plan) {
+            if ($plan->getLink_type() == 'eqLogic') {
+                $eqLogic = eqLogic::byId($plan->getLink_id());
+                $return[] = array(
+                    'plan' => utils::o2a($plan),
+                    'html' => $eqLogic->toHtml(init('version', 'dashboard'))
+                );
+            }
+        }
+        ajax::success($return);
     }
 
     if (init('action') == 'get') {
@@ -56,8 +67,8 @@ try {
         }
         throw new Exception(__('Aucun plan correspondant'));
     }
-    
-     if (init('action') == 'remove') {
+
+    if (init('action') == 'remove') {
         $plan = plan::byId(init('id'));
         if (is_object($plan)) {
             ajax::success($plan->remove());

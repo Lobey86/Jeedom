@@ -336,7 +336,7 @@ function chooseIcon(_callback) {
 function positionEqLogic(_id, _noResize) {
     var pasW = 40;
     var pasH = 80;
-    $('.eqLogic-widget').each(function() {
+    $('.eqLogic-widget:not(.noResize)').each(function() {
         if (init(_id, '') == '' || $(this).attr('data-eqLogic_id') == _id) {
             var eqLogic = $(this);
             var maxHeight = 0;
