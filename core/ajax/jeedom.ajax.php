@@ -96,7 +96,6 @@ try {
 
     if (init('action') == 'flushcache') {
         cache::flush();
-        cache::set('jeedom::startOK', 1, 0);
         ajax::success();
     }
 

@@ -296,32 +296,29 @@ class jeedom {
     }
 
     public static function persist() {
-        try {
-            if (!self::isStarted()) {
-                cache::restore();
-                $cache = cache::byKey('jeedom::usbMapping');
-                if ($cache->getValue() != '') {
-                    $cache->remove();
-                }
-                jeedom::start();
-                plugin::start();
-                internalEvent::start();
-                cache::set('jeedom::startOK', 1, 0);
-                self::event('start');
-                log::add('core', 'info', 'Démarrage de Jeedom OK');
+        if (!self::isStarted()) {
+            cache::restore();
+            $cache = cache::byKey('jeedom::usbMapping');
+            if ($cache->getValue() != '') {
+                $cache->remove();
             }
-            $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
-            if ($c->isDue()) {
-                cache::persist();
-            }
-        } catch (Exception $e) {
-            log::add('cache', 'error', $e->getMessage());
+            jeedom::start();
+            plugin::start();
+            internalEvent::start();
+            $sql = "INSERT INTO `start` (`key` ,`value`) VALUES ('start',  'ok')";
+            DB::Prepare($sql, array());
+            self::event('start');
+            log::add('core', 'info', 'Démarrage de Jeedom OK');
         }
     }
 
     public static function isStarted() {
-        $cache = cache::byKey('jeedom::startOK');
-        return ($cache->getValue(0) == 1);
+        $sql = "SELECT `value` FROM `start` WHERE `key`='start'";
+        $result = DB::Prepare($sql, array());
+        if (count($result) > 0) {
+            return true;
+        }
+        return false;
     }
 
     public static function isDateOk() {

@@ -27,3 +27,15 @@ ADD CONSTRAINT `fk_plan_planHeader1`
 
 ALTER TABLE `jeedom`.`planHeader` 
 CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ;
+
+ALTER TABLE `jeedom`.`cache` 
+ENGINE = MyISAM ,
+DROP INDEX `key_UNIQUE` ;
+
+CREATE TABLE IF NOT EXISTS `jeedom`.`start` (
+  `key` VARCHAR(127) NOT NULL,
+  `value` VARCHAR(127) NULL DEFAULT NULL,
+  PRIMARY KEY (`key`))
+ENGINE = MEMORY
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;

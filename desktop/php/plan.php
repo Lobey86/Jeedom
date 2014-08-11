@@ -34,9 +34,9 @@ if (is_object($planHeader)) {
     ?>
 </select>
 <a class="btn btn-success btn-sm" style="margin-bottom: 3px;" id="bt_addPlanHeader"><i class="fa fa-plus-circle"></i></a>
-<a class="btn btn-warning btn-sm" style="margin-bottom: 3px;" id="bt_editPlanHeader"><i class="fa fa-pencil"></i></a>
-<a class="btn btn-danger btn-sm" style="margin-bottom: 3px;" id="bt_removePlanHeader"><i class="fa fa-minus-circle"></i></a>
-<input id="bt_uploadImage" type="file" name="file" style="display: inline-block;">
+<a class="btn btn-warning btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_editPlanHeader"><i class="fa fa-pencil"></i></a>
+<a class="btn btn-danger btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_removePlanHeader"><i class="fa fa-minus-circle"></i></a>
+<input class="editMode" id="bt_uploadImage" type="file" name="file" style="display: inline-block;display: none;">
 
 <a class="btn btn-warning pull-right btn-sm" style="margin-bottom: 3px;" id="bt_editPlan" data-mode="0"><i class="fa fa-pencil"></i> {{Mode édition}}</a>
 <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>
