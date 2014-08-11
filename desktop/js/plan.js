@@ -14,18 +14,10 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-jeedom.plan.byObject({
-    object_id: $('.li_object.active').attr('data-object_id'),
-    error: function(error) {
-        $('#div_alert').showAlert({message: error.message, level: 'danger'});
-    },
-    success: function(data) {
-        for (var i in data) {
-            if (data[i].plan.link_type == 'eqLogic') {
-                displayEqLogic(data[i].plan.link_id, data[i].html, data[i].plan);
-            }
-        }
-    },
+displayPlan();
+
+$(window).resize(function() {
+    displayPlan();
 });
 
 
@@ -60,6 +52,22 @@ $('#bt_editPlan').on('click', function() {
     }
 
 });
+
+function displayPlan() {
+    jeedom.plan.byObject({
+        object_id: $('.li_object.active').attr('data-object_id'),
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            for (var i in data) {
+                if (data[i].plan.link_type == 'eqLogic') {
+                    displayEqLogic(data[i].plan.link_id, data[i].html, data[i].plan);
+                }
+            }
+        },
+    });
+}
 
 function savePlan() {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
