@@ -96,7 +96,7 @@ $(window).resize(function() {
 $('#div_displayObject').delegate('.eqLogic-widget', 'dblclick', function() {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
         $('#md_modal').dialog({title: "{{Configuration du plan}}"});
-        $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=eqLogic&link_id=' + $(this).attr('data-eqLogic_id') + '&object_id=' + $('.li_object.active').attr('data-object_id')).dialog('open');
+        $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=eqLogic&link_id=' + $(this).attr('data-eqLogic_id') + '&planHeader_id=' + planHeader_id).dialog('open');
     }
 });
 
@@ -139,7 +139,6 @@ function displayPlan() {
 
 function savePlan() {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
-      //  $('#div_displayObject').parent().scrollTop(0);
         var parent = {
             height: $('#div_displayObject img').height(),
             width: $('#div_displayObject img').width(),
