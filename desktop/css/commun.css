@@ -62,7 +62,7 @@ body {
 }
 
 .eqLogic-widget a{
-    color : white;
+    color:inherit;
 }
 
 .scenario-widget{

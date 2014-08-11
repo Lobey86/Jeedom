@@ -32,6 +32,12 @@ sendVarToJS('id', $plan->getId());
                 </select>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">{{Couleur des icones et textes}}</label>
+            <div class="col-lg-2">
+                <input type="color" class="planAttr form-control" data-l1key="css" data-l2key="color" value="#FFFFFF"/>
+            </div>
+        </div>
     </fieldset>
 </form>
 
