@@ -41,8 +41,8 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'byObject') {
-        $plans = plan::byObjectId(init('object_id'));
+    if (init('action') == 'planHeader') {
+        $plans = plan::byPlanHeaderId(init('planHeader_id'));
         $return = array();
         foreach ($plans as $plan) {
             if ($plan->getLink_type() == 'eqLogic') {
@@ -80,6 +80,51 @@ try {
             ajax::success($plan->remove());
         }
         throw new Exception(__('Aucun plan correspondant'));
+    }
+
+    if (init('action') == 'removePlanHeader') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
+        $planHeader = planHeader::byId(init('id'));
+        if (!is_object($planHeader)) {
+            throw new Exception(__('Objet inconnu verifié l\'id', __FILE__));
+        }
+        $planHeader->remove();
+        ajax::success();
+    }
+
+    if (init('action') == 'savePlanHeader') {
+        $planHeader_ajax = json_decode(init('planHeader'), true);
+        $planHeader = planHeader::byId($planHeader_ajax['id']);
+        if (!is_object($planHeader)) {
+            $planHeader = new planHeader();
+        }
+        utils::a2o($planHeader, $planHeader_ajax);
+        $planHeader->save();
+        ajax::success(utils::o2a($planHeader));
+    }
+
+    if (init('action') == 'uploadImage') {
+        $planHeader = planHeader::byId(init('id'));
+        if (!is_object($planHeader)) {
+            throw new Exception(__('Objet inconnu verifié l\'id', __FILE__));
+        }
+        if (!isset($_FILES['file'])) {
+            throw new Exception(__('Aucun fichier trouvé. Vérifié parametre PHP (post size limit)', __FILE__));
+        }
+        $extension = strtolower(strrchr($_FILES['file']['name'], '.'));
+        if (!in_array($extension, array('.jpg', '.png'))) {
+            throw new Exception('Extension du fichier non valide (autorisé .jpg .png) : ' . $extension);
+        }
+        if (filesize($_FILES['file']['tmp_name']) > 5000000) {
+            throw new Exception(__('Le fichier est trop gros (miximum 5mo)', __FILE__));
+        }
+        $planHeader->setImage('type', str_replace('.', '', $extension));
+        $planHeader->setImage('size', getimagesize($_FILES['file']['tmp_name']));
+        $planHeader->setImage('data', base64_encode(file_get_contents($_FILES['file']['tmp_name'])));
+        $planHeader->save();
+        ajax::success();
     }
 
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));

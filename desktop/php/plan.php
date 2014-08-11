@@ -2,73 +2,51 @@
 if (!isConnect()) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
-if (init('object_id') == '') {
-    $object = object::byId($_SESSION['user']->getOptions('defaultDashboardObject'));
+include_file('3rdparty', 'jquery.fileupload/jquery.ui.widget', 'js');
+include_file('3rdparty', 'jquery.fileupload/jquery.iframe-transport', 'js');
+include_file('3rdparty', 'jquery.fileupload/jquery.fileupload', 'js');
+$planHeader = planHeader::byId(init('id'));
+$planHeaders = planHeader::all();
+
+if (init('plan_id') == '') {
+    $planHeader = planHeader::byId($_SESSION['user']->getOptions('defaultDashboardPlan'));
 } else {
-    $object = object::byId(init('object_id'));
+    $planHeader = planHeader::byId(init('plan_id'));
 }
-if (!is_object($object)) {
-    $object = object::rootObject();
+if (!is_object($planHeader) && count($planHeaders) > 0) {
+    $planHeader = $planHeaders[0];
 }
-if (!is_object($object)) {
-    throw new Exception('{{Aucun objet racine trouvé. Pour en créer un, allez dans Générale -> Objet.<br/> Si vous ne savez pas quoi faire ou que c\'est la premiere fois que vous utilisez Jeedom n\'hésitez pas a consulter cette <a href="http://jeedom.fr/premier_pas.php" target="_blank">page</a>}}');
+if (is_object($planHeader)) {
+    sendVarToJS('planHeader_id', $planHeader->getId());
+} else {
+    sendVarToJS('planHeader_id', -1);
 }
-$child_object = object::buildTree($object);
-$parentNumber = array();
 ?>
+<select class="form-control input-sm" style="width: 200px;display: inline-block" id="sel_planHeader">
+    <?php
+    foreach (planHeader::all() as $planHeader_select) {
+        if ($planHeader_select->getId() == $planHeader->getId()) {
+            echo '<option selected value="' . $planHeader_select->getId() . '">' . $planHeader_select->getName() . '</option>';
+        } else {
+            echo '<option value="' . $planHeader_select->getId() . '">' . $planHeader_select->getName() . '</option>';
+        }
+    }
+    ?>
+</select>
+<a class="btn btn-success btn-sm" style="margin-bottom: 3px;" id="bt_addPlanHeader"><i class="fa fa-plus-circle"></i></a>
+<a class="btn btn-warning btn-sm" style="margin-bottom: 3px;" id="bt_editPlanHeader"><i class="fa fa-pencil"></i></a>
+<a class="btn btn-danger btn-sm" style="margin-bottom: 3px;" id="bt_removePlanHeader"><i class="fa fa-minus-circle"></i></a>
+<input id="bt_uploadImage" type="file" name="file" style="display: inline-block;">
 
-<div class="row row-overflow">
-    <div class="col-lg-2">
-        <center>
-            <?php
-            if (init('category', 'all') == 'all') {
-                echo '<a href="index.php?v=d&p=plan&object_id=' . init('object_id') . '&category=all" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
-            } else {
-                echo '<a href="index.php?v=d&p=plan&object_id=' . init('object_id') . '&category=all" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
-            }
-            foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-                if (init('category', 'all') == $key) {
-                    echo '<a href="index.php?v=d&p=plan&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-primary btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
-                } else {
-                    echo '<a href="index.php?v=d&p=plan&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-default btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
-                }
-            }
-            if (init('category', 'all') == 'other') {
-                echo '<a href="index.php?v=d&p=plan&object_id=' . init('object_id') . '&category=other" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
-            } else {
-                echo '<a href="index.php?v=d&p=plan&object_id=' . init('object_id') . '&category=other" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
-            }
-            ?>
-        </center>
-        <div class="bs-sidebar">
-            <ul id="ul_object" class="nav nav-list bs-sidenav">
-                <li class="nav-header">{{Liste objets}} </li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
-                <?php
-                $allObject = object::buildTree(null, true);
-                foreach ($allObject as $object_li) {
-                    $parentNumber[$object_li->getId()] = $object_li->parentNumber();
-                    $margin = 15 * $parentNumber[$object_li->getId()];
-                    if ($object_li->getId() == $object->getId()) {
-                        echo '<li class="cursor li_object active" data-object_id="'.$object_li->getId().'" ><a href="index.php?v=d&p=plan&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
-                    } else {
-                        echo '<li class="cursor li_object" data-object_id="'.$object_li->getId().'" ><a href="index.php?v=d&p=plan&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
-                    }
-                }
-                ?>
-            </ul>
-        </div>
-    </div>
-
-    <div class="col-lg-10">
-        <a class="btn btn-warning pull-right btn-xs cursor" style="margin-bottom: 3px;" id="bt_editPlan" data-mode="0"><i class="fa fa-pencil"></i> {{Mode édition}}</a>
-        <a class="btn btn-info pull-right btn-xs cursor editMode" style="margin-bottom: 3px;display: none;"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>
-        <a class="btn btn-info pull-right btn-xs cursor editMode" style="margin-bottom: 3px;display: none;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter équipement}}</a>
-        <div id="div_displayObject">
-            <img src="data:image/<?php echo $object->getImage('type') ?>;base64,<?php echo $object->getImage('data') ?>" class="img-responsive">
-        </div>
-    </div>
+<a class="btn btn-warning pull-right btn-sm" style="margin-bottom: 3px;" id="bt_editPlan" data-mode="0"><i class="fa fa-pencil"></i> {{Mode édition}}</a>
+<a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>
+<a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter équipement}}</a>
+<div id="div_displayObject">
+    <?php if (is_object($planHeader) && $planHeader->getImage('type') != '') { ?>
+        <img src="data:image/<?php echo $planHeader->getImage('type') ?>;base64,<?php echo $planHeader->getImage('data') ?>" class="img-responsive">
+    <?php } ?>
 </div>
+</div>
+
 
 <?php include_file('desktop', 'plan', 'js'); ?>

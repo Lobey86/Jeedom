@@ -23,7 +23,7 @@ class plan {
     /*     * *************************Attributs****************************** */
 
     private $id;
-    private $object_id;
+    private $planHeader_id;
     private $link_type;
     private $link_id;
     private $position;
@@ -42,13 +42,13 @@ class plan {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function byObjectId($_object_id) {
+    public static function byPlanHeaderId($_planHeader_id) {
         $values = array(
-            'object_id' => $_object_id
+            'planHeader_id' => $_planHeader_id
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM plan
-                WHERE object_id=:object_id';
+                WHERE planHeader_id=:planHeader_id';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -64,17 +64,17 @@ class plan {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function byLinkTypeLinkIdObjectId($_link_type, $_link_id, $_object_id) {
+    public static function byLinkTypeLinkIdPlanHedaerId($_link_type, $_link_id, $_planHeader_id) {
         $values = array(
             'link_type' => $_link_type,
             'link_id' => $_link_id,
-            'object_id' => $_object_id
+            'planHeader_id' => $_planHeader_id
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM plan
                 WHERE link_type=:link_type
                     AND link_id=:link_id
-                    AND object_id=:object_id';
+                    AND planHeader_id=:planHeader_id';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -98,10 +98,6 @@ class plan {
 
     public function getId() {
         return $this->id;
-    }
-
-    public function getObject_id() {
-        return $this->object_id;
     }
 
     public function getLink_type() {
@@ -128,10 +124,6 @@ class plan {
         $this->id = $id;
     }
 
-    public function setObject_id($object_id) {
-        $this->object_id = $object_id;
-    }
-
     public function setLink_type($link_type) {
         $this->link_type = $link_type;
     }
@@ -150,6 +142,14 @@ class plan {
 
     public function setCss($_key, $_value) {
         $this->css = utils::setJsonAttr($this->css, $_key, $_value);
+    }
+
+    public function getPlanHeader_id() {
+        return $this->planHeader_id;
+    }
+
+    public function setPlanHeader_id($planHeader_id) {
+        $this->planHeader_id = $planHeader_id;
     }
 
 }

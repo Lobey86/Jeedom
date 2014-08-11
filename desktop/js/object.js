@@ -43,18 +43,6 @@ $(".li_object").on('click', function(event) {
             } else {
                 $('#div_objectImage').empty();
             }
-            $('#bt_uploadImage').fileupload({
-                url: 'core/ajax/object.ajax.php?action=uploadImage&id=' + data.id,
-                dataType: 'json',
-                done: function(e, data) {
-                    if (data.result.state != 'ok') {
-                        $('#div_alert').showAlert({message: data.result.result, level: 'danger'});
-                        return;
-                    }
-                    $('#div_alert').showAlert({message: '{{Fichier(s) ajouté(s) avec succes}}', level: 'success'});
-                    $('.li_object.active').click();
-                }
-            });
             modifyWithoutSave = false;
         }
     });

@@ -91,8 +91,8 @@ jeedom.plan.byId = function(_params) {
     $.ajax(paramsAJAX);
 };
 
-jeedom.plan.byObject = function(_params) {
-    var paramsRequired = ['object_id'];
+jeedom.plan.byPlanHeader = function(_params) {
+    var paramsRequired = ['id'];
     var paramsSpecifics = {};
     try {
         jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
@@ -104,8 +104,46 @@ jeedom.plan.byObject = function(_params) {
     var paramsAJAX = jeedom.private.getParamsAJAX(params);
     paramsAJAX.url = 'core/ajax/plan.ajax.php';
     paramsAJAX.data = {
-        action: 'byObject',
-        object_id: _params.object_id
+        action: 'planHeader',
+        planHeader_id: _params.id
+    };
+    $.ajax(paramsAJAX);
+};
+
+jeedom.plan.saveHeader = function(_params) {
+    var paramsRequired = ['planHeader'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/plan.ajax.php';
+    paramsAJAX.data = {
+        action: 'savePlanHeader',
+        planHeader: json_encode(_params.planHeader)
+    };
+    $.ajax(paramsAJAX);
+};
+
+jeedom.plan.removeHeader = function(_params) {
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/plan.ajax.php';
+    paramsAJAX.data = {
+        action: 'removePlanHeader',
+        id: _params.id
     };
     $.ajax(paramsAJAX);
 };

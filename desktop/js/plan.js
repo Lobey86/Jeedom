@@ -14,17 +14,83 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-displayPlan();
-
-$(window).resize(function() {
-    displayPlan();
+/*****************************PLAN HEADER***********************************/
+$('#bt_addPlanHeader').on('click', function() {
+    bootbox.prompt("Nom du plan ?", function(result) {
+        if (result !== null) {
+            jeedom.plan.saveHeader({
+                planHeader: {name: result},
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function(data) {
+                    window.location.replace('index.php?v=d&p=plan&plan_id=' + data.id);
+                }
+            });
+        }
+    });
 });
 
+$('#bt_removePlanHeader').on('click', function() {
+    bootbox.confirm('{{Etes-vous sûr de vouloir supprimer ce plan ?', function(result) {
+        if (result) {
+            jeedom.plan.removeHeader({
+                id: planHeader_id,
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function() {
+                    window.location.replace('index.php?v=d&p=plan');
+                }
+            });
+        }
+    });
+});
 
+$('#bt_editPlanHeader').on('click', function() {
+    bootbox.prompt("Nom du plan ?", function(result) {
+        if (result !== null) {
+            jeedom.plan.saveHeader({
+                planHeader: {name: result, id: planHeader_id},
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function(data) {
+                    window.location.replace('index.php?v=d&p=plan&plan_id=' + data.id);
+                }
+            });
+        }
+    });
+});
+
+$('#bt_uploadImage').fileupload({
+    url: 'core/ajax/plan.ajax.php?action=uploadImage&id=' + planHeader_id,
+    dataType: 'json',
+    done: function(e, data) {
+        if (data.result.state != 'ok') {
+            $('#div_alert').showAlert({message: data.result.result, level: 'danger'});
+            return;
+        }
+        $('#div_alert').showAlert({message: '{{Fichier(s) ajouté(s) avec succes}}', level: 'success'});
+        window.location.reload();
+    }
+});
+
+$('#sel_planHeader').on('change', function() {
+    window.location.replace('index.php?v=d&p=plan&plan_id=' + $(this).value());
+});
+
+/*****************************PLAN***********************************/
 $('#bt_addEqLogic').on('click', function() {
     jeedom.eqLogic.getSelectModal({}, function(data) {
         addEqLogic(data.id);
     });
+});
+
+displayPlan();
+
+$(window).resize(function() {
+    displayPlan();
 });
 
 $('#div_displayObject').delegate('.eqLogic-widget', 'dblclick', function() {
@@ -54,19 +120,21 @@ $('#bt_editPlan').on('click', function() {
 });
 
 function displayPlan() {
-    jeedom.plan.byObject({
-        object_id: $('.li_object.active').attr('data-object_id'),
-        error: function(error) {
-            $('#div_alert').showAlert({message: error.message, level: 'danger'});
-        },
-        success: function(data) {
-            for (var i in data) {
-                if (data[i].plan.link_type == 'eqLogic') {
-                    displayEqLogic(data[i].plan.link_id, data[i].html, data[i].plan);
+    if (planHeader_id != -1) {
+        jeedom.plan.byPlanHeader({
+            id: planHeader_id,
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(data) {
+                for (var i in data) {
+                    if (data[i].plan.link_type == 'eqLogic') {
+                        displayEqLogic(data[i].plan.link_id, data[i].html, data[i].plan);
+                    }
                 }
-            }
-        },
-    });
+            },
+        });
+    }
 }
 
 function savePlan() {
