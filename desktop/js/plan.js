@@ -29,7 +29,6 @@ jeedom.plan.byObject({
 });
 
 
-
 $('#bt_addEqLogic').on('click', function() {
     jeedom.eqLogic.getSelectModal({}, function(data) {
         addEqLogic(data.id);
@@ -63,34 +62,36 @@ $('#bt_editPlan').on('click', function() {
 });
 
 function savePlan() {
-    var parent = {
-        height: $('#div_displayObject img').height(),
-        width: $('#div_displayObject img').width(),
-    };
-    var plans = [];
-    $('.eqLogic-widget').each(function() {
-        var plan = {};
-        plan.position = {};
-        plan.link_type = 'eqLogic';
-        plan.link_id = $(this).attr('data-eqLogic_id');
-        plan.object_id = $('.li_object.active').attr('data-object_id');
-        var zoom = $(this).css('zoom');
-        $(this).css('zoom', '100%');
-        var position = $(this).position();
-        $(this).css('zoom', zoom);
-        plan.position.top = ((position.top * zoom) / parent.height) * 100;
-        plan.position.left = ((position.left * zoom) / parent.width) * 100;
-        plans.push(plan);
-    });
-    jeedom.plan.save({
-        plans: plans,
-        global: false,
-        error: function(error) {
-            $('#div_alert').showAlert({message: error.message, level: 'danger'});
-        },
-        success: function() {
-        },
-    });
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        var parent = {
+            height: $('#div_displayObject img').height(),
+            width: $('#div_displayObject img').width(),
+        };
+        var plans = [];
+        $('.eqLogic-widget').each(function() {
+            var plan = {};
+            plan.position = {};
+            plan.link_type = 'eqLogic';
+            plan.link_id = $(this).attr('data-eqLogic_id');
+            plan.object_id = $('.li_object.active').attr('data-object_id');
+            var zoom = $(this).css('zoom');
+            $(this).css('zoom', '100%');
+            var position = $(this).position();
+            $(this).css('zoom', zoom);
+            plan.position.top = ((position.top * zoom) / parent.height) * 100;
+            plan.position.left = ((position.left * zoom) / parent.width) * 100;
+            plans.push(plan);
+        });
+        jeedom.plan.save({
+            plans: plans,
+            global: false,
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function() {
+            },
+        });
+    }
 }
 
 
