@@ -260,11 +260,8 @@ class cmd {
         $cmd = null;
         foreach (cache::search('collect') as $cache) {
             $cmd = self::byId($cache->getValue());
-            if (is_object($cmd)) {
-                if ($cmd->getEqLogic()->getIsEnable() == 1) {
-                    $cmd->execCmd(null, 1);
-                    log::add('collect', 'info', __('La commande :', __FILE__) . $cmd->getHumanName() . __(' est collectée', __FILE__));
-                }
+            if (is_object($cmd) && $cmd->getEqLogic()->getIsEnable() == 1) {
+                $cmd->execCmd(null, 1);
             }
         }
     }
