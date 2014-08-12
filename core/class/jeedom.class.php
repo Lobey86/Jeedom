@@ -298,7 +298,7 @@ class jeedom {
     public static function persist() {
         if (!self::isStarted()) {
             $cache = cache::byKey('jeedom::usbMapping');
-            if ($cache->getValue() != '') {
+            if ($cache->getValue() != null) {
                 $cache->remove();
             }
             jeedom::start();

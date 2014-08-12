@@ -175,10 +175,11 @@ class history {
         $archiveTime = (config::byKey('historyArchiveTime') + 1) * 3600;
         $packetTime = (config::byKey('historyArchivePackage')) * 3600;
         $endTime = date('Y-m-d H:i:s', $now - $archiveTime);
+        $startTime = date('Y-m-d H:i:s', $now - 86400);
         foreach (cmd::allHistoryCmd() as $cmd) {
             $prevDatetime = null;
             $prevValue = 0;
-            foreach ($cmd->getHistory(null, $endTime) as $history) {
+            foreach ($cmd->getHistory($startTime, $endTime) as $history) {
                 if ($prevDatetime != null) {
                     $datetime = strtotime($history->getDatetime());
                     $prevDatetime = date('Y-m-d H:00:00', strtotime($prevDatetime) + $packetTime);
