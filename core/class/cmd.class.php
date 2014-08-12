@@ -529,7 +529,7 @@ class cmd {
      * @throws Exception
      */
     public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
-        if ($cache == 0 && $this->getEventOnly()) {
+        if ($this->getEventOnly() == 1) {
             $cache = 2;
         }
         if ($this->getType() == 'info' && $cache != 0) {
