@@ -43,14 +43,6 @@ if (init('cron_id') != '') {
     if (!is_object($cron)) {
         die();
     }
-    if (!jeedom::isStarted() && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'persist') {
-        log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' décalé pour attente de démarrage de Jeedom', __FILE__));
-        $cron->setState('stop');
-        $cron->setPID();
-        $cron->setServer('');
-        $cron->save();
-        die();
-    }
     log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' avec le PID : ', __FILE__) . getmypid());
     try {
         $cron->setState('run');
@@ -59,10 +51,7 @@ if (init('cron_id') != '') {
         $cron->setServer(gethostname());
         $cron->setLastRun($datetime);
         $cron->save();
-        $option = null;
-        if (count($cron->getOption()) > 0) {
-            $option = $cron->getOption();
-        }
+        $option = $cron->getOption();
         if ($cron->getClass() != '') {
             $class = $cron->getClass();
             $function = $cron->getFunction();
@@ -113,7 +102,7 @@ if (init('cron_id') != '') {
         if ($cron->getOnce() == 1) {
             $cron->remove();
         } else {
-            if(!$cron->refresh()){
+            if (!$cron->refresh()) {
                 die();
             }
             $cron->setState('stop');
@@ -148,6 +137,7 @@ if (init('cron_id') != '') {
         }
     }
     $sleepTime = config::byKey('cronSleepTime');
+    $started = jeedom::isStarted();
 
     set_time_limit(59);
     cron::setPidFile();
@@ -157,7 +147,10 @@ if (init('cron_id') != '') {
         }
         foreach (cron::all() as $cron) {
             try {
-                if(!$cron->refresh()){
+                if (!$started && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'persist') {
+                    continue;
+                }
+                if (!$cron->refresh()) {
                     continue;
                 }
                 $datetime = date('Y-m-d H:i:s');
