@@ -745,7 +745,6 @@ class cmd {
                 $eqLogic->setStatus('numberTryWithoutSuccess', 0);
                 $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
             }
-
             if ($this->getCollectDate() != '' && $this->execCmd(null, 2) != $_value) {
                 $newUpdate = false;
             }
