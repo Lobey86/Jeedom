@@ -734,10 +734,9 @@ class cmd {
         if ($this->getCollectDate() != '' && ((strtotime('now') - $collectDate) > 3600 || (strtotime('now') + 300 ) < $collectDate)) {
             return;
         }
-        $newUpdate = true;
         $eqLogic = $this->getEqLogic();
-
         if (is_object($eqLogic) && $eqLogic->getIsEnable() == 1) {
+            $newUpdate = true;
             if ($this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
                 $_value = 1;
             }
