@@ -12,3 +12,9 @@ if (is_object($cron)) {
     $cron->save();
 }
 
+$cron = cron::byClassAndFunction('cmd', 'collect');
+if (is_object($cron)) {
+    $cron->setSchedule('*/5 * * * * *');
+    $cron->save();
+}
+

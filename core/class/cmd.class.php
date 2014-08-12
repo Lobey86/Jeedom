@@ -741,20 +741,13 @@ class cmd {
             if ($this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
                 $_value = 1;
             }
-            if (strpos($_value, 'error') === false) {
-                if ($this->getCollectDate() == '' || $collectDate >= strtotime($eqLogic->getStatus('lastCommunication', date('Y-m-d H:i:s')))) {
-                    $eqLogic->setStatus('numberTryWithoutSuccess', 0);
-                    $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-                }
+            if (strpos($_value, 'error') === false && $this->getCollectDate() == '') {
+                $eqLogic->setStatus('numberTryWithoutSuccess', 0);
+                $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
             }
 
-            if ($this->getCollectDate() != '') {
-                $internalEvent = internalEvent::byEventAndOptions('event::cmd', '"id":"' . $this->getId() . '"', true);
-                if (is_object($internalEvent) && strtotime($internalEvent->getDatetime()) < strtotime('now') &&
-                        (strtotime($internalEvent->getDatetime()) > $collectDate ||
-                        (strtotime($internalEvent->getDatetime()) == $collectDate && $internalEvent->setOptions('value', $_value) == $_value))) {
-                    $newUpdate = false;
-                }
+            if ($this->getCollectDate() != '' && $this->execCmd(null, 2) != $_value) {
+                $newUpdate = false;
             }
 
             cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));

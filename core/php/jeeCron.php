@@ -43,7 +43,6 @@ if (init('cron_id') != '') {
     if (!is_object($cron)) {
         die();
     }
-
     if (!jeedom::isStarted() && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'persist') {
         log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' décalé pour attente de démarrage de Jeedom', __FILE__));
         $cron->setState('stop');
@@ -51,10 +50,6 @@ if (init('cron_id') != '') {
         $cron->setServer('');
         $cron->save();
         die();
-    }
-    if ($cron->getNbRun() > 1) {
-        log::add('cron', 'info', __('Le cron : ', __FILE__) . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
-        die('Le cron : ' . $cron->getName() . __(' est en cours (', __FILE__) . $cron->getNbRun() . ')');
     }
     log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' avec le PID : ', __FILE__) . getmypid());
     try {
@@ -115,7 +110,6 @@ if (init('cron_id') != '') {
                 die();
             }
         }
-        log::add('cron', 'info', 'Fin de ' . $cron->getName());
         if ($cron->getOnce() == 1) {
             $cron->remove();
         } else {
@@ -139,10 +133,6 @@ if (init('cron_id') != '') {
         log::add('cron', 'error', __('Erreur sur ', __FILE__) . $cron->getName() . ' : ' . print_r($e, true));
     }
 } else {
-    if (config::byKey('enableCron') == 0) {
-        die(__('Tous les crons sont actuellement désactivés', __FILE__));
-    }
-
     $retry = 0;
     while (true) {
         $retry++;
