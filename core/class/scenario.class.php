@@ -176,11 +176,7 @@ class scenario {
             return true;
         }
         foreach ($scenarios as $scenario_) {
-            try {
-                $scenario_->launch(false, $message);
-            } catch (Exception $e) {
-                log::add('scenario', 'error', $e->getMessage());
-            }
+            $scenario_->launch(false, $message);
         }
         return true;
     }

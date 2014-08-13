@@ -79,7 +79,6 @@ try {
         }
         $scenario->setPID(getmypid());
         $scenario->save();
-        log::add('scenario', 'info', __('Vérification du scénario ', __FILE__) . $scenario->getHumanName() . __(' avec le PID : ', __FILE__) . getmypid());
         $scenario->execute(init('message'));
         $scenario->setState('stop');
     } else {
