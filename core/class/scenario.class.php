@@ -391,12 +391,11 @@ class scenario {
     public function execute($_message = '') {
         $this->clearLog();
         $this->setDisplay('icon', '');
-        $initialState = $this->getState();
         $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
         $this->setState('in progress');
         $this->setLastLaunch(date('Y-m-d H:i:s'));
         foreach ($this->getElement() as $element) {
-            $element->execute($this, $initialState);
+            $element->execute($this);
         }
         $this->setState('stop');
         $this->save();
