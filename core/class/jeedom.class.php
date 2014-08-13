@@ -95,7 +95,7 @@ class jeedom {
             echo "OK\n";
             echo "Nettoyage du cache : ";
             $cache = cache::byKey('jeedom::usbMapping');
-            if ($cache->getValue() != '') {
+            if ($cache->getValue() === null || $cache->getValue() === '' || $cache->getValue() == 'false') {
                 $cache->remove();
             }
             echo "OK\n";
