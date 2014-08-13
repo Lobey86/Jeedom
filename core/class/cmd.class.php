@@ -731,8 +731,7 @@ class cmd {
             return;
         }
         $collectDate = ($this->getCollectDate() != '' ) ? strtotime($this->getCollectDate()) : strtotime('now');
-        $collect = $this->getCollectDate();
-        if ($collect != '' && ((strtotime('now') - $collectDate) > 3600 || (strtotime('now') + 300 ) < $collectDate)) {
+        if ($this->getCollectDate() != '' && ((strtotime('now') - $collectDate) > 3600 || (strtotime('now') + 300 ) < $collectDate)) {
             return;
         }
         $eqLogic = $this->getEqLogic();
@@ -745,14 +744,7 @@ class cmd {
                 $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
                 $this->addHistoryValue($_value, $this->getCollectDate());
             }
-            //collectDate remis a l'ancienne valeur après appels a execCmd
-            // if ($this->execCmd(null, 2) == $_value && ($collect == '' && (strtotime('now') - strtotime($this->getCollectDate()) > 3599))) {
-            //     $newUpdate = false;
-            // }
-
-            cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $collect));
-
-            //if ($newUpdate) {
+            cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
             $this->setCollect(0);
             nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
             foreach (self::byValue($this->getId()) as $cmd) {
@@ -768,11 +760,10 @@ class cmd {
             $internalEvent->setEvent('event::cmd');
             $internalEvent->setOptions('id', $this->getId());
             $internalEvent->setOptions('value', $_value);
-            $internalEvent->setDatetime($collect);
+            $internalEvent->setDatetime($this->getCollectDate());
             $internalEvent->save();
             scenario::check($this->getId());
             listener::check($this->getId(), $_value);
-            // }
         } else {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
         }

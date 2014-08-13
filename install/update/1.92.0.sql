@@ -13,10 +13,10 @@ ENGINE = MEMORY
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
-ALTER TABLE `jeedom`.`plan` 
+ALTER IGNORE TABLE `jeedom`.`plan` 
 DROP FOREIGN KEY `fk_plan_object1`;
 
-ALTER TABLE `jeedom`.`plan` 
+ALTER IGNORE TABLE `jeedom`.`plan` 
 DROP COLUMN `object_id`,
 ADD COLUMN `planHeader_id` INT(11) NOT NULL AFTER `id`,
 DROP INDEX `unique` ,
@@ -25,17 +25,17 @@ ADD INDEX `fk_plan_planHeader1_idx` (`planHeader_id` ASC),
 DROP INDEX `object_id` ,
 DROP INDEX `fk_plan_object1_idx` ;
 
-ALTER TABLE `jeedom`.`plan` 
+ALTER IGNORE TABLE `jeedom`.`plan` 
 ADD CONSTRAINT `fk_plan_planHeader1`
   FOREIGN KEY (`planHeader_id`)
   REFERENCES `jeedom`.`planHeader` (`id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-ALTER TABLE `jeedom`.`planHeader` 
+ALTER IGNORE TABLE `jeedom`.`planHeader` 
 CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ;
 
-ALTER TABLE `jeedom`.`cache` 
+ALTER IGNORE TABLE `jeedom`.`cache` 
 ENGINE = MyISAM ,
 DROP INDEX `key_UNIQUE` ;
 

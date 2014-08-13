@@ -1,2 +1,2 @@
-ALTER TABLE `jeedom`.`internalEvent` 
+ALTER IGNORE TABLE `jeedom`.`internalEvent` 
 ENGINE = MyISAM ;
