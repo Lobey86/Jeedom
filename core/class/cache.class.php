@@ -33,8 +33,8 @@ class cache {
     /*     * ***********************Methode static*************************** */
 
     public static function byKey($_key, $_noRemove = false) {
-        if (isset(self::$_cache[$_key])) {
-            return self::$_cache[$_key];
+        if (isset(self::$_cache[$_key]) && (self::$_cache[$_key]['datetime'] + 30) >= strtotime('now')) {
+            return self::$_cache[$_key]['value'];
         }
         $values = array(
             'key' => $_key
@@ -53,7 +53,7 @@ class cache {
                 $cache->remove();
             }
         }
-        self::$_cache[$_key] = $cache;
+        self::$_cache[$_key] = array('value' => $cache, 'datetime' => strtotime('now'));
         return $cache;
     }
 
@@ -99,7 +99,7 @@ class cache {
     /*     * *********************Methode d'instance************************* */
 
     public function save() {
-        self::$_cache[$_key] = $this;
+        self::$_cache[$_key] = array('value' => $this, 'datetime' => strtotime('now'));
         $values = array(
             'key' => $this->getKey(),
             'value' => $this->getValue(),
