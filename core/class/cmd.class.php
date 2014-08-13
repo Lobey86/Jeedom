@@ -730,7 +730,7 @@ class cmd {
         if ($this->getType() != 'info') {
             return;
         }
-        $collectDate = ($this->getCollectDate() != '' ) ? strtotime($this->getCollectDate()) : '';
+        $collectDate = ($this->getCollectDate() != '' ) ? strtotime($this->getCollectDate()) : strtotime('now');
         $collect = $this->getCollectDate();
         if ($collect != '' && ((strtotime('now') - $collectDate) > 3600 || (strtotime('now') + 300 ) < $collectDate)) {
             return;
