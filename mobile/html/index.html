@@ -30,7 +30,19 @@
         <link href="core/img/logo-jeedom-petit-nom-couleur-2008x1536.png" media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
         <!-- iPad (Retina, landscape) SPLASHSCREEN-->
         <link href="core/img/logo-jeedom-petit-nom-couleur-2048x1496.png" media="(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-
+        <script>
+            function isset() {
+                var a = arguments, b = a.length, d = 0;
+                if (0 === b)
+                    throw Error("Empty isset");
+                for (; d !== b; ) {
+                    if (void 0 === a[d] || null === a[d])
+                        return!1;
+                    d++
+                }
+                return!0
+            }
+        </script>
         <link rel="stylesheet" href="3rdparty/jquery.mobile/jquery.mobile.css">
         <link rel="stylesheet" href="core/css/core.css">
         <link rel="stylesheet" href="3rdparty/jquery.utils/jquery.utils.css">
@@ -54,6 +66,7 @@
         <script src="core/php/getJS.php?file=core/js/plugin.class.js"></script>
         <script src="core/php/getJS.php?file=core/js/message.class.js"></script>
         <script src="core/php/getJS.php?file=core/js/view.class.js"></script>
+        <script src="core/php/getJS.php?file=core/js/plan.class.js"></script>
         <script src="core/php/getJS.php?file=mobile/js/application.js"></script>
     </head>
     <body>
