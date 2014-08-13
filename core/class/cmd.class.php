@@ -731,7 +731,8 @@ class cmd {
             return;
         }
         $collectDate = ($this->getCollectDate() != '' ) ? strtotime($this->getCollectDate()) : '';
-        if ($this->getCollectDate() != '' && ((strtotime('now') - $collectDate) > 3600 || (strtotime('now') + 300 ) < $collectDate)) {
+        $collect = $this->getCollectDate();
+        if ($collect != '' && ((strtotime('now') - $collectDate) > 3600 || (strtotime('now') + 300 ) < $collectDate)) {
             return;
         }
         $eqLogic = $this->getEqLogic();
@@ -744,11 +745,12 @@ class cmd {
                 $eqLogic->setStatus('numberTryWithoutSuccess', 0);
                 $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
             }
+            //collect
             if ($this->execCmd(null, 2) == $_value && (strtotime($this->getCollectDate()) - $collectDate) > 3601) {
                 $newUpdate = false;
             }
 
-            cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
+            cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $collect));
 
             if ($newUpdate) {
                 if (strpos($_value, 'error') === false) {
@@ -767,7 +769,7 @@ class cmd {
                 $internalEvent->setEvent('event::cmd');
                 $internalEvent->setOptions('id', $this->getId());
                 $internalEvent->setOptions('value', $_value);
-                $internalEvent->setDatetime($this->getCollectDate());
+                $internalEvent->setDatetime($collect);
                 $internalEvent->save();
                 scenario::check($this->getId());
                 listener::check($this->getId(), $_value);
