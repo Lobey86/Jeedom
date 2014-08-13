@@ -126,10 +126,10 @@ class jeedom {
                 if ($vendor = '' && $model = '') {
                     $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
                 } else {
-                    $name = $vendor . ' ' . $model;
+                    $name = trim($vendor . ' ' . $model);
                     $number = 2;
                     while (isset($usbMapping[$name])) {
-                        $name = $vendor . ' ' . $model . ' ' . $number;
+                        $name = trim($vendor . ' ' . $model . ' ' . $number);
                         $number++;
                     }
                     $usbMapping[$name] = '/dev/' . $usb;
