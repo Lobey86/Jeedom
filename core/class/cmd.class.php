@@ -759,10 +759,12 @@ class cmd {
                 $this->setCollect(0);
                 nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
                 foreach (self::byValue($this->getId()) as $cmd) {
-                    if ($cmd->getType() == 'action') {
-                        nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
-                    } else {
-                        $cmd->event($cmd->execute());
+                    if ($cmd->getId() != $this->getId()) {
+                        if ($cmd->getType() == 'action') {
+                            nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
+                        } else {
+                            $cmd->event($cmd->execute());
+                        }
                     }
                 }
                 $internalEvent = new internalEvent();
