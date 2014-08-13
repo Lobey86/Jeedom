@@ -745,8 +745,8 @@ class cmd {
                 $eqLogic->setStatus('numberTryWithoutSuccess', 0);
                 $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
             }
-            //collect
-            if ($this->execCmd(null, 2) == $_value && (strtotime($this->getCollectDate()) - $collectDate) > 3601) {
+            //collectDate remis a l'ancienne valeur après appels a execCmd
+            if ($this->execCmd(null, 2) == $_value && ($collect == '' && (strtotime('now') - strtotime($this->getCollectDate()) > 3599))) {
                 $newUpdate = false;
             }
 
