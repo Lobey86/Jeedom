@@ -60,7 +60,7 @@ if (!isConnect()) {
 {{#semaine# : numéro de la semaine (ex : 51)}}
 {{#sjour# : pour le nom du jour de la semaine (ex : Samedi)}}
 {{rand(1,10) : pour un nombre aléatoire de 1 à 10}}
-{{tendance(commande,period,seuil) : donne la tendance de la commande sur la period (period=[month,day,hour,min,seconde])
+{{tendance(commande,period,seuil) : donne la tendance de la commande sur la period (period=[month,day,hour,min])
     Ex : tendance(#[Salle de bain][Hydrometrie][Humidité]#,1 hour,0.1) : Renvoi 1 si en augmentation, 0 si constant et -1 si en diminution
          Le seuil permet de definir la sensibilitéen, attention le calcul du seuil utilise la calcul de <a target="_blank" href="http://fr.wikipedia.org/wiki/M%C3%A9thode_des_moindres_carr%C3%A9s">moindre carrés</a>}}
 {{variable(mavariable,valeur par default) : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut
