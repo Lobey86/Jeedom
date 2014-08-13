@@ -172,7 +172,7 @@ class history {
 
     public static function fillHole() {
         $now = strtotime('now');
-        $archiveTime = (config::byKey('historyArchiveTime') + 1) * 3600;
+        $archiveTime = (config::byKey('historyArchiveTime') + 2) * 3600;
         $packetTime = (config::byKey('historyArchivePackage')) * 3600;
         $endTime = date('Y-m-d H:i:s', $now - $archiveTime);
         $startTime = date('Y-m-d H:i:s', $now - 86400);
