@@ -227,6 +227,13 @@ class plugin {
                 $eqLogic->save();
             }
         }
+        if ($alreadyActive == 0 && $_state == 1) {
+            foreach (eqLogic::byType($this->getId()) as $eqLogic) {
+                $eqLogic->setIsEnable(1);
+                $eqLogic->setIsVisible(1);
+                $eqLogic->save();
+            }
+        }
         try {
             log::add('plugin', 'debug', 'Recherche de ' . dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/plugin_info/install.php');
             if (file_exists(dirname(__FILE__) . '/../../plugins/' . $this->getId() . '/plugin_info/install.php')) {
