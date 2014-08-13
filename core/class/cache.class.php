@@ -93,13 +93,13 @@ class cache {
                 $cache->setOptions($key, $value);
             }
         }
+        self::$_cache[$_key] = array('value' => $cache, 'datetime' => strtotime('now'));
         return $cache->save();
     }
 
     /*     * *********************Methode d'instance************************* */
 
     public function save() {
-        self::$_cache[$_key] = array('value' => $this, 'datetime' => strtotime('now'));
         $values = array(
             'key' => $this->getKey(),
             'value' => $this->getValue(),
