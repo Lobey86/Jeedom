@@ -389,24 +389,16 @@ class scenario {
     }
 
     public function execute($_message = '') {
-        $internalEvent = new internalEvent();
-        $internalEvent->setEvent('launch::scenario');
-        $internalEvent->setOptions('id', $this->getId());
-        $internalEvent->save();
         $this->clearLog();
         $this->setDisplay('icon', '');
         $initialState = $this->getState();
         $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
         $this->setState('in progress');
         $this->setLastLaunch(date('Y-m-d H:i:s'));
-        $this->save();
         foreach ($this->getElement() as $element) {
             $element->execute($this, $initialState);
         }
-        $internalEvent = new internalEvent();
-        $internalEvent->setEvent('stop::scenario');
-        $internalEvent->setOptions('id', $this->getId());
-        $internalEvent->save();
+        $this->setState('stop');
         $this->save();
         return true;
     }

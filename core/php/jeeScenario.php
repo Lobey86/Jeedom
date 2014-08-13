@@ -77,8 +77,8 @@ try {
             $scenario->setLog(__('Impossible de lancer le scénario car déjà en cours : ', __FILE__) . $scenario->getHumanName());
             die(__('Impossible de lancer le scénario car déjà en cours : ', __FILE__) . $scenario->getHumanName());
         }
+        $scenario->setPID(getmypid());
         $scenario->execute(init('message'));
-        $scenario->setState('stop');
     } else {
         $scenario->setLog(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
         die(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
