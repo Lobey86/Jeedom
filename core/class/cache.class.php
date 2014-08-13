@@ -28,10 +28,14 @@ class cache {
     private $datetime;
     private $options = null;
     private $_hasExpired = -1;
+    private static $_cache = array();
 
     /*     * ***********************Methode static*************************** */
 
     public static function byKey($_key, $_noRemove = false) {
+        if (isset(self::$_cache[$_key])) {
+            return self::$_cache[$_key];
+        }
         $values = array(
             'key' => $_key
         );
@@ -49,6 +53,7 @@ class cache {
                 $cache->remove();
             }
         }
+        self::$_cache[$_key] = $cache;
         return $cache;
     }
 
@@ -94,16 +99,13 @@ class cache {
     /*     * *********************Methode d'instance************************* */
 
     public function save() {
-        $options = $this->getOptions();
-        if (is_array($options) || is_object($options)) {
-            $options = json_encode($options, JSON_UNESCAPED_UNICODE);
-        }
+        self::$_cache[$_key] = $this;
         $values = array(
             'key' => $this->getKey(),
             'value' => $this->getValue(),
             'datetime' => date('Y-m-d H:i:s'),
             'lifetime' => $this->getLifetime(),
-            'options' => $options
+            'options' => $this->getOptions()
         );
         $sql = 'REPLACE cache
                  SET `key`=:key,

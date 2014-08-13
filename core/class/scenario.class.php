@@ -98,7 +98,7 @@ class scenario {
     }
 
     public static function schedule() {
-        $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '  
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '  
                 FROM scenario
                 WHERE `mode` != "provoke"
                     AND isActive=1
