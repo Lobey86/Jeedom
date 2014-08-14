@@ -93,12 +93,6 @@ class jeedom {
             echo "Réactivation des tâches : ";
             config::save('enableCron', 1);
             echo "OK\n";
-            echo "Nettoyage du cache : ";
-            $cache = cache::byKey('jeedom::usbMapping');
-            if ($cache->getValue() === null || $cache->getValue() === '' || $cache->getValue() == 'false') {
-                $cache->remove();
-            }
-            echo "OK\n";
         } catch (Exception $e) {
             if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                 throw $e;
@@ -298,9 +292,7 @@ class jeedom {
     public static function persist() {
         if (!self::isStarted()) {
             $cache = cache::byKey('jeedom::usbMapping');
-            if ($cache->getValue() != null) {
-                $cache->remove();
-            }
+            $cache->remove();
             jeedom::start();
             plugin::start();
             internalEvent::start();
