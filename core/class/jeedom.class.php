@@ -120,7 +120,7 @@ class jeedom {
                 }
                 if ($vendor == '' && $model == '') {
                     log::add('usb', 'debug', 'Aucune info trouvée pose de 5 secondes avant nouvelle essai');
-                    sleep(5);
+                    sleep(20);
                     foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
                         if (strpos($line, 'E: ID_MODEL=') !== false) {
                             $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
@@ -129,9 +129,9 @@ class jeedom {
                             $vendor = trim(str_replace(array('E: ID_VENDOR=', '"'), '', $line));
                         }
                     }
-                    if ($vendor == '' && $model == '') {
-                        $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
-                    }
+                }
+                if ($vendor == '' && $model == '') {
+                    $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
                 } else {
                     $name = trim($vendor . ' ' . $model);
                     $number = 2;
