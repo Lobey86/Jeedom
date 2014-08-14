@@ -16,6 +16,7 @@ if (!is_object($object)) {
 }
 $child_object = object::buildTree($object);
 $parentNumber = array();
+cache::loadAllCache();
 ?>
 
 <div class="row row-overflow">

@@ -57,6 +57,15 @@ class cache {
         return $cache;
     }
 
+    public static function loadAllCache() {
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM cache';
+        $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+        foreach ($results as $cache) {
+            self::$_cache[$cache->getKey()] = array('value' => $cache, 'datetime' => strtotime('now'));
+        }
+    }
+
     public static function search($_search, $_noRemove = false) {
         $values = array(
             'key' => '%' . $_search . '%'
