@@ -172,10 +172,10 @@ class history {
 
     public static function fillHole() {
         $now = strtotime('now');
-        $archiveTime = (config::byKey('historyArchiveTime') + 2) * 3600;
+        $archiveTime = (config::byKey('historyArchiveTime') + 1) * 3600;
         $packetTime = (config::byKey('historyArchivePackage')) * 3600;
-        $endTime = date('Y-m-d H:i:s', $now - $archiveTime);
-        $startTime = date('Y-m-d H:i:s', $now - 86400);
+        $endTime = date('Y-m-d H:00:00', $now - $archiveTime - 120);
+        $startTime = date('Y-m-d H:00:00', $now - 86400);
         foreach (cmd::allHistoryCmd() as $cmd) {
             $prevDatetime = null;
             $prevValue = 0;
@@ -183,7 +183,7 @@ class history {
                 if ($prevDatetime != null) {
                     $datetime = strtotime($history->getDatetime());
                     $prevDatetime = date('Y-m-d H:00:00', strtotime($prevDatetime) + $packetTime);
-                    while (($now - strtotime($prevDatetime) > $archiveTime) && strtotime($prevDatetime) < $datetime) {
+                    while (($now - strtotime($prevDatetime) - 1) > $archiveTime && strtotime($prevDatetime) < $datetime) {
                         $newHistory = new history();
                         $newHistory->setCmd_id($cmd->getId());
                         $newHistory->setDatetime($prevDatetime);
