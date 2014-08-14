@@ -109,7 +109,6 @@ class jeedom {
             log::add('usb', 'debug', 'Find in cache : ' . $usbMapping[$_name]);
             return $usbMapping[$_name];
         }
-        log::add('usb', 'debug', 'No cache');
         $usbMapping = array();
         foreach (ls('/dev/', 'ttyUSB*') as $usb) {
             $vendor = '';
@@ -122,7 +121,7 @@ class jeedom {
                     $vendor = trim(str_replace(array('E: ID_VENDOR=', '"'), '', $line));
                 }
             }
-            if ($vendor = '' && $model = '') {
+            if ($vendor == '' && $model == '') {
                 $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
             } else {
                 $name = trim($vendor . ' ' . $model);
@@ -137,10 +136,8 @@ class jeedom {
         log::add('usb', 'debug', 'USB liste : ' . print_r($usbMapping, true));
         if ($_name != '') {
             if (isset($usbMapping[$_name])) {
-                log::add('usb', 'debug', 'Result : ' . $usbMapping[$_name]);
                 return $usbMapping[$_name];
             } else {
-                log::add('usb', 'debug', 'Result empty');
                 return '';
             }
         }
