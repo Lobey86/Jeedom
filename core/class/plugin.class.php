@@ -175,8 +175,7 @@ class plugin {
 
     public static function cron() {
         foreach (self::listPlugin(true) as $plugin) {
-            $plugin_id = $plugin->getId();
-            if (method_exists($plugin_id, 'cron')) {
+            if (method_exists($plugin->getId(), 'cron')) {
                 $plugin->launch('cron');
             }
         }
@@ -184,8 +183,7 @@ class plugin {
 
     public static function cronDaily() {
         foreach (self::listPlugin(true) as $plugin) {
-            $plugin_id = $plugin->getId();
-            if (method_exists($plugin_id, 'cronDaily')) {
+            if (method_exists($plugin->getId(), 'cronDaily')) {
                 $plugin->launch('cronDaily');
             }
         }
@@ -193,8 +191,7 @@ class plugin {
 
     public static function cronHourly() {
         foreach (self::listPlugin(true) as $plugin) {
-            $plugin_id = $plugin->getId();
-            if (method_exists($plugin_id, 'cronHourly')) {
+            if (method_exists($plugin->getId(), 'cronHourly')) {
                 $plugin->launch('cronHourly');
             }
         }
@@ -202,8 +199,7 @@ class plugin {
 
     public static function start() {
         foreach (self::listPlugin(true) as $plugin) {
-            $plugin_id = $plugin->getId();
-            if (method_exists($plugin_id, 'start')) {
+            if (method_exists($plugin->getId(), 'start')) {
                 $plugin->launch('start');
             }
         }
@@ -228,6 +224,13 @@ class plugin {
             foreach (eqLogic::byType($this->getId()) as $eqLogic) {
                 $eqLogic->setIsEnable(0);
                 $eqLogic->setIsVisible(0);
+                $eqLogic->save();
+            }
+        }
+        if ($alreadyActive == 0 && $_state == 1) {
+            foreach (eqLogic::byType($this->getId()) as $eqLogic) {
+                $eqLogic->setIsEnable(1);
+                $eqLogic->setIsVisible(1);
                 $eqLogic->save();
             }
         }

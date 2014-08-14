@@ -2,9 +2,6 @@
 if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-include_file('3rdparty', 'jquery.fileupload/jquery.ui.widget', 'js');
-include_file('3rdparty', 'jquery.fileupload/jquery.iframe-transport', 'js');
-include_file('3rdparty', 'jquery.fileupload/jquery.fileupload', 'js');
 sendVarToJS('select_id', init('id', '-1'));
 ?>
 
@@ -67,16 +64,9 @@ sendVarToJS('select_id', init('id', '-1'));
                         <a class="btn btn-default btn-sm" id="bt_chooseIcon"><i class="fa fa-flag"></i> {{Choisir une icône}}</a>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Ajouter une image}}</label>
-                    <div class="col-lg-8">
-                        <input id="bt_uploadImage" type="file" name="file">
-                    </div>
-                </div>
             </fieldset>
         </form>
         <hr/>
-        <div id="div_objectImage"></div>
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">

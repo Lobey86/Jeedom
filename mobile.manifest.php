@@ -21,6 +21,7 @@ $js_file = array(
     'core/js/view.class.js',
     'core/js/message.class.js',
     'core/js/scenario.class.js',
+    'core/js/plan.class.js',
     '3rdparty/jquery.masonry/jquery.masonry.js',
 );
 

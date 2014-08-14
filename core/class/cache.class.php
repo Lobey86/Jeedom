@@ -28,10 +28,14 @@ class cache {
     private $datetime;
     private $options = null;
     private $_hasExpired = -1;
+    private static $_cache = array();
 
     /*     * ***********************Methode static*************************** */
 
     public static function byKey($_key, $_noRemove = false) {
+        if (isset(self::$_cache[$_key]) && (self::$_cache[$_key]['datetime'] + 59) >= strtotime('now')) {
+            return self::$_cache[$_key]['value'];
+        }
         $values = array(
             'key' => $_key
         );
@@ -49,7 +53,17 @@ class cache {
                 $cache->remove();
             }
         }
+        self::$_cache[$_key] = array('value' => $cache, 'datetime' => strtotime('now'));
         return $cache;
+    }
+
+    public static function loadAllCache() {
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                FROM cache';
+        $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+        foreach ($results as $cache) {
+            self::$_cache[$cache->getKey()] = array('value' => $cache, 'datetime' => strtotime('now'));
+        }
     }
 
     public static function search($_search, $_noRemove = false) {
@@ -88,22 +102,19 @@ class cache {
                 $cache->setOptions($key, $value);
             }
         }
+        self::$_cache[$_key] = array('value' => $cache, 'datetime' => strtotime('now'));
         return $cache->save();
     }
 
     /*     * *********************Methode d'instance************************* */
 
     public function save() {
-        $options = $this->getOptions();
-        if (is_array($options) || is_object($options)) {
-            $options = json_encode($options, JSON_UNESCAPED_UNICODE);
-        }
         $values = array(
             'key' => $this->getKey(),
             'value' => $this->getValue(),
             'datetime' => date('Y-m-d H:i:s'),
             'lifetime' => $this->getLifetime(),
-            'options' => $options
+            'options' => $this->getOptions()
         );
         $sql = 'REPLACE cache
                  SET `key`=:key,
@@ -115,6 +126,9 @@ class cache {
     }
 
     public function remove() {
+        if (isset(self::$_cache[$_key])) {
+            unset(self::$_cache[$_key]);
+        }
         DB::remove($this);
     }
 
@@ -157,7 +171,7 @@ class cache {
     }
 
     public function getValue($_default = '') {
-        return (trim($this->value) === null) ? $_default : $this->value;
+        return ($this->value === null || trim($this->value) == '') ? $_default : $this->value;
     }
 
     public function setValue($value) {

@@ -7,6 +7,7 @@ $plan = plan::byLinkTypeLinkIdPlanHedaerId(init('link_type'), init('link_id'), i
 if (!is_object($plan)) {
     throw new Exception('Impossible de trouver le plan');
 }
+$link = $plan->getLink();
 sendVarToJS('id', $plan->getId());
 ?>
 <div id="div_alertPlanConfigure"></div>
@@ -15,7 +16,7 @@ sendVarToJS('id', $plan->getId());
 <form class="form-horizontal">
     <fieldset id="fd_planConfigure">
         <div class="form-group">
-            <label class="col-lg-2 control-label">{{Taille du widget}}</label>
+            <label class="col-lg-4 control-label">{{Taille du widget}}</label>
             <div class="col-lg-2">
                 <input type="text"  class="planAttr form-control" data-l1key="id" style="display: none;"/>
                 <input type="text"  class="planAttr form-control" data-l1key="link_type" style="display: none;"/>
@@ -24,7 +25,7 @@ sendVarToJS('id', $plan->getId());
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-2 control-label">{{Couleur de fond}}</label>
+            <label class="col-lg-4 control-label">{{Couleur de fond}}</label>
             <div class="col-lg-2">
                 <select class="planAttr form-control" data-l1key="css" data-l2key="background-color">
                     <option value="">Normale</option>
@@ -33,11 +34,26 @@ sendVarToJS('id', $plan->getId());
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-2 control-label">{{Couleur des icones et textes}}</label>
+            <label class="col-lg-4 control-label">{{Couleur des icones et textes}}</label>
             <div class="col-lg-2">
                 <input type="color" class="planAttr form-control" data-l1key="css" data-l2key="color" value="#FFFFFF"/>
             </div>
         </div>
+        <legend>Spécifique</legend>
+        <?php
+        if ($plan->getLink_type() == 'eqLogic' && is_object($link)) {
+            foreach ($link->getCmd() as $cmd) {
+                if ($cmd->getIsVisible() == 1) {
+                    echo '<div class="form-group">';
+                    echo '<label class="col-lg-4 control-label">{{Ne pas afficher }}' . $cmd->getHumanName() . '</label>';
+                    echo '<div class="col-lg-2">';
+                    echo '<input type="checkbox" class="planAttr" data-l1key="display" data-l2key="cmd" data-l3key="' . $cmd->getID() . '" />';
+                    echo '</div>';
+                    echo '</div>';
+                }
+            }
+        }
+        ?>
     </fieldset>
 </form>
 

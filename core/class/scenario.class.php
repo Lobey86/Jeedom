@@ -97,6 +97,15 @@ class scenario {
         }
     }
 
+    public static function schedule() {
+        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '  
+                FROM scenario
+                WHERE `mode` != "provoke"
+                    AND isActive=1
+                    AND state!="in progress"';
+        return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+    }
+
     public static function listGroup() {
         $sql = 'SELECT DISTINCT(`group`)
                 FROM scenario
@@ -110,7 +119,8 @@ class scenario {
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '  
                     FROM scenario
-                    WHERE `trigger` LIKE :cmd_id';
+                    WHERE `trigger` LIKE :cmd_id
+                    AND mode != "schedule"';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -147,41 +157,17 @@ class scenario {
         $message = '';
         if ($_event_id != null) {
             $scenarios = self::byTrigger($_event_id);
-            $scenario_list = '';
-            foreach ($scenarios as $key => &$scenario) {
-                if ($scenario->getMode() == 'schedule') {
-                    unset($scenarios[$key]);
-                } else {
-                    $scenario_list .= $scenario->getHumanName() . ' ';
-                }
-            }
-            if ($scenario_list != '') {
-                if (is_numeric($_event_id)) {
-                    $cmd = cmd::byId($_event_id);
-                    $message = __('Scenario lance automatiquement sur evenement venant de : ', __FILE__) . $cmd->getHumanName();
-                    if (is_object($cmd)) {
-                        log::add('scenario', 'info', __('Evènement venant de ', __FILE__) . $cmd->getHumanName() . ' (' . $cmd->getId() . __(') vérification du/des scénario(s) : ', __FILE__) . $scenario_list);
-                    } else {
-                        return;
-                    }
-                } else {
-                    $message = __('Scenario lance sur evenement : #', __FILE__) . $_event_id . '#';
-                    log::add('scenario', 'info', __('Evènement : #', __FILE__) . $_event_id . __('# vérification du/des scénario(s) : ', __FILE__) . $scenario_list);
-                }
+            if (is_numeric($_event_id)) {
+                $cmd = cmd::byId($_event_id);
+                $message = __('Scenario lance automatiquement sur evenement venant de : ', __FILE__) . $cmd->getHumanName();
+            } else {
+                $message = __('Scenario lance sur evenement : #', __FILE__) . $_event_id . '#';
             }
         } else {
             $message = __('Scenario lance automatiquement sur programmation', __FILE__);
-            $scenarios = scenario::all();
+            $scenarios = scenario::schedule();
             foreach ($scenarios as $key => &$scenario) {
-                if ($scenario->getState() == 'in progress' && !$scenario->running()) {
-                    $scenario->setState('error');
-                    $scenario->save();
-                }
-                if ($scenario->getIsActive() == 1 && $scenario->getState() != 'in progress' && ($scenario->getMode() == 'schedule' || $scenario->getMode() == 'all')) {
-                    if (!$scenario->isDue()) {
-                        unset($scenarios[$key]);
-                    }
-                } else {
+                if (!$scenario->isDue()) {
                     unset($scenarios[$key]);
                 }
             }
@@ -189,13 +175,8 @@ class scenario {
         if (count($scenarios) == 0) {
             return true;
         }
-
         foreach ($scenarios as $scenario_) {
-            try {
-                $scenario_->launch(false, $message);
-            } catch (Exception $e) {
-                log::add('scenario', 'error', $e->getMessage());
-            }
+            $scenario_->launch(false, $message);
         }
         return true;
     }
@@ -408,24 +389,15 @@ class scenario {
     }
 
     public function execute($_message = '') {
-        $internalEvent = new internalEvent();
-        $internalEvent->setEvent('launch::scenario');
-        $internalEvent->setOptions('id', $this->getId());
-        $internalEvent->save();
         $this->clearLog();
         $this->setDisplay('icon', '');
-        $initialState = $this->getState();
         $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
         $this->setState('in progress');
         $this->setLastLaunch(date('Y-m-d H:i:s'));
-        $this->save();
         foreach ($this->getElement() as $element) {
-            $element->execute($this, $initialState);
+            $element->execute($this);
         }
-        $internalEvent = new internalEvent();
-        $internalEvent->setEvent('stop::scenario');
-        $internalEvent->setOptions('id', $this->getId());
-        $internalEvent->save();
+        $this->setState('stop');
         $this->save();
         return true;
     }

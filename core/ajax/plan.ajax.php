@@ -45,14 +45,12 @@ try {
         $plans = plan::byPlanHeaderId(init('planHeader_id'));
         $return = array();
         foreach ($plans as $plan) {
-            if ($plan->getLink_type() == 'eqLogic') {
-                $eqLogic = eqLogic::byId($plan->getLink_id());
-                if (is_object($eqLogic)) {
-                    $return[] = array(
-                        'plan' => utils::o2a($plan),
-                        'html' => $eqLogic->toHtml(init('version', 'dashboard'))
-                    );
-                }
+            $link = $plan->getLink();
+            if (is_object($link)) {
+                $return[] = array(
+                    'plan' => utils::o2a($plan),
+                    'html' => $link->toHtml(init('version', 'dashboard'))
+                );
             }
         }
         ajax::success($return);

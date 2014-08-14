@@ -94,6 +94,21 @@ class plan {
         DB::remove($this);
     }
 
+    public function getLink() {
+        if ($this->getLink_type() == 'eqLogic') {
+            $eqLogic = eqLogic::byId($this->getLink_id());
+            if (is_object($eqLogic)) {
+                return $eqLogic;
+            }
+        } else if ($this->getLink_type() == 'scenario') {
+            $scenario = scenario::byId($this->getLink_id());
+            if (is_object($scenario)) {
+                return $scenario;
+            }
+        }
+        return null;
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {

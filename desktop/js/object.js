@@ -38,11 +38,6 @@ $(".li_object").on('click', function(event) {
             $('.objectAttr[data-l1key=father_id] option').show();
             $('.object').setValues(data, '.objectAttr');
             $('.objectAttr[data-l1key=father_id] option[value=' + data.id + ']').hide();
-            if (data.image != null) {
-                $('#div_objectImage').empty().append('<center><img src="data:image/' + data.image.type + ';base64,' + data.image.data + '" class="img-responsive" /><center>');
-            } else {
-                $('#div_objectImage').empty();
-            }
             modifyWithoutSave = false;
         }
     });
