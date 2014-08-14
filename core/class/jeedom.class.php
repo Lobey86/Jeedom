@@ -103,37 +103,51 @@ class jeedom {
     }
 
     public static function getUsbMapping($_name = '') {
-        log::add('usb', 'debug', 'Début de la fonction getUsbMapping : ' . $_name);
-        static $usbMapping;
-        if ($_name != '' && isset($usbMapping[$_name])) {
-            log::add('usb', 'debug', 'Find in cache : ' . $usbMapping[$_name]);
-            return $usbMapping[$_name];
-        }
-        $usbMapping = array();
-        foreach (ls('/dev/', 'ttyUSB*') as $usb) {
-            $vendor = '';
-            $model = '';
-            foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
-                if (strpos($line, 'E: ID_MODEL=') !== false) {
-                    $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
+        log::add('usb', 'debug', '*****DEBUT USB MAPPING*********');
+        $cache = cache::byKey('jeedom::usbMapping');
+        if ($cache->getValue() === null || $cache->getValue() === '' || $cache->getValue() == 'false' || $_name == '') {
+            $usbMapping = array();
+            foreach (ls('/dev/', 'ttyUSB*') as $usb) {
+                $vendor = '';
+                $model = '';
+                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
+                    if (strpos($line, 'E: ID_MODEL=') !== false) {
+                        $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
+                    }
+                    if (strpos($line, 'E: ID_VENDOR=') !== false) {
+                        $vendor = trim(str_replace(array('E: ID_VENDOR=', '"'), '', $line));
+                    }
                 }
-                if (strpos($line, 'E: ID_VENDOR=') !== false) {
-                    $vendor = trim(str_replace(array('E: ID_VENDOR=', '"'), '', $line));
+                if ($vendor == '' && $model == '') {
+                    log::add('usb', 'debug', 'Aucune info trouvée pose de 5 secondes avant nouvelle essai');
+                    sleep(5);
+                    foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
+                        if (strpos($line, 'E: ID_MODEL=') !== false) {
+                            $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
+                        }
+                        if (strpos($line, 'E: ID_VENDOR=') !== false) {
+                            $vendor = trim(str_replace(array('E: ID_VENDOR=', '"'), '', $line));
+                        }
+                    }
+                    if ($vendor == '' && $model == '') {
+                        $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
+                    }
+                } else {
+                    $name = trim($vendor . ' ' . $model);
+                    $number = 2;
+                    while (isset($usbMapping[$name])) {
+                        $name = trim($vendor . ' ' . $model . ' ' . $number);
+                        $number++;
+                    }
+                    $usbMapping[$name] = '/dev/' . $usb;
                 }
             }
-            if ($vendor == '' && $model == '') {
-                $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
-            } else {
-                $name = trim($vendor . ' ' . $model);
-                $number = 2;
-                while (isset($usbMapping[$name])) {
-                    $name = trim($vendor . ' ' . $model . ' ' . $number);
-                    $number++;
-                }
-                $usbMapping[$name] = '/dev/' . $usb;
-            }
+            cache::set('jeedom::usbMapping', json_encode($usbMapping, JSON_UNESCAPED_UNICODE), 0);
+        } else {
+            log::add('usb', 'debug', 'Utilisation du cache');
+            $usbMapping = json_decode($cache->getValue(), true);
         }
-        log::add('usb', 'debug', 'USB liste : ' . print_r($usbMapping, true));
+        log::add('usb', 'debug', 'Resultat USB mapping : ' . print_r($usbMapping, true));
         if ($_name != '') {
             if (isset($usbMapping[$_name])) {
                 return $usbMapping[$_name];
@@ -141,7 +155,6 @@ class jeedom {
                 return '';
             }
         }
-
         return $usbMapping;
     }
 
@@ -293,6 +306,8 @@ class jeedom {
 
     public static function persist() {
         if (!self::isStarted()) {
+            $cache = cache::byKey('jeedom::usbMapping');
+            $cache->remove();
             jeedom::start();
             plugin::start();
             internalEvent::start();
