@@ -118,8 +118,7 @@ class jeedom {
                     }
                 }
                 if ($vendor == '' && $model == '') {
-                    sleep(30);
-                     log::add('usb', 'debug','LINUX return : '. shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all'));
+                    sleep(10);
                     foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
                         if (strpos($line, 'E: ID_MODEL=') !== false) {
                             $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
