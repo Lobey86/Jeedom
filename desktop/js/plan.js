@@ -205,6 +205,16 @@ function displayEqLogic(_id, _html, _plan) {
         }
     }
     $('#div_displayObject').append(html);
+
+    if (isset(_plan.display) && isset(_plan.display.cmd)) {
+        for (var id in _plan.display.cmd) {
+            if (_plan.display.cmd[id] == 1) {
+                $('.cmd[data-cmd_id=' + id + ']').remove();
+            }
+        }
+    }
+
+
     if ($('#bt_editPlan').attr('data-mode') == "1") {
         $('.eqLogic-widget').draggable({
             stop: function(event, ui) {
