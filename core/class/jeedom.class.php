@@ -119,7 +119,7 @@ class jeedom {
                     }
                 }
                 if ($vendor == '' && $model == '') {
-                    log::add('usb', 'debug', 'Aucune info trouvée pose de 20 secondes avant nouvelle essai');
+                    log::add('usb', 'debug', 'Aucune info trouvée pose de 120 secondes avant nouvelle essai');
                     log::add('usb', 'debug','LINUX return : '. shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all'));
                     sleep(120);
                      log::add('usb', 'debug','LINUX return : '. shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all'));
