@@ -103,35 +103,33 @@ class jeedom {
     }
 
     public static function getUsbMapping($_name = '') {
-        $cache = cache::byKey('jeedom::usbMapping');
-        if ($cache->getValue() === null || $cache->getValue() === '' || $cache->getValue() == 'false' || $_name == '') {
-            $usbMapping = array();
-            foreach (ls('/dev/', 'ttyUSB*') as $usb) {
-                $vendor = '';
-                $model = '';
-                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
-                    if (strpos($line, 'E: ID_MODEL=') !== false) {
-                        $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
-                    }
-                    if (strpos($line, 'E: ID_VENDOR=') !== false) {
-                        $vendor = trim(str_replace(array('E: ID_VENDOR=', '"'), '', $line));
-                    }
+        static $usbMapping;
+        if ($_name != '' && isset($usbMapping[$_name])) {
+            return $usbMapping[$_name];
+        }
+        $usbMapping = array();
+        foreach (ls('/dev/', 'ttyUSB*') as $usb) {
+            $vendor = '';
+            $model = '';
+            foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
+                if (strpos($line, 'E: ID_MODEL=') !== false) {
+                    $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
                 }
-                if ($vendor = '' && $model = '') {
-                    $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
-                } else {
-                    $name = trim($vendor . ' ' . $model);
-                    $number = 2;
-                    while (isset($usbMapping[$name])) {
-                        $name = trim($vendor . ' ' . $model . ' ' . $number);
-                        $number++;
-                    }
-                    $usbMapping[$name] = '/dev/' . $usb;
+                if (strpos($line, 'E: ID_VENDOR=') !== false) {
+                    $vendor = trim(str_replace(array('E: ID_VENDOR=', '"'), '', $line));
                 }
             }
-            cache::set('jeedom::usbMapping', json_encode($usbMapping, JSON_UNESCAPED_UNICODE), 0);
-        } else {
-            $usbMapping = json_decode($cache->getValue(), true);
+            if ($vendor = '' && $model = '') {
+                $usbMapping['/dev/' . $usb] = '/dev/' . $usb;
+            } else {
+                $name = trim($vendor . ' ' . $model);
+                $number = 2;
+                while (isset($usbMapping[$name])) {
+                    $name = trim($vendor . ' ' . $model . ' ' . $number);
+                    $number++;
+                }
+                $usbMapping[$name] = '/dev/' . $usb;
+            }
         }
         if ($_name != '') {
             if (isset($usbMapping[$_name])) {
