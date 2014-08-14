@@ -103,7 +103,6 @@ class jeedom {
     }
 
     public static function getUsbMapping($_name = '') {
-        log::add('usb', 'debug', '*****DEBUT USB MAPPING*********');
         $cache = cache::byKey('jeedom::usbMapping');
         if ($cache->getValue() === null || $cache->getValue() === '' || $cache->getValue() == 'false' || $_name == '') {
             $usbMapping = array();
@@ -119,9 +118,7 @@ class jeedom {
                     }
                 }
                 if ($vendor == '' && $model == '') {
-                    log::add('usb', 'debug', 'Aucune info trouvée pose de 120 secondes avant nouvelle essai');
-                    log::add('usb', 'debug','LINUX return : '. shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all'));
-                    sleep(120);
+                    sleep(30);
                      log::add('usb', 'debug','LINUX return : '. shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all'));
                     foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
                         if (strpos($line, 'E: ID_MODEL=') !== false) {
@@ -146,10 +143,8 @@ class jeedom {
             }
             cache::set('jeedom::usbMapping', json_encode($usbMapping, JSON_UNESCAPED_UNICODE), 0);
         } else {
-            log::add('usb', 'debug', 'Utilisation du cache');
             $usbMapping = json_decode($cache->getValue(), true);
         }
-        log::add('usb', 'debug', 'Resultat USB mapping : ' . print_r($usbMapping, true));
         if ($_name != '') {
             if (isset($usbMapping[$_name])) {
                 return $usbMapping[$_name];

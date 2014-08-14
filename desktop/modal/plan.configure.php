@@ -7,6 +7,7 @@ $plan = plan::byLinkTypeLinkIdPlanHedaerId(init('link_type'), init('link_id'), i
 if (!is_object($plan)) {
     throw new Exception('Impossible de trouver le plan');
 }
+$link = $plan->getLink();
 sendVarToJS('id', $plan->getId());
 ?>
 <div id="div_alertPlanConfigure"></div>
@@ -38,6 +39,13 @@ sendVarToJS('id', $plan->getId());
                 <input type="color" class="planAttr form-control" data-l1key="css" data-l2key="color" value="#FFFFFF"/>
             </div>
         </div>
+        <legend>Spécifique</legend>
+        <?php
+        if($plan->getLink_type() == 'eqLogic' && is_object($link)){
+            
+        }
+        
+        ?>
     </fieldset>
 </form>
 
