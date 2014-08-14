@@ -103,10 +103,13 @@ class jeedom {
     }
 
     public static function getUsbMapping($_name = '') {
+        log::add('usb', 'debug', 'Début de la fonction getUsbMapping : ' . $_name);
         static $usbMapping;
         if ($_name != '' && isset($usbMapping[$_name])) {
+            log::add('usb', 'debug', 'Find in cache : ' . $usbMapping[$_name]);
             return $usbMapping[$_name];
         }
+        log::add('usb', 'debug', 'No cache');
         $usbMapping = array();
         foreach (ls('/dev/', 'ttyUSB*') as $usb) {
             $vendor = '';
@@ -131,13 +134,17 @@ class jeedom {
                 $usbMapping[$name] = '/dev/' . $usb;
             }
         }
+        log::add('usb', 'debug', 'USB liste : ' . print_r($usbMapping, true));
         if ($_name != '') {
             if (isset($usbMapping[$_name])) {
+                log::add('usb', 'debug', 'Result : ' . $usbMapping[$_name]);
                 return $usbMapping[$_name];
             } else {
+                log::add('usb', 'debug', 'Result empty');
                 return '';
             }
         }
+
         return $usbMapping;
     }
 
