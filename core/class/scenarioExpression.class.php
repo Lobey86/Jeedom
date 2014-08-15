@@ -133,6 +133,45 @@ class scenarioExpression {
         return -2;
     }
 
+    public static function average($_cmd_id, $_period = '1 hour') {
+        $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
+        if (!is_object($cmd)) {
+            return null;
+        }
+        if ($cmd->getIsHistorized() == 0) {
+            return null;
+        }
+        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period . ' hour'));
+        $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
+        return round($historyStatistique['avg'], 1);
+    }
+
+    public static function max($_cmd_id, $_period = '1 hour') {
+        $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
+        if (!is_object($cmd)) {
+            return null;
+        }
+        if ($cmd->getIsHistorized() == 0) {
+            return null;
+        }
+        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period . ' hour'));
+        $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
+        return round($historyStatistique['max'], 1);
+    }
+
+    public static function min($_cmd_id, $_period = '1 hour') {
+        $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
+        if (!is_object($cmd)) {
+            return null;
+        }
+        if ($cmd->getIsHistorized() == 0) {
+            return null;
+        }
+        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period . ' hour'));
+        $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
+        return round($historyStatistique['min'], 1);
+    }
+
     public static function tendance($_cmd_id, $_period = '1 hour', $_threshold = '') {
         $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
         if (!is_object($cmd)) {

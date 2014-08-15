@@ -60,6 +60,12 @@ if (!isConnect()) {
 {{#semaine# : numéro de la semaine (ex : 51)}}
 {{#sjour# : pour le nom du jour de la semaine (ex : Samedi)}}
 {{rand(1,10) : pour un nombre aléatoire de 1 à 10}}
+{{average(commande,période) : donne la moyenne de la commande sur la période (period=[month,day,hour,min])
+    Ex : average(#[Salle de bain][Hydrometrie][Humidité]#,1 hour) : Renvoi la moyenne de la commande sur la dernière heure
+{{min(commande,période) : donne le minimum de la commande sur la période (period=[month,day,hour,min])
+    Ex : min(#[Salle de bain][Hydrometrie][Humidité]#,15 min) : Renvoi le minimum de la commande sur les 15 dernières minutes
+{{max(commande,période) : donne le maximum de la commande sur la période (period=[month,day,hour,min])
+    Ex : max(#[Salle de bain][Hydrometrie][Humidité]#,1 day) : Renvoi le maximum de la commande sur les 7 derniers jours
 {{tendance(commande,période,seuil) : donne la tendance de la commande sur la période (period=[month,day,hour,min])
     Ex : tendance(#[Salle de bain][Hydrometrie][Humidité]#,1 hour,0.1) : Renvoi 1 si en augmentation, 0 si constant et -1 si en diminution
          Le seuil permet de definir la sensibilitée, attention le calcul du seuil utilise la calcul de <a target="_blank" href="http://fr.wikipedia.org/wiki/M%C3%A9thode_des_moindres_carr%C3%A9s">moindre carrés</a>}}

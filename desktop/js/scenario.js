@@ -35,6 +35,11 @@ autoCompleteCondition = [
     {val: '#minute#'},
     {val: 'variable(mavariable,defaut)'},
     {val: 'tendance(commande,periode)'},
+    {val: 'average(commande,periode)'},
+    {val: 'max(commande,periode)'},
+    {val: 'min(commande,periode)'},
+
+
 ];
 autoCompleteAction = ['sleep', 'variable', 'scenario', 'stop', 'icon'];
 
