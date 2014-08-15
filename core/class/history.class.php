@@ -183,7 +183,7 @@ class history {
                 if ($prevDatetime != null) {
                     $datetime = strtotime($history->getDatetime());
                     $prevDatetime = date('Y-m-d H:00:00', strtotime($prevDatetime) + $packetTime);
-                    while (($now - strtotime($prevDatetime) - 1) > $archiveTime && strtotime($prevDatetime) < $datetime) {
+                    while (($now - strtotime($prevDatetime)) >= $archiveTime && strtotime($prevDatetime) < $datetime) {
                         $newHistory = new history();
                         $newHistory->setCmd_id($cmd->getId());
                         $newHistory->setDatetime($prevDatetime);
