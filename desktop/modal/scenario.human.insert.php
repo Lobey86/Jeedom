@@ -7,7 +7,7 @@ if (!isConnect()) {
     <select id="mod_insertScenariocValue_value" class="form-control">
         <?php
         foreach (scenario::all() as $scenario) {
-            echo '<option value="#' . $scenario->getHumanName(true) . '#">' . $scenario->getHumanName(true) . '</option>';
+            echo '<option value="#' . $scenario->getHumanName(true) . '#" data-scenario_id="' . $scenario->getId() . '">' . $scenario->getHumanName(true) . '</option>';
         }
         ?>
     </select>
@@ -18,6 +18,10 @@ if (!isConnect()) {
 
     mod_insertScenario.setOptions = function(_options) {
 
+    }
+
+    mod_insertScenario.getId = function() {
+        return $('#mod_insertScenariocValue_value option:selected').attr('data-scenario_id');
     }
 
     mod_insertScenario.getValue = function() {

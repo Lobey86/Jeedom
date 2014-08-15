@@ -41,7 +41,7 @@ if (is_object($planHeader)) {
 </span>
 
 <a class="btn btn-warning pull-right btn-sm" style="margin-bottom: 3px;" id="bt_editPlan" data-mode="0"><i class="fa fa-pencil"></i> {{Mode édition}}</a>
-<a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>
+<a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addScenario"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>
 <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter équipement}}</a>
 <div id="div_displayObject">
     <?php if (is_object($planHeader) && $planHeader->getImage('type') != '') { ?>

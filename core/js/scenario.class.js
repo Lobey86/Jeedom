@@ -244,6 +244,7 @@ jeedom.scenario.getSelectModal = function(_options, callback) {
         "Valider": function() {
             var retour = {};
             retour.human = mod_insertScenario.getValue();
+            retour.id = mod_insertScenario.getId();
             if ($.trim(retour) != '') {
                 callback(retour);
             }

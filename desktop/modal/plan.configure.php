@@ -21,7 +21,14 @@ sendVarToJS('id', $plan->getId());
                 <input type="text"  class="planAttr form-control" data-l1key="id" style="display: none;"/>
                 <input type="text"  class="planAttr form-control" data-l1key="link_type" style="display: none;"/>
                 <input type="text"  class="planAttr form-control" data-l1key="link_id" style="display: none;"/>
-                <input type="text" class="planAttr form-control" data-l1key="css" data-l2key="zoom" value="0.65"/>
+                <?php
+                if ($plan->getLink_type() == 'eqLogic') {
+                    echo '<input type="text" class="planAttr form-control" data-l1key="css" data-l2key="zoom" value="0.65"/>';
+                }
+                if ($plan->getLink_type() == 'scenario') {
+                    echo '<input type="text" class="planAttr form-control" data-l1key="css" data-l2key="zoom" value="1"/>';
+                }
+                ?>
             </div>
         </div>
         <div class="form-group">
@@ -97,6 +104,9 @@ sendVarToJS('id', $plan->getId());
                 if ($(".planAttr[data-l1key=link_type]").value() == 'eqLogic') {
                     addEqLogic(data.result.link_id, data.result);
                 }
+                if ($(".planAttr[data-l1key=link_type]").value() == 'scenario') {
+                    addScenario(data.result.link_id, data.result);
+                }
             }
         });
     }
@@ -135,6 +145,9 @@ sendVarToJS('id', $plan->getId());
                 $('#div_alertPlanConfigure').showAlert({message: 'Plan supprimé', level: 'success'});
                 if ($(".planAttr[data-l1key=link_type]").value() == 'eqLogic') {
                     $('.eqLogic-widget[data-eqLogic_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
+                }
+                if ($(".planAttr[data-l1key=link_type]").value() == 'scenario') {
+                    $('.scenario-widget[data-scenario_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
                 }
             }
         });

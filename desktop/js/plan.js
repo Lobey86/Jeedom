@@ -87,6 +87,12 @@ $('#bt_addEqLogic').on('click', function() {
     });
 });
 
+$('#bt_addScenario').on('click', function() {
+    jeedom.scenario.getSelectModal({}, function(data) {
+        addScenario(data.id);
+    });
+});
+
 displayPlan();
 
 $(window).resize(function() {
@@ -100,9 +106,21 @@ $('#div_displayObject').delegate('.eqLogic-widget', 'dblclick', function() {
     }
 });
 
+$('#div_displayObject').delegate('.scenario-widget', 'dblclick', function() {
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        $('#md_modal').dialog({title: "{{Configuration du plan}}"});
+        $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=scenario&link_id=' + $(this).attr('data-scenario_id') + '&planHeader_id=' + planHeader_id).dialog('open');
+    }
+});
+
 $('#bt_editPlan').on('click', function() {
     if ($(this).attr('data-mode') == '0') {
         $('.eqLogic-widget').draggable({
+            stop: function(event, ui) {
+                savePlan();
+            }
+        });
+        $('.scenario-widget').draggable({
             stop: function(event, ui) {
                 savePlan();
             }
@@ -112,6 +130,7 @@ $('#bt_editPlan').on('click', function() {
         $(this).attr('data-mode', '1');
     } else {
         $('.eqLogic-widget').draggable("destroy");
+        $('.scenario-widget').draggable("destroy");
         $('.editMode').hide();
         $(this).html('<i class="fa fa-pencil"></i> {{Mode édition}}');
         $(this).attr('data-mode', '0');
@@ -128,9 +147,7 @@ function displayPlan() {
             },
             success: function(data) {
                 for (var i in data) {
-                    if (data[i].plan.link_type == 'eqLogic') {
-                        displayEqLogic(data[i].plan.link_id, data[i].html, data[i].plan);
-                    }
+                    displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
                 }
             },
         });
@@ -158,6 +175,20 @@ function savePlan() {
             plan.position.left = ((position.left * zoom) / parent.width) * 100;
             plans.push(plan);
         });
+        $('.scenario-widget').each(function() {
+            var plan = {};
+            plan.position = {};
+            plan.link_type = 'scenario';
+            plan.link_id = $(this).attr('data-scenario_id');
+            plan.planHeader_id = planHeader_id;
+            var zoom = $(this).css('zoom');
+            $(this).css('zoom', '100%');
+            var position = $(this).position();
+            $(this).css('zoom', zoom);
+            plan.position.top = ((position.top * zoom) / parent.height) * 100;
+            plan.position.left = ((position.left * zoom) / parent.width) * 100;
+            plans.push(plan);
+        });
         jeedom.plan.save({
             plans: plans,
             global: false,
@@ -171,6 +202,58 @@ function savePlan() {
 }
 
 
+function displayObject(_type, _id, _html, _plan) {
+    _plan = init(_plan, {});
+    _plan.position = init(_plan.position, {});
+    _plan.css = init(_plan.css, {});
+    if (_type == 'eqLogic') {
+        var defaultZoom = 0.65;
+        $('.eqLogic-widget[data-eqLogic_id=' + _id + ']').remove();
+    }
+    if (_type == 'scenario') {
+        var defaultZoom = 1;
+        $('.scenario-widget[data-scenario_id=' + _id + ']').remove();
+    }
+    var parent = {
+        height: $('#div_displayObject img').height(),
+        width: $('#div_displayObject img').width(),
+    };
+    var html = $(_html);
+    html.css('position', 'absolute');
+    html.css('top', init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
+    html.css('left', init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
+    html.css('zoom', init(_plan.css.zoom, defaultZoom));
+    for (var key in _plan.css) {
+        if (_plan.css[key] != '') {
+            html.css(key, _plan.css[key]);
+        }
+    }
+    $('#div_displayObject').append(html);
+
+    if (_type == 'eqLogic') {
+        if (isset(_plan.display) && isset(_plan.display.cmd)) {
+            for (var id in _plan.display.cmd) {
+                if (_plan.display.cmd[id] == 1) {
+                    $('.cmd[data-cmd_id=' + id + ']').remove();
+                }
+            }
+        }
+    }
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        $('.eqLogic-widget').draggable({
+            stop: function(event, ui) {
+                savePlan();
+            }
+        });
+        $('.scenario-widget').draggable({
+            stop: function(event, ui) {
+                savePlan();
+            }
+        });
+    }
+}
+
+/***************************EqLogic**************************************/
 function addEqLogic(_id, _plan) {
     jeedom.eqLogic.toHtml({
         id: _id,
@@ -179,47 +262,25 @@ function addEqLogic(_id, _plan) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function(data) {
-            displayEqLogic(_id, data.html, _plan);
+            displayObject('eqLogic', _id, data.html, _plan);
             savePlan();
         }
     })
 }
 
-function displayEqLogic(_id, _html, _plan) {
-    _plan = init(_plan, {});
-    _plan.position = init(_plan.position, {});
-    _plan.css = init(_plan.css, {});
-    $('.eqLogic-widget[data-eqLogic_id=' + _id + ']').remove();
-    var parent = {
-        height: $('#div_displayObject img').height(),
-        width: $('#div_displayObject img').width(),
-    };
-    var html = $(_html);
-    html.css('position', 'absolute');
-    html.css('top', init(_plan.position.top, '0') * parent.height / init(_plan.css.zoom, 0.65) / 100);
-    html.css('left', init(_plan.position.left, '0') * parent.width / init(_plan.css.zoom, 0.65) / 100);
-    html.css('zoom', init(_plan.css.zoom, 0.65));
-    for (var key in _plan.css) {
-        if (_plan.css[key] != '') {
-            html.css(key, _plan.css[key]);
+
+
+/***************************Scenario**************************************/
+function addScenario(_id, _plan) {
+    jeedom.scenario.toHtml({
+        id: _id,
+        version: 'dashboard',
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            displayObject('scenario', _id, data, _plan);
+            savePlan();
         }
-    }
-    $('#div_displayObject').append(html);
-
-    if (isset(_plan.display) && isset(_plan.display.cmd)) {
-        for (var id in _plan.display.cmd) {
-            if (_plan.display.cmd[id] == 1) {
-                $('.cmd[data-cmd_id=' + id + ']').remove();
-            }
-        }
-    }
-
-
-    if ($('#bt_editPlan').attr('data-mode') == "1") {
-        $('.eqLogic-widget').draggable({
-            stop: function(event, ui) {
-                savePlan();
-            }
-        });
-    }
+    })
 }
