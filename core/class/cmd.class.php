@@ -530,7 +530,7 @@ class cmd {
             $cache = 2;
         }
         if ($this->getType() == 'info' && $cache != 0) {
-            $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false);
+            $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false, true);
             if ($cache == 2 || $mc->hasExpired() === false) {
                 if ($mc->hasExpired() !== false) {
                     $this->setCollect(1);
