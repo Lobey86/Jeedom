@@ -32,8 +32,8 @@ class cache {
 
     /*     * ***********************Methode static*************************** */
 
-    public static function byKey($_key, $_noRemove = false) {
-        if (isset(self::$_cache[$_key]) && (self::$_cache[$_key]['datetime'] + 59) >= strtotime('now')) {
+    public static function byKey($_key, $_noRemove = false,$_allowFastCache = false) {
+        if (isset(self::$_cache[$_key]) && $_allowFastCache) {
             return self::$_cache[$_key]['value'];
         }
         $values = array(
