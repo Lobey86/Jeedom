@@ -417,23 +417,6 @@ class scenario {
         return $scenarioCopy;
     }
 
-    public function clearLog() {
-        $logs = $this->getHlogs();
-        if (is_array($logs)) {
-            if (count($logs) > 5) {
-                array_pop($logs);
-            }
-            array_unshift($logs, $this->getConsolidateLog());
-            $this->setHlogs($logs);
-        } else {
-            $this->setHlogs(array($this->getConsolidateLog()));
-        }
-        $this->setLog('');
-        foreach ($this->getElement() as $element) {
-            $element->clearLog();
-        }
-    }
-
     public function toHtml($_version) {
         $_version = jeedom::versionAlias($_version);
         $replace = array(
@@ -706,6 +689,27 @@ class scenario {
             }
         }
         return $return;
+    }
+
+    public function clearLog() {
+        $logs = $this->getHlogs();
+        $consolidateLog = $this->getConsolidateLog();
+        if (trim($consolidateLog) != '') {
+            if (is_array($logs)) {
+                if (count($logs) > 5) {
+                    array_pop($logs);
+                }
+                array_unshift($logs, $this->getConsolidateLog());
+                $this->setHlogs($logs);
+            } else {
+                $this->setHlogs(array($this->getConsolidateLog()));
+            }
+        }
+
+        $this->setLog('');
+        foreach ($this->getElement() as $element) {
+            $element->clearLog();
+        }
     }
 
     public function getObject() {
