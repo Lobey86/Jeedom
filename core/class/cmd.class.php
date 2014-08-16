@@ -260,7 +260,7 @@ class cmd {
         $cmd = null;
         foreach (cache::search('collect') as $cache) {
             $cmd = self::byId($cache->getValue());
-            if (is_object($cmd) && $cmd->getEqLogic()->getIsEnable() == 1) {
+            if (is_object($cmd) && $cmd->getEqLogic()->getIsEnable() == 1 && $cmd->getEventOnly() == 0) {
                 $cmd->execCmd(null, 0);
             }
         }
