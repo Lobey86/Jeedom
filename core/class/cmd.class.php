@@ -457,14 +457,16 @@ class cmd {
     /*     * *********************Methode d'instance************************* */
 
     public function formatValue($_value) {
-        switch ($this->getSubType()) {
-            case 'binary':
-                if ((is_numeric(intval($_value)) && intval($_value) > 1) || $_value || $_value == 1) {
-                    return 1;
-                }
-                return 0;
-            case 'numeric':
-                return floatval($_value);
+        if ($this->getType() == 'info') {
+            switch ($this->getSubType()) {
+                case 'binary':
+                    if ((is_numeric(intval($_value)) && intval($_value) > 1) || $_value || $_value == 1) {
+                        return 1;
+                    }
+                    return 0;
+                case 'numeric':
+                    return floatval($_value);
+            }
         }
         return $_value;
     }
@@ -573,7 +575,7 @@ class cmd {
             if ($this->getSubType() == 'color' && isset($options['color']) && substr($options['color'], 0, 1) != '#') {
                 $options['color'] = cmd::convertColor($options['color']);
             }
-            $value = $this->execute($options);
+            $value = $this->formatValue($this->execute($options));
         } catch (Exception $e) {
             //Si impossible de contacter l'équipement
             $numberTryWithoutSuccess = $eqLogic->getStatus('numberTryWithoutSuccess', 0);
@@ -594,13 +596,9 @@ class cmd {
             $eqLogic->setStatus('numberTryWithoutSuccess', 0);
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
         }
-        if ($this->getType() == 'info') {
-            $value = $this->formatValue($value);
-        }
         if ($this->getType() == 'info' && $value !== false) {
             cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
         }
-
         if ($this->getType() == 'action' && $options !== null) {
             if (isset($options['slider'])) {
                 $this->setConfiguration('lastCmdValue', $options['slider']);
