@@ -456,6 +456,19 @@ class cmd {
 
     /*     * *********************Methode d'instance************************* */
 
+    public function formatValue($_value) {
+        switch ($this->getSubType()) {
+            case 'binary':
+                if ((is_numeric(intval($_value)) && intval($_value) > 1) || $_value || $_value == 1) {
+                    return 1;
+                }
+                return 0;
+            case 'numeric':
+                return floatval($_value);
+        }
+        return $_value;
+    }
+
     public function getLastValue() {
         return $this->getConfiguration('lastCmdValue', null);
     }
@@ -536,7 +549,7 @@ class cmd {
                     $this->setCollect(1);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
-                return $mc->getValue();
+                return $this->formatValue($mc->getValue());
             }
         }
 
@@ -581,12 +594,8 @@ class cmd {
             $eqLogic->setStatus('numberTryWithoutSuccess', 0);
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
         }
-        if ($this->getType() == 'info' && $this->getSubType() == 'binary') {
-            if ((is_numeric(intval($value)) && intval($value) > 1) || $value || $value == 1) {
-                $value = 1;
-            } else {
-                $value = 0;
-            }
+        if ($this->getType() == 'info') {
+            $value = $this->formatValue($value);
         }
         if ($this->getType() == 'info' && $value !== false) {
             cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
@@ -736,9 +745,7 @@ class cmd {
         }
         $eqLogic = $this->getEqLogic();
         if (is_object($eqLogic) && $eqLogic->getIsEnable() == 1) {
-            if ($this->getSubType() == 'binary' && is_numeric(intval($_value)) && intval($_value) > 1) {
-                $_value = 1;
-            }
+            $_value = $this->formatValue($_value);
             if (strpos($_value, 'error') === false) {
                 $eqLogic->setStatus('numberTryWithoutSuccess', 0);
                 $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
