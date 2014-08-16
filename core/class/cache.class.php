@@ -32,7 +32,7 @@ class cache {
 
     /*     * ***********************Methode static*************************** */
 
-    public static function byKey($_key, $_noRemove = false,$_allowFastCache = false) {
+    public static function byKey($_key, $_noRemove = false, $_allowFastCache = false) {
         if (isset(self::$_cache[$_key]) && $_allowFastCache) {
             return self::$_cache[$_key]['value'];
         }
@@ -136,13 +136,13 @@ class cache {
         if ($this->_hasExpired != -1) {
             return $this->_hasExpired;
         }
-        if (trim($this->getValue()) === '' || $this->getValue() === false) {
-            $this->_hasExpired = true;
-            return true;
-        }
         if ($this->getLifetime() == 0) {
             $this->_hasExpired = false;
             return false;
+        }
+        if ($this->value === null || trim($this->value) === '') {
+            $this->_hasExpired = true;
+            return true;
         }
         if ((strtotime($this->getDatetime()) + $this->getLifetime()) < strtotime('now')) {
             $this->_hasExpired = true;
