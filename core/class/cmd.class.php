@@ -532,7 +532,7 @@ class cmd {
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false, true);
             if ($cache == 2 || $mc->hasExpired() === false) {
-                if ($mc->hasExpired() !== false) {
+                if ($mc->hasExpired() !== false || trim($mc->getValue()) === '') {
                     $this->setCollect(1);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
