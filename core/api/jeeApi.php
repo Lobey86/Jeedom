@@ -65,6 +65,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
             echo 'ok';
         } else {
+            
             if (class_exists($type)) {
                 if (method_exists($type, 'event')) {
                     log::add('api', 'info', 'Appels de ' . $type . '::event()');
