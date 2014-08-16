@@ -532,8 +532,7 @@ class cmd {
         if ($this->getType() == 'info' && $cache != 0) {
             $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false, true);
             if ($cache == 2 || $mc->hasExpired() === false) {
-                if ($mc->hasExpired() !== false || trim($mc->getValue('')) === '') {
-                     log::add('cmd', 'debug', 'Cmd : ' . print_r($this, true) . 'Cache state : ' . print_r($mc, true));
+                if ($mc->hasExpired() !== false) {
                     $this->setCollect(1);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
@@ -732,7 +731,6 @@ class cmd {
             return;
         }
         $collectDate = ($this->getCollectDate() != '' ) ? strtotime($this->getCollectDate()) : '';
-        $collect = $this->getCollectDate();
         if ($this->getCollectDate() != '' && ((strtotime('now') - $collectDate) > 3600 || (strtotime('now') + 300 ) < $collectDate)) {
             return;
         }
@@ -744,7 +742,7 @@ class cmd {
             if (strpos($_value, 'error') === false) {
                 $eqLogic->setStatus('numberTryWithoutSuccess', 0);
                 $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-                $this->addHistoryValue($_value, $collect);
+                $this->addHistoryValue($_value, $this->getCollectDate());
             }
             cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
             $this->setCollect(0);
@@ -762,7 +760,7 @@ class cmd {
             $internalEvent->setEvent('event::cmd');
             $internalEvent->setOptions('id', $this->getId());
             $internalEvent->setOptions('value', $_value);
-            $internalEvent->setDatetime($collect);
+            $internalEvent->setDatetime($this->getCollectDate());
             $internalEvent->save();
             scenario::check($this->getId());
             listener::check($this->getId(), $_value);

@@ -138,7 +138,7 @@ class cache {
         }
         if (trim($this->getValue()) === '' || $this->getValue() === false) {
             $this->_hasExpired = true;
-            //return true;
+            return true;
         }
         if ($this->getLifetime() == 0) {
             $this->_hasExpired = false;
