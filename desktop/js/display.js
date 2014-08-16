@@ -120,6 +120,13 @@ function displayCmd(_cmd_id) {
             div += '<span class="cmdAttr label label-primary" data-l1key="unite"></span>';
             div += '</div>';
             div += '</div>';
+            
+             div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Commande déclenchant une mise à jour de la valeur}}</label>';
+            div += '<div class="col-lg-4">';
+            div += '<span class="cmdAttr label label-primary" data-l1key="value"></span>';
+            div += '</div>';
+            div += '</div>';
 
             div += '<div class="form-group">';
             div += '<label class="col-lg-4 control-label">{{Memcache}}</label>';

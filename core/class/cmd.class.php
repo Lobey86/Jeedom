@@ -747,23 +747,25 @@ class cmd {
             cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
             $this->setCollect(0);
             nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
-            foreach (self::byValue($this->getId()) as $cmd){
+            foreach (self::byValue($this->getId()) as $cmd) {
                 if ($cmd->getId() != $this->getId()) {
                     if ($cmd->getType() == 'action') {
                         nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
                     } else {
-                        $cmd->event($cmd->execute());
+                        if ($cmd->getEventOnly() == 0) {
+                            $cmd->event($cmd->execute());
+                        }
                     }
                 }
-        }
-        $internalEvent = new internalEvent();
-        $internalEvent->setEvent('event::cmd');
-        $internalEvent->setOptions('id', $this->getId());
-        $internalEvent->setOptions('value', $_value);
-        $internalEvent->setDatetime($this->getCollectDate());
-        $internalEvent->save();
-        scenario::check($this->getId());
-        listener::check($this->getId(), $_value);
+            }
+            $internalEvent = new internalEvent();
+            $internalEvent->setEvent('event::cmd');
+            $internalEvent->setOptions('id', $this->getId());
+            $internalEvent->setOptions('value', $_value);
+            $internalEvent->setDatetime($this->getCollectDate());
+            $internalEvent->save();
+            scenario::check($this->getId());
+            listener::check($this->getId(), $_value);
         } else {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
         }
