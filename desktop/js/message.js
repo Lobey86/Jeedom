@@ -41,6 +41,7 @@ $("#table_message").delegate(".removeMessage", 'click', function(event) {
         },
         success: function() {
             tr.remove();
+            $("#table_message").trigger("update");
         }
     });
 });
