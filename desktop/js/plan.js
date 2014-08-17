@@ -139,6 +139,31 @@ $('#bt_editPlan').on('click', function() {
 });
 
 function displayPlan() {
+    var img = $('#div_displayObject img');
+    var size_x = img.attr('data-sixe_x');
+    var size_y = img.attr('data-sixe_y');
+    var ratio = size_x / size_y;
+    var height = $(window).height() - $('header').height() - $('#div_planHeader').height() - 45;
+    var width = $(window).width() - 22;
+    if (height < 500) {
+        height = 500;
+    }
+    if (width < 750) {
+        width = 750;
+    }
+    $('#div_displayObject').height(height);
+    $('#div_displayObject').width(width);
+
+    var imgWidth = width;
+    var imgHeight = width / ratio;
+    if (imgHeight > height) {
+        imgHeight = height;
+        imgWidth = height * ratio;
+    }
+    $('#div_displayObject img').height(imgHeight);
+    $('#div_displayObject img').width(imgWidth);
+
+
     if (planHeader_id != -1) {
         jeedom.plan.byPlanHeader({
             id: planHeader_id,
@@ -157,8 +182,8 @@ function displayPlan() {
 function savePlan() {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
         var parent = {
-            height: $('#div_displayObject img').height(),
-            width: $('#div_displayObject img').width(),
+            height: $('#div_displayObject').height(),
+            width: $('#div_displayObject').width(),
         };
         var plans = [];
         $('.eqLogic-widget').each(function() {
@@ -215,8 +240,8 @@ function displayObject(_type, _id, _html, _plan) {
         $('.scenario-widget[data-scenario_id=' + _id + ']').remove();
     }
     var parent = {
-        height: $('#div_displayObject img').height(),
-        width: $('#div_displayObject img').width(),
+        height: $('#div_displayObject').height(),
+        width: $('#div_displayObject').width(),
     };
     var html = $(_html);
     html.css('position', 'absolute');
