@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
-
+var noBootstrapTooltips = true;
 /*****************************PLAN HEADER***********************************/
 $('#bt_addPlanHeader').on('click', function() {
     bootbox.prompt("Nom du plan ?", function(result) {

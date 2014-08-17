@@ -98,6 +98,10 @@ function getUrlVars(_key) {
 }
 
 function initTooltips() {
+    var noTooltips = noBootstrapTooltips || false;
+    if(noTooltips){
+        return;
+    }
     if ($.mobile) {
 
     } else {
