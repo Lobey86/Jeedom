@@ -246,10 +246,14 @@
     },
     "desktop\/php\/dashboard.php": {
         "Global": "Global",
-        "Filtre sur les catégories d'équipement": "Filter on device categories"
+        "Filtre sur les catégories d'équipement": "Filter on device categories",
+        "Autre": "Autre",
+        "Etes-vous sûr de vouloir supprimer cette événement ?": "Etes-vous sûr de vouloir supprimer cette événement ?",
+        "Historique Camera 1": "Historique Camera 1"
     },
     "desktop\/php\/view.php": {
-        "Liste des vues": "View list"
+        "Liste des vues": "View list",
+        "Ajouter une vue": "Ajouter une vue"
     },
     "core\/class\/cmd.class.php": {
         "Message venant de": "Message from",
@@ -265,7 +269,8 @@
         ". Retard de : ": ". Delay of : ",
         ". Rattrapage en cours...": ". Putting right...",
         "Scenario lance automatiquement sur programmation": "Scenario lance automatiquement sur programmation",
-        "Scenario lance automatiquement sur evenement venant de : ": "Scenario lance automatiquement sur evenement venant de : "
+        "Scenario lance automatiquement sur evenement venant de : ": "Scenario lance automatiquement sur evenement venant de : ",
+        "Début exécution du scénario : ": "Début exécution du scénario : "
     },
     "desktop\/php\/history.php": {
         "Ligne": "Line",
@@ -326,7 +331,24 @@
     },
     "desktop\/php\/interact.php": {
         "Limiter aux équipement de type": "Limit to devices of type",
-        "Limiter aux commandes ayant pour unité": "Limit to commands having as unit"
+        "Limiter aux commandes ayant pour unité": "Limit to commands having as unit",
+        "Ajouter interaction": "Ajouter interaction",
+        "Général": "Général",
+        "Demande": "Demande",
+        "Synonyme": "Synonyme",
+        "Remplace les mots par leur synonymes lors de la génération des commandes": "Remplace les mots par leur synonymes lors de la génération des commandes",
+        "Réponse": "Réponse",
+        "Conversion binaire": "Conversion binaire",
+        "Convertir les commandes binaire": "Convertir les commandes binaire",
+        "Phrases générées": "Phrases générées",
+        "Voir": "Voir",
+        "Nombre de phrases générées": "Nombre de phrases générées",
+        "Nombre de phrases actives": "Nombre de phrases actives",
+        "Type d'action": "Type d'action",
+        "Limiter aux commandes de type": "Limiter aux commandes de type",
+        "Limiter aux commandes ayant pour sous-type": "Limiter aux commandes ayant pour sous-type",
+        "Limiter aux commandes appartenant à l'objet": "Limiter aux commandes appartenant à l'objet",
+        "Limiter aux plugin": "Limiter aux plugin"
     },
     "desktop\/js\/interact.js": {
         "Liste des interactions": "Interactions list",
@@ -344,12 +366,25 @@
         "Nombre de requetes totales": "Total number of request(s)",
         "Limiter aux commandes de type": "Limit to commands of type",
         "Nombre de requête(s) active(s)": "Number of enable request(s)",
-        "Nombre de requête(s) totale(s)": "Total number of request(s)"
+        "Nombre de requête(s) totale(s)": "Total number of request(s)",
+        "Suppression effectuée avec succès": "Suppression effectuée avec succès",
+        "Etes-vous sûr de vouloir supprimer l\\'intéraction": "Etes-vous sûr de vouloir supprimer l\\'intéraction",
+        "Veuillez d\\'abord sélectionner un objet": "Veuillez d\\'abord sélectionner un objet",
+        "Start": "Start",
+        "Stop": "Stop"
     },
     "desktop\/php\/display.php": {
         "Arbre des commandes": "Commands tree",
         "Sans objet": "Without object",
-        "Informations": "Information"
+        "Informations": "Information",
+        "Arbre domotique": "Arbre domotique",
+        "Configuration de l'affichage": "Configuration de l'affichage",
+        "Catégories": "Catégories",
+        "Dashboard couleur de fond": "Dashboard couleur de fond",
+        "Remettre par défaut": "Remettre par défaut",
+        "Dashboard couleur commande": "Dashboard couleur commande",
+        "Mobile couleur de fond": "Mobile couleur de fond",
+        "Mobile couleur commande": "Mobile couleur commande"
     },
     "desktop\/js\/display.js": {
         "ID": "ID",
@@ -366,7 +401,12 @@
         "Enregistrement réussi": "Save complete",
         "Logical ID": "Logical ID",
         "Object ID": "Object ID",
-        "Tentative échouée": "Attempt failed"
+        "Tentative échouée": "Attempt failed",
+        "Commande déclenchant une mise à jour de la valeur": "Commande déclenchant une mise à jour de la valeur",
+        "Utilisé par": "Utilisé par",
+        "Equipement": "Equipement",
+        "Commandes": "Commandes",
+        "Interaction": "Interaction"
     },
     "desktop\/php\/cron.php": {
         "Processus Jeecron :": "Process Jeecron:",
@@ -387,13 +427,17 @@
         "Programmation": "Scheduling",
         "Timeout (min)": "Timeout (min)",
         "Dernier lancement": "Last running",
-        "Durée": "Duration"
+        "Durée": "Duration",
+        "Nombre de Jeecron master, doit toujours être inférieur à 2": "Nombre de Jeecron master, doit toujours être inférieur à 2"
     },
     "desktop\/php\/object.php": {
         "Liste objects": "Objects list",
         "Général": "Main",
         "Nom de l'objet": "Object name",
-        "Père": "Father"
+        "Père": "Father",
+        "Ajouter objet": "Ajouter objet",
+        "Icône": "Icône",
+        "Choisir une icône": "Choisir une icône"
     },
     "desktop\/js\/object.js": {
         "Sauvegarde effectuée avec succès": "Save complete successfully",
@@ -424,7 +468,13 @@
         "Veuillez sauvegarder avant de tester. Ceci peut ne pas aboutir.": "Please save before test. This could not work.",
         "Dupliquer le scénario": "Duplicate this scenario",
         "Enregistrer": "Save",
-        "Si\/Alors\/Sinon": "If\/Then\/Else"
+        "Si\/Alors\/Sinon": "If\/Then\/Else",
+        "Desactiver le système de scénario": "Desactiver le système de scénario",
+        "Désac. scénarios": "Désac. scénarios",
+        "Voir variables": "Voir variables",
+        "Nom à afficher": "Nom à afficher",
+        "Ne rien mettre pour laisser le nom par default": "Ne rien mettre pour laisser le nom par default",
+        "Déclencheur": "Déclencheur"
     },
     "desktop\/js\/scenario.js": {
         "Etes-vous sûr de vouloir supprimer le scénario": "Are you agree to delete scenario?",
@@ -765,5 +815,87 @@
         "Auteur(s)": "Author(s)",
         "Traducteur(s)": "Translator(s)",
         "Remerciements": "Acknowledgement"
+    },
+    "core\/template\/scenario\/icon.default": {
+        "Rechercher icone": "Rechercher icone"
+    },
+    "desktop\/php\/user.php": {
+        "Liste des utilisateurs :": "Liste des utilisateurs :",
+        "Ajouter un utilisateur": "Ajouter un utilisateur",
+        "Droits": "Droits"
+    },
+    "desktop\/js\/user.js": {
+        "Etes-vous sûr de vouloir supprimer cet utilisateur ?": "Etes-vous sûr de vouloir supprimer cet utilisateur ?",
+        "L\\'utilisateur a bien été supprimé": "L\\'utilisateur a bien été supprimé",
+        "Quel est le nouveau mot de passe ?": "Quel est le nouveau mot de passe ?",
+        "Changer le mot de passe": "Changer le mot de passe"
+    },
+    "desktop\/php\/backup.php": {
+        "Fréquence des sauvegardes": "Fréquence des sauvegardes",
+        "Emplacement des sauvegardes": "Emplacement des sauvegardes",
+        "Nombre de jour(s) de mémorisation des sauvegardes": "Nombre de jour(s) de mémorisation des sauvegardes",
+        "Envoyer les sauvegardes dans le cloud": "Envoyer les sauvegardes dans le cloud",
+        "Sauvegardes locales": "Sauvegardes locales",
+        "Sauvegardes disponibles": "Sauvegardes disponibles",
+        "Restaurer la sauvegarde": "Restaurer la sauvegarde",
+        "Supprimer la sauvegarde": "Supprimer la sauvegarde",
+        "Envoyer une sauvegarde": "Envoyer une sauvegarde",
+        "Télécharger la sauvegarde": "Télécharger la sauvegarde",
+        "Télécharger": "Télécharger",
+        "Sauvegardes cloud": "Sauvegardes cloud",
+        "Informations sauvegardes": "Informations sauvegardes",
+        "Informations restaurations": "Informations restaurations"
+    },
+    "desktop\/js\/backup.js": {
+        "Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée": "Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée",
+        "Etes-vous sûr de vouloir restaurer Jeedom avec": "Etes-vous sûr de vouloir restaurer Jeedom avec",
+        "Une fois lancée cette opération ne peut être annulée": "Une fois lancée cette opération ne peut être annulée",
+        "Etes-vous sûr de vouloir supprimer la sauvegarde": "Etes-vous sûr de vouloir supprimer la sauvegarde",
+        "Sauvegarde supprimé avec succès": "Sauvegarde supprimé avec succès",
+        "Fichier(s) ajouté(s) avec succes": "Fichier(s) ajouté(s) avec succes",
+        "Etes-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud": "Etes-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud",
+        "L\\'opération est réussie": "L\\'opération est réussie",
+        "L\\'opération a échoué": "L\\'opération a échoué"
+    },
+    "desktop\/php\/update.php": {
+        "Mettre à jour": "Mettre à jour",
+        "Tout forcé": "Tout forcé",
+        "Plugins seulement": "Plugins seulement",
+        "Plugins seulement forcés": "Plugins seulement forcés",
+        "Jeedom seulement": "Jeedom seulement",
+        "Jeedom seulement forcé": "Jeedom seulement forcé",
+        "Version actuel": "Version actuel",
+        "Version disponible": "Version disponible",
+        "Status": "Status",
+        "Informations :": "Informations :"
+    },
+    "desktop\/php\/timeline.php": {
+        "Date": "Date",
+        "Evenement": "Evenement",
+        "Valeur": "Valeur"
+    },
+    "desktop\/php\/security.php": {
+        "IP": "IP",
+        "Utilisateur": "Utilisateur",
+        "Localisation": "Localisation",
+        "Echec de connexion": "Echec de connexion",
+        "Date": "Date",
+        "Informations": "Informations",
+        "Activer la sécurité anti-piratage": "Activer la sécurité anti-piratage",
+        "Nombre de tentative de connexion max": "Nombre de tentative de connexion max",
+        "en (min) ": "en (min) ",
+        "Durée du bannissement (min)": "Durée du bannissement (min)",
+        "Liste blanche d'IP": "Liste blanche d'IP"
+    },
+    "desktop\/js\/security.js": {
+        "Suppression effectuée avec succès": "Suppression effectuée avec succès",
+        "Etês-vous sur de vouloir supprimer cette connection ? Si l\\'IP :": "Etês-vous sur de vouloir supprimer cette connection ? Si l\\'IP :",
+        "était banni celle-ci ne le sera plus": "était banni celle-ci ne le sera plus",
+        "Etês-vous sur de vouloir bannir cette IP  :": "Etês-vous sur de vouloir bannir cette IP  :"
+    },
+    "desktop\/php\/log.php": {
+        "Supprimer tous les logs": "Supprimer tous les logs",
+        "Télécharger": "Télécharger",
+        "Etes-vous sur de vouloir supprimer tous les logs ?": "Etes-vous sur de vouloir supprimer tous les logs ?"
     }
 }
