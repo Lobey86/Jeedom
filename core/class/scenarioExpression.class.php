@@ -115,7 +115,7 @@ class scenarioExpression {
         if (is_object($dataStore)) {
             return $dataStore->getValue($_default);
         }
-        return -1;
+        return $_default;
     }
 
     public static function scenario($_scenario) {
