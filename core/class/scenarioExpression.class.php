@@ -262,7 +262,7 @@ class scenarioExpression {
                         }
                         if (is_numeric($options['duration']) && $options['duration'] > 0) {
                             $this->setLog(__('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));
-                            return sleep(intval($options['duration']));
+                            return sleep($options['duration']);
                         }
                     }
                     $this->setLog(__('Aucune durée trouvée pour l\'action sleep ou la durée n\'est pas valide : ', __FILE__) . $options['duration']);
