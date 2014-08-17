@@ -354,7 +354,7 @@ class evaluate {
                 if (array_search($lettre, $tabSignes) !== false) {
                     if ($paramNom != "") {
                         if (!isset($lstP[$lastNum]["operateur"]) && $lastNum != -1) {
-                            throw new Exception(__("ERREUR deux parametre sans signe de separation : ", __FILE__) . $param);
+                            throw new Exception(__("ERREUR deux paramètre sans signe de separation : ", __FILE__) . $param);
                         }
                         $num = sizeof($lstP);
                         $lstP[$num] = array();
@@ -367,7 +367,7 @@ class evaluate {
                             $ope = $lstP[$lastNum]["operateur"] . $lettre;
                             if (array_search($ope, $tabSignes) === false) {
                                 if ($lettre != '-') {
-                                    throw new Exception(__("ERREUR deux opérateurs d'affilé", __FILE__));
+                                    throw new Exception(__("ERREUR deux opérations à la suite", __FILE__));
                                 } else {
                                     $paramNom = '-' . $paramNom;
                                 }

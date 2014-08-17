@@ -27,7 +27,7 @@ try {
     if (init('action') == 'remove') {
         $connection = connection::byId(init('id'));
         if (!is_object($connection)) {
-            throw new Exception(__('Connection inconnu verifié l\'id', __FILE__));
+            throw new Exception(__('Connexion inconnu verifié l\'id', __FILE__));
         }
         $connection->remove();
         ajax::success();
@@ -36,7 +36,7 @@ try {
     if (init('action') == 'ban') {
         $connection = connection::byId(init('id'));
         if (!is_object($connection)) {
-            throw new Exception(__('Connection inconnu verifié l\'id', __FILE__));
+            throw new Exception(__('Connexion inconnu verifié l\'id', __FILE__));
         }
         $connection->setStatus('Ban');
         $connection->save();

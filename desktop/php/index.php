@@ -214,7 +214,7 @@ if (count($plugins_list) > 0) {
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="bt_reportBug cursor tooltips" title="{{Envoyer un rapport de bugs}}">
+                                    <a class="bt_reportBug cursor tooltips" title="{{Envoyer un rapport de bug}}">
                                         <i class="fa fa-exclamation-circle" ></i>
                                     </a>
                                 </li>

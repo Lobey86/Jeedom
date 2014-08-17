@@ -59,11 +59,11 @@ include_file('3rdparty', 'jquery.cron/jquery.cron', 'css');
                         </tr>
                         <tr>
                             <td><code>10 5 18 2 *</code></td>
-                            <td>{{Une fois par ans a 5h10 le 18 Février}}</td>
+                            <td>{{Une fois par an à 5h10 le 18 Février}}</td>
                         </tr>
                         <tr>
                             <td><code>14 18 2 * *</code></td>
-                            <td>{{Une fois par mois a 18:14 le second jour du mois}}</td>
+                            <td>{{Une fois par mois à 18:14 le second jour du mois}}</td>
                         </tr>
                         <tr>
                             <td><code>0 12 * * 2</code></td>
@@ -77,8 +77,8 @@ include_file('3rdparty', 'jquery.cron/jquery.cron', 'css');
                 <pre>
 *  *  *  *  *  *
 |  |  |  |  |  |
-|  |  |  |  |  + {{année [optionel]}}
-|  |  |  |  +----- {{jour de la semaine (0 - 7) (Dimanche=0 or 7)}}
+|  |  |  |  |  + {{année [optionnel]}}
+|  |  |  |  +----- {{jour de la semaine (0 - 7) (Dimanche=0 ou 7)}}
 |  |  |  +---------- {{mois (1 - 12)}}
 |  |  +--------------- {{jour du mois (1 - 31)}}
 |  +-------------------- {{heure (0 - 23)}}
@@ -87,10 +87,10 @@ include_file('3rdparty', 'jquery.cron/jquery.cron', 'css');
 
                 <table class="table">
                     <tbody><tr>
-                            <th>{{Nom du champs}}</th>
+                            <th>{{Nom du champ}}</th>
                             <th>{{Obligatoire}}</th>
                             <th>{{Valeurs autorisées}}</th>
-                            <th>{{Carateres spéciaux autorisés}}</th>
+                            <th>{{Caractères spéciaux autorisés}}</th>
                         </tr>
                         <tr>
                             <td>{{Minutes}}</td>
@@ -132,15 +132,15 @@ include_file('3rdparty', 'jquery.cron/jquery.cron', 'css');
                 </table>
                 <a href="http://en.wikipedia.org/wiki/Cron#Special_characters" target="_blank">{{Source}}</a>
 
-                <h3><span class="mw-headline" id="Special_characters">{{Special characters}}</span></h3>
-                <p>{{Support pour chaque caractère spécial dépend de distributions et versions de cron spécifiques}}</p>
+                <h3><span class="mw-headline" id="Special_characters">{{Caractères spéciaux}}</span></h3>
+                <p>{{Support pour chaque caractère spécial dépend des distributions et versions de cron spécifiques}}</p>
                 <dl>
                     <dt>{{Astérisque ( * )}}</dt>
                     <dd>{{L'astérisque indique que l'expression cron correspond à toutes les valeurs du champ. Par exemple, en utilisant un astérisque dans le 4ème domaine (mois) indique chaque mois.}}</dd>
                 </dl>
                 <dl>
                     <dt>{{Slash ( / )}}</dt>
-                    <dd>{{Les barres obliques décrivent incréments de gammes. Par exemple 3-59/15 dans le 1er champ (minutes) indiquent la troisième minute de l'heure et toutes les 15 minutes par la suite. La forme "* / ..." est équivalente à la forme «premier-dernier / ...", c'est-à une augmentation au cours de la plus large possible du champ.}}</dd>
+                    <dd>{{Les barres obliques décrivent l'incréments de gamme. Par exemple 3-59/15 dans le 1er champ (minutes) indique la troisième minute de l'heure et toutes les 15 minutes par la suite. La forme "* / ..." est équivalent à la forme «premier-dernier / ...", c'est-à une augmentation au cours de la plus large possible du champ.}}</dd>
                 </dl>
                 <dl>
                     <dt>{{Pourcent (&nbsp;% )}}</dt>
@@ -148,7 +148,7 @@ include_file('3rdparty', 'jquery.cron/jquery.cron', 'css');
                 </dl>
                 <dl>
                     <dt>{{Virgule ( , )}}</dt>
-                    <dd>{{Les virgules sont utilisées pour séparer les éléments d'une liste. Par exemple, en utilisant "MON,WED,FRI" dans le 5ème champs (jour de la semaine) signifie les lundis, mercredis et vendredis.}}</dd>
+                    <dd>{{Les virgules sont utilisées pour séparer les éléments d'une liste. Par exemple, en utilisant "MON,WED,FRI" dans le 5ème champ (jour de la semaine) signifie les lundis, mercredis et vendredis.}}</dd>
                 </dl>
                 <dl>
                     <dt>{{Trait d'union ( - )}}</dt>
@@ -163,8 +163,8 @@ include_file('3rdparty', 'jquery.cron/jquery.cron', 'css');
                     <dd>{{Le caractère «W» est autorisé pour le champ jour du mois. Ce caractère est utilisé pour spécifier le jour de la semaine (lundi-vendredi) le plus proche du jour donné. Par exemple, si vous étiez à préciser "15W" comme valeur pour le champ jour de mois, le sens est: «la semaine la plus proche du 15 du mois." Donc, si le 15 est un samedi, les feux de déclenchement sur ​​le vendredi 14. Si le 15 est un dimanche, les feux de déclenchement lundi le 16. Si le 15 est un mardi, il déclenche le mardi 15. Toutefois, si vous spécifiez "1W" comme valeur pour le jour de mois, et le 1er est un samedi, les feux de déclenchement lundi la 3e, comme il le fait pas «sauter» sur la limite des jours d'un mois. Le caractère «W» peut être défini que lorsque le jour de mois est un jour, pas une plage ou liste des jours.}}</dd>
                 </dl>
                 <dl>
-                    <dt>{{Hash ( # )}}</dt>
-                    <dd>{{«#» Est autorisé pour le champ du jour de la semaine, et doit être suivie par un nombre compris entre un et cinq. Il vous permet de spécifier des constructions telles que "le deuxième vendredi" d'un mois donné.}}</dd>
+                    <dt>{{Dièse ( # )}}</dt>
+                    <dd>{{«#» Est autorisé pour le champ du jour de la semaine, et doit être suivi par un nombre compris entre un et cinq. Il vous permet de spécifier des constructions telles que "le deuxième vendredi" d'un mois donné.}}</dd>
                 </dl>
                 <dl>
                     <dt>{{Point d'interrogation (&nbsp;? )}}</dt>

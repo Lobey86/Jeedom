@@ -29,7 +29,7 @@ if (!isConnect()) {
         </div>
         <div id="collapse_condition" class="panel-collapse collapse">
             <div class="panel-body">
-                <div class="alert alert-danger">{{Attention à bien mettre des ' ou " (quote ou double quote) lors de l'utilisation de chaine de caractère}}</div>
+                <div class="alert alert-danger">{{Attention à bien mettre des ' ou " (quote ou double quote) lors de l'utilisation de chaîne de caractère}}</div>
                 {{Vous pouvez utiliser n'importe lequel des symboles suivant pour les opérateurs : }}
                 <pre>
 {{= : égal}}
@@ -49,14 +49,14 @@ if (!isConnect()) {
                 </pre>
                 {{Vous pouvez aussi utiliser les tags suivants :}}
                 <pre>
-{{#heure#  : heure courante (ex : 17 pour 17h15)}}
+{{#heure# : heure courante (ex : 17 pour 17h15)}}
 {{#minute# : minute courante (ex : 15 pour 17h15)}}
 {{#jour# : jour courant}}
 {{#mois# : mois courant}}
 {{#annee# : année courante}}
 {{#time# : heure et minute courante (ex : 1715 pour 17h15)}}
 {{#timestamp# : retourne le nombre de secondes depuis le 1er janvier 1970}}
-{{#date# : jour et mois courant (ex : 1215 pour le 15 decembre)}}
+{{#date# : jour et mois courant (ex : 1215 pour le 15 décembre)}}
 {{#semaine# : numéro de la semaine (ex : 51)}}
 {{#sjour# : pour le nom du jour de la semaine (ex : Samedi)}}
 {{rand(1,10) : pour un nombre aléatoire de 1 à 10}}
@@ -217,7 +217,7 @@ icon : permet de changer l'icone de représentation du scenario}}
                                 <pre>
 <h5 style='display: inline;'>$scenario->setOnGoing($onGoing);</h5>
     {{Permet de dire si le scénario est en cours ou non
-    $onGoing => 1 en cours , 0 arrêter}}
+    $onGoing => 1 en cours , 0 arrêté}}
                                 </pre>
                                 <pre>
 <h5 style='display: inline;'>$scenario->save();</h5>
