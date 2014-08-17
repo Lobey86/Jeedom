@@ -350,6 +350,14 @@ class cmd {
         return $text;
     }
 
+    public static function byString($_string) {
+        $cmd = self::byId(str_replace('#', '', self::humanReadableToCmd($_string)));
+        if (!is_object($cmd)) {
+            throw new Exception(__('La commande n\'a pu etre trouvée : ', __FILE__) . $_string . __(' => ', __FILE__) . self::humanReadableToCmd($_string));
+        }
+        return $cmd;
+    }
+
     public static function cmdToValue($_input) {
         if (is_object($_input)) {
             $reflections = array();

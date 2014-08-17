@@ -141,7 +141,7 @@ icon : permet de changer l'icone de représentation du scenario}}
                                 <pre>
 <h5 style='display: inline;'>cmd::byString($string);</h5>
     {{Retourne l'objet commande correspondant
-    $string => lien vers la commande voulue : [type].[nom de l'équipement].[nom de la commande] (ex : [weather].[Villeurbanne].[Température])}}
+    $string => lien vers la commande voulue : #[objet][equipement][commande]# (ex :  #[Appartement][Alarme][Actif]#)}}
                                 </pre>  
                                 <pre>
 <h5 style='display: inline;'>cmd::byId($id);</h5>
