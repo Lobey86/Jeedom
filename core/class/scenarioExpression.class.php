@@ -142,7 +142,7 @@ class scenarioExpression {
             return null;
         }
         $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period . ' hour'));
-        $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
+        $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
         return round($historyStatistique['avg'], 1);
     }
 
@@ -155,7 +155,7 @@ class scenarioExpression {
             return null;
         }
         $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period . ' hour'));
-        $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
+        $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
         return round($historyStatistique['max'], 1);
     }
 
@@ -168,7 +168,7 @@ class scenarioExpression {
             return null;
         }
         $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period . ' hour'));
-        $historyStatistique = $this->getStatistique($startHist, date('Y-m-d H:i:s'));
+        $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
         return round($historyStatistique['min'], 1);
     }
 

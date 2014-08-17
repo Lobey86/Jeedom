@@ -115,28 +115,37 @@ $('#div_displayObject').delegate('.scenario-widget', 'dblclick', function() {
 
 $('#bt_editPlan').on('click', function() {
     if ($(this).attr('data-mode') == '0') {
-        $('.eqLogic-widget').draggable({
-            stop: function(event, ui) {
-                savePlan();
-            }
-        });
-        $('.scenario-widget').draggable({
-            stop: function(event, ui) {
-                savePlan();
-            }
-        });
+        initDraggable(1);
         $('.editMode').show();
         $(this).html('<i class="fa fa-pencil"></i> {{Quitter le mode édition}}');
         $(this).attr('data-mode', '1');
     } else {
-        $('.eqLogic-widget').draggable("destroy");
-        $('.scenario-widget').draggable("destroy");
+        initDraggable(0);
         $('.editMode').hide();
         $(this).html('<i class="fa fa-pencil"></i> {{Mode édition}}');
         $(this).attr('data-mode', '0');
     }
 
 });
+
+
+
+function initDraggable(_state) {
+    $('.eqLogic-widget').draggable({
+        stop: function(event, ui) {
+            savePlan();
+        }
+    });
+    $('.scenario-widget').draggable({
+        stop: function(event, ui) {
+            savePlan();
+        }
+    });
+    if (_state != 1 && _state != '1') {
+        $('.eqLogic-widget').draggable("destroy");
+        $('.scenario-widget').draggable("destroy");
+    }
+}
 
 function displayPlan() {
     var img = $('#div_displayObject img');
@@ -151,17 +160,16 @@ function displayPlan() {
     if (width < 750) {
         width = 750;
     }
-    $('#div_displayObject').height(height);
-    $('#div_displayObject').width(width);
-
-    var imgWidth = width;
-    var imgHeight = width / ratio;
-    if (imgHeight > height) {
-        imgHeight = height;
-        imgWidth = height * ratio;
+    var rWidth = width;
+    var rHeight = width / ratio;
+    if (rHeight > height) {
+        rHeight = height;
+        rWidth = height * ratio;
     }
-    $('#div_displayObject img').height(imgHeight);
-    $('#div_displayObject img').width(imgWidth);
+    $('#div_displayObject').height(rHeight);
+    $('#div_displayObject').width(rWidth);
+    $('#div_displayObject img').height(rHeight);
+    $('#div_displayObject img').width(rWidth);
 
 
     if (planHeader_id != -1) {
@@ -182,8 +190,8 @@ function displayPlan() {
 function savePlan() {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
         var parent = {
-            height: $('#div_displayObject').height(),
-            width: $('#div_displayObject').width(),
+            height: $('#div_displayObject img').height(),
+            width: $('#div_displayObject img').width(),
         };
         var plans = [];
         $('.eqLogic-widget').each(function() {
@@ -196,8 +204,8 @@ function savePlan() {
             $(this).css('zoom', '100%');
             var position = $(this).position();
             $(this).css('zoom', zoom);
-            plan.position.top = ((position.top * zoom) / parent.height) * 100;
-            plan.position.left = ((position.left * zoom) / parent.width) * 100;
+            plan.position.top = (((position.top * zoom)) / parent.height) * 100;
+            plan.position.left = (((position.left * zoom)) / parent.width) * 100;
             plans.push(plan);
         });
         $('.scenario-widget').each(function() {
@@ -240,13 +248,17 @@ function displayObject(_type, _id, _html, _plan) {
         $('.scenario-widget[data-scenario_id=' + _id + ']').remove();
     }
     var parent = {
-        height: $('#div_displayObject').height(),
-        width: $('#div_displayObject').width(),
+        height: $('#div_displayObject img').height(),
+        width: $('#div_displayObject img').width(),
+    };
+    var offset = {
+        top: $('#div_displayObject').position().top,
+        left: $('#div_displayObject').position().left,
     };
     var html = $(_html);
     html.css('position', 'absolute');
-    html.css('top', init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
-    html.css('left', init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
+    html.css('top', offset.top + init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
+    html.css('left', offset.left + init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
     html.css('zoom', init(_plan.css.zoom, defaultZoom));
     for (var key in _plan.css) {
         if (_plan.css[key] != '') {
@@ -264,18 +276,7 @@ function displayObject(_type, _id, _html, _plan) {
             }
         }
     }
-    if ($('#bt_editPlan').attr('data-mode') == "1") {
-        $('.eqLogic-widget').draggable({
-            stop: function(event, ui) {
-                savePlan();
-            }
-        });
-        $('.scenario-widget').draggable({
-            stop: function(event, ui) {
-                savePlan();
-            }
-        });
-    }
+    initDraggable($('#bt_editPlan').attr('data-mode') == "1");
 }
 
 /***************************EqLogic**************************************/

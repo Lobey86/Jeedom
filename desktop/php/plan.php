@@ -45,16 +45,18 @@ if (is_object($planHeader)) {
     <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addScenario"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>
     <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter équipement}}</a>
 </div>
-<div id="div_displayObject" style="min-height: 500px; min-width: 750px;">
-    <?php
-    if (is_object($planHeader) && $planHeader->getImage('type') != '') {
-        $size = $planHeader->getImage('size')
-        ?>
-        <center>
+<center>
+    <div id="div_displayObject" style="min-height: 500px; min-width: 750px;">
+        <?php
+        if (is_object($planHeader) && $planHeader->getImage('type') != '') {
+            $size = $planHeader->getImage('size')
+            ?>
+
             <img src="data:image/<?php echo $planHeader->getImage('type') ?>;base64,<?php echo $planHeader->getImage('data') ?>" data-sixe_y="<?php echo $size[1] ?>" data-sixe_x="<?php echo $size[0] ?>">
-        </center>
-    <?php } ?>
-</div>
+
+        <?php } ?>
+    </div>
+</center>
 
 
 <?php include_file('desktop', 'plan', 'js'); ?>

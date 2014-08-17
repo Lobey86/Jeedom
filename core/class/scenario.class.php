@@ -154,7 +154,6 @@ class scenario {
     }
 
     public static function check($_event_id = null) {
-        log::add('scenario', 'debug', 'Event id : ' . $_event_id);
         $message = '';
         if ($_event_id != null) {
             $scenarios = self::byTrigger($_event_id);
