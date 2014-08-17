@@ -23,6 +23,7 @@ if (!isConnect()) {
             <option value="areaspline">{{Areaspline}}</option>
             <option value="column">{{Barre}}</option>
         </select>
+        <span class="pull-right">Variation : <input type="checkbox" id="cb_derive" /></span>
         <div id="div_graph" style="margin-top: 50px;"></div>
     </div>
 </div>

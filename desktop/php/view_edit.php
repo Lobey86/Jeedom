@@ -164,6 +164,8 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                     echo '</label>';
                     echo ' <label>Empiler : <input type="checkbox" class="viewDataOption" data-l1key="configuration" data-l2key="graphStack">';
                     echo '</label>';
+                    echo ' <label>Variation : <input type="checkbox" class="viewDataOption" data-l1key="configuration" data-l2key="derive">';
+                    echo '</label>';
                     echo ' <label>Echelle :</label> <select class="viewDataOption form-control" data-l1key="configuration" data-l2key="graphScale" style="width : 60px;">';
                     echo '<option value="0">0</option>';
                     echo '<option value="1">1</option>';

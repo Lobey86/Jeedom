@@ -74,7 +74,14 @@ function addChart(_cmd_id, _action) {
             jeedom.history.chart['div_graph'].chart.get(parseInt(_cmd_id)).remove();
         }
     } else {
-        var option = {graphType: $('#sel_chartType').value()};
-        jeedom.history.drawChart({cmd_id: _cmd_id, el: 'div_graph', daterange: 'all', option: option});
+        jeedom.history.drawChart({
+            cmd_id: _cmd_id,
+            el: 'div_graph',
+            daterange: 'all',
+            option: {
+                graphType: $('#sel_chartType').value(),
+                derive : $('#cb_derive').value(),
+            }
+        });
     }
 }

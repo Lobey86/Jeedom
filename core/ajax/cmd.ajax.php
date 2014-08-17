@@ -201,15 +201,23 @@ try {
             $return['unite'] = $cmd->getUnite();
             $return['cmd'] = utils::o2a($cmd);
             $return['eqLogic'] = utils::o2a($cmd->getEqLogic());
+            $previsousValue = null;
             foreach ($histories as $history) {
                 $info_history = array();
                 $info_history[] = floatval(strtotime($history->getDatetime() . " UTC")) * 1000;
-                $info_history[] = ($history->getValue() === null ) ? null : floatval($history->getValue());
-                if ($history->getValue() > $return['maxValue'] || $return['maxValue'] == '') {
-                    $return['maxValue'] = $history->getValue();
+                $value = ($history->getValue() === null ) ? null : floatval($history->getValue());
+                if (init('derive') == 1) {
+                    if ($previsousValue != null) {
+                        $value = $previsousValue - $value;
+                    }
+                    $previsousValue = ($history->getValue() === null ) ? null : floatval($history->getValue());
                 }
-                if ($history->getValue() < $return['minValue'] || $return['minValue'] == '') {
-                    $return['minValue'] = $history->getValue();
+                $info_history[] = $value;
+                if ($value > $return['maxValue'] || $return['maxValue'] == '') {
+                    $return['maxValue'] = $value;
+                }
+                if ($value < $return['minValue'] || $return['minValue'] == '') {
+                    $return['minValue'] = $value;
                 }
                 $data[] = $info_history;
             }

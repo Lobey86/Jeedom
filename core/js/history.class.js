@@ -34,6 +34,7 @@ jeedom.history.drawChart = function(_params) {
             action: "getHistory",
             id: _params.cmd_id,
             dateRange: _params.dateRange || '',
+            derive : _params.option.derive || 0
         },
         dataType: 'json',
         error: function(request, status, error) {
