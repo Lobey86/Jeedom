@@ -251,14 +251,10 @@ function displayObject(_type, _id, _html, _plan) {
         height: $('#div_displayObject img').height(),
         width: $('#div_displayObject img').width(),
     };
-    var offset = {
-        top: $('#div_displayObject').position().top,
-        left: $('#div_displayObject').position().left,
-    };
     var html = $(_html);
     html.css('position', 'absolute');
-    html.css('top', offset.top + init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
-    html.css('left', offset.left + init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
+    html.css('top', init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
+    html.css('left', init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
     html.css('zoom', init(_plan.css.zoom, defaultZoom));
     for (var key in _plan.css) {
         if (_plan.css[key] != '') {
