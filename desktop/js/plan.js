@@ -160,14 +160,15 @@ function displayPlan() {
     if (width < 750) {
         width = 750;
     }
+    $('#div_displayObject').height(height);
+    $('#div_displayObject').width(width);
     var rWidth = width;
     var rHeight = width / ratio;
     if (rHeight > height) {
         rHeight = height;
         rWidth = height * ratio;
     }
-    $('#div_displayObject').height(rHeight);
-    $('#div_displayObject').width(rWidth);
+
     $('#div_displayObject img').height(rHeight);
     $('#div_displayObject img').width(rWidth);
 
