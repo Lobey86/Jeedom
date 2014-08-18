@@ -150,7 +150,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
 
             if ($jsonrpc->getMethod() == 'eqLogic::save') {
-                $typeEqLogic = $params['type'];
+                $typeEqLogic = $params['eqType_name'];
                 $typeCmd = $typeEqLogic . 'Cmd';
                 if ($typeEqLogic == '' || !class_exists($typeEqLogic) || !class_exists($typeCmd)) {
                     throw new Exception(__('Type incorrect (classe commande inexistante)', __FILE__) . $typeCmd);
@@ -161,7 +161,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 }
                 if (!is_object($eqLogic)) {
                     $eqLogic = new $typeEqLogic();
-                    $eqLogic->setEqType_name($params['type']);
+                    $eqLogic->setEqType_name($params['eqType_name']);
                 }
                 if (method_exists($eqLogic, 'preAjax')) {
                     $eqLogic->preAjax();
