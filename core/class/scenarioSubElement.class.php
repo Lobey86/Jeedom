@@ -30,6 +30,7 @@ class scenarioSubElement {
     private $options;
     private $order;
     private $log;
+    private $_expression;
 
     /*     * ***********************Methode static*************************** */
 
@@ -90,7 +91,11 @@ class scenarioSubElement {
     }
 
     public function getExpression() {
-        return scenarioExpression::byscenarioSubElementId($this->getId());
+        if (count($this->_expression) > 0) {
+            return $this->_expression;
+        }
+        $this->_expression = scenarioExpression::byscenarioSubElementId($this->getId());
+        return $this->_expression;
     }
 
     public function getAllId() {
@@ -155,8 +160,8 @@ class scenarioSubElement {
     public function getScenarioElement_id() {
         return $this->scenarioElement_id;
     }
-    
-    public function getElement(){
+
+    public function getElement() {
         return scenarioElement::byId($this->getScenarioElement_id());
     }
 

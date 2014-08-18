@@ -28,6 +28,7 @@ class scenarioElement {
     private $options;
     private $order = 0;
     private $log;
+    private $_subelement;
 
     /*     * ***********************Methode static*************************** */
 
@@ -153,7 +154,19 @@ class scenarioElement {
     }
 
     public function getSubElement($_type = '') {
-        return scenarioSubElement::byScenarioElementId($this->getId(), $_type);
+        if ($_type != '') {
+            if (is_object($this->_subelement[$_type])) {
+                return $this->_subelement[$_type];
+            }
+            $this->_subelement[$_type] = scenarioSubElement::byScenarioElementId($this->getId(), $_type);
+            return $this->_subelement[$_type];
+        } else {
+            if (count($this->_subelement[-1]) > 0) {
+                return $this->_subelement[-1];
+            }
+            $this->_subelement[-1] = scenarioSubElement::byScenarioElementId($this->getId(), $_type);
+            return $this->_subelement[-1];
+        }
     }
 
     public function getAjaxElement() {

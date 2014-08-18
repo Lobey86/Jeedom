@@ -42,6 +42,7 @@ class scenario {
     private $description;
     private $_internalEvent = 0;
     private static $_templateArray;
+    private $_elements = array();
 
     /*     * ***********************Methode static*************************** */
 
@@ -392,11 +393,11 @@ class scenario {
     }
 
     public function execute($_message = '') {
-        $this->clearLog();
         $this->setDisplay('icon', '');
         $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
         $this->setState('in progress');
         $this->setLastLaunch(date('Y-m-d H:i:s'));
+        $this->save();
         foreach ($this->getElement() as $element) {
             $element->execute($this);
         }
@@ -661,6 +662,9 @@ class scenario {
     }
 
     public function getElement() {
+        if (count($this->_elements) > 0) {
+            return $this->_elements;
+        }
         $return = array();
         $elements = $this->getScenarioElement();
         if (is_array($elements)) {
@@ -670,12 +674,14 @@ class scenario {
                     $return[] = $element;
                 }
             }
+            $this->_elements = $return;
             return $return;
         }
         if ($elements != '') {
             $element = scenarioElement::byId($element_id);
             if (is_object($element)) {
                 $return[] = $element;
+                $this->_elements = $return;
                 return $return;
             }
         }
