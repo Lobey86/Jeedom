@@ -741,7 +741,12 @@ class cmd {
         }
     }
 
-    public function event($_value) {
+    public function event($_value,$_loop = 0) {
+        if($_loop > 5){
+            return;
+        }
+        $_loop++;
+        
         if ($this->getType() != 'info') {
             return;
         }
@@ -766,7 +771,7 @@ class cmd {
                         nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
                     } else {
                         if ($cmd->getEventOnly() == 0) {
-                            $cmd->event($cmd->execute());
+                            $cmd->event($cmd->execute(),$_loop);
                         }
                     }
                 }
