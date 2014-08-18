@@ -65,7 +65,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
             echo 'ok';
         } else {
-            
+
             if (class_exists($type)) {
                 if (method_exists($type, 'event')) {
                     log::add('api', 'info', 'Appels de ' . $type . '::event()');
@@ -146,6 +146,28 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (!is_object($eqLogic)) {
                     throw new Exception('EqLogic introuvable : ' . $params['id'], -32602);
                 }
+                $jsonrpc->makeSuccess(utils::o2a($eqLogic));
+            }
+
+            if ($jsonrpc->getMethod() == 'eqLogic::save') {
+                $typeEqLogic = $params['type'];
+                $typeCmd = $typeEqLogic . 'Cmd';
+                if ($typeEqLogic == '' || !class_exists($typeEqLogic) || !class_exists($typeCmd)) {
+                    throw new Exception(__('Type incorrect (classe commande inexistante)', __FILE__) . $typeCmd);
+                }
+                $eqLogic = null;
+                if (isset($params['id'])) {
+                    $eqLogic = $typeEqLogic::byId($params['id']);
+                }
+                if (!is_object($eqLogic)) {
+                    $eqLogic = new $typeEqLogic();
+                    $eqLogic->setEqType_name($params['type']);
+                }
+                if (method_exists($eqLogic, 'preAjax')) {
+                    $eqLogic->preAjax();
+                }
+                utils::a2o($eqLogic, jeedom::fromHumanReadable($params));
+                $eqLogic->save();
                 $jsonrpc->makeSuccess(utils::o2a($eqLogic));
             }
 
