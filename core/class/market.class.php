@@ -89,10 +89,21 @@ class market {
 
     public static function byLogicalId($_logicalId) {
         $market = self::getJsonRpc();
-        if ($market->sendRequest('market::byLogicalId', array('logicalId' => $_logicalId))) {
+        $options = array('logicalId' => $_logicalId);
+        if (is_array($_logicalId)) {
+            $options = $_logicalId;
+        }
+        if ($market->sendRequest('market::byLogicalId', $options)) {
+            if (is_array($_logicalId)) {
+                $return = array();
+                foreach ($market->getResult() as $logicalId => $result) {
+                    $return[$logicalId] = self::construct($result);
+                }
+                return $return;
+            }
             return self::construct($market->getResult());
         } else {
-            log::add('market','debug',print_r($market,true));
+            log::add('market', 'debug', print_r($market, true));
             throw new Exception($market->getError(), $market->getErrorCode());
         }
     }
@@ -119,7 +130,7 @@ class market {
             }
             return $return;
         } else {
-            log::add('market','debug',print_r($market,true));
+            log::add('market', 'debug', print_r($market, true));
             throw new Exception($market->getError(), $market->getErrorCode());
         }
     }
@@ -217,6 +228,57 @@ class market {
     }
 
     public static function getInfo($_logicalId, $_version = 'stable') {
+        $returns = array();
+        if (is_array($_logicalId) && is_array($_version) && count($_logicalId) == count($_version)) {
+            $markets = market::byLogicalId($_logicalId);
+            $returns = array();
+            for ($i = 0; $i < count($_logicalId); $i++) {
+                $return['datetime'] = '0000-01-01 00:00:00';
+                if ($_logicalId[$i] == '' || config::byKey('market::address') == '') {
+                    $return['market'] = 0;
+                    $return['market_owner'] = 0;
+                    $return['status'] = 'ok';
+                    return $return;
+                }
+
+                if (config::byKey('market::apikey') != '') {
+                    $return['market_owner'] = 1;
+                } else {
+                    $return['market_owner'] = 0;
+                }
+                $return['market'] = 0;
+
+                try {
+                    $market = $markets[$_logicalId[$i]];
+                    if (!is_object($market)) {
+                        $return['status'] = 'depreciated';
+                    } else {
+                        $return['datetime'] = $market->getDatetime($_version[$i]);
+                        $return['market'] = 1;
+                        if ($market->getApi_author() == config::byKey('market::apikey') && $market->getApi_author() != '') {
+                            $return['market_owner'] = 1;
+                        } else {
+                            $return['market_owner'] = 0;
+                        }
+                        $update = update::byTypeAndLogicalId($market->getType(), $market->getLogicalId());
+                        $updateDateTime = '0000-01-01 00:00:00';
+                        if (is_object($update)) {
+                            $updateDateTime = $update->getLocalVersion();
+                        }
+                        if ($updateDateTime < $market->getDatetime($_version[$i], $updateDateTime)) {
+                            $return['status'] = 'update';
+                        } else {
+                            $return['status'] = 'ok';
+                        }
+                    }
+                } catch (Exception $e) {
+                    log::add('market', 'debug', __('Erreur market::getinfo : ', __FILE__) . $e->getMessage());
+                    $return['status'] = 'ok';
+                }
+                $returns[$_logicalId[$i]] = $return;
+            }
+            return $returns;
+        }
         $return = array();
         $return['datetime'] = '0000-01-01 00:00:00';
         if ($_logicalId == '' || config::byKey('market::address') == '') {
