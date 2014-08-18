@@ -512,7 +512,7 @@ class scenario {
         $internalEvent->save();
     }
 
-    public function removeData($_key, $_private = true) {
+    public function removeData($_key, $_private = false) {
         if ($_private) {
             $dataStore = dataStore::byTypeLinkIdKey('scenario', $this->getId(), $_key);
         } else {
@@ -534,7 +534,7 @@ class scenario {
         return true;
     }
 
-    public function getData($_key, $_private = true) {
+    public function getData($_key, $_private = false) {
         if ($_private) {
             $dataStore = dataStore::byTypeLinkIdKey('scenario', $this->getId(), $_key);
         } else {
