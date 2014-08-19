@@ -92,7 +92,7 @@ if (is_object($planHeader)) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{Annuler}}</button>
-                <button type="button" class="btn btn-primary">{{Valider}}</button>
+                <button type="button" class="btn btn-primary validate">{{Valider}}</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

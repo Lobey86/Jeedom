@@ -52,6 +52,38 @@ try {
                     'html' => $link->toHtml(init('version', 'dashboard'))
                 );
             }
+            if ($plan->getLink_type() == 'plan') {
+                $plan_link = planHeader::byId($plan->getLink_id());
+                if (!is_object($plan_link)) {
+                    continue;
+                }
+                $link = 'index.php?v=d&p=plan&plan_id=' . $plan_link->getId();
+                $html = '<span class="plan-link-widget label label-success" data-link_id="' . $plan_link->getId() . '">';
+                $html .= '<a href="' . $link . '" style="color:white;text-decoration:none;font-size : 1.5em;">';
+                $html .= $plan_link->getName();
+                $html .= '</a>';
+                $html .= '</span>';
+                $return[] = array(
+                    'plan' => utils::o2a($plan),
+                    'html' => $html
+                );
+            }
+            if ($plan->getLink_type() == 'view') {
+                $view = view::byId($plan->getLink_id());
+                if (!is_object($view)) {
+                    continue;
+                }
+                $link = 'index.php?v=d&p=view&view_id=' . $view->getId();
+                $html = '<span class="view-link-widget label label-primary" data-link_id="' . $view->getId() . '" >';
+                $html .= '<a href="' . $link . '" style="color:white;text-decoration:none;font-size : 1.5em;">';
+                $html .= $view->getName();
+                $html .= '</a>';
+                $html .= '</span>';
+                $return[] = array(
+                    'plan' => utils::o2a($plan),
+                    'html' => $html
+                );
+            }
         }
         ajax::success($return);
     }
@@ -73,7 +105,7 @@ try {
         if (is_object($plan)) {
             ajax::success($plan->remove());
         }
-        $plan = plan::byLinkTypeLinkIdObjectId(init('link_type'), init('link_id'), init('object_id'));
+        $plan = plan::byLinkTypeLinkIdPlanHedaerId(init('link_type'), init('link_id'), init('object_id'));
         if (is_object($plan)) {
             ajax::success($plan->remove());
         }

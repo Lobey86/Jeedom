@@ -117,6 +117,20 @@ $('#div_displayObject').delegate('.scenario-widget', 'dblclick', function() {
     }
 });
 
+$('#div_displayObject').delegate('.plan-link-widget', 'dblclick', function() {
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        $('#md_modal').dialog({title: "{{Configuration du plan}}"});
+        $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=plan&link_id=' + $(this).attr('data-link_id') + '&planHeader_id=' + planHeader_id).dialog('open');
+    }
+});
+
+$('#div_displayObject').delegate('.view-link-widget', 'dblclick', function() {
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        $('#md_modal').dialog({title: "{{Configuration du plan}}"});
+        $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=view&link_id=' + $(this).attr('data-link_id') + '&planHeader_id=' + planHeader_id).dialog('open');
+    }
+});
+
 $('#bt_editPlan').on('click', function() {
     if ($(this).attr('data-mode') == '0') {
         initDraggable(1);
@@ -150,6 +164,16 @@ function initDraggable(_state) {
         }
     });
     $('.scenario-widget').draggable({
+        stop: function(event, ui) {
+            savePlan();
+        }
+    });
+    $('.plan-link-widget').draggable({
+        stop: function(event, ui) {
+            savePlan();
+        }
+    });
+    $('.view-link-widget').draggable({
         stop: function(event, ui) {
             savePlan();
         }
@@ -194,6 +218,7 @@ function displayPlan() {
             },
             success: function(data) {
                 for (var i in data) {
+                    console.log(data[i].plan.link_type);
                     displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
                 }
             },
@@ -236,6 +261,28 @@ function savePlan() {
             plan.position.left = ((position.left * zoom) / parent.width) * 100;
             plans.push(plan);
         });
+        $('.plan-link-widget').each(function() {
+            var plan = {};
+            plan.position = {};
+            plan.link_type = 'plan';
+            plan.link_id = $(this).attr('data-link_id');
+            plan.planHeader_id = planHeader_id;
+            var position = $(this).position();
+            plan.position.top = ((position.top) / parent.height) * 100;
+            plan.position.left = ((position.left) / parent.width) * 100;
+            plans.push(plan);
+        });
+        $('.view-link-widget').each(function() {
+            var plan = {};
+            plan.position = {};
+            plan.link_type = 'view';
+            plan.link_id = $(this).attr('data-link_id');
+            plan.planHeader_id = planHeader_id;
+            var position = $(this).position();
+            plan.position.top = ((position.top) / parent.height) * 100;
+            plan.position.left = ((position.left) / parent.width) * 100;
+            plans.push(plan);
+        });
         jeedom.plan.save({
             plans: plans,
             global: false,
@@ -260,6 +307,14 @@ function displayObject(_type, _id, _html, _plan) {
     if (_type == 'scenario') {
         var defaultZoom = 1;
         $('.scenario-widget[data-scenario_id=' + _id + ']').remove();
+    }
+    if (_type == 'view') {
+        var defaultZoom = 1;
+        $('.view-link-widget[data-link_id=' + _id + ']').remove();
+    }
+    if (_type == 'plan') {
+        var defaultZoom = 1;
+        $('.plan-link-widget[data-link_id=' + _id + ']').remove();
     }
     var parent = {
         height: $('#div_displayObject img').height(),
@@ -326,3 +381,32 @@ $('#md_selectLink .linkType').on('change', function() {
     $('#md_selectLink .linkOption').hide();
     $('#md_selectLink .link' + $(this).value()).show();
 });
+
+$('#md_selectLink .validate').on('click', function() {
+    var link = {};
+    link.type = $('#md_selectLink .linkType').value();
+    link.id = $('#md_selectLink .link' + link.type + ' .linkId').value();
+    link.name = $('#md_selectLink .link' + link.type + ' .linkId option:selected').text();
+    $('#md_selectLink').modal('hide');
+    addLink(link);
+});
+
+function addLink(_link, _plan) {
+    var link = '';
+    var label = '';
+    if (_link.type == 'plan') {
+        link = 'index.php?v=d&p=plan&plan_id=' + _link.id;
+        label = 'label-success';
+    }
+    if (_link.type == 'view') {
+        link = 'index.php?v=d&p=view&view_id=' + _link.id;
+        label = 'label-primary';
+    }
+    var html = '<span class="' + _link.type + '-link-widget label ' + label + '" data-link_id="' + _link.id + '" >';
+    html += '<a href="' + link + '" style="color:white;text-decoration:none;font-size : 1.5em;">';
+    html += _link.name;
+    html += '</a>';
+    html += '</span>';
+    displayObject(_link.type, _link.id, html, _plan)
+    savePlan();
+}

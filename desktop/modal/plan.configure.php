@@ -15,52 +15,57 @@ sendVarToJS('id', $plan->getId());
 <a class='btn btn-danger  btn-xs pull-right cursor' style="color: white;" id='bt_removeConfigurePlan'><i class="fa fa-times"></i> Supprimer</a>
 <form class="form-horizontal">
     <fieldset id="fd_planConfigure">
-        <div class="form-group">
-            <label class="col-lg-4 control-label">{{Taille du widget}}</label>
-            <div class="col-lg-2">
-                <input type="text"  class="planAttr form-control" data-l1key="id" style="display: none;"/>
-                <input type="text"  class="planAttr form-control" data-l1key="link_type" style="display: none;"/>
-                <input type="text"  class="planAttr form-control" data-l1key="link_id" style="display: none;"/>
-                <?php
-                if ($plan->getLink_type() == 'eqLogic') {
-                    echo '<input type="text" class="planAttr form-control" data-l1key="css" data-l2key="zoom" value="0.65"/>';
-                }
-                if ($plan->getLink_type() == 'scenario') {
-                    echo '<input type="text" class="planAttr form-control" data-l1key="css" data-l2key="zoom" value="1"/>';
-                }
-                ?>
+        <input type="text"  class="planAttr form-control" data-l1key="id" style="display: none;"/>
+        <input type="text"  class="planAttr form-control" data-l1key="link_type" style="display: none;"/>
+        <input type="text"  class="planAttr form-control" data-l1key="link_id" style="display: none;"/>
+        <?php if ($plan->getLink_type() == 'eqLogic' || $plan->getLink_type() == 'scenario') { ?>
+
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Taille du widget}}</label>
+                <div class="col-lg-2">
+
+
+                    <?php
+                    if ($plan->getLink_type() == 'eqLogic') {
+                        echo '<input type="text" class="planAttr form-control" data-l1key="css" data-l2key="zoom" value="0.65"/>';
+                    }
+                    if ($plan->getLink_type() == 'scenario') {
+                        echo '<input type="text" class="planAttr form-control" data-l1key="css" data-l2key="zoom" value="1"/>';
+                    }
+                    ?>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-4 control-label">{{Couleur de fond}}</label>
-            <div class="col-lg-2">
-                <select class="planAttr form-control" data-l1key="css" data-l2key="background-color">
-                    <option value="">Normale</option>
-                    <option value="transparent">Transparent</option>
-                </select>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Couleur de fond}}</label>
+                <div class="col-lg-2">
+                    <select class="planAttr form-control" data-l1key="css" data-l2key="background-color">
+                        <option value="">Normale</option>
+                        <option value="transparent">Transparent</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-4 control-label">{{Couleur des icones et textes}}</label>
-            <div class="col-lg-2">
-                <input type="color" class="planAttr form-control" data-l1key="css" data-l2key="color" value="#FFFFFF"/>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Couleur des icones et textes}}</label>
+                <div class="col-lg-2">
+                    <input type="color" class="planAttr form-control" data-l1key="css" data-l2key="color" value="#FFFFFF"/>
+                </div>
             </div>
-        </div>
-        <legend>Spécifique</legend>
-        <?php
-        if ($plan->getLink_type() == 'eqLogic' && is_object($link)) {
-            foreach ($link->getCmd() as $cmd) {
-                if ($cmd->getIsVisible() == 1) {
-                    echo '<div class="form-group">';
-                    echo '<label class="col-lg-4 control-label">{{Ne pas afficher }}' . $cmd->getHumanName() . '</label>';
-                    echo '<div class="col-lg-2">';
-                    echo '<input type="checkbox" class="planAttr" data-l1key="display" data-l2key="cmd" data-l3key="' . $cmd->getID() . '" />';
-                    echo '</div>';
-                    echo '</div>';
+            <legend>Spécifique</legend>
+            <?php
+            if ($plan->getLink_type() == 'eqLogic' && is_object($link)) {
+                foreach ($link->getCmd() as $cmd) {
+                    if ($cmd->getIsVisible() == 1) {
+                        echo '<div class="form-group">';
+                        echo '<label class="col-lg-4 control-label">{{Ne pas afficher }}' . $cmd->getHumanName() . '</label>';
+                        echo '<div class="col-lg-2">';
+                        echo '<input type="checkbox" class="planAttr" data-l1key="display" data-l2key="cmd" data-l3key="' . $cmd->getID() . '" />';
+                        echo '</div>';
+                        echo '</div>';
+                    }
                 }
             }
-        }
-        ?>
+            ?>
+        <?php } ?>
     </fieldset>
 </form>
 
@@ -148,6 +153,12 @@ sendVarToJS('id', $plan->getId());
                 }
                 if ($(".planAttr[data-l1key=link_type]").value() == 'scenario') {
                     $('.scenario-widget[data-scenario_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
+                }
+                if ($(".planAttr[data-l1key=link_type]").value() == 'plan') {
+                    $('.plan-link-widget[data-link_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
+                }
+                if ($(".planAttr[data-l1key=link_type]").value() == 'view') {
+                    $('.view-plan-widget[data-link_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
                 }
             }
         });
