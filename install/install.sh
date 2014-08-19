@@ -51,7 +51,7 @@ if [ "${webserver}" = "apache" ] ; then
     sudo apt-get install -y apache2 libapache2-mod-php5
     sudo apt-get install -y autoconf make subversion
     sudo svn checkout http://svn.apache.org/repos/asf/httpd/httpd/tags/2.2.22/ httpd-2.2.22
-    sudo wget http://cafarelli.fr/gentoo/apache-2.2.24-wstunnel.patch
+    sudo wget --no-check-certificate http://cafarelli.fr/gentoo/apache-2.2.24-wstunnel.patch
     sudo cd httpd-2.2.22
     sudo patch -p1 < ../apache-2.2.24-wstunnel.patch
     sudo svn co http://svn.apache.org/repos/asf/apr/apr/branches/1.4.x srclib/apr
@@ -124,9 +124,9 @@ echo "********************************************************"
 if [ -d "jeedom" ] ; then
     rm -rf jeedom
 fi
-wget -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip
+wget --no-check-certificate -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip
 if [  $? -ne 0 ] ; then
-    wget -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip
+    wget --no-check-certificate -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip
     if [  $? -ne 0 ] ; then
         echo "Impossible de télécharger le fichier";
         exit 0
@@ -158,7 +158,7 @@ if [ ${nodeJS} -ne 0 ] ; then
         echo "********************************************************"
         echo "*          Installation de nodeJS manuellement ARM     *"
         echo "********************************************************"
-        wget https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
+        wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
         sudo tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
         if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
             sudo ln -s /usr/local/bin/node /usr/bin/nodejs
@@ -170,7 +170,7 @@ if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
     echo "********************************************************"
     echo "*  Installation de nodeJS manuellement pour Raspberry  *"
     echo "********************************************************"
-    wget https://jeedom.fr/ressources/nodejs/node-raspberry.bin
+    wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-raspberry.bin
     sudo rm -rf /usr/local/bin/node
     sudo rm -rf /usr/bin/nodejs
     sudo mv node-raspberry.bin /usr/local/bin/node
