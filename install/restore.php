@@ -121,10 +121,7 @@ try {
     rcopy($tmp, dirname(__FILE__) . '/..', false);
     rcopy($tmp . '/plugins', dirname(__FILE__) . '/../plugins', false);
     echo __("OK\n", __FILE__);
- 
-    copy(dirname(__FILE__) . '/../core/config/common.config.php.bck', dirname(__FILE__) . '/../core/config/common.config.php');
-    echo __("OK\n", __FILE__);
-
+    
     if (!file_exists($jeedom_dir . '/install')) {
         mkdir($jeedom_dir . '/install');
         shell_exec('cd ' . $jeedom_dir . '/install;wget http://git.jeedom.fr/jeedom/core/raw/stable/install/backup.php;wget http://git.jeedom.fr/jeedom/core/raw/stable/install/install.php;wget http://git.jeedom.fr/jeedom/core/raw/stable/install/restore.php');
