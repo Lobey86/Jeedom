@@ -37,7 +37,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">{{Notifier des évenements}}</label>
+                            <label class="col-lg-3 control-label">{{Notifier des événements}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="notifyEvent">
                                     <?php

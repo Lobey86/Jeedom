@@ -109,7 +109,7 @@ try {
                     $zip = new ZipArchive;
                     if ($zip->open($tmp) === TRUE) {
                         if (!$zip->extractTo($cibDir)) {
-                            throw new Exception(__('Impossible d\'installer la mise à jour. Les fichiers n\'ont pu etre décompressés', __FILE__));
+                            throw new Exception(__('Impossible d\'installer la mise à jour. Les fichiers n\'ont pu être décompressés', __FILE__));
                         }
                         $zip->close();
                     } else {

@@ -122,7 +122,7 @@ try {
             throw new Exception(__('EqLogic inconnu verifié l\'id', __FILE__));
         }
         if (init('name') == '') {
-            throw new Exception(__('Le nom de la copie de l\'équipement ne peut etre vide', __FILE__));
+            throw new Exception(__('Le nom de la copie de l\'équipement ne peut être vide', __FILE__));
         }
         ajax::success(utils::o2a($eqLogic->copy(init('name'))));
     }

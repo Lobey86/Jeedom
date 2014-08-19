@@ -116,7 +116,7 @@ class eqReal {
 
     public function save() {
         if ($this->getName() == '') {
-            throw new Exception(__('Le nom de l\'équipement réel ne peut etre vide', __FILE__));
+            throw new Exception(__('Le nom de l\'équipement réel ne peut être vide', __FILE__));
         }
         if ($this->getInternalEvent() == 1) {
             $internalEvent = new internalEvent();

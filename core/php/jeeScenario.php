@@ -50,9 +50,9 @@ if (!jeedom::isStarted()) {
     die(__('Lancement du scénario annulée car Jeedom n\'a pas encore finis de démarrer : ', __FILE__) . $scenario->getHumanName());
 }
 if (!jeedom::isDateOk()) {
-    $scenario->setLog(__('Lancement du scénario annulée car la date systeme ne semble pas etre correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
-    log::add('scenario', 'info', __('Lancement du scénario annulée car la date systeme ne semble pas etre correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
-    die(__('Lancement du scénario annulée car la date systeme ne semble pas etre correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
+    $scenario->setLog(__('Lancement du scénario annulée car la date systeme ne semble pas être correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
+    log::add('scenario', 'info', __('Lancement du scénario annulée car la date systeme ne semble pas être correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
+    die(__('Lancement du scénario annulée car la date systeme ne semble pas être correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
 }
 
 if (is_numeric($scenario->getTimeout()) && $scenario->getTimeout() != '' && $scenario->getTimeout() != 0) {

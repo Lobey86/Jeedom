@@ -19,7 +19,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="#" class="bt_updateAll" data-level="0" data-mode="">{{Tout}}</a></li>
-                    <li><a href="#" class="bt_updateAll expertModeVisible" data-level="0" data-mode="force">{{Tout forcé}}</a></li>
+                    <li><a href="#" class="bt_updateAll expertModeVisible" data-level="0" data-mode="force">{{Tout forcer}}</a></li>
                     <li><a href="#" class="bt_updateAll" data-level="1" data-mode="">{{Plugins seulement}}</a></li>
                     <li><a href="#" class="bt_updateAll expertModeVisible" data-level="1" data-mode="force">{{Plugins seulement forcés}}</a></li>
                     <li><a href="#" class="bt_updateAll" data-level="-1" data-mode="">{{Jeedom seulement}}</a></li>
@@ -35,7 +35,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                     <th>{{Nom}}</th>
                     <th>{{Version actuelle}}</th>
                     <th>{{Version disponible}}</th>
-                    <th>{{Status}}</th>
+                    <th>{{Statut}}</th>
                     <th data-sorter="false" data-filter="false" style="width: 400px;">{{Actions}}</th>
                 </tr>
             </thead>

@@ -409,7 +409,7 @@ class eqLogic {
 
     public function toHtml($_version = 'dashboard') {
         if ($_version == '') {
-            throw new Exception(__('La version demandé ne peut etre vide (mobile, dashboard ou scenario)', __FILE__));
+            throw new Exception(__('La version demandé ne peut être vide (mobile, dashboard ou scenario)', __FILE__));
         }
         $info = '';
         $version = jeedom::versionAlias($_version);
@@ -462,7 +462,7 @@ class eqLogic {
 
     public function save() {
         if ($this->getName() == '') {
-            throw new Exception(__('Le nom de l\'équipement ne peut etre vide', __FILE__));
+            throw new Exception(__('Le nom de l\'équipement ne peut être vide', __FILE__));
         }
         if ($this->getInternalEvent() == 1) {
             $internalEvent = new internalEvent();

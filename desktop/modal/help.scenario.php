@@ -211,7 +211,7 @@ icon : permet de changer l'icone de représentation du scenario}}
                                 </pre>
                                 <pre>
 <h5 style='display: inline;'>$scenario->setIsActive($active);</h5>
-    {{Permet d'activer ou non du scénario
+    {{Permet d'activer ou non le scénario
     $active => 1 actif , 0 non actif}}
                                 </pre> 
                                 <pre>

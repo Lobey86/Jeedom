@@ -161,7 +161,7 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-6 control-label">{{Limiter aux plugin}}</label>
+                            <label class="col-lg-6 control-label">{{Limiter aux plugins}}</label>
                             <div class="col-lg-4">
                                 <select class='interactAttr form-control' data-l1key='filtres' data-l2key='plugin'>
                                     <option value="all">{{Tous}}</option>

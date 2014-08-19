@@ -3,7 +3,7 @@ if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
 if (init('interactDef_id') == '') {
-    throw new Exception('{{Interact Def ID ne peut etre vide}}');
+    throw new Exception('{{Interact Def ID ne peut être vide}}');
 }
 
 $interactQueries = interactQuery::byInteractDefId(init('interactDef_id'));

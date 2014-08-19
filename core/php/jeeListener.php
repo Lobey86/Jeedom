@@ -40,7 +40,7 @@ try {
 
     $listener_id = init('listener_id');
     if ($listener_id == '') {
-        throw new Exception(__('Le listener ID ne peut etre vide', __FILE__));
+        throw new Exception(__('Le listener ID ne peut être vide', __FILE__));
     }
     $listener = listener::byId($listener_id);
     if (!is_object($listener)) {

@@ -77,7 +77,7 @@ try {
             throw new Exception(__('Aucune correspondance pour l\'ID : ' . init('id'), __FILE__));
         }
         if (init('state') == '') {
-            throw new Exception(__('Le status ne peut etre vide', __FILE__));
+            throw new Exception(__('Le status ne peut être vide', __FILE__));
         }
         if (init('state') == 'hold') {
             $update->setStatus('hold');

@@ -353,7 +353,7 @@ class cmd {
     public static function byString($_string) {
         $cmd = self::byId(str_replace('#', '', self::humanReadableToCmd($_string)));
         if (!is_object($cmd)) {
-            throw new Exception(__('La commande n\'a pu etre trouvée : ', __FILE__) . $_string . __(' => ', __FILE__) . self::humanReadableToCmd($_string));
+            throw new Exception(__('La commande n\'a pu être trouvée : ', __FILE__) . $_string . __(' => ', __FILE__) . self::humanReadableToCmd($_string));
         }
         return $cmd;
     }
@@ -500,13 +500,13 @@ class cmd {
 
     public function save() {
         if ($this->getName() == '') {
-            throw new Exception(__('Le nom de la commande ne peut etre vide :', __FILE__) . print_r($this, true));
+            throw new Exception(__('Le nom de la commande ne peut être vide :', __FILE__) . print_r($this, true));
         }
         if ($this->getType() == '') {
-            throw new Exception(__('Le type de la commande ne peut etre vide :', __FILE__) . print_r($this, true));
+            throw new Exception(__('Le type de la commande ne peut être vide :', __FILE__) . print_r($this, true));
         }
         if ($this->getSubType() == '') {
-            throw new Exception(__('Le sous-type de la commande ne peut etre vide :', __FILE__) . print_r($this, true));
+            throw new Exception(__('Le sous-type de la commande ne peut être vide :', __FILE__) . print_r($this, true));
         }
         if ($this->getEqLogic_id() == '') {
             throw new Exception(__('Vous ne pouvez creer une commande sans la ratacher à un équipement', __FILE__));

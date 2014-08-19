@@ -23,7 +23,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                     if (config::byKey('enableScenario') == 0) {
                         echo '<a class="btn btn-sm btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="1" style="width : 49%;min-width : 127px;margin-top : 3px;" title="{{Activer le système de scénario}}"><i class="fa fa-check" style="color : green;font-size : 1.5em;"></i> {{Act. scénarios}}</a>';
                     } else {
-                        echo '<a class="btn btn-sm btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="0" style="width : 49%;min-width : 127px;margin-top : 3px;" title="{{Desactiver le système de scénario}}"><i class="fa fa-times" style="color : red;font-size : 1.5em;"></i> {{Désac. scénarios}}</a>';
+                        echo '<a class="btn btn-sm btn-default expertModeVisible" id="bt_changeAllScenarioState" data-state="0" style="width : 49%;min-width : 127px;margin-top : 3px;" title="{{Désactiver le système de scénario}}"><i class="fa fa-times" style="color : red;font-size : 1.5em;"></i> {{Désac. scénarios}}</a>';
                     }
                     ?>
                     <a class="btn btn-default btn-sm tooltips expertModeVisible" id="bt_displayScenarioVariable" title="{{Voir toutes les variables de scénario}}" style="width : 49%;min-width : 127px;margin-top : 3px;"><i class="fa fa fa-eye" style="font-size : 1.5em;"></i> {{Voir variables}}</a>
@@ -82,7 +82,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                          <div class="form-group">
                             <label class="col-lg-6 control-label" >{{Nom à afficher}}</label>
                             <div class="col-lg-6">
-                                <input class="form-control scenarioAttr input-sm tooltips" title="{{Ne rien mettre pour laisser le nom par default}}" data-l1key="display" data-l2key="name" type="text" placeholder="{{Nom à afficher}}"/>
+                                <input class="form-control scenarioAttr input-sm tooltips" title="{{Ne rien mettre pour laisser le nom par défaut}}" data-l1key="display" data-l2key="name" type="text" placeholder="{{Nom à afficher}}"/>
                             </div>
                         </div>
                         <div class="form-group">

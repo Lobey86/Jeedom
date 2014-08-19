@@ -19,7 +19,7 @@ $response = curl_exec($ch);
 
 if (curl_errno($ch) || strpos($response, '404 Not Found') !== false) {
     curl_close($ch);
-    echo '<div class="alert alert-warning">{{Aucune aide n\'éxiste pour le moment sur cette page}}</div>';
+    echo '<div class="alert alert-warning">{{Aucune aide n\'existe pour le moment sur cette page}}</div>';
 } else {
     curl_close($ch);
     echo str_replace('<img src="', '<img src="https://jeedom.fr/', $response);

@@ -84,10 +84,10 @@ class dataStore {
             throw new Exception(__('Le type doit être un des suivants : ',__FILE__) . print_r($allowType, true));
         }
         if (!is_numeric($this->getLink_id())) {
-            throw new Exception(__('Link_id doit etre un chiffre',__FILE__));
+            throw new Exception(__('Link_id doit être un chiffre',__FILE__));
         }
         if ($this->getKey() == '') {
-            throw new Exception(__('La clef ne peut etre vide',__FILE__));
+            throw new Exception(__('La clef ne peut être vide',__FILE__));
         }
         if ($this->getId() == '') {
             $dataStore = self::byTypeLinkIdKey($this->getType(), $this->getLink_id(), $this->getKey());

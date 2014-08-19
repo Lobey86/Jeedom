@@ -11,7 +11,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
     <thead>
         <tr>
             <th style="width: 200px;">{{Date}}</th>
-            <th style="width: 200px;">{{Evenement}}</th>
+            <th style="width: 200px;">{{Evénement}}</th>
             <th>{{Valeur}}</th>
         </tr>
     </thead>

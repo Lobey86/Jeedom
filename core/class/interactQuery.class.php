@@ -230,10 +230,10 @@ class interactQuery {
 
     public function save() {
         if ($this->getQuery() == '') {
-            throw new Exception(__('La commande vocale ne peut etre vide', __FILE__));
+            throw new Exception(__('La commande vocale ne peut être vide', __FILE__));
         }
         if ($this->getInteractDef_id() == '') {
-            throw new Exception(__('SarahDef_id ne peut etre vide', __FILE__));
+            throw new Exception(__('SarahDef_id ne peut être vide', __FILE__));
         }
         if ($this->getLink_id() == '' && $this->getLink_type() != 'whatDoYouKnow') {
             throw new Exception(__('Cette ordre vocale n\'est associé à aucune commande : ', __FILE__) . $this->getQuery());

@@ -87,7 +87,7 @@ $("#bt_removeBackup").on('click', function(event) {
                 },
                 success: function() {
                     updateListBackup();
-                    $('#div_alert').showAlert({message: '{{Sauvegarde supprimé avec succès}}', level: 'success'});
+                    $('#div_alert').showAlert({message: '{{Sauvegarde supprimée avec succès}}', level: 'success'});
                 }
             });
         }
@@ -106,13 +106,13 @@ $('#bt_uploadBackup').fileupload({
             return;
         }
         updateListBackup();
-        $('#div_alert').showAlert({message: '{{Fichier(s) ajouté(s) avec succes}}', level: 'success'});
+        $('#div_alert').showAlert({message: '{{Fichier(s) ajouté(s) avec succès}}', level: 'success'});
     }
 });
 
 $("#bt_restoreCloudJeedom").on('click', function(event) {
     var el = $(this);
-    bootbox.confirm('{{Etes-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud}} <b>' + $('#sel_restoreCloudBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut être annulée}}', function(result) {
+    bootbox.confirm('{{Etes-vous sûr de vouloir restaurer Jeedom avec la sauvegarde Cloud}} <b>' + $('#sel_restoreCloudBackup option:selected').text() + '</b> ? {{Une fois lancée cette opération ne peut être annulée}}', function(result) {
         if (result) {
             el.find('.fa-refresh').show();
             jeedom.backup.restoreCloud({

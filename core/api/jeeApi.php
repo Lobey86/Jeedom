@@ -252,7 +252,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                     $scenario->setIsActive(0);
                     $jsonrpc->makeSuccess($scenario->save());
                 }
-                throw new Exception('La paramètre "state" ne peut etre vide et doit avoir pour valuer [run,stop,enable;disable]');
+                throw new Exception('La paramètre "state" ne peut être vide et doit avoir pour valuer [run,stop,enable;disable]');
             }
 
             /*             * ************************************************************************ */

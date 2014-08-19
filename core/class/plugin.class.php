@@ -281,7 +281,7 @@ class plugin {
 
     public function launch($_function) {
         if ($_function == '') {
-            throw new Exception('La fonction à lancer ne peut etre vide');
+            throw new Exception('La fonction à lancer ne peut être vide');
         }
         if (!class_exists($this->getId()) || !method_exists($this->getId(), $_function)) {
             throw new Exception('Il n\'existe aucune méthode : ' . $this->getId() . '::' . $_function . '()');

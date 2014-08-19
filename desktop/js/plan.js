@@ -71,7 +71,7 @@ $('#bt_uploadImage').fileupload({
             $('#div_alert').showAlert({message: data.result.result, level: 'danger'});
             return;
         }
-        $('#div_alert').showAlert({message: '{{Fichier(s) ajouté(s) avec succes}}', level: 'success'});
+        $('#div_alert').showAlert({message: '{{Fichier(s) ajouté(s) avec succès}}', level: 'success'});
         window.location.reload();
     }
 });

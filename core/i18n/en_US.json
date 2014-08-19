@@ -29,13 +29,13 @@
         "Scénarios": "Scenarios",
         "valeur :": "value :",
         "Editer": "Edit",
-        "Sauvegardes": "Back-up",
+        "Sauvegardes": "Backup",
         "Restaurer": "Restore",
         "Actions": "Actions",
         "Configuration générale": "Main configuration",
         "Langue": "Language",
         "Français": "Français",
-        "Anglais": "English",
+        "Anglais": "English", 
         "Min": "Min",
         "Max": "Max",
         "Nom": "Name",
@@ -62,7 +62,7 @@
         "Désactiver": "Disable",
         "Log": "Log",
         "Dupliquer": "Spread",
-        "Scénario": "Scénario",
+        "Scénario": "Scenario",
         "Groupe": "Group",
         "Arrêter": "Stop",
         "Boucle": "Loop",
@@ -111,7 +111,7 @@
         "Droits": "Rights",
         "Clef api": "API key",
         "Générer": "Generate",
-        "Activation du cron : ajouter <em>* * * * * su --shell=\/bin\/bash - www-data -c \"\/usr\/bin\/php #PATH_TO_JEEDOM#\/jeedom\/core\/php\/jeeCron.php\" >> \/dev\/null 2>&1<\/em> à la crontab": " Enable cron : add <em>* * * * * su --shell=\/bin\/bash - www-data -c \"\/usr\/bin\/php #PATH_TO_JEEDOM#\/jeedom\/core\/php\/jeeCron.php\" >> \/dev\/null 2>&1<\/em> à to crontab",
+        "Activation du cron : ajouter <em>* * * * * su --shell=\/bin\/bash - www-data -c \"\/usr\/bin\/php #PATH_TO_JEEDOM#\/jeedom\/core\/php\/jeeCron.php\" >> \/dev\/null 2>&1<\/em> à la crontab": " Enable cron : add <em>* * * * * su --shell=\/bin\/bash - www-data -c \"\/usr\/bin\/php #PATH_TO_JEEDOM#\/jeedom\/core\/php\/jeeCron.php\" >> \/dev\/null 2>&1<\/em> to crontab",
         "Clef nodeJS": "NodeJS key",
         "Hardware key": "Hardware key",
         "Email admin": "Admin email",
@@ -153,24 +153,23 @@
         "Ajouter un utilisateur": "Add a user",
         "Enregistrer": "Save",
         "Mise à jour :": "Last update",
-        "Mettre à jour": "Update ",
+        "Mettre à jour": "Update",
         "Faire une sauvegarde avant la mise à jour": " Backup before updating",
         "Branche": "Branch",
         "Dernière version": "Last version",
-        "Informations :": "Information :",
+        "Informations :": "Information:",
         "Clef API": "Clef API",
         "Rattrapage maximum autorisé (min, -1 pour infini)": "Maximum number of putting right (min, -1 for infinite)",
-        "Dernière date enregistrée": "Dernière date enregistrée",
-        "Réinitialiser": "Réinitialiser",
-        "Afficher statistique sur les widgets": "Afficher statistique sur les widgets",
-        "Autoriser REMOTE_USER": "Autoriser REMOTE_USER",
-        "N'oubliez pas de sauvegarder la configuration avant de tester": "N'oubliez pas de sauvegarder la configuration avant de tester",
+        "Dernière date enregistrée": "Last saved date",
+        "Réinitialiser": "Reset",
+        "Afficher statistique sur les widgets": "Display widgets statistics",
+        "Autoriser REMOTE_USER": "Enable REMOTE_USER",
+        "N'oubliez pas de sauvegarder la configuration avant de tester": "Don’t forget to save configuration before tests",
         "NodeJS": "NodeJS",
-        "Installer automatiquement les widgets manquants": "Installer automatiquement les widgets manquants",
-        "Voir modules en beta (à vos risques et périls)": "Voir modules en beta (à vos risques et périls)",
+        "Installer automatiquement les widgets manquants": "Automatically install missing widgets",
+        "Voir modules en beta (à vos risques et périls)": "See beta version of modules (at your own risk)",
         "HTTP": "HTTP",
-        "Timeout de resolution DNS sur les requetes HTTP": "Timeout de resolution DNS sur les requetes HTTP",
-        "Désactiver la verification du ping": "Désactiver la verification du ping"
+        "Timeout de résolution DNS sur les requêtes HTTP": "DNS timeout for http requests",        "Désactiver la vérification du ping": "Disable ping check" 
     },
     "desktop\/php\/index.php": {
         "Toggle navigation": "Toggle navigation",
@@ -194,38 +193,38 @@
         "Ouverture d'un ticket": "New issue",
         "Moteur de tâches": "Cron",
         "Filtre sur les catégories d'équipement": "Filter on device categories",
-        "Sauvegarde": "Sauvegarde",
-        "Centre de mise à jour": "Centre de mise à jour",
+        "Sauvegarde": "Backup",
+        "Centre de mise à jour": "Update center",
         "Timeline": "Timeline",
         "Panel": "Panel",
-        "Protocole domotique": "Protocole domotique",
+        "Protocole domotique": "Automation protocole",
         "Communication": "Communication",
-        "Multimedia": "Multimedia",
-        "Organisation": "Organisation",
-        "Météo": "Météo",
-        "Bien-être": "Bien-être",
-        "Envoyer un rapport de bug": "Envoyer un rapport de bug",
-        "Générale": "Générale",
-        "Détaillée": "Détaillée",
-        "Page générée en": "Page générée en"
+        "Multimédia": "Multimedia", 
+        "Organisation": "Organization",
+        "Météo": "Weather",
+        "Bien-être": "Wellbeing",
+        "Envoyer un rapport de bug": "Send a bug report",
+        "Générale": "Main",
+        "Détaillée": "Detailed",
+        "Page générée en": "Page generation in"
     },
     "core\/php\/jeeScenario.php": {
         " avec le PID : ": " with PID : ",
         "Impossible de lancer le scénario car déjà en cours": "Enable to launch scenario because it is already launched",
         "Scenario  : ": "Scenario  : ",
         "Erreur : ": "Error : ",
-        "Impossible de lancer le scénario car désactivé : ": "Impossible de lancer le scénario car désactivé : "
+        "Impossible de lancer le scénario car désactivé : ": "Impossible to run this scenario because it’s disabled: "
     },
     "core\/class\/scenarioElement.class.php": {
         "Exécution de l'élément : ": "Running of component : ",
-        "Elément inconnu vérifié l'id : ": "Unknown component, check ID : ",
-        "Expression inconnue vérifié l'id : ": "Unkonwn expression, check ID : "
+        "Elément inconnu vérifier l'id : ": "Unknown component, check ID: ",
+        "Expression inconnue vérifier l'id : ": "Unkonwn expression, check ID: "
     },
     "core\/class\/scenarioSubElement.class.php": {
-        "Exécution du sous-élément de type : ": " Running of under-component : "
+        "Exécution du sous-élément de type : ": "Running of under-component: "
     },
     "core\/class\/scenarioExpression.class.php": {
-        "Evaluation de la condition : [": "Estimate of the condition : [",
+        "Evaluation de la condition : [": "Estimate of this condition: [",
         "Faux": "False",
         "Exécution d'un bloc élément : ": "Running of a bloc component",
         "Vrai": "True",
@@ -247,13 +246,12 @@
     "desktop\/php\/dashboard.php": {
         "Global": "Global",
         "Filtre sur les catégories d'équipement": "Filter on device categories",
-        "Autre": "Autre",
-        "Etes-vous sûr de vouloir supprimer cette événement ?": "Etes-vous sûr de vouloir supprimer cette événement ?",
-        "Historique Camera 1": "Historique Camera 1"
+        "Autre": "Other",
+        "Historique Camera 1": "History of Camera 1"
     },
     "desktop\/php\/view.php": {
         "Liste des vues": "View list",
-        "Ajouter une vue": "Ajouter une vue"
+        "Ajouter une vue": "Add a view"
     },
     "core\/class\/cmd.class.php": {
         "Message venant de": "Message from",
@@ -268,9 +266,9 @@
         " dernier lancement à ": " last launch at ",
         ". Retard de : ": ". Delay of : ",
         ". Rattrapage en cours...": ". Putting right...",
-        "Scenario lance automatiquement sur programmation": "Scenario lance automatiquement sur programmation",
-        "Scenario lance automatiquement sur evenement venant de : ": "Scenario lance automatiquement sur evenement venant de : ",
-        "Début exécution du scénario : ": "Début exécution du scénario : "
+        "Scenario lance automatiquement sur programmation": "Scenario run itself automatically on programming", 
+        "Scenario lance automatiquement sur evenement venant de : ": " Scenario run itself automatically with an event from : ", 
+        "Début exécution du scénario : ": "Start running scenario: "
     },
     "desktop\/php\/history.php": {
         "Ligne": "Line",
@@ -308,14 +306,12 @@
         "Erreur sur ": "Error with "
     },
     "desktop\/js\/administration.js": {
-        "Etes-vous sûr de vouloir mettre à jour Jeedom ? Une fois lancée cette opération ne peut etre annulée": "Are you agree to update Jeedom? When it is launched, this operation could not be cancelled.",
-        "Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut etre annulée": " Are you agree to backup Jeedom? When it is launched, this operation could not be cancelled.",
         "Etes-vous sûr de vouloir restaurer Jeedom avec": "Are you agree to restore Jeedom with",
-        "Une fois lancée cette opération ne peut etre annulée": "When it is launched, this operation could not be cancelled.",
-        "Etes-vous sûr de vouloir supprimer la  sauvegarde": "Are you agree to delete this back-up?",
-        "Sauvegarde supprimé avec succès": "Back-up succesfully removed",
+        "Une fois lancée cette opération ne peut être annulée": "When it is launched, this operation could not be cancelled.", 
+        "Etes-vous sûr de vouloir supprimer la sauvegarde": "Are you agree to delete this back-up?",
+        "Sauvegarde supprimée avec succès": "Back-up succesfully removed", 
         "Etes-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud": "Are you agree to restore Jeedom with the Cloud back-up?",
-        "Connexion échoué :": "Connection failed :",
+        "Connexion échoué :": "Connection failed :", 
         "Connexion réussie": "Connection successful",
         "Etes-vous sûr de vouloir supprimer cet utilisateur ?": "Are you agree to delete this user?",
         "Quel est le nouveau mot de passe ?": "What is the new password?",
@@ -327,35 +323,35 @@
         "Etes-vous sûr de vouloir mettre à jour Jeedom ? Une fois lancée cette opération ne peut être annulée": "Are you agree to update Jeedom? This operation could not be canceled after having been launched",
         "Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée": "Are you agree to backup Jeedom? This operation could not be canceled after having been launched",
         "Une fois lancée cette opération ne peut être annulée": "This operation could not be canceled after having been launched ",
-        "Etes-vous sûr de vouloir supprimer la sauvegarde": "Are you agree to delete this backup ?"
+        "Etes-vous sûr de vouloir supprimer la sauvegarde": "Are you agree to delete this backup?"
     },
     "desktop\/php\/interact.php": {
         "Limiter aux équipement de type": "Limit to devices of type",
         "Limiter aux commandes ayant pour unité": "Limit to commands having as unit",
-        "Ajouter interaction": "Ajouter interaction",
-        "Général": "Général",
-        "Demande": "Demande",
-        "Synonyme": "Synonyme",
-        "Remplace les mots par leur synonymes lors de la génération des commandes": "Remplace les mots par leur synonymes lors de la génération des commandes",
-        "Réponse": "Réponse",
-        "Conversion binaire": "Conversion binaire",
-        "Convertir les commandes binaire": "Convertir les commandes binaire",
-        "Phrases générées": "Phrases générées",
-        "Voir": "Voir",
-        "Nombre de phrases générées": "Nombre de phrases générées",
-        "Nombre de phrases actives": "Nombre de phrases actives",
-        "Type d'action": "Type d'action",
-        "Limiter aux commandes de type": "Limiter aux commandes de type",
-        "Limiter aux commandes ayant pour sous-type": "Limiter aux commandes ayant pour sous-type",
-        "Limiter aux commandes appartenant à l'objet": "Limiter aux commandes appartenant à l'objet",
-        "Limiter aux plugin": "Limiter aux plugin"
+        "Ajouter interaction": "Add interaction",
+        "Général": "Main",
+        "Demande": "Request",
+        "Synonyme": "Synonym",
+        "Remplace les mots par leur synonymes lors de la génération des commandes": "Replace words by their synonyms to generate commands",
+        "Réponse": "Answer",
+        "Conversion binaire": "Binary conversion",
+        "Convertir les commandes binaire": "Convert binary commands",
+        "Phrases générées": "Created sentences",
+        "Voir": "View",
+        "Nombre de phrases générées": "Number of created sentences",
+        "Nombre de phrases actives": "Number of activated sentences",
+        "Type d'action": "Action type",
+        "Limiter aux commandes de type": "Limit to commands of type",
+        "Limiter aux commandes ayant pour sous-type": "Limit to commands of under-type",
+        "Limiter aux commandes appartenant à l'objet": "Limit to commands of this object",
+        "Limiter aux plugins": "Limit to plugins" 
     },
     "desktop\/js\/interact.js": {
         "Liste des interactions": "Interactions list",
         "Limiter aux commande de type": "Limit to commands of type",
         "Limiter aux commandes ayant pour sous-type": "Limit to commands having as under-type",
         "Tous": "All",
-        "Limiter aux commandes appartenant à l objet": "Limit to commands owning by object",
+        "Limiter aux commandes appartenant à l’objet": "Limit to commands owning by object", 
         "Demande": "Application",
         "Réponse": "Answer",
         "Conversion binaire : faux|vrai": "Binary conversion : false|true",
@@ -367,9 +363,9 @@
         "Limiter aux commandes de type": "Limit to commands of type",
         "Nombre de requête(s) active(s)": "Number of enable request(s)",
         "Nombre de requête(s) totale(s)": "Total number of request(s)",
-        "Suppression effectuée avec succès": "Suppression effectuée avec succès",
-        "Etes-vous sûr de vouloir supprimer l\\'intéraction": "Etes-vous sûr de vouloir supprimer l\\'intéraction",
-        "Veuillez d\\'abord sélectionner un objet": "Veuillez d\\'abord sélectionner un objet",
+        "Suppression effectuée avec succès": "Complete deletion",
+        "Etes-vous sûr de vouloir supprimer l\\'intéraction": "Are you agree to delete this interaction?",
+        "Veuillez d\\'abord sélectionner un objet": "Please select an object",
         "Start": "Start",
         "Stop": "Stop"
     },
@@ -377,14 +373,14 @@
         "Arbre des commandes": "Commands tree",
         "Sans objet": "Without object",
         "Informations": "Information",
-        "Arbre domotique": "Arbre domotique",
-        "Configuration de l'affichage": "Configuration de l'affichage",
-        "Catégories": "Catégories",
-        "Dashboard couleur de fond": "Dashboard couleur de fond",
-        "Remettre par défaut": "Remettre par défaut",
-        "Dashboard couleur commande": "Dashboard couleur commande",
-        "Mobile couleur de fond": "Mobile couleur de fond",
-        "Mobile couleur commande": "Mobile couleur commande"
+        "Arbre domotique": "Home automation tree",
+        "Configuration de l'affichage": "Display configuration",
+        "Catégories": "Categories",
+        "Dashboard couleur de fond": "Background color on dashboard",
+        "Remettre par défaut": "Back to default parameters",
+        "Dashboard couleur commande": "Command color (desktop)",
+        "Mobile couleur de fond": "Background color (mobile)",
+        "Mobile couleur commande": "Command color (mobile)"
     },
     "desktop\/js\/display.js": {
         "ID": "ID",
@@ -402,10 +398,10 @@
         "Logical ID": "Logical ID",
         "Object ID": "Object ID",
         "Tentative échouée": "Attempt failed",
-        "Commande déclenchant une mise à jour de la valeur": "Commande déclenchant une mise à jour de la valeur",
-        "Utilisé par": "Utilisé par",
-        "Equipement": "Equipement",
-        "Commandes": "Commandes",
+        "Commande déclenchant une mise à jour de la valeur": "Command triggering value updating",
+        "Utilisé par": "Used by",
+        "Equipement": "Device",
+        "Commandes": "Commands",
         "Interaction": "Interaction"
     },
     "desktop\/php\/cron.php": {
@@ -414,13 +410,13 @@
         "Nombre total de processus en cours sur la machine": "Total number of running process on the machine",
         "Load avg": "Load avg",
         "Charge moyenne du système sur la dernière minute": "Average load of system during the last minute",
-        "Charge moyenne du système sur les 5 dernière minutes": "Average load of system during the 5 last minutes",
-        "Charge moyenne du système sur les 15 dernière minutes": "Average load of system during the last 15 minutes ",
+        "Charge moyenne du système sur les 5 dernières minutes": "Average load of system during the 5 last minutes",
+        "Charge moyenne du système sur les 15 dernières minutes": "Average load of system during the last 15 minutes ",
         "Enregistrer": "Save",
         "Rafraîchir": "Refresh",
         "Désactiver cron système": "Disable cron system",
         "PID": "PID",
-        "Démon": "Démon",
+        "Démon": "Deamon",
         "Unique": "Unique",
         "Classe": "Class",
         "Fonction": "Function",
@@ -428,16 +424,16 @@
         "Timeout (min)": "Timeout (min)",
         "Dernier lancement": "Last running",
         "Durée": "Duration",
-        "Nombre de Jeecron master, doit toujours être inférieur à 2": "Nombre de Jeecron master, doit toujours être inférieur à 2"
+        "Nombre de Jeecron master doit toujours être inférieur à 2": "Number of Jeecron master should always be less than 2" 
     },
     "desktop\/php\/object.php": {
         "Liste objects": "Objects list",
         "Général": "Main",
         "Nom de l'objet": "Object name",
         "Père": "Father",
-        "Ajouter objet": "Ajouter objet",
-        "Icône": "Icône",
-        "Choisir une icône": "Choisir une icône"
+        "Ajouter objet": "Add object",
+        "Icône": "Icon",
+        "Choisir une icône": "Select icon"
     },
     "desktop\/js\/object.js": {
         "Sauvegarde effectuée avec succès": "Save complete successfully",
@@ -469,11 +465,11 @@
         "Dupliquer le scénario": "Duplicate this scenario",
         "Enregistrer": "Save",
         "Si\/Alors\/Sinon": "If\/Then\/Else",
-        "Desactiver le système de scénario": "Desactiver le système de scénario",
-        "Désac. scénarios": "Désac. scénarios",
-        "Voir variables": "Voir variables",
-        "Nom à afficher": "Nom à afficher",
-        "Ne rien mettre pour laisser le nom par default": "Ne rien mettre pour laisser le nom par default",
+        "Désactiver le système de scénario": "Disable scenario system", 
+        "Désac. scénarios": "Disable scenarios",
+        "Voir variables": "View variables",
+        "Nom à afficher": "Name to display",
+        "Ne rien mettre pour laisser le nom par défaut": "Let empty to get the default name", 
         "Déclencheur": "Déclencheur"
     },
     "desktop\/js\/scenario.js": {
@@ -493,7 +489,7 @@
     "desktop\/php\/profils.php": {
         "Profile": "Profile",
         "Notifications": "Notifications",
-        "Notifier des évenements": "Notify events",
+        "Notifier des événements": "Notify events", 
         "Aucune": "None",
         "Noir": "Black",
         "Blanc": "White",
@@ -501,7 +497,7 @@
         "Vert": "Green",
         "Bleu": "Bleu",
         "Jaune": "Yellow",
-        "Notifier du lancement des scénarios": "Notify launching of scenario",
+        "Notifier du lancement des scénarios": "Notify scenarios launching",
         "Notifier nouveau message": "Notify new message",
         "Page d'accueil": "Homepage",
         "Dashboard": "Dashboard",
@@ -573,7 +569,7 @@
     },
     "mobile\/html\/cron.html": {
         "PID": "PID",
-        "Demon": "Demon",
+        "Demon": "Deamon",
         "Classe": "Class",
         "Fonction": "Function",
         "Dernier lancement": "Last launch",
@@ -622,8 +618,8 @@
         "Erreur market::getinfo : ": "Error market::getinfo : "
     },
     "core\/class\/evaluate.class.php": {
-        "ERREUR deux opérations à la suite": "Error two consecutive operations",
-        "Erreur ! Expression attend paramètre avant symbole !": "Error ! Expression expect parameter before symbole !"
+        "ERREUR deux opérations à la suite": "ERROR two consecutive operations",
+        "Erreur ! Expression attend paramètre avant symbole !": "Error! Expression expect parameter before symbol!"
     },
     "core\/ajax\/cmd.ajax.php": {
         "Cmd ID inconnu : ": "Unknown cmd ID : "
@@ -660,7 +656,7 @@
         "[Camera] Modèle": "[Camera] Model"
     },
     "mobile\/html\/fallback.html": {
-        "Aucune connexion réseau détecté. Veuillez vous connecter et relancer l'application": "No network connection are detected. Please connect you, and re-launch the application"
+        "Aucune connexion réseau détectée. Veuillez vous connecter et relancer l'application": "No network connection detected. Please connect you, and re-launch the application" 
     },
     "desktop\/js\/plugin.js": {
         "Voir sur le market": "View on market"
@@ -718,7 +714,6 @@
         "rand(1,10) : pour un nombre aléatoire de 1 à 10": "rand(1,10) : for a random number between 1 and 10",
         "variable(mavariable,valeur par default) : récupération de la valeur d'une variable ou de la valeur souhaitée par défaut\r\n    Ex : variable(plop,10) renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas": "variable(myvariable,default value) : Recovery of variable value or wished default value    E.g.: variable(plop,10) gives variable value plop or 10 if it’s empty or doesn’t exist",
         "En plus des commandes domotiques vous avez accès aux fonctions suivantes : ": " In addition to automation commands, you have access to the following functions: ",
-        "sleep : pause de x seconde(s)\r\nvariable : création\/modification d'une ou de la valeur d'une variable\r\nscenario : permet le controle des scénarios": "sleep : break of x second(s)\r\nvariable : creation\/modification of a variable or its value\r\nscenario : allow control of scenarios",
         "Vous pouvez aussi utiliser les tags suivants dans les options : ": "You can use the following tags in the options: ",
         "#sjour# : pour le nom du jour de la semaine en anglais (ex : sunday)": "#sjour# : for the week day name (in english) (E.g. : sunday)",
         "rand[1-10] : pour un nombre aléatoire de 1 à 10": "rand[1-10] : for random number between 1 and 10",
@@ -730,7 +725,7 @@
         "Retourne le nom du scénario courant": "Send back the name of  the current scenario",
         "Retourne le groupe du scénario": "Send back the group of the scenario",
         "Retourne l'état du scénario": "Send back the state of the scenario",
-        "Permet d'activer ou non du scénario\r\n    $active => 1 actif , 0 non actif": "Allow to activate (or not) a scenario\r\n    $active => 1 enabled , 0 disabled",
+        "Permet d'activer ou non le scénario\r\n    $active => 1 actif , 0 non actif": "Allow to activate (or not) a scenario\r\n    $active => 1 enabled , 0 disabled",
         "Permet de dire si le scénario est en cours ou non\r\n    $onGoing => 1 en cours , 0 arrêté": "Allow to tell if the scenario is running or not\r\n    $onGoing => 1 running , 0 stopped",
         "Sauvegarde les modifications": "Save changes",
         "Sauvegarde une donnée\r\n    $key => clef de la valeur (int ou string)\r\n    $value => valeur à stocker (int, string, array ou object)": "Save a data\r\n    $key => key of the value (int or string)\r\n    $value => value to keep (int, string, array or object)",
@@ -738,13 +733,13 @@
         "Supprime une donnée": "Delete a data"
     },
     "desktop\/modal\/help.website.php": {
-        "Aucune aide n'éxiste pour le moment sur cette page": "At this moment no help exist on this page"
+        "Aucune aide n'existe pour le moment sur cette page": "At this moment no help exist on this page"
     },
     "desktop\/modal\/help.interact.php": {
         "Principe": "Principle",
-        "Le principe est le suivant : une phrase de commande déclenche une unique commande. Pour simplifier la création des phrases il est possible d'utiliser des mots clef afin que jeedom génère automatiquement un liste de phrases.": "The prinicple is the following: a command sentence triggers a unique command. To make easier the sentence creation you can use key words so that Jeedom automatically generate a list of sentences.",
+        "Le principe est le suivant : une phrase de commande déclenche une unique commande. Pour simplifier la création des phrases il est possible d'utiliser des mots clef afin que jeedom génère automatiquement une liste de phrases.": "The prinicple is the following: a command sentence triggers a unique command. To make easier the sentence creation you can use key words so that Jeedom automatically generate a list of sentences.",
         "Demande": "Application",
-        " Vous pouvez utiliser #commande# et #objet# (les 2 doivent absolument être utilisés ensemble) pour générer une liste de commande (il est possible de filtrer la génération pour réduire la liste). Il est aussi possible d'utiliser #equipement# (utile si plusieurs commandes appartenant au même objet ont le même nom)": "You can use #commande# and #objet# (both must be used together) to create a list of commands (you can filter the generation to reduce the list). You can also use #equipement# (useful if many commands belonging to the same object have the same name)",
+        " Vous pouvez utiliser #commande# et #objet# (les 2 doivent absolument être utilisés ensemble) pour générer une liste de commandes (il est possible de filtrer la génération pour réduire la liste). Il est aussi possible d'utiliser #equipement# (utile si plusieurs commandes appartenant au même objet ont le même nom)": "You can use #commande# and #objet# (both must be used together) to create a list of commands (you can filter the generation to reduce the list). You can also use #equipement# (useful if many commands belonging to the same object have the same name)",
         "Exemple :": "Example:",
         "Quelle est la #commande# [du |de la |de l']#objet#": "What is the #commande# [of this]#objet#",
         "Lors de la génération des commandes vous pouvez utiliser le champ synonyme (syn1=syn2,syn3|syn4=syn5) pour remplacer le nom des objets, des équipements et\/ou des commandes ": "During the generation of commands you can use the synonym field (syn1=syn2,syn3|syn4=syn5) to replace names of objects, devices and\/or commands",
@@ -752,14 +747,14 @@
         "Réponse": "Reply",
         " Vous pouvez utiliser #valeur# et #unite# dans le retour (ils seront remplacés par la valeur et l'unité de la commande). Toutes les valeurs passées dans demande (#mavaleur#) sont accessibles. Vous avez aussi #heure#, #date#, #jour# et #datetime#.": "You can use #valeur# and #unite# for the return (they will be replaced by the value and the unit of the command). All value passed through request (#mavaleur #) are reachable. You have also #heure#, #date#, #jour# et #datetime#.",
         "#valeur# #unite#": "#valeur# #unite#",
-        "Vous pouvez utiliser le champ conversion binaire pour convertir les valeurs binaire (0 et 1) : ": "You can use the fiel « binary conversion » to convert binary values (0 and 1): ",
+        "Vous pouvez utiliser le champ conversion binaire pour convertir les valeurs binaires (0 et 1) : ": "You can use the fiel « binary conversion » to convert binary values (0 and 1): ",
         "non|oui": "no|yes",
         " Le champ personne permet de n'autoriser que certaines personnes à exécuter la commande, vous pouvez mettre plusieurs profils en les séparant par |.": "The person field allow to authorize just some people to run a command, but several profiles can be added by separate them with |.",
         "personne1|personne2": "person1|person2"
     },
     "desktop\/modal\/help.cronSyntaxe.php": {
         "Générateur": "Generator ",
-        "Exemples \/ Programmation prédefinie": "Examples \/ Preset programmation",
+        "Exemples \/ Programmation prédéfinie": "Examples \/ Preset programmation",
         "Entrée": "Input",
         "Tous les jours 00:01": "Every day 00:01",
         "toutes les 2 heures (à minuit, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22)": "Every 2 hours (at midnight, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22)",
@@ -794,7 +789,7 @@
         "Slash ( \/ )": "Slash ( \/ )",
         "Pourcent (&nbsp;% )": "Pourcent (&nbsp;% )",
         "Virgule ( , )": "Comma ( , )",
-        "Les virgules sont utilisées pour séparer les éléments d'une liste. Par exemple, en utilisant \"MON,WED,FRI\" dans le 5ème champ (jour de la semaine) signifie les lundis, mercredis et vendredis.": "Comma are used to separate element in a list. E.g.: By using \"MON,WED,FRI\" in the 5th field (day of the week) means Monday, Wednesday and Friday.",
+        "Les virgules sont utilisées pour séparer les éléments d'une liste. Par exemple, en utilisant \"MON,WED,FRI\" dans le 5ème champ (jour de la semaine) signifie les lundis, mercredis et vendredis.": "Comma are used to separate element in a list. E.g.: By using \"MON,WED,FRI\" in the 5th field (day of the week) means each Monday, Wednesday and Friday.",
         "Trait d'union ( - )": "Hyphen ( - )",
         "Tirets définissent les plages. Par exemple, 2000-2010 indique chaque année entre 2000 et 2010 inclus.": "Hyphens define a range. E.g.: 2000-2010 means that every year between 2000 and 2010 are included.",
         "'L' signifie \"dernier\". Lorsqu'il est utilisé dans le domaine du jour de la semaine, il vous permet de spécifier des constructions telles que \"le dernier vendredi\" (\"5L1\") d'un mois donné. Dans le domaine de jour de mois, il spécifie le dernier jour du mois.": "'L' means \"last one\". When it is used for week day, it allows to specify some construction like \"the last friday\" (\"5L1\") of a fixed month. For day of a month, it specifies the last day of a month.",
@@ -808,7 +803,7 @@
         "Titre": "Title",
         "Générale": "Main",
         "Envoyer": "Send",
-        "Votre ticket à bien été ouvert. Vous pouvez le suivre ": "Your ticket is now open. You can followed it ",
+        "Votre ticket a bien été ouvert. Vous pouvez le suivre ": "Your ticket is now open. You can followed it ",
         "ici": "Here"
     },
     "desktop\/modal\/about.php": {
@@ -817,85 +812,85 @@
         "Remerciements": "Acknowledgement"
     },
     "core\/template\/scenario\/icon.default": {
-        "Rechercher icone": "Rechercher icone"
+        "Rechercher icône": "Look for icon"
     },
     "desktop\/php\/user.php": {
-        "Liste des utilisateurs :": "Liste des utilisateurs :",
-        "Ajouter un utilisateur": "Ajouter un utilisateur",
-        "Droits": "Droits"
+        "Liste des utilisateurs :": "Users list:",
+        "Ajouter un utilisateur": "Add user",
+        "Droits": "Rights"
     },
     "desktop\/js\/user.js": {
-        "Etes-vous sûr de vouloir supprimer cet utilisateur ?": "Etes-vous sûr de vouloir supprimer cet utilisateur ?",
-        "L\\'utilisateur a bien été supprimé": "L\\'utilisateur a bien été supprimé",
-        "Quel est le nouveau mot de passe ?": "Quel est le nouveau mot de passe ?",
-        "Changer le mot de passe": "Changer le mot de passe"
+        "Etes-vous sûr de vouloir supprimer cet utilisateur ?": "Do you really wish to remove this user?",
+        "L\\'utilisateur a bien été supprimé": "This user has been deleted",
+        "Quel est le nouveau mot de passe ?": "What is the new password?",
+        "Changer le mot de passe": "Change password"
     },
     "desktop\/php\/backup.php": {
-        "Fréquence des sauvegardes": "Fréquence des sauvegardes",
-        "Emplacement des sauvegardes": "Emplacement des sauvegardes",
-        "Nombre de jour(s) de mémorisation des sauvegardes": "Nombre de jour(s) de mémorisation des sauvegardes",
-        "Envoyer les sauvegardes dans le cloud": "Envoyer les sauvegardes dans le cloud",
-        "Sauvegardes locales": "Sauvegardes locales",
-        "Sauvegardes disponibles": "Sauvegardes disponibles",
-        "Restaurer la sauvegarde": "Restaurer la sauvegarde",
-        "Supprimer la sauvegarde": "Supprimer la sauvegarde",
-        "Envoyer une sauvegarde": "Envoyer une sauvegarde",
-        "Télécharger la sauvegarde": "Télécharger la sauvegarde",
-        "Télécharger": "Télécharger",
-        "Sauvegardes cloud": "Sauvegardes cloud",
-        "Informations sauvegardes": "Informations sauvegardes",
-        "Informations restaurations": "Informations restaurations"
+        "Fréquence des sauvegardes": "Backup frequency",
+        "Emplacement des sauvegardes": "Backup folder",
+        "Nombre de jour(s) de mémorisation des sauvegardes": "Number of day(s) for backups memorization",
+        "Envoyer les sauvegardes dans le cloud": "Send backups to the cloud",
+        "Sauvegardes locales": "Local backups",
+        "Sauvegardes disponibles": "Available backups",
+        "Restaurer la sauvegarde": "Restore backup",
+        "Supprimer la sauvegarde": "Delete backup",
+        "Envoyer une sauvegarde": "Send backup",
+        "Télécharger la sauvegarde": "Download backup",
+        "Télécharger": "Download",
+        "Sauvegardes cloud": "Cloud’s backup",
+        "Informations sauvegardes": "Backups information",
+        "Informations restaurations": "Restorations information"
     },
     "desktop\/js\/backup.js": {
-        "Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée": "Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée",
-        "Etes-vous sûr de vouloir restaurer Jeedom avec": "Etes-vous sûr de vouloir restaurer Jeedom avec",
-        "Une fois lancée cette opération ne peut être annulée": "Une fois lancée cette opération ne peut être annulée",
-        "Etes-vous sûr de vouloir supprimer la sauvegarde": "Etes-vous sûr de vouloir supprimer la sauvegarde",
-        "Sauvegarde supprimé avec succès": "Sauvegarde supprimé avec succès",
-        "Fichier(s) ajouté(s) avec succes": "Fichier(s) ajouté(s) avec succes",
-        "Etes-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud": "Etes-vous sûr de vouloir restaurer Jeedom avec la sauvergarde Cloud",
-        "L\\'opération est réussie": "L\\'opération est réussie",
-        "L\\'opération a échoué": "L\\'opération a échoué"
+        "Etes-vous sûr de vouloir faire une sauvegarde de Jeedom ? Une fois lancée cette opération ne peut être annulée": "Do you want to backup Jeedom? This operation can’t be cancelled.",
+        "Etes-vous sûr de vouloir restaurer Jeedom avec": "Do you want to restore Jeedom with",
+        "Une fois lancée cette opération ne peut être annulée": "This operation can’t be cancelled",
+        "Etes-vous sûr de vouloir supprimer la sauvegarde": "Do you really want to remove this backup",
+        "Sauvegarde supprimée avec succès": "Successful backup deleting",
+        "Fichier(s) ajouté(s) avec succès": "Successful file(s) adding",
+        "Etes-vous sûr de vouloir restaurer Jeedom avec la sauvegarde Cloud ?": "Do you really want to restore Jeedom with Cloud’s backup?",
+        "L\\'opération est réussie": "Operation is successful",
+        "L\\'opération a échoué": "Operation failed"
     },
     "desktop\/php\/update.php": {
-        "Mettre à jour": "Mettre à jour",
-        "Tout forcé": "Tout forcé",
-        "Plugins seulement": "Plugins seulement",
-        "Plugins seulement forcés": "Plugins seulement forcés",
-        "Jeedom seulement": "Jeedom seulement",
-        "Jeedom seulement forcé": "Jeedom seulement forcé",
-        "Version actuel": "Version actuel",
-        "Version disponible": "Version disponible",
-        "Status": "Status",
-        "Informations :": "Informations :"
+        "Mettre à jour": "Update",
+        "Tout forcer": "Force everything",
+        "Plugins seulement": "Only plugins",
+        "Plugins seulement forcés": "Only forced plugins",
+        "Jeedom seulement": "Only Jeedom",
+        "Jeedom seulement forcé": "Only forced Jeedom",
+        "Version actuelle": "Current version",
+        "Version disponible": "Available version",
+        "Statut": "Status",
+        "Informations :": "Information:"
     },
     "desktop\/php\/timeline.php": {
         "Date": "Date",
-        "Evenement": "Evenement",
-        "Valeur": "Valeur"
+        "Evénement": "Event",
+        "Valeur": "Value"
     },
     "desktop\/php\/security.php": {
         "IP": "IP",
-        "Utilisateur": "Utilisateur",
-        "Localisation": "Localisation",
-        "Echec de connexion": "Echec de connexion",
+        "Utilisateur": "User",
+        "Localisation": "Localization",
+        "Echec de connexion": "Connection failed",
         "Date": "Date",
-        "Informations": "Informations",
-        "Activer la sécurité anti-piratage": "Activer la sécurité anti-piratage",
-        "Nombre de tentative de connexion max": "Nombre de tentative de connexion max",
-        "en (min) ": "en (min) ",
-        "Durée du bannissement (min)": "Durée du bannissement (min)",
-        "Liste blanche d'IP": "Liste blanche d'IP"
+        "Informations": "Information",
+        "Activer la sécurité anti-piratage": "Enable anti-hacking security",
+        "Nombre de tentatives de connexion max": "Maximal number of connection try",
+        "en (min) ": "in (min) ",
+        "Durée du bannissement (min)": "Banishment duration (min)",
+        "Liste blanche d'IP": "White list (IP)"
     },
     "desktop\/js\/security.js": {
-        "Suppression effectuée avec succès": "Suppression effectuée avec succès",
-        "Etês-vous sur de vouloir supprimer cette connection ? Si l\\'IP :": "Etês-vous sur de vouloir supprimer cette connection ? Si l\\'IP :",
-        "était banni celle-ci ne le sera plus": "était banni celle-ci ne le sera plus",
-        "Etês-vous sur de vouloir bannir cette IP  :": "Etês-vous sur de vouloir bannir cette IP  :"
+        "Suppression effectuée avec succès": "Successful deletion",
+        "Etes-vous sûr de vouloir supprimer cette connexion ? Si l\\'IP :": "Do you really want to remove this connection? If IP:",
+        "était bannie celle-ci ne le sera plus": "was banish, it isn’t anymore",
+        "Etes-vous sûr de vouloir bannir cette IP :": "Do you really want to banish this IP:"
     },
     "desktop\/php\/log.php": {
-        "Supprimer tous les logs": "Supprimer tous les logs",
-        "Télécharger": "Télécharger",
-        "Etes-vous sur de vouloir supprimer tous les logs ?": "Etes-vous sur de vouloir supprimer tous les logs ?"
+        "Supprimer tous les logs": "Remove all logs",
+        "Télécharger": "Download",
+        "Etes-vous sûr de vouloir supprimer tous les logs ?": "Do you really want to remove all logs?"
     }
 }

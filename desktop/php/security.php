@@ -75,7 +75,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Nombre de tentative de connexion max}}</label>
+                    <label class="col-lg-2 control-label">{{Nombre de tentatives de connexion max}}</label>
                     <div class="col-lg-1">
                         <input type="text" class="configKey form-control" data-l1key="security::retry" />
                     </div>

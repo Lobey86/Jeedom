@@ -74,7 +74,7 @@ $("#bt_testLdapConnection").on('click', function(event) {
         },
         success: function(data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: '{{Connexion échoué :}} ' + data.result, level: 'danger'});
+                $('#div_alert').showAlert({message: '{{Connexion échouée :}} ' + data.result, level: 'danger'});
                 return;
             }
             $('#div_alert').showAlert({message: '{{Connexion réussie}}', level: 'success'});

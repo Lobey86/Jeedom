@@ -217,10 +217,10 @@ class update {
 
     public function preSave() {
         if ($this->getLogicalId() == '') {
-            throw new Exception(__('Le logical ID ne peut etre vide', __FILE__));
+            throw new Exception(__('Le logical ID ne peut être vide', __FILE__));
         }
         if ($this->getLocalVersion() == '') {
-            throw new Exception(__('La version locale ne peut etre vide', __FILE__));
+            throw new Exception(__('La version locale ne peut être vide', __FILE__));
         }
         if ($this->getName() == '') {
             $this->setName($this->getLogicalId());

@@ -6,12 +6,12 @@ if (!isConnect()) {
 
 <div class="alert alert-danger">
     <legend>{{Principe}}</legend>
-    {{Le principe est le suivant : une phrase de commande déclenche une unique commande. Pour simplifier la création des phrases il est possible d'utiliser des mots clef afin que jeedom génère automatiquement un liste de phrases.}}
+    {{Le principe est le suivant : une phrase de commande déclenche une unique commande. Pour simplifier la création des phrases il est possible d'utiliser des mots clef afin que jeedom génère automatiquement une liste de phrases.}}
 </div>
 
 <div class="alert alert-success">
     <legend>{{Demande}}</legend>
-    {{Vous pouvez utiliser #commande# et #objet# (les 2 doivent absolument être utilisés ensemble) pour générer une liste de commande (il est possible de filtrer la génération pour réduire la liste). Il est aussi possible d'utiliser #equipement# (utile si plusieurs commandes appartenant au même objet ont le même nom)}}
+    {{Vous pouvez utiliser #commande# et #objet# (les 2 doivent absolument être utilisés ensemble) pour générer une liste de commandes (il est possible de filtrer la génération pour réduire la liste). Il est aussi possible d'utiliser #equipement# (utile si plusieurs commandes appartenant au même objet ont le même nom)}}
     <br/>{{Exemple :}} <em>{{Quelle est la #commande# [du |de la |de l']#objet#}}</em>
 
     <br/><br/>
@@ -26,7 +26,7 @@ if (!isConnect()) {
     <br/>{{Exemple :}} <em>{{#valeur# #unite#}}</em>
 
     <br/><br/>
-    {{Vous pouvez utiliser le champ conversion binaire pour convertir les valeurs binaire (0 et 1) : }}
+    {{Vous pouvez utiliser le champ conversion binaire pour convertir les valeurs binaires (0 et 1) : }}
     <br/>{{Exemple :}} <em>{{non|oui}}</em>
 </div>
 

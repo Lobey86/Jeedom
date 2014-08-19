@@ -105,7 +105,7 @@ class listener {
 
     public function preSave() {
         if ($this->getFunction() == '') {
-            throw new Exception(__('La fonction ne peut etre vide', __FILE__));
+            throw new Exception(__('La fonction ne peut être vide', __FILE__));
         }
     }
 

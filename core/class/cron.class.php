@@ -161,10 +161,10 @@ class cron {
      */
     public function preSave() {
         if ($this->getFunction() == '') {
-            throw new Exception(__('La fonction ne peut etre vide', __FILE__));
+            throw new Exception(__('La fonction ne peut être vide', __FILE__));
         }
         if ($this->getSchedule() == '') {
-            throw new Exception(__('La programmation ne peut etre vide : ', __FILE__) . print_r($this, true));
+            throw new Exception(__('La programmation ne peut être vide : ', __FILE__) . print_r($this, true));
         }
     }
 

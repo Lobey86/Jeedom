@@ -40,7 +40,7 @@ try {
 
     $plugin_id = init('plugin_id');
     if ($plugin_id == '') {
-        throw new Exception(__('Le plugin ID ne peut etre vide', __FILE__));
+        throw new Exception(__('Le plugin ID ne peut être vide', __FILE__));
     }
     $plugin = plugin::byId($plugin_id);
     if (!is_object($plugin)) {
@@ -48,7 +48,7 @@ try {
     }
     $function = init('function');
     if ($function == '') {
-        throw new Exception(__('La fonction ne peut etre vide', __FILE__));
+        throw new Exception(__('La fonction ne peut être vide', __FILE__));
     }
 
     if (!class_exists($plugin_id) || !method_exists($plugin_id, $function)) {

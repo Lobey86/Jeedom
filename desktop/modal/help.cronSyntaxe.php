@@ -37,7 +37,7 @@ include_file('3rdparty', 'jquery.cron/jquery.cron', 'css');
         <div class="panel-heading">
             <h4 class="panel-title">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                    {{Exemples / Programmation prédefinie}}
+                    {{Exemples / Programmation prédéfinie}}
                 </a>
             </h4>
         </div>
