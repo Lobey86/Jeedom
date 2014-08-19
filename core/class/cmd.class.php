@@ -749,7 +749,7 @@ class cmd {
     }
 
     public function event($_value, $_loop = 0) {
-        if ($_loop > 5) {
+        if ($_loop > 3) {
             return;
         }
         $_loop++;
