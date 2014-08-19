@@ -468,6 +468,13 @@ class cmd {
         if ($this->getType() == 'info') {
             switch ($this->getSubType()) {
                 case 'binary':
+                    $value = strtolower($_value);
+                    if ($value == 'on' || $value == 'hight') {
+                        return 1;
+                    }
+                    if ($value == 'off' || $value == 'low') {
+                        return 0;
+                    }
                     if ((is_numeric(intval($_value)) && intval($_value) > 1) || $_value || $_value == 1) {
                         return 1;
                     }
@@ -741,12 +748,12 @@ class cmd {
         }
     }
 
-    public function event($_value,$_loop = 0) {
-        if($_loop > 5){
+    public function event($_value, $_loop = 0) {
+        if ($_loop > 5) {
             return;
         }
         $_loop++;
-        
+
         if ($this->getType() != 'info') {
             return;
         }
@@ -771,7 +778,7 @@ class cmd {
                         nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
                     } else {
                         if ($cmd->getEventOnly() == 0) {
-                            $cmd->event($cmd->execute(),$_loop);
+                            $cmd->event($cmd->execute(), $_loop);
                         }
                     }
                 }
