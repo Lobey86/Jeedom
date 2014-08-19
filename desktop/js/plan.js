@@ -93,6 +93,10 @@ $('#bt_addScenario').on('click', function() {
     });
 });
 
+$('#bt_addLink').on('click', function() {
+    $('#md_selectLink').modal('show');
+});
+
 displayPlan();
 
 $(window).resize(function() {
@@ -316,3 +320,9 @@ function addScenario(_id, _plan) {
         }
     })
 }
+
+/**********************************LINK************************************/
+$('#md_selectLink .linkType').on('change', function() {
+    $('#md_selectLink .linkOption').hide();
+    $('#md_selectLink .link' + $(this).value()).show();
+});
