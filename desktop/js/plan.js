@@ -147,18 +147,16 @@ $('#bt_editPlan').on('click', function() {
     }
 });
 
-
-
 function initDraggable(_state) {
     var offset = {};
     $('.eqLogic-widget').draggable({
         start: function(evt, ui) {
-            offset.top = ui.offset.top;
-            offset.left = ui.offset.left;
+            offset.top = Math.round(ui.position.top / $(this).css('zoom')) - ui.position.top;
+            offset.left = Math.round(ui.position.left / $(this).css('zoom')) - ui.position.left;
         },
         drag: function(evt, ui) {
-            ui.position.top = Math.round(ui.position.top / $(this).css('zoom')) - Math.round(offset.top * $(this).css('zoom'));
-            ui.position.left = Math.round(ui.position.left / $(this).css('zoom')) - Math.round(offset.left * $(this).css('zoom'));
+            ui.position.top = Math.round(ui.position.top / $(this).css('zoom')) - offset.top;
+            ui.position.left = Math.round(ui.position.left / $(this).css('zoom')) - offset.left;
         },
         stop: function(event, ui) {
             savePlan();
