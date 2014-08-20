@@ -81,7 +81,7 @@ class view {
                         $cmd = $viewData->getLinkObject();
                         if (is_object($cmd)) {
                             $viewData_info['type'] = 'cmd';
-                            $viewData_info['name'] = $cmd->getHumanName();
+                            //$viewData_info['name'] = $cmd->getHumanName();
                             $viewData_info['id'] = $cmd->getId();
                             $viewData_info['html'] = $cmd->toHtml(init('version', 'dashboard'));
                         }
@@ -90,7 +90,7 @@ class view {
                         $eqLogic = $viewData->getLinkObject();
                         if (is_object($eqLogic)) {
                             $viewData_info['type'] = 'eqLogic';
-                            $viewData_info['name'] = $eqLogic->getHumanName();
+                            //$viewData_info['name'] = $eqLogic->getHumanName();
                             $viewData_info['id'] = $eqLogic->getId();
                             $viewData_info['html'] = $eqLogic->toHtml(init('version', 'dashboard'));
                         }
@@ -99,7 +99,7 @@ class view {
                         $scenario = $viewData->getLinkObject();
                         if (is_object($scenario)) {
                             $viewData_info['type'] = 'scenario';
-                            $viewData_info['name'] = $scenario->getHumanName();
+                            //$viewData_info['name'] = $scenario->getHumanName();
                             $viewData_info['id'] = $scenario->getId();
                             $viewData_info['html'] = $scenario->toHtml(init('version', 'dashboard'));
                         }
