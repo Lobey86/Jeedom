@@ -42,7 +42,11 @@ class update {
         self::findNewUpdateObject();
         foreach (self::all() as $update) {
             if ($update->getType() == 'core') {
-                $update = new update();
+                if ($findCore) {
+                    $update->remove();
+                    continue;
+                }
+                $findCore = true;
                 $update->setType('core');
                 $update->setLogicalId('jeedom');
                 $update->setLocalVersion(getVersion('jeedom'));
