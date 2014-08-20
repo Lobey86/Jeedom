@@ -110,14 +110,6 @@ class scenarioExpression {
         return rand($_min, $_max);
     }
 
-    public static function variable($_name, $_default = '') {
-        $dataStore = dataStore::byTypeLinkIdKey('scenario', -1, trim($_name));
-        if (is_object($dataStore)) {
-            return $dataStore->getValue($_default);
-        }
-        return $_default;
-    }
-
     public static function scenario($_scenario) {
         $scenario = scenario::byId(str_replace(array('scenario', '#'), '', trim($_scenario)));
         $state = $scenario->getState();
@@ -198,6 +190,14 @@ class scenarioExpression {
         }
         return 0;
     }
+    
+    public static function variable($_name, $_default = '') {
+        $dataStore = dataStore::byTypeLinkIdKey('scenario', -1, trim($_name));
+        if (is_object($dataStore)) {
+            return $dataStore->getValue($_default);
+        }
+        return $_default;
+    }
 
     public static function setTags($_expression) {
         $replace = array(
@@ -221,9 +221,11 @@ class scenarioExpression {
             $arguments = explode(',', $match[2]);
             if (method_exists(__CLASS__, $function)) {
                 $result = call_user_func_array(__CLASS__ . "::" . $function, $arguments);
+                
                 $replace[$match[0]] = $result;
             }
         }
+        
         $_expression = str_replace(array_keys($replace), array_values($replace), $_expression);
         return cmd::cmdToValue($_expression);
     }
