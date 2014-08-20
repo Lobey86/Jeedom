@@ -64,8 +64,8 @@ class scenarioSubElement {
     /*     * *********************Methode d'instance************************* */
 
     public function execute(&$_scenario) {
-        $this->setLog(__('Exécution du sous-élément de type : ', __FILE__) . $this->getType());
         if ($this->getSubtype() == 'action') {
+            $this->setLog(__('Exécution du sous-élément de type [action] : ', __FILE__) . $this->getType());
             $return = true;
             foreach ($this->getExpression() as $expression) {
                 $return = $expression->execute($_scenario);
@@ -73,6 +73,7 @@ class scenarioSubElement {
             return $return;
         }
         if ($this->getSubtype() == 'condition') {
+            $this->setLog(__('Exécution du sous-élément de type [condition] : ', __FILE__) . $this->getType());
             foreach ($this->getExpression() as $expression) {
                 return $expression->execute($_scenario);
             }
