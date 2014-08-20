@@ -41,22 +41,20 @@ class update {
         );
         self::findNewUpdateObject();
         foreach (self::all() as $update) {
-            if ($update->getType() != 'core' && $update->getStatus() != 'hold' && ($_filter == '' || $_filter == $update->getType() )) {
-                $marketObject['logical_id'][] = $update->getLogicalId();
-                $marketObject['version'][] = $update->getConfiguration('version', 'stable');
-                $marketObject[$update->getLogicalId()] = $update;
-            }
             if ($update->getType() == 'core') {
-                $findCore = true;
+                $update = new update();
+                $update->setType('core');
+                $update->setLogicalId('jeedom');
+                $update->setLocalVersion(getVersion('jeedom'));
+                $update->save();
+                $update->checkUpdate();
+            } else {
+                if ($update->getStatus() != 'hold' && ($_filter == '' || $_filter == $update->getType() )) {
+                    $marketObject['logical_id'][] = $update->getLogicalId();
+                    $marketObject['version'][] = $update->getConfiguration('version', 'stable');
+                    $marketObject[$update->getLogicalId()] = $update;
+                }
             }
-        }
-        if (!$findCore) {
-            $update = new update();
-            $update->setType('core');
-            $update->setLogicalId('jeedom');
-            $update->setLocalVersion(getVersion('jeedom'));
-            $update->save();
-            $update->checkUpdate();
         }
         $markets_infos = market::getInfo($marketObject['logical_id'], $marketObject['version']);
         foreach ($markets_infos as $logicalId => $market_info) {
