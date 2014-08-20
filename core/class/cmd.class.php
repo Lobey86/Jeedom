@@ -774,15 +774,13 @@ class cmd {
                 $this->addHistoryValue($_value, $this->getCollectDate());
             }
 
-            nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
+            nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $eqLogic->getObject_id()));
             foreach (self::byValue($this->getId()) as $cmd) {
-                if ($cmd->getId() != $this->getId()) {
+                if ($cmd->getId() != $this->getId() && $cmd->getEventOnly() == 0) {
                     if ($cmd->getType() == 'action') {
                         nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
                     } else {
-                        if ($cmd->getEventOnly() == 0) {
-                            $cmd->event($cmd->execute(), $_loop);
-                        }
+                        $cmd->event($cmd->execute(), $_loop);
                     }
                 }
             }
