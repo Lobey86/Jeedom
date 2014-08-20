@@ -165,6 +165,14 @@ function initDraggable(_state) {
         }
     });
     $('.scenario-widget').draggable({
+        start: function(evt, ui) {
+            offset.top = ui.offset.top;
+            offset.left = ui.offset.left;
+        },
+        drag: function(evt, ui) {
+            ui.position.top = Math.round(ui.position.top / $(this).css('zoom')) - Math.round(offset.top * $(this).css('zoom'));
+            ui.position.left = Math.round(ui.position.left / $(this).css('zoom')) - Math.round(offset.left * $(this).css('zoom'));
+        },
         stop: function(event, ui) {
             savePlan();
         }
@@ -180,15 +188,18 @@ function initDraggable(_state) {
         }
     });
     $('#div_displayObject a').each(function() {
-        $(this).attr('data-href', $(this).attr('href'));
-        $(this).attr('href', '#')
+        if ($(this).attr('href') != '#') {
+            $(this).attr('data-href', $(this).attr('href'));
+            $(this).attr('href', '#');
+        }
     });
     if (_state != 1 && _state != '1') {
         $('.eqLogic-widget').draggable("destroy");
         $('.scenario-widget').draggable("destroy");
+        $('.view-link-widget').draggable("destroy");
+        $('.plan-link-widget').draggable("destroy");
         $('#div_displayObject a').each(function() {
             $(this).attr('href', $(this).attr('data-href'));
-            $(this).attr('data-href', '#')
         });
     }
 }
@@ -227,7 +238,6 @@ function displayPlan() {
             },
             success: function(data) {
                 for (var i in data) {
-                    console.log(data[i].plan.link_type);
                     displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
                 }
             },
