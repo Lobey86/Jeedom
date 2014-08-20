@@ -60,6 +60,14 @@ class update {
                 }
             }
         }
+        if (!$findCore) {
+            $update = new update();
+            $update->setType('core');
+            $update->setLogicalId('jeedom');
+            $update->setLocalVersion(getVersion('jeedom'));
+            $update->save();
+            $update->checkUpdate();
+        }
         $markets_infos = market::getInfo($marketObject['logical_id'], $marketObject['version']);
         foreach ($markets_infos as $logicalId => $market_info) {
             $update = $marketObject[$logicalId];
