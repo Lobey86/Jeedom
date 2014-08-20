@@ -136,14 +136,15 @@ $('#bt_editPlan').on('click', function() {
         initDraggable(1);
         $('.editMode').show();
         $(this).html('<i class="fa fa-pencil"></i> {{Quitter le mode édition}}');
+
         $(this).attr('data-mode', '1');
     } else {
         initDraggable(0);
         $('.editMode').hide();
         $(this).html('<i class="fa fa-pencil"></i> {{Mode édition}}');
+
         $(this).attr('data-mode', '0');
     }
-
 });
 
 
@@ -178,9 +179,17 @@ function initDraggable(_state) {
             savePlan();
         }
     });
+    $('#div_displayObject a').each(function() {
+        $(this).attr('data-href', $(this).attr('href'));
+        $(this).attr('href', '#')
+    });
     if (_state != 1 && _state != '1') {
         $('.eqLogic-widget').draggable("destroy");
         $('.scenario-widget').draggable("destroy");
+        $('#div_displayObject a').each(function() {
+            $(this).attr('href', $(this).attr('data-href'));
+            $(this).attr('data-href', '#')
+        });
     }
 }
 
