@@ -126,6 +126,7 @@ sendVarToJS('id', $plan->getId());
             success: function() {
                 $('#div_alertPlanConfigure').showAlert({message: 'Plan sauvegardé', level: 'success'});
                 load(id);
+                $('#fd_planConfigure').closest("div.ui-dialog-content").dialog("close");
             },
         });
     }
@@ -160,6 +161,7 @@ sendVarToJS('id', $plan->getId());
                 if ($(".planAttr[data-l1key=link_type]").value() == 'view') {
                     $('.view-plan-widget[data-link_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
                 }
+                $('#fd_planConfigure').closest("div.ui-dialog-content").dialog("close");
             }
         });
     }
