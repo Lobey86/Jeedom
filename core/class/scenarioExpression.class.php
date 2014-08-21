@@ -228,9 +228,7 @@ class scenarioExpression {
                 $replace[$match[0]] = $result;
             }
         }
-
-        $_expression = str_replace(array_keys($replace), array_values($replace), $_expression);
-        return cmd::cmdToValue($_expression);
+        return cmd::cmdToValue(str_replace(array_keys($replace), array_values($replace), $_expression));
     }
 
     /*     * *********************Methode d'instance************************* */
