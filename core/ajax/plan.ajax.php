@@ -124,6 +124,14 @@ try {
         ajax::success();
     }
 
+    if (init('action') == 'getPlanHeader') {
+        $planHeader = planHeader::byId(init('id'));
+        if (!is_object($planHeader)) {
+            throw new Exception(__('Objet inconnu verifié l\'id', __FILE__));
+        }
+        ajax::success(utils::o2a($planHeader));
+    }
+
     if (init('action') == 'savePlanHeader') {
         $planHeader_ajax = json_decode(init('planHeader'), true);
         $planHeader = planHeader::byId($planHeader_ajax['id']);
