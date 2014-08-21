@@ -159,6 +159,7 @@ $('#bt_editPlan').on('click', function() {
 });
 
 function makeGrid(_x, _y) {
+    return;
     if (_x === false) {
         $('#div_displayObject').css({
             'background-size': _x + 'px ' + _y + 'px',
