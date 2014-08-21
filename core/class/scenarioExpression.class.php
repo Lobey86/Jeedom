@@ -112,6 +112,9 @@ class scenarioExpression {
 
     public static function scenario($_scenario) {
         $scenario = scenario::byId(str_replace(array('scenario', '#'), '', trim($_scenario)));
+        if (!is_object($scenario)) {
+            return -2;
+        }
         $state = $scenario->getState();
         if ($scenario->getIsActive() == 0) {
             return -1;
@@ -190,7 +193,7 @@ class scenarioExpression {
         }
         return 0;
     }
-    
+
     public static function variable($_name, $_default = '') {
         $dataStore = dataStore::byTypeLinkIdKey('scenario', -1, trim($_name));
         if (is_object($dataStore)) {
@@ -221,11 +224,11 @@ class scenarioExpression {
             $arguments = explode(',', $match[2]);
             if (method_exists(__CLASS__, $function)) {
                 $result = call_user_func_array(__CLASS__ . "::" . $function, $arguments);
-                
+
                 $replace[$match[0]] = $result;
             }
         }
-        
+
         $_expression = str_replace(array_keys($replace), array_values($replace), $_expression);
         return cmd::cmdToValue($_expression);
     }
