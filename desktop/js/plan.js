@@ -14,6 +14,7 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 var noBootstrapTooltips = true;
+var grid = false;
 /*****************************PLAN HEADER***********************************/
 $('#bt_addPlanHeader').on('click', function() {
     bootbox.prompt("Nom du plan ?", function(result) {
@@ -131,6 +132,18 @@ $('#div_displayObject').delegate('.view-link-widget', 'dblclick', function() {
     }
 });
 
+$('.ingrid').on('change', function() {
+    var x = $('#in_gridX').value();
+    var y = $('#in_gridY').value();
+    if (x != '' && !isNaN(x) && y != '' && !isNaN(y) && x > 1 && y > 1) {
+        grid = [$('#div_displayObject').width() / x, $('#div_displayObject').height() / y];
+        initDraggable(1);
+    } else {
+        grid = false;
+        initDraggable(1);
+    }
+});
+
 $('#bt_editPlan').on('click', function() {
     if ($(this).attr('data-mode') == '0') {
         initDraggable(1);
@@ -143,44 +156,121 @@ $('#bt_editPlan').on('click', function() {
         $(this).html('<i class="fa fa-pencil"></i> {{Mode édition}}');
         $(this).attr('data-mode', '0');
     }
-
 });
 
-
+function makeGrid(_x, _y) {
+    if (_x === false) {
+        $('#div_displayObject').css({
+            'background-size': _x + 'px ' + _y + 'px',
+            'background-image': 'none'
+        });
+    } else {
+        $('#div_displayObject').css({
+            'background-size': _x + 'px ' + _y + 'px',
+            'background-position': '-4px -8px',
+            'background-image': 'repeating-linear-gradient(0deg, silver, silver 1px, transparent 1px, transparent ' + _y + 'px),repeating-linear-gradient(-90deg, silver, silver 1px, transparent 1px, transparent ' + _x + 'px)'
+        });
+    }
+}
 
 function initDraggable(_state) {
+    /*if (grid === false) {
+        makeGrid(false);
+    } else {
+        makeGrid(grid[0], grid[1]);
+    }*/
     var offset = {};
     $('.eqLogic-widget').draggable({
         start: function(evt, ui) {
-            offset.top = ui.offset.top;
-            offset.left = ui.offset.left;
+            if ($(this).css('zoom') != undefined) {
+                offset.top = Math.round(ui.position.top / getZoomLevel($(this))) - ui.position.top;
+                offset.left = Math.round(ui.position.left / getZoomLevel($(this))) - ui.position.left;
+            }
         },
         drag: function(evt, ui) {
-            ui.position.top = Math.round(ui.position.top / $(this).css('zoom')) - Math.round(offset.top * $(this).css('zoom'));
-            ui.position.left = Math.round(ui.position.left / $(this).css('zoom')) - Math.round(offset.left * $(this).css('zoom'));
+            if ($(this).css('zoom') != undefined) {
+                ui.position.top = Math.round(ui.position.top / getZoomLevel($(this))) - offset.top;
+                ui.position.left = Math.round(ui.position.left / getZoomLevel($(this))) - offset.left;
+                if (grid != false && grid[0] != false) {
+                    ui.position.top = Math.round(ui.position.top / (grid[1] / getZoomLevel($(this)))) * (grid[1] / getZoomLevel($(this)));
+                    ui.position.left = Math.round(ui.position.left / (grid[0] / getZoomLevel($(this)))) * (grid[0] / getZoomLevel($(this)));
+                }
+            } else {
+                if (grid != false && grid[0] != false) {
+                    console.log(grid);
+                    ui.position.top = Math.round(ui.position.top / grid[0]) * grid[0];
+                    ui.position.left = Math.round(ui.position.left / grid[1]) * grid[1];
+                }
+            }
         },
         stop: function(event, ui) {
             savePlan();
         }
     });
     $('.scenario-widget').draggable({
+        start: function(evt, ui) {
+            if ($(this).css('zoom') != undefined) {
+                offset.top = Math.round(ui.position.top / getZoomLevel($(this))) - ui.position.top;
+                offset.left = Math.round(ui.position.left / getZoomLevel($(this))) - ui.position.left;
+            }
+        },
+        drag: function(evt, ui) {
+            if ($(this).css('zoom') != undefined) {
+                ui.position.top = Math.round(ui.position.top / getZoomLevel($(this))) - offset.top;
+                ui.position.left = Math.round(ui.position.left / getZoomLevel($(this))) - offset.left;
+                if (grid != false && grid[0] != false) {
+                    ui.position.top = Math.round(ui.position.top / (grid[1] / getZoomLevel($(this)))) * (grid[1] / getZoomLevel($(this)));
+                    ui.position.left = Math.round(ui.position.left / (grid[0] / getZoomLevel($(this)))) * (grid[0] / getZoomLevel($(this)));
+                }
+            } else {
+                if (grid != false && grid[0] != false) {
+                    console.log(grid);
+                    ui.position.top = Math.round(ui.position.top / grid[0]) * grid[0];
+                    ui.position.left = Math.round(ui.position.left / grid[1]) * grid[1];
+                }
+            }
+        },
         stop: function(event, ui) {
             savePlan();
         }
     });
     $('.plan-link-widget').draggable({
+        drag: function(evt, ui) {
+            if (grid != false && grid[0] != false) {
+                ui.position.top = Math.round(ui.position.top / grid[1]) * grid[1];
+                ui.position.left = Math.round(ui.position.left / grid[0]) * grid[0];
+            }
+        },
         stop: function(event, ui) {
             savePlan();
         }
     });
     $('.view-link-widget').draggable({
+        drag: function(evt, ui) {
+            if (grid != false && grid[0] != false) {
+                ui.position.top = Math.round(ui.position.top / grid[1]) * grid[1];
+                ui.position.left = Math.round(ui.position.left / grid[0]) * grid[0];
+            }
+        },
         stop: function(event, ui) {
             savePlan();
+        }
+    });
+    $('#div_displayObject a').each(function() {
+        if ($(this).attr('href') != '#') {
+            $(this).attr('data-href', $(this).attr('href'));
+            $(this).attr('href', '#');
         }
     });
     if (_state != 1 && _state != '1') {
         $('.eqLogic-widget').draggable("destroy");
         $('.scenario-widget').draggable("destroy");
+        $('.view-link-widget').draggable("destroy");
+        $('.plan-link-widget').draggable("destroy");
+        $('#div_displayObject a').each(function() {
+            $(this).attr('href', $(this).attr('data-href'));
+        });
+       // makeGrid(false);
     }
 }
 
@@ -218,12 +308,20 @@ function displayPlan() {
             },
             success: function(data) {
                 for (var i in data) {
-                    console.log(data[i].plan.link_type);
                     displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
                 }
             },
         });
     }
+}
+
+function getZoomLevel(_el) {
+    var zoom = _el.css('zoom');
+    if (zoom == undefined) {
+        zoom = _el.css('-moz-transform');
+        zoom = zoom.substr(7, zoom.indexOf(',') - 7);
+    }
+    return zoom;
 }
 
 function savePlan() {
@@ -239,10 +337,15 @@ function savePlan() {
             plan.link_type = 'eqLogic';
             plan.link_id = $(this).attr('data-eqLogic_id');
             plan.planHeader_id = planHeader_id;
-            var zoom = $(this).css('zoom');
-            $(this).css('zoom', '100%');
-            var position = $(this).position();
-            $(this).css('zoom', zoom);
+            if ($(this).css('zoom') != undefined) {
+                var zoom = getZoomLevel($(this));
+                $(this).css('zoom', '100%');
+                var position = $(this).position();
+                $(this).css('zoom', zoom);
+            } else {
+                var position = $(this).position();
+                zoom = 1;
+            }
             plan.position.top = (((position.top * zoom)) / parent.height) * 100;
             plan.position.left = (((position.left * zoom)) / parent.width) * 100;
             plans.push(plan);
@@ -253,10 +356,16 @@ function savePlan() {
             plan.link_type = 'scenario';
             plan.link_id = $(this).attr('data-scenario_id');
             plan.planHeader_id = planHeader_id;
-            var zoom = $(this).css('zoom');
-            $(this).css('zoom', '100%');
-            var position = $(this).position();
-            $(this).css('zoom', zoom);
+            var zoom = getZoomLevel($(this));
+            if ($(this).css('zoom') != undefined) {
+                var zoom = getZoomLevel($(this));
+                $(this).css('zoom', '100%');
+                var position = $(this).position();
+                $(this).css('zoom', zoom);
+            } else {
+                var position = $(this).position();
+                zoom = 1;
+            }
             plan.position.top = ((position.top * zoom) / parent.height) * 100;
             plan.position.left = ((position.left * zoom) / parent.width) * 100;
             plans.push(plan);
@@ -322,9 +431,15 @@ function displayObject(_type, _id, _html, _plan) {
     };
     var html = $(_html);
     html.css('position', 'absolute');
-    html.css('top', init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
-    html.css('left', init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
     html.css('zoom', init(_plan.css.zoom, defaultZoom));
+    html.css('-moz-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ',' + init(_plan.css.zoom, defaultZoom) + ')');
+    if (html.css('zoom') != undefined) {
+        html.css('top', init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
+        html.css('left', init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
+    } else {
+        html.css('top', init(_plan.position.top, '10') * parent.height / 100 - init(_plan.position.top, '10') * init(_plan.css.zoom, defaultZoom));
+        html.css('left', init(_plan.position.left, '10') * parent.width / 100 - init(_plan.position.left, '10') * init(_plan.css.zoom, defaultZoom) - 20);
+    }
     for (var key in _plan.css) {
         if (_plan.css[key] != '') {
             html.css(key, _plan.css[key]);

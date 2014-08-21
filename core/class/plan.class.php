@@ -86,6 +86,12 @@ class plan {
 
     /*     * *********************Methode d'instance************************* */
 
+    public function preSave() {
+        if ($this->getCss('zoom') != '' && (!is_numeric($this->getCss('zoom')) || $this->getCss('zoom')) < 0.1) {
+            $this->setCss('zoom', 1);
+        }
+    }
+
     public function save() {
         DB::save($this);
     }

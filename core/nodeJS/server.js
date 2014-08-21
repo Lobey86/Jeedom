@@ -15,9 +15,6 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-//var io = require('socket.io')
-
 var io = require('socket.io')({
   'browser client minification' : 1,
   'browser client etag' : 1,

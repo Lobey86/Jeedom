@@ -29,7 +29,7 @@ if (view_id != '') {
                 $('.eqLogicZone').each(function() {
                     $(this).masonry({columnWidth: 1});
                 });
-            }, 2);
+            }, 10);
         }
     });
 }
