@@ -71,11 +71,13 @@ class update {
         $markets_infos = market::getInfo($marketObject['logical_id'], $marketObject['version']);
         foreach ($markets_infos as $logicalId => $market_info) {
             $update = $marketObject[$logicalId];
-            $update->setStatus($market_info['status']);
-            $update->setConfiguration('market_owner', $market_info['market_owner']);
-            $update->setConfiguration('market', $market_info['market']);
-            $update->setRemoteVersion($market_info['datetime']);
-            $update->save();
+            if (is_object($update)) {
+                $update->setStatus($market_info['status']);
+                $update->setConfiguration('market_owner', $market_info['market_owner']);
+                $update->setConfiguration('market', $market_info['market']);
+                $update->setRemoteVersion($market_info['datetime']);
+                $update->save();
+            }
         }
     }
 
