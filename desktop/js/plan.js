@@ -158,28 +158,7 @@ $('#bt_editPlan').on('click', function() {
     }
 });
 
-function makeGrid(_x, _y) {
-    return;
-    if (_x === false) {
-        $('#div_displayObject').css({
-            'background-size': _x + 'px ' + _y + 'px',
-            'background-image': 'none'
-        });
-    } else {
-        $('#div_displayObject').css({
-            'background-size': _x + 'px ' + _y + 'px',
-            'background-position': '1px 0px',
-            'background-image': 'repeating-linear-gradient(0deg, silver, silver 1px, transparent 1px, transparent ' + _y + 'px),repeating-linear-gradient(-90deg, silver, silver 1px, transparent 1px, transparent ' + _x + 'px)'
-        });
-    }
-}
-
 function initDraggable(_state) {
-    if (grid === false) {
-        makeGrid(false);
-    } else {
-        makeGrid(grid[0], grid[1]);
-    }
     var offset = {};
     $('.eqLogic-widget').draggable({
         grid: grid,
@@ -243,7 +222,6 @@ function initDraggable(_state) {
         $('#div_displayObject a').each(function() {
             $(this).attr('href', $(this).attr('data-href'));
         });
-        makeGrid(false);
     }
 }
 
