@@ -25,6 +25,7 @@ class planHeader {
     private $id;
     private $name;
     private $image;
+    private $configuration;
 
     /*     * ***********************Methode static*************************** */
 
@@ -78,6 +79,14 @@ class planHeader {
 
     public function setImage($_key, $_value) {
         $this->image = utils::setJsonAttr($this->image, $_key, $_value);
+    }
+
+    public function getConfiguration($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->configuration, $_key, $_default);
+    }
+
+    public function setConfiguration($_key, $_value) {
+        $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
 
 }

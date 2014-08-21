@@ -144,6 +144,21 @@ $('.ingrid').on('change', function() {
     }
 });
 
+$('.planHeaderAttr').on('change', function() {
+    var planHeader = $('#div_planHeader').getValues('.planHeaderAttr')[0];
+    planHeader.id = planHeader_id;
+    jeedom.plan.saveHeader({
+        planHeader: planHeader,
+        global: false,
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+
+        }
+    });
+});
+
 $('#bt_editPlan').on('click', function() {
     if ($(this).attr('data-mode') == '0') {
         initDraggable(1);
@@ -175,12 +190,12 @@ function makeGrid(_x, _y) {
 
 function initDraggable(_state) {
     /*if (grid === false) {
-        makeGrid(false);
-    } else {
-        makeGrid(grid[0], grid[1]);
-    }*/
+     makeGrid(false);
+     } else {
+     makeGrid(grid[0], grid[1]);
+     }*/
     var offset = {};
-    $('.eqLogic-widget').draggable({
+    $('.eqLogic-widget,.scenario-widget').draggable({
         start: function(evt, ui) {
             if ($(this).css('zoom') != undefined) {
                 offset.top = Math.round(ui.position.top / getZoomLevel($(this))) - ui.position.top;
@@ -207,45 +222,7 @@ function initDraggable(_state) {
             savePlan();
         }
     });
-    $('.scenario-widget').draggable({
-        start: function(evt, ui) {
-            if ($(this).css('zoom') != undefined) {
-                offset.top = Math.round(ui.position.top / getZoomLevel($(this))) - ui.position.top;
-                offset.left = Math.round(ui.position.left / getZoomLevel($(this))) - ui.position.left;
-            }
-        },
-        drag: function(evt, ui) {
-            if ($(this).css('zoom') != undefined) {
-                ui.position.top = Math.round(ui.position.top / getZoomLevel($(this))) - offset.top;
-                ui.position.left = Math.round(ui.position.left / getZoomLevel($(this))) - offset.left;
-                if (grid != false && grid[0] != false) {
-                    ui.position.top = Math.round(ui.position.top / (grid[1] / getZoomLevel($(this)))) * (grid[1] / getZoomLevel($(this)));
-                    ui.position.left = Math.round(ui.position.left / (grid[0] / getZoomLevel($(this)))) * (grid[0] / getZoomLevel($(this)));
-                }
-            } else {
-                if (grid != false && grid[0] != false) {
-                    console.log(grid);
-                    ui.position.top = Math.round(ui.position.top / grid[0]) * grid[0];
-                    ui.position.left = Math.round(ui.position.left / grid[1]) * grid[1];
-                }
-            }
-        },
-        stop: function(event, ui) {
-            savePlan();
-        }
-    });
-    $('.plan-link-widget').draggable({
-        drag: function(evt, ui) {
-            if (grid != false && grid[0] != false) {
-                ui.position.top = Math.round(ui.position.top / grid[1]) * grid[1];
-                ui.position.left = Math.round(ui.position.left / grid[0]) * grid[0];
-            }
-        },
-        stop: function(event, ui) {
-            savePlan();
-        }
-    });
-    $('.view-link-widget').draggable({
+    $('.plan-link-widget,.view-link-widget').draggable({
         drag: function(evt, ui) {
             if (grid != false && grid[0] != false) {
                 ui.position.top = Math.round(ui.position.top / grid[1]) * grid[1];
@@ -270,7 +247,7 @@ function initDraggable(_state) {
         $('#div_displayObject a').each(function() {
             $(this).attr('href', $(this).attr('data-href'));
         });
-       // makeGrid(false);
+        // makeGrid(false);
     }
 }
 
@@ -310,6 +287,15 @@ function displayPlan() {
                 for (var i in data) {
                     displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
                 }
+            },
+        });
+        jeedom.plan.getHeader({
+            id: planHeader_id,
+            error: function(error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function(data) {
+                $('#div_planHeader').setValues(data, '.planHeaderAttr');
             },
         });
     }

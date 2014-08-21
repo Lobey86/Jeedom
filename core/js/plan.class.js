@@ -147,3 +147,22 @@ jeedom.plan.removeHeader = function(_params) {
     };
     $.ajax(paramsAJAX);
 };
+
+jeedom.plan.getHeader = function(_params) {
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/plan.ajax.php';
+    paramsAJAX.data = {
+        action: 'getPlanHeader',
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
+};
