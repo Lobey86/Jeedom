@@ -177,10 +177,6 @@ class scenario {
             return true;
         }
         foreach ($scenarios as $scenario_) {
-            if ($scenario_->getState() == 'in progress' && !$scenario_->running()) {
-                $scenario_->setState('error');
-                $scenario_->save();
-            }
             $scenario_->launch(false, $message);
         }
         return true;
@@ -382,6 +378,10 @@ class scenario {
 
     public function launch($_force = false, $_message = '') {
         if (config::byKey('enableScenario') == 1) {
+            if ($this->getState() == 'in progress' && !$this->running()) {
+                $this->setState('error');
+                $this->save();
+            }
             $cmd = 'nohup php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
             $cmd.= ' scenario_id=' . $this->getId();
             $cmd.= ' force=' . $_force;
