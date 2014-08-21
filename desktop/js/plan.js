@@ -149,29 +149,50 @@ $('#bt_editPlan').on('click', function() {
         initDraggable(1);
         $('.editMode').show();
         $(this).html('<i class="fa fa-pencil"></i> {{Quitter le mode édition}}');
-
         $(this).attr('data-mode', '1');
     } else {
         initDraggable(0);
         $('.editMode').hide();
         $(this).html('<i class="fa fa-pencil"></i> {{Mode édition}}');
-
         $(this).attr('data-mode', '0');
     }
 });
 
+function makeGrid(_x, _y) {
+    if (_x === false) {
+        $('#div_displayObject').css({
+            'background-size': _x + 'px ' + _y + 'px',
+            'background-image': 'none'
+        });
+    } else {
+        $('#div_displayObject').css({
+            'background-size': _x + 'px ' + _y + 'px',
+            'background-position': '1px 0px',
+            'background-image': 'repeating-linear-gradient(0deg, silver, silver 1px, transparent 1px, transparent ' + _y + 'px),repeating-linear-gradient(-90deg, silver, silver 1px, transparent 1px, transparent ' + _x + 'px)'
+        });
+    }
+}
+
 function initDraggable(_state) {
+    if (grid === false) {
+        makeGrid(false);
+    } else {
+        makeGrid(grid[0], grid[1]);
+    }
     var offset = {};
     $('.eqLogic-widget').draggable({
         grid: grid,
         start: function(evt, ui) {
-            offset.top = Math.round(ui.position.top / $(this).css('zoom')) - ui.position.top;
-            offset.left = Math.round(ui.position.left / $(this).css('zoom')) - ui.position.left;
+            if ($(this).css('zoom') != undefined) {
+                offset.top = Math.round(ui.position.top / getZoomLevel($(this))) - ui.position.top;
+                offset.left = Math.round(ui.position.left / getZoomLevel($(this))) - ui.position.left;
+            }
         },
         drag: function(evt, ui) {
-            console.log(ui);
-            ui.position.top = Math.round(ui.position.top / $(this).css('zoom')) - offset.top;
-            ui.position.left = Math.round(ui.position.left / $(this).css('zoom')) - offset.left;
+            if ($(this).css('zoom') != undefined) {
+                ui.position.top = Math.round(ui.position.top / getZoomLevel($(this))) - offset.top;
+                ui.position.left = Math.round(ui.position.left / getZoomLevel($(this))) - offset.left;
+            }
         },
         stop: function(event, ui) {
             savePlan();
@@ -180,12 +201,16 @@ function initDraggable(_state) {
     $('.scenario-widget').draggable({
         grid: grid,
         start: function(evt, ui) {
-            offset.top = ui.offset.top;
-            offset.left = ui.offset.left;
+            if ($(this).css('zoom') != undefined) {
+                offset.top = Math.round(ui.position.top / getZoomLevel($(this))) - ui.position.top;
+                offset.left = Math.round(ui.position.left / getZoomLevel($(this))) - ui.position.left;
+            }
         },
         drag: function(evt, ui) {
-            ui.position.top = Math.round(ui.position.top / $(this).css('zoom')) - Math.round(offset.top * $(this).css('zoom'));
-            ui.position.left = Math.round(ui.position.left / $(this).css('zoom')) - Math.round(offset.left * $(this).css('zoom'));
+            if ($(this).css('zoom') != undefined) {
+                ui.position.top = Math.round(ui.position.top / getZoomLevel($(this))) - offset.top;
+                ui.position.left = Math.round(ui.position.left / getZoomLevel($(this))) - offset.left;
+            }
         },
         stop: function(event, ui) {
             savePlan();
@@ -217,6 +242,7 @@ function initDraggable(_state) {
         $('#div_displayObject a').each(function() {
             $(this).attr('href', $(this).attr('data-href'));
         });
+        makeGrid(false);
     }
 }
 
@@ -261,6 +287,15 @@ function displayPlan() {
     }
 }
 
+function getZoomLevel(_el) {
+    var zoom = _el.css('zoom');
+    if (zoom == undefined) {
+        zoom = _el.css('-moz-transform');
+        zoom = zoom.substr(7, zoom.indexOf(',') - 7);
+    }
+    return zoom;
+}
+
 function savePlan() {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
         var parent = {
@@ -274,10 +309,15 @@ function savePlan() {
             plan.link_type = 'eqLogic';
             plan.link_id = $(this).attr('data-eqLogic_id');
             plan.planHeader_id = planHeader_id;
-            var zoom = $(this).css('zoom');
-            $(this).css('zoom', '100%');
-            var position = $(this).position();
-            $(this).css('zoom', zoom);
+            if ($(this).css('zoom') != undefined) {
+                var zoom = getZoomLevel($(this));
+                $(this).css('zoom', '100%');
+                var position = $(this).position();
+                $(this).css('zoom', zoom);
+            } else {
+                var position = $(this).position();
+                zoom = 1;
+            }
             plan.position.top = (((position.top * zoom)) / parent.height) * 100;
             plan.position.left = (((position.left * zoom)) / parent.width) * 100;
             plans.push(plan);
@@ -288,10 +328,16 @@ function savePlan() {
             plan.link_type = 'scenario';
             plan.link_id = $(this).attr('data-scenario_id');
             plan.planHeader_id = planHeader_id;
-            var zoom = $(this).css('zoom');
-            $(this).css('zoom', '100%');
-            var position = $(this).position();
-            $(this).css('zoom', zoom);
+            var zoom = getZoomLevel($(this));
+            if ($(this).css('zoom') != undefined) {
+                var zoom = getZoomLevel($(this));
+                $(this).css('zoom', '100%');
+                var position = $(this).position();
+                $(this).css('zoom', zoom);
+            } else {
+                var position = $(this).position();
+                zoom = 1;
+            }
             plan.position.top = ((position.top * zoom) / parent.height) * 100;
             plan.position.left = ((position.left * zoom) / parent.width) * 100;
             plans.push(plan);
@@ -357,9 +403,17 @@ function displayObject(_type, _id, _html, _plan) {
     };
     var html = $(_html);
     html.css('position', 'absolute');
-    html.css('top', init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
-    html.css('left', init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
     html.css('zoom', init(_plan.css.zoom, defaultZoom));
+    html.css('-moz-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ',' + init(_plan.css.zoom, defaultZoom) + ')');
+    if (html.css('zoom') != undefined) {
+        html.css('top', init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
+        html.css('left', init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
+    } else {
+        html.css('top', init(_plan.position.top, '10') * parent.height / 100);
+        html.css('left', init(_plan.position.left, '10') * parent.width / 100);
+    }
+
+
     for (var key in _plan.css) {
         if (_plan.css[key] != '') {
             html.css(key, _plan.css[key]);
