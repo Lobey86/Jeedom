@@ -41,7 +41,9 @@ if (is_object($planHeader)) {
         <span class="editMode" style="display: none;">
             <input  id="bt_uploadImage" type="file" name="file" style="display: inline-block;">
         </span>
-
+        <span class="editMode" style="display: none;">
+            Grille : <input class="form-control ingrid" id="in_gridX" style="width: 50px;display: inline-block;"/> x <input class="form-control ingrid" id="in_gridY" style="width: 50px;display: inline-block;"/>
+        </span>
         <a class="btn btn-warning pull-right btn-sm" style="margin-bottom: 3px;" id="bt_editPlan" data-mode="0"><i class="fa fa-pencil"></i> {{Mode édition}}</a>
         <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addLink"><i class="fa fa-plus-circle"></i> {{Ajouter lien}}</a>
         <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addScenario"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>

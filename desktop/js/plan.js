@@ -14,6 +14,7 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 var noBootstrapTooltips = true;
+var grid = false;
 /*****************************PLAN HEADER***********************************/
 $('#bt_addPlanHeader').on('click', function() {
     bootbox.prompt("Nom du plan ?", function(result) {
@@ -131,6 +132,18 @@ $('#div_displayObject').delegate('.view-link-widget', 'dblclick', function() {
     }
 });
 
+$('.ingrid').on('change', function() {
+    var x = $('#in_gridX').value();
+    var y = $('#in_gridY').value();
+    if (x != '' && !isNaN(x) && y != '' && !isNaN(y) && x > 1 && y > 1) {
+        grid = [$('#div_displayObject').width() / x, $('#div_displayObject').height() / y];
+        initDraggable(1);
+    } else {
+        grid = false;
+        initDraggable(1);
+    }
+});
+
 $('#bt_editPlan').on('click', function() {
     if ($(this).attr('data-mode') == '0') {
         initDraggable(1);
@@ -150,11 +163,13 @@ $('#bt_editPlan').on('click', function() {
 function initDraggable(_state) {
     var offset = {};
     $('.eqLogic-widget').draggable({
+        grid: grid,
         start: function(evt, ui) {
             offset.top = Math.round(ui.position.top / $(this).css('zoom')) - ui.position.top;
             offset.left = Math.round(ui.position.left / $(this).css('zoom')) - ui.position.left;
         },
         drag: function(evt, ui) {
+            console.log(ui);
             ui.position.top = Math.round(ui.position.top / $(this).css('zoom')) - offset.top;
             ui.position.left = Math.round(ui.position.left / $(this).css('zoom')) - offset.left;
         },
@@ -163,6 +178,7 @@ function initDraggable(_state) {
         }
     });
     $('.scenario-widget').draggable({
+        grid: grid,
         start: function(evt, ui) {
             offset.top = ui.offset.top;
             offset.left = ui.offset.left;
@@ -176,11 +192,13 @@ function initDraggable(_state) {
         }
     });
     $('.plan-link-widget').draggable({
+        grid: grid,
         stop: function(event, ui) {
             savePlan();
         }
     });
     $('.view-link-widget').draggable({
+        grid: grid,
         stop: function(event, ui) {
             savePlan();
         }
