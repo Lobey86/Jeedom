@@ -177,6 +177,10 @@ class scenario {
             return true;
         }
         foreach ($scenarios as $scenario_) {
+            if ($scenario_->getState() == 'in progress' && !$scenario_->running()) {
+                $scenario_->setState('error');
+                $scenario_->save();
+            }
             $scenario_->launch(false, $message);
         }
         return true;
