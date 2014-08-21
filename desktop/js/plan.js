@@ -409,11 +409,9 @@ function displayObject(_type, _id, _html, _plan) {
         html.css('top', init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
         html.css('left', init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
     } else {
-        html.css('top', init(_plan.position.top, '10') * parent.height / 100);
-        html.css('left', init(_plan.position.left, '10') * parent.width / 100);
+        html.css('top', init(_plan.position.top, '10') * parent.height / 100 - init(_plan.position.top, '10') * init(_plan.css.zoom, defaultZoom));
+        html.css('left', init(_plan.position.left, '10') * parent.width / 100 - init(_plan.position.left, '10') * init(_plan.css.zoom, defaultZoom));
     }
-
-
     for (var key in _plan.css) {
         if (_plan.css[key] != '') {
             html.css(key, _plan.css[key]);
