@@ -158,10 +158,29 @@ $('#bt_editPlan').on('click', function() {
     }
 });
 
+function makeGrid(_x, _y) {
+    if (_x === false) {
+        $('#div_displayObject').css({
+            'background-size': _x + 'px ' + _y + 'px',
+            'background-image': 'none'
+        });
+    } else {
+        $('#div_displayObject').css({
+            'background-size': _x + 'px ' + _y + 'px',
+            'background-position': '-4px -8px',
+            'background-image': 'repeating-linear-gradient(0deg, silver, silver 1px, transparent 1px, transparent ' + _y + 'px),repeating-linear-gradient(-90deg, silver, silver 1px, transparent 1px, transparent ' + _x + 'px)'
+        });
+    }
+}
+
 function initDraggable(_state) {
+    /*if (grid === false) {
+        makeGrid(false);
+    } else {
+        makeGrid(grid[0], grid[1]);
+    }*/
     var offset = {};
     $('.eqLogic-widget').draggable({
-        grid: grid,
         start: function(evt, ui) {
             if ($(this).css('zoom') != undefined) {
                 offset.top = Math.round(ui.position.top / getZoomLevel($(this))) - ui.position.top;
@@ -172,6 +191,16 @@ function initDraggable(_state) {
             if ($(this).css('zoom') != undefined) {
                 ui.position.top = Math.round(ui.position.top / getZoomLevel($(this))) - offset.top;
                 ui.position.left = Math.round(ui.position.left / getZoomLevel($(this))) - offset.left;
+                if (grid != false && grid[0] != false) {
+                    ui.position.top = Math.round(ui.position.top / (grid[1] / getZoomLevel($(this)))) * (grid[1] / getZoomLevel($(this)));
+                    ui.position.left = Math.round(ui.position.left / (grid[0] / getZoomLevel($(this)))) * (grid[0] / getZoomLevel($(this)));
+                }
+            } else {
+                if (grid != false && grid[0] != false) {
+                    console.log(grid);
+                    ui.position.top = Math.round(ui.position.top / grid[0]) * grid[0];
+                    ui.position.left = Math.round(ui.position.left / grid[1]) * grid[1];
+                }
             }
         },
         stop: function(event, ui) {
@@ -179,7 +208,6 @@ function initDraggable(_state) {
         }
     });
     $('.scenario-widget').draggable({
-        grid: grid,
         start: function(evt, ui) {
             if ($(this).css('zoom') != undefined) {
                 offset.top = Math.round(ui.position.top / getZoomLevel($(this))) - ui.position.top;
@@ -190,6 +218,16 @@ function initDraggable(_state) {
             if ($(this).css('zoom') != undefined) {
                 ui.position.top = Math.round(ui.position.top / getZoomLevel($(this))) - offset.top;
                 ui.position.left = Math.round(ui.position.left / getZoomLevel($(this))) - offset.left;
+                if (grid != false && grid[0] != false) {
+                    ui.position.top = Math.round(ui.position.top / (grid[1] / getZoomLevel($(this)))) * (grid[1] / getZoomLevel($(this)));
+                    ui.position.left = Math.round(ui.position.left / (grid[0] / getZoomLevel($(this)))) * (grid[0] / getZoomLevel($(this)));
+                }
+            } else {
+                if (grid != false && grid[0] != false) {
+                    console.log(grid);
+                    ui.position.top = Math.round(ui.position.top / grid[0]) * grid[0];
+                    ui.position.left = Math.round(ui.position.left / grid[1]) * grid[1];
+                }
             }
         },
         stop: function(event, ui) {
@@ -197,13 +235,23 @@ function initDraggable(_state) {
         }
     });
     $('.plan-link-widget').draggable({
-        grid: grid,
+        drag: function(evt, ui) {
+            if (grid != false && grid[0] != false) {
+                ui.position.top = Math.round(ui.position.top / grid[1]) * grid[1];
+                ui.position.left = Math.round(ui.position.left / grid[0]) * grid[0];
+            }
+        },
         stop: function(event, ui) {
             savePlan();
         }
     });
     $('.view-link-widget').draggable({
-        grid: grid,
+        drag: function(evt, ui) {
+            if (grid != false && grid[0] != false) {
+                ui.position.top = Math.round(ui.position.top / grid[1]) * grid[1];
+                ui.position.left = Math.round(ui.position.left / grid[0]) * grid[0];
+            }
+        },
         stop: function(event, ui) {
             savePlan();
         }
@@ -222,6 +270,7 @@ function initDraggable(_state) {
         $('#div_displayObject a').each(function() {
             $(this).attr('href', $(this).attr('data-href'));
         });
+       // makeGrid(false);
     }
 }
 
