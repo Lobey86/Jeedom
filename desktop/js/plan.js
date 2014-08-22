@@ -328,6 +328,8 @@ function displayPlan() {
 
     $('#div_displayObject img').height(rHeight);
     $('#div_displayObject img').width(rWidth);
+    
+    $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget').remove();
 
     if (planHeader_id != -1) {
         jeedom.plan.byPlanHeader({
@@ -425,7 +427,7 @@ function savePlan(_refreshDisplay) {
             var plan = {};
             plan.position = {};
             plan.link_type = 'view';
-            plan.link_id = $(this).attr('data-view_id');
+            plan.link_id = $(this).attr('data-link_id');
             plan.planHeader_id = planHeader_id;
             var position = $(this).position();
             plan.position.top = ((position.top) / parent.height) * 100;
