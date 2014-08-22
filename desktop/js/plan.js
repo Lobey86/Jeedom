@@ -136,6 +136,13 @@ $('#div_displayObject').delegate('.view-link-widget', 'dblclick', function() {
     }
 });
 
+$('#div_displayObject').delegate('.graph-widget', 'dblclick', function() {
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        $('#md_modal').dialog({title: "{{Configuration du plan}}"});
+        $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=graph&link_id=' + $(this).attr('data-graph_id') + '&planHeader_id=' + planHeader_id).dialog('open');
+    }
+});
+
 $('.ingrid').on('change', function() {
     var x = $('#in_gridX').value();
     var y = $('#in_gridY').value();
@@ -193,12 +200,6 @@ function makeGrid(_x, _y) {
 }
 
 function initDraggable(_state) {
-    console.log(_state);
-    /*if (grid === false) {
-     makeGrid(false);
-     } else {
-     makeGrid(grid[0], grid[1]);
-     }*/
     var offset = {};
     $('.eqLogic-widget,.scenario-widget').draggable({
         start: function(evt, ui) {
@@ -244,7 +245,6 @@ function initDraggable(_state) {
         $('#div_displayObject a').each(function() {
             $(this).attr('href', $(this).attr('data-href'));
         });
-        // makeGrid(false);
     }
 }
 
@@ -497,13 +497,15 @@ function addScenario(_id, _plan) {
 }
 /**********************************GRAPH************************************/
 function addGraph(_plan) {
+    console.log(_plan);
     _plan = init(_plan, {});
     _plan.display = init(_plan.display, {});
-    _plan.id = init(_plan.id, Math.round(Math.random() * 99999999) + 9999);
-    var html = '<div class="graph-widget" data-graph_id="' + _plan.id + '" style="width : ' + init(_plan.display.width, 400) + 'px;height : ' + init(_plan.display.height, 200) + 'px;background-color : white;border : solid 1px black;">';
+    _plan.link_id = init(_plan.link_id, Math.round(Math.random() * 99999999) + 9999);
+    var html = '<div class="graph-widget" data-graph_id="' + _plan.link_id + '" style="width : ' + init(_plan.display.width, 400) + 'px;height : ' + init(_plan.display.height, 200) + 'px;background-color : white;border : solid 1px black;">';
     html += '<i class="fa fa-cogs pull-right" style="margin-right : 5px;margin-top : 5px;"></i>';
     html += '</div>';
-    displayObject('graph', _plan.id, html, _plan);
+    console.log(html);
+    displayObject('graph', _plan.link_id, html, _plan);
 }
 /**********************************LINK************************************/
 $('#md_selectLink .linkType').on('change', function() {

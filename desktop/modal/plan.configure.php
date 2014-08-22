@@ -19,12 +19,9 @@ sendVarToJS('id', $plan->getId());
         <input type="text"  class="planAttr form-control" data-l1key="link_type" style="display: none;"/>
         <input type="text"  class="planAttr form-control" data-l1key="link_id" style="display: none;"/>
         <?php if ($plan->getLink_type() == 'eqLogic' || $plan->getLink_type() == 'scenario') { ?>
-
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Taille du widget}}</label>
                 <div class="col-lg-2">
-
-
                     <?php
                     if ($plan->getLink_type() == 'eqLogic') {
                         echo '<input type="text" class="planAttr form-control" data-l1key="css" data-l2key="zoom" value="0.65"/>';
@@ -160,6 +157,9 @@ sendVarToJS('id', $plan->getId());
                 }
                 if ($(".planAttr[data-l1key=link_type]").value() == 'view') {
                     $('.view-plan-widget[data-link_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
+                }
+                 if ($(".planAttr[data-l1key=link_type]").value() == 'graph') {
+                    $('.graph-widget[data-graph_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
                 }
                 $('#fd_planConfigure').closest("div.ui-dialog-content").dialog("close");
             }
