@@ -118,7 +118,7 @@ displayPlan();
 
 $(window).resize(function(e) {
     if (e.target == window) {
-        displayPlan();
+        //displayPlan();
     }
 });
 
