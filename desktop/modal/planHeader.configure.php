@@ -14,12 +14,18 @@ sendVarToJS('id', $planHeader->getId())
 <a class='btn btn-danger  btn-xs pull-right cursor' style="color: white;" id='bt_removeConfigurePlanHeader'><i class="fa fa-times"></i> Supprimer</a>
 <form class="form-horizontal">
     <fieldset id="fd_planHeaderConfigure">
-        <legend>Générale</legend>
+        <legend>{{Générale}}</legend>
         <input type="text"  class="planHeaderAttr form-control" data-l1key="id" style="display: none;"/>
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Nom}}</label>
             <div class="col-lg-2">
                 <input class="planHeaderAttr form-control" data-l1key="name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-4 control-label">{{Image}}</label>
+            <div class="col-lg-8">
+                <input  id="bt_uploadImage" type="file" name="file" style="display: inline-block;">
             </div>
         </div>
         <div class="form-group">
@@ -35,6 +41,17 @@ sendVarToJS('id', $planHeader->getId())
 
 
 <script>
+
+    $('#bt_uploadImage').fileupload({
+        url: 'core/ajax/plan.ajax.php?action=uploadImage&id=' + planHeader_id,
+        dataType: 'json',
+        done: function(e, data) {
+            if (data.result.state != 'ok') {
+                $('#div_alertPlanHeaderConfigure').showAlert({message: data.result.result, level: 'danger'});
+                return;
+            }
+        }
+    });
 
     $('#bt_saveConfigurePlanHeader').on('click', function() {
         save();
@@ -83,8 +100,7 @@ sendVarToJS('id', $planHeader->getId())
             },
             success: function() {
                 $('#div_alertPlanHeaderConfigure').showAlert({message: 'Plan sauvegardé', level: 'success'});
-                displayPlan();
-                $('#fd_planHeaderConfigure').closest("div.ui-dialog-content").dialog("close");
+                window.location.reload();
             },
         });
     }
@@ -107,8 +123,7 @@ sendVarToJS('id', $planHeader->getId())
                     return;
                 }
                 $('#div_alertPlanHeaderConfigure').showAlert({message: 'Plan supprimé', level: 'success'});
-                displayPlan();
-                $('#fd_planHeaderConfigure').closest("div.ui-dialog-content").dialog("close");
+                window.location.reload();
             }
         });
     }

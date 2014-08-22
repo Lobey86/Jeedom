@@ -37,9 +37,6 @@ if (is_object($planHeader)) {
     <?php if (isConnect('admin')) { ?>
         <a class="btn btn-success btn-sm" style="margin-bottom: 3px;" id="bt_addPlanHeader"><i class="fa fa-plus-circle"></i></a>
         <a class="btn btn-default btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_configurePlanHeader"><i class="fa fa-cogs"></i></a>
-        <span class="editMode" style="display: none;">
-            <input  id="bt_uploadImage" type="file" name="file" style="display: inline-block;">
-        </span>
         <a class="btn btn-warning pull-right btn-sm" style="margin-bottom: 3px;" id="bt_editPlan" data-mode="0"><i class="fa fa-pencil"></i> {{Mode édition}}</a>
         <a class="btn btn-success pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_savePlan" data-mode="0"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
         <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addGraph"><i class="fa fa-plus-circle"></i> {{Ajouter Graph}}</a>
