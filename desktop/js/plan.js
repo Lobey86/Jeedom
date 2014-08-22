@@ -98,6 +98,10 @@ $('#bt_addLink').on('click', function() {
     $('#md_selectLink').modal('show');
 });
 
+$('#bt_addGraph').on('click', function() {
+    addGraph({});
+});
+
 displayPlan();
 
 $(window).resize(function() {
@@ -137,10 +141,10 @@ $('.ingrid').on('change', function() {
     var y = $('#in_gridY').value();
     if (x != '' && !isNaN(x) && y != '' && !isNaN(y) && x > 1 && y > 1) {
         grid = [$('#div_displayObject').width() / x, $('#div_displayObject').height() / y];
-        initDraggable(1);
+        initDraggable($('#bt_editPlan').attr('data-mode'));
     } else {
         grid = false;
-        initDraggable(1);
+        initDraggable($('#bt_editPlan').attr('data-mode'));
     }
 });
 
@@ -189,6 +193,7 @@ function makeGrid(_x, _y) {
 }
 
 function initDraggable(_state) {
+    console.log(_state);
     /*if (grid === false) {
      makeGrid(false);
      } else {
@@ -213,7 +218,7 @@ function initDraggable(_state) {
             savePlan();
         }
     });
-    $('.plan-link-widget,.view-link-widget').draggable({
+    $('.plan-link-widget,.view-link-widget,.graph-widget').draggable({
         drag: function(evt, ui) {
             if (grid != false && grid[0] != false) {
                 ui.position.top = Math.round(ui.position.top / grid[1]) * grid[1];
@@ -231,10 +236,11 @@ function initDraggable(_state) {
         }
     });
     if (_state != 1 && _state != '1') {
+        $('.plan-link-widget').draggable("destroy");
+        $('.view-link-widget').draggable("destroy");
         $('.eqLogic-widget').draggable("destroy");
         $('.scenario-widget').draggable("destroy");
-        $('.view-link-widget').draggable("destroy");
-        $('.plan-link-widget').draggable("destroy");
+        $('.graph-widget').draggable("destroy");
         $('#div_displayObject a').each(function() {
             $(this).attr('href', $(this).attr('data-href'));
         });
@@ -276,7 +282,11 @@ function displayPlan() {
             },
             success: function(data) {
                 for (var i in data) {
-                    displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
+                    if (data[i].plan.link_type == 'graph') {
+                        addGraph(data[i].plan);
+                    } else {
+                        displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
+                    }
                 }
             },
         });
@@ -307,7 +317,7 @@ function savePlan() {
             width: $('#div_displayObject img').width(),
         };
         var plans = [];
-        $('.eqLogic-widget,.scenario-widget').each(function() {
+        $('.eqLogic-widget').each(function() {
             var plan = {};
             plan.position = {};
             plan.link_type = 'eqLogic';
@@ -326,11 +336,52 @@ function savePlan() {
             plan.position.left = (((position.left * zoom)) / parent.width) * 100;
             plans.push(plan);
         });
-        $('.plan-link-widget,.view-link-widget').each(function() {
+        $('.scenario-widget').each(function() {
+            var plan = {};
+            plan.position = {};
+            plan.link_type = 'scenario';
+            plan.link_id = $(this).attr('data-scenario_id');
+            plan.planHeader_id = planHeader_id;
+            if ($(this).css('zoom') != undefined) {
+                var zoom = getZoomLevel($(this));
+                $(this).css('zoom', '100%');
+                var position = $(this).position();
+                $(this).css('zoom', zoom);
+            } else {
+                var position = $(this).position();
+                zoom = 1;
+            }
+            plan.position.top = (((position.top * zoom)) / parent.height) * 100;
+            plan.position.left = (((position.left * zoom)) / parent.width) * 100;
+            plans.push(plan);
+        });
+        $('.plan-link-widget').each(function() {
             var plan = {};
             plan.position = {};
             plan.link_type = 'view';
             plan.link_id = $(this).attr('data-link_id');
+            plan.planHeader_id = planHeader_id;
+            var position = $(this).position();
+            plan.position.top = ((position.top) / parent.height) * 100;
+            plan.position.left = ((position.left) / parent.width) * 100;
+            plans.push(plan);
+        });
+        $('.view-link-widget').each(function() {
+            var plan = {};
+            plan.position = {};
+            plan.link_type = 'plan';
+            plan.link_id = $(this).attr('data-plan_id');
+            plan.planHeader_id = planHeader_id;
+            var position = $(this).position();
+            plan.position.top = ((position.top) / parent.height) * 100;
+            plan.position.left = ((position.left) / parent.width) * 100;
+            plans.push(plan);
+        });
+        $('.graph-widget').each(function() {
+            var plan = {};
+            plan.position = {};
+            plan.link_type = 'graph';
+            plan.link_id = $(this).attr('data-graph_id');
             plan.planHeader_id = planHeader_id;
             var position = $(this).position();
             plan.position.top = ((position.top) / parent.height) * 100;
@@ -370,6 +421,10 @@ function displayObject(_type, _id, _html, _plan) {
         var defaultZoom = 1;
         $('.plan-link-widget[data-link_id=' + _id + ']').remove();
     }
+    if (_type == 'graph') {
+        var defaultZoom = 1;
+        $('.graph-widget[data-graph_id=' + _id + ']').remove();
+    }
     var parent = {
         height: $('#div_displayObject img').height(),
         width: $('#div_displayObject img').width(),
@@ -406,7 +461,7 @@ function displayObject(_type, _id, _html, _plan) {
             }
         }
     }
-    initDraggable($('#bt_editPlan').attr('data-mode') == "1");
+    initDraggable($('#bt_editPlan').attr('data-mode'));
 }
 
 /***************************EqLogic**************************************/
@@ -440,7 +495,16 @@ function addScenario(_id, _plan) {
         }
     })
 }
-
+/**********************************GRAPH************************************/
+function addGraph(_plan) {
+    _plan = init(_plan, {});
+    _plan.display = init(_plan.display, {});
+    _plan.id = init(_plan.id, Math.round(Math.random() * 99999999) + 9999);
+    var html = '<div class="graph-widget" data-graph_id="' + _plan.id + '" style="width : ' + init(_plan.display.width, 400) + 'px;height : ' + init(_plan.display.height, 200) + 'px;background-color : white;border : solid 1px black;">';
+    html += '<i class="fa fa-cogs pull-right" style="margin-right : 5px;margin-top : 5px;"></i>';
+    html += '</div>';
+    displayObject('graph', _plan.id, html, _plan);
+}
 /**********************************LINK************************************/
 $('#md_selectLink .linkType').on('change', function() {
     $('#md_selectLink .linkOption').hide();

@@ -84,6 +84,12 @@ try {
                     'html' => $html
                 );
             }
+            if ($plan->getLink_type() == 'graph') {
+                $return[] = array(
+                    'plan' => utils::o2a($plan),
+                    'html' => ''
+                );
+            }
         }
         ajax::success($return);
     }
