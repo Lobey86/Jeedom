@@ -93,21 +93,25 @@ $('#sel_planHeader').on('change', function() {
 $('#bt_addEqLogic').on('click', function() {
     jeedom.eqLogic.getSelectModal({}, function(data) {
         addEqLogic(data.id);
+        savePlan();
     });
 });
 
 $('#bt_addScenario').on('click', function() {
     jeedom.scenario.getSelectModal({}, function(data) {
         addScenario(data.id);
+        savePlan();
     });
 });
 
 $('#bt_addLink').on('click', function() {
     $('#md_selectLink').modal('show');
+    savePlan();
 });
 
 $('#bt_addGraph').on('click', function() {
     addGraph({});
+    savePlan();
 });
 
 displayPlan();
@@ -219,6 +223,7 @@ $('#div_displayObject').delegate('.configureGraph', 'click', function() {
                 tr = tr.next();
             }
             el.find('.graphOptions').empty().append(json_encode(options));
+            savePlan(true);
             $(this).dialog('close');
         }
     });
@@ -360,7 +365,7 @@ function getZoomLevel(_el) {
     return zoom;
 }
 
-function savePlan() {
+function savePlan(_refreshDisplay) {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
         var parent = {
             height: $('#div_displayObject img').height(),
@@ -448,6 +453,9 @@ function savePlan() {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
             success: function() {
+                if (init(_refreshDisplay, false)) {
+                    displayPlan();
+                }
             },
         });
     }
@@ -455,7 +463,7 @@ function savePlan() {
 
 function displayObject(_type, _id, _html, _plan) {
     for (var i in jeedom.history.chart) {
-        delete   jeedom.history.chart[i];
+        delete jeedom.history.chart[i];
     }
     _plan = init(_plan, {});
     _plan.position = init(_plan.position, {});
@@ -554,18 +562,24 @@ function addGraph(_plan) {
     _plan.link_id = init(_plan.link_id, Math.round(Math.random() * 99999999) + 9999);
     var options = init(_plan.display.graph, '[]');
     var html = '<div class="graph-widget" data-graph_id="' + _plan.link_id + '" style="width : ' + init(_plan.display.width, 400) + 'px;height : ' + init(_plan.display.height, 200) + 'px;background-color : white;border : solid 1px black;">';
-    html += '<i class="fa fa-cogs pull-right editMode configureGraph" style="margin-right : 5px;margin-top : 5px;display:none;"></i>';
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        html += '<i class="fa fa-cogs pull-right editMode configureGraph" style="margin-right : 5px;margin-top : 5px;"></i>';
+    } else {
+        html += '<i class="fa fa-cogs pull-right editMode configureGraph" style="margin-right : 5px;margin-top : 5px;display:none;"></i>';
+    }
     html += '<span class="graphOptions" style="display:none;">' + json_encode(init(_plan.display.graph, '[]')) + '</span>';
     html += '<div class="graph" id="graph' + _plan.link_id + '" style="width : 100%;height : 90%;"></div>';
     html += '</div>';
     displayObject('graph', _plan.link_id, html, _plan);
     for (var i in options) {
-        jeedom.history.drawChart({
-            cmd_id: options[i].link_id,
-            el: 'graph' + _plan.link_id,
-            dateRange: init(_plan.display.dateRange, '7 days'),
-            option: init(options[i].configuration, {})
-        });
+        if (init(options[i].link_id) != '') {
+            jeedom.history.drawChart({
+                cmd_id: options[i].link_id,
+                el: 'graph' + _plan.link_id,
+                dateRange: init(_plan.display.dateRange, '7 days'),
+                option: init(options[i].configuration, {})
+            });
+        }
     }
 }
 
