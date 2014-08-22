@@ -273,6 +273,8 @@ jeedom.history.drawChart = function(_params) {
     });
 }
 
+
+
 jeedom.history.generatePlotBand = function(_startTime, _endTime) {
     var plotBands = [];
     var pas = 43200000;

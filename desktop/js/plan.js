@@ -454,6 +454,9 @@ function savePlan() {
 }
 
 function displayObject(_type, _id, _html, _plan) {
+    for (var i in jeedom.history.chart) {
+        delete   jeedom.history.chart[i];
+    }
     _plan = init(_plan, {});
     _plan.position = init(_plan.position, {});
     _plan.css = init(_plan.css, {});
@@ -553,7 +556,7 @@ function addGraph(_plan) {
     var html = '<div class="graph-widget" data-graph_id="' + _plan.link_id + '" style="width : ' + init(_plan.display.width, 400) + 'px;height : ' + init(_plan.display.height, 200) + 'px;background-color : white;border : solid 1px black;">';
     html += '<i class="fa fa-cogs pull-right editMode configureGraph" style="margin-right : 5px;margin-top : 5px;display:none;"></i>';
     html += '<span class="graphOptions" style="display:none;">' + json_encode(init(_plan.display.graph, '[]')) + '</span>';
-    html += '<div class="graph" id="graph' + _plan.link_id + '"></div>';
+    html += '<div class="graph" id="graph' + _plan.link_id + '" style="width : 100%;height : 90%;"></div>';
     html += '</div>';
     displayObject('graph', _plan.link_id, html, _plan);
     for (var i in options) {
@@ -564,8 +567,14 @@ function addGraph(_plan) {
             option: init(options[i].configuration, {})
         });
     }
-
 }
+
+
+$('#div_displayObject').delegate('.graph-widget', 'resize', function() {
+    if (isset(jeedom.history.chart['graph' + $(this).attr('data-graph_id')])) {
+        jeedom.history.chart['graph' + $(this).attr('data-graph_id')].chart.reflow();
+    }
+});
 /**********************************LINK************************************/
 $('#md_selectLink .linkType').on('change', function() {
     $('#md_selectLink .linkOption').hide();
