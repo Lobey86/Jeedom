@@ -50,8 +50,7 @@ if (is_object($planHeader)) {
         <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter équipement}}</a>
     <?php } ?>
 </div>
-
-<div id="div_displayObject" style="min-height: 500px; min-width: 750px;">
+<div id="div_displayObject" style="min-height: 500px; min-width: 750px;position: relative;">
     <?php
     if (is_object($planHeader) && $planHeader->getImage('type') != '') {
         $size = $planHeader->getImage('size')

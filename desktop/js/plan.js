@@ -307,7 +307,7 @@ function savePlan() {
             width: $('#div_displayObject img').width(),
         };
         var plans = [];
-        $('.eqLogic-widget').each(function() {
+        $('.eqLogic-widget,.scenario-widget').each(function() {
             var plan = {};
             plan.position = {};
             plan.link_type = 'eqLogic';
@@ -326,38 +326,7 @@ function savePlan() {
             plan.position.left = (((position.left * zoom)) / parent.width) * 100;
             plans.push(plan);
         });
-        $('.scenario-widget').each(function() {
-            var plan = {};
-            plan.position = {};
-            plan.link_type = 'scenario';
-            plan.link_id = $(this).attr('data-scenario_id');
-            plan.planHeader_id = planHeader_id;
-            var zoom = getZoomLevel($(this));
-            if ($(this).css('zoom') != undefined) {
-                var zoom = getZoomLevel($(this));
-                $(this).css('zoom', '100%');
-                var position = $(this).position();
-                $(this).css('zoom', zoom);
-            } else {
-                var position = $(this).position();
-                zoom = 1;
-            }
-            plan.position.top = ((position.top * zoom) / parent.height) * 100;
-            plan.position.left = ((position.left * zoom) / parent.width) * 100;
-            plans.push(plan);
-        });
-        $('.plan-link-widget').each(function() {
-            var plan = {};
-            plan.position = {};
-            plan.link_type = 'plan';
-            plan.link_id = $(this).attr('data-link_id');
-            plan.planHeader_id = planHeader_id;
-            var position = $(this).position();
-            plan.position.top = ((position.top) / parent.height) * 100;
-            plan.position.left = ((position.left) / parent.width) * 100;
-            plans.push(plan);
-        });
-        $('.view-link-widget').each(function() {
+        $('.plan-link-widget,.view-link-widget').each(function() {
             var plan = {};
             plan.position = {};
             plan.link_type = 'view';
@@ -406,22 +375,29 @@ function displayObject(_type, _id, _html, _plan) {
         width: $('#div_displayObject img').width(),
     };
     var html = $(_html);
-    html.css('position', 'absolute');
-    html.css('zoom', init(_plan.css.zoom, defaultZoom));
-    html.css('-moz-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ',' + init(_plan.css.zoom, defaultZoom) + ')');
-    if (html.css('zoom') != undefined) {
-        html.css('top', init(_plan.position.top, '10') * parent.height / init(_plan.css.zoom, defaultZoom) / 100);
-        html.css('left', init(_plan.position.left, '10') * parent.width / init(_plan.css.zoom, defaultZoom) / 100);
-    } else {
-        html.css('top', init(_plan.position.top, '10') * parent.height / 100 - init(_plan.position.top, '10') * init(_plan.css.zoom, defaultZoom));
-        html.css('left', init(_plan.position.left, '10') * parent.width / 100 - init(_plan.position.left, '10') * init(_plan.css.zoom, defaultZoom) - 20);
-    }
+    $('#div_displayObject').append(html);
+
     for (var key in _plan.css) {
         if (_plan.css[key] != '') {
             html.css(key, _plan.css[key]);
         }
     }
-    $('#div_displayObject').append(html);
+    html.css('position', 'absolute');
+    html.css('zoom', init(_plan.css.zoom, defaultZoom));
+    html.css('-moz-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ',' + init(_plan.css.zoom, defaultZoom) + ')');
+    var position = {
+        top: init(_plan.position.top, '10') * parent.height / 100,
+        left: init(_plan.position.left, '10') * parent.width / 100,
+    };
+    if (html.css('zoom') != undefined) {
+        html.css('top', position.top / init(_plan.css.zoom, defaultZoom));
+        html.css('left', position.left / init(_plan.css.zoom, defaultZoom));
+    } else {
+        html.css('top', position.top - html.height() * init(_plan.css.zoom, defaultZoom) / 3.5);
+        html.css('left', position.left - html.width() * init(_plan.css.zoom, defaultZoom) / 3.5);
+    }
+
+
 
     if (_type == 'eqLogic') {
         if (isset(_plan.display) && isset(_plan.display.cmd)) {
