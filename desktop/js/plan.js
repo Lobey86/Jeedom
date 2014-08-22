@@ -393,11 +393,9 @@ function displayObject(_type, _id, _html, _plan) {
         html.css('top', position.top / init(_plan.css.zoom, defaultZoom));
         html.css('left', position.left / init(_plan.css.zoom, defaultZoom));
     } else {
-        html.css('top', position.top - html.height() * init(_plan.css.zoom, defaultZoom) / 3.5);
-        html.css('left', position.left - html.width() * init(_plan.css.zoom, defaultZoom) / 3.5);
+        html.css('top', position.top - html.height() * 0.52 * (1 - init(_plan.css.zoom, defaultZoom)));
+        html.css('left', position.left - html.width() * 0.52 * (1 - init(_plan.css.zoom, defaultZoom)));
     }
-
-
 
     if (_type == 'eqLogic') {
         if (isset(_plan.display) && isset(_plan.display.cmd)) {
