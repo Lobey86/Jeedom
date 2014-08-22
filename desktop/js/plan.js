@@ -40,38 +40,6 @@ $('#bt_addPlanHeader').on('click', function() {
     });
 });
 
-$('#bt_removePlanHeader').on('click', function() {
-    bootbox.confirm('{{Etes-vous sûr de vouloir supprimer ce plan ?', function(result) {
-        if (result) {
-            jeedom.plan.removeHeader({
-                id: planHeader_id,
-                error: function(error) {
-                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                },
-                success: function() {
-                    window.location.replace('index.php?v=d&p=plan');
-                }
-            });
-        }
-    });
-});
-
-$('#bt_editPlanHeader').on('click', function() {
-    bootbox.prompt("Nom du plan ?", function(result) {
-        if (result !== null) {
-            jeedom.plan.saveHeader({
-                planHeader: {name: result, id: planHeader_id},
-                error: function(error) {
-                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                },
-                success: function(data) {
-                    window.location.replace('index.php?v=d&p=plan&plan_id=' + data.id);
-                }
-            });
-        }
-    });
-});
-
 $('#sel_planHeader').on('change', function() {
     window.location.replace('index.php?v=d&p=plan&plan_id=' + $(this).value());
 });
@@ -80,20 +48,17 @@ $('#sel_planHeader').on('change', function() {
 $('#bt_addEqLogic').on('click', function() {
     jeedom.eqLogic.getSelectModal({}, function(data) {
         addEqLogic(data.id);
-        savePlan();
     });
 });
 
 $('#bt_addScenario').on('click', function() {
     jeedom.scenario.getSelectModal({}, function(data) {
         addScenario(data.id);
-        savePlan();
     });
 });
 
 $('#bt_addLink').on('click', function() {
     $('#md_selectLink').modal('show');
-    savePlan();
 });
 
 $('#bt_addGraph').on('click', function() {
@@ -109,7 +74,7 @@ $('#bt_savePlan').on('click', function() {
 
 $('#bt_configurePlanHeader').on('click', function() {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
-        $('#md_modal').dialog({title: "Configuration du plan"});
+        $('#md_modal').dialog({title: "{{Configuration du plan}}"});
         $('#md_modal').load('index.php?v=d&modal=planHeader.configure&planHeader_id=' + planHeader_id).dialog('open');
     }
 });
@@ -530,6 +495,7 @@ function addEqLogic(_id, _plan) {
         },
         success: function(data) {
             displayObject('eqLogic', _id, data.html, _plan);
+            savePlan();
         }
     })
 }
@@ -544,6 +510,7 @@ function addScenario(_id, _plan) {
         },
         success: function(data) {
             displayObject('scenario', _id, data, _plan);
+            savePlan();
         }
     })
 }
@@ -616,4 +583,5 @@ function addLink(_link, _plan) {
     html += '</a>';
     html += '</span>';
     displayObject(_link.type, _link.id, html, _plan);
+    savePlan();
 }
