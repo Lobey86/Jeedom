@@ -425,7 +425,7 @@ function savePlan(_refreshDisplay) {
             var plan = {};
             plan.position = {};
             plan.link_type = 'view';
-            plan.link_id = $(this).attr('data-plan_id');
+            plan.link_id = $(this).attr('data-view_id');
             plan.planHeader_id = planHeader_id;
             var position = $(this).position();
             plan.position.top = ((position.top) / parent.height) * 100;
@@ -581,7 +581,8 @@ function addGraph(_plan) {
                 cmd_id: options[i].link_id,
                 el: 'graph' + _plan.link_id,
                 dateRange: init(_plan.display.dateRange, '7 days'),
-                option: init(options[i].configuration, {})
+                option: init(options[i].configuration, {}),
+                global : false,
             });
         }
     }
