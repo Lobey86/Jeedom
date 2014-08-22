@@ -133,7 +133,6 @@ sendVarToJS('id', $plan->getId());
                     return;
                 }
                 $('#fd_planConfigure').setValues(data.result, '.planAttr');
-                displayPlan();
             }
         });
     }
@@ -147,7 +146,7 @@ sendVarToJS('id', $plan->getId());
             },
             success: function() {
                 $('#div_alertPlanConfigure').showAlert({message: 'Plan sauvegardé', level: 'success'});
-                load(id);
+                displayPlan();
                 $('#fd_planConfigure').closest("div.ui-dialog-content").dialog("close");
             },
         });
