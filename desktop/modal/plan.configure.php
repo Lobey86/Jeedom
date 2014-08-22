@@ -62,6 +62,29 @@ sendVarToJS('id', $plan->getId());
                 }
             }
             ?>
+        <?php } else if ($plan->getLink_type() == 'graph') { ?>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Période}}</label>
+                <div class="col-lg-2">
+                    <select class="planAttr form-control" data-l1key="display" data-l2key="dateRange">
+                        <option value="30 min">{{30min}}</option>
+                        <option value="1 day">{{Jour}}</option>
+                        <option value="7 days" selected>{{Semaine}}</option>
+                        <option value="1 month">{{Mois}}</option>
+                        <option value="1 year">{{Années}}</option>
+                        <option value="all">{{Tous}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Bordure}}</label>
+                <div class="col-lg-2">
+                    <select class="planAttr form-control" data-l1key="css" data-l2key="border">
+                        <option value="solid 1px black">Oui</option>
+                        <option value="none">Non</option>
+                    </select>
+                </div>
+            </div>
         <?php } ?>
     </fieldset>
 </form>
@@ -103,12 +126,7 @@ sendVarToJS('id', $plan->getId());
                     return;
                 }
                 $('#fd_planConfigure').setValues(data.result, '.planAttr');
-                if ($(".planAttr[data-l1key=link_type]").value() == 'eqLogic') {
-                    addEqLogic(data.result.link_id, data.result);
-                }
-                if ($(".planAttr[data-l1key=link_type]").value() == 'scenario') {
-                    addScenario(data.result.link_id, data.result);
-                }
+                displayPlan();
             }
         });
     }
@@ -146,21 +164,7 @@ sendVarToJS('id', $plan->getId());
                     return;
                 }
                 $('#div_alertPlanConfigure').showAlert({message: 'Plan supprimé', level: 'success'});
-                if ($(".planAttr[data-l1key=link_type]").value() == 'eqLogic') {
-                    $('.eqLogic-widget[data-eqLogic_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
-                }
-                if ($(".planAttr[data-l1key=link_type]").value() == 'scenario') {
-                    $('.scenario-widget[data-scenario_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
-                }
-                if ($(".planAttr[data-l1key=link_type]").value() == 'plan') {
-                    $('.plan-link-widget[data-link_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
-                }
-                if ($(".planAttr[data-l1key=link_type]").value() == 'view') {
-                    $('.view-plan-widget[data-link_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
-                }
-                 if ($(".planAttr[data-l1key=link_type]").value() == 'graph') {
-                    $('.graph-widget[data-graph_id=' + $(".planAttr[data-l1key=link_id]").value() + ']').remove();
-                }
+                displayPlan();
                 $('#fd_planConfigure').closest("div.ui-dialog-content").dialog("close");
             }
         });
