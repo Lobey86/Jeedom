@@ -15,6 +15,7 @@ sendVarToJS('id', $plan->getId());
 <a class='btn btn-danger  btn-xs pull-right cursor' style="color: white;" id='bt_removeConfigurePlan'><i class="fa fa-times"></i> Supprimer</a>
 <form class="form-horizontal">
     <fieldset id="fd_planConfigure">
+        <legend>Générale</legend>
         <input type="text"  class="planAttr form-control" data-l1key="id" style="display: none;"/>
         <input type="text"  class="planAttr form-control" data-l1key="link_type" style="display: none;"/>
         <input type="text"  class="planAttr form-control" data-l1key="link_id" style="display: none;"/>
@@ -45,6 +46,12 @@ sendVarToJS('id', $plan->getId());
                 <label class="col-lg-4 control-label">{{Couleur des icones et textes}}</label>
                 <div class="col-lg-2">
                     <input type="color" class="planAttr form-control" data-l1key="css" data-l2key="color" value="#FFFFFF"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Ne pas afficher le nom de l'équipement'}}</label>
+                <div class="col-lg-2">
+                    <input type="checkbox" class="planAttr" data-l1key="display" data-l2key="name" checked>
                 </div>
             </div>
             <legend>Spécifique</legend>

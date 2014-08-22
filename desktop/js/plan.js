@@ -523,6 +523,9 @@ function displayObject(_type, _id, _html, _plan) {
                 }
             }
         }
+        if (isset(_plan.display) && (!isset(_plan.display.name) || _plan.display.name == 0) ) {
+            html.find('.widget-name').remove();
+        }
     }
     initDraggable($('#bt_editPlan').attr('data-mode'));
 }
