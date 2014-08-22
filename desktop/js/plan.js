@@ -413,7 +413,7 @@ function savePlan(_refreshDisplay) {
         $('.plan-link-widget').each(function() {
             var plan = {};
             plan.position = {};
-            plan.link_type = 'view';
+            plan.link_type = 'plan';
             plan.link_id = $(this).attr('data-link_id');
             plan.planHeader_id = planHeader_id;
             var position = $(this).position();
@@ -424,7 +424,7 @@ function savePlan(_refreshDisplay) {
         $('.view-link-widget').each(function() {
             var plan = {};
             plan.position = {};
-            plan.link_type = 'plan';
+            plan.link_type = 'view';
             plan.link_id = $(this).attr('data-plan_id');
             plan.planHeader_id = planHeader_id;
             var position = $(this).position();
