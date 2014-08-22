@@ -257,59 +257,78 @@ function initDraggable(_state) {
     }
 }
 
+function calculSize() {
+
+}
+
 function displayPlan() {
-    var img = $('#div_displayObject img');
-    var size_x = img.attr('data-sixe_x');
-    var size_y = img.attr('data-sixe_y');
-    var ratio = size_x / size_y;
-    var height = $(window).height() - $('header').height() - $('#div_planHeader').height() - 45;
-    var width = $(window).width() - 22;
-    if (height < 500) {
-        height = 500;
-    }
-    if (width < 750) {
-        width = 750;
-    }
-    $('#div_displayObject').height(height);
-    $('#div_displayObject').width(width);
-    var rWidth = width;
-    var rHeight = width / ratio;
-    if (rHeight > height) {
-        rHeight = height;
-        rWidth = height * ratio;
-    }
-
-    $('#div_displayObject img').height(rHeight);
-    $('#div_displayObject img').width(rWidth);
-
-    $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget').remove();
-
-    if (planHeader_id != -1) {
-        jeedom.plan.byPlanHeader({
-            id: planHeader_id,
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function(data) {
-                for (var i in data) {
-                    if (data[i].plan.link_type == 'graph') {
-                        addGraph(data[i].plan);
+    jeedom.plan.getHeader({
+        id: planHeader_id,
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(data) {
+            var img = $('#div_displayObject img');
+            var height = $(window).height() - $('header').height() - $('#div_planHeader').height() - 45;
+            var width = $(window).width() - 22;
+            if (init(data.configuration.sizeX) != '' && init(data.configuration.sizeY) != '') {
+                if (init(data.configuration.maxSizeAllow) == 1 && (height > data.configuration.sizeY || width > data.configuration.sizeX)) {
+                    height = data.configuration.sizeY;
+                    width = data.configuration.sizeX;
+                }
+                if (init(data.configuration.minSizeAllow) == 1 && (height < data.configuration.sizeY || width < data.configuration.sizeX)) {
+                    height = data.configuration.sizeY;
+                    width = data.configuration.sizeX;
+                }
+                if (width / height != data.configuration.sizeX / data.configuration.sizeY) {
+                    var cHeight = width / (data.configuration.sizeX / data.configuration.sizeY);
+                    if (height < cHeight) {
+                        width = height * (data.configuration.sizeX / data.configuration.sizeY);
                     } else {
-                        displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
+                        height = cHeight;
                     }
                 }
-            },
-        });
-        jeedom.plan.getHeader({
-            id: planHeader_id,
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function(data) {
-                $('#div_planHeader').setValues(data, '.planHeaderAttr');
-            },
-        });
-    }
+            }
+            var size_x = img.attr('data-sixe_x');
+            var size_y = img.attr('data-sixe_y');
+            var ratio = size_x / size_y;
+            console.log('Result =>  ' + width + 'x' + height);
+            $('#div_displayObject').height(height);
+            $('#div_displayObject').width(width);
+            var rWidth = width;
+            var rHeight = width / ratio;
+            if (rHeight > height) {
+                rHeight = height;
+                rWidth = height * ratio;
+            }
+            console.log('Result =>  ' + rWidth + 'x' + rHeight);
+            $('#div_displayObject img').height(rHeight);
+            $('#div_displayObject img').width(rWidth);
+
+            $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget').remove();
+
+            if (planHeader_id != -1) {
+                jeedom.plan.byPlanHeader({
+                    id: planHeader_id,
+                    error: function(error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function(data) {
+                        for (var i in data) {
+                            if (data[i].plan.link_type == 'graph') {
+                                addGraph(data[i].plan);
+                            } else {
+                                displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
+                            }
+                        }
+                    },
+                });
+
+            }
+
+        },
+    });
+
 }
 
 function getZoomLevel(_el) {

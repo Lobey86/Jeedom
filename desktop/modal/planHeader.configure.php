@@ -36,6 +36,27 @@ sendVarToJS('id', $planHeader->getId())
                 <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='gridY' style="width: 50px;display: inline-block;"/>
             </div>
         </div>
+        <legend>{{Taile}}</legend>
+        <div class="form-group">
+            <label class="col-lg-4 control-label">{{Ratio/taille}}</label>
+            <div class="col-lg-2">
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key="sizeX" style="width: 50px;display: inline-block;"/> 
+                x 
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='sizeY' style="width: 50px;display: inline-block;"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-4 control-label">{{Taille maximal autorisée}}</label>
+            <div class="col-lg-2">
+                <input type="checkbox" class="planHeaderAttr form-control" data-l1key='configuration' data-l2key='maxSizeAllow' />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-4 control-label">{{Taille minimal autorisée}}</label>
+            <div class="col-lg-2">
+                <input type="checkbox" class="planHeaderAttr form-control" data-l1key='configuration' data-l2key='minSizeAllow' />
+            </div>
+        </div>
     </fieldset>
 </form>
 
