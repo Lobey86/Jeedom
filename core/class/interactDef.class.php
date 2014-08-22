@@ -193,7 +193,7 @@ class interactDef {
                     foreach (object::all() as $object) {
                         if (($this->getFiltres('object_id', 'all') == 'all' || $object->getId() == $this->getFiltres('object_id'))) {
                             foreach ($object->getEqLogic() as $eqLogic) {
-                                if (($this->getFiltres('plugin', 'all') == 'all' || $eqLogic->getPlugin() == $this->getFiltres('plugin'))) {
+                                if (($this->getFiltres('plugin', 'all') == 'all' || $eqLogic->getEqType_name() == $this->getFiltres('plugin'))) {
                                     foreach ($eqLogic->getCmd() as $cmd) {
                                         if ($cmd->getType() == 'info' || ($cmd->getType() == 'action' && ($cmd->getSubType() == 'color' || $cmd->getSubType() == 'slider' || $cmd->getSubType() == 'other')))
                                             if ($this->getFiltres('subtype') == 'all' || $this->getFiltres('subtype') == $cmd->getSubType()) {
