@@ -126,6 +126,13 @@ $('#bt_savePlan').on('click', function() {
     savePlan();
 });
 
+$('#bt_configurePlanHeader').on('click', function() {
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        $('#md_modal').dialog({title: "{{Configuration du plan}}"});
+        $('#md_modal').load('index.php?v=d&modal=planHeader.configure&planHeader_id=' + planHeader_id).dialog('open');
+    }
+});
+
 $('#div_displayObject').delegate('.eqLogic-widget', 'dblclick', function() {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
         $('#md_modal').dialog({title: "{{Configuration du plan}}"});
@@ -328,7 +335,7 @@ function displayPlan() {
 
     $('#div_displayObject img').height(rHeight);
     $('#div_displayObject img').width(rWidth);
-    
+
     $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget').remove();
 
     if (planHeader_id != -1) {
@@ -525,7 +532,7 @@ function displayObject(_type, _id, _html, _plan) {
                 }
             }
         }
-        if (isset(_plan.display) && (isset(_plan.display.name) && _plan.display.name == 1) ) {
+        if (isset(_plan.display) && (isset(_plan.display.name) && _plan.display.name == 1)) {
             html.find('.widget-name').remove();
         }
     }
@@ -576,7 +583,7 @@ function addGraph(_plan) {
     html += '<div class="graph" id="graph' + _plan.link_id + '" style="width : 100%;height : 90%;"></div>';
     html += '</div>';
     displayObject('graph', _plan.link_id, html, _plan);
-   
+
     for (var i in options) {
         if (init(options[i].link_id) != '') {
             jeedom.history.drawChart({
@@ -584,7 +591,7 @@ function addGraph(_plan) {
                 el: 'graph' + _plan.link_id,
                 dateRange: init(_plan.display.dateRange, '7 days'),
                 option: init(options[i].configuration, {}),
-                global : false,
+                global: false,
             });
         }
     }
