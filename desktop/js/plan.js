@@ -549,11 +549,22 @@ function addGraph(_plan) {
     _plan = init(_plan, {});
     _plan.display = init(_plan.display, {});
     _plan.link_id = init(_plan.link_id, Math.round(Math.random() * 99999999) + 9999);
+    var options = init(_plan.display.graph, '[]');
     var html = '<div class="graph-widget" data-graph_id="' + _plan.link_id + '" style="width : ' + init(_plan.display.width, 400) + 'px;height : ' + init(_plan.display.height, 200) + 'px;background-color : white;border : solid 1px black;">';
     html += '<i class="fa fa-cogs pull-right editMode configureGraph" style="margin-right : 5px;margin-top : 5px;display:none;"></i>';
-    html += '<span class="graphOptions" style="display:none;">' + json_encode(init(_plan.display.graph, '{}')) + '</span>';
+    html += '<span class="graphOptions" style="display:none;">' + json_encode(init(_plan.display.graph, '[]')) + '</span>';
+    html += '<div class="graph" id="graph' + _plan.link_id + '"></div>';
     html += '</div>';
     displayObject('graph', _plan.link_id, html, _plan);
+    for (var i in options) {
+        jeedom.history.drawChart({
+            cmd_id: options[i].link_id,
+            el: 'graph' + _plan.link_id,
+            dateRange: init(_plan.display.dateRange, '7 days'),
+            option: init(options[i].configuration, {})
+        });
+    }
+
 }
 /**********************************LINK************************************/
 $('#md_selectLink .linkType').on('change', function() {
