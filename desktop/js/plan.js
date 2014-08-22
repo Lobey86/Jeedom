@@ -292,7 +292,6 @@ function displayPlan() {
             var size_x = img.attr('data-sixe_x');
             var size_y = img.attr('data-sixe_y');
             var ratio = size_x / size_y;
-            console.log('Result =>  ' + width + 'x' + height);
             $('#div_displayObject').height(height);
             $('#div_displayObject').width(width);
             var rWidth = width;
@@ -301,7 +300,6 @@ function displayPlan() {
                 rHeight = height;
                 rWidth = height * ratio;
             }
-            console.log('Result =>  ' + rWidth + 'x' + rHeight);
             $('#div_displayObject img').height(rHeight);
             $('#div_displayObject img').width(rWidth);
 

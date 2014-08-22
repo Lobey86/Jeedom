@@ -48,13 +48,13 @@ sendVarToJS('id', $planHeader->getId())
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Taille maximal autorisée}}</label>
             <div class="col-lg-2">
-                <input type="checkbox" class="planHeaderAttr form-control" data-l1key='configuration' data-l2key='maxSizeAllow' />
+                <input type="checkbox" class="planHeaderAttr" data-l1key='configuration' data-l2key='maxSizeAllow' />
             </div>
         </div>
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Taille minimal autorisée}}</label>
             <div class="col-lg-2">
-                <input type="checkbox" class="planHeaderAttr form-control" data-l1key='configuration' data-l2key='minSizeAllow' />
+                <input type="checkbox" class="planHeaderAttr" data-l1key='configuration' data-l2key='minSizeAllow' />
             </div>
         </div>
     </fieldset>
