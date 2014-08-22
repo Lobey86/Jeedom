@@ -15,6 +15,14 @@
  */
 var noBootstrapTooltips = true;
 var grid = false;
+
+
+$("#md_addViewData").dialog({
+    autoOpen: false,
+    modal: true,
+    height: (jQuery(window).height() - 150),
+    width: (jQuery(window).width() - 450)
+});
 /*****************************PLAN HEADER***********************************/
 $('#bt_addPlanHeader').on('click', function() {
     bootbox.prompt("Nom du plan ?", function(result) {
@@ -104,8 +112,14 @@ $('#bt_addGraph').on('click', function() {
 
 displayPlan();
 
-$(window).resize(function() {
-    displayPlan();
+$(window).resize(function(e) {
+    if (e.target == window) {
+        displayPlan();
+    }
+});
+
+$('#bt_savePlan').on('click', function() {
+    savePlan();
 });
 
 $('#div_displayObject').delegate('.eqLogic-widget', 'dblclick', function() {
@@ -170,6 +184,47 @@ $('.planHeaderAttr').on('change', function() {
     });
 });
 
+function setColorSelect(_select) {
+    _select.css('background-color', _select.find('option:selected').val());
+}
+
+$('.graphDataOption[data-l1key=configuration][data-l2key=graphColor]').on('change', function() {
+    setColorSelect($(this).closest('select'));
+});
+
+$('#div_displayObject').delegate('.configureGraph', 'click', function() {
+    var el = $(this).closest('.graph-widget');
+    $('#table_addViewData tbody tr .enable').prop('checked', false);
+    var options = json_decode(el.find('.graphOptions').value());
+    for (var i in options) {
+        var tr = $('#table_addViewData tbody tr[data-link_id=' + options[i].link_id + ']');
+        tr.find('.enable').value(1);
+        tr.setValues(options[i], '.graphDataOption');
+        setColorSelect(tr.find('.graphDataOption[data-l1key=configuration][data-l2key=graphColor]'));
+    }
+
+    $("#md_addViewData").dialog('option', 'buttons', {
+        "Annuler": function() {
+            $(this).dialog("close");
+        },
+        "Valider": function() {
+            var tr = $('#table_addViewData tbody tr:first');
+            var options = [];
+            while (tr.attr('data-link_id') != undefined) {
+                if (tr.find('.enable').is(':checked')) {
+                    var graphData = tr.getValues('.graphDataOption')[0];
+                    graphData.link_id = tr.attr('data-link_id');
+                    options.push(graphData);
+                }
+                tr = tr.next();
+            }
+            el.find('.graphOptions').empty().append(json_encode(options));
+            $(this).dialog('close');
+        }
+    });
+    $('#md_addViewData').dialog('open');
+});
+
 $('#bt_editPlan').on('click', function() {
     if ($(this).attr('data-mode') == '0') {
         initDraggable(1);
@@ -215,9 +270,6 @@ function initDraggable(_state) {
             }
 
         },
-        stop: function(event, ui) {
-            savePlan();
-        }
     });
     $('.plan-link-widget,.view-link-widget,.graph-widget').draggable({
         drag: function(evt, ui) {
@@ -226,10 +278,8 @@ function initDraggable(_state) {
                 ui.position.left = Math.round(ui.position.left / grid[0]) * grid[0];
             }
         },
-        stop: function(event, ui) {
-            savePlan();
-        }
     });
+    $('.graph-widget').resizable();
     $('#div_displayObject a').each(function() {
         if ($(this).attr('href') != '#') {
             $(this).attr('data-href', $(this).attr('href'));
@@ -242,6 +292,7 @@ function initDraggable(_state) {
         $('.eqLogic-widget').draggable("destroy");
         $('.scenario-widget').draggable("destroy");
         $('.graph-widget').draggable("destroy");
+        $('.graph-widget').resizable('destroy');
         $('#div_displayObject a').each(function() {
             $(this).attr('href', $(this).attr('data-href'));
         });
@@ -272,7 +323,6 @@ function displayPlan() {
 
     $('#div_displayObject img').height(rHeight);
     $('#div_displayObject img').width(rWidth);
-
 
     if (planHeader_id != -1) {
         jeedom.plan.byPlanHeader({
@@ -380,9 +430,13 @@ function savePlan() {
         $('.graph-widget').each(function() {
             var plan = {};
             plan.position = {};
+            plan.display = {};
             plan.link_type = 'graph';
             plan.link_id = $(this).attr('data-graph_id');
             plan.planHeader_id = planHeader_id;
+            plan.display.height = $(this).height();
+            plan.display.width = $(this).width();
+            plan.display.graph = json_decode($(this).find('.graphOptions').value());
             var position = $(this).position();
             plan.position.top = ((position.top) / parent.height) * 100;
             plan.position.left = ((position.left) / parent.width) * 100;
@@ -390,7 +444,6 @@ function savePlan() {
         });
         jeedom.plan.save({
             plans: plans,
-            global: false,
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
@@ -399,7 +452,6 @@ function savePlan() {
         });
     }
 }
-
 
 function displayObject(_type, _id, _html, _plan) {
     _plan = init(_plan, {});
@@ -474,12 +526,9 @@ function addEqLogic(_id, _plan) {
         },
         success: function(data) {
             displayObject('eqLogic', _id, data.html, _plan);
-            savePlan();
         }
     })
 }
-
-
 
 /***************************Scenario**************************************/
 function addScenario(_id, _plan) {
@@ -491,20 +540,19 @@ function addScenario(_id, _plan) {
         },
         success: function(data) {
             displayObject('scenario', _id, data, _plan);
-            savePlan();
         }
     })
 }
+
 /**********************************GRAPH************************************/
 function addGraph(_plan) {
-    console.log(_plan);
     _plan = init(_plan, {});
     _plan.display = init(_plan.display, {});
     _plan.link_id = init(_plan.link_id, Math.round(Math.random() * 99999999) + 9999);
     var html = '<div class="graph-widget" data-graph_id="' + _plan.link_id + '" style="width : ' + init(_plan.display.width, 400) + 'px;height : ' + init(_plan.display.height, 200) + 'px;background-color : white;border : solid 1px black;">';
-    html += '<i class="fa fa-cogs pull-right" style="margin-right : 5px;margin-top : 5px;"></i>';
+    html += '<i class="fa fa-cogs pull-right editMode configureGraph" style="margin-right : 5px;margin-top : 5px;display:none;"></i>';
+    html += '<span class="graphOptions" style="display:none;">' + json_encode(init(_plan.display.graph, '{}')) + '</span>';
     html += '</div>';
-    console.log(html);
     displayObject('graph', _plan.link_id, html, _plan);
 }
 /**********************************LINK************************************/
@@ -538,6 +586,5 @@ function addLink(_link, _plan) {
     html += _link.name;
     html += '</a>';
     html += '</span>';
-    displayObject(_link.type, _link.id, html, _plan)
-    savePlan();
+    displayObject(_link.type, _link.id, html, _plan);
 }
