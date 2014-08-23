@@ -5,7 +5,7 @@ function initPlan(_planHeader_id) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function(data) {
-            $('#div_displayObject').empty().append(data.image);
+            $('#div_displayObject').empty().css('overflow', 'scroll').append(data.image);
             var img = $('#div_displayObject img');
             var height = $(window).height() - $('#pageTitle').height();
             var width = $(window).width();
