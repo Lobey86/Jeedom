@@ -9,7 +9,7 @@ function initPlan(_planHeader_id) {
             var img = $('#div_displayObject img');
             var height = $(window).height() - $('#pageTitle').height();
             var width = $(window).width();
-            if (init(data.configuration.sizeX) != '' && init(data.configuration.sizeY) != '') {
+            if (data.configuration != null && init(data.configuration.sizeX) != '' && init(data.configuration.sizeY) != '') {
                 if (init(data.configuration.maxSizeAllow) == 1 && (height > data.configuration.sizeY || width > data.configuration.sizeX)) {
                     height = data.configuration.sizeY;
                     width = data.configuration.sizeX;

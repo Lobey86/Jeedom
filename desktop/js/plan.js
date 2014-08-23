@@ -271,7 +271,7 @@ function displayPlan() {
             var img = $('#div_displayObject img');
             var height = $(window).height() - $('header').height() - $('#div_planHeader').height() - 45;
             var width = $(window).width() - 22;
-            if (init(data.configuration.sizeX) != '' && init(data.configuration.sizeY) != '') {
+            if (data.configuration != null && init(data.configuration.sizeX) != '' && init(data.configuration.sizeY) != '') {
                 if (init(data.configuration.maxSizeAllow) == 1 && (height > data.configuration.sizeY || width > data.configuration.sizeX)) {
                     height = data.configuration.sizeY;
                     width = data.configuration.sizeX;
