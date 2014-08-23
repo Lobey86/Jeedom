@@ -215,9 +215,6 @@ class scenarioExpression {
             '#semaine#' => date('W'),
             '#sjour#' => convertDayEnToFr(date('l')),
         );
-        $_expression = str_replace(array_keys($replace), array_values($replace), $_expression);
-        $replace = array();
-
         preg_match_all("/([a-z][a-z]*?)\((.*?)\)/", $_expression, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
             $function = $match[1];
@@ -242,6 +239,7 @@ class scenarioExpression {
                     $this->setLog(__('Exécution d\'un bloc élément : ', __FILE__) . $this->getExpression());
                     return $element->execute($scenario);
                 }
+                return;
             }
             $options = $this->getOptions();
             if (is_array($options)) {
