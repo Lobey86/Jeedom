@@ -145,6 +145,7 @@ function displayObject(_type, _id, _html, _plan) {
             html.find('.widget-name').remove();
         }
     }
+    html.trigger('create');
 }
 
 function addGraph(_plan) {
