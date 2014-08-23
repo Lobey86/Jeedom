@@ -462,6 +462,7 @@ function displayObject(_type, _id, _html, _plan) {
         height: $('#div_displayObject img').height(),
         width: $('#div_displayObject img').width(),
     };
+
     var html = $(_html);
     $('#div_displayObject').append(html);
 
