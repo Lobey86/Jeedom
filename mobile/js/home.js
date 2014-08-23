@@ -38,7 +38,6 @@ function initHome() {
         success: function(planHeader) {
             var li = '';
             for (var i in planHeader) {
-                console.log(planHeader[i].configuration.enableOnMobile);
                 if (deviceInfo.type != 'phone' || (deviceInfo.type == 'phone' && planHeader[i].configuration.enableOnMobile == "1")) {
                     li += '<li><a href="#" class="link" data-page="plan" data-title="' + planHeader[i].name + '" data-option="' + planHeader[i].id + '">' + planHeader[i].name + '</a></li>'
                 }
