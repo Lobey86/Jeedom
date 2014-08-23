@@ -194,10 +194,12 @@ if (count($plugins_list) > 0) {
                                     <ul class="dropdown-menu">
                                         <li><a href="index.php?v=d&p=profils"><i class="fa fa-briefcase"></i> {{Profil}}</a></li>
                                         <?php
-                                        if ($_SESSION['user']->getOptions('expertMode') == 1) {
-                                            echo '<li class="cursor"><a id="bt_expertMode" state="1"><i class="fa fa-check-square-o"></i> {{Mode expert}}</a></li>';
-                                        } else {
-                                            echo '<li class="cursor"><a id="bt_expertMode" state="0"><i class="fa fa-square-o"></i> {{Mode expert}}</a></li>';
+                                        if (isConnect('admin')) {
+                                            if ($_SESSION['user']->getOptions('expertMode') == 1) {
+                                                echo '<li class="cursor"><a id="bt_expertMode" state="1"><i class="fa fa-check-square-o"></i> {{Mode expert}}</a></li>';
+                                            } else {
+                                                echo '<li class="cursor"><a id="bt_expertMode" state="0"><i class="fa fa-square-o"></i> {{Mode expert}}</a></li>';
+                                            }
                                         }
                                         ?>
                                         <li class="divider"></li>
