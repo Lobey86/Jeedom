@@ -5,7 +5,7 @@
   Copyright (c) 2012 Reactive Apps, Ronnie Garcia
   Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
-
+die();
 require_once dirname(__FILE__) . "/../../core/php/core.inc.php";
 if (!empty($_FILES) && isset($_GET['id']) && isset($_GET['type'])) {
     $fileTypes = array('jpg', 'jpeg', 'gif', 'png'); // File extensions

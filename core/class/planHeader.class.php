@@ -55,6 +55,21 @@ class planHeader {
         DB::remove($this);
     }
 
+    public function displayImage() {
+        $dir = dirname(__FILE__) . '/../../core/img/plan';
+        if (!file_exists($dir)) {
+            mkdir($dir);
+        }
+        $filename = sha1($this->getImage('data')) . '.' . $this->getImage('type');
+        $filepath = $dir . '/' . $filename;
+
+        if (!file_exists($filepath)) {
+            file_put_contents($filepath, base64_decode($this->getImage('data')));
+        }
+        $size = $this->getImage('size');
+        return '<img src="core/img/plan/' . $filename . '" data-sixe_y="' . $size[1] . '" data-sixe_x="' . $size[0] . '">';
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {

@@ -168,6 +168,7 @@ try {
         $planHeader->setImage('size', getimagesize($_FILES['file']['tmp_name']));
         $planHeader->setImage('data', base64_encode(file_get_contents($_FILES['file']['tmp_name'])));
         $planHeader->save();
+        @rrmdir(dirname(__FILE__) . '/../../core/img/plan');
         ajax::success();
     }
 

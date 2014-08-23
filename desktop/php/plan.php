@@ -48,10 +48,9 @@ if (is_object($planHeader)) {
 <div id="div_displayObject" style="min-height: 500px; min-width: 750px;position: relative;">
     <?php
     if (is_object($planHeader) && $planHeader->getImage('type') != '') {
-        $size = $planHeader->getImage('size')
-        ?>
-        <img src="data:image/<?php echo $planHeader->getImage('type') ?>;base64,<?php echo $planHeader->getImage('data') ?>" data-sixe_y="<?php echo $size[1] ?>" data-sixe_x="<?php echo $size[0] ?>">
-    <?php } ?>
+        echo $planHeader->displayImage();
+    }
+    ?>
 </div>
 
 <div class="modal fade" id="md_selectLink">
