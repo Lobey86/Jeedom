@@ -30,7 +30,7 @@ function initHome() {
             $('#ul_viewList').empty().append(li).listview("refresh");
         }
     });
-    
+
     jeedom.plan.allHeader({
         error: function(error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
@@ -38,7 +38,10 @@ function initHome() {
         success: function(planHeader) {
             var li = '';
             for (var i in planHeader) {
-                li += '<li><a href="#" class="link" data-page="plan" data-title="' + planHeader[i].name + '" data-option="' + planHeader[i].id + '">' + planHeader[i].name + '</a></li>'
+                console.log(planHeader[i].configuration.enableOnMobile);
+                if (deviceInfo.type != 'phone' || (deviceInfo.type == 'phone' && planHeader[i].configuration.enableOnMobile == "1")) {
+                    li += '<li><a href="#" class="link" data-page="plan" data-title="' + planHeader[i].name + '" data-option="' + planHeader[i].id + '">' + planHeader[i].name + '</a></li>'
+                }
             }
             $('#ul_planList').empty().append(li).listview("refresh");
         }

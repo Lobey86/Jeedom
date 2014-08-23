@@ -23,6 +23,12 @@ sendVarToJS('id', $planHeader->getId())
             </div>
         </div>
         <div class="form-group">
+            <label class="col-lg-4 control-label">{{Disponible sur téléphone}}</label>
+            <div class="col-lg-8">
+                <input type="checkbox" class="planHeaderAttr" data-l1key="configuration" data-l2key="enableOnMobile"/>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-lg-4 control-label">{{Image}}</label>
             <div class="col-lg-8">
                 <input  id="bt_uploadImage" type="file" name="file" style="display: inline-block;">
