@@ -245,7 +245,6 @@ jeedom.history.drawChart = function(_params) {
                     xAxis: {
                         type: 'datetime',
                         ordinal: false,
-                        // plotBands: jeedom.history.generatePlotBand(data.result.data[0][0], data.result.data[data.result.data.length - 1][0])
                     },
                     scrollbar: {
                         barBackgroundColor: 'gray',
@@ -262,11 +261,7 @@ jeedom.history.drawChart = function(_params) {
                 });
             } else {
                 jeedom.history.chart[_params.el].chart.addSeries(series);
-                var extremeAxisX = jeedom.history.chart[_params.el].chart.xAxis[0].getExtremes();
-                jeedom.history.chart[_params.el].chart.xAxis[0].setExtremes(extremeAxisX.dataMax - (86400000 * 7), extremeAxisX.dataMax);
             }
-            var yaxis = jeedom.history.chart[_params.el].chart.yAxis[0].getExtremes();
-            jeedom.history.chart[_params.el].chart.yAxis[0].setExtremes(yaxis.dataMin, yaxis.dataMax);
             jeedom.history.chart[_params.el].cmd[parseInt(_params.cmd_id)] = {option: _params.option, dateRange: _params.dateRange};
             jeedom.history.chart[_params.el].color++;
             if (jeedom.history.chart[_params.el].color > 9) {
