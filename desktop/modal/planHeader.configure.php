@@ -14,7 +14,7 @@ sendVarToJS('id', $planHeader->getId())
 <a class='btn btn-danger  btn-xs pull-right cursor' style="color: white;" id='bt_removeConfigurePlanHeader'><i class="fa fa-times"></i> Supprimer</a>
 <form class="form-horizontal">
     <fieldset id="fd_planHeaderConfigure">
-        <legend>{{Générale}}</legend>
+        <legend>{{Général}}</legend>
         <input type="text"  class="planHeaderAttr form-control" data-l1key="id" style="display: none;"/>
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Nom}}</label>
@@ -36,7 +36,7 @@ sendVarToJS('id', $planHeader->getId())
                 <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='gridY' style="width: 50px;display: inline-block;"/>
             </div>
         </div>
-        <legend>{{Taile}}</legend>
+        <legend>{{Taille}}</legend>
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Ratio/taille}}</label>
             <div class="col-lg-2">
@@ -46,13 +46,13 @@ sendVarToJS('id', $planHeader->getId())
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">{{Taille maximal autorisée}}</label>
+            <label class="col-lg-4 control-label">{{Taille maximale autorisée}}</label>
             <div class="col-lg-2">
                 <input type="checkbox" class="planHeaderAttr" data-l1key='configuration' data-l2key='maxSizeAllow' />
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">{{Taille minimal autorisée}}</label>
+            <label class="col-lg-4 control-label">{{Taille minimale autorisée}}</label>
             <div class="col-lg-2">
                 <input type="checkbox" class="planHeaderAttr" data-l1key='configuration' data-l2key='minSizeAllow' />
             </div>

@@ -15,7 +15,7 @@ sendVarToJS('id', $plan->getId());
 <a class='btn btn-danger  btn-xs pull-right cursor' style="color: white;" id='bt_removeConfigurePlan'><i class="fa fa-times"></i> Supprimer</a>
 <form class="form-horizontal">
     <fieldset id="fd_planConfigure">
-        <legend>Générale</legend>
+        <legend>Général</legend>
         <input type="text"  class="planAttr form-control" data-l1key="id" style="display: none;"/>
         <input type="text"  class="planAttr form-control" data-l1key="link_type" style="display: none;"/>
         <input type="text"  class="planAttr form-control" data-l1key="link_id" style="display: none;"/>
