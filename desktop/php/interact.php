@@ -13,7 +13,11 @@ if (!isConnect('admin')) {
                 <?php
                 $allObject = object::buildTree();
                 foreach (interactDef::all() as $interact) {
-                    echo '<li class="li_interact cursor" data-interact_id="' . $interact->getId() . '"><a>' . $interact->getQuery() . '</a></li>';
+                    if ($interact->getName() != '') {
+                        echo '<li class="li_interact cursor" data-interact_id="' . $interact->getId() . '"><a>' . $interact->getName() . '</a></li>';
+                    } else {
+                        echo '<li class="li_interact cursor" data-interact_id="' . $interact->getId() . '"><a>' . $interact->getQuery() . '</a></li>';
+                    }
                 }
                 ?>
             </ul>
@@ -25,6 +29,12 @@ if (!isConnect('admin')) {
                 <form class="form-horizontal">
                     <fieldset>
                         <legend>{{Général}}</legend>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Nom}}</label>
+                            <div class="col-lg-9">
+                                <input class="form-control interactAttr" type="text" data-l1key="name" placeholder=""/>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Demande}}</label>
                             <div class="col-lg-9">

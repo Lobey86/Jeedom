@@ -23,6 +23,7 @@ class interactDef {
     /*     * *************************Attributs****************************** */
 
     private $id;
+    private $name;
     private $position;
     private $filtres;
     private $query;
@@ -368,6 +369,14 @@ class interactDef {
 
     public function setEnable($enable) {
         $this->enable = $enable;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
     }
 
 }
