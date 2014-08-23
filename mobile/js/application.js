@@ -1,6 +1,7 @@
 /***************Fonction d'initialisation*********************/
 $(function() {
     $.mobile.orientationChangeEnabled = false;
+    $.mobile.touchOverflowEnabled = true;
 
     $(window).on("orientationchange", function(event) {
         deviceInfo = getDeviceType();
