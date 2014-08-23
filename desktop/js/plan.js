@@ -321,9 +321,7 @@ function displayPlan() {
                         }
                     },
                 });
-
             }
-
         },
     });
 

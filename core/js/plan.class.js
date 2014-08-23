@@ -105,7 +105,8 @@ jeedom.plan.byPlanHeader = function(_params) {
     paramsAJAX.url = 'core/ajax/plan.ajax.php';
     paramsAJAX.data = {
         action: 'planHeader',
-        planHeader_id: _params.id
+        planHeader_id: _params.id,
+        version: _params.version || 'dashboard'
     };
     $.ajax(paramsAJAX);
 };
