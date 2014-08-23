@@ -13,6 +13,7 @@ $notifyTheme = array(
 $homePage = array(
     'core::dashboard' => '{{Dashboard}}',
     'core::view' => '{{Vue}}',
+    'core::plan' => '{{Plan}}',
 );
 foreach (plugin::listPlugin() as $pluginList) {
     if ($pluginList->isActive() == 1 && $pluginList->getDisplay() != '') {
@@ -90,8 +91,9 @@ foreach (plugin::listPlugin() as $pluginList) {
             <div class="panel-body">
                 <form class="form-horizontal">
                     <fieldset>
+                        <legend>Page par default</legend>
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">{{Page d'accueil}}</label>
+                            <label class="col-lg-3 control-label">{{Desktop}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="homePage">
                                     <?php
@@ -100,12 +102,45 @@ foreach (plugin::listPlugin() as $pluginList) {
                                     }
                                     ?>
                                 </select>
-
+                            </div>
+                            <label class="col-lg-1 control-label">{{Mobile}}</label>
+                            <div class="col-lg-3">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="homePageMobile">
+                                    <option value="home">{{Accueil}}</option>
+                                    <?php
+                                    foreach ($homePage as $key => $value) {
+                                        echo "<option value='$key'>$value</option>";
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
-
+                        <legend>{{Object par defaut sur le dashboard}}</legend>
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">{{Vue par défault(desktop)}}</label>
+                            <label class="col-lg-3 control-label">{{Desktop}}</label>
+                            <div class="col-lg-3">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardObject">
+                                    <?php
+                                    foreach (object::all() as $object) {
+                                        echo "<option value='" . $object->getId() . "'>" . $object->getName() . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <label class="col-lg-1 control-label">{{Mobile}}</label>
+                            <div class="col-lg-3">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="defaultMobileObject">
+                                    <?php
+                                    foreach (object::all() as $object) {
+                                        echo "<option value='" . $object->getId() . "'>" . $object->getName() . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <legend>{{Vue par defaut}}</legend>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Desktop}}</label>
                             <div class="col-lg-3">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDesktopView">
                                     <?php
@@ -115,15 +150,35 @@ foreach (plugin::listPlugin() as $pluginList) {
                                     ?>
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">{{Objet par défault(desktop)}}</label>
+                            <label class="col-lg-1 control-label">{{Mobile}}</label>
                             <div class="col-lg-3">
-                                <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardObject">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="defaultMobileView">
                                     <?php
-                                    foreach (object::all() as $object) {
-                                        echo "<option value='" . $object->getId() . "'>" . $object->getName() . "</option>";
+                                    foreach (view::all() as $view) {
+                                        echo "<option value='" . $view->getId() . "'>" . $view->getName() . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <legend>{{Plan par defaut}}</legend>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Desktop}}</label>
+                            <div class="col-lg-3">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardPlan">
+                                    <?php
+                                    foreach (planHeader::all() as $plan) {
+                                        echo "<option value='" . $plan->getId() . "'>" . $plan->getName() . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <label class="col-lg-1 control-label">{{Mobile}}</label>
+                            <div class="col-lg-3">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="defaultMobilePlan">
+                                    <?php
+                                    foreach (planHeader::all() as $plan) {
+                                        echo "<option value='" . $plan->getId() . "'>" . $plan->getName() . "</option>";
                                     }
                                     ?>
                                 </select>
@@ -153,7 +208,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 <input type="password" class="userAttr form-control" data-l1key="password" />
                             </div>
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <label class="col-lg-3 control-label">{{Retapez le mot de passe}}</label>
                             <div class="col-lg-3">
                                 <input type="password" class="form-control" id="in_passwordCheck" />

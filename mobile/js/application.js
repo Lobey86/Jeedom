@@ -94,7 +94,27 @@ function initApplication(_reinit) {
                         $.include(include, function() {
                             jeedom.object.prefetch({id: 'all', version: 'mobile'});
                             jeedom.view.prefetch({id: 'all', version: 'mobile'});
-                            page("home", 'Accueil');
+                            if (isset(userProfils.homePageMobile) && userProfils.homePageMobile != 'home') {
+                                var res = userProfils.homePageMobile.split("::");
+                                console.log(res);
+                                if (res[0] == 'core') {
+                                    switch (res[1]) {
+                                        case 'dashboard' :
+                                            page('equipment', 'Objet', userProfils.defaultMobileObject);
+                                            break;
+                                        case 'plan' :
+                                            page('plan', 'Plan', userProfils.defaultMobilePlan);
+                                            break;
+                                        case 'view' :
+                                            page('view', 'Vue', userProfils.defaultMobileView);
+                                            break;
+                                    }
+                                } else {
+                                    page(res[1], 'Plugin', '', res[0]);
+                                }
+                            } else {
+                                page('home', 'Accueil');
+                            }
                             $.hideLoading();
                         });
                     });
