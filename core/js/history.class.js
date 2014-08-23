@@ -27,6 +27,7 @@ jeedom.history.drawChart = function(_params) {
     if ($.type(_params.dateRange) == 'object') {
         _params.dateRange = json_encode(_params.dateRange);
     }
+    _params.option = init(_params.option, {derive: 0});
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/cmd.ajax.php", // url du fichier php
@@ -34,6 +35,8 @@ jeedom.history.drawChart = function(_params) {
             action: "getHistory",
             id: _params.cmd_id,
             dateRange: _params.dateRange || '',
+            dateStart: _params.dateStart || '',
+            dateEnd: _params.dateEnd || '',
             derive: _params.option.derive || 0
         },
         dataType: 'json',
@@ -65,7 +68,7 @@ jeedom.history.drawChart = function(_params) {
             if (isset(jeedom.history.chart[_params.el]) && isset(jeedom.history.chart[_params.el].cmd[parseInt(_params.cmd_id)])) {
                 jeedom.history.chart[_params.el].cmd[parseInt(_params.cmd_id)] = null;
             }
-            _params.option = init(_params.option, {});
+
             _params.option.graphType = init(_params.option.graphType, 'line');
             if (isset(jeedom.history.chart[_params.el])) {
                 _params.option.graphColor = init(_params.option.graphColor, Highcharts.getOptions().colors[init(jeedom.history.chart[_params.el].color, 0)]);
