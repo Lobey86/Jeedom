@@ -30,6 +30,19 @@ function initHome() {
             $('#ul_viewList').empty().append(li).listview("refresh");
         }
     });
+    
+    jeedom.plan.allHeader({
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(planHeader) {
+            var li = '';
+            for (var i in planHeader) {
+                li += '<li><a href="#" class="link" data-page="plan" data-title="' + planHeader[i].name + '" data-option="' + planHeader[i].id + '">' + planHeader[i].name + '</a></li>'
+            }
+            $('#ul_planList').empty().append(li).listview("refresh");
+        }
+    });
 
 
     if (plugins.length > 0) {

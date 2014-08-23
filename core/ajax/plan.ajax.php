@@ -130,6 +130,17 @@ try {
         ajax::success();
     }
 
+    if (init('action') == 'allHeader') {
+        $planHeaders = planHeader::all();
+        $return = array();
+        foreach ($planHeaders as $planHeader) {
+            $info_planHeader = utils::o2a($planHeader);
+            unset($info_planHeader['image']);
+            $return[] = $info_planHeader;
+        }
+        ajax::success($return);
+    }
+
     if (init('action') == 'getPlanHeader') {
         $planHeader = planHeader::byId(init('id'));
         if (!is_object($planHeader)) {

@@ -33,13 +33,25 @@
 
     <div class="ui-block-b">
         <center>
+            <a href="#planMenu" data-rel="popup" data-transition="none" data-position-to="window" class="ui-btn ui-btn-a" style="margin: 5px;">
+                <i class="fa fa-picture-o" style="font-size: 6em;"></i><br/>{{Plans}}
+            </a>
+            <div data-role="popup" id="planMenu" data-theme="b">
+                <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">{{Fermer}}</a>
+                <ul data-role="listview" data-inset="true" style="min-width:210px;" id="ul_planList"></ul>
+            </div>
+        </center>
+    </div>
+
+    <div class="ui-block-a">
+        <center>
             <a href="#" class="link ui-btn ui-btn-a" data-page="message" data-title="{{Messages}}" data-role="button" data-theme="a" style="margin: 5px;">
                 <i class="fa fa-envelope-o" style="font-size: 6em;"></i><br/><span class="span_nbMessage"></span> {{Message(s)}}
             </a>
         </center>
     </div>
 
-    <div class="ui-block-a">
+    <div class="ui-block-b">
         <center>
             <a href="#pluginMenu" data-rel="popup" data-transition="none" data-position-to="window" id="bt_listPlugin" class="ui-btn ui-btn-a" style="margin: 5px;">
                 <i class="fa fa-tasks" style="font-size: 6em;"></i><br/>{{Plugins}}
@@ -53,7 +65,7 @@
         </center>
     </div>
 
-    <div class="ui-block-b">
+    <div class="ui-block-a">
         <center>
             <a href="#" id="bt_logout" class="ui-btn ui-btn-a" data-role="button" data-theme="a" style="margin: 5px;">
                 <i class="fa fa-sign-out" style="font-size: 6em;"></i><br/>{{Déconnexion}}

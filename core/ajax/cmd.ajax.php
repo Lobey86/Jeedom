@@ -247,6 +247,9 @@ try {
     }
 
     if (init('action') == 'emptyHistory') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);
+        }
         $cmd = cmd::byId(init('id'));
         if (!is_object($cmd)) {
             throw new Exception(__('Cmd ID inconnu : ', __FILE__) . init('id'));
