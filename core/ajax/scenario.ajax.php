@@ -31,7 +31,7 @@ try {
         }
         switch (init('state')) {
             case 'start':
-                $scenario->launch(init('force', false),'Scenario lance manuellement par l\'utilisateur');
+                $scenario->launch(init('force', false), 'Scenario lance manuellement par l\'utilisateur');
                 break;
             case 'stop':
                 $scenario->stop();
@@ -97,6 +97,9 @@ try {
     }
 
     if (init('action') == 'remove') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
         $scenario = scenario::byId(init('id'));
         if (!is_object($scenario)) {
             throw new Exception(__('Scénario ID inconnu', __FILE__));
@@ -106,6 +109,9 @@ try {
     }
 
     if (init('action') == 'copy') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
         $scenario = scenario::byId(init('id'));
         if (!is_object($scenario)) {
             throw new Exception(__('Scénario ID inconnu', __FILE__));
@@ -130,6 +136,9 @@ try {
     }
 
     if (init('action') == 'save') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
         $scenario_ajax = json_decode(init('scenario'), true);
         if (isset($scenario_ajax['id'])) {
             $scenario_db = scenario::byId($scenario_ajax['id']);

@@ -146,7 +146,9 @@ try {
         if (!is_object($planHeader)) {
             throw new Exception(__('Objet inconnu verifié l\'id', __FILE__));
         }
-        ajax::success(utils::o2a($planHeader));
+        $return = utils::o2a($planHeader);
+        $return['image'] = $planHeader->displayImage();
+        ajax::success($return);
     }
 
     if (init('action') == 'savePlanHeader') {

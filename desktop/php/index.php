@@ -153,9 +153,11 @@ if (count($plugins_list) > 0) {
                                             <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
                                         </ul>
                                     </li>
-                                <?php } ?>
-                                <li><a href="index.php?v=d&p=scenario"><i class="fa fa-cogs"></i> {{Scénario}}</a></li>
-                                <?php if (isConnect('admin')) { ?>
+                                    <?php
+                                }
+                                if (isConnect('admin')) {
+                                    ?>
+                                    <li><a href="index.php?v=d&p=scenario"><i class="fa fa-cogs"></i> {{Scénario}}</a></li>
                                     <li class="dropdown cursor">
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> {{Plugins}} <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
