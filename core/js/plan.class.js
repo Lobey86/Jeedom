@@ -19,15 +19,6 @@
 jeedom.plan = function() {
 };
 
-jeedom.object.plan = Array();
-
-if (!isset(jeedom.object.plan.html)) {
-    jeedom.object.plan.html = Array();
-}
-
-if (!isset(jeedom.object.plan.byId)) {
-    jeedom.object.plan.byId = Array();
-}
 
 
 jeedom.plan.remove = function(_params) {
@@ -170,20 +161,11 @@ jeedom.plan.getHeader = function(_params) {
 
 jeedom.plan.allHeader = function(_params) {
     var paramsRequired = [];
-    var paramsSpecifics = {
-        pre_success: function(data) {
-            jeedom.view.cache.all = data.result;
-            return data;
-        }
-    };
+    var paramsSpecifics = {};
     try {
         jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
     } catch (e) {
         (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
-        return;
-    }
-    if (isset(jeedom.view.cache.all) && 'function' == typeof (_params.success)) {
-        _params.success(jeedom.view.cache.all);
         return;
     }
     var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});

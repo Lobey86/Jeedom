@@ -127,4 +127,5 @@ function displayView(html) {
     setTileSize('.eqLogic');
     setTileSize('.scenario');
     $('.eqLogicZone').masonry();
+    $.hideLoading();
 }

@@ -96,7 +96,6 @@ function initApplication(_reinit) {
                             jeedom.view.prefetch({id: 'all', version: 'mobile'});
                             if (isset(userProfils.homePageMobile) && userProfils.homePageMobile != 'home') {
                                 var res = userProfils.homePageMobile.split("::");
-                                console.log(res);
                                 if (res[0] == 'core') {
                                     switch (res[1]) {
                                         case 'dashboard' :
