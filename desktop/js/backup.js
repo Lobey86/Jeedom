@@ -100,6 +100,7 @@ $('#bt_downloadBackup').on('click', function() {
 
 $('#bt_uploadBackup').fileupload({
     dataType: 'json',
+    replaceFileInput: false,
     done: function(e, data) {
         if (data.result.state != 'ok') {
             $('#div_alert').showAlert({message: data.result.result, level: 'danger'});

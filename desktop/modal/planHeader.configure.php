@@ -70,6 +70,7 @@ sendVarToJS('id', $planHeader->getId())
 <script>
 
     $('#bt_uploadImage').fileupload({
+        replaceFileInput: false,
         url: 'core/ajax/plan.ajax.php?action=uploadImage&id=' + planHeader_id,
         dataType: 'json',
         done: function(e, data) {
