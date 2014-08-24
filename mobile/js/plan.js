@@ -86,16 +86,6 @@ function initPlan(_planHeader_id) {
     $("body:not(.eqLogic)").off("swiperight")
 }
 
-
-function getZoomLevel(_el) {
-    var zoom = _el.css('zoom');
-    if (zoom == undefined) {
-        return 1;
-    }
-    return zoom;
-}
-
-
 function displayObject(_type, _id, _html, _plan) {
     for (var i in jeedom.history.chart) {
         delete jeedom.history.chart[i];
@@ -103,24 +93,21 @@ function displayObject(_type, _id, _html, _plan) {
     _plan = init(_plan, {});
     _plan.position = init(_plan.position, {});
     _plan.css = init(_plan.css, {});
+    var defaultZoom = 1;
     if (_type == 'eqLogic') {
-        var defaultZoom = 0.65;
+        defaultZoom = 0.65;
         $('.eqLogic-widget[data-eqLogic_id=' + _id + ']').remove();
     }
     if (_type == 'scenario') {
-        var defaultZoom = 1;
         $('.scenario-widget[data-scenario_id=' + _id + ']').remove();
     }
     if (_type == 'view') {
-        var defaultZoom = 1;
         $('.view-link-widget[data-link_id=' + _id + ']').remove();
     }
     if (_type == 'plan') {
-        var defaultZoom = 1;
         $('.plan-link-widget[data-link_id=' + _id + ']').remove();
     }
     if (_type == 'graph') {
-        var defaultZoom = 1;
         $('.graph-widget[data-graph_id=' + _id + ']').remove();
     }
     var parent = {
@@ -131,26 +118,23 @@ function displayObject(_type, _id, _html, _plan) {
     $('#div_displayObject').append(html);
 
     for (var key in _plan.css) {
-        if (_plan.css[key] != '') {
+        if (_plan.css[key] != '' && key != 'zoom') {
             html.css(key, _plan.css[key]);
         }
     }
     html.css('position', 'absolute');
-    html.css('zoom', init(_plan.css.zoom, defaultZoom));
+    html.css('transform-origin', '0 0');
+    html.css('transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ',' + init(_plan.css.zoom, defaultZoom) + ')');
+    html.css('-webkit-transform-origin', '0 0');
+    html.css('-webkit-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ',' + init(_plan.css.zoom, defaultZoom) + ')');
     html.css('-moz-transform-origin', '0 0');
     html.css('-moz-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ',' + init(_plan.css.zoom, defaultZoom) + ')');
     var position = {
         top: init(_plan.position.top, '10') * parent.height / 100,
         left: init(_plan.position.left, '10') * parent.width / 100,
     };
-    if (html.css('zoom') != undefined) {
-        html.css('top', position.top / init(_plan.css.zoom, defaultZoom));
-        html.css('left', position.left / init(_plan.css.zoom, defaultZoom));
-    } else {
-        html.css('top', position.top);
-        html.css('left', position.left);
-    }
-
+    html.css('top', position.top);
+    html.css('left', position.left);
     if (_type == 'eqLogic') {
         if (isset(_plan.display) && isset(_plan.display.cmd)) {
             for (var id in _plan.display.cmd) {

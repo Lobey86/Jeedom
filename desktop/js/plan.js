@@ -114,18 +114,6 @@ $('#div_displayObject').delegate('.graph-widget', 'dblclick', function() {
     }
 });
 
-$('.ingrid').on('change', function() {
-    var x = $('#in_gridX').value();
-    var y = $('#in_gridY').value();
-    if (x != '' && !isNaN(x) && y != '' && !isNaN(y) && x > 1 && y > 1) {
-        grid = [$('#div_displayObject').width() / x, $('#div_displayObject').height() / y];
-        initDraggable($('#bt_editPlan').attr('data-mode'));
-    } else {
-        grid = false;
-        initDraggable($('#bt_editPlan').attr('data-mode'));
-    }
-});
-
 $('.planHeaderAttr').on('change', function() {
     var planHeader = $('#div_planHeader').getValues('.planHeaderAttr')[0];
     planHeader.id = planHeader_id;
@@ -213,23 +201,11 @@ function makeGrid(_x, _y) {
 }
 
 function initDraggable(_state) {
-    var offset = {};
-    $('.eqLogic-widget,.scenario-widget').draggable({
-        start: function(evt, ui) {
-            offset.top = Math.round(ui.position.top / getZoomLevel($(this))) - ui.position.top;
-            offset.left = Math.round(ui.position.left / getZoomLevel($(this))) - ui.position.left;
-        },
-        drag: function(evt, ui) {
-            ui.position.top = Math.round(ui.position.top / getZoomLevel($(this))) - offset.top;
-            ui.position.left = Math.round(ui.position.left / getZoomLevel($(this))) - offset.left;
-            if (grid != false && grid[0] != false) {
-                ui.position.top = Math.round(ui.position.top / (grid[1] / getZoomLevel($(this)))) * (grid[1] / getZoomLevel($(this)));
-                ui.position.left = Math.round(ui.position.left / (grid[0] / getZoomLevel($(this)))) * (grid[0] / getZoomLevel($(this)));
-            }
-
-        },
-    });
-    $('.plan-link-widget,.view-link-widget,.graph-widget').draggable({
+    var dragOption = {};
+    if (grid != false) {
+        dragOption.grid = grid;
+    }
+    $('.plan-link-widget,.view-link-widget,.graph-widget,.eqLogic-widget,.scenario-widget').draggable({
         drag: function(evt, ui) {
             if (grid != false && grid[0] != false) {
                 ui.position.top = Math.round(ui.position.top / grid[1]) * grid[1];
@@ -245,20 +221,11 @@ function initDraggable(_state) {
         }
     });
     if (_state != 1 && _state != '1') {
-        $('.plan-link-widget').draggable("destroy");
-        $('.view-link-widget').draggable("destroy");
-        $('.eqLogic-widget').draggable("destroy");
-        $('.scenario-widget').draggable("destroy");
-        $('.graph-widget').draggable("destroy");
-        $('.graph-widget').resizable('destroy');
+        $('.plan-link-widget,.view-link-widget,.graph-widget,.eqLogic-widget,.scenario-widget').draggable("destroy");
         $('#div_displayObject a').each(function() {
             $(this).attr('href', $(this).attr('data-href'));
         });
     }
-}
-
-function calculSize() {
-
 }
 
 function displayPlan() {
@@ -302,9 +269,12 @@ function displayPlan() {
             }
             $('#div_displayObject img').height(rHeight);
             $('#div_displayObject img').width(rWidth);
-
             $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget').remove();
 
+            grid = false;
+            if (!isNaN(data.configuration.gridX) && !isNaN(data.configuration.gridY) && data.configuration.gridX > 0 && data.configuration.gridY > 0) {
+                grid = [width / data.configuration.gridX, height / data.configuration.gridY];
+            }
             if (planHeader_id != -1) {
                 jeedom.plan.byPlanHeader({
                     id: planHeader_id,
@@ -324,15 +294,6 @@ function displayPlan() {
             }
         },
     });
-
-}
-
-function getZoomLevel(_el) {
-    var zoom = _el.css('zoom');
-    if (zoom == undefined) {
-        return 1;
-    }
-    return zoom;
 }
 
 function savePlan(_refreshDisplay) {
@@ -348,17 +309,9 @@ function savePlan(_refreshDisplay) {
             plan.link_type = 'eqLogic';
             plan.link_id = $(this).attr('data-eqLogic_id');
             plan.planHeader_id = planHeader_id;
-            if ($(this).css('zoom') != undefined) {
-                var zoom = getZoomLevel($(this));
-                $(this).css('zoom', '100%');
-                var position = $(this).position();
-                $(this).css('zoom', zoom);
-            } else {
-                var position = $(this).position();
-                zoom = 1;
-            }
-            plan.position.top = (((position.top * zoom)) / parent.height) * 100;
-            plan.position.left = (((position.left * zoom)) / parent.width) * 100;
+            var position = $(this).position();
+            plan.position.top = (((position.top)) / parent.height) * 100;
+            plan.position.left = (((position.left)) / parent.width) * 100;
             plans.push(plan);
         });
         $('.scenario-widget').each(function() {
@@ -367,17 +320,9 @@ function savePlan(_refreshDisplay) {
             plan.link_type = 'scenario';
             plan.link_id = $(this).attr('data-scenario_id');
             plan.planHeader_id = planHeader_id;
-            if ($(this).css('zoom') != undefined) {
-                var zoom = getZoomLevel($(this));
-                $(this).css('zoom', '100%');
-                var position = $(this).position();
-                $(this).css('zoom', zoom);
-            } else {
-                var position = $(this).position();
-                zoom = 1;
-            }
-            plan.position.top = (((position.top * zoom)) / parent.height) * 100;
-            plan.position.left = (((position.left * zoom)) / parent.width) * 100;
+            var position = $(this).position();
+            plan.position.top = (((position.top)) / parent.height) * 100;
+            plan.position.left = (((position.left)) / parent.width) * 100;
             plans.push(plan);
         });
         $('.plan-link-widget').each(function() {
@@ -438,24 +383,21 @@ function displayObject(_type, _id, _html, _plan) {
     _plan = init(_plan, {});
     _plan.position = init(_plan.position, {});
     _plan.css = init(_plan.css, {});
+    var defaultZoom = 1;
     if (_type == 'eqLogic') {
-        var defaultZoom = 0.65;
+        defaultZoom = 0.65;
         $('.eqLogic-widget[data-eqLogic_id=' + _id + ']').remove();
     }
     if (_type == 'scenario') {
-        var defaultZoom = 1;
         $('.scenario-widget[data-scenario_id=' + _id + ']').remove();
     }
     if (_type == 'view') {
-        var defaultZoom = 1;
         $('.view-link-widget[data-link_id=' + _id + ']').remove();
     }
     if (_type == 'plan') {
-        var defaultZoom = 1;
         $('.plan-link-widget[data-link_id=' + _id + ']').remove();
     }
     if (_type == 'graph') {
-        var defaultZoom = 1;
         $('.graph-widget[data-graph_id=' + _id + ']').remove();
     }
     var parent = {
@@ -467,26 +409,26 @@ function displayObject(_type, _id, _html, _plan) {
     $('#div_displayObject').append(html);
 
     for (var key in _plan.css) {
-        if (_plan.css[key] != '') {
+        if (_plan.css[key] != '' && key != 'zoom') {
             html.css(key, _plan.css[key]);
         }
     }
     html.css('position', 'absolute');
-    html.css('zoom', init(_plan.css.zoom, defaultZoom));
-    
-    html.css('-moz-transform-origin','0 0');
-    html.css('-moz-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ',' + init(_plan.css.zoom, defaultZoom) + ')');
+    html.css('transform-origin', '0 0');
+    html.css('transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ')');
+    html.css('-webkit-transform-origin', '0 0');
+    html.css('-webkit-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ')');
+    html.css('-moz-transform-origin', '0 0');
+    html.css('-moz-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ')');
     var position = {
         top: init(_plan.position.top, '10') * parent.height / 100,
         left: init(_plan.position.left, '10') * parent.width / 100,
     };
-    if (html.css('zoom') != undefined) {
-        html.css('top', position.top / init(_plan.css.zoom, defaultZoom));
-        html.css('left', position.left / init(_plan.css.zoom, defaultZoom));
-    } else {
-        html.css('top', position.top);
-        html.css('left', position.left);
-    }
+
+    html.css('top', position.top);
+    html.css('left', position.left);
+    html.addClass('noResize');
+
 
     if (_type == 'eqLogic') {
         if (isset(_plan.display) && isset(_plan.display.cmd)) {
