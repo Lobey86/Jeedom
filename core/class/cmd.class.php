@@ -784,12 +784,12 @@ class cmd {
                     }
                 }
             }
-            $internalEvent = new internalEvent();
-            $internalEvent->setEvent('event::cmd');
-            $internalEvent->setOptions('id', $this->getId());
-            $internalEvent->setOptions('value', $_value);
-            $internalEvent->setDatetime($this->getCollectDate());
-            $internalEvent->save();
+            /* $internalEvent = new internalEvent();
+              $internalEvent->setEvent('event::cmd');
+              $internalEvent->setOptions('id', $this->getId());
+              $internalEvent->setOptions('value', $_value);
+              $internalEvent->setDatetime($this->getCollectDate());
+              $internalEvent->save(); */
 
             listener::check($this->getId(), $_value);
         } else {
