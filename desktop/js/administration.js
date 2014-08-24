@@ -89,6 +89,12 @@ $('#bt_addColorConvert').on('click', function() {
     addConvertColor();
 });
 
+$('#bt_selectMailCmd').on('click', function() {
+    jeedom.cmd.getSelectModal({cmd: {type: 'action', subType: 'message'}}, function(result) {
+        $('.configKey[data-l1key=emailAdmin]').value(result.human);
+    });
+});
+
 printConvertColor();
 
 $.showLoading();

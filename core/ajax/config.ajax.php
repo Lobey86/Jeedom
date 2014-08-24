@@ -41,7 +41,7 @@ try {
             $keys = json_decode($keys, true);
             $return = array();
             foreach ($keys as $key => $value) {
-                $return[$key] = config::byKey($key, init('plugin'));
+                $return[$key] = jeedom::toHumanReadable(config::byKey($key, init('plugin')));
             }
             ajax::success($return);
         } else {
@@ -67,7 +67,7 @@ try {
         }
         $values = json_decode(init('value'), true);
         foreach ($values as $key => $value) {
-            config::save($key, $value, init('plugin', 'core'));
+            config::save($key, jeedom::fromHumanReadable($value), init('plugin', 'core'));
         }
         ajax::success();
     }

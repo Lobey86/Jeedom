@@ -56,6 +56,9 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <div class="col-lg-3">
                                     <input type="text"  class="configKey form-control" data-l1key="emailAdmin" />
                                 </div>
+                                <div class="col-lg-2">
+                                    <a class="btn btn-default cursor" title="Rechercher une commande" id="bt_selectMailCmd"><i class="fa fa-list-alt"></i></a>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">{{Langue}}</label>
@@ -335,7 +338,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     <input type="text"  class="configKey form-control" data-l1key="ldap:filter" />
                                 </div>
                             </div>
-                             <div class="form-group alert alert-danger">
+                            <div class="form-group alert alert-danger">
                                 <label class="col-lg-2 control-label">{{Autoriser REMOTE_USER}}</label>
                                 <div class="col-lg-3">
                                     <input type="checkbox"  class="configKey" data-l1key="sso:allowRemoteUser" />
@@ -522,7 +525,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <input class="configKey form-control" data-l1key="http::ping_timeout"/>
                                     </div>
                                 </div>
-                                 <div class="form-group alert alert-danger expertModeVisible">
+                                <div class="form-group alert alert-danger expertModeVisible">
                                     <label class="col-lg-2 control-label">{{Désactiver la vérification du ping}}</label>
                                     <div class="col-lg-1">
                                         <input type="checkbox" class="configKey" data-l1key="http::ping_disable"/>
