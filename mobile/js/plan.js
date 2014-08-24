@@ -1,4 +1,18 @@
 function initPlan(_planHeader_id) {
+    jeedom.plan.allHeader({
+        error: function(error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function(planHeader) {
+            var li = ' <ul data-role="listview">';
+            for (var i in planHeader) {
+                li += '<li><a href="#" class="link" data-page="plan" data-title="' + planHeader[i].name + '" data-option="' + planHeader[i].id + '">' + planHeader[i].name + '</a></li>'
+            }
+            li += '</ul>';
+            panel(li);
+        }
+    });
+
     jeedom.plan.getHeader({
         id: _planHeader_id,
         error: function(error) {
@@ -67,6 +81,9 @@ function initPlan(_planHeader_id) {
     $(window).on("orientationchange", function(event) {
         initPlan(_planHeader_id)
     });
+
+    $("body:not(.eqLogic)").off("swipeleft");
+    $("body:not(.eqLogic)").off("swiperight")
 }
 
 
@@ -120,7 +137,7 @@ function displayObject(_type, _id, _html, _plan) {
     }
     html.css('position', 'absolute');
     html.css('zoom', init(_plan.css.zoom, defaultZoom));
-    html.css('-moz-transform-origin','0 0');
+    html.css('-moz-transform-origin', '0 0');
     html.css('-moz-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ',' + init(_plan.css.zoom, defaultZoom) + ')');
     var position = {
         top: init(_plan.position.top, '10') * parent.height / 100,
@@ -130,8 +147,8 @@ function displayObject(_type, _id, _html, _plan) {
         html.css('top', position.top / init(_plan.css.zoom, defaultZoom));
         html.css('left', position.left / init(_plan.css.zoom, defaultZoom));
     } else {
-        html.css('top', position.top );
-        html.css('left', position.left );
+        html.css('top', position.top);
+        html.css('left', position.left);
     }
 
     if (_type == 'eqLogic') {
