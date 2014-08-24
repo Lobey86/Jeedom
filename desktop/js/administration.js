@@ -17,7 +17,9 @@
 
 $("#bt_genKeyAPI").on('click', function(event) {
     $.hideAlert();
-    genKeyAPI();
+    bootbox.confirm('{{Etes-vous sûr de vouloir réinitialiser la clef API de Jeedom ? Vous devrez reconfigurer tous les équipements communicant avec Jeedom et utilisant la clef API}}', function(result) {
+        genKeyAPI();
+    });
 });
 
 $("#bt_nodeJsKey").on('click', function(event) {

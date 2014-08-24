@@ -25,7 +25,11 @@ if (isset($argv)) {
         }
     }
 }
-
+if (trim(config::byKey('api')) == '') {
+    echo 'Vous n\'avez aucune clef API de configurer, veuillez d\'abord en générer une (Page Générale -> Administration -> Configuration';
+    log::add('jeeEvent', 'error', 'Vous n\'avez aucune clef API de configurer, veuillez d\'abord en générer une (Page Générale -> Administration -> Configuration');
+    die();
+}
 if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
     try {
         if (config::byKey('api') != init('apikey') && config::byKey('api') != init('api')) {
