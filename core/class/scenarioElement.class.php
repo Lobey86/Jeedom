@@ -87,6 +87,7 @@ class scenarioElement {
                 if (!isset($expression_db) || !is_object($expression_db)) {
                     throw new Exception(__('Expression inconnue vérifié l\'id : ', __FILE__) . $expression_ajax['id']);
                 }
+                $expression_db->emptyOptions();
                 utils::a2o($expression_db, $expression_ajax);
                 $expression_db->setScenarioSubElement_id($subElement_db->getId());
                 if ($expression_db->getType() == 'element') {

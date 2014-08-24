@@ -410,6 +410,10 @@ class scenarioExpression {
             }
         }
     }
+    
+    public function emptyOptions(){
+        $this->options = '';
+    }
 
     /*     * **********************Getteur Setteur*************************** */
 
