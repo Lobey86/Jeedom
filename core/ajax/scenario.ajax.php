@@ -69,6 +69,17 @@ try {
         ajax::success($return);
     }
 
+    if (init('action') == 'autoCompleteGroup') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
+        $return = array();
+        foreach (scenario::listGroup(init('term')) as $group) {
+            $return[] = $group['group'];
+        }
+        ajax::success($return);
+    }
+
     if (init('action') == 'toHtml') {
         if (init('id') == 'all' || is_json(init('id'))) {
             if (is_json(init('id'))) {

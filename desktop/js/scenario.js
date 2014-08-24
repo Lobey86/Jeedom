@@ -38,14 +38,38 @@ autoCompleteCondition = [
     {val: 'average(commande,periode)'},
     {val: 'max(commande,periode)'},
     {val: 'min(commande,periode)'},
-
-
 ];
 autoCompleteAction = ['sleep', 'variable', 'scenario', 'stop', 'icon'];
 
 if (getUrlVars('saveSuccessFull') == 1) {
     $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
 }
+
+$('.scenarioAttr[data-l1key=group]').autocomplete({
+    source: function(request, response, url) {
+        $.ajax({
+            type: 'POST',
+            url: 'core/ajax/scenario.ajax.php',
+            data: {
+                action: 'autoCompleteGroup',
+                term: request.term
+            },
+            dataType: 'json',
+            global: false,
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) {
+                if (data.state != 'ok') {
+                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                    return;
+                }
+                response(data.result);
+            }
+        });
+    },
+    minLength: 1,
+});
 
 $(".li_scenario").on('click', function(event) {
     $.hideAlert();

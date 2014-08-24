@@ -107,11 +107,16 @@ class scenario {
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function listGroup() {
+    public static function listGroup($_group = null) {
+        $values = array();
         $sql = 'SELECT DISTINCT(`group`)
-                FROM scenario
-                ORDER BY `group`';
-        return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
+                FROM scenario';
+        if ($_group != null) {
+            $values['group'] = '%' . $_group . '%';
+            $sql .= ' WHERE `group` LIKE :group';
+        }
+        $sql .= ' ORDER BY `group`';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
     }
 
     public static function byTrigger($_cmd_id) {
