@@ -208,7 +208,7 @@ try {
                 $value = ($history->getValue() === null ) ? null : floatval($history->getValue());
                 if (init('derive') == 1) {
                     if ($previsousValue != null) {
-                        $value = $previsousValue - $value;
+                        $value = $value - $previsousValue;
                     }
                     $previsousValue = ($history->getValue() === null ) ? null : floatval($history->getValue());
                 }
