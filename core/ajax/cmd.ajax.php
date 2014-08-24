@@ -222,7 +222,7 @@ try {
                 $data[] = $info_history;
             }
         } else {
-            $histories = history::getHistoryFromCalcul(init('id'), $dateStart, $dateEnd);
+            $histories = history::getHistoryFromCalcul(init('id'), $dateStart, $dateEnd, init('allowZero', true));
             if (is_array($histories)) {
                 foreach ($histories as $datetime => $value) {
                     $info_history = array();

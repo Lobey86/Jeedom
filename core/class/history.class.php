@@ -324,7 +324,7 @@ class history {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
     }
 
-    public static function getHistoryFromCalcul($_strcalcul, $_dateStart = null, $_dateEnd = null) {
+    public static function getHistoryFromCalcul($_strcalcul, $_dateStart = null, $_dateEnd = null, $_allowZero = true) {
         $now = strtotime('now');
         $archiveTime = (config::byKey('historyArchiveTime') + 1) * 3600;
         $packetTime = (config::byKey('historyArchivePackage')) * 3600;
@@ -350,7 +350,11 @@ class history {
                                     $datetime = strtotime($histories_cmd[$i]->getDatetime());
                                     while (($now - strtotime($prevDatetime) > $archiveTime) && strtotime($prevDatetime) < $datetime) {
                                         $prevDatetime = date('Y-m-d H:00:00', strtotime($prevDatetime) + $packetTime);
-                                        $cmd_histories[$prevDatetime]['#' . $cmd_id . '#'] = 0;
+                                        if ($_allowZero) {
+                                            $cmd_histories[$prevDatetime]['#' . $cmd_id . '#'] = 0;
+                                        } else {
+                                            $cmd_histories[$prevDatetime]['#' . $cmd_id . '#'] = $prevValue;
+                                        }
                                     }
                                     while (($now - strtotime($prevDatetime)) > 300 && strtotime($prevDatetime) < $datetime) {
                                         $prevDatetime = date('Y-m-d H:i:00', strtotime($prevDatetime) + 300);
@@ -454,7 +458,7 @@ class history {
             'datetime' => $this->getDatetime(),
             'value' => $this->getValue(),
         );
-        if($values['value'] === ''){
+        if ($values['value'] === '') {
             $values['value'] = null;
         }
         $sql = 'REPLACE INTO ' . $this->getTableName() . '

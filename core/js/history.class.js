@@ -37,7 +37,8 @@ jeedom.history.drawChart = function(_params) {
             dateRange: _params.dateRange || '',
             dateStart: _params.dateStart || '',
             dateEnd: _params.dateEnd || '',
-            derive: _params.option.derive || 0
+            derive: _params.option.derive || 0,
+            allowZero: _params.option.allowZero || true
         },
         dataType: 'json',
         global: _params.global || true,
