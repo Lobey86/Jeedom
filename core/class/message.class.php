@@ -114,7 +114,7 @@ class message {
         if ($this->getLogicalId() == '') {
             DB::save($this);
             @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
-            $cmd = cmd::byString(config::byKey('emailAdmin'));
+            $cmd = cmd::byId(str_replace('#', '', config::byKey('emailAdmin')));
             if (is_object($cmd)) {
                 $cmd->execCmd(array(
                     'title' => __('[JEEDOM] Message de ', __FILE__) . $this->getPlugin(),
@@ -136,7 +136,7 @@ class message {
             if ($result['count(*)'] == 0) {
                 DB::save($this);
                 @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
-                $cmd = cmd::byString(config::byKey('emailAdmin'));
+                $cmd = cmd::byId(str_replace('#', '', config::byKey('emailAdmin')));
                 if (is_object($cmd)) {
                     $cmd->execCmd(array(
                         'title' => __('[JEEDOM] Message de ', __FILE__) . $this->getPlugin(),
