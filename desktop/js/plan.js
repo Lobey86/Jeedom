@@ -357,6 +357,11 @@ function savePlan(_refreshDisplay) {
                 var position = $(this).position();
                 zoom = 1;
             }
+            console.log('-------------------------------');
+            console.log(position);
+            console.log(zoom);
+            console.log(parent);
+            console.log('-------------------------------');
             plan.position.top = (((position.top * zoom)) / parent.height) * 100;
             plan.position.left = (((position.left * zoom)) / parent.width) * 100;
             plans.push(plan);
