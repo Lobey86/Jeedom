@@ -207,8 +207,10 @@ try {
                 $info_history[] = floatval(strtotime($history->getDatetime() . " UTC")) * 1000;
                 $value = ($history->getValue() === null ) ? null : floatval($history->getValue());
                 if (init('derive') == 1) {
-                    if ($previsousValue != null) {
+                    if ($value !== null && $previsousValue != null) {
                         $value = $value - $previsousValue;
+                    } else {
+                        $value = null;
                     }
                     $previsousValue = ($history->getValue() === null ) ? null : floatval($history->getValue());
                 }
