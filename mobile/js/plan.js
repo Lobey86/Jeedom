@@ -107,8 +107,8 @@ function displayObject(_type, _id, _html, _plan) {
         $('.graph-widget[data-graph_id=' + _id + ']').remove();
     }
     var parent = {
-        height: $('#div_displayObject img').height(),
-        width: $('#div_displayObject img').width(),
+        height: $('#div_displayObject').height(),
+        width: $('#div_displayObject').width(),
     };
     var html = $(_html);
     $('#div_displayObject').append(html);
@@ -120,6 +120,7 @@ function displayObject(_type, _id, _html, _plan) {
     }
     html.css('position', 'absolute');
     html.css('zoom', init(_plan.css.zoom, defaultZoom));
+    html.css('-moz-transform-origin','0 0');
     html.css('-moz-transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ',' + init(_plan.css.zoom, defaultZoom) + ')');
     var position = {
         top: init(_plan.position.top, '10') * parent.height / 100,
@@ -129,8 +130,8 @@ function displayObject(_type, _id, _html, _plan) {
         html.css('top', position.top / init(_plan.css.zoom, defaultZoom));
         html.css('left', position.left / init(_plan.css.zoom, defaultZoom));
     } else {
-        html.css('top', position.top - html.height() * 0.52 * (1 - init(_plan.css.zoom, defaultZoom)));
-        html.css('left', position.left - html.width() * 0.52 * (1 - init(_plan.css.zoom, defaultZoom)));
+        html.css('top', position.top );
+        html.css('left', position.left );
     }
 
     if (_type == 'eqLogic') {
