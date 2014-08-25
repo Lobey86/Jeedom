@@ -49,9 +49,9 @@ sendVarToJS('id', $plan->getId());
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">{{Ne pas afficher le nom de l'équipement'}}</label>
+                <label class="col-lg-4 control-label">{{Ne pas afficher le nom de l'équipement}}</label>
                 <div class="col-lg-2">
-                    <input type="checkbox" class="planAttr" data-l1key="display" data-l2key="name" checked>
+                    <input type="checkbox" class="planAttr" data-l1key="display" data-l2key="name" >
                 </div>
             </div>
             <legend>Spécifique</legend>
