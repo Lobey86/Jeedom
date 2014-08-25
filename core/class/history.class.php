@@ -430,23 +430,17 @@ class history {
                     'cmd_id' => $this->getCmd_id(),
                     'datetime' => $this->getDatetime(),
                 );
-                $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
+                $sql = 'SELECT `value`
                         FROM history
                         WHERE cmd_id=:cmd_id 
                             AND `datetime`=:datetime';
-                $old = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
-                if (is_object($old) && $old->getValue() !== '') {
-                    $this->setValue(($old->getValue() + $this->getValue()) / 2);
+                $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+                if ($result !== false) {
+                    $this->setValue(($result['value'] + $this->getValue()) / 2);
                 }
             }
             if ($this->getTableName() == 'historyArch') {
                 $this->setDatetime(date('Y-m-d H:00:00', strtotime($this->getDatetime())));
-            }
-        } else {
-            if ($this->getValue() >= 1) {
-                $this->setValue(1);
-            } else {
-                $this->setValue(0);
             }
         }
         $values = array(
