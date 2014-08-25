@@ -54,7 +54,7 @@ sendVarToJS('select_id', init('id', '-1'));
             <br/>
         </div>
 
-        <div class="alert alert-danger">
+        <div class="alert alert-info">
             <h5 style="display: inline-block;font-weight: bold;">{{Installation}} : </h5> <span id="span_plugin_installation"></span>
         </div>
         <div class="alert alert-warning">
