@@ -42,15 +42,7 @@ if (!is_object($scenario)) {
     die(__('Scenario non trouvé verifier id : ', __FILE__) . init('scenario_id'));
 }
 
-$scenario->clearLog();
-
-if (!jeedom::isStarted()) {
-    $scenario->setLog(__('Lancement du scénario annulée car Jeedom n\'a pas encore finis de démarrer : ', __FILE__) . $scenario->getHumanName());
-    log::add('scenario', 'info', __('Lancement du scénario annulée car Jeedom n\'a pas encore finis de démarrer : ', __FILE__) . $scenario->getHumanName());
-    die(__('Lancement du scénario annulée car Jeedom n\'a pas encore finis de démarrer : ', __FILE__) . $scenario->getHumanName());
-}
 if (!jeedom::isDateOk()) {
-    $scenario->setLog(__('Lancement du scénario annulée car la date systeme ne semble pas être correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
     log::add('scenario', 'info', __('Lancement du scénario annulée car la date systeme ne semble pas être correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
     die(__('Lancement du scénario annulée car la date systeme ne semble pas être correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
 }
@@ -74,7 +66,6 @@ try {
             sleep(1);
         }
         if ($scenario->getState() == 'in progress') {
-            $scenario->setLog(__('Impossible de lancer le scénario car déjà en cours : ', __FILE__) . $scenario->getHumanName());
             die(__('Impossible de lancer le scénario car déjà en cours : ', __FILE__) . $scenario->getHumanName());
         }
         $scenario->setPID(getmypid());
@@ -82,6 +73,7 @@ try {
         $scenario->execute(init('message'));
         $scenario->setState('stop');
     } else {
+        $scenario->clearLog();
         $scenario->setLog(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
         die(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
     }
