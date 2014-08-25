@@ -412,6 +412,11 @@ function displayObject(_type, _id, _html, _plan) {
         if (_plan.css[key] != '' && key != 'zoom') {
             html.css(key, _plan.css[key]);
         }
+        if (key == 'color') {
+            html.find('a').css(key, _plan.css[key]);
+            html.find('tspan').css('fill', _plan.css[key]);
+            html.find('span').css(key, _plan.css[key]);
+        }
     }
     html.css('position', 'absolute');
     html.css('transform-origin', '0 0');
