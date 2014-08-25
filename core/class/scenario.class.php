@@ -399,7 +399,7 @@ class scenario {
     }
 
     public function execute($_message = '') {
-        $scenario->clearLog();
+        $this->clearLog();
         $this->setDisplay('icon', '');
         $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
         $this->setState('in progress');
