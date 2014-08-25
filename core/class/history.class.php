@@ -402,9 +402,6 @@ class history {
         } else {
             $cmd = $_cmd;
         }
-        if ($this->getTableName() == 'history' && (!jeedom::isStarted() || !jeedom::isDateOk())) {
-            return;
-        }
         if ($this->getDatetime() == '') {
             $this->setDatetime(date('Y-m-d H:i:s'));
         }
