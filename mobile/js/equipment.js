@@ -42,7 +42,7 @@ function initEquipment(_object_id) {
         $('#div_displayEquipement').masonry();
     });
 
-    $("body:not(.eqLogic)").off("swipeleft").on("swipeleft", function() {
+    $("div[data-role=header]").off("swipeleft").on("swipeleft", function() {
         jeedom.object.all({
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
@@ -69,7 +69,7 @@ function initEquipment(_object_id) {
         });
     });
 
-    $("body:not(.eqLogic)").off("swiperight").on("swiperight", function() {
+    $("div[data-role=header]").off("swiperight").on("swiperight", function() {
         jeedom.object.all({
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});

@@ -64,7 +64,7 @@ function initView(_view_id) {
 
 
 
-    $("body:not(.eqLogic)").off("swipeleft").on("swipeleft", function() {
+    $("div[data-role=header]").off("swipeleft").on("swipeleft", function() {
         jeedom.view.all({
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
@@ -91,7 +91,7 @@ function initView(_view_id) {
         });
     });
 
-    $("body:not(.eqLogic)").off("swiperight").on("swiperight", function() {
+    $("div[data-role=header]").off("swiperight").on("swiperight", function() {
          jeedom.view.all({
             error: function(error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
