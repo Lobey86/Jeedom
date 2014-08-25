@@ -636,8 +636,6 @@ class scenario {
                 return false;
             }
         }
-
-
         return false;
     }
 
