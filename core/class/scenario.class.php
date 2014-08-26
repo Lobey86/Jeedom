@@ -714,8 +714,8 @@ class scenario {
         $return .= "\n";
         $return .= "##Commentaire\n\n";
         $return .= $this->getDescription();
-        
-        $return .= '## Scénario';
+        $return .= "\n";
+        $return .= "## Scénario\n\n";
         $return .= "\n";
         foreach ($this->getElement() as $element) {
             $return .= $element->export();
