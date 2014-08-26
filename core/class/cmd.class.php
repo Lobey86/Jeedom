@@ -563,6 +563,7 @@ class cmd {
             $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false);
             if ($cache == 2 || !$mc->hasExpired()) {
                 if ($mc->hasExpired()) {
+                    log::add('cmd', 'debug', 'Je marque a collecter : ' . $this->getHumanName());
                     $this->setCollect(1);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
