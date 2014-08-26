@@ -422,7 +422,7 @@ class scenarioExpression {
             if (is_object($element)) {
                 $exports = explode("\n", $element->export());
                 foreach ($exports as $export) {
-                    $return .= "\t" . $export . "\n";
+                    $return .= "\t\t" . $export . "\n";
                 }
                 
             }
