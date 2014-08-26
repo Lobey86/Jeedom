@@ -410,9 +410,52 @@ class scenarioExpression {
             }
         }
     }
-    
-    public function emptyOptions(){
+
+    public function emptyOptions() {
         $this->options = '';
+    }
+
+    public function export() {
+        $return = '';
+        if ($this->getType() == 'element') {
+            $element = scenarioElement::byId($this->getExpression());
+            if (is_object($element)) {
+                $exports = explode("\n", $element->export());
+                foreach ($exports as $export) {
+                    $return .= "\t" . $export . "\n";
+                }
+                
+            }
+            return rtrim($return);
+        }
+        $options = $this->getOptions();
+        if ($this->getType() == 'action') {
+            if ($this->getExpression() == 'icon') {
+                return '';
+            } else if ($this->getExpression() == 'sleep') {
+                return '(sleep) Pause de  : ' . $options['duration'];
+            } else if ($this->getExpression() == 'stop') {
+                return '(stop) Arret du scenario';
+            } else if ($this->getExpression() == 'scenario') {
+                $actionScenario = scenario::byId($this->getOptions('scenario_id'));
+                if (is_object($actionScenario)) {
+                    return '(scenario) ' . $this->getOptions('action') . ' de ' . $actionScenario->getHumanName();
+                }
+            } else if ($this->getExpression() == 'variable') {
+                return '(variable) Affectation de la variable : ' . $this->getOptions('name') . ' à ' . $this->getOptions('value');
+            } else {
+                $return = jeedom::toHumanReadable($this->getExpression());
+                if (is_array($options) && count($options) != 0) {
+                    $return .= ' - Options : ' . print_r($options, true);
+                }
+                return $return;
+            }
+        } else if ($this->getType() == 'condition') {
+            return jeedom::toHumanReadable($this->getExpression());
+        }
+        if ($this->getType() == 'code') {
+            
+        }
     }
 
     /*     * **********************Getteur Setteur*************************** */

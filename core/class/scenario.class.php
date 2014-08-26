@@ -704,6 +704,25 @@ class scenario {
         return $return;
     }
 
+    public function export() {
+        $return = "##Description\n\n";
+        $return .= '- Nom du scénario : ' . $this->getName() . "\n";
+        if (is_numeric($this->getObject_id())) {
+            $return .= '- Objet parent : ' . $this->getObject()->getName() . "\n";
+        }
+        $return .= '- Mode du scénario : ' . $this->getMode() . "\n";
+        $return .= "\n";
+        $return .= "##Commentaire\n\n";
+        $return .= $this->getDescription();
+        
+        $return .= '## Scénario';
+        $return .= "\n";
+        foreach ($this->getElement() as $element) {
+            $return .= $element->export();
+        }
+        return $return;
+    }
+
     public function clearLog() {
         $logs = $this->getHlogs();
         $consolidateLog = $this->getConsolidateLog();

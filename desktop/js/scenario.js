@@ -374,6 +374,13 @@ $('#bt_logScenario').on('click', function() {
     $("#md_modal").load('index.php?v=d&modal=scenario.log.execution&scenario_id=' + $('.scenarioAttr[data-l1key=id]').value()).dialog('open');
 });
 
+/***********************EXPORT*****************************/
+
+$('#bt_exportScenario').on('click', function() {
+    $('#md_modal').dialog({title: "{{Export du scénario}}"});
+    $("#md_modal").load('index.php?v=d&modal=scenario.export&scenario_id=' + $('.scenarioAttr[data-l1key=id]').value()).dialog('open');
+});
+
 /**************** Initialisation **********************/
 
 $('body').delegate('.scenarioAttr', 'change', function() {

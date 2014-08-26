@@ -246,6 +246,50 @@ class scenarioElement {
         return $return;
     }
 
+    public function export() {
+        $return = '';
+        foreach ($this->getSubElement() as $subElement) {
+            $return .= "\n";
+            switch ($subElement->getType()) {
+                case 'if':
+                    $return .= 'SI';
+                    break;
+                case 'then':
+                    $return .= 'ALORS';
+                    break;
+                case 'else':
+                    $return .= 'SINON';
+                    break;
+                case 'for':
+                    $return .= 'POUR';
+                    break;
+                case 'do':
+                    $return .= 'FAIRE';
+                    break;
+                case 'code':
+                    $return .= 'CODE';
+                    break;
+                case 'action':
+                    $return .= 'ACTION';
+                    break;
+                default:
+                    $return .= $subElement->getType();
+                    break;
+            }
+
+            foreach ($subElement->getExpression() as $expression) {
+                $export = $expression->export();
+                if ($expression->getType() != 'condition' && trim($export) != '') {
+                    $return .= "\n";
+                }
+                if (trim($export) != '') {
+                    $return .= ' ' . $expression->export();
+                }
+            }
+        }
+        return $return;
+    }
+
     public function copy() {
         $elementCopy = clone $this;
         $elementCopy->setId('');
