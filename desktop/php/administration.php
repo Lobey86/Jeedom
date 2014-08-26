@@ -69,6 +69,18 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     </select>
                                 </div>
                             </div>
+                             <div class="form-group">
+                                <label class="col-lg-2 control-label">{{IP interne}}</label>
+                                <div class="col-lg-3">
+                                    <input type="text"  class="configKey form-control" data-l1key="internalIP" />
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <label class="col-lg-2 control-label">{{IP externe}}</label>
+                                <div class="col-lg-3">
+                                    <input type="text"  class="configKey form-control" data-l1key="externalP" />
+                                </div>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
