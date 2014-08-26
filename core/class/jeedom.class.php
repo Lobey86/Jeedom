@@ -386,6 +386,10 @@ class jeedom {
             $c = new Cron\CronExpression(config::byKey('update::check'), new Cron\FieldFactory);
             if ($c->isDue()) {
                 update::checkAllUpdate();
+                $nbUpdate = update::nbNeedUpdate();
+                if ($nbUpdate > 0) {
+                    message::add('update', 'De nouvelles mise à  jour sont disponible (' . $nbUpdate . ')');
+                }
             }
         } catch (Exception $e) {
             log::add('update', 'error', $e->getMessage());
