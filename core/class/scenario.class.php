@@ -711,13 +711,36 @@ class scenario {
             $return .= '- Objet parent : ' . $this->getObject()->getName() . "\n";
         }
         $return .= '- Mode du scénario : ' . $this->getMode() . "\n";
+        $schedules = $this->getSchedule();
+        if (is_array($schedules)) {
+            foreach ($schedules as $schedule) {
+                $return .= '    Programmation : ' . $schedule . "\n";
+            }
+        } else {
+            if ($schedules != '') {
+                $return .= '    Programmation : ' . $schedules . "\n";
+            }
+        }
+        $triggers = $this->getTrigger();
+        if (is_array($triggers)) {
+            foreach ($triggers as $trigger) {
+                $return .= '    Evènement : ' . jeedom::toHumanReadable($trigger) . "\n";
+            }
+        } else {
+            if ($triggers != '') {
+                $return .= '    Evènement : ' . $triggers . "\n";
+            }
+        }
         $return .= "\n";
         $return .= "## Commentaire\n\n";
         $return .= $this->getDescription();
-        $return .= "\n";
+        $return .= "\n\n";
         $return .= "## Scénario\n\n";
         foreach ($this->getElement() as $element) {
-            $return .= $element->export();
+            $exports = explode("\n", $element->export());
+            foreach ($exports as $export) {
+                $return .= "    " . $export . "\n";
+            }
         }
         return $return;
     }
