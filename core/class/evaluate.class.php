@@ -102,7 +102,7 @@ class evaluate {
       --------------------------------------------------------------- */
 
     private function Eval_Evaluer_Liste_Parametres($lstParam) {
-        $tabOperateursComparaison = array('&&', '||', '=', '!=', '<', '<=', '>', '>=', '~', '!~', '|^');
+        $tabOperateursComparaison = array('&&', '||', '|^', '=', '!=', '<', '<=', '>', '>=', '~', '!~');
         $tabOperateursoperation = array('&', '^', '%', '*', '/', '-', '!', '+');
 
         //ON CHERCHE UN EVENTUEL OPERATEUR DE COMPARAISON
@@ -269,6 +269,7 @@ class evaluate {
                 }
                 break;
             case "&&":
+
                 if ($valeur1 && $valeur2) {
                     $res = true;
                 } else {
