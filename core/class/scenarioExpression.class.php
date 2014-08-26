@@ -204,12 +204,12 @@ class scenarioExpression {
 
     public static function setTags($_expression) {
         $replace = array(
-            '#heure#' => date('H'),
+            '#heure#' => date('G'),
             '#minute#' => date('i'),
             '#jour#' => date('d'),
             '#mois#' => date('m'),
             '#annee#' => date('Y'),
-            '#time#' => date('Hi'),
+            '#time#' => date('Gi'),
             '#timestamp#' => time(),
             '#date#' => date('md'),
             '#semaine#' => date('W'),
