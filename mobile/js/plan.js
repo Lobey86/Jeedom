@@ -82,8 +82,17 @@ function initPlan(_planHeader_id) {
         initPlan(_planHeader_id)
     });
 
+    $("#div_displayObject").parent().on("dblclick", function() {
+        if($("div[data-role=header]").is(':visible')){
+            $("div[data-role=header]").hide();
+        }else{
+            $("div[data-role=header]").show();
+        }
+        
+    });
+
     $("body:not(.eqLogic)").off("swipeleft");
-    $("body:not(.eqLogic)").off("swiperight")
+    $("body:not(.eqLogic)").off("swiperight");
 }
 
 function displayObject(_type, _id, _html, _plan) {
