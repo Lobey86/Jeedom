@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Jeu 14 Août 2014 à 17:33
+-- Généré le: Mer 27 Août 2014 à 08:04
 -- Version du serveur: 5.6.19-0ubuntu0.14.04.1
 -- Version de PHP: 5.5.9-1ubuntu4.3
 
@@ -274,6 +274,7 @@ CREATE TABLE IF NOT EXISTS `historyArch` (
 
 CREATE TABLE IF NOT EXISTS `interactDef` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
   `enable` int(11) DEFAULT '1',
   `query` text,
   `reply` text,
@@ -398,6 +399,7 @@ CREATE TABLE IF NOT EXISTS `planHeader` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(127) DEFAULT NULL,
   `image` mediumtext,
+  `configuration` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -418,7 +420,7 @@ CREATE TABLE IF NOT EXISTS `scenario` (
   `schedule` text,
   `pid` int(11) DEFAULT NULL,
   `scenarioElement` text,
-  `trigger` text,
+  `trigger` varchar(255) DEFAULT NULL,
   `log` text,
   `timeout` int(11) DEFAULT NULL,
   `isVisible` tinyint(1) DEFAULT '1',
@@ -429,7 +431,10 @@ CREATE TABLE IF NOT EXISTS `scenario` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`group`,`object_id`,`name`),
   KEY `group` (`group`),
-  KEY `fk_scenario_object1_idx` (`object_id`)
+  KEY `fk_scenario_object1_idx` (`object_id`),
+  KEY `trigger` (`trigger`),
+  KEY `mode` (`mode`),
+  KEY `modeTriger` (`mode`,`trigger`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -622,7 +627,7 @@ ALTER TABLE `object`
 -- Contraintes pour la table `plan`
 --
 ALTER TABLE `plan`
-  ADD CONSTRAINT `fk_plan_planHeader1` FOREIGN KEY (`planHeader_id`) REFERENCES `planHeader` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_plan_planHeader1` FOREIGN KEY (`planHeader_id`) REFERENCES `planHeader` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `scenario`
