@@ -122,9 +122,6 @@ if (init('cron_id') != '') {
         log::add('cron', 'error', __('Erreur sur ', __FILE__) . $cron->getName() . ' : ' . print_r($e, true));
     }
 } else {
-    if (config::byKey('enableCron') == 0) {
-        die(__('Tous les crons sont actuellement désactivés', __FILE__));
-    }
     if (cron::jeeCronRun()) {
         die();
     }
@@ -148,6 +145,9 @@ if (init('cron_id') != '') {
     set_time_limit(59);
     cron::setPidFile();
     while (true) {
+        if (config::byKey('enableCron') == 0) {
+            die(__('Tous les crons sont actuellement désactivés', __FILE__));
+        }
         foreach (cron::all() as $cron) {
             try {
                 if (!$started && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'persist') {
@@ -156,8 +156,9 @@ if (init('cron_id') != '') {
                 if (!$cron->refresh()) {
                     continue;
                 }
+                $running = $cron->running();
                 $datetime = date('Y-m-d H:i:s');
-                if ($cron->getEnable() == 1 && !$cron->running()) {
+                if ($cron->getEnable() == 1 && !$running) {
                     if ($cron->getDeamon() == 0) {
                         if ($cron->isDue()) {
                             $cron->start();
@@ -166,7 +167,7 @@ if (init('cron_id') != '') {
                         $cron->start();
                     }
                 }
-                if ($cron->running() && (strtotime($datetime) - strtotime($cron->getLastRun())) / 60 >= $cron->getTimeout()) {
+                if ($running && (strtotime($datetime) - strtotime($cron->getLastRun())) / 60 >= $cron->getTimeout()) {
                     $cron->stop();
                 }
                 switch ($cron->getState()) {
