@@ -122,29 +122,32 @@ if (init('cron_id') != '') {
         log::add('cron', 'error', __('Erreur sur ', __FILE__) . $cron->getName() . ' : ' . print_r($e, true));
     }
 } else {
-    $retry = 0;
-    while (true) {
-        $retry++;
-        if ($retry > 20) {
-            echo __("Il y a deja un jeeCron qui tourne : ", __FILE__) . cron::getPidFile() . "\n";
-            log::add('cron', 'info', '[' . getmypid() . __('] Lancement de Jeecron annulé car il y a deja un en cours : ', __FILE__) . cron::getPidFile());
-            die();
-        }
-        if (cron::jeeCronRun()) {
-            sleep(1);
-        } else {
-            break;
-        }
+    if (config::byKey('enableCron') == 0) {
+        die(__('Tous les crons sont actuellement désactivés', __FILE__));
     }
+    if (cron::jeeCronRun()) {
+        die();
+    }
+    /* $retry = 0;
+      while (true) {
+      $retry++;
+      if ($retry > 20) {
+      echo __("Il y a deja un jeeCron qui tourne : ", __FILE__) . cron::getPidFile() . "\n";
+      log::add('cron', 'info', '[' . getmypid() . __('] Lancement de Jeecron annulé car il y a deja un en cours : ', __FILE__) . cron::getPidFile());
+      die();
+      }
+      if (cron::jeeCronRun()) {
+      sleep(1);
+      } else {
+      break;
+      }
+      } */
     $sleepTime = config::byKey('cronSleepTime');
     $started = jeedom::isStarted();
 
     set_time_limit(59);
     cron::setPidFile();
     while (true) {
-        if (config::byKey('enableCron') == 0) {
-            die(__('Tous les crons sont actuellement désactivés', __FILE__));
-        }
         foreach (cron::all() as $cron) {
             try {
                 if (!$started && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'persist') {
@@ -164,19 +167,14 @@ if (init('cron_id') != '') {
                     }
                 }
                 if ($cron->running() && (strtotime($datetime) - strtotime($cron->getLastRun())) / 60 >= $cron->getTimeout()) {
-                    if ($cron->getDeamon() == 0) {
-                        log::add('cron', 'error', __('[Timeout] ', __FILE__) . $cron->getName());
-                    } else {
-                        log::add('cron', 'info', __('Arrêt/relance du deamon : ', __FILE__) . $cron->getName());
-                    }
                     $cron->stop();
                 }
                 switch ($cron->getState()) {
                     case 'run':
-                        if ($cron->getServer() == gethostname()) {
-                            $cron->setDuration(convertDuration(strtotime($datetime) - strtotime($cron->getLastRun())));
-                            $cron->save();
-                        }
+                        // if ($cron->getServer() == gethostname()) {
+                        $cron->setDuration(convertDuration(strtotime($datetime) - strtotime($cron->getLastRun())));
+                        $cron->save();
+                        // }
                         break;
                     case 'starting':
                         $cron->run();
