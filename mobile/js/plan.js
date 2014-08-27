@@ -23,6 +23,7 @@ function initPlan(_planHeader_id) {
         if ($("div[data-role=header]").length != 0) {
             $("div[data-role=header]").remove();
             $(this).css('top', '15px');
+            $('.ui-content').css('padding','0');
             displayPlan(_planHeader_id);
         } else {
             window.location.reload();
@@ -45,7 +46,7 @@ function displayPlan(_planHeader_id) {
             if ($("div[data-role=header]").length != 0) {
                 var height = $(window).height() - $('#pageTitle').height() - 55;
             } else {
-                var height = $(window).height() -35;
+                var height = $(window).height();
             }
             var width = $(window).width();
             if (data.configuration != null && init(data.configuration.sizeX) != '' && init(data.configuration.sizeY) != '') {
