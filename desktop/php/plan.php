@@ -34,16 +34,20 @@ if (is_object($planHeader)) {
         }
         ?>
     </select>
-    <?php if (isConnect('admin') && is_object($planHeader)) { ?>
+    <?php if (isConnect('admin')) { ?>
         <a class="btn btn-success btn-sm" style="margin-bottom: 3px;" id="bt_addPlanHeader"><i class="fa fa-plus-circle"></i></a>
         <a class="btn btn-default btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_configurePlanHeader"><i class="fa fa-cogs"></i></a>
         <a class="btn btn-warning pull-right btn-sm" style="margin-bottom: 3px;" id="bt_editPlan" data-mode="0"><i class="fa fa-pencil"></i> {{Mode édition}}</a>
-        <a class="btn btn-success pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_savePlan" data-mode="0"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
-        <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addGraph"><i class="fa fa-plus-circle"></i> {{Ajouter Graph}}</a>
-        <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addLink"><i class="fa fa-plus-circle"></i> {{Ajouter lien}}</a>
-        <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addScenario"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>
-        <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter équipement}}</a>
-    <?php } ?>
+        <?php if (is_object($planHeader)) { ?>
+            <a class="btn btn-success pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_savePlan" data-mode="0"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
+            <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addGraph"><i class="fa fa-plus-circle"></i> {{Ajouter Graph}}</a>
+            <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addLink"><i class="fa fa-plus-circle"></i> {{Ajouter lien}}</a>
+            <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addScenario"><i class="fa fa-plus-circle"></i> {{Ajouter scénario}}</a>
+            <a class="btn btn-info pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_addEqLogic"><i class="fa fa-plus-circle"></i> {{Ajouter équipement}}</a>
+            <?php
+        }
+    }
+    ?>
 </div>
 <div id="div_displayObject" style="min-height: 500px; min-width: 750px;position: relative;">
     <?php
