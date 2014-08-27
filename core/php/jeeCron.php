@@ -142,7 +142,7 @@ if (init('cron_id') != '') {
     $sleepTime = config::byKey('cronSleepTime');
     $started = jeedom::isStarted();
 
-    set_time_limit(3599);
+    set_time_limit(59);
     cron::setPidFile();
     while (true) {
         if (config::byKey('enableCron', 'core', 1, true) == 0) {
@@ -197,10 +197,10 @@ if (init('cron_id') != '') {
             }
         }
         if ($sleepTime > 59) {
-            //  die();
+            die();
         }
         sleep($sleepTime);
-        if (round(getmicrotime() - $startTime, 3) > 3599) {
+        if (round(getmicrotime() - $startTime, 3) > 59) {
             die();
         }
     }
