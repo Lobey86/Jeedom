@@ -261,6 +261,7 @@ class cmd {
         foreach (cache::search('collect') as $cache) {
             $cmd = self::byId($cache->getValue());
             if (is_object($cmd) && $cmd->getEqLogic()->getIsEnable() == 1 && $cmd->getEventOnly() == 0) {
+                log::add('cmd', 'debug', 'Je vais collecter : ' . $cmd->getHumanName());
                 $cmd->execCmd(null, 0);
             }
         }
