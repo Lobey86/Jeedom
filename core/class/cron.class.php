@@ -246,20 +246,9 @@ class cron {
      * @return boolean
      */
     public function running() {
-        if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && $this->getPID() > 0 && $this->getServer() == gethostname()) {
+        if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && $this->getPID() > 0) {
             exec('ps ' . $this->pid, $pState);
             return (count($pState) >= 2);
-        }
-        if ($this->getNbRun() > 0) {
-            $pid = $this->retrievePid();
-            if (!is_numeric($pid)) {
-                return false;
-            }
-            $this->setPID($pid);
-            $this->setServer(gethostname());
-            $this->setState('run');
-            $this->save();
-            return true;
         }
         return false;
     }

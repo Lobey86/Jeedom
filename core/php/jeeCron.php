@@ -156,11 +156,11 @@ if (init('cron_id') != '') {
                 if (!$cron->refresh()) {
                     continue;
                 }
-                $running = $cron->running();
                 $datetime = strtotime('now');
                 $lastrun = strtotime($cron->getLastRun());
                 $duration = $datetime - $lastrun;
-                if ($cron->getEnable() == 1 && !$running) {
+                
+                if ($cron->getEnable() == 1 && $cron->getState() != 'run') {
                     if ($cron->getDeamon() == 0) {
                         if ($cron->isDue()) {
                             $cron->start();
@@ -169,7 +169,7 @@ if (init('cron_id') != '') {
                         $cron->start();
                     }
                 }
-                if ($running && ($duration / 60) >= $cron->getTimeout()) {
+                if ($cron->getState() == 'run' && ($duration / 60) >= $cron->getTimeout()) {
                     $cron->stop();
                 }
                 switch ($cron->getState()) {
@@ -200,7 +200,7 @@ if (init('cron_id') != '') {
             die();
         }
         sleep($sleepTime);
-        if (round(getmicrotime() - $startTime, 3) > 59) {
+        if ((getmicrotime() - $startTime) > 59) {
             die();
         }
     }
