@@ -714,21 +714,21 @@ class scenario {
         $schedules = $this->getSchedule();
         if (is_array($schedules)) {
             foreach ($schedules as $schedule) {
-                $return .= '    Programmation : ' . $schedule . "\n";
+                $return .= '    - Programmation : ' . $schedule . "\n";
             }
         } else {
             if ($schedules != '') {
-                $return .= '    Programmation : ' . $schedules . "\n";
+                $return .= '    - Programmation : ' . $schedules . "\n";
             }
         }
         $triggers = $this->getTrigger();
         if (is_array($triggers)) {
             foreach ($triggers as $trigger) {
-                $return .= '    Evènement : ' . jeedom::toHumanReadable($trigger) . "\n";
+                $return .= '    - Evènement : ' . jeedom::toHumanReadable($trigger) . "\n";
             }
         } else {
             if ($triggers != '') {
-                $return .= '    Evènement : ' . $triggers . "\n";
+                $return .= '    - Evènement : ' . $triggers . "\n";
             }
         }
         $return .= "\n";
