@@ -247,8 +247,8 @@ class cron {
      */
     public function running() {
         if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && $this->getPID() > 0) {
-            exec('ps ' . $this->pid, $pState);
-            return (count($pState) >= 2);
+            exec('ps ' . $this->pid . '  | grep php', $pState);
+            return (count($pState) >= 1);
         }
         return false;
     }
