@@ -23,7 +23,7 @@ function initPlan(_planHeader_id) {
         if ($("div[data-role=header]").length != 0) {
             $("div[data-role=header]").remove();
             $(this).css('top', '15px');
-            $('.ui-content').css('padding','0');
+            $('.ui-content').css('padding', '0');
             displayPlan(_planHeader_id);
         } else {
             window.location.reload();
@@ -139,6 +139,11 @@ function displayObject(_type, _id, _html, _plan) {
     for (var key in _plan.css) {
         if (_plan.css[key] != '' && key != 'zoom') {
             html.css(key, _plan.css[key]);
+        }
+        if (key == 'color') {
+            html.find('.btn.btn-default').css("cssText", key + ': ' + _plan.css[key] + ' !important;border-color : ' + _plan.css[key] + ' !important');
+            html.find('tspan').css('fill', _plan.css[key]);
+            html.find('span').css(key, _plan.css[key]);
         }
     }
     html.css('position', 'absolute');
