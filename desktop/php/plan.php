@@ -34,7 +34,7 @@ if (is_object($planHeader)) {
         }
         ?>
     </select>
-    <?php if (isConnect('admin')) { ?>
+    <?php if (isConnect('admin') && is_object($planHeader)) { ?>
         <a class="btn btn-success btn-sm" style="margin-bottom: 3px;" id="bt_addPlanHeader"><i class="fa fa-plus-circle"></i></a>
         <a class="btn btn-default btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_configurePlanHeader"><i class="fa fa-cogs"></i></a>
         <a class="btn btn-warning pull-right btn-sm" style="margin-bottom: 3px;" id="bt_editPlan" data-mode="0"><i class="fa fa-pencil"></i> {{Mode édition}}</a>
