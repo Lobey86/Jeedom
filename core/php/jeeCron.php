@@ -145,7 +145,7 @@ if (init('cron_id') != '') {
     set_time_limit(3599);
     cron::setPidFile();
     while (true) {
-        if (config::byKey('enableCron') == 0) {
+        if (config::byKey('enableCron', 'core', 1, true) == 0) {
             die(__('Tous les crons sont actuellement désactivés', __FILE__));
         }
         foreach (cron::all() as $cron) {
@@ -197,7 +197,7 @@ if (init('cron_id') != '') {
             }
         }
         if ($sleepTime > 59) {
-          //  die();
+            //  die();
         }
         sleep($sleepTime);
         if (round(getmicrotime() - $startTime, 3) > 3599) {

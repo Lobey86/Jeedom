@@ -101,8 +101,8 @@ class config {
      * @param string $_key nom de la clef dont on veut la valeur
      * @return string valeur de la clef
      */
-    public static function byKey($_key, $_plugin = 'core', $_default = '') {
-        if (isset(self::$cache[$_plugin . '::' . $_key])) {
+    public static function byKey($_key, $_plugin = 'core', $_default = '',$_forceFresh = false) {
+        if (!$_forceFresh && isset(self::$cache[$_plugin . '::' . $_key])) {
             return self::$cache[$_plugin . '::' . $_key];
         }
         $values = array(
