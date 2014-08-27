@@ -110,7 +110,7 @@ jeedom.cmd.test = function(_params) {
                                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                                 },
                                 success: function() {
-                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec success}}', level: 'success'});
+                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec succès}}', level: 'success'});
                                 }
                             });
                             break;
@@ -123,7 +123,7 @@ jeedom.cmd.test = function(_params) {
                                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                                 },
                                 success: function() {
-                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec success}}', level: 'success'});
+                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec succès}}', level: 'success'});
                                 }
                             });
                             break;
@@ -136,7 +136,7 @@ jeedom.cmd.test = function(_params) {
                                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                                 },
                                 success: function() {
-                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec success}}', level: 'success'});
+                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec succès}}', level: 'success'});
                                 }
                             });
                             break;
@@ -149,7 +149,7 @@ jeedom.cmd.test = function(_params) {
                                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                                 },
                                 success: function() {
-                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec success}}', level: 'success'});
+                                    $('#div_alert').showAlert({message: '{{Action éxecutée avec succès}}', level: 'success'});
                                 }
                             });
                             break;
