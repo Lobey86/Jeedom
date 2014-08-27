@@ -114,7 +114,7 @@ class message {
         if ($this->getLogicalId() == '') {
             DB::save($this);
             @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
-            $cmds = explode((';'), config::byKey('emailAdmin'));
+            $cmds = explode(('&&'), config::byKey('emailAdmin'));
             foreach ($cmds as $id) {
                 $cmd = cmd::byId(str_replace('#', '', $id));
                 if (is_object($cmd)) {
@@ -139,7 +139,7 @@ class message {
             if ($result['count(*)'] == 0) {
                 DB::save($this);
                 @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
-                $cmds = explode((';'), config::byKey('emailAdmin'));
+                $cmds = explode(('&&'), config::byKey('emailAdmin'));
                 foreach ($cmds as $id) {
                     $cmd = cmd::byId(str_replace('#', '', $id));
                     if (is_object($cmd)) {
