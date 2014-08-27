@@ -157,7 +157,9 @@ if (init('cron_id') != '') {
                     continue;
                 }
                 $running = $cron->running();
-                $datetime = date('Y-m-d H:i:s');
+                $datetime = strtotime('now');
+                $lastrun = strtotime($cron->getLastRun());
+                $duration = $datetime - $lastrun;
                 if ($cron->getEnable() == 1 && !$running) {
                     if ($cron->getDeamon() == 0) {
                         if ($cron->isDue()) {
@@ -167,15 +169,13 @@ if (init('cron_id') != '') {
                         $cron->start();
                     }
                 }
-                if ($running && (strtotime($datetime) - strtotime($cron->getLastRun())) / 60 >= $cron->getTimeout()) {
+                if ($running && ($duration / 60) >= $cron->getTimeout()) {
                     $cron->stop();
                 }
                 switch ($cron->getState()) {
                     case 'run':
-                        // if ($cron->getServer() == gethostname()) {
-                        $cron->setDuration(convertDuration(strtotime($datetime) - strtotime($cron->getLastRun())));
+                        $cron->setDuration(convertDuration($duration));
                         $cron->save();
-                        // }
                         break;
                     case 'starting':
                         $cron->run();
