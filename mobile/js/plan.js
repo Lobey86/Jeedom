@@ -13,6 +13,27 @@ function initPlan(_planHeader_id) {
         }
     });
 
+    displayPlan(_planHeader_id);
+
+    $(window).on("orientationchange", function(event) {
+        initPlan(_planHeader_id)
+    });
+
+    $("#bt_fullScreen").on("click", function() {
+        if ($("div[data-role=header]").length != 0) {
+            $("div[data-role=header]").remove();
+            $(this).css('top', '15px');
+            displayPlan(_planHeader_id);
+        } else {
+            window.location.reload();
+        }
+    });
+
+    $("body:not(.eqLogic)").off("swipeleft");
+    $("body:not(.eqLogic)").off("swiperight");
+}
+
+function displayPlan(_planHeader_id) {
     jeedom.plan.getHeader({
         id: _planHeader_id,
         error: function(error) {
@@ -21,7 +42,11 @@ function initPlan(_planHeader_id) {
         success: function(data) {
             $('#div_displayObject').empty().append(data.image);
             var img = $('#div_displayObject img');
-            var height = $(window).height() - $('#pageTitle').height();
+            if ($("div[data-role=header]").length != 0) {
+                var height = $(window).height() - $('#pageTitle').height() - 55;
+            } else {
+                var height = $(window).height() -35;
+            }
             var width = $(window).width();
             if (data.configuration != null && init(data.configuration.sizeX) != '' && init(data.configuration.sizeY) != '') {
                 if (init(data.configuration.maxSizeAllow) == 1 && (height > data.configuration.sizeY || width > data.configuration.sizeX)) {
@@ -77,22 +102,6 @@ function initPlan(_planHeader_id) {
             });
         }
     });
-
-    $(window).on("orientationchange", function(event) {
-        initPlan(_planHeader_id)
-    });
-
-    $("#div_displayObject").parent().on("dblclick", function() {
-        if($("div[data-role=header]").is(':visible')){
-            $("div[data-role=header]").hide();
-        }else{
-            $("div[data-role=header]").show();
-        }
-        
-    });
-
-    $("body:not(.eqLogic)").off("swipeleft");
-    $("body:not(.eqLogic)").off("swiperight");
 }
 
 function displayObject(_type, _id, _html, _plan) {
@@ -131,7 +140,7 @@ function displayObject(_type, _id, _html, _plan) {
             html.css(key, _plan.css[key]);
         }
     }
-  html.css('position', 'absolute');
+    html.css('position', 'absolute');
     html.css('transform-origin', '0 0');
     html.css('transform', 'scale(' + init(_plan.css.zoom, defaultZoom) + ')');
     html.css('-webkit-transform-origin', '0 0');
