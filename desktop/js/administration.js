@@ -91,7 +91,7 @@ $('#bt_addColorConvert').on('click', function() {
 
 $('#bt_selectMailCmd').on('click', function() {
     jeedom.cmd.getSelectModal({cmd: {type: 'action', subType: 'message'}}, function(result) {
-        $('.configKey[data-l1key=emailAdmin]').value(result.human);
+        $('.configKey[data-l1key=emailAdmin]').atCaret('insert', result.human);
     });
 });
 

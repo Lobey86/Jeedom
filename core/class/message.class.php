@@ -114,12 +114,15 @@ class message {
         if ($this->getLogicalId() == '') {
             DB::save($this);
             @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
-            $cmd = cmd::byId(str_replace('#', '', config::byKey('emailAdmin')));
-            if (is_object($cmd)) {
-                $cmd->execCmd(array(
-                    'title' => __('[JEEDOM] Message de ', __FILE__) . $this->getPlugin(),
-                    'message' => $this->getMessage()
-                ));
+            $cmds = explode((';'), config::byKey('emailAdmin'));
+            foreach ($cmds as $id) {
+                $cmd = cmd::byId(str_replace('#', '', $id));
+                if (is_object($cmd)) {
+                    $cmd->execCmd(array(
+                        'title' => __('[JEEDOM] Message de ', __FILE__) . $this->getPlugin(),
+                        'message' => $this->getMessage()
+                    ));
+                }
             }
         } else {
             $values = array(
@@ -136,12 +139,15 @@ class message {
             if ($result['count(*)'] == 0) {
                 DB::save($this);
                 @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
-                $cmd = cmd::byId(str_replace('#', '', config::byKey('emailAdmin')));
-                if (is_object($cmd)) {
-                    $cmd->execCmd(array(
-                        'title' => __('[JEEDOM] Message de ', __FILE__) . $this->getPlugin(),
-                        'message' => $this->getMessage()
-                    ));
+                $cmds = explode((';'), config::byKey('emailAdmin'));
+                foreach ($cmds as $id) {
+                    $cmd = cmd::byId(str_replace('#', '', $id));
+                    if (is_object($cmd)) {
+                        $cmd->execCmd(array(
+                            'title' => __('[JEEDOM] Message de ', __FILE__) . $this->getPlugin(),
+                            'message' => $this->getMessage()
+                        ));
+                    }
                 }
             }
         }
