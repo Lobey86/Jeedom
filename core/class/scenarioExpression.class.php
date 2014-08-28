@@ -319,7 +319,7 @@ class scenarioExpression {
                 } else {
                     $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
                     if (is_object($cmd)) {
-                        if (count($options) != 0) {
+                        if (is_array($options) && count($options) != 0) {
                             $this->setLog(__('Exécution de la commande ', __FILE__) . $cmd->getHumanName() . __(" avec comme option(s) : \n", __FILE__) . print_r($options, true));
                         } else {
                             $this->setLog(__('Exécution de la commande ', __FILE__) . $cmd->getHumanName());
@@ -424,7 +424,6 @@ class scenarioExpression {
                 foreach ($exports as $export) {
                     $return .= "    " . $export . "\n";
                 }
-                
             }
             return rtrim($return);
         }
