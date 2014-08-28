@@ -16,7 +16,6 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 error_reporting(E_ERROR);
-date_default_timezone_set('Europe/Amsterdam');
 require_once dirname(__FILE__) . '/../config/common.config.php';
 require_once dirname(__FILE__) . '/../class/DB.class.php';
 require_once dirname(__FILE__) . '/../class/config.class.php';
@@ -27,6 +26,7 @@ require_once dirname(__FILE__) . '/utils.inc.php';
 include_file('core', 'version', 'config');
 include_file('core', 'jeedom', 'config');
 include_file('core', 'utils', 'class');
+date_default_timezone_set(config::byKey('timezone'));
 
 function jeedomCoreAutoload($classname) {
     try {
