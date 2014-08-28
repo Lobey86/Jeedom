@@ -206,7 +206,7 @@ class jeedom {
     public static function restore($_backup = '', $_background = false) {
         if ($_background) {
             log::clear('restore');
-            $cmd = 'exec(php ' . dirname(__FILE__) . '/../../install/restore.php backup=' . $_backup;
+            $cmd = 'php ' . dirname(__FILE__) . '/../../install/restore.php backup=' . $_backup;
             $cmd.= ' >> ' . log::getPathToLog('restore') . ' 2>&1 &';
             exec($cmd);
         } else {
