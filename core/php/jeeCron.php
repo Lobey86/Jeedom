@@ -173,10 +173,6 @@ if (init('cron_id') != '') {
                     $cron->stop();
                 }
                 switch ($cron->getState()) {
-                    case 'run':
-                        $cron->setDuration(convertDuration($duration));
-                        $cron->save();
-                        break;
                     case 'starting':
                         $cron->run();
                         break;

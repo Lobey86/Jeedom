@@ -148,17 +148,6 @@ function addCron(_cron) {
     tr += '<td class="lastRun">';
     tr += init(_cron.lastRun);
     tr += '</td>';
-    tr += '<td class="duration">';
-    if (init(_cron.duration) != '-1') {
-        if (init(_cron.state) == 'run') {
-            tr += '<span class="label label-success">' + init(_cron.duration) + '</span>';
-        } else {
-            tr += '<span class="label label-warning">' + init(_cron.duration) + '</span>';
-        }
-    } else {
-        tr += '<span class="label label-danger">' + init(_cron.duration) + '</span>';
-    }
-    tr += '</td>';
     tr += '<td class="state">';
     var label = 'label label-info';
     if (init(_cron.state) == 'run') {
