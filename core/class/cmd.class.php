@@ -261,7 +261,6 @@ class cmd {
         foreach (cache::search('collect') as $cache) {
             $cmd = self::byId($cache->getValue());
             if (is_object($cmd) && $cmd->getEqLogic()->getIsEnable() == 1 && $cmd->getEventOnly() == 0) {
-                log::add('cmd', 'debug', 'Je vais collecter : ' . $cmd->getHumanName());
                 $cmd->execCmd(null, 0);
             }
         }
@@ -566,14 +565,10 @@ class cmd {
             $cache = 2;
         }
         if ($this->getType() == 'info' && $cache != 0) {
-            log::add('cmd', 'debug', 'Recuperation : ' . $this->getHumanName());
             $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false);
             if ($cache == 2 || !$mc->hasExpired()) {
                 if ($mc->hasExpired()) {
-                    log::add('cmd', 'debug', 'Je marque a collecter : ' . $this->getHumanName());
                     $this->setCollect(1);
-                } else {
-                    log::add('cmd', 'debug', 'Pas a collecter : ' . $this->getHumanName());
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
                 return $this->formatValue($mc->getValue());
