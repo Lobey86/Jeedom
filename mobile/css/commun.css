@@ -25,6 +25,8 @@ body{
     background-color:#f2dede;
 }
 
+.ui-btn { text-shadow:0 0 0 !important; }
+
 .eqLogic-widget .ui-btn{
     background-color: transparent !important;
     border: 2px solid white !important;
