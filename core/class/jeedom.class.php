@@ -316,20 +316,6 @@ class jeedom {
         return $return;
     }
 
-    public static function persist() {
-        if (!self::isStarted()) {
-            $cache = cache::byKey('jeedom::usbMapping');
-            $cache->remove();
-            jeedom::start();
-            plugin::start();
-            internalEvent::start();
-            $sql = "INSERT INTO `start` (`key` ,`value`) VALUES ('start',  'ok')";
-            DB::Prepare($sql, array());
-            self::event('start');
-            log::add('core', 'info', 'Démarrage de Jeedom OK');
-        }
-    }
-
     public static function isStarted() {
         $sql = "SELECT `value` FROM `start` WHERE `key`='start'";
         $result = DB::Prepare($sql, array());
@@ -371,6 +357,18 @@ class jeedom {
     }
 
     public static function cron() {
+        if (!self::isStarted()) {
+            $cache = cache::byKey('jeedom::usbMapping');
+            $cache->remove();
+            jeedom::start();
+            plugin::start();
+            internalEvent::start();
+            $sql = "INSERT INTO `start` (`key` ,`value`) VALUES ('start',  'ok')";
+            DB::Prepare($sql, array());
+            self::event('start');
+            log::add('core', 'info', 'Démarrage de Jeedom OK');
+        }
+        plugin::cron();
         interactDef::cron();
         eqLogic::checkAlive();
         connection::cron();

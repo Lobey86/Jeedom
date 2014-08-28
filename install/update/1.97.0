@@ -1,3 +1,0 @@
-<?php
-@exec("sudo usermod -G dialout www-data");
-
