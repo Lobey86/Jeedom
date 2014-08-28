@@ -156,10 +156,7 @@ if (init('cron_id') != '') {
                 if (!$cron->refresh()) {
                     continue;
                 }
-                $datetime = strtotime('now');
-                $lastrun = strtotime($cron->getLastRun());
-                $duration = $datetime - $lastrun;
-                
+                $duration = strtotime('now') - strtotime($cron->getLastRun());
                 if ($cron->getEnable() == 1 && $cron->getState() != 'run') {
                     if ($cron->getDeamon() == 0) {
                         if ($cron->isDue()) {
