@@ -232,10 +232,10 @@ class cron {
      * @throws Exception
      */
     public function run($_noErrorReport = false) {
-        $cmd = 'nice -n 19 php ' . dirname(__FILE__) . '/../php/jeeCron.php';
+        $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
         if ($this->getNbRun() == 0) {
-            exec('exec(' . $cmd . ' >> /dev/null 2>&1 &');
+            exec($cmd . ' >> /dev/null 2>&1 &');
         } else {
             if (!$_noErrorReport) {
                 $this->setPID($this->retrievePid());
@@ -243,7 +243,7 @@ class cron {
                 $this->setState('run');
                 $this->halt();
                 if ($this->getNbRun() == 0) {
-                    exec('exec(' . $cmd . ' >> /dev/null 2>&1 &');
+                    exec($cmd . ' >> /dev/null 2>&1 &');
                 } else {
                     throw new Exception(__('Impossible de lancer la tache car elle est déjà en cours (', __FILE__) . $this->getNbRun() . ') : ' . $cmd);
                 }

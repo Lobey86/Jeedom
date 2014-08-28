@@ -100,7 +100,7 @@ class listener {
     public function run($_event, $_value) {
         $cmd = 'nice -n 19 php ' . dirname(__FILE__) . '/../php/jeeListener.php';
         $cmd.= ' listener_id=' . $this->getId() . ' event_id=' . $_event . ' value=' . $_value;
-        exec('exec(' . $cmd . ' >> /dev/null 2>&1 &');
+        exec($cmd . ' >> /dev/null 2>&1 &');
     }
 
     public function preSave() {
