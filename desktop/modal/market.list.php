@@ -35,6 +35,7 @@ $findMarket = array();
             <th>{{Statut}}</th>
             <th style="width: 110px;">{{Note}}</th>
             <th>{{Téléchargé}}</th>
+            <th>{{Achat}}</th>
         </tr>
     </thead>
     <tbody>
@@ -98,6 +99,7 @@ $findMarket = array();
                 echo $market->getRating('total') . ' vote(s)';
                 echo '</center></td>';
                 echo '<td><center>' . $market->getDownloaded() . '</center></td>';
+                echo '<td><center>' . $market->getBuyer() . '</center></td>';
                 echo '</tr>';
             }
         }

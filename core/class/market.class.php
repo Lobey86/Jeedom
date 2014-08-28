@@ -39,6 +39,7 @@ class market {
     private $utilization;
     private $api_author;
     private $img;
+    private $buyer;
     private $purchase = 0;
     private $cost = 0;
     private $realcost = 0;
@@ -67,6 +68,7 @@ class market {
         $market->setPurchase($_arrayMarket['purchase']);
         $market->setCost($_arrayMarket['cost']);
         $market->rating = ($_arrayMarket['rating']);
+        $market->setBuyer($_arrayMarket['buyer']);
         $market->img = json_encode($_arrayMarket['img'], JSON_UNESCAPED_UNICODE);
 
         $market->setRealcost($_arrayMarket['realCost']);
@@ -738,6 +740,14 @@ class market {
 
     public function setRealcost($realcost) {
         $this->realcost = $realcost;
+    }
+
+    public function getBuyer() {
+        return $this->buyer;
+    }
+
+    public function setBuyer($buyer) {
+        $this->buyer = $buyer;
     }
 
 }
