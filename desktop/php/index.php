@@ -228,6 +228,11 @@ if (count($plugins_list) > 0) {
                     </div>
                 </header>
                 <main class="container-fluid" id="div_mainContainer">
+                    <?php
+                    if (!cron::ok()) {
+                        echo '<div style="width : 100%" class="alert alert-warning">{{Erreur cron : il n\'y a pas eu de lancement depuis plus de 1h}}</div>';
+                    }
+                    ?>
                     <div style="display: none;width : 100%" id="div_alert"></div>
                     <?php
                     try {
