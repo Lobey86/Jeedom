@@ -128,7 +128,7 @@ class scenarioElement {
     }
 
     public function execute(&$_scenario) {
-        $this->setLog(__('Exécution de l\'élément : ', __FILE__) . $this->getType());
+        //$this->setLog(__('Exécution de l\'élément : ', __FILE__) . $this->getType());
         if ($this->getType() == 'if') {
             if ($this->getSubElement('if')->execute($_scenario)) {
                 return $this->getSubElement('then')->execute($_scenario);
@@ -209,10 +209,10 @@ class scenarioElement {
 
     public function getConsolidateLog() {
         $return = '';
-        $log = $this->getLog();
+       /* $log = $this->getLog();
         if (trim($log) != '') {
             $return .= $log . "\n";
-        }
+        }*/
         foreach ($this->getSubElement() as $subElement) {
             $log = $subElement->getLog();
             if (trim($log) != '') {
@@ -301,7 +301,6 @@ class scenarioElement {
     }
 
     public function clearLog() {
-        $this->setLog('');
         foreach ($this->getSubElement() as $subelement) {
             $subelement->clearLog();
         }
