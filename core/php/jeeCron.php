@@ -150,7 +150,7 @@ if (init('cron_id') != '') {
         }
         foreach (cron::all() as $cron) {
             try {
-                if (!$started && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'persist') {
+                if (!$started && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'cron') {
                     continue;
                 }
                 if (!$cron->refresh()) {
