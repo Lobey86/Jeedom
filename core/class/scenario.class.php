@@ -389,7 +389,7 @@ class scenario {
                 $this->setState('error');
                 $this->save();
             }
-            $cmd = 'exec(php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
+            $cmd = 'php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
             $cmd.= ' scenario_id=' . $this->getId();
             $cmd.= ' force=' . $_force;
             $cmd.= ' message=' . escapeshellarg($_message);
