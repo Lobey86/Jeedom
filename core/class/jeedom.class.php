@@ -218,7 +218,7 @@ class jeedom {
 
     public static function update($_mode = '', $_level = -1) {
         log::clear('update');
-        $cmd = 'exec(php ' . dirname(__FILE__) . '/../../install/install.php mode=' . $_mode . ' level=' . $_level;
+        $cmd = 'php ' . dirname(__FILE__) . '/../../install/install.php mode=' . $_mode . ' level=' . $_level;
         $cmd.= ' >> ' . log::getPathToLog('update') . ' 2>&1 &';
         exec($cmd);
     }
