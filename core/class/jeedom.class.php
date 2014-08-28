@@ -169,6 +169,9 @@ class jeedom {
         }
         return $usbMapping;
     }
+    public static function persist(){
+        
+    }
 
     public static function backup($_background = false) {
         if ($_background) {
