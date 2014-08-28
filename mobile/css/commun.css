@@ -42,7 +42,7 @@ body{
     vertical-align: top;
     padding : 3px;
     margin : 3px;
-    text-shadow: initial;
+    text-shadow: initial !important;
 }
 
 .scenario-widget{
