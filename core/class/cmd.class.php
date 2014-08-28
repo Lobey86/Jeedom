@@ -528,6 +528,11 @@ class cmd {
             $internalEvent->setOptions('id', $this->getId());
             $internalEvent->save();
         }
+
+        $mc = cache::byKey('cmd' . $this->getId());
+        if ($mc->getLifetime() != $this->getCacheLifetime()) {
+            $mc->remove();
+        }
         return true;
     }
 
