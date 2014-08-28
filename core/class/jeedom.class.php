@@ -109,7 +109,7 @@ class jeedom {
             foreach (ls('/dev/', 'ttyUSB*') as $usb) {
                 $vendor = '';
                 $model = '';
-                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
+                foreach (explode("\n", exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
                     if (strpos($line, 'E: ID_MODEL=') !== false) {
                         $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
                     }
@@ -141,7 +141,7 @@ class jeedom {
             foreach (ls('/dev/', 'ttyUSB*') as $usb) {
                 $vendor = '';
                 $model = '';
-                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
+                foreach (explode("\n", exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
                     if (strpos($line, 'E: ID_MODEL=') !== false) {
                         $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
                     }
@@ -173,9 +173,9 @@ class jeedom {
     public static function backup($_background = false) {
         if ($_background) {
             log::clear('backup');
-            $cmd = 'nohup nice -20 php ' . dirname(__FILE__) . '/../../install/backup.php';
+            $cmd = 'exec(nice -20 php ' . dirname(__FILE__) . '/../../install/backup.php';
             $cmd.= ' >> ' . log::getPathToLog('backup') . ' 2>&1 &';
-            shell_exec($cmd);
+            exec($cmd);
         } else {
             require_once dirname(__FILE__) . '/../../install/backup.php';
         }
@@ -206,9 +206,9 @@ class jeedom {
     public static function restore($_backup = '', $_background = false) {
         if ($_background) {
             log::clear('restore');
-            $cmd = 'nohup php ' . dirname(__FILE__) . '/../../install/restore.php backup=' . $_backup;
+            $cmd = 'exec(php ' . dirname(__FILE__) . '/../../install/restore.php backup=' . $_backup;
             $cmd.= ' >> ' . log::getPathToLog('restore') . ' 2>&1 &';
-            shell_exec($cmd);
+            exec($cmd);
         } else {
             global $BACKUP_FILE;
             $BACKUP_FILE = $_backup;
@@ -218,9 +218,9 @@ class jeedom {
 
     public static function update($_mode = '', $_level = -1) {
         log::clear('update');
-        $cmd = 'nohup php ' . dirname(__FILE__) . '/../../install/install.php mode=' . $_mode . ' level=' . $_level;
+        $cmd = 'exec(php ' . dirname(__FILE__) . '/../../install/install.php mode=' . $_mode . ' level=' . $_level;
         $cmd.= ' >> ' . log::getPathToLog('update') . ' 2>&1 &';
-        shell_exec($cmd);
+        exec($cmd);
     }
 
     public static function getConfiguration($_key, $_default = false) {

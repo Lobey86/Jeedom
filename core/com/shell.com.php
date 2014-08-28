@@ -33,7 +33,7 @@ class com_shell {
     /*     * ************* Functions ************************************ */
 
     function exec() {
-        return shell_exec($this->cmd);
+        return exec($this->cmd);
     }
 
     /*     * **********************Getteur Setteur*************************** */

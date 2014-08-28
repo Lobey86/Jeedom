@@ -389,12 +389,12 @@ class scenario {
                 $this->setState('error');
                 $this->save();
             }
-            $cmd = 'nohup php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
+            $cmd = 'exec(php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
             $cmd.= ' scenario_id=' . $this->getId();
             $cmd.= ' force=' . $_force;
             $cmd.= ' message=' . escapeshellarg($_message);
             $cmd.= ' >> ' . log::getPathToLog('scenario') . ' 2>&1 &';
-            shell_exec($cmd);
+            exec($cmd);
             return true;
         }
         return false;
