@@ -141,7 +141,7 @@ function displayObject(_type, _id, _html, _plan) {
             html.css(key, _plan.css[key]);
         }
         if (key == 'color') {
-            html.find('.btn.btn-default').css("cssText", key + ': ' + _plan.css[key] + ' !important;border-color : ' + _plan.css[key] + ' !important');
+            html.find('.ui-btn').css("cssText", key + ': ' + _plan.css[key] + ' !important;border-color : ' + _plan.css[key] + ' !important');
             html.find('tspan').css('fill', _plan.css[key]);
             html.find('span').css(key, _plan.css[key]);
         }
