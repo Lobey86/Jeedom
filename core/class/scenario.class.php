@@ -707,7 +707,8 @@ class scenario {
     }
 
     public function export() {
-        $return = "## Description\n\n";
+        $return = '';
+        //$return .= "## Description\n\n";
         $return .= '- Nom du scénario : ' . $this->getName() . "\n";
         if (is_numeric($this->getObject_id())) {
             $return .= '- Objet parent : ' . $this->getObject()->getName() . "\n";
@@ -734,10 +735,10 @@ class scenario {
             }
         }
         $return .= "\n";
-        $return .= "## Commentaire\n\n";
+        //$return .= "## Commentaire\n\n";
         $return .= $this->getDescription();
         $return .= "\n\n";
-        $return .= "## Scénario\n\n";
+        //$return .= "## Scénario\n\n";
         foreach ($this->getElement() as $element) {
             $exports = explode("\n", $element->export());
             foreach ($exports as $export) {
