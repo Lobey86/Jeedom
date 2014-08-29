@@ -300,46 +300,44 @@ class cron {
         if (!is_numeric($this->getPID())) {
             return true;
         }
-        if ($this->getServer() == gethostname()) {
-            log::add('cron', 'info', __('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '()');
-            exec('kill ' . $this->getPID());
+        log::add('cron', 'info', __('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '()');
+        exec('kill ' . $this->getPID());
+        $check = $this->running();
+        $retry = 0;
+        while ($check) {
             $check = $this->running();
-            $retry = 0;
+            $retry++;
+            if ($retry > config::byKey('deamonsSleepTime') + 5) {
+                $check = false;
+            } else {
+                sleep(1);
+            }
+        }
+        if ($this->running()) {
+            exec('kill -9 ' . $this->getPID());
+            $check = $this->running();
             while ($check) {
                 $check = $this->running();
                 $retry++;
-                if ($retry > config::byKey('deamonsSleepTime') + 5) {
+                if ($retry > 20) {
                     $check = false;
                 } else {
                     sleep(1);
                 }
             }
-            if ($this->running()) {
-                exec('kill -9 ' . $this->getPID());
-                $check = $this->running();
-                while ($check) {
-                    $check = $this->running();
-                    $retry++;
-                    if ($retry > 20) {
-                        $check = false;
-                    } else {
-                        sleep(1);
-                    }
-                }
-            }
-            if ($this->running()) {
-                $this->setState('error');
-                $this->setServer('');
-                $this->setPID();
-                $this->save();
-                throw new Exception($this->getClass() . '::' . $this->getFunction() . __('() : Impossible d\'arreter la tache', __FILE__));
-            } else {
-                $this->setState('stop');
-                $this->setDuration(-1);
-                $this->setPID();
-                $this->setServer('');
-                $this->save();
-            }
+        }
+        if ($this->running()) {
+            $this->setState('error');
+            $this->setServer('');
+            $this->setPID();
+            $this->save();
+            throw new Exception($this->getClass() . '::' . $this->getFunction() . __('() : Impossible d\'arreter la tache', __FILE__));
+        } else {
+            $this->setState('stop');
+            $this->setDuration(-1);
+            $this->setPID();
+            $this->setServer('');
+            $this->save();
         }
     }
 
