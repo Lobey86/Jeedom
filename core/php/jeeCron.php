@@ -142,7 +142,7 @@ if (init('cron_id') != '') {
                     continue;
                 }
                 $duration = strtotime('now') - strtotime($cron->getLastRun());
-                if ($cron->getEnable() == 1 && $cron->getState() != 'run') {
+                if ($cron->getEnable() == 1 && $cron->getState() != 'run' && $cron->getState() != 'starting') {
                     if ($cron->getDeamon() == 0) {
                         if ($cron->isDue()) {
                             $cron->start();
