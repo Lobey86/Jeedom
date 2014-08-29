@@ -109,14 +109,34 @@ class cache {
     public static function load() {
         $sql = 'SELECT *
                 FROM cache';
-        $caches = DB::Prepare($sql, array(),DB::FETCH_TYPE_ALL);
+        $caches = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL);
         foreach ($caches as $cache) {
             self::set($cache['key'], $cache['value'], $cache['lifetime'], $cache['options']);
         }
     }
-    
+
     public static function persist() {
-     
+        DB::Prepare('TRUNCATE TABLE `cache`', array());
+        $sql = 'REPLACE cache
+                 SET `key`=:key,
+                     `value`=:value,
+                     `datetime`=:datetime,
+                     `lifetime`=:lifetime,
+                     `options`=:options';
+        $keys = self::getConnection()->getAllKeys();
+        foreach ($keys as $key) {
+            $cache = self::byKey($key);
+            if ($cache->getKey() != '') {
+                $values = array(
+                    'key' => $cache->getKey(),
+                    'value' => $cache->getValue(),
+                    'datetime' => $cache->getDatetime(),
+                    'lifetime' => $cache->getLifetime(),
+                    'options' => $cache->getOptions()
+                );
+                DB::Prepare($sql, $values);
+            }
+        }
     }
 
     /*     * *********************Methode d'instance************************* */

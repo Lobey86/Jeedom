@@ -169,7 +169,8 @@ class jeedom {
         }
         return $usbMapping;
     }
-    public static function persist(){
+
+    public static function persist() {
         
     }
 
@@ -375,6 +376,16 @@ class jeedom {
         interactDef::cron();
         eqLogic::checkAlive();
         connection::cron();
+        try {
+            $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
+            if ($c->isDue()) {
+                if (method_exists('cache', 'persist')) {
+                    cache::persist();
+                }
+            }
+        } catch (Exception $e) {
+            log::add('log', 'error', $e->getMessage());
+        }
         try {
             $c = new Cron\CronExpression(config::byKey('log::chunck'), new Cron\FieldFactory);
             if ($c->isDue()) {
