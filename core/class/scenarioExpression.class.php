@@ -136,7 +136,7 @@ class scenarioExpression {
         if ($cmd->getIsHistorized() == 0) {
             return null;
         }
-        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period . ' hour'));
+        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
         $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
         return round($historyStatistique['avg'], 1);
     }
@@ -149,7 +149,7 @@ class scenarioExpression {
         if ($cmd->getIsHistorized() == 0) {
             return null;
         }
-        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period . ' hour'));
+        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
         $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
         return round($historyStatistique['max'], 1);
     }
@@ -162,7 +162,7 @@ class scenarioExpression {
         if ($cmd->getIsHistorized() == 0) {
             return null;
         }
-        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period . ' hour'));
+        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
         $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
         return round($historyStatistique['min'], 1);
     }
