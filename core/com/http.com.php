@@ -93,12 +93,12 @@ class com_http {
         }
         if (curl_errno($ch)) {
             $curl_error = curl_error($ch);
-            if ($this->getAllowEmptyReponse() == true && strpos($curl_error, 'Empty reply from server') !== false) {
+            if ($this->getNoReportError() === false && $this->getAllowEmptyReponse() == true && strpos($curl_error, 'Empty reply from server') !== false) {
                 curl_close($ch);
                 log::add('http.com', 'Debug', __('Url : ', __FILE__) . $this->url . __("\nReponse : ", __FILE__) . $response);
                 return $response;
             }
-            if ($this->getLogError()) {
+            if ($this->getNoReportError() === false && $this->getLogError()) {
                 log::add('http.com', 'error', __('Erreur curl : ', __FILE__) . $curl_error . __(' sur la commande ', __FILE__) . $this->url . __(' après ', __FILE__) . $nbRetry . __(' relance(s)', __FILE__));
             }
             curl_close($ch);
