@@ -40,7 +40,7 @@ class update {
             'version' => array(),
         );
         self::findNewUpdateObject();
-        foreach (self::all() as $update) {
+        foreach (self::all($_filter) as $update) {
             if ($update->getType() == 'core') {
                 if ($findCore) {
                     $update->remove();
@@ -53,7 +53,7 @@ class update {
                 $update->save();
                 $update->checkUpdate();
             } else {
-                if ($update->getStatus() != 'hold' && ($_filter == '' || $_filter == $update->getType() )) {
+                if ($update->getStatus() != 'hold') {
                     $marketObject['logical_id'][] = $update->getLogicalId();
                     $marketObject['version'][] = $update->getConfiguration('version', 'stable');
                     $marketObject[$update->getLogicalId()] = $update;
@@ -159,11 +159,16 @@ class update {
      *
      * @return array de tous les utilisateurs 
      */
-    public static function all() {
+    public static function all($_filter = '') {
+        $values = array();
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . ' 
-                FROM `update`
-                ORDER BY ( `type` = "core") DESC,( `status` = "update") DESC';
-        return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+                FROM `update`';
+        if ($_filter != '') {
+            $values['type'] = $_filter;
+            $sql .= ' WHERE `type`=:type';
+        }
+        $sql .= ' ORDER BY ( `type` = "core") DESC,( `status` = "update") DESC';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
     public static function nbNeedUpdate() {
