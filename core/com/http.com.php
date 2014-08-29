@@ -33,6 +33,7 @@ class com_http {
     private $header = array('Connection: close');
     private $cookiesession = false;
     private $allowEmptyReponse = false;
+    private $noReportError = false;
 
     /*     * ********************Functions static********************* */
 
@@ -101,7 +102,9 @@ class com_http {
                 log::add('http.com', 'error', __('Erreur curl : ', __FILE__) . $curl_error . __(' sur la commande ', __FILE__) . $this->url . __(' après ', __FILE__) . $nbRetry . __(' relance(s)', __FILE__));
             }
             curl_close($ch);
-            throw new Exception(__('Echec de la requete http : ', __FILE__) . $this->url . ' Curl error : ' . $curl_error, 404);
+            if ($this->getNoReportError() === false) {
+                throw new Exception(__('Echec de la requete http : ', __FILE__) . $this->url . ' Curl error : ' . $curl_error, 404);
+            }
         }
         curl_close($ch);
         log::add('http.com', 'Debug', __('Url : ', __FILE__) . $this->url . __("\nReponse : ", __FILE__) . $response);
@@ -170,6 +173,14 @@ class com_http {
 
     public function setAllowEmptyReponse($allowEmptyReponse) {
         $this->allowEmptyReponse = $allowEmptyReponse;
+    }
+
+    public function getNoReportError() {
+        return $this->noReportError;
+    }
+
+    public function setNoReportError($noReportError) {
+        $this->noReportError = $noReportError;
     }
 
 }
