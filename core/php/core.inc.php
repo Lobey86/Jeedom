@@ -30,7 +30,15 @@ date_default_timezone_set(config::byKey('timezone'));
 
 function jeedomCoreAutoload($classname) {
     try {
-        include_file('core', $classname, 'class');
+        if ($classname == 'cache') {
+            if (extension_loaded('memcached')) {
+                include_file('core', 'cache.mc', 'class');
+            }else{
+                include_file('core', 'cache.ms', 'class');
+            }
+        } else {
+            include_file('core', $classname, 'class');
+        }
     } catch (Exception $e) {
         
     }

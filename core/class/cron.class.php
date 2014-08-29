@@ -95,7 +95,7 @@ class cron {
      * @return int
      */
     public static function nbCronRun() {
-        return exec('ps ax | grep jeeCron.php | grep -v "grep" | grep -v "sudo" | grep -v "shell=/bin/bash - " | grep -v "/bin/bash -c " | grep -v "/bin/sh -c " | grep -v ' . posix_getppid() . ' | grep -v ' . getmypid() . ' | wc -l');
+        return shell_exec('ps ax | grep jeeCron.php | grep -v "grep" | grep -v "sudo" | grep -v "shell=/bin/bash - " | grep -v "/bin/bash -c " | grep -v "/bin/sh -c " | grep -v ' . posix_getppid() . ' | grep -v ' . getmypid() . ' | wc -l');
     }
 
     /**
@@ -103,7 +103,7 @@ class cron {
      * @return int
      */
     public static function nbProcess() {
-        $result = exec('ps ax | wc -l');
+        $result = shell_exec('ps ax | wc -l');
         return $result;
     }
 
@@ -257,7 +257,7 @@ class cron {
      */
     public function running() {
         if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && $this->getPID() > 0) {
-            exec('ps ' . $this->pid . '  | grep php', $pState);
+            shell_exec('ps ' . $this->pid . '  | grep php', $pState);
             return (count($pState) >= 1);
         }
         return false;

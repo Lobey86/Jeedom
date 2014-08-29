@@ -109,7 +109,7 @@ class jeedom {
             foreach (ls('/dev/', 'ttyUSB*') as $usb) {
                 $vendor = '';
                 $model = '';
-                foreach (explode("\n", exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
+                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
                     if (strpos($line, 'E: ID_MODEL=') !== false) {
                         $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
                     }
@@ -141,7 +141,7 @@ class jeedom {
             foreach (ls('/dev/', 'ttyUSB*') as $usb) {
                 $vendor = '';
                 $model = '';
-                foreach (explode("\n", exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
+                foreach (explode("\n", shell_exec('udevadm info --name=/dev/' . $usb . ' --query=all')) as $line) {
                     if (strpos($line, 'E: ID_MODEL=') !== false) {
                         $model = trim(str_replace(array('E: ID_MODEL=', '"'), '', $line));
                     }
@@ -414,18 +414,18 @@ class jeedom {
     }
 
     public static function checkOngoingThread($_cmd) {
-        return exec('ps ax | grep "' . $_cmd . '$" | grep -v "grep" | wc -l');
+        return shell_exec('ps ax | grep "' . $_cmd . '$" | grep -v "grep" | wc -l');
     }
 
     public static function retrievePidThread($_cmd) {
-        return exec('ps ax | grep "' . $_cmd . '$" | grep -v "grep" | awk "{print $1}"');
+        return shell_exec('ps ax | grep "' . $_cmd . '$" | grep -v "grep" | awk "{print $1}"');
     }
 
     public static function getHardwareKey() {
         $cache = cache::byKey('jeedom::hwkey');
         if ($cache->getValue(0) == 0) {
-            $key = exec('cat /proc/cpuinfo');
-            $key .= exec("/sbin/ifconfig eth0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}'");
+            $key = shell_exec('cat /proc/cpuinfo');
+            $key .= shell_exec("/sbin/ifconfig eth0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}'");
             $hwkey = sha1($key);
             cache::set('jeedom::hwkey', $hwkey, 86400);
             return $hwkey;
