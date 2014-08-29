@@ -75,7 +75,12 @@ class cache {
     }
 
     public static function flush() {
-        self::getConnection()->flush();
+        $keys = self::getConnection()->getAllKeys();
+        foreach ($keys as $key) {
+            if ($key != 'start') {
+                self::getConnection()->delete($key);
+            }
+        }
     }
 
     public static function buildCacheObject($_value) {
