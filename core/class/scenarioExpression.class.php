@@ -129,42 +129,90 @@ class scenarioExpression {
     }
 
     public static function average($_cmd_id, $_period = '1 hour') {
-        $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
-        if (!is_object($cmd)) {
-            return null;
+        $args = func_get_args();
+        if (count($args) > 2 || strpos($_period, '#') !== false || is_numeric($_period)) {
+            $values = array();
+            foreach ($args as $arg) {
+                if (is_numeric($arg)) {
+                    $values[] = $arg;
+                } else {
+                    $cmd = cmd::byId(trim(str_replace('#', '', $arg)));
+                    if (is_object($cmd)) {
+                        $values[] = $cmd->execCmd();
+                    }
+                }
+            }
+            return array_sum($values) / count($values);
+        } else {
+            $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
+            if (!is_object($cmd)) {
+                return null;
+            }
+            if ($cmd->getIsHistorized() == 0) {
+                return null;
+            }
+            $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
+            $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
+            return round($historyStatistique['avg'], 1);
         }
-        if ($cmd->getIsHistorized() == 0) {
-            return null;
-        }
-        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
-        $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
-        return round($historyStatistique['avg'], 1);
     }
 
     public static function max($_cmd_id, $_period = '1 hour') {
-        $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
-        if (!is_object($cmd)) {
-            return null;
+        $args = func_get_args();
+        if (count($args) > 2 || strpos($_period, '#') !== false || is_numeric($_period)) {
+            $values = array();
+            foreach ($args as $arg) {
+                if (is_numeric($arg)) {
+                    $values[] = $arg;
+                } else {
+                    $cmd = cmd::byId(trim(str_replace('#', '', $arg)));
+                    if (is_object($cmd)) {
+                        $values[] = $cmd->execCmd();
+                    }
+                }
+            }
+            return max($values);
+        } else {
+            $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
+            if (!is_object($cmd)) {
+                return null;
+            }
+            if ($cmd->getIsHistorized() == 0) {
+                return null;
+            }
+            $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
+            $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
+            return round($historyStatistique['max'], 1);
         }
-        if ($cmd->getIsHistorized() == 0) {
-            return null;
-        }
-        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
-        $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
-        return round($historyStatistique['max'], 1);
     }
 
     public static function min($_cmd_id, $_period = '1 hour') {
-        $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
-        if (!is_object($cmd)) {
-            return null;
+        $args = func_get_args();
+        if (count($args) > 2 || strpos($_period, '#') !== false || is_numeric($_period)) {
+            $values = array();
+            foreach ($args as $arg) {
+                if (is_numeric($arg)) {
+                    $values[] = $arg;
+                } else {
+                    $cmd = cmd::byId(trim(str_replace('#', '', $arg)));
+                    if (is_object($cmd)) {
+                        $values[] = $cmd->execCmd();
+                    }
+                }
+            }
+            return min($values);
+        } else {
+            $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
+            if (!is_object($cmd)) {
+                return null;
+            }
+            if ($cmd->getIsHistorized() == 0) {
+                return null;
+            }
+            $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
+            $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
+            return round($historyStatistique['min'], 1);
         }
-        if ($cmd->getIsHistorized() == 0) {
-            return null;
-        }
-        $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
-        $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
-        return round($historyStatistique['min'], 1);
     }
 
     public static function tendance($_cmd_id, $_period = '1 hour', $_threshold = '') {
@@ -221,7 +269,6 @@ class scenarioExpression {
             $arguments = explode(',', $match[2]);
             if (method_exists(__CLASS__, $function)) {
                 $result = call_user_func_array(__CLASS__ . "::" . $function, $arguments);
-
                 $replace[$match[0]] = $result;
             }
         }
