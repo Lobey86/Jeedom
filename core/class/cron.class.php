@@ -204,6 +204,9 @@ class cron {
         if (!$this->running()) {
             $this->setState('starting');
             $this->save();
+        } else {
+            $this->setState('run');
+            $this->save();
         }
     }
 
@@ -232,7 +235,7 @@ class cron {
      * @throws Exception
      */
     public function run($_noErrorReport = false) {
-        $cmd = 'php ' . dirname(__FILE__) . '/../php/jeeCron.php';
+        $cmd = 'nice -n 19 php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
         if ($this->getNbRun() == 0) {
             exec($cmd . ' >> /dev/null 2>&1 &');
@@ -257,7 +260,7 @@ class cron {
      */
     public function running() {
         if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && $this->getPID() > 0) {
-            shell_exec('ps ' . $this->pid . '  | grep php', $pState);
+            exec('ps ' . $this->pid . '  | grep php', $pState);
             return (count($pState) >= 1);
         }
         return false;
@@ -269,7 +272,7 @@ class cron {
      */
     public function refresh() {
         $result = DB::refresh($this);
-        if ($result && ($this->getState() == 'run' || $this->getState() == 'stoping' ) && !$this->running()) {
+        if ($result && ($this->getState() == 'run' || $this->getState() == 'stoping') && !$this->running()) {
             $this->setState('stop');
             $this->setPID();
             $this->setServer('');

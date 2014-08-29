@@ -48,7 +48,6 @@ if (init('cron_id') != '') {
         $cron->setState('run');
         $cron->setDuration('0s');
         $cron->setPID(getmypid());
-        $cron->setServer(gethostname());
         $cron->setLastRun($datetime);
         $cron->save();
         $option = $cron->getOption();
@@ -125,20 +124,6 @@ if (init('cron_id') != '') {
     if (cron::jeeCronRun()) {
         die();
     }
-    /* $retry = 0;
-      while (true) {
-      $retry++;
-      if ($retry > 20) {
-      echo __("Il y a deja un jeeCron qui tourne : ", __FILE__) . cron::getPidFile() . "\n";
-      log::add('cron', 'info', '[' . getmypid() . __('] Lancement de Jeecron annulé car il y a deja un en cours : ', __FILE__) . cron::getPidFile());
-      die();
-      }
-      if (cron::jeeCronRun()) {
-      sleep(1);
-      } else {
-      break;
-      }
-      } */
     $sleepTime = config::byKey('cronSleepTime');
     $started = jeedom::isStarted();
 

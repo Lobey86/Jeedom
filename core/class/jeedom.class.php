@@ -321,10 +321,17 @@ class jeedom {
     }
 
     public static function isStarted() {
-        $sql = "SELECT `value` FROM `start` WHERE `key`='start'";
-        $result = DB::Prepare($sql, array());
-        if (count($result) > 0 && $result['value'] == 'ok') {
-            return true;
+        if (extension_loaded('memcached')) {
+            $cache = cache::byKey('start');
+            if ($cache->getValue() == 'ok') {
+                return true;
+            }
+        } else {
+            $sql = "SELECT `value` FROM `start` WHERE `key`='start'";
+            $result = DB::Prepare($sql, array());
+            if (count($result) > 0 && $result['value'] == 'ok') {
+                return true;
+            }
         }
         return false;
     }
@@ -362,13 +369,18 @@ class jeedom {
 
     public static function cron() {
         if (!self::isStarted()) {
+            if (extension_loaded('memcached') && method_exists('cache', 'load')) {
+                cache::load();
+                cache::set('start', 'ok');
+            }
             $cache = cache::byKey('jeedom::usbMapping');
             $cache->remove();
             jeedom::start();
             plugin::start();
             internalEvent::start();
-            $sql = "INSERT INTO `start` (`key` ,`value`) VALUES ('start',  'ok')";
-            DB::Prepare($sql, array());
+            if (!extension_loaded('memcached')) {
+                DB::Prepare("INSERT INTO `start` (`key` ,`value`) VALUES ('start',  'ok')", array());
+            }
             self::event('start');
             log::add('core', 'info', 'Démarrage de Jeedom OK');
         }
