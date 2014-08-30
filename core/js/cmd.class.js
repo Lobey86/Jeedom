@@ -33,8 +33,6 @@ jeedom.cmd.execute = function(_params) {
     if (_params.value != 'undefined' && (is_array(_params.value) || is_object(_params.value))) {
         _params.value = json_encode(_params.value);
     }
-
-
     var paramsRequired = ['id'];
     var paramsSpecifics = {
         global: false,

@@ -24,9 +24,7 @@ if (php_sapi_name() != 'cli' || isset($_SERVER['REQUEST_METHOD']) || !isset($_SE
     echo "The page that you have requested could not be found.";
     exit();
 }
-
 require_once dirname(__FILE__) . "/core.inc.php";
-
 if (isset($argv)) {
     foreach ($argv as $arg) {
         $argList = explode('=', $arg);
@@ -42,11 +40,6 @@ if (!is_object($scenario)) {
     die(__('Scenario non trouvé verifier id : ', __FILE__) . init('scenario_id'));
 }
 
-if (!jeedom::isDateOk()) {
-    log::add('scenario', 'info', __('Lancement du scénario annulée car la date systeme ne semble pas être correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
-    die(__('Lancement du scénario annulée car la date systeme ne semble pas être correcte (retour dans le passé)', __FILE__) . $scenario->getHumanName());
-}
-
 if (is_numeric($scenario->getTimeout()) && $scenario->getTimeout() != '' && $scenario->getTimeout() != 0) {
     set_time_limit($scenario->getTimeout(config::byKey('maxExecTimeScript', 1) * 60));
 }
@@ -57,21 +50,9 @@ try {
             sleep(1);
         }
         if ($scenario->getState() == 'in progress') {
-            sleep(1);
-        }
-        if ($scenario->getState() == 'in progress') {
-            sleep(1);
-        }
-        if ($scenario->getState() == 'in progress') {
-            sleep(1);
-        }
-        if ($scenario->getState() == 'in progress') {
             die(__('Impossible de lancer le scénario car déjà en cours : ', __FILE__) . $scenario->getHumanName());
         }
-        $scenario->setPID(getmypid());
-        $scenario->save();
         $scenario->execute(init('message'));
-        $scenario->setState('stop');
     } else {
         $scenario->clearLog();
         $scenario->setLog(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
@@ -85,7 +66,4 @@ try {
     $scenario->save();
     die();
 }
-
-$scenario->setPID('');
-$scenario->save();
 ?>

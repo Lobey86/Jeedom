@@ -571,15 +571,13 @@ class cmd {
                     $this->setCollect(1);
                 }
                 $this->setCollectDate($mc->getOptions('collectDate', $mc->getDatetime()));
-                return $this->formatValue($mc->getValue());
+                return $mc->getValue();
             }
         }
-
         $eqLogic = $this->getEqLogic();
         if ($eqLogic->getIsEnable() != 1) {
             throw new Exception(__('Equipement desactivé impossible d\éxecuter la commande : ' . $this->getHumanName()));
         }
-        $type = $eqLogic->getEqType_name();
         try {
             if ($_options !== null && $_options !== '') {
                 $options = self::cmdToValue($_options);
@@ -598,26 +596,36 @@ class cmd {
             $value = $this->formatValue($this->execute($options));
         } catch (Exception $e) {
             //Si impossible de contacter l'équipement
+            $type = $eqLogic->getEqType_name();
             $numberTryWithoutSuccess = $eqLogic->getStatus('numberTryWithoutSuccess', 0);
             $eqLogic->setStatus('numberTryWithoutSuccess', $numberTryWithoutSuccess);
             if ($numberTryWithoutSuccess >= config::byKey('numberOfTryBeforeEqLogicDisable')) {
                 $message = 'Désactivation de <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getName();
                 $message .= ($eqLogic->getEqReal_id() != '') ? ' (' . $eqLogic->getEqReal()->getName() . ') ' : '';
                 $message .= '</a> car il n\'a pas répondu ou mal répondu lors des 3 derniers essais';
-                $action = '<a class="bt_changeIsEnable cursor" data-eqLogic_id="' . $this->getEqLogic_id() . '" data-isEnable="1">Ré-activer</a>';
-                message::add($type, $message, $action);
+                message::add($type, $message);
                 $eqLogic->setIsEnable(0);
                 $eqLogic->save();
             }
             log::add($type, 'error', __('Erreur sur ', __FILE__) . $eqLogic->getName() . ' : ' . $e->getMessage());
             throw $e;
         }
-        if (!is_array($value) && strpos($value, 'error') === false) {
-            $eqLogic->setStatus('numberTryWithoutSuccess', 0);
-            $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-        }
         if ($this->getType() == 'info' && $value !== false) {
             cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
+            if ($this->getCollectDate() == '') {
+                $this->setCollectDate(date('Y-m-d H:i:s'));
+            }
+            $this->setCollect(0);
+            nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
+            foreach (self::byValue($this->getId()) as $cmd) {
+                nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
+            }
+        }
+        if (!is_array($value) && strpos($value, 'error') === false) {
+            if ($eqLogic->getStatus('numberTryWithoutSuccess') != 0) {
+                $eqLogic->setStatus('numberTryWithoutSuccess', 0);
+            }
+            $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
         }
         if ($this->getType() == 'action' && $options !== null) {
             if (isset($options['slider'])) {
@@ -627,16 +635,6 @@ class cmd {
             if (isset($options['color'])) {
                 $this->setConfiguration('lastCmdValue', $options['color']);
                 $this->save();
-            }
-        }
-        if ($this->getType() == 'info') {
-            if ($this->getCollectDate() == '') {
-                $this->setCollectDate(date('Y-m-d H:i:s'));
-            }
-            $this->setCollect(0);
-            nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
-            foreach (self::byValue($this->getId()) as $cmd) {
-                nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
             }
         }
         return $value;

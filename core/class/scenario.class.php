@@ -43,6 +43,7 @@ class scenario {
     private $_internalEvent = 0;
     private static $_templateArray;
     private $_elements = array();
+    private $_changeState = false;
 
     /*     * ***********************Methode static*************************** */
 
@@ -160,12 +161,10 @@ class scenario {
     }
 
     public static function check($_event = null) {
-        log::add('scenario','debug','Vérification des scénario');
         $message = '';
         if ($_event != null) {
             if (is_object($_event)) {
                 $scenarios = self::byTrigger($_event->getId());
-                log::add('scenario','debug','J\'ai recuperé la liste des scénarios');
                 $message = __('Scenario lance automatiquement sur evenement venant de : ', __FILE__) . $_event->getHumanName();
             } else {
                 $scenarios = self::byTrigger($_event);
@@ -183,7 +182,6 @@ class scenario {
         if (count($scenarios) == 0) {
             return true;
         }
-        log::add('scenario','debug','Demande de lancement des scénarios');
         foreach ($scenarios as $scenario_) {
             $scenario_->launch(false, $message);
         }
@@ -396,8 +394,7 @@ class scenario {
             $cmd.= ' scenario_id=' . $this->getId();
             $cmd.= ' force=' . $_force;
             $cmd.= ' message=' . escapeshellarg($_message);
-            $cmd.= ' >> ' . log::getPathToLog('scenario') . ' 2>&1 &';
-            log::add('scenario','debug','Envoi commande éxecution du scénario');
+            $cmd.= ' &';
             exec($cmd);
             return true;
         }
@@ -409,12 +406,14 @@ class scenario {
         $this->setDisplay('icon', '');
         $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
         $this->setState('in progress');
+        $this->setPID(getmypid());
         $this->setLastLaunch(date('Y-m-d H:i:s'));
         $this->save();
         foreach ($this->getElement() as $element) {
             $element->execute($this);
         }
         $this->setState('stop');
+        $this->setPID('');
         $this->save();
         return true;
     }
@@ -482,12 +481,12 @@ class scenario {
         if ($this->getName() == '') {
             throw new Exception('Le nom du scénario ne peut être vide');
         }
-    }
-
-    public function save() {
         if (($this->getMode() == 'schedule' || $this->getMode() == 'all') && $this->getSchedule() == '') {
             throw new Exception(__('Le scénario est de type programmé mais la programmation est vide', __FILE__));
         }
+    }
+
+    public function save() {
         if ($this->getLastLaunch() == '' && ($this->getMode() == 'schedule' || $this->getMode() == 'all')) {
             $calculateScheduleDate = $this->calculateScheduleDate();
             $this->setLastLaunch($calculateScheduleDate['prevDate']);
@@ -505,7 +504,9 @@ class scenario {
             $internalEvent->setOptions('id', $this->getId());
             $internalEvent->save();
         }
-        @nodejs::pushUpdate('eventScenario', $this->getId());
+        if ($this->_changeState) {
+            @nodejs::pushUpdate('eventScenario', $this->getId());
+        }
     }
 
     public function refresh() {
@@ -712,7 +713,6 @@ class scenario {
 
     public function export() {
         $return = '';
-        //$return .= "## Description\n\n";
         $return .= '- Nom du scénario : ' . $this->getName() . "\n";
         if (is_numeric($this->getObject_id())) {
             $return .= '- Objet parent : ' . $this->getObject()->getName() . "\n";
@@ -739,10 +739,8 @@ class scenario {
             }
         }
         $return .= "\n";
-        //$return .= "## Commentaire\n\n";
         $return .= $this->getDescription();
         $return .= "\n\n";
-        //$return .= "## Scénario\n\n";
         foreach ($this->getElement() as $element) {
             $exports = explode("\n", $element->export());
             foreach ($exports as $export) {
@@ -846,6 +844,7 @@ class scenario {
     }
 
     public function setState($state) {
+        $this->_changeState = true;
         $this->state = $state;
     }
 

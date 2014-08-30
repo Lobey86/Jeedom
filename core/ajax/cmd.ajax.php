@@ -40,7 +40,7 @@ try {
         if (!is_object($cmd)) {
             throw new Exception(__('Cmd ID inconnu : ', __FILE__) . init('id'));
         }
-        ajax::success($cmd->execCmd(init('value'), init('cache', 1)));
+        ajax::success($cmd->execCmd(init('value', null), init('cache', 1)));
     }
 
     if (init('action') == 'getByObjectNameEqNameCmdName') {
