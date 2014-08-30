@@ -160,10 +160,12 @@ class scenario {
     }
 
     public static function check($_event = null) {
+        log::add('scenario','debug','Vérification des scénario');
         $message = '';
         if ($_event != null) {
             if (is_object($_event)) {
                 $scenarios = self::byTrigger($_event->getId());
+                log::add('scenario','debug','J\'ai recuperé la liste des scénarios');
                 $message = __('Scenario lance automatiquement sur evenement venant de : ', __FILE__) . $_event->getHumanName();
             } else {
                 $scenarios = self::byTrigger($_event);
@@ -181,6 +183,7 @@ class scenario {
         if (count($scenarios) == 0) {
             return true;
         }
+        log::add('scenario','debug','Demande de lancement des scénarios');
         foreach ($scenarios as $scenario_) {
             $scenario_->launch(false, $message);
         }
@@ -394,6 +397,7 @@ class scenario {
             $cmd.= ' force=' . $_force;
             $cmd.= ' message=' . escapeshellarg($_message);
             $cmd.= ' >> ' . log::getPathToLog('scenario') . ' 2>&1 &';
+            log::add('scenario','debug','Envoi commande éxecution du scénario');
             exec($cmd);
             return true;
         }
