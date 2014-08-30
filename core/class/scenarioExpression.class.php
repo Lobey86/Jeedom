@@ -131,14 +131,21 @@ class scenarioExpression {
     public static function average($_cmd_id, $_period = '1 hour') {
         $args = func_get_args();
         if (count($args) > 2 || strpos($_period, '#') !== false || is_numeric($_period)) {
+            $test = new evaluate();
             $values = array();
             foreach ($args as $arg) {
                 if (is_numeric($arg)) {
                     $values[] = $arg;
                 } else {
-                    $cmd = cmd::byId(trim(str_replace('#', '', $arg)));
-                    if (is_object($cmd)) {
-                        $values[] = $cmd->execCmd();
+                    $value = cmd::cmdToValue($arg);
+                    if (is_numeric($value)) {
+                        $values[] = $value;
+                    } else {
+                        try {
+                            $values[] = $test->Evaluer($value);
+                        } catch (Exception $ex) {
+                            
+                        }
                     }
                 }
             }
@@ -160,14 +167,21 @@ class scenarioExpression {
     public static function max($_cmd_id, $_period = '1 hour') {
         $args = func_get_args();
         if (count($args) > 2 || strpos($_period, '#') !== false || is_numeric($_period)) {
+            $test = new evaluate();
             $values = array();
             foreach ($args as $arg) {
                 if (is_numeric($arg)) {
                     $values[] = $arg;
                 } else {
-                    $cmd = cmd::byId(trim(str_replace('#', '', $arg)));
-                    if (is_object($cmd)) {
-                        $values[] = $cmd->execCmd();
+                    $value = cmd::cmdToValue($arg);
+                    if (is_numeric($value)) {
+                        $values[] = $value;
+                    } else {
+                        try {
+                            $values[] = $test->Evaluer($value);
+                        } catch (Exception $ex) {
+                            
+                        }
                     }
                 }
             }
@@ -189,14 +203,21 @@ class scenarioExpression {
     public static function min($_cmd_id, $_period = '1 hour') {
         $args = func_get_args();
         if (count($args) > 2 || strpos($_period, '#') !== false || is_numeric($_period)) {
+            $test = new evaluate();
             $values = array();
             foreach ($args as $arg) {
                 if (is_numeric($arg)) {
                     $values[] = $arg;
                 } else {
-                    $cmd = cmd::byId(trim(str_replace('#', '', $arg)));
-                    if (is_object($cmd)) {
-                        $values[] = $cmd->execCmd();
+                    $value = cmd::cmdToValue($arg);
+                    if (is_numeric($value)) {
+                        $values[] = $value;
+                    } else {
+                        try {
+                            $values[] = $test->Evaluer($value);
+                        } catch (Exception $ex) {
+                            
+                        }
                     }
                 }
             }
