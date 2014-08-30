@@ -159,15 +159,15 @@ class scenario {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function check($_event_id = null) {
+    public static function check($_event = null) {
         $message = '';
-        if ($_event_id != null) {
-            $scenarios = self::byTrigger($_event_id);
-            if (is_numeric($_event_id)) {
-                $cmd = cmd::byId($_event_id);
-                $message = __('Scenario lance automatiquement sur evenement venant de : ', __FILE__) . $cmd->getHumanName();
+        if ($_event != null) {
+            if (is_object($_event)) {
+                $scenarios = self::byTrigger($_event->getId());
+                $message = __('Scenario lance automatiquement sur evenement venant de : ', __FILE__) . $_event->getHumanName();
             } else {
-                $message = __('Scenario lance sur evenement : #', __FILE__) . $_event_id . '#';
+                $scenarios = self::byTrigger($_event);
+                $message = __('Scenario lance sur evenement : #', __FILE__) . $_event . '#';
             }
         } else {
             $message = __('Scenario lance automatiquement sur programmation', __FILE__);
@@ -457,7 +457,7 @@ class scenario {
                 case 'error':
                     return '<i class="fa fa-exclamation-triangle"></i>';
                 default:
-                    if (strpos($this->getDisplay('icon'),'<i') === 0) {
+                    if (strpos($this->getDisplay('icon'), '<i') === 0) {
                         return $this->getDisplay('icon');
                     }
                     return '<i class="fa fa-check"></i>';

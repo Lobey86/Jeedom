@@ -771,7 +771,7 @@ class cmd {
             $_value = $this->formatValue($_value);
             cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
             $this->setCollect(0);
-            scenario::check($this->getId());
+            scenario::check($this);
 
             if (strpos($_value, 'error') === false) {
                 $eqLogic->setStatus('numberTryWithoutSuccess', 0);
