@@ -296,7 +296,8 @@ class scenarioExpression {
             }
             if ($this->getType() == 'action') {
                 if ($this->getExpression() == 'icon') {
-                    $this->setLog(__('Changement de l\'icone du scénario', __FILE__));
+                    $options = $this->getOptions();
+                    $this->setLog(__('Changement de l\'icone du scénario : ', __FILE__) . $options['icon']);
                     $scenario->setDisplay('icon', $options['icon']);
                     $scenario->save();
                     return;

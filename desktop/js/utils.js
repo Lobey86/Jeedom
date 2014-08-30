@@ -325,6 +325,7 @@ function chooseIcon(_callback) {
             if (icon == undefined) {
                 icon = '';
             }
+            icon = icon.replace(/"/g, "'");
             _callback(icon);
             $(this).dialog('close');
         }
