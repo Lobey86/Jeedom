@@ -61,14 +61,28 @@ jeedom.init = function() {
             jeedom.nodeJs.state = false;
         });
         socket.on('eventCmd', function(_options) {
+            console.log(_options);
             _options = json_decode(_options);
-            jeedom.cmd.refreshValue({id: _options.cmd_id});
-            if ($.mobile) {
-                jeedom.workflow.cmd[_options.cmd_id] = true;
-                jeedom.workflow.eqLogic[_options.eqLogic_id] = true;
-                jeedom.workflow.object[_options.object_id] = true;
+            if ($.isArray(_options)) {
+                for (var i in _options) {
+                    jeedom.cmd.refreshValue({id: _options[i].cmd_id});
+                    if ($.mobile) {
+                        jeedom.workflow.cmd[_options[i].cmd_id] = true;
+                        jeedom.workflow.eqLogic[_options[i].eqLogic_id] = true;
+                        jeedom.workflow.object[_options[i].object_id] = true;
+                    }
+                }
                 jeedom.scheduleWorkflow();
+            } else {
+                jeedom.cmd.refreshValue({id: _options.cmd_id});
+                if ($.mobile) {
+                    jeedom.workflow.cmd[_options.cmd_id] = true;
+                    jeedom.workflow.eqLogic[_options.eqLogic_id] = true;
+                    jeedom.workflow.object[_options.object_id] = true;
+                    jeedom.scheduleWorkflow();
+                }
             }
+
         });
         socket.on('eventScenario', function(scenario_id) {
             jeedom.scenario.refreshValue({id: scenario_id});

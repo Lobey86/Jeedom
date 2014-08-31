@@ -171,6 +171,8 @@ class cmd {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
                 WHERE value=:value
+                    AND id!=:value
+                    AND eventOnly=0
                 ORDER BY `order`';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
@@ -752,52 +754,40 @@ class cmd {
     }
 
     public function event($_value, $_loop = 0) {
-        if ($_loop > 3) {
+        if ($this->getType() != 'info' || $_loop > 3) {
             return;
         }
         $_loop++;
-
-        if ($this->getType() != 'info') {
-            return;
-        }
         $collectDate = ($this->getCollectDate() != '' ) ? strtotime($this->getCollectDate()) : '';
-        if ($this->getCollectDate() != '' && ((strtotime('now') - $collectDate) > 3600 || (strtotime('now') + 300 ) < $collectDate)) {
+        $nowtime = strtotime('now');
+        if ($this->getCollectDate() != '' && (($nowtime - $collectDate) > 3600 || ($nowtime + 300 ) < $collectDate)) {
             return;
         }
         $eqLogic = $this->getEqLogic();
-        if (is_object($eqLogic) && $eqLogic->getIsEnable() == 1) {
-            $_value = $this->formatValue($_value);
-            cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
-            $this->setCollect(0);
-            scenario::check($this);
-
-            if (strpos($_value, 'error') === false) {
-                $eqLogic->setStatus('numberTryWithoutSuccess', 0);
-                $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-                $this->addHistoryValue($_value, $this->getCollectDate());
-            }
-
-            nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $eqLogic->getObject_id()));
-            foreach (self::byValue($this->getId()) as $cmd) {
-                if ($cmd->getId() != $this->getId() && $cmd->getEventOnly() == 0) {
-                    if ($cmd->getType() == 'action') {
-                        nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
-                    } else {
-                        $cmd->event($cmd->execute(), $_loop);
-                    }
-                }
-            }
-            /* $internalEvent = new internalEvent();
-              $internalEvent->setEvent('event::cmd');
-              $internalEvent->setOptions('id', $this->getId());
-              $internalEvent->setOptions('value', $_value);
-              $internalEvent->setDatetime($this->getCollectDate());
-              $internalEvent->save(); */
-
-            listener::check($this->getId(), $_value);
-        } else {
+        if (!is_object($eqLogic) || $eqLogic->getIsEnable() == 0) {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
         }
+        $_value = $this->formatValue($_value);
+        cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
+        $this->setCollect(0);
+        scenario::check($this);
+
+        if (strpos($_value, 'error') === false) {
+            $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
+            $this->addHistoryValue($_value, $this->getCollectDate());
+        }
+        $nodeJs = array(
+            array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $eqLogic->getObject_id())
+        );
+        foreach (self::byValue($this->getId()) as $cmd) {
+            if ($cmd->getType() == 'action') {
+                $nodeJs[] = array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id());
+            } else {
+                $cmd->event($cmd->execute(), $_loop);
+            }
+        }
+        listener::check($this->getId(), $_value);
+        nodejs::pushUpdate('eventCmd', $nodeJs);
     }
 
     public function invalidCache() {
