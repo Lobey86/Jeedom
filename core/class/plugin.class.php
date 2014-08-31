@@ -292,7 +292,7 @@ class plugin {
         if (jeedom::checkOngoingThread($cmd) > 0) {
             return true;
         }
-        exec($cmd . ' 2>&1 &');
+        exec($cmd . ' >> /dev/null 2>&1 &');
         return true;
     }
 
