@@ -104,7 +104,8 @@ class message {
     public static function all() {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM message
-                ORDER BY date DESC';
+                ORDER BY date DESC
+                LIMIT 500';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
