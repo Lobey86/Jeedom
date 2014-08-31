@@ -766,6 +766,7 @@ class cmd {
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() == 0) {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
+            return;
         }
         $_value = $this->formatValue($_value);
         cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
@@ -777,7 +778,11 @@ class cmd {
             $this->addHistoryValue($_value, $this->getCollectDate());
         }
         $nodeJs = array(
-            array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $eqLogic->getObject_id())
+            array(
+                'cmd_id' => $this->getId(),
+                'eqLogic_id' => $this->getEqLogic_id(),
+                'object_id' => $eqLogic->getObject_id(),
+            )
         );
         foreach (self::byValue($this->getId()) as $cmd) {
             if ($cmd->getType() == 'action') {
