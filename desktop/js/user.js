@@ -33,7 +33,7 @@ $("#bt_newUserSave").on('click', function(event) {
         },
         success: function() {
             printUsers();
-            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Sauvegarde effectuée}}', level: 'success'});
             modifyWithoutSave = false;
             $('#md_newUser').modal('hide');
         }
@@ -49,7 +49,7 @@ $("#bt_saveUser").on('click', function(event) {
         },
         success: function() {
             printUsers();
-            $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Sauvegarde effectuée}}', level: 'success'});
             modifyWithoutSave = false;
         }
     });
@@ -87,7 +87,7 @@ $("#table_user").delegate(".change_mdp_user", 'click', function(event) {
                 },
                 success: function() {
                     printUsers();
-                    $('#div_alert').showAlert({message: '{{Sauvegarde effetuée}}', level: 'success'});
+                    $('#div_alert').showAlert({message: '{{Sauvegarde effectuée}}', level: 'success'});
                     modifyWithoutSave = false;
                 }
             });
