@@ -514,7 +514,7 @@ class scenarioExpression {
             } else {
                 $return = jeedom::toHumanReadable($this->getExpression());
                 if (is_array($options) && count($options) != 0) {
-                    $return .= ' - Options : ' . print_r($options, true);
+                    $return .= ' - Options : ' . print_r(jeedom::toHumanReadable($options), true);
                 }
                 return $return;
             }
