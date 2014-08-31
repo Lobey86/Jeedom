@@ -120,6 +120,9 @@ try {
         if (!move_uploaded_file($_FILES['file']['tmp_name'], $uploaddir . '/' . $_FILES['file']['name'])) {
             throw new Exception(__('Impossible de déplacer le fichier temporaire', __FILE__));
         }
+        if (!file_exists($uploaddir . '/' . $_FILES['file']['name'])) {
+            throw new Exception(__('Impossible d\'uploader le fichier (limite du serveur web ?)', __FILE__));
+        }
         ajax::success();
     }
 
