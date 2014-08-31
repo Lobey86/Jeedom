@@ -394,12 +394,6 @@ class history {
     public function save($_cmd = null) {
         if ($_cmd == null) {
             $cmd = $this->getCmd();
-            if ($cmd->getType() != 'info') {
-                throw new Exception(__('Impossible d\'historiser cette commande car elle n\'est pas de type info : ', __FILE__) . $cmd->getHumanName());
-            }
-            if ($cmd->getIsHistorized() != 1) {
-                throw new Exception(__('Impossible d\'historiser cette commande car elle n\'est pas marquer comme "à historiser" : ', __FILE__) . $cmd->getHumanName());
-            }
         } else {
             $cmd = $_cmd;
         }

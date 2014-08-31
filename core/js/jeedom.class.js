@@ -61,7 +61,6 @@ jeedom.init = function() {
             jeedom.nodeJs.state = false;
         });
         socket.on('eventCmd', function(_options) {
-            console.log(_options);
             _options = json_decode(_options);
             if ($.isArray(_options)) {
                 for (var i in _options) {
