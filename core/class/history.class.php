@@ -430,8 +430,7 @@ class history {
                 if ($result !== false) {
                     $this->setValue(($result['value'] + $this->getValue()) / 2);
                 }
-            }
-            if ($this->getTableName() == 'historyArch') {
+            } else {
                 $this->setDatetime(date('Y-m-d H:00:00', strtotime($this->getDatetime())));
             }
         }
