@@ -754,6 +754,11 @@ class cmd {
     }
 
     public function event($_value, $_loop = 0) {
+        $eqLogic = $this->getEqLogic();
+        if (!is_object($eqLogic) || $eqLogic->getIsEnable() == 0) {
+            log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
+            return;
+        }
         if ($this->getType() != 'info' || $_loop > 3) {
             return;
         }
@@ -763,16 +768,10 @@ class cmd {
         if ($this->getCollectDate() != '' && (($nowtime - $collectDate) > 3600 || ($nowtime + 300 ) < $collectDate)) {
             return;
         }
-        $eqLogic = $this->getEqLogic();
-        if (!is_object($eqLogic) || $eqLogic->getIsEnable() == 0) {
-            log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
-            return;
-        }
         $_value = $this->formatValue($_value);
         cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
         $this->setCollect(0);
         scenario::check($this);
-
         if (strpos($_value, 'error') === false) {
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
             $this->addHistoryValue($_value, $this->getCollectDate());
@@ -805,7 +804,7 @@ class cmd {
     }
 
     public function addHistoryValue($_value, $_datetime = '') {
-        if ($this->getIsHistorized() == 1 && $this->getType() != 'info'&&  $_value <= $this->getConfiguration('maxValue', $_value) && $_value >= $this->getConfiguration('minValue', $_value)) {
+        if ($this->getIsHistorized() == 1 && $this->getType() != 'info' && $_value <= $this->getConfiguration('maxValue', $_value) && $_value >= $this->getConfiguration('minValue', $_value)) {
             $hitory = new history();
             $hitory->setCmd_id($this->getId());
             $hitory->setValue($_value);
@@ -891,7 +890,7 @@ class cmd {
     }
 
     public function getEqType_name() {
-        return eqLogic::byId($this->eqLogic_id)->getEqType_name();
+        return $this->eqType;
     }
 
     public function getEqLogic_id() {
