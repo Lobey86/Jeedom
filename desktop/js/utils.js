@@ -124,7 +124,7 @@ $(function() {
     $("#md_modal2").dialog({
         autoOpen: false,
         modal: true,
-        height: (jQuery(window).height() - 250),
+        height: (jQuery(window).height() - 200),
         width: ((jQuery(window).width() - 50) < 1200) ? (jQuery(window).width() - 50) : 1200,
         position: {my: 'center', at: 'center', of: window},
         open: function() {
