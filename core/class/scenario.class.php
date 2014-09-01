@@ -835,6 +835,7 @@ class scenario {
     public function setIsActive($isActive) {
         if ($isActive != $this->getIsActive()) {
             $this->setInternalEvent(1);
+            $this->_changeState = true;
         }
         $this->isActive = $isActive;
     }
