@@ -126,6 +126,14 @@ try {
         ajax::success();
     }
 
+    if (init('action') == 'haltSystem') {
+        ajax::success(jeedom::haltSystem());
+    }
+
+    if (init('action') == 'rebootSystem') {
+        ajax::success(jeedom::rebootSystem());
+    }
+
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
