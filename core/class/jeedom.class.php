@@ -477,6 +477,14 @@ class jeedom {
         return $test->Evaluer(cmd::cmdToValue($_input));
     }
 
+    public static function haltSystem() {
+        exec('sudo halt');
+    }
+
+    public static function rebootSystem() {
+        exec('sudo reboot');
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     /*     * **********************Getteur Setteur*************************** */

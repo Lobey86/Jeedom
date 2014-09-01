@@ -186,6 +186,27 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
         <div class="panel panel-default expertModeVisible">
             <div class="panel-heading">
                 <h3 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_systeme">
+                        {{Systeme}}
+                    </a>
+                </h3>
+            </div>
+            <div id="config_systeme" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <div class="alert alert-danger">{{ATTENTION ces opérations sont risqué, vous pouvez perdre l'accès à votre systeme. Ces opérations peuvent ne pas marcher en fonction du niveau de droits de l'utilisateur www-data}}</div>
+                            <a class="btn btn-danger" id="bt_haltSysteme"><i class="fa fa-stop"></i> {{Arreter le système}}</a>
+                            <a class="btn btn-warning" id="bt_rebootSysteme"><i class="fa fa-repeat"></i> {{Redemarrer le système}}</a>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default expertModeVisible">
+            <div class="panel-heading">
+                <h3 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_memcache">
                         {{Configuration cache}}
                     </a>
