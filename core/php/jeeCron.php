@@ -163,7 +163,7 @@ if (init('cron_id') != '') {
                         break;
                 }
             } catch (Exception $e) {
-                if ($cron->getOnce() == 1 && is_object(cron::byId($this->getId()))) {
+                if ($cron->getOnce() != 1) {
                     $cron->setState('error');
                     $cron->setPID('');
                     $cron->setServer('');
