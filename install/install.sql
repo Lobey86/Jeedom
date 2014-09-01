@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mer 27 Août 2014 à 08:04
+-- Généré le: Lun 01 Septembre 2014 à 17:22
 -- Version du serveur: 5.6.19-0ubuntu0.14.04.1
 -- Version de PHP: 5.5.9-1ubuntu4.3
 
@@ -132,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `connection` (
 
 CREATE TABLE IF NOT EXISTS `cron` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `priority` int(11) DEFAULT NULL,
   `server` varchar(127) DEFAULT NULL,
   `pid` int(11) DEFAULT NULL,
   `enable` int(11) DEFAULT NULL,
