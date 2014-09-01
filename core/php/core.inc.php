@@ -26,14 +26,18 @@ require_once dirname(__FILE__) . '/utils.inc.php';
 include_file('core', 'version', 'config');
 include_file('core', 'jeedom', 'config');
 include_file('core', 'utils', 'class');
-date_default_timezone_set(config::byKey('timezone'));
+try {
+    date_default_timezone_set(config::byKey('timezone'));
+} catch (Exception $e) {
+    
+}
 
 function jeedomCoreAutoload($classname) {
     try {
         if ($classname == 'cache') {
             if (extension_loaded('memcached')) {
                 include_file('core', 'cache.mc', 'class');
-            }else{
+            } else {
                 include_file('core', 'cache.ms', 'class');
             }
         } else {
