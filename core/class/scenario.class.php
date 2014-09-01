@@ -161,6 +161,7 @@ class scenario {
     }
 
     public static function check($_event = null) {
+        log::add('scenario','debug','Debut scenarion check');
         $message = '';
         if ($_event != null) {
             if (is_object($_event)) {
@@ -385,6 +386,7 @@ class scenario {
     /*     * *********************Methode d'instance************************* */
 
     public function launch($_force = false, $_message = '') {
+        log::add('scenario','debug','Debut launch');
         if (config::byKey('enableScenario') == 1) {
             if ($this->getState() == 'in progress' && !$this->running()) {
                 $this->setState('error');
@@ -402,6 +404,7 @@ class scenario {
     }
 
     public function execute($_message = '') {
+        log::add('scenario','debug','Debut scenarion execute');
         $this->clearLog();
         $this->setDisplay('icon', '');
         $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
@@ -415,6 +418,7 @@ class scenario {
         $this->setState('stop');
         $this->setPID('');
         $this->save();
+        log::add('scenario','debug','Fin scenario execute');
         return true;
     }
 
