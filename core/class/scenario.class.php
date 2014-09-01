@@ -126,8 +126,8 @@ class scenario {
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '  
                     FROM scenario
-                    WHERE `trigger` LIKE :cmd_id
-                    AND mode != "schedule"';
+                    WHERE mode != "schedule"
+                    AND `trigger` LIKE :cmd_id';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 

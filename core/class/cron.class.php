@@ -44,10 +44,12 @@ class cron {
      * Return an array of all cron object
      * @return array
      */
-    public static function all() {
+    public static function all($_order = false) {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
-                FROM cron
-                ORDER BY deamon DESC';
+                FROM cron';
+        if($_order){
+            $sql .= 'ORDER BY deamon DESC';
+        }
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 

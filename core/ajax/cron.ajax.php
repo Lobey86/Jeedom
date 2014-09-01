@@ -40,7 +40,7 @@ try {
 
     if (init('action') == 'all') {
         $results = array();
-        $results['crons'] = utils::o2a(cron::all());
+        $results['crons'] = utils::o2a(cron::all(true));
         $results['nbCronRun'] = cron::nbCronRun();
         $results['nbProcess'] = cron::nbProcess();
         $results['nbMasterCronRun'] = (cron::jeeCronRun()) ? 1 : 0;
