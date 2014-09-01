@@ -543,7 +543,7 @@ class eqLogic {
         if ($this->getCategory('automatism', 0) == 1) {
             return 'automatism';
         }
-         if ($this->getCategory('energy', 0) == 1) {
+        if ($this->getCategory('energy', 0) == 1) {
             return 'energy';
         }
         return '';
@@ -638,6 +638,7 @@ class eqLogic {
     }
 
     public function setName($name) {
+        $name = str_replace(array('&', '#', ']', '[', '%'), '', $name);
         if ($name != $this->getName()) {
             $this->setInternalEvent(1);
         }
