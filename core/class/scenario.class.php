@@ -910,7 +910,6 @@ class scenario {
         } else {
             $this->log .= '[' . date('Y-m-d H:i:s') . '][SCENARIO] ' . $log . "\n";
         }
-        echo $log;
     }
 
     public function getTimeout($_default = '') {
