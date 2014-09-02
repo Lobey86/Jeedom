@@ -27,7 +27,6 @@ class scenarioElement {
     private $type;
     private $options;
     private $order = 0;
-    private $log;
     private $_subelement;
 
     /*     * ***********************Methode static*************************** */
@@ -128,7 +127,6 @@ class scenarioElement {
     }
 
     public function execute(&$_scenario) {
-        //$this->setLog(__('Exécution de l\'élément : ', __FILE__) . $this->getType());
         if ($this->getType() == 'if') {
             if ($this->getSubElement('if')->execute($_scenario)) {
                 return $this->getSubElement('then')->execute($_scenario);
@@ -143,8 +141,7 @@ class scenarioElement {
             $limits = $for->getExpression();
             $limits = scenarioExpression::setTags($limits[0]->getExpression());
             if (!is_numeric($limits)) {
-                log::add('scenario/scenario' . $_scenario->getId(), 'log',__('[ERREUR] La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
-                //$this->setLog(__('[ERREUR] La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
+                $_scenario->setLog(__('[ERREUR] La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
                 throw new Exception(__('La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
             }
             $return = false;
@@ -208,45 +205,6 @@ class scenarioElement {
         return $return;
     }
 
-    public function getConsolidateLog() {
-        $return = '';
-       /* $log = $this->getLog();
-        if (trim($log) != '') {
-            $return .= $log . "\n";
-        }*/
-        foreach ($this->getSubElement() as $subElement) {
-            $log = $subElement->getLog();
-            if (trim($log) != '') {
-                $logs = explode("\n", trim($log));
-                foreach ($logs as $log) {
-                    $return .= "\t" . $log . "\n";
-                }
-            }
-            foreach ($subElement->getExpression() as $expression) {
-                $log = $expression->getLog();
-                if (trim($log) != '') {
-                    $logs = explode("\n", trim($log));
-                    foreach ($logs as $log) {
-                        $return .= "\t\t" . $log . "\n";
-                    }
-                }
-                if ($expression->getType() == 'element') {
-                    $element = self::byId($expression->getExpression());
-                    if (is_object($element)) {
-                        $log = $element->getConsolidateLog();
-                        if (trim($log) != '') {
-                            $logs = explode("\n", trim($log));
-                            foreach ($logs as $log) {
-                                $return .= "\t\t" . $log . "\n";
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return $return;
-    }
-
     public function export() {
         $return = '';
         foreach ($this->getSubElement() as $subElement) {
@@ -301,12 +259,6 @@ class scenarioElement {
         return $elementCopy->getId();
     }
 
-    public function clearLog() {
-        foreach ($this->getSubElement() as $subelement) {
-            $subelement->clearLog();
-        }
-    }
-
     public function getScenario() {
         $scenario = scenario::byElement($this->getId());
         if (is_object($scenario)) {
@@ -359,19 +311,6 @@ class scenarioElement {
 
     public function setOrder($order) {
         $this->order = $order;
-    }
-
-    public function getLog() {
-        return $this->log;
-    }
-
-    public function setLog($log) {
-        if ($log == '') {
-            $this->log = '';
-        } else {
-            $this->log = '[' . date('Y-m-d H:i:s') . '][ELEMENT] ' . $log;
-        }
-        $this->save();
     }
 
 }

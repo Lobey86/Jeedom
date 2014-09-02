@@ -22,7 +22,7 @@ $logs = $scenario->getHlogs();
     <div class="tab-pane active" id="last">
         <br/>
         <?php
-        echo '<pre>' . trim($scenario->getConsolidateLog()) . '</pre>';
+        echo '<pre>' . trim($scenario->getLog()) . '</pre>';
         ?>
     </div>
     <?php

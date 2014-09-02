@@ -97,10 +97,6 @@ class log {
     }
 
     public static function getPathToLog($_log = 'core') {
-        $dirname = dirname(__FILE__) . '/../../log/' . $_log;
-        if (!file_exists($dirname)) {
-            mkdir($dirname);
-        }
         return dirname(__FILE__) . '/../../log/' . $_log;
     }
 

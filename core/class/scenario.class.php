@@ -407,11 +407,21 @@ class scenario {
     }
 
     public function execute($_message = '') {
-        //$this->clearLog();
+        $logs = $this->getHlogs();
+        if (trim($this->getLog()) != '') {
+            if (is_array($logs)) {
+                if (count($logs) > 5) {
+                    array_pop($logs);
+                }
+                array_unshift($logs, $this->getLog());
+                $this->setHlogs($logs);
+            } else {
+                $this->setHlogs(array($this->getLog()));
+            }
+        }
+        $this->setLog('');
         $this->setDisplay('icon', '');
-        log::clear('scenario/scenario' . $this->getId());
-        log::add('scenario/scenario' . $this->getId(), 'log', __('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
-        //$this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
+        $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
         $this->setState('in progress');
         $this->setPID(getmypid());
         $this->setLastLaunch(date('Y-m-d H:i:s'));
@@ -434,7 +444,7 @@ class scenario {
             $scenario_element_list[] = $element->copy();
         }
         $scenarioCopy->setScenarioElement($scenario_element_list);
-        $scenarioCopy->clearLog();
+        $scenarioCopy->setLog('');
         $scenarioCopy->save();
         return $scenarioCopy;
     }
@@ -707,17 +717,6 @@ class scenario {
         return array();
     }
 
-    public function getConsolidateLog() {
-        $return = $this->getLog() . "\n";
-        foreach ($this->getElement() as $element) {
-            $log = $element->getConsolidateLog();
-            if (trim($log) != '') {
-                $return .= $log . "\n";
-            }
-        }
-        return $return;
-    }
-
     public function export() {
         $return = '';
         $return .= '- Nom du scénario : ' . $this->getName() . "\n";
@@ -755,27 +754,6 @@ class scenario {
             }
         }
         return $return;
-    }
-
-    public function clearLog() {
-        $logs = $this->getHlogs();
-        $consolidateLog = $this->getConsolidateLog();
-        if (trim($consolidateLog) != '') {
-            if (is_array($logs)) {
-                if (count($logs) > 5) {
-                    array_pop($logs);
-                }
-                array_unshift($logs, $this->getConsolidateLog());
-                $this->setHlogs($logs);
-            } else {
-                $this->setHlogs(array($this->getConsolidateLog()));
-            }
-        }
-
-        $this->setLog('');
-        foreach ($this->getElement() as $element) {
-            $element->clearLog();
-        }
     }
 
     public function getObject() {
@@ -930,9 +908,9 @@ class scenario {
         if ($log == '') {
             $this->log = '';
         } else {
-            $this->log = '[' . date('Y-m-d H:i:s') . '][SCENARIO] ' . $log;
+            $this->log .= '[' . date('Y-m-d H:i:s') . '][SCENARIO] ' . $log . "\n";
         }
-        $this->save();
+        echo $log;
     }
 
     public function getTimeout($_default = '') {

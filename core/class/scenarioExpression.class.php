@@ -470,16 +470,6 @@ class scenarioExpression {
         return $expressionCopy->getId();
     }
 
-    public function clearLog() {
-        $this->setLog('');
-        if ($this->getType() == 'element') {
-            $element = scenarioElement::byId($this->getExpression());
-            if (is_object($element)) {
-                $element->clearLog();
-            }
-        }
-    }
-
     public function emptyOptions() {
         $this->options = '';
     }
@@ -594,13 +584,7 @@ class scenarioExpression {
     }
 
     public function setLog(&$_scenario, $log) {
-        /*if ($log == '') {
-            $this->log = '';
-        } else {
-            $this->log = '[' . date('Y-m-d H:i:s') . '][EXPRESSION] ' . $log;
-        }*/
-        log::add('scenario/scenario' . $_scenario->getId(), '[' . date('Y-m-d H:i:s') . '][EXPRESSION] ' . $log);
-        //$this->save();
+        $_scenario->setLog($log);
     }
 
 }

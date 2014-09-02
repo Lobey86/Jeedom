@@ -29,7 +29,6 @@ class scenarioSubElement {
     private $subtype;
     private $options;
     private $order;
-    private $log;
     private $_expression;
 
     /*     * ***********************Methode static*************************** */
@@ -65,7 +64,7 @@ class scenarioSubElement {
 
     public function execute(&$_scenario) {
         if ($this->getSubtype() == 'action') {
-            $this->setLog(__('Exécution du sous-élément de type [action] : ', __FILE__) . $this->getType());
+            $_scenario->setLog(__('Exécution du sous-élément de type [action] : ', __FILE__) . $this->getType());
             $return = true;
             foreach ($this->getExpression() as $expression) {
                 $return = $expression->execute($_scenario);
@@ -73,7 +72,7 @@ class scenarioSubElement {
             return $return;
         }
         if ($this->getSubtype() == 'condition') {
-            $this->setLog(__('Exécution du sous-élément de type [condition] : ', __FILE__) . $this->getType());
+            $_scenario->setLog(__('Exécution du sous-élément de type [condition] : ', __FILE__) . $this->getType());
             foreach ($this->getExpression() as $expression) {
                 return $expression->execute($_scenario);
             }
@@ -123,13 +122,6 @@ class scenarioSubElement {
             $expression->copy($subElementCopy->getId());
         }
         return $subElementCopy->getId();
-    }
-
-    public function clearLog() {
-        $this->setLog('');
-        foreach ($this->getExpression() as $expression) {
-            $expression->clearLog();
-        }
     }
 
     /*     * **********************Getteur Setteur*************************** */
@@ -184,19 +176,6 @@ class scenarioSubElement {
 
     public function setOrder($order) {
         $this->order = $order;
-    }
-
-    public function getLog() {
-        return $this->log;
-    }
-
-    public function setLog($log) {
-        if ($log == '') {
-            $this->log = '';
-        } else {
-            $this->log = '[' . date('Y-m-d H:i:s') . '][SUBELEMENT] ' . $log;
-        }
-        $this->save();
     }
 
     public function getSubtype() {
