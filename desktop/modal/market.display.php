@@ -154,6 +154,20 @@ if ($market->getPurchase() == 1) {
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-4 control-label">Lien</label>
+                <div class="col-sm-8">
+                    <?php if ($market->getLink('wiki') != '') { ?>
+                        <a class="btn btn-default btn-xs" target="_blank" href="<?php echo $market->getLink('wiki'); ?>">Wiki</a>
+                    <?php } ?>
+                    <?php if ($market->getLink('video') != '') { ?>
+                        <a class="btn btn-default btn-xs" target="_blank" href="<?php echo $market->getLink('video'); ?>">Video</a>
+                    <?php } ?>
+                    <?php if ($market->getLink('forum') != '') { ?>
+                        <a class="btn btn-default btn-xs" target="_blank" href="<?php echo $market->getLink('forum'); ?>">Forum</a>
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-lg-4 control-label">{{Type}}</label>
                 <div class="col-lg-8">
                     <select class="form-control marketAttr" data-l1key="type" disabled>

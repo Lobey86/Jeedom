@@ -43,6 +43,7 @@ class market {
     private $purchase = 0;
     private $cost = 0;
     private $realcost = 0;
+    private $link;
 
     /*     * ***********************Methode static*************************** */
 
@@ -70,6 +71,7 @@ class market {
         $market->rating = ($_arrayMarket['rating']);
         $market->setBuyer($_arrayMarket['buyer']);
         $market->img = json_encode($_arrayMarket['img'], JSON_UNESCAPED_UNICODE);
+        $market->link = json_encode($_arrayMarket['link'], JSON_UNESCAPED_UNICODE);
 
         $market->setRealcost($_arrayMarket['realCost']);
         if (!isset($_arrayMarket['api_author'])) {
@@ -672,6 +674,14 @@ class market {
 
     public function setStatus($_key, $_value) {
         $this->status = utils::setJsonAttr($this->status, $_key, $_value);
+    }
+
+    public function getLink($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->link, $_key, $_default);
+    }
+
+    public function setLink($_key, $_value) {
+        $this->link = utils::setJsonAttr($this->link, $_key, $_value);
     }
 
     public function getImg($_key = '', $_default = '') {

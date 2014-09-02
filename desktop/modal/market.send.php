@@ -85,6 +85,24 @@ if (init('type') == 'plugin') {
                     <textarea class="form-control marketAttr" data-l1key="description" placeholder="{{Description}}" style="height: 150px;"></textarea>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Lien Video</label>
+                <div class="col-sm-6">
+                    <input class="form-control marketAttr" data-l1key="link" data-l2key="video">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Lien Wiki</label>
+                <div class="col-sm-6">
+                    <input class="form-control marketAttr" data-l1key="link" data-l2key="wiki">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Lien Forum</label>
+                <div class="col-sm-6">
+                    <input class="form-control marketAttr" data-l1key="link" data-l2key="forum">
+                </div>
+            </div>
         </div> 
         <div class="col-lg-6">
             <div class="form-group">
