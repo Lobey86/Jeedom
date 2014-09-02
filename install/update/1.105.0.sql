@@ -1,4 +1,7 @@
 ALTER TABLE `jeedom`.`cron` 
+ADD COLUMN `priority` INT(11) NULL DEFAULT NULL AFTER `id`;
+
+ALTER TABLE `jeedom`.`cron` 
 ADD INDEX `deamon` (`deamon` ASC);
 
 ALTER TABLE `jeedom`.`cache` 
