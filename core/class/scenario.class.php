@@ -40,6 +40,7 @@ class scenario {
     private $hlogs;
     private $display;
     private $description;
+    private $configuration;
     private $_internalEvent = 0;
     private static $_templateArray;
     private $_elements = array();
@@ -1001,6 +1002,14 @@ class scenario {
 
     public function setDescription($description) {
         $this->description = $description;
+    }
+
+    public function getConfiguration($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->configuration, $_key, $_default);
+    }
+
+    public function setConfiguration($_key, $_value) {
+        $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
 
 }
