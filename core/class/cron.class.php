@@ -48,7 +48,7 @@ class cron {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cron';
         if($_order){
-            $sql .= 'ORDER BY deamon DESC';
+            $sql .= ' ORDER BY deamon DESC';
         }
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }

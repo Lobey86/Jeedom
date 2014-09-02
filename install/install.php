@@ -254,7 +254,7 @@ try {
         $cron = new cron();
         $cron->setClass('cmd');
         $cron->setFunction('collect');
-        $cron->setSchedule('* * * * * *');
+        $cron->setSchedule('*/5 * * * * *');
         $cron->setTimeout(5);
         $cron->save();
         $cron = new cron();
