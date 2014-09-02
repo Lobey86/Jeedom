@@ -17,7 +17,5 @@ ADD INDEX `datetime` (`datetime` ASC);
 ALTER TABLE `jeedom`.`connection` 
 ADD INDEX `status_datetime` (`status` ASC, `datetime` ASC);  
 
-
-
 ALTER TABLE `jeedom`.`cron` 
 ADD COLUMN `priority` INT(11) NULL DEFAULT NULL AFTER `id`;
