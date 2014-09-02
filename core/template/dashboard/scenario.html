@@ -9,7 +9,6 @@
     <span class="state pull-right" style="width : 15px;font-size: 1.15em;">#icon#</span>
 
     <script>
-        console.log('#state#');
         $('.scenario[data-scenario_id=#id#] .changeScenarioState').on('click', function() {
             jeedom.scenario.changeState({
                 id: $(this).closest('.scenario').attr('data-scenario_id'),

@@ -709,3 +709,7 @@ function sudoExec($_user, $_password, $_cmds) {
     }
     unlink($pwsh);
 }
+
+function useless() {
+    
+}

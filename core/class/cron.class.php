@@ -192,8 +192,8 @@ class cron {
      * Remove cron object
      * @return boolean
      */
-    public function remove() {
-        if ($this->running()) {
+    public function remove($halt_before = true) {
+        if ($halt_before && $this->running()) {
             $this->halt();
         }
         return DB::remove($this);

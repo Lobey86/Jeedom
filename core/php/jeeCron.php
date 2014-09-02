@@ -41,6 +41,7 @@ if (init('cron_id') != '') {
     $datetime = date('Y-m-d H:i:s');
     $cron = cron::byId(init('cron_id'));
     if (!is_object($cron)) {
+        echo 'Cron non trouvé';
         die();
     }
     log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' avec le PID : ', __FILE__) . getmypid());
@@ -99,7 +100,7 @@ if (init('cron_id') != '') {
             }
         }
         if ($cron->getOnce() == 1) {
-            $cron->remove();
+            $cron->remove(false);
         } else {
             if (!$cron->refresh()) {
                 die();
@@ -134,6 +135,7 @@ if (init('cron_id') != '') {
             die(__('Tous les crons sont actuellement désactivés', __FILE__));
         }
         foreach (cron::all() as $cron) {
+            print_r($cron);
             try {
                 if (!$started && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'cron') {
                     continue;
