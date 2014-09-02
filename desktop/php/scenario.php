@@ -44,7 +44,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                         }
                         ?>            
                     </select></li>
-                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
+                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
 
                 <?php
                 foreach (scenario::all(init('group')) as $scenario) {
@@ -62,7 +62,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
         </div>
     </div>
     <div class="col-lg-10" id="div_editScenario" style="display: none; border-left: solid 1px #EEE; padding-left: 25px;">
-        
+
         <legend style="height: 35px;">{{Scénario}}
             <span class="expertModeVisible">(ID : <span class="scenarioAttr" data-l1key="id" ></span>)</span>
             <a class="btn btn-default btn-xs pull-right" id="bt_copyScenario"><i class="fa fa-copy"></i> {{Dupliquer}}</a>
@@ -80,7 +80,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                                 <input class="form-control scenarioAttr input-sm" data-l1key="name" type="text" placeholder="{{Nom du scénario}}"/>
                             </div>
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <label class="col-lg-6 control-label" >{{Nom à afficher}}</label>
                             <div class="col-lg-6">
                                 <input class="form-control scenarioAttr input-sm tooltips" title="{{Ne rien mettre pour laisser le nom par défaut}}" data-l1key="display" data-l2key="name" type="text" placeholder="{{Nom à afficher}}"/>
@@ -119,6 +119,12 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                             <label class="col-lg-6 control-label">{{Timeout secondes (0 = illimité)}}</label>
                             <div class="col-lg-6">
                                 <input class="form-control scenarioAttr input-sm" data-l1key="timeout">
+                            </div>
+                        </div>
+                        <div class="form-group expertModeVisible">
+                            <label class="col-lg-11 control-label">{{Lancer en avant-plan (a ne surtout pas utiliser si vous avez des sleep dans le scénario)}}</label>
+                            <div class="col-lg-1">
+                                <input type="checkbox" class="scenarioAttr input-sm" data-l1key="configuration" data-l2key="directMode">
                             </div>
                         </div>
                     </fieldset>

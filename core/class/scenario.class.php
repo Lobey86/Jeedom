@@ -392,15 +392,8 @@ class scenario {
                 $this->setState('error');
                 $this->save();
             }
-            if (function_exists('pcntl_fork')) {
-                $pid = pcntl_fork();
-                if ($pid == -1) {
-                    throw new Exception(__('Impossible de creer le processus zombie'));
-                } else if ($pid) {
-                    
-                } else {
-                    $this->execute($_message);
-                }
+            if ($this->getConfiguration('directMode', 0) == 1) {
+                $this->execute($_message);
             } else {
                 $cmd = 'nice -n -19 php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
                 $cmd.= ' scenario_id=' . $this->getId();
@@ -409,6 +402,7 @@ class scenario {
                 $cmd.= ' >> /dev/null 2&>1 &';
                 exec($cmd);
             }
+
             return true;
         }
         return false;
