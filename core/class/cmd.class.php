@@ -563,7 +563,6 @@ class cmd {
      * @throws Exception
      */
     public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
-        log::add('scenario','debug','Debut execCmd');
         if ($this->getEventOnly() == 1) {
             $cache = 2;
         }
@@ -755,7 +754,6 @@ class cmd {
     }
 
     public function event($_value, $_loop = 0) {
-        log::add('scenario','debug','Debut event');
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() == 0) {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());

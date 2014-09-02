@@ -124,7 +124,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                         <div class="form-group expertModeVisible">
                             <label class="col-lg-11 control-label">{{Lancer en avant-plan (a ne surtout pas utiliser si vous avez des sleep dans le scénario)}}</label>
                             <div class="col-lg-1">
-                                <input type="checkbox" class="scenarioAttr input-sm" data-l1key="configuration" data-l2key="directMode">
+                                <input type="checkbox" class="scenarioAttr input-sm" data-l1key="configuration" data-l2key="launchInForeground">
                             </div>
                         </div>
                     </fieldset>

@@ -162,7 +162,6 @@ class scenario {
     }
 
     public static function check($_event = null) {
-        log::add('scenario', 'debug', 'Debut scenarion check');
         $message = '';
         if ($_event != null) {
             if (is_object($_event)) {
@@ -387,13 +386,12 @@ class scenario {
     /*     * *********************Methode d'instance************************* */
 
     public function launch($_force = false, $_message = '') {
-        log::add('scenario', 'debug', 'Debut launch');
         if (config::byKey('enableScenario') == 1) {
             if ($this->getState() == 'in progress' && !$this->running()) {
                 $this->setState('error');
                 $this->save();
             }
-            if ($this->getConfiguration('directMode', 0) == 1) {
+            if ($this->getConfiguration('launchInForeground', 0) == 1) {
                 $this->execute($_message);
             } else {
                 $cmd = 'nice -n -19 php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
@@ -403,14 +401,12 @@ class scenario {
                 $cmd.= ' >> /dev/null 2&>1 &';
                 exec($cmd);
             }
-
             return true;
         }
         return false;
     }
 
     public function execute($_message = '') {
-        log::add('scenario', 'debug', 'Debut scenarion execute');
         $this->clearLog();
         $this->setDisplay('icon', '');
         $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
@@ -424,7 +420,6 @@ class scenario {
         $this->setState('stop');
         $this->setPID('');
         $this->save();
-        log::add('scenario', 'debug', 'Fin scenario execute');
         return true;
     }
 
