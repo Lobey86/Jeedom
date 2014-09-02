@@ -16,3 +16,6 @@ ADD INDEX `datetime` (`datetime` ASC);
 
 ALTER TABLE `jeedom`.`connection` 
 ADD INDEX `status_datetime` (`status` ASC, `datetime` ASC);  
+
+ALTER TABLE `jeedom`.`scenario` 
+ADD COLUMN `configuration` TEXT NULL DEFAULT NULL AFTER `description`;
