@@ -407,9 +407,10 @@ class scenario {
     }
 
     public function execute($_message = '') {
-        $this->clearLog();
+        //$this->clearLog();
         $this->setDisplay('icon', '');
-        $this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
+        log::add('scenario/scenario' . $this->getId(), 'log', __('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
+        //$this->setLog(__('Début exécution du scénario : ', __FILE__) . $this->getHumanName() . '. ' . $_message);
         $this->setState('in progress');
         $this->setPID(getmypid());
         $this->setLastLaunch(date('Y-m-d H:i:s'));

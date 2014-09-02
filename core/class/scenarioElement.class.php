@@ -143,7 +143,8 @@ class scenarioElement {
             $limits = $for->getExpression();
             $limits = scenarioExpression::setTags($limits[0]->getExpression());
             if (!is_numeric($limits)) {
-                $this->setLog(__('[ERREUR] La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
+                log::add('scenario/scenario' . $_scenario->getId(), 'log',__('[ERREUR] La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
+                //$this->setLog(__('[ERREUR] La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
                 throw new Exception(__('La condition pour une boucle doit être un numérique : ', __FILE__) . $limits);
             }
             $return = false;

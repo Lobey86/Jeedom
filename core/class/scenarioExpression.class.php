@@ -304,7 +304,7 @@ class scenarioExpression {
             if ($this->getType() == 'element') {
                 $element = scenarioElement::byId($this->getExpression());
                 if (is_object($element)) {
-                    $this->setLog(__('Exécution d\'un bloc élément : ', __FILE__) . $this->getExpression());
+                    $this->setLog($scenario, __('Exécution d\'un bloc élément : ', __FILE__) . $this->getExpression());
                     return $element->execute($scenario);
                 }
                 return;
@@ -318,7 +318,7 @@ class scenarioExpression {
             if ($this->getType() == 'action') {
                 if ($this->getExpression() == 'icon') {
                     $options = $this->getOptions();
-                    $this->setLog(__('Changement de l\'icone du scénario : ', __FILE__) . $options['icon']);
+                    $this->setLog($scenario, __('Changement de l\'icone du scénario : ', __FILE__) . $options['icon']);
                     $scenario->setDisplay('icon', $options['icon']);
                     $scenario->save();
                     return;
@@ -331,14 +331,14 @@ class scenarioExpression {
                             
                         }
                         if (is_numeric($options['duration']) && $options['duration'] > 0) {
-                            $this->setLog(__('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));
+                            $this->setLog($scenario, __('Pause de ', __FILE__) . $options['duration'] . __(' seconde(s)', __FILE__));
                             return sleep($options['duration']);
                         }
                     }
-                    $this->setLog(__('Aucune durée trouvée pour l\'action sleep ou la durée n\'est pas valide : ', __FILE__) . $options['duration']);
+                    $this->setLog($scenario, __('Aucune durée trouvée pour l\'action sleep ou la durée n\'est pas valide : ', __FILE__) . $options['duration']);
                     return;
                 } else if ($this->getExpression() == 'stop') {
-                    $this->setLog(__('Arret du scénario', __FILE__));
+                    $this->setLog($scenario, __('Arret du scénario', __FILE__));
                     $scenario->setState('stop');
                     $scenario->setPID('');
                     $scenario->save();
@@ -346,24 +346,24 @@ class scenarioExpression {
                 } else if ($this->getExpression() == 'scenario') {
                     $actionScenario = scenario::byId($this->getOptions('scenario_id'));
                     if (!is_object($actionScenario)) {
-                        throw new Exception(__('Action sur scénario impossible. Scénario introuvable vérifier l\'id : ', __FILE__) . $this->getOptions('scenario_id'));
+                        throw new Exception($scenario, __('Action sur scénario impossible. Scénario introuvable vérifier l\'id : ', __FILE__) . $this->getOptions('scenario_id'));
                     }
                     switch ($this->getOptions('action')) {
                         case 'start':
-                            $this->setLog(__('Lancement du scénario : ', __FILE__) . $actionScenario->getName());
+                            $this->setLog($scenario, __('Lancement du scénario : ', __FILE__) . $actionScenario->getName());
                             $actionScenario->launch(false, __('Lancement provoque par le scenario  : ', __FILE__) . $scenario->getHumanName());
                             break;
                         case 'stop':
-                            $this->setLog(__('Arrêt forcer du scénario : ', __FILE__) . $actionScenario->getName());
+                            $this->setLog($scenario, __('Arrêt forcer du scénario : ', __FILE__) . $actionScenario->getName());
                             $actionScenario->stop();
                             break;
                         case 'deactivate':
-                            $this->setLog(__('Désactivation du scénario : ', __FILE__) . $actionScenario->getName());
+                            $this->setLog($scenario, __('Désactivation du scénario : ', __FILE__) . $actionScenario->getName());
                             $actionScenario->setIsActive(0);
                             $actionScenario->save();
                             break;
                         case 'activate':
-                            $this->setLog(__('Activation du scénario : ', __FILE__) . $actionScenario->getName());
+                            $this->setLog($scenario, __('Activation du scénario : ', __FILE__) . $actionScenario->getName());
                             $actionScenario->setIsActive(1);
                             $actionScenario->save();
                             break;
@@ -382,20 +382,20 @@ class scenarioExpression {
                         $result = $value;
                     }
                     $message .= $result;
-                    $this->setLog($message);
+                    $this->setLog($scenario, $message);
                     $scenario->setData($this->getOptions('name'), $result);
                     return;
                 } else {
                     $cmd = cmd::byId(str_replace('#', '', $this->getExpression()));
                     if (is_object($cmd)) {
                         if (is_array($options) && count($options) != 0) {
-                            $this->setLog(__('Exécution de la commande ', __FILE__) . $cmd->getHumanName() . __(" avec comme option(s) : \n", __FILE__) . print_r($options, true));
+                            $this->setLog($scenario, __('Exécution de la commande ', __FILE__) . $cmd->getHumanName() . __(" avec comme option(s) : \n", __FILE__) . print_r($options, true));
                         } else {
-                            $this->setLog(__('Exécution de la commande ', __FILE__) . $cmd->getHumanName());
+                            $this->setLog($scenario, __('Exécution de la commande ', __FILE__) . $cmd->getHumanName());
                         }
                         return $cmd->execCmd($options);
                     }
-                    $this->setLog(__('[Erreur] Aucune commande trouvée pour ', __FILE__) . $this->getExpression());
+                    $this->setLog($scenario, __('[Erreur] Aucune commande trouvée pour ', __FILE__) . $this->getExpression());
                     return;
                 }
             } else if ($this->getType() == 'condition') {
@@ -412,15 +412,15 @@ class scenarioExpression {
                 } else {
                     $message .= $result;
                 }
-                $this->setLog($message);
+                $this->setLog($scenario, $message);
                 return $result;
             }
             if ($this->getType() == 'code') {
-                $this->setLog(__('Exécution d\'un bloc code', __FILE__));
+                $this->setLog($scenario, __('Exécution d\'un bloc code', __FILE__));
                 return eval($this->getExpression());
             }
         } catch (Exception $e) {
-            $this->setLog($message . $e->getMessage());
+            $this->setLog($scenario, $message . $e->getMessage());
         }
     }
 
@@ -593,13 +593,14 @@ class scenarioExpression {
         return $this->log;
     }
 
-    public function setLog($log) {
-        if ($log == '') {
+    public function setLog(&$_scenario, $log) {
+        /*if ($log == '') {
             $this->log = '';
         } else {
             $this->log = '[' . date('Y-m-d H:i:s') . '][EXPRESSION] ' . $log;
-        }
-        $this->save();
+        }*/
+        log::add('scenario/scenario' . $_scenario->getId(), '[' . date('Y-m-d H:i:s') . '][EXPRESSION] ' . $log);
+        //$this->save();
     }
 
 }
