@@ -599,15 +599,17 @@ class cmd {
         } catch (Exception $e) {
             //Si impossible de contacter l'équipement
             $type = $eqLogic->getEqType_name();
-            $numberTryWithoutSuccess = $eqLogic->getStatus('numberTryWithoutSuccess', 0);
-            $eqLogic->setStatus('numberTryWithoutSuccess', $numberTryWithoutSuccess);
-            if ($numberTryWithoutSuccess >= config::byKey('numberOfTryBeforeEqLogicDisable')) {
-                $message = 'Désactivation de <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getName();
-                $message .= ($eqLogic->getEqReal_id() != '') ? ' (' . $eqLogic->getEqReal()->getName() . ') ' : '';
-                $message .= '</a> car il n\'a pas répondu ou mal répondu lors des 3 derniers essais';
-                message::add($type, $message);
-                $eqLogic->setIsEnable(0);
-                $eqLogic->save();
+            if ($eqLogic->getConfiguration('nerverFail') != 1) {
+                $numberTryWithoutSuccess = $eqLogic->getStatus('numberTryWithoutSuccess', 0);
+                $eqLogic->setStatus('numberTryWithoutSuccess', $numberTryWithoutSuccess);
+                if ($numberTryWithoutSuccess >= config::byKey('numberOfTryBeforeEqLogicDisable')) {
+                    $message = 'Désactivation de <a href="' . $eqLogic->getLinkToConfiguration() . '">' . $eqLogic->getName();
+                    $message .= ($eqLogic->getEqReal_id() != '') ? ' (' . $eqLogic->getEqReal()->getName() . ') ' : '';
+                    $message .= '</a> car il n\'a pas répondu ou mal répondu lors des 3 derniers essais';
+                    message::add($type, $message);
+                    $eqLogic->setIsEnable(0);
+                    $eqLogic->save();
+                }
             }
             log::add($type, 'error', __('Erreur sur ', __FILE__) . $eqLogic->getName() . ' : ' . $e->getMessage());
             throw $e;
