@@ -37,7 +37,7 @@ class com_http {
 
     /*     * ********************Functions static********************* */
 
-    function __construct($_url, $_username = '', $_password = '') {
+    function __construct($_url = '', $_username = '', $_password = '') {
         $this->url = $_url;
         $this->username = $_username;
         $this->password = $_password;
@@ -182,6 +182,16 @@ class com_http {
     public function setNoReportError($noReportError) {
         $this->noReportError = $noReportError;
     }
+    
+    public function getUrl() {
+        return $this->url;
+    }
+
+    public function setUrl($url) {
+        $this->url = $url;
+    }
+
+
 
 }
 
