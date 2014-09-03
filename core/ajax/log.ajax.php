@@ -21,7 +21,7 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect('admin')) {
-        throw new Exception(__('401 - Accès non autorisé',__FILE__));
+        throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
     if (init('action') == 'clear') {
@@ -33,17 +33,17 @@ try {
         log::remove(init('logfile'));
         ajax::success();
     }
-    
+
     if (init('action') == 'removeAll') {
         log::removeAll();
         ajax::success();
     }
 
     if (init('action') == 'get') {
-        ajax::success(log::get(init('logfile'), 0, 3000));
+        ajax::success(log::get(init('logfile'), init('start', 0), init('nbLine', 3000)));
     }
 
-    throw new Exception(__('Aucune methode correspondante à : ',__FILE__). init('action'));
+    throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());
