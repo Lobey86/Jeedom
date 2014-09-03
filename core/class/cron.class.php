@@ -348,10 +348,6 @@ class cron {
      * @return boolean
      */
     public function isDue() {
-        //if never sent
-        if ($this->getLastRun() == '' || $this->getLastRun() == '0000-00-00 00:00:00') {
-            return true;
-        }
         //check if already sent on that minute 
         $last = strtotime($this->getLastRun());
         $now = time();

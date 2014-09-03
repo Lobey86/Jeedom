@@ -609,9 +609,6 @@ class scenario {
     }
 
     public function isDue() {
-        if ($this->getLastLaunch() == '' || $this->getLastLaunch() == '0000-00-00 00:00:00') {
-            return true;
-        }
         $last = strtotime($this->getLastLaunch());
         $now = time();
         $now = ($now - $now % 60);
