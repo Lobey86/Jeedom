@@ -467,6 +467,9 @@ class cmd {
     /*     * *********************Methode d'instance************************* */
 
     public function formatValue($_value) {
+        if (trim($_value) == '') {
+            return '';
+        }
         if ($this->getType() == 'info') {
             switch ($this->getSubType()) {
                 case 'binary':
