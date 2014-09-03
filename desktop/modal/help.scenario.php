@@ -29,7 +29,7 @@ if (!isConnect()) {
         </div>
         <div id="collapse_condition" class="panel-collapse collapse">
             <div class="panel-body">
-                <div class="alert alert-danger">{{Attention à bien mettre des ' ou " (quote ou double quote) lors de l'utilisation de chaîne de caractère}}</div>
+                <div class="alert alert-danger">{{Attention à bien mettre des ' ou " (quote ou double quote) lors de l'utilisation de chaîne de caractère. Ex : "#[Object][Equipement][Info]#" = "oui"}}</div>
                 {{Vous pouvez utiliser n'importe lequel des symboles suivant pour les opérateurs : }}
                 <pre>
 {{= : égal}}
