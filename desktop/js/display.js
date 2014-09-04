@@ -67,6 +67,7 @@ function saveConfiguration(_el) {
 function displayCmd(_cmd_id) {
     jeedom.cmd.byId({
         id: _cmd_id,
+        noCache: true,
         error: function(error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
@@ -120,8 +121,8 @@ function displayCmd(_cmd_id) {
             div += '<span class="cmdAttr label label-primary" data-l1key="unite"></span>';
             div += '</div>';
             div += '</div>';
-            
-             div += '<div class="form-group">';
+
+            div += '<div class="form-group">';
             div += '<label class="col-lg-4 control-label">{{Commande déclenchant une mise à jour de la valeur}}</label>';
             div += '<div class="col-lg-4">';
             div += '<span class="cmdAttr label label-primary" data-l1key="value"></span>';
@@ -233,6 +234,19 @@ function displayCmd(_cmd_id) {
             div += '</select>';
             div += '</div>';
             div += '</div>';
+
+            if (data.isHistorized == 1) {
+                div += '<div class="form-group">';
+                div += '<label class="col-lg-2 control-label">{{Mode d\'historisation}}</label>';
+                div += '<div class="col-lg-3">';
+                div += '<select class="form-control cmdAttr" data-l1key="configuration" data-l2key="historizeMode">';
+                div += '<option value="avg">Moyenne</option>';
+                div += '<option value="min">Minimum</option>';
+                div += '<option value="max">Maximum</option>';
+                div += '</select>';
+                div += '</div>';
+                div += '</div>';
+            }
 
             div += '</fieldset>';
             div += '</form>';

@@ -124,13 +124,16 @@ class history {
                             AND cmd_id=:cmd_id';
                     $oldest = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
 
+                    $mode = $cmd->getConfiguration('historizeMode', 'avg');
+
                     while ($oldest['oldest'] != null) {
                         $values = array(
                             'cmd_id' => $sensors['cmd_id'],
                             'oldest' => $oldest['oldest'],
                             'archivePackage' => $archivePackage,
                         );
-                        $sql = 'SELECT AVG(value) as value,
+
+                        $sql = 'SELECT ' . $mode . '(value) as value,
                                 FROM_UNIXTIME(AVG(UNIX_TIMESTAMP(`datetime`))) as datetime  
                                 FROM history 
                                 WHERE TIMEDIFF(`datetime`,:oldest)<:archivePackage 
@@ -428,7 +431,17 @@ class history {
                             AND `datetime`=:datetime';
                 $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
                 if ($result !== false) {
-                    $this->setValue(($result['value'] + $this->getValue()) / 2);
+                    switch ($cmd->getConfiguration('historizeMode', 'avg')) {
+                        case 'avg':
+                            $this->setValue(($result['value'] + $this->getValue()) / 2);
+                            break;
+                        case 'min':
+                            $this->setValue(min($result['value'], $this->getValue()));
+                            break;
+                        case 'max':
+                            $this->setValue(max($result['value'], $this->getValue()));
+                            break;
+                    }
                 }
             } else {
                 $this->setDatetime(date('Y-m-d H:00:00', strtotime($this->getDatetime())));

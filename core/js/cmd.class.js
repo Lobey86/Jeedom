@@ -252,7 +252,7 @@ jeedom.cmd.byId = function(_params) {
         return;
     }
     var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
-    if (isset(jeedom.cmd.cache.byId[params.id])) {
+    if (isset(jeedom.cmd.cache.byId[params.id]) && init(params.noCache, false) == false) {
         params.success(jeedom.cmd.cache.byId[params.id]);
         return;
     }
