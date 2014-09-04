@@ -123,7 +123,8 @@ try {
                     echo __("OK\n", __FILE__);
                 } catch (Exception $e) {
                     if (init('mode') != 'force') {
-                        throw $e;
+                        print_r($e);
+                        die();
                     } else {
                         echo __('***ERREUR*** ', __FILE__) . $e->getMessage();
                     }
