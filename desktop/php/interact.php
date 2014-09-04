@@ -28,7 +28,10 @@ if (!isConnect('admin')) {
             <div class="col-lg-6">
                 <form class="form-horizontal">
                     <fieldset>
-                        <legend>{{Général}}</legend>
+                        <legend>
+                            {{Général}}
+                            <a class="btn btn-default btn-xs pull-right" id="bt_duplicate">{{Dupliquer}}</a>
+                        </legend>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Nom}}</label>
                             <div class="col-lg-9">

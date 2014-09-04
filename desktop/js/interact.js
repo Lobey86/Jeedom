@@ -39,6 +39,25 @@ $(".li_interact").on('click', function(event) {
     return false;
 });
 
+$('#bt_duplicate').on('click', function() {
+    bootbox.prompt("Nom ?", function(result) {
+        if (result !== null) {
+            var interact = $('.interact').getValues('.interactAttr')[0];
+            interact.name = result;
+            interact.id = '';
+            jeedom.interact.save({
+                interact: interact,
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function(data) {
+                    modifyWithoutSave = false;
+                    window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
+                }
+            });
+        }
+    });
+});
 
 if (is_numeric(getUrlVars('id'))) {
     if ($('#ul_interact .li_interact[data-interact_id=' + getUrlVars('id') + ']').length != 0) {
@@ -70,9 +89,8 @@ $('body').delegate('.listEquipementInfo', 'click', function() {
 });
 
 $("#bt_saveInteract").on('click', function(data) {
-    var interact = $('.interact').getValues('.interactAttr');
     jeedom.interact.save({
-        interact: interact[0],
+        interact: $('.interact').getValues('.interactAttr')[0],
         error: function(error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
