@@ -43,7 +43,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             if (!is_object($cmd)) {
                 throw new Exception('Aucune commande correspondant à l\'id : ' . init('id'));
             }
-            log::add('api','debug','Exécution de : '.$cmd->getHumanName());
+            log::add('api', 'debug', 'Exécution de : ' . $cmd->getHumanName());
             echo $cmd->execCmd($_REQUEST);
         } else if ($type == 'scenario') {
             $scenario = scenario::byId(init('id'));
@@ -52,16 +52,20 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
             switch (init('action')) {
                 case 'start':
+                    log::add('api', 'debug', 'Start scénario de : ' . $scenario->getHumanName());
                     $scenario->launch(false, __('Lancement provoque par un appel api ', __FILE__));
                     break;
                 case 'stop':
+                    log::add('api', 'debug', 'Stop scénario de : ' . $scenario->getHumanName());
                     $scenario->stop();
                     break;
                 case 'deactivate':
+                    log::add('api', 'debug', 'Activation scénario de : ' . $scenario->getHumanName());
                     $scenario->setIsActive(0);
                     $scenario->save();
                     break;
                 case 'activate':
+                    log::add('api', 'debug', 'Désactivation scénario de : ' . $scenario->getHumanName());
                     $scenario->setIsActive(1);
                     $scenario->save();
                     break;
