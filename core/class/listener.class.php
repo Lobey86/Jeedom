@@ -98,7 +98,7 @@ class listener {
     /*     * *********************Methode d'instance************************* */
 
     public function run($_event, $_value) {
-        $cmd = 'nice -n 19 php ' . dirname(__FILE__) . '/../php/jeeListener.php';
+        $cmd = '/usr/bin/php ' . dirname(__FILE__) . '/../php/jeeListener.php';
         $cmd.= ' listener_id=' . $this->getId() . ' event_id=' . $_event . ' value=' . $_value;
         exec($cmd . ' >> /dev/null 2>&1 &');
     }

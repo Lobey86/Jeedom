@@ -394,11 +394,11 @@ class scenario {
             if ($this->getConfiguration('launchInForeground', 0) == 1) {
                 $this->execute($_message);
             } else {
-                $cmd = 'nice -n -19 php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
+                $cmd = '/usr/bin/php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
                 $cmd.= ' scenario_id=' . $this->getId();
                 $cmd.= ' force=' . $_force;
                 $cmd.= ' message=' . escapeshellarg($_message);
-                $cmd.= ' >> /dev/null 2&>1 &';
+                $cmd.= ' >> /dev/null 2>&1 &';
                 exec($cmd);
             }
             return true;
