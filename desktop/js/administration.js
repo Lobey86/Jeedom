@@ -18,29 +18,35 @@
 $("#bt_genKeyAPI").on('click', function(event) {
     $.hideAlert();
     bootbox.confirm('{{Etes-vous sûr de vouloir réinitialiser la clef API de Jeedom ? Vous devrez reconfigurer tous les équipements communicant avec Jeedom et utilisant la clef API}}', function(result) {
-        genKeyAPI();
+        if (result) {
+            genKeyAPI();
+        }
     });
 });
 
 $('#bt_haltSysteme').on('click', function() {
     $.hideAlert();
     bootbox.confirm('{{Etes-vous sûr de vouloir arreter le système ?}}', function(result) {
-        jeedom.haltSystem({
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-        });
+        if (result) {
+            jeedom.haltSystem({
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+            });
+        }
     });
 });
 
 $('#bt_rebootSysteme').on('click', function() {
     $.hideAlert();
     bootbox.confirm('{{Etes-vous sûr de vouloir redemarrer le système ?}}', function(result) {
-        jeedom.rebootSystem({
-            error: function(error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-        });
+        if (result) {
+            jeedom.rebootSystem({
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+            });
+        }
     });
 });
 
