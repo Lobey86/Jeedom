@@ -27,6 +27,18 @@ $(function() {
     }
 });
 
+function isset() {
+    var a = arguments, b = a.length, d = 0;
+    if (0 === b)
+        throw Error("Empty isset");
+    for (; d !== b; ) {
+        if (void 0 === a[d] || null === a[d])
+            return!1;
+        d++
+    }
+    return!0
+}
+
 function initExpertMode() {
     if (expertMode == 1) {
         $('.expertModeDisable').attr('disabled', true);
