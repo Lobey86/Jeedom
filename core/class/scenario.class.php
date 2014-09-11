@@ -173,9 +173,25 @@ class scenario {
             }
         } else {
             $message = __('Scenario lance automatiquement sur programmation', __FILE__);
-            $scenarios = scenario::schedule();
+            $scenarios = scenario::all();
             foreach ($scenarios as $key => &$scenario) {
-                if (!$scenario->isDue()) {
+                if ($scenario->getState() == 'in progress') {
+                    if ($scenario->running()) {
+                        if ($scenario->getTimeout() > 0 && (strtotime('now') - strtotime($scenario->getLastLaunch())) > $scenario->getTimeout()) {
+                            $scenario->stop();
+                            $scenario->setState('timeout');
+                            $scenario->save();
+                        }
+                    } else {
+                        $scenario->setState('error');
+                        $scenario->save();
+                    }
+                }
+                if ($scenario->getIsActive() == 1 && $scenario->getState() != 'in progress' && ($scenario->getMode() == 'schedule' || $scenario->getMode() == 'all')) {
+                    if (!$scenario->isDue()) {
+                        unset($scenarios[$key]);
+                    }
+                } else {
                     unset($scenarios[$key]);
                 }
             }
@@ -190,9 +206,6 @@ class scenario {
     }
 
     public static function cleanTable() {
-        $element_ids = array();
-        $subelement_ids = array();
-        $expression_ids = array();
         $ids = array(
             'element' => array(),
             'subelement' => array(),
@@ -387,10 +400,6 @@ class scenario {
 
     public function launch($_force = false, $_message = '') {
         if (config::byKey('enableScenario') == 1) {
-            if ($this->getState() == 'in progress' && !$this->running()) {
-                $this->setState('error');
-                $this->save();
-            }
             if ($this->getConfiguration('launchInForeground', 0) == 1) {
                 $this->execute($_message);
             } else {
