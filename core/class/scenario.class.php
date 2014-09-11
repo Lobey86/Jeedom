@@ -178,11 +178,11 @@ class scenario {
                 if ($scenario->getState() == 'in progress') {
                     if ($scenario->running()) {
                         if ($scenario->getTimeout() > 0 && (strtotime('now') - strtotime($scenario->getLastLaunch())) > $scenario->getTimeout()) {
+                            $scenario->setLog(__('Erreur : le scénario est tombé en timeout', __FILE__));
                             $scenario->stop();
-                            $scenario->setState('timeout');
-                            $scenario->save();
                         }
                     } else {
+                        $scenario->setLog(__('Erreur : le c\'est incident (toujours marqué en cours mais arreté)', __FILE__));
                         $scenario->setState('error');
                         $scenario->save();
                     }
