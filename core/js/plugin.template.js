@@ -119,6 +119,7 @@ $('.eqLogicAction[data-action=save]').on('click', function() {
                 var name = $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + '] a').text();
                 $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + '] a').empty().append(name.substr(0, name.lastIndexOf("[")) + '[' + data.name + ']');
                 $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + ']').click();
+                $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
             } else {
                 var vars = getUrlVars();
                 var url = 'index.php?';
