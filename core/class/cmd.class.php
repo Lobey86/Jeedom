@@ -776,11 +776,7 @@ class cmd {
         $_value = $this->formatValue($_value);
         cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
         $this->setCollect(0);
-        scenario::check($this);
-        if (strpos($_value, 'error') === false) {
-            $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-            $this->addHistoryValue($_value, $this->getCollectDate());
-        }
+
         $nodeJs = array(
             array(
                 'cmd_id' => $this->getId(),
@@ -795,8 +791,21 @@ class cmd {
                 $cmd->event($cmd->execute(), $_loop);
             }
         }
+        scenario::check($this);
         listener::check($this->getId(), $_value);
         nodejs::pushUpdate('eventCmd', $nodeJs);
+        if (strpos($_value, 'error') === false) {
+            $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
+            $this->addHistoryValue($_value, $this->getCollectDate());
+        }
+        $internalEvent = new internalEvent();
+        $internalEvent->setEvent('event::cmd');
+        $internalEvent->setOptions('id', $this->getId());
+        $internalEvent->setOptions('value', $_value);
+        if ($this->getCollectDate() != '') {
+            $internalEvent->setDatetime($this->getCollectDate());
+        }
+        $internalEvent->save();
     }
 
     public function invalidCache() {
@@ -929,7 +938,7 @@ class cmd {
     }
 
     public function setName($name) {
-        $name = str_replace(array('&', '#', ']', '[', '%',"'"), '', $name);
+        $name = str_replace(array('&', '#', ']', '[', '%', "'"), '', $name);
         if ($name != $this->getName()) {
             $this->setInternalEvent(1);
         }
