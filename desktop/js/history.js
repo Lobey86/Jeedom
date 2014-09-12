@@ -41,6 +41,10 @@ $(".li_history .remove").on('click', function() {
     });
 });
 
+$(".li_history .export").on('click', function() {
+    window.open('core/php/export.php?type=cmdHistory&id=' + $(this).closest('.li_history').attr('data-cmd_id'), "_blank", null);
+});
+
 function emptyHistory(_cmd_id) {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -80,7 +84,7 @@ function addChart(_cmd_id, _action) {
             daterange: 'all',
             option: {
                 graphType: $('#sel_chartType').value(),
-                derive : $('#cb_derive').value(),
+                derive: $('#cb_derive').value(),
             }
         });
     }
