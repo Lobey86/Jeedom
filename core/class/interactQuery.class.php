@@ -287,21 +287,25 @@ class interactQuery {
             if (!is_object($interactDef)) {
                 return __('Impossible de trouver la définition de l\'intéraction', __FILE__);
             }
+            $reply = $interactDef->selectReply();
+            if (trim($reply) == '') {
+                $reply = self::replyOk();
+            }
             switch ($interactDef->getOptions('scenario_action')) {
                 case 'start':
                     $scenario->launch(false, __('Scenario lance sur interaction (S.A.R.A.H, SMS...)', __FILE__));
-                    return self::replyOk();
+                    return $reply;
                 case 'stop':
                     $scenario->stop();
-                    return self::replyOk();
+                    return $reply;
                 case 'activate':
                     $scenario->setIsActive(1);
                     $scenario->save();
-                    return self::replyOk();
+                    return $reply;
                 case 'deactivate':
                     $scenario->setIsActive(0);
                     $scenario->save();
-                    return self::replyOk();
+                    return $reply;
                 default:
                     return __('Aucune action défini dans l\'intéraction sur le scénario : ', __FILE__) . $scenario->getHumanName();
             }
