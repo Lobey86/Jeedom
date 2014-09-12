@@ -104,7 +104,7 @@ class jeedom {
 
     public static function getUsbMapping($_name = '') {
         $cache = cache::byKey('jeedom::usbMapping');
-        if ($cache->getValue() === null || $cache->getValue() === '' || $cache->getValue() == 'false' || $_name == '') {
+        if (!is_json($cache->getValue()) || $_name == '') {
             $usbMapping = array();
             foreach (ls('/dev/', 'ttyUSB*') as $usb) {
                 $vendor = '';
