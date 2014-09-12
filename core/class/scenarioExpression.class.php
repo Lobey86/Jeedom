@@ -273,13 +273,14 @@ class scenarioExpression {
 
     public static function setTags($_expression) {
         $replace = array(
-            '#heure#' => date('G'),
-            '#minute#' => date('i'),
-            '#jour#' => date('d'),
-            '#mois#' => date('m'),
-            '#annee#' => date('Y'),
+            '#heure#' => (int) date('G'),
+            '#minute#' => (int) date('i'),
+            '#jour#' => (int) date('d'),
+            '#mois#' => (int) date('m'),
+            '#annee#' => (int) date('Y'),
             '#time#' => date('Gi'),
             '#timestamp#' => time(),
+            '#seconde#' => (int) date('s'),
             '#date#' => date('md'),
             '#semaine#' => date('W'),
             '#sjour#' => convertDayEnToFr(date('l')),
