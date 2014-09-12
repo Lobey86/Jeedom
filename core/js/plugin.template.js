@@ -16,6 +16,9 @@
  */
 
 $(".li_eqLogic").on('click', function() {
+    if ('function' == typeof (prePrintEqLogic)) {
+        prePrintEqLogic();
+    }
     $('.eqLogic').show();
     $('.li_eqLogic').removeClass('active');
     $(this).addClass('active');
