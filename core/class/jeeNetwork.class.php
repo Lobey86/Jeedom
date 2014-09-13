@@ -124,9 +124,6 @@ class jeeNetwork {
                     foreach (scenario::all() as $scenario) {
                         $scenario->remove();
                     }
-                    foreach (eqReal::all() as $eqReal) {
-                        $eqReal->remove();
-                    }
                     foreach (listener::all() as $listener) {
                         $listener->remove();
                     }
