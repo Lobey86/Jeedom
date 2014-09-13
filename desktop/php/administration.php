@@ -30,15 +30,17 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     {{Activation du cron : ajouter <em>* * * * * su --shell=/bin/bash - www-data -c "/usr/bin/php #PATH_TO_JEEDOM#/jeedom/core/php/jeeCron.php" >> /dev/null 2>&1</em> à la crontab}}
                                 </div>
                             </div>
-                            <div class="form-group expertModeVisible">
-                                <label class="col-lg-2 control-label">{{Clef nodeJS}}</label>
-                                <div class="col-lg-2"> 
-                                    <p class="form-control-static" id="in_nodeJsKey"><?php echo config::byKey('nodeJsKey'); ?></p>
+                            <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
+                                <div class="form-group expertModeVisible">
+                                    <label class="col-lg-2 control-label">{{Clef nodeJS}}</label>
+                                    <div class="col-lg-2"> 
+                                        <p class="form-control-static" id="in_nodeJsKey"><?php echo config::byKey('nodeJsKey'); ?></p>
+                                    </div>
+                                    <div class="col-lg-1"> 
+                                        <a class="btn btn-default form-control" id="bt_nodeJsKey" >{{Générer}}</a>
+                                    </div>
                                 </div>
-                                <div class="col-lg-1"> 
-                                    <a class="btn btn-default form-control" id="bt_nodeJsKey" >{{Générer}}</a>
-                                </div>
-                            </div>
+                            <?php } ?>
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">{{Dernière date enregistrée}}</label>
                                 <div class="col-lg-2"> 
@@ -197,7 +199,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 echo '<div class="form-group expertModeVisible">';
                                 echo '<label class="col-lg-2 control-label">{{IP Maitre}}</label>';
                                 echo '<div class="col-lg-6">';
-                                echo '<span class="label label-info">'.config::byKey('jeeNetwork::master::ip').'</span>';
+                                echo '<span class="label label-info">' . config::byKey('jeeNetwork::master::ip') . '</span>';
                                 echo '</div>';
                                 echo '</div>';
                             }
@@ -227,120 +229,120 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                 </div>
             </div>
         </div>
+        <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
+            <div class="panel panel-default expertModeVisible">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_memcache">
+                            {{Configuration cache}}
+                        </a>
+                    </h3>
+                </div>
+                <div id="config_memcache" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Durée de vie memcache (secondes)}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="text"  class="configKey form-control" data-l1key="lifetimeMemCache" />
+                                    </div>
+                                </div>
 
-        <div class="panel panel-default expertModeVisible">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_memcache">
-                        {{Configuration cache}}
-                    </a>
-                </h3>
-            </div>
-            <div id="config_memcache" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <form class="form-horizontal">
-                        <fieldset>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Durée de vie memcache (secondes)}}</label>
-                                <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="lifetimeMemCache" />
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Vider toutes les données en cache}}</label>
+                                    <div class="col-lg-3">
+                                        <a class="btn btn-warning" id="bt_flushMemcache">{{Vider}}</a>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Vider toutes les données en cache}}</label>
-                                <div class="col-lg-3">
-                                    <a class="btn btn-warning" id="bt_flushMemcache">{{Vider}}</a>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Cron persistance du cache}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="text"  class="configKey form-control" data-l1key="persist::cron" />
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe'></i>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Cron persistance du cache}}</label>
-                                <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="persist::cron" />
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Moteur de cache}}</label>
+                                    <div class="col-lg-3">
+                                        <?php
+                                        if (extension_loaded('memcached')) {
+                                            echo '<span class="label label-success">Memcache</span>';
+                                        } else {
+                                            echo '<span class="label label-warning">MySQL</span>';
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
-                                <div class="col-lg-1">
-                                    <i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe'></i>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Moteur de cache}}</label>
-                                <div class="col-lg-3">
-<?php
-if (extension_loaded('memcached')) {
-    echo '<span class="label label-success">Memcache</span>';
-} else {
-    echo '<span class="label label-warning">MySQL</span>';
-}
-?>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_history">
-                        {{Configuration historique}}
-                    </a>
-                </h3>
-            </div>
-            <div id="config_history" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <form class="form-horizontal">
-                        <fieldset>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Afficher statistique sur les widgets}}</label>
-                                <div class="col-lg-3">
-                                    <input type="checkbox"  class="configKey" data-l1key="displayStatsWidget" />
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_history">
+                            {{Configuration historique}}
+                        </a>
+                    </h3>
+                </div>
+                <div id="config_history" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Afficher statistique sur les widgets}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="checkbox"  class="configKey" data-l1key="displayStatsWidget" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Période de calcul pour min, max, moyenne (en heure)}}</label>
-                                <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="historyCalculPeriod" />
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Période de calcul pour min, max, moyenne (en heure)}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="text"  class="configKey form-control" data-l1key="historyCalculPeriod" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Période de calcul pour la tendance (en heure)}}</label>
-                                <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="historyCalculTendance" />
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Période de calcul pour la tendance (en heure)}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="text"  class="configKey form-control" data-l1key="historyCalculTendance" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Délai avant archivage (heure)}}</label>
-                                <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="historyArchiveTime" />
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Délai avant archivage (heure)}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="text"  class="configKey form-control" data-l1key="historyArchiveTime" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Archiver par paquet de (heure)}}</label>
-                                <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="historyArchivePackage" />
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Archiver par paquet de (heure)}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="text"  class="configKey form-control" data-l1key="historyArchivePackage" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group alert alert-danger">
-                                <label class="col-lg-2 control-label">{{Seuil de calcul de tendance}}</label>
-                                <label class="col-lg-1 control-label">{{Min}}</label>
-                                <div class="col-lg-1">
-                                    <input type="text"  class="configKey form-control" data-l1key="historyCalculTendanceThresholddMin" />
+                                <div class="form-group alert alert-danger">
+                                    <label class="col-lg-2 control-label">{{Seuil de calcul de tendance}}</label>
+                                    <label class="col-lg-1 control-label">{{Min}}</label>
+                                    <div class="col-lg-1">
+                                        <input type="text"  class="configKey form-control" data-l1key="historyCalculTendanceThresholddMin" />
+                                    </div>
+                                    <label class="col-lg-1 control-label">{{Max}}</label>
+                                    <div class="col-lg-1">
+                                        <input type="text"  class="configKey form-control" data-l1key="historyCalculTendanceThresholddMax" />
+                                    </div>
                                 </div>
-                                <label class="col-lg-1 control-label">{{Max}}</label>
-                                <div class="col-lg-1">
-                                    <input type="text"  class="configKey form-control" data-l1key="historyCalculTendanceThresholddMax" />
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        <?php } ?>
 
         <div class="panel panel-default expertModeVisible">
             <div class="panel-heading">
@@ -518,87 +520,86 @@ if (extension_loaded('memcached')) {
                 </div>
             </div>
         </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_convertColor">
-                        {{Conversion des couleurs en html}}
-                    </a>
-                </h3>
-            </div>
-            <div id="configuration_convertColor" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <i class="fa fa-plus-circle pull-right" id="bt_addColorConvert" style="font-size: 1.8em;"></i>
-                            <table class="table table-condensed table-bordered" id="table_convertColor" >
-                                <thead>
-                                    <tr>
-                                        <th>{{Nom}}</th><th>{{Code HTML}}</th>
-                                    </tr>
-                                    <tr class="filter" style="display : none;">
-                                        <td class="color"><input class="filter form-control" filterOn="color" /></td>
-                                        <td class="codeHtml"><input class="filter form-control" filterOn="codeHtml" /></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+        <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_convertColor">
+                            {{Conversion des couleurs en html}}
+                        </a>
+                    </h3>
+                </div>
+                <div id="configuration_convertColor" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <i class="fa fa-plus-circle pull-right" id="bt_addColorConvert" style="font-size: 1.8em;"></i>
+                                <table class="table table-condensed table-bordered" id="table_convertColor" >
+                                    <thead>
+                                        <tr>
+                                            <th>{{Nom}}</th><th>{{Code HTML}}</th>
+                                        </tr>
+                                        <tr class="filter" style="display : none;">
+                                            <td class="color"><input class="filter form-control" filterOn="color" /></td>
+                                            <td class="codeHtml"><input class="filter form-control" filterOn="codeHtml" /></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-
-        <div class="panel panel-default expertModeVisible">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_commandeEqlogic">
-                        {{Commandes & Equipements}}
-                    </a>
-                </h3>
-            </div>
-            <div id="configuration_commandeEqlogic" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <form class="form-horizontal">
-                        <fieldset>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Nombre d'échec avant désactivation de l'équipement}}</label>
-                                <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="numberOfTryBeforeEqLogicDisable" />
-                                </div>
-                            </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
+            <div class="panel panel-default expertModeVisible">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_nodeJS">
-                            {{NodeJS}}
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_commandeEqlogic">
+                            {{Commandes & Equipements}}
                         </a>
                     </h3>
                 </div>
-                <div id="configuration_nodeJS" class="panel-collapse collapse">
+                <div id="configuration_commandeEqlogic" class="panel-collapse collapse">
                     <div class="panel-body">
                         <form class="form-horizontal">
                             <fieldset>
-                                <div class="form-group expertModeVisible">
-                                    <label class="col-lg-2 control-label">{{Port interne NodeJS}}</label>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Nombre d'échec avant désactivation de l'équipement}}</label>
                                     <div class="col-lg-3">
-                                        <input type="text"  class="configKey" data-l1key="nodeJsInternalPort" />
+                                        <input type="text"  class="configKey form-control" data-l1key="numberOfTryBeforeEqLogicDisable" />
                                     </div>
+                                </div>
                                 </div>
                             </fieldset>
                         </form>
                     </div>
                 </div>
-            </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#configuration_nodeJS">
+                                {{NodeJS}}
+                            </a>
+                        </h3>
+                    </div>
+                    <div id="configuration_nodeJS" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <fieldset>
+                                    <div class="form-group expertModeVisible">
+                                        <label class="col-lg-2 control-label">{{Port interne NodeJS}}</label>
+                                        <div class="col-lg-3">
+                                            <input type="text"  class="configKey" data-l1key="nodeJsInternalPort" />
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
 
             <div class="panel panel-default expertModeVisible">
                 <div class="panel-heading">
@@ -709,4 +710,4 @@ if (extension_loaded('memcached')) {
         </div>
     </div>
 
-<?php include_file("desktop", "administration", "js"); ?>
+    <?php include_file("desktop", "administration", "js"); ?>
