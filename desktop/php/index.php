@@ -119,19 +119,22 @@ if (count($plugins_list) > 0) {
                             </button>
                         </div>
                         <nav class="navbar-collapse collapse">
+
                             <ul class="nav navbar-nav">
-                                <li class="dropdown cursor">
-                                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-home"></i> {{Accueil}} <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="index.php?v=d&p=dashboard"><i class="fa fa-dashboard"></i> {{Dashboard}}</a></li>
-                                        <li><a href="index.php?v=d&p=view"><i class="fa fa-bars"></i> {{Vue}}</a></li>
-                                        <li><a href="index.php?v=d&p=plan"><i class="fa fa-picture-o"></i> {{Plan}}</a></li>
-                                        <?php
-                                        echo $panel_menu;
-                                        ?>
-                                    </ul>
-                                </li>
-                                <li><a href="index.php?v=d&p=history"><i class="fa fa-bar-chart-o"></i> {{Historique}}</a></li>
+                                <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
+                                    <li class="dropdown cursor">
+                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-home"></i> {{Accueil}} <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="index.php?v=d&p=dashboard"><i class="fa fa-dashboard"></i> {{Dashboard}}</a></li>
+                                            <li><a href="index.php?v=d&p=view"><i class="fa fa-bars"></i> {{Vue}}</a></li>
+                                            <li><a href="index.php?v=d&p=plan"><i class="fa fa-picture-o"></i> {{Plan}}</a></li>
+                                            <?php
+                                            echo $panel_menu;
+                                            ?>
+                                        </ul>
+                                    </li>
+                                    <li><a href="index.php?v=d&p=history"><i class="fa fa-bar-chart-o"></i> {{Historique}}</a></li>
+                                <?php } ?>
                                 <?php if (isConnect('admin')) { ?>
                                     <li class="dropdown cursor">
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> {{Général}} <b class="caret"></b></a>
@@ -142,21 +145,27 @@ if (count($plugins_list) > 0) {
                                                     <li><a href="index.php?v=d&p=user"><i class="fa fa-users"></i> {{Utilisateurs}}</a></li>
                                                     <li><a href="index.php?v=d&p=backup"><i class="fa fa-floppy-o"></i> {{Sauvegarde}}</a></li>
                                                     <li><a href="index.php?v=d&p=update"><i class="fa fa-refresh"></i> {{Centre de mise à jour}}</a></li>
-                                                    <li class="expertModeVisible"><a href="index.php?v=d&p=timeline"><i class="fa fa-history"></i> {{Timeline}}</a></li>
+                                                    <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
+                                                        <li class="expertModeVisible"><a href="index.php?v=d&p=timeline"><i class="fa fa-history"></i> {{Timeline}}</a></li>
+                                                    <?php } ?>
                                                     <li class="expertModeVisible"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
                                                     <li class='expertModeVisible'><a href="index.php?v=d&p=security"><i class="fa fa-lock"></i> {{Sécurité}}</a></li>
                                                     <li class='expertModeVisible'><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> {{Log}}</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> {{Objet}}</a></li>
+                                            <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
+                                                <li><a href="index.php?v=d&p=object"><i class="fa fa-picture-o"></i> {{Objet}}</a></li>
+                                            <?php } ?>
                                             <li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> {{Plugins}}</a></li>
-                                            <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> {{Interaction}}</a></li>
-                                            <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
+                                            <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
+                                                <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> {{Interaction}}</a></li>
+                                                <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
+                                            <?php } ?>
                                         </ul>
                                     </li>
                                     <?php
                                 }
-                                if (isConnect('admin')) {
+                                if (isConnect('admin') && config::byKey('jeeNetwork::mode') == 'master') {
                                     ?>
                                     <li><a href="index.php?v=d&p=scenario"><i class="fa fa-cogs"></i> {{Scénario}}</a></li>
                                     <li class="dropdown cursor">

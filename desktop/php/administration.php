@@ -197,7 +197,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 echo '<div class="form-group expertModeVisible">';
                                 echo '<label class="col-lg-2 control-label">{{IP Maitre}}</label>';
                                 echo '<div class="col-lg-6">';
-                                echo config::byKey('jeeNetwork::master::ip');
+                                echo '<span class="label label-info">'.config::byKey('jeeNetwork::master::ip').'</span>';
                                 echo '</div>';
                                 echo '</div>';
                             }
