@@ -30,6 +30,10 @@ function initPlan(_planHeader_id) {
         }
     });
 
+    $('.plan-link-widget').off().on('click', function() {
+
+    });
+
     $("body:not(.eqLogic)").off("swipeleft");
     $("body:not(.eqLogic)").off("swiperight");
 }
@@ -170,6 +174,12 @@ function displayObject(_type, _id, _html, _plan) {
         if (isset(_plan.display) && (isset(_plan.display.name) && _plan.display.name == 1)) {
             html.find('.widget-name').remove();
         }
+    }
+
+    if (_type == 'view' || _type == 'plan') {
+        html.find('a').addClass('link');
+        html.find('a').attr('data-page', _type);
+        html.find('a').attr('data-option', _plan.link_id);
     }
     html.trigger('create');
 }

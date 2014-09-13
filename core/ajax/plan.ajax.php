@@ -57,7 +57,10 @@ try {
                 if (!is_object($plan_link)) {
                     continue;
                 }
-                $link = 'index.php?v=d&p=plan&plan_id=' . $plan_link->getId();
+                $link = '';
+                if (init('version', 'dashboard') == 'dashbaord') {
+                    $link = 'index.php?v=d&p=plan&plan_id=' . $plan_link->getId();
+                }
                 $html = '<span class="plan-link-widget label label-success" data-link_id="' . $plan_link->getId() . '">';
                 $html .= '<a href="' . $link . '" style="color:white;text-decoration:none;font-size : 1.5em;">';
                 if ($plan->getDisplay('name') != '' || $plan->getDisplay('icon') != '') {
@@ -77,7 +80,10 @@ try {
                 if (!is_object($view)) {
                     continue;
                 }
-                $link = 'index.php?v=d&p=view&view_id=' . $view->getId();
+                $link = '';
+                if (init('version', 'dashboard') == 'dashbaord') {
+                    $link = 'index.php?v=d&p=view&view_id=' . $view->getId();
+                }
                 $html = '<span class="view-link-widget label label-primary" data-link_id="' . $view->getId() . '" >';
                 $html .= '<a href="' . $link . '" style="color:white;text-decoration:none;font-size : 1.5em;">';
                 if ($plan->getDisplay('name') != '' || $plan->getDisplay('icon') != '') {

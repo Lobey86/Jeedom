@@ -23,7 +23,6 @@ jeedom.history.chart = [];
 
 
 jeedom.history.drawChart = function(_params) {
-    console.log(_params);
     $.showLoading();
     if ($.type(_params.dateRange) == 'object') {
         _params.dateRange = json_encode(_params.dateRange);
