@@ -58,6 +58,100 @@ class jeeNetwork {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function changeMode($_mode) {
+        switch ($_mode) {
+            case 'master':
+                if (config::byKey('jeeNetwork::mode') != 'master') {
+                    $cron = new cron();
+                    $cron->setClass('history');
+                    $cron->setFunction('historize');
+                    $cron->setSchedule('*/5 * * * * *');
+                    $cron->setTimeout(5);
+                    $cron->save();
+                    $cron = new cron();
+                    $cron->setClass('scenario');
+                    $cron->setFunction('check');
+                    $cron->setSchedule('* * * * * *');
+                    $cron->setTimeout(5);
+                    $cron->save();
+                    $cron = new cron();
+                    $cron->setClass('cmd');
+                    $cron->setFunction('collect');
+                    $cron->setSchedule('*/5 * * * * *');
+                    $cron->setTimeout(5);
+                    $cron->save();
+                    $cron = new cron();
+                    $cron->setClass('history');
+                    $cron->setFunction('archive');
+                    $cron->setSchedule('00 * * * * *');
+                    $cron->setTimeout(20);
+                    $cron->save();
+                    config::save('jeeNetwork::mode', 'master');
+                }
+                break;
+            case 'slave':
+                if (config::byKey('jeeNetwork::mode') != 'slave') {
+                    foreach (eqLogic::all() as $eqLogic) {
+                        $eqLogic->remove();
+                    }
+                    foreach (object::all() as $object) {
+                        $object->remove();
+                    }
+                    foreach (update::all() as $update) {
+                        switch ($update->getType()) {
+                            case 'core':
+                                break;
+                            case 'plugin':
+                                $plugin = plugin::byId($update->getLogicalId());
+                                if (is_object($plugin) && $plugin->getAllowRemote() != 1) {
+                                    $update->deleteObjet();
+                                }
+                                break;
+                            default :
+                                $plugin = plugin::byId($update->getType());
+                                if (is_object($plugin) && $plugin->getAllowRemote() != 1) {
+                                    $update->deleteObjet();
+                                }
+                                break;
+                        }
+                    }
+                    foreach (view::all() as $view) {
+                        $view->remove();
+                    }
+                    foreach (plan::all() as $plan) {
+                        $plan->remove();
+                    }
+                    foreach (scenario::all() as $scenario) {
+                        $scenario->remove();
+                    }
+                    foreach (eqReal::all() as $eqReal) {
+                        $eqReal->remove();
+                    }
+                    foreach (listener::all() as $listener) {
+                        $listener->remove();
+                    }
+                    $cron = cron::byClassAndFunction('history', 'historize');
+                    if (is_object($cron)) {
+                        $cron->remove();
+                    }
+                    $cron = cron::byClassAndFunction('scenario', 'check');
+                    if (is_object($cron)) {
+                        $cron->remove();
+                    }
+                    $cron = cron::byClassAndFunction('cmd', 'collect');
+                    if (is_object($cron)) {
+                        $cron->remove();
+                    }
+                    $cron = cron::byClassAndFunction('history', 'archive');
+                    if (is_object($cron)) {
+                        $cron->remove();
+                    }
+                    config::save('jeeNetwork::mode', 'slave');
+                }
+                break;
+        }
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function preUpdate() {

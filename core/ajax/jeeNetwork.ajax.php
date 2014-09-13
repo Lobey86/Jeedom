@@ -45,6 +45,9 @@ try {
     }
 
     if (init('action') == 'all') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
         ajax::success(utils::o2a(jeeNetwork::all()));
     }
 
@@ -62,6 +65,13 @@ try {
         utils::a2o($jeeNetwork, $jeeNetwork_json);
         $jeeNetwork->save();
         ajax::success(utils::o2a($jeeNetwork));
+    }
+
+    if (init('action') == 'changeMode') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
+        ajax::success(jeeNetwork::changeMode(init('mode')));
     }
 
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));

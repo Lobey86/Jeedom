@@ -15,21 +15,21 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$("#bt_genKeyAPI").on('click', function(event) {
+$("#bt_genKeyAPI").on('click', function (event) {
     $.hideAlert();
-    bootbox.confirm('{{Etes-vous sûr de vouloir réinitialiser la clef API de Jeedom ? Vous devrez reconfigurer tous les équipements communicant avec Jeedom et utilisant la clef API}}', function(result) {
+    bootbox.confirm('{{Etes-vous sûr de vouloir réinitialiser la clef API de Jeedom ? Vous devrez reconfigurer tous les équipements communicant avec Jeedom et utilisant la clef API}}', function (result) {
         if (result) {
             genKeyAPI();
         }
     });
 });
 
-$('#bt_haltSysteme').on('click', function() {
+$('#bt_haltSysteme').on('click', function () {
     $.hideAlert();
-    bootbox.confirm('{{Etes-vous sûr de vouloir arreter le système ?}}', function(result) {
+    bootbox.confirm('{{Etes-vous sûr de vouloir arreter le système ?}}', function (result) {
         if (result) {
             jeedom.haltSystem({
-                error: function(error) {
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
             });
@@ -37,12 +37,12 @@ $('#bt_haltSysteme').on('click', function() {
     });
 });
 
-$('#bt_rebootSysteme').on('click', function() {
+$('#bt_rebootSysteme').on('click', function () {
     $.hideAlert();
-    bootbox.confirm('{{Etes-vous sûr de vouloir redemarrer le système ?}}', function(result) {
+    bootbox.confirm('{{Etes-vous sûr de vouloir redemarrer le système ?}}', function (result) {
         if (result) {
             jeedom.rebootSystem({
-                error: function(error) {
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
             });
@@ -50,37 +50,54 @@ $('#bt_rebootSysteme').on('click', function() {
     });
 });
 
-$("#bt_nodeJsKey").on('click', function(event) {
+$("#bt_nodeJsKey").on('click', function (event) {
     $.hideAlert();
     genNodeJsKey();
 });
 
-$("#bt_flushMemcache").on('click', function(event) {
+$("#bt_flushMemcache").on('click', function (event) {
     $.hideAlert();
     flushMemcache();
 });
 
-$("#bt_clearJeedomLastDate").on('click', function(event) {
+$("#bt_clearJeedomLastDate").on('click', function (event) {
     $.hideAlert();
     clearJeedomDate();
 });
 
+$('.changeJeeNetworkMode').on('click', function () {
+    var mode = $(this).attr('data-mode');
+    bootbox.confirm('{{Etes-vous sûr de vouloir changer le mode de Jeedom. Cette opération est très risquée. Si vous passer de Maitre à Esclave cela va supprimer tous vos équipements, objet, vue, plan, plugin non compatible avec le fonctionnement deporté. Aucun retour en arriere n\'est possible ?}}', function (result) {
+        if (result) {
+            jeedom.jeeNetwork.changeMode({
+                mode: mode,
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function (data) {
+                    window.location.reload();
+                }
+            });
+        }
+    });
+});
 
-$("#bt_saveGeneraleConfig").on('click', function(event) {
+
+$("#bt_saveGeneraleConfig").on('click', function (event) {
     $.hideAlert();
     saveConvertColor();
     jeedom.config.save({
         configuration: $('#config').getValues('.configKey')[0],
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function() {
+        success: function () {
             jeedom.config.load({
                 configuration: $('#config').getValues('.configKey')[0],
-                error: function(error) {
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
-                success: function(data) {
+                success: function (data) {
                     $('#config').setValues(data, '.configKey');
                     modifyWithoutSave = false;
                     $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
@@ -90,7 +107,7 @@ $("#bt_saveGeneraleConfig").on('click', function(event) {
     });
 });
 
-$("#bt_testLdapConnection").on('click', function(event) {
+$("#bt_testLdapConnection").on('click', function (event) {
     $.hideAlert();
     $.ajax({
         type: 'POST',
@@ -99,10 +116,10 @@ $("#bt_testLdapConnection").on('click', function(event) {
             action: 'testLdapConneciton',
         },
         dataType: 'json',
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) {
+        success: function (data) {
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: '{{Connexion échouée :}} ' + data.result, level: 'danger'});
                 return;
@@ -113,12 +130,12 @@ $("#bt_testLdapConnection").on('click', function(event) {
     return false;
 });
 
-$('#bt_addColorConvert').on('click', function() {
+$('#bt_addColorConvert').on('click', function () {
     addConvertColor();
 });
 
-$('#bt_selectMailCmd').on('click', function() {
-    jeedom.cmd.getSelectModal({cmd: {type: 'action', subType: 'message'}}, function(result) {
+$('#bt_selectMailCmd').on('click', function () {
+    jeedom.cmd.getSelectModal({cmd: {type: 'action', subType: 'message'}}, function (result) {
         $('.configKey[data-l1key=emailAdmin]').atCaret('insert', result.human);
     });
 });
@@ -128,15 +145,15 @@ printConvertColor();
 $.showLoading();
 jeedom.config.load({
     configuration: $('#config').getValues('.configKey')[0],
-    error: function(error) {
+    error: function (error) {
         $('#div_alert').showAlert({message: error.message, level: 'danger'});
     },
-    success: function(data) {
+    success: function (data) {
         $('#config').setValues(data, '.configKey');
         modifyWithoutSave = false;
     }
 });
-$('body').delegate('.configKey', 'change', function() {
+$('body').delegate('.configKey', 'change', function () {
     modifyWithoutSave = true;
 });
 
@@ -148,10 +165,10 @@ function genKeyAPI() {
             action: "genKeyAPI"
         },
         dataType: 'json',
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) { // si l'appel a bien fonctionné
+        success: function (data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
@@ -169,10 +186,10 @@ function genNodeJsKey() {
             action: "genNodeJsKey"
         },
         dataType: 'json',
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) { // si l'appel a bien fonctionné
+        success: function (data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
@@ -190,10 +207,10 @@ function clearJeedomDate() {
             action: "clearDate"
         },
         dataType: 'json',
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) { // si l'appel a bien fonctionné
+        success: function (data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
@@ -212,10 +229,10 @@ function flushMemcache() {
             action: "flushcache"
         },
         dataType: 'json',
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) { // si l'appel a bien fonctionné
+        success: function (data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
@@ -236,10 +253,10 @@ function printConvertColor() {
             key: 'convertColor'
         },
         dataType: 'json',
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) { // si l'appel a bien fonctionné
+        success: function (data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
@@ -270,7 +287,7 @@ function addConvertColor(_color, _html) {
 function saveConvertColor() {
     var value = {};
     var colors = {};
-    $('#table_convertColor tbody tr').each(function() {
+    $('#table_convertColor tbody tr').each(function () {
         colors[$(this).find('.color').value()] = $(this).find('.html').value();
     });
     value.convertColor = colors;
@@ -282,10 +299,10 @@ function saveConvertColor() {
             value: json_encode(value)
         },
         dataType: 'json',
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) { // si l'appel a bien fonctionné
+        success: function (data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;

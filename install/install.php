@@ -260,12 +260,6 @@ try {
         $cron->save();
         $cron = new cron();
         $cron->setClass('plugin');
-        $cron->setFunction('cron');
-        $cron->setSchedule('* * * * * *');
-        $cron->setTimeout(5);
-        $cron->save();
-        $cron = new cron();
-        $cron->setClass('plugin');
         $cron->setFunction('cronDaily');
         $cron->setSchedule('00 00 * * *');
         $cron->setTimeout(5);
@@ -287,12 +281,6 @@ try {
         $cron->setFunction('cron');
         $cron->setSchedule('* * * * * *');
         $cron->setTimeout(60);
-        $cron->save();
-        $cron = new cron();
-        $cron->setClass('jeedom');
-        $cron->setFunction('persist');
-        $cron->setSchedule('* * * * * *');
-        $cron->setTimeout(5);
         $cron->save();
 
         echo __("Ajout de l\'utilisateur (admin,admin)\n", __FILE__);

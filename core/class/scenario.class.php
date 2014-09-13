@@ -174,6 +174,7 @@ class scenario {
         } else {
             $message = __('Scenario lance automatiquement sur programmation', __FILE__);
             $scenarios = scenario::all();
+            $dateOk = jeedom::isDateOk();
             foreach ($scenarios as $key => &$scenario) {
                 if ($scenario->getState() == 'in progress') {
                     if ($scenario->running()) {
@@ -192,7 +193,7 @@ class scenario {
                         $scenario->save();
                     }
                 }
-                if ($scenario->getIsActive() == 1 && $scenario->getState() != 'in progress' && ($scenario->getMode() == 'schedule' || $scenario->getMode() == 'all')) {
+                if ($dateOk && $scenario->getIsActive() == 1 && $scenario->getState() != 'in progress' && ($scenario->getMode() == 'schedule' || $scenario->getMode() == 'all')) {
                     if (!$scenario->isDue()) {
                         unset($scenarios[$key]);
                     }

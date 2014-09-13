@@ -434,6 +434,14 @@ class jeedom {
         } catch (Exception $e) {
             log::add('scenario', 'error', $e->getMessage());
         }
+        try {
+            $c = new Cron\CronExpression('00 * * * *', new Cron\FieldFactory);
+            if ($c->isDue()) {
+                self::isDateOk();
+            }
+        } catch (Exception $e) {
+            log::add('scenario', 'error', $e->getMessage());
+        }
     }
 
     public static function checkOngoingThread($_cmd) {
