@@ -264,6 +264,20 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 throw new Exception('La paramètre "state" ne peut être vide et doit avoir pour valuer [run,stop,enable;disable]');
             }
 
+
+            /*             * ************************JeeNetwork*************************** */
+            if ($jsonrpc->getMethod() == 'jeeNetwork::handshake') {
+                if (config::byKey('jeeNetwork::mode') != 'slave') {
+                    throw new Exception('Impossible d\'ajouter une box jeedom non esclave à un reseau Jeedom');
+                }
+                $return = array(
+                    'mode' => config::byKey('jeeNetwork::mode')
+                );
+                config::save('jeeNetwork::master::ip', getClientIp());
+                config::save('jeeNetwork::master::apikey', $params['apikey']);
+                $jsonrpc->makeSuccess($return);
+            }
+
             /*             * ************************************************************************ */
         }
         throw new Exception('Aucune méthode correspondante : ' . $jsonrpc->getMethod(), -32500);

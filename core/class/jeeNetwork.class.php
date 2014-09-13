@@ -88,7 +88,10 @@ class jeeNetwork {
 
     public function handshake() {
         $jsonrpc = $this->getJsonRpc();
-        if ($jsonrpc->sendRequest('jeeNetwork::handshake')) {
+        $params = array(
+            'apikey' => config::byKey('api')
+        );
+        if ($jsonrpc->sendRequest('jeeNetwork::handshake', $params)) {
             $result = $jsonrpc->getResult();
         } else {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
