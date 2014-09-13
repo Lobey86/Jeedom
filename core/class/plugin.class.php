@@ -36,6 +36,7 @@ class plugin {
     private $index;
     private $display;
     private $mobile;
+    private $allowRemote;
     private $include = array();
     private static $_cache = array();
 
@@ -70,6 +71,10 @@ class plugin {
         $plugin->version = (string) $plugin_xml->version;
         $plugin->installation = (string) $plugin_xml->installation;
         $plugin->category = (string) $plugin_xml->category;
+        $plugin->allowRemote = 0;
+        if (isset($plugin_xml->allowRemote)) {
+            $plugin->allowRemote = $plugin_xml->allowRemote;
+        }
         $plugin->filepath = $_id;
         $plugin->index = (isset($plugin_xml->index)) ? (string) $plugin_xml->index : $plugin_xml->id;
         $plugin->display = (isset($plugin_xml->display)) ? (string) $plugin_xml->display : '';
@@ -388,6 +393,14 @@ class plugin {
 
     public function setMobile($mobile) {
         $this->mobile = $mobile;
+    }
+
+    function getAllowRemote() {
+        return $this->allowRemote;
+    }
+
+    function setAllowRemote($allowRemote) {
+        $this->allowRemote = $allowRemote;
     }
 
 }
