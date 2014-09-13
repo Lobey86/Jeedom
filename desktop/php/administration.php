@@ -26,9 +26,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <div class="col-lg-1"> 
                                     <a class="btn btn-default form-control" id="bt_genKeyAPI">{{Générer}}</a>
                                 </div>
-                                <div class="alert-info col-lg-7" style="padding: 10px;">
-                                    {{Activation du cron : ajouter <em>* * * * * su --shell=/bin/bash - www-data -c "/usr/bin/php #PATH_TO_JEEDOM#/jeedom/core/php/jeeCron.php" >> /dev/null 2>&1</em> à la crontab}}
-                                </div>
                             </div>
                             <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
                                 <div class="form-group expertModeVisible">
