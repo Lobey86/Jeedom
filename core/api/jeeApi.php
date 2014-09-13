@@ -273,6 +273,9 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $return = array(
                     'mode' => config::byKey('jeeNetwork::mode')
                 );
+                foreach (plugin::listPlugin(true) as $plugin) {
+                    $return['plugin'][] = $plugin->getId();
+                }
                 config::save('jeeNetwork::master::ip', getClientIp());
                 config::save('jeeNetwork::master::apikey', $params['apikey']);
                 $jsonrpc->makeSuccess($return);

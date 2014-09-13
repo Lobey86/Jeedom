@@ -93,7 +93,10 @@ class jeeNetwork {
         );
         if ($jsonrpc->sendRequest('jeeNetwork::handshake', $params)) {
             $result = $jsonrpc->getResult();
+            $this->setStatus('ok');
+            $this->setPlugin($result['plugin']);
         } else {
+            $this->setStatus('erreur');
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
         }
     }
@@ -131,12 +134,12 @@ class jeeNetwork {
         $this->apikey = $apikey;
     }
 
-    public function getPlugin($_key = '', $_default = '') {
-        return utils::getJsonAttr($this->plugin, $_key, $_default);
+    public function getPlugin() {
+        return json_decode($this->plugin, true);
     }
 
-    public function setPlugin($_key, $_value) {
-        $this->plugin = utils::setJsonAttr($this->plugin, $_key, $_value);
+    public function setPlugin($plugins) {
+        $this->plugin = json_encode($plugins, JSON_UNESCAPED_UNICODE);
     }
 
     public function getConfiguration($_key = '', $_default = '') {
