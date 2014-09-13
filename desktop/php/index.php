@@ -147,7 +147,7 @@ if (count($plugins_list) > 0) {
                                                     <li><a href="index.php?v=d&p=update"><i class="fa fa-refresh"></i> {{Centre de mise à jour}}</a></li>
                                                     <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
                                                         <li class="expertModeVisible"><a href="index.php?v=d&p=timeline"><i class="fa fa-history"></i> {{Timeline}}</a></li>
-                                                        <li class="expertModeVisible"><a href="index.php?v=d&p=jeeNetwork"><i class="fa fa-sitemap"></i> {{Jeedom network}}</a></li>
+                                                        <li class="expertModeVisible"><a href="index.php?v=d&p=jeeNetwork"><i class="fa fa-sitemap"></i> {{Réseau Jeedom}}</a></li>
                                                     <?php } ?>
                                                     <li class="expertModeVisible"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
                                                     <li class='expertModeVisible'><a href="index.php?v=d&p=security"><i class="fa fa-lock"></i> {{Sécurité}}</a></li>
