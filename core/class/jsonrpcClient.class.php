@@ -40,6 +40,11 @@ class jsonrpcClient {
         if ($this->rawResult === false) {
             return false;
         }
+        if (!is_json($this->rawResult)) {
+            $this->error = '9999<br/>Message : ' . $this->rawResult;
+            $this->errorMessage = $this->rawResult;
+            return false;
+        }
         $result = json_decode(trim($this->rawResult), true);
 
         if (isset($result['result'])) {
@@ -61,7 +66,7 @@ class jsonrpcClient {
     private function send($_request, $_timeout = 10, $_file = null, $_maxRetry = 3) {
         $url = parse_url($this->apiAddr);
         $host = $url['host'];
-        if (!ip2long($host) && config::byKey('http::ping_disable') != 1) {
+        if (!ip2long($host) && config::byKey('http::ping_disable') != 1 && $host != '') {
             $timeout = config::byKey('http::ping_timeout', 'core', 2);
             exec("timeout $timeout ping -n -c 1 -W 2 $host", $output, $retval);
             if ($retval != 0) {

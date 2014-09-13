@@ -41,6 +41,12 @@ if (!isConnect('admin')) {
                         <input class="form-control jeeNetworkAttr" type="text" data-l1key="apikey" placeholder="Clef API"/>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">{{Statut}}</label>
+                    <div class="col-lg-3">
+                        <span class="label label-default jeeNetworkAttr" type="text" data-l1key="status" ></span>
+                    </div>
+                </div>
             </fieldset>
         </form>
         <hr/>

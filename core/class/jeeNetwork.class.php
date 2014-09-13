@@ -28,6 +28,7 @@ class jeeNetwork {
     private $plugin;
     private $configuration;
     private $name;
+    private $status;
 
     /*     * ***********************Methode static*************************** */
 
@@ -59,12 +60,46 @@ class jeeNetwork {
 
     /*     * *********************Methode d'instance************************* */
 
+    public function preUpdate() {
+        if ($this->getIp() == '') {
+            throw new Exception('L\'adresse IP ne peut etre vide');
+        }
+        if ($this->getApikey() == '') {
+            throw new Exception('La clef API ne peut etre vide');
+        }
+        if (!$this->ping()) {
+            throw new Exception(__('Impossible de résoudre communiquer avec : ', __FILE__) . $this->getIp());
+        }
+        $this->handshake();
+    }
+
     public function save() {
         return DB::save($this);
     }
 
     public function remove() {
         return DB::remove($this);
+    }
+
+    public function ping() {
+        exec("timeout 2 ping -n -c 1 -W 2 " . $this->getIp(), $output, $retval);
+        return ($retval == 0);
+    }
+
+    public function handshake() {
+        $jsonrpc = $this->getJsonRpc();
+        if ($jsonrpc->sendRequest('jeeNetwork::handshake')) {
+            $result = $jsonrpc->getResult();
+        } else {
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+        }
+    }
+
+    public function getJsonRpc() {
+        if ($this->getIp() == '') {
+            throw new Exception(__('Aucune addresse IP de renseignée pour : ', __FILE__) . $this->getName());
+        }
+        return new jsonrpcClient($this->getIp() . '/core/api/jeeApi.php', $this->getApikey());
     }
 
     /*     * **********************Getteur Setteur*************************** */
@@ -108,13 +143,21 @@ class jeeNetwork {
     public function setConfiguration($_key, $_value) {
         $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
-    
+
     public function getName() {
         return $this->name;
     }
 
     public function setName($name) {
         $this->name = $name;
+    }
+
+    function getStatus() {
+        return $this->status;
+    }
+
+    function setStatus($status) {
+        $this->status = $status;
     }
 
 }
