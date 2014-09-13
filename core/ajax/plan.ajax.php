@@ -60,7 +60,11 @@ try {
                 $link = 'index.php?v=d&p=plan&plan_id=' . $plan_link->getId();
                 $html = '<span class="plan-link-widget label label-success" data-link_id="' . $plan_link->getId() . '">';
                 $html .= '<a href="' . $link . '" style="color:white;text-decoration:none;font-size : 1.5em;">';
-                $html .= $plan_link->getName();
+                if ($plan->getDisplay('name') != '' || $plan->getDisplay('icon') != '') {
+                    $html .=$plan->getDisplay('icon') . ' ' . $plan->getDisplay('name');
+                } else {
+                    $html .= $plan_link->getName();
+                }
                 $html .= '</a>';
                 $html .= '</span>';
                 $return[] = array(
@@ -76,7 +80,11 @@ try {
                 $link = 'index.php?v=d&p=view&view_id=' . $view->getId();
                 $html = '<span class="view-link-widget label label-primary" data-link_id="' . $view->getId() . '" >';
                 $html .= '<a href="' . $link . '" style="color:white;text-decoration:none;font-size : 1.5em;">';
-                $html .= $view->getName();
+                if ($plan->getDisplay('name') != '' || $plan->getDisplay('icon') != '') {
+                    $html .=$plan->getDisplay('icon') . ' ' . $plan->getDisplay('name');
+                } else {
+                    $html .= $view->getName();
+                }
                 $html .= '</a>';
                 $html .= '</span>';
                 $return[] = array(

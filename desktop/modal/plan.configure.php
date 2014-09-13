@@ -92,12 +92,33 @@ sendVarToJS('id', $plan->getId());
                     </select>
                 </div>
             </div>
+        <?php } else if ($plan->getLink_type() == 'plan' || $plan->getLink_type() == 'view') { ?>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Nom}}</label>
+                <div class="col-lg-2">
+                    <input class="planAttr form-control" data-l1key="display" data-l2key="name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Icône}}</label>
+                <div class="col-lg-2">
+                    <div class="planAttr" data-l1key="display" data-l2key="icon" ></div>
+                </div>
+                <div class="col-lg-2">
+                    <a class="btn btn-default btn-sm" id="bt_chooseIcon"><i class="fa fa-flag"></i> {{Choisir une icône}}</a>
+                </div>
+            </div>
         <?php } ?>
     </fieldset>
 </form>
 
 
 <script>
+    $('#bt_chooseIcon').on('click', function() {
+        chooseIcon(function(_icon) {
+            $('.planAttr[data-l1key=display][data-l2key=icon]').empty().append(_icon);
+        });
+    });
 
     $('#bt_saveConfigurePlan').on('click', function() {
         save();
