@@ -7,8 +7,8 @@ if (!isConnect('admin')) {
 <div class="row row-overflow">
     <div class="col-lg-2">
         <div class="bs-sidebar">
-            <ul id="ul_object" class="nav nav-list bs-sidenav">
-                <a id="bt_addObject" class="btn btn-default" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter objet}}</a>
+            <ul id="ul_jeeNetwork" class="nav nav-list bs-sidenav">
+                <a id="bt_addJeeNetwork" class="btn btn-default" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter un Jeedom}}</a>
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
                 foreach (jeeNetwork::all() as $jeeNetwork) {
@@ -47,8 +47,8 @@ if (!isConnect('admin')) {
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
-                    <a class="btn btn-success" id="bt_saveObject"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
-                    <a class="btn btn-danger" id="bt_removeObject"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+                    <a class="btn btn-success" id="bt_saveJeeNetwork"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
+                    <a class="btn btn-danger" id="bt_removeJeeNetwork"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
                 </div>
 
             </fieldset>

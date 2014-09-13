@@ -16,11 +16,11 @@
  */
 
 
-jeedom.jeeNetwork = function() {
+jeedom.jeeNetwork = function () {
 };
 
-jeedom.jeeNetwork.all = function(_params) {
-    var paramsRequired = [];
+jeedom.jeeNetwork.remove = function (_params) {
+    var paramsRequired = ['id'];
     var paramsSpecifics = {};
     try {
         jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
@@ -32,13 +32,14 @@ jeedom.jeeNetwork.all = function(_params) {
     var paramsAJAX = jeedom.private.getParamsAJAX(params);
     paramsAJAX.url = 'core/ajax/jeeNetwork.ajax.php';
     paramsAJAX.data = {
-        action: 'all'
+        action: 'remove',
+        id: _params.id
     };
     $.ajax(paramsAJAX);
-}
+};
 
-jeedom.jeeNetwork.save = function(_params) {
-    var paramsRequired = ['jeeNetworks'];
+jeedom.jeeNetwork.save = function (_params) {
+    var paramsRequired = ['jeeNetwork'];
     var paramsSpecifics = {};
     try {
         jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
@@ -51,8 +52,28 @@ jeedom.jeeNetwork.save = function(_params) {
     paramsAJAX.url = 'core/ajax/jeeNetwork.ajax.php';
     paramsAJAX.data = {
         action: 'save',
-        crons: json_encode(_params.jeeNetworks),
+        jeeNetwork: json_encode(_params.jeeNetwork),
     };
     $.ajax(paramsAJAX);
-}
+};
+
+
+jeedom.jeeNetwork.byId = function (_params) {
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeeNetwork.ajax.php';
+    paramsAJAX.data = {
+        action: 'byId',
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
+};
 
