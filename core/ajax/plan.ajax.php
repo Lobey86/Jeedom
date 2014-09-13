@@ -58,7 +58,7 @@ try {
                     continue;
                 }
                 $link = '';
-                if (init('version', 'dashboard') == 'dashbaord') {
+                if (init('version', 'dashboard') == 'dashboard') {
                     $link = 'index.php?v=d&p=plan&plan_id=' . $plan_link->getId();
                 }
                 $html = '<span class="plan-link-widget label label-success" data-link_id="' . $plan_link->getId() . '">';
@@ -81,7 +81,7 @@ try {
                     continue;
                 }
                 $link = '';
-                if (init('version', 'dashboard') == 'dashbaord') {
+                if (init('version', 'dashboard') == 'dashboard') {
                     $link = 'index.php?v=d&p=view&view_id=' . $view->getId();
                 }
                 $html = '<span class="view-link-widget label label-primary" data-link_id="' . $view->getId() . '" >';
