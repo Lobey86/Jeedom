@@ -180,7 +180,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             </div>
                             <div class="form-group expertModeVisible alert alert-danger">
                                 <label class="col-lg-2 control-label">{{Mode}}</label>
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <?php
                                     if (config::byKey('jeeNetwork::mode') == 'master') {
                                         echo '<a class="btn btn-success changeJeeNetworkMode" data-mode="master">{{Maitre}}</a> ';
@@ -192,6 +192,16 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     ?>
                                 </div>
                             </div>
+                            <?php
+                            if (config::byKey('jeeNetwork::mode') == 'slave') {
+                                echo '<div class="form-group expertModeVisible">';
+                                echo '<label class="col-lg-2 control-label">{{IP Maitre}}</label>';
+                                echo '<div class="col-lg-6">';
+                                echo config::byKey('jeeNetwork::master::ip');
+                                echo '</div>';
+                                echo '</div>';
+                            }
+                            ?>
                         </fieldset>
                     </form>
                 </div>
@@ -257,13 +267,13 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">{{Moteur de cache}}</label>
                                 <div class="col-lg-3">
-                                    <?php
-                                    if (extension_loaded('memcached')) {
-                                        echo '<span class="label label-success">Memcache</span>';
-                                    } else {
-                                        echo '<span class="label label-warning">MySQL</span>';
-                                    }
-                                    ?>
+<?php
+if (extension_loaded('memcached')) {
+    echo '<span class="label label-success">Memcache</span>';
+} else {
+    echo '<span class="label label-warning">MySQL</span>';
+}
+?>
                                 </div>
                             </div>
                         </fieldset>
@@ -699,4 +709,4 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
         </div>
     </div>
 
-    <?php include_file("desktop", "administration", "js"); ?>
+<?php include_file("desktop", "administration", "js"); ?>
