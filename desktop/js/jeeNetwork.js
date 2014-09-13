@@ -36,6 +36,11 @@ $(".li_jeeNetwork").on('click', function (event) {
         success: function (data) {
             $('.jeeNetworkAttr').value('');
             $('.jeeNetwork').setValues(data, '.jeeNetworkAttr');
+            var plugin = '';
+            for (var i in data.plugin) {
+                plugin += '<span class="label label-info">' + data.plugin[i] + '</span> ';
+            }
+            $('#div_pluginList').empty().append(plugin);
             modifyWithoutSave = false;
         }
     });
@@ -112,6 +117,6 @@ if (is_numeric(getUrlVars('id'))) {
     $('#ul_jeeNetwork .li_jeeNetwork:first').click();
 }
 
-$('body').delegate('.objectAttr', 'change', function() {
+$('body').delegate('.objectAttr', 'change', function () {
     modifyWithoutSave = true;
 });
