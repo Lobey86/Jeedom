@@ -158,9 +158,6 @@ class jeeNetwork {
         if ($this->getApikey() == '') {
             throw new Exception('La clef API ne peut etre vide');
         }
-        if (!$this->ping()) {
-            throw new Exception(__('Impossible de résoudre communiquer avec : ', __FILE__) . $this->getIp());
-        }
         $this->handshake();
     }
 
@@ -170,11 +167,6 @@ class jeeNetwork {
 
     public function remove() {
         return DB::remove($this);
-    }
-
-    public function ping() {
-        exec("timeout 2 ping -n -c 1 -W 2 " . $this->getIp(), $output, $retval);
-        return ($retval == 0);
     }
 
     public function handshake() {
