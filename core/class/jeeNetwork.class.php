@@ -172,7 +172,7 @@ class jeeNetwork {
     public function handshake() {
         $jsonrpc = $this->getJsonRpc();
         $params = array(
-            'apikey' => config::byKey('api'),
+            'apikey_master' => config::byKey('api'),
             'address' => config::byKey('internalAddr')
         );
         if ($jsonrpc->sendRequest('jeeNetwork::handshake', $params)) {
