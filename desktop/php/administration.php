@@ -166,15 +166,15 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 control-label">{{IP interne}}</label>
+                                <label class="col-lg-2 control-label">{{Adresse interne}}</label>
                                 <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="internalIP" />
+                                    <input type="text"  class="configKey form-control" data-l1key="internalAddr" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 control-label">{{IP externe}}</label>
+                                <label class="col-lg-2 control-label">{{Adresse externe}}</label>
                                 <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="externalP" />
+                                    <input type="text"  class="configKey form-control" data-l1key="externalAddr" />
                                 </div>
                             </div>
                             <div class="form-group expertModeVisible alert alert-danger">
