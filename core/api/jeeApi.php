@@ -281,6 +281,9 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $address = (isset($params['address']) && $params['address'] != '') ? $params['address'] : getClientIp();
                 config::save('jeeNetwork::master::ip', $address);
                 config::save('jeeNetwork::master::apikey', $params['apikey_master']);
+                if (config::byKey('internalAddr') == '') {
+                    config::save('internalAddr', $params['slave_ip']);
+                }
                 $jsonrpc->makeSuccess($return);
             }
 

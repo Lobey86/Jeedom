@@ -173,7 +173,8 @@ class jeeNetwork {
         $jsonrpc = $this->getJsonRpc();
         $params = array(
             'apikey_master' => config::byKey('api'),
-            'address' => config::byKey('internalAddr')
+            'address' => config::byKey('internalAddr'),
+            'slave_ip' => $this->getRealIp()
         );
         if ($jsonrpc->sendRequest('jeeNetwork::handshake', $params)) {
             $result = $jsonrpc->getResult();
@@ -190,6 +191,15 @@ class jeeNetwork {
             throw new Exception(__('Aucune addresse IP de renseignée pour : ', __FILE__) . $this->getName());
         }
         return new jsonrpcClient($this->getIp() . '/core/api/jeeApi.php', $this->getApikey());
+    }
+
+    public function getRealIp() {
+        $ip = $this->getIp();
+        $pos = strpos($ip, '/');
+        if ($pos > 0) {
+            $ip = substr($ip, 0, $pos);
+        }
+        return $ip;
     }
 
     /*     * **********************Getteur Setteur*************************** */
