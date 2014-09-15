@@ -216,12 +216,10 @@ function getJeedomSlaveLog(_autoUpdate, _log) {
             for (var i in data.result.reverse()) {
                 log += data.result[i][2].replace(regex, "\n");
                 if ($.trim(data.result[i][2].replace(regex, "\n")) == '[END ' + _log.toUpperCase() + ' SUCCESS]') {
-                    printUpdate();
                     $('#div_alert').showAlert({message: '{{L\'opération est réussie}}', level: 'success'});
                     _autoUpdate = 0;
                 }
                 if ($.trim(data.result[i][2].replace(regex, "\n")) == '[END ' + _log.toUpperCase() + ' ERROR]') {
-                    printUpdate();
                     $('#div_alert').showAlert({message: '{{L\'opération a échoué}}', level: 'danger'});
                     _autoUpdate = 0;
                 }
