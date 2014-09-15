@@ -109,7 +109,9 @@ if (!isConnect('admin')) {
             </div>
         </div>
         <legend>{{Log :}}</legend>
-        <select id="sel_logSlave"></select>
+        <select id="sel_logSlave" class="form-control" style="display: inline-block;width: 200px;"></select>
+        <a class="btn btn-success" id="bt_showLog">Voir</a>
+        <br/><br/>
         <pre id="pre_updateInfo"></pre>
         <hr/>
         <form class="form-horizontal">

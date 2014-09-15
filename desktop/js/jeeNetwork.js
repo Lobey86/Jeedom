@@ -49,8 +49,6 @@ $(".li_jeeNetwork").on('click', function (event) {
             modifyWithoutSave = false;
         }
     });
-
-
     jeedom.jeeNetwork.listLog({
         id: $(this).attr('data-jeeNetwork_id'),
         error: function (error) {
@@ -64,10 +62,26 @@ $(".li_jeeNetwork").on('click', function (event) {
             $('#sel_logSlave').empty().append(option);
         }
     });
-
-
-
     return false;
+});
+
+$('#bt_showLog').on('click', function () {
+    jeedom.jeeNetwork.getLog({
+        id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+        log: $('#sel_logSlave').value(),
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function (data) {
+            var log = '';
+            var regex = /<br\s*[\/]?>/gi;
+            for (var i in data.reverse()) {
+                log += data[i][2].replace(regex, "\n");
+                log += "\n";
+            }
+            $('#pre_updateInfo').text(log);
+        }
+    });
 });
 
 $('#bt_haltSysteme').on('click', function () {
