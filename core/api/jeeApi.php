@@ -270,17 +270,17 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (config::byKey('jeeNetwork::mode') != 'slave') {
                     throw new Exception('Impossible d\'ajouter une box jeedom non esclave à un reseau Jeedom');
                 }
-                $uiaKey = config::byKey('uiaKey');
+                $uiaKey = config::byKey('auiKey');
                 if ($uiaKey == '') {
-                    $uiaKey = config::genKey(255);
-                    config::save('uiaKey', $uiaKey);
+                    $auiKey = config::genKey(255);
+                    config::save('auiKey', $auiKey);
                 }
                 $return = array(
                     'mode' => config::byKey('jeeNetwork::mode'),
                     'nbUpdate' => update::nbNeedUpdate(),
                     'version' => getVersion('jeedom'),
                     'nbMessage' => message::nbMessage(),
-                    'auiKey' => $uiaKey
+                    'auiKey' => $auiKey
                 );
                 foreach (plugin::listPlugin(true) as $plugin) {
                     if ($plugin->getAllowRemote() == 1) {
