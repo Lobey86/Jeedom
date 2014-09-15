@@ -80,6 +80,12 @@ if (!isConnect('admin')) {
                                 <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="nbMessage" ></span>
                             </div>
                         </div>
+                          <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Derniere communication}}</label>
+                            <div class="col-lg-3">
+                                <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="lastCommunication" ></span>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">{{Plugin}}</label>
                             <div class="col-lg-6" id="div_pluginList"></div>
