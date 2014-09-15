@@ -69,6 +69,23 @@ $('#bt_haltSysteme').on('click', function () {
     });
 });
 
+$('#bt_rebootSysteme').on('click', function () {
+    $.hideAlert();
+    bootbox.confirm('{{Etes-vous sûr de vouloir redémarrer ce Jeedom esclave ?}}', function (result) {
+        if (result) {
+            jeedom.jeeNetwork.rebootSystem({
+                id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function (data) {
+                    $('#div_alert').showAlert({message: 'Le système est en cours de redémarrage', level: 'success'});
+                }
+            });
+        }
+    });
+});
+
 $('#bt_updateSlave').on('click', function () {
     $.hideAlert();
     bootbox.confirm('{{Etes-vous sûr de vouloir mettre à jour ce Jeedom esclave ?}}', function (result) {
@@ -88,34 +105,13 @@ $('#bt_updateSlave').on('click', function () {
 
 $('#bt_checkUpdateSlave').on('click', function () {
     $.hideAlert();
-    bootbox.confirm('{{Etes-vous sûr de vouloir mettre à jour ce Jeedom esclave ?}}', function (result) {
-        if (result) {
-            jeedom.jeeNetwork.checkUpdate({
-                id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
-                error: function (error) {
-                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                },
-                success: function (data) {
-                    $('.li_jeeNetwork.active').click();
-                }
-            });
-        }
-    });
-});
-
-$('#bt_rebootSysteme').on('click', function () {
-    $.hideAlert();
-    bootbox.confirm('{{Etes-vous sûr de vouloir redémarrer ce Jeedom esclave ?}}', function (result) {
-        if (result) {
-            jeedom.jeeNetwork.rebootSystem({
-                id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
-                error: function (error) {
-                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                },
-                success: function (data) {
-                    $('#div_alert').showAlert({message: 'Le système est en cours de redémarrage', level: 'success'});
-                }
-            });
+    jeedom.jeeNetwork.checkUpdate({
+        id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function (data) {
+            $('.li_jeeNetwork.active').click();
         }
     });
 });

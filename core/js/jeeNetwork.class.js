@@ -153,7 +153,7 @@ jeedom.jeeNetwork.update = function(_params) {
     $.ajax(paramsAJAX);
 };
 
-jeedom.jeeNetwork.checlUpdate = function(_params) {
+jeedom.jeeNetwork.checkUpdate = function(_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {};
     try {
