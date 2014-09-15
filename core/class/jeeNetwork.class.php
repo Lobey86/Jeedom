@@ -215,6 +215,20 @@ class jeeNetwork {
         }
     }
 
+    public function halt() {
+        $jsonrpc = $this->getJsonRpc();
+        if (!$jsonrpc->sendRequest('jeeNetwork::halt', array())) {
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+        }
+    }
+
+    public function reboot() {
+        $jsonrpc = $this->getJsonRpc();
+        if (!$jsonrpc->sendRequest('jeeNetwork::reboot', array())) {
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+        }
+    }
+
     public function getJsonRpc() {
         if ($this->getIp() == '') {
             throw new Exception(__('Aucune addresse IP de renseignée pour : ', __FILE__) . $this->getName());

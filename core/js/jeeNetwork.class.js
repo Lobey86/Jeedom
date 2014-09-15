@@ -16,10 +16,10 @@
  */
 
 
-jeedom.jeeNetwork = function () {
+jeedom.jeeNetwork = function() {
 };
 
-jeedom.jeeNetwork.remove = function (_params) {
+jeedom.jeeNetwork.remove = function(_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {};
     try {
@@ -38,7 +38,7 @@ jeedom.jeeNetwork.remove = function (_params) {
     $.ajax(paramsAJAX);
 };
 
-jeedom.jeeNetwork.save = function (_params) {
+jeedom.jeeNetwork.save = function(_params) {
     var paramsRequired = ['jeeNetwork'];
     var paramsSpecifics = {};
     try {
@@ -58,7 +58,7 @@ jeedom.jeeNetwork.save = function (_params) {
 };
 
 
-jeedom.jeeNetwork.byId = function (_params) {
+jeedom.jeeNetwork.byId = function(_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {};
     try {
@@ -77,7 +77,7 @@ jeedom.jeeNetwork.byId = function (_params) {
     $.ajax(paramsAJAX);
 };
 
-jeedom.jeeNetwork.changeMode = function (_params) {
+jeedom.jeeNetwork.changeMode = function(_params) {
     var paramsRequired = ['mode'];
     var paramsSpecifics = {};
     try {
@@ -92,6 +92,44 @@ jeedom.jeeNetwork.changeMode = function (_params) {
     paramsAJAX.data = {
         action: 'changeMode',
         mode: _params.mode
+    };
+    $.ajax(paramsAJAX);
+};
+
+jeedom.jeeNetwork.haltSystem = function(_params) {
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeeNetwork.ajax.php';
+    paramsAJAX.data = {
+        action: 'haltSystem',
+        id: _params.id
+    };
+    $.ajax(paramsAJAX);
+};
+
+jeedom.jeeNetwork.rebootSystem = function(_params) {
+    var paramsRequired = ['id'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeeNetwork.ajax.php';
+    paramsAJAX.data = {
+        action: 'rebootSystem',
+        id: _params.id
     };
     $.ajax(paramsAJAX);
 };

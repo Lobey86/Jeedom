@@ -52,7 +52,39 @@ $(".li_jeeNetwork").on('click', function(event) {
     return false;
 });
 
+$('#bt_haltSysteme').on('click', function() {
+    $.hideAlert();
+    bootbox.confirm('{{Etes-vous sûr de vouloir arrêter ce Jeedom esclave ?}}', function(result) {
+        if (result) {
+            jeedom.jeeNetwork.haltSystem({
+                id : $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function(data) {
+                    $('#div_alert').showAlert({message: 'Le système est en cours d\'arrêt', level: 'success'});
+                }
+            });
+        }
+    });
+});
 
+$('#bt_rebootSysteme').on('click', function() {
+    $.hideAlert();
+    bootbox.confirm('{{Etes-vous sûr de vouloir redémarrer ce Jeedom esclave ?}}', function(result) {
+        if (result) {
+            jeedom.jeeNetwork.rebootSystem({
+                id : $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+                error: function(error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function(data) {
+                    $('#div_alert').showAlert({message: 'Le système est en cours de redémarrage', level: 'success'});
+                }
+            });
+        }
+    });
+});
 
 $("#bt_addJeeNetwork").on('click', function(event) {
     bootbox.prompt("Nom de du Jeedom esclave ?", function(result) {

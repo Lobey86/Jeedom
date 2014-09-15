@@ -43,10 +43,17 @@ if (!isConnect('admin')) {
                                 <input class="form-control jeeNetworkAttr" type="text" data-l1key="apikey" placeholder="Clef API"/>
                             </div>
                         </div>
-                          <div class="form-group">
-                            <label class="col-lg-4 control-label">{{Acceder (attention ne marche que si vous etes sur le reseau local)}}</label>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Accéder (attention ne marche que si vous etes sur le reseau local)}}</label>
                             <div class="col-lg-6">
                                 <a class="btn btn-default" id="bt_connectToSlave" target="_blank">Se connecter</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Arrêter/Redémarrer}}</label>
+                            <div class="col-lg-6">
+                                <a class="btn btn-danger" id="bt_stop"><i class="fa fa-stop"></i> {{Arrêter}}</a>
+                                <a class="btn btn-warning" id="bt_stop"><i class="fa fa-repeat"></i> {{Redémarrer}}</a>
                             </div>
                         </div>
                     </fieldset>
@@ -80,7 +87,7 @@ if (!isConnect('admin')) {
                                 <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="nbMessage" ></span>
                             </div>
                         </div>
-                          <div class="form-group">
+                        <div class="form-group">
                             <label class="col-lg-4 control-label">{{Derniere communication}}</label>
                             <div class="col-lg-3">
                                 <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="lastCommunication" ></span>

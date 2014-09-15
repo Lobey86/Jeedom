@@ -44,6 +44,22 @@ try {
         ajax::success(utils::o2a($jeeNetwork));
     }
 
+    if (init('action') == 'haltSystem') {
+        $jeeNetwork = jeeNetwork::byId(init('id'));
+        if (!is_object($jeeNetwork)) {
+            throw new Exception(__('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
+        }
+        ajax::success($jeeNetwork->halt());
+    }
+
+    if (init('action') == 'rebootSystem') {
+        $jeeNetwork = jeeNetwork::byId(init('id'));
+        if (!is_object($jeeNetwork)) {
+            throw new Exception(__('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
+        }
+        ajax::success($jeeNetwork->reboot());
+    }
+
     if (init('action') == 'all') {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
@@ -64,7 +80,7 @@ try {
         }
         utils::a2o($jeeNetwork, $jeeNetwork_json);
         $jeeNetwork->save();
-      //  $jeeNetwork->reload();
+        //  $jeeNetwork->reload();
         ajax::success(utils::o2a($jeeNetwork));
     }
 
