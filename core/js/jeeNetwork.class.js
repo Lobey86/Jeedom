@@ -249,3 +249,44 @@ jeedom.jeeNetwork.removeAllMessage = function (_params) {
     $.ajax(paramsAJAX);
 };
 
+
+jeedom.jeeNetwork.emptyLog = function (_params) {
+    var paramsRequired = ['id', 'log'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeeNetwork.ajax.php';
+    paramsAJAX.data = {
+        action: 'emptyLog',
+        id: _params.id,
+        log: _params.log,
+    };
+    $.ajax(paramsAJAX);
+};
+
+
+jeedom.jeeNetwork.removeLog = function (_params) {
+    var paramsRequired = ['id', 'log'];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeeNetwork.ajax.php';
+    paramsAJAX.data = {
+        action: 'removeLog',
+        id: _params.id,
+        log: _params.log,
+    };
+    $.ajax(paramsAJAX);
+};

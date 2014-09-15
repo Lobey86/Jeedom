@@ -336,6 +336,14 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $jsonrpc->makeSuccess(log::liste());
             }
 
+            if ($jsonrpc->getMethod() == 'log::empty') {
+                $jsonrpc->makeSuccess(log::clear($params['log']));
+            }
+
+            if ($jsonrpc->getMethod() == 'log::remove') {
+                $jsonrpc->makeSuccess(log::remove($params['log']));
+            }
+
             /*             * ************************Messages*************************** */
             if ($jsonrpc->getMethod() == 'message::removeAll') {
                 $jsonrpc->makeSuccess(message::removeAll());

@@ -88,6 +88,45 @@ $('#bt_showLog').on('click', function () {
     });
 });
 
+$('#bt_emptyLog').on('click', function () {
+    jeedom.jeeNetwork.emptyLog({
+        id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+        log: $('#sel_logSlave').value(),
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function (data) {
+            $('#pre_updateInfo').empty();
+        }
+    });
+});
+
+$('#bt_removeLog').on('click', function () {
+    jeedom.jeeNetwork.removeLog({
+        id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+        log: $('#sel_logSlave').value(),
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function (data) {
+            jeedom.jeeNetwork.listLog({
+                id: $(this).attr('data-jeeNetwork_id'),
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function (data) {
+                    var option = '';
+                    for (var i in data) {
+                        option += '<option>' + data[i] + '</option>';
+                    }
+                    $('#sel_logSlave').empty().append(option);
+                }
+            });
+            $('#pre_updateInfo').empty();
+        }
+    });
+});
+
 $('#bt_haltSysteme').on('click', function () {
     $.hideAlert();
     bootbox.confirm('{{Etes-vous sûr de vouloir arrêter ce Jeedom esclave ?}}', function (result) {

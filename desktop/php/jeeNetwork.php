@@ -111,8 +111,10 @@ if (!isConnect('admin')) {
         <legend>{{Logs & messages :}}</legend>
         <select id="sel_logSlave" class="form-control" style="display: inline-block;width: 200px;"></select>
         <a class="btn btn-success" id="bt_showLog">Voir</a>
+        <a class="btn btn-warning" id="bt_emptyLog"><i class="fa fa-times"></i> Vider</a>
+        <a class="btn btn-danger" id="bt_removeLog"><i class="fa fa-trash-o"></i> Supprimer</a>
         <a class="btn btn-default pull-right" id="bt_showMessage"><i class="fa fa-eye"></i> Voir les messages</a>
-        <a class="btn btn-danger pull-right" id="bt_emptyMessage"><i class="fa fa-trash-o icon-white"></i> Vider les messages</a>
+        <a class="btn btn-danger pull-right" id="bt_emptyMessage"><i class="fa fa-trash-o"></i> Vider les messages</a>
         <br/><br/>
         <pre id="pre_updateInfo"></pre>
         <hr/>

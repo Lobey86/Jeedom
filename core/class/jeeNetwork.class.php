@@ -262,6 +262,26 @@ class jeeNetwork {
         }
     }
 
+    public function emptyLog($_log = 'core') {
+        $jsonrpc = $this->getJsonRpc();
+        $params = array(
+            'log' => $_log,
+        );
+        if (!$jsonrpc->sendRequest('log::empty', $params)) {
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+        }
+    }
+
+    public function removeLog($_log = 'core') {
+        $jsonrpc = $this->getJsonRpc();
+        $params = array(
+            'log' => $_log,
+        );
+        if (!$jsonrpc->sendRequest('log::remove', $params)) {
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+        }
+    }
+
     public function getListLog() {
         $jsonrpc = $this->getJsonRpc();
         if ($jsonrpc->sendRequest('log::list', array())) {
