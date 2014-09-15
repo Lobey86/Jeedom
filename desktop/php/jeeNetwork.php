@@ -46,7 +46,7 @@ if (!isConnect('admin')) {
                         <div class="form-group">
                             <label class="col-lg-4 control-label">{{Accéder (attention ne marche que si vous etes sur le reseau local)}}</label>
                             <div class="col-lg-6">
-                                <a class="btn btn-default" id="bt_connectToSlave" target="_blank">Se connecter</a>
+                                <a class="btn btn-default" id="bt_connectToSlave" target="_blank">{{Se connecter}}</a>
                             </div>
                         </div>
                         <div class="form-group">
@@ -54,6 +54,13 @@ if (!isConnect('admin')) {
                             <div class="col-lg-6">
                                 <a class="btn btn-danger" id="bt_stop"><i class="fa fa-stop"></i> {{Arrêter}}</a>
                                 <a class="btn btn-warning" id="bt_stop"><i class="fa fa-repeat"></i> {{Redémarrer}}</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Mise à jour}}</label>
+                            <div class="col-lg-6">
+                                <a class="btn btn-default" id="bt_checkUpdateSlave">{{Vérifier}}</a>
+                                <a class="btn btn-default" id="bt_updateSlave">{{Mettre à jour}}</a>
                             </div>
                         </div>
                     </fieldset>

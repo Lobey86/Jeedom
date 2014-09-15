@@ -23,17 +23,17 @@ if (getUrlVars('removeSuccessFull') == 1) {
     $('#div_alert').showAlert({message: '{{Suppression effectuée avec succès}}', level: 'success'});
 }
 
-$(".li_jeeNetwork").on('click', function(event) {
+$(".li_jeeNetwork").on('click', function (event) {
     $('#div_conf').show();
     $('.li_jeeNetwork').removeClass('active');
     $(this).addClass('active');
     jeedom.jeeNetwork.byId({
         id: $(this).attr('data-jeeNetwork_id'),
         cache: false,
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(data) {
+        success: function (data) {
             $('.jeeNetworkAttr').value('');
             $('.jeeNetwork').setValues(data, '.jeeNetworkAttr');
             var plugin = '';
@@ -52,16 +52,16 @@ $(".li_jeeNetwork").on('click', function(event) {
     return false;
 });
 
-$('#bt_haltSysteme').on('click', function() {
+$('#bt_haltSysteme').on('click', function () {
     $.hideAlert();
-    bootbox.confirm('{{Etes-vous sûr de vouloir arrêter ce Jeedom esclave ?}}', function(result) {
+    bootbox.confirm('{{Etes-vous sûr de vouloir arrêter ce Jeedom esclave ?}}', function (result) {
         if (result) {
             jeedom.jeeNetwork.haltSystem({
-                id : $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
-                error: function(error) {
+                id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
-                success: function(data) {
+                success: function (data) {
                     $('#div_alert').showAlert({message: 'Le système est en cours d\'arrêt', level: 'success'});
                 }
             });
@@ -69,16 +69,50 @@ $('#bt_haltSysteme').on('click', function() {
     });
 });
 
-$('#bt_rebootSysteme').on('click', function() {
+$('#bt_updateSlave').on('click', function () {
     $.hideAlert();
-    bootbox.confirm('{{Etes-vous sûr de vouloir redémarrer ce Jeedom esclave ?}}', function(result) {
+    bootbox.confirm('{{Etes-vous sûr de vouloir mettre à jour ce Jeedom esclave ?}}', function (result) {
         if (result) {
-            jeedom.jeeNetwork.rebootSystem({
-                id : $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
-                error: function(error) {
+            jeedom.jeeNetwork.update({
+                id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
-                success: function(data) {
+                success: function (data) {
+                    $('#div_alert').showAlert({message: 'Le système est en cours de mise à jour', level: 'success'});
+                }
+            });
+        }
+    });
+});
+
+$('#bt_checkUpdateSlave').on('click', function () {
+    $.hideAlert();
+    bootbox.confirm('{{Etes-vous sûr de vouloir mettre à jour ce Jeedom esclave ?}}', function (result) {
+        if (result) {
+            jeedom.jeeNetwork.checkUpdate({
+                id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function (data) {
+                    $('.li_jeeNetwork.active').click();
+                }
+            });
+        }
+    });
+});
+
+$('#bt_rebootSysteme').on('click', function () {
+    $.hideAlert();
+    bootbox.confirm('{{Etes-vous sûr de vouloir redémarrer ce Jeedom esclave ?}}', function (result) {
+        if (result) {
+            jeedom.jeeNetwork.rebootSystem({
+                id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function (data) {
                     $('#div_alert').showAlert({message: 'Le système est en cours de redémarrage', level: 'success'});
                 }
             });
@@ -86,15 +120,15 @@ $('#bt_rebootSysteme').on('click', function() {
     });
 });
 
-$("#bt_addJeeNetwork").on('click', function(event) {
-    bootbox.prompt("Nom de du Jeedom esclave ?", function(result) {
+$("#bt_addJeeNetwork").on('click', function (event) {
+    bootbox.prompt("Nom de du Jeedom esclave ?", function (result) {
         if (result !== null) {
             jeedom.jeeNetwork.save({
                 jeeNetwork: {name: result},
-                error: function(error) {
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
-                success: function(data) {
+                success: function (data) {
                     modifyWithoutSave = false;
                     window.location.replace('index.php?v=d&p=jeeNetwork&id=' + data.id + '&saveSuccessFull=1');
                 }
@@ -103,14 +137,14 @@ $("#bt_addJeeNetwork").on('click', function(event) {
     });
 });
 
-$("#bt_saveJeeNetwork").on('click', function(event) {
+$("#bt_saveJeeNetwork").on('click', function (event) {
     if ($('.li_jeeNetwork.active').attr('data-jeeNetwork_id') != undefined) {
         jeedom.jeeNetwork.save({
             jeeNetwork: $('.jeeNetwork').getValues('.jeeNetworkAttr')[0],
-            error: function(error) {
+            error: function (error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
-            success: function(data) {
+            success: function (data) {
                 modifyWithoutSave = false;
                 window.location.replace('index.php?v=d&p=jeeNetwork&id=' + data.id + '&saveSuccessFull=1');
             }
@@ -121,17 +155,17 @@ $("#bt_saveJeeNetwork").on('click', function(event) {
     return false;
 });
 
-$("#bt_removeJeeNetwork").on('click', function(event) {
+$("#bt_removeJeeNetwork").on('click', function (event) {
     if ($('.li_jeeNetwork.active').attr('data-jeeNetwork_id') != undefined) {
         $.hideAlert();
-        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer la connexion jeeNetwork}} <span style="font-weight: bold ;">' + $('.li_jeeNetwork.active a').text() + '</span> ?', function(result) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer la connexion jeeNetwork}} <span style="font-weight: bold ;">' + $('.li_jeeNetwork.active a').text() + '</span> ?', function (result) {
             if (result) {
                 jeedom.jeeNetwork.remove({
                     id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
-                    error: function(error) {
+                    error: function (error) {
                         $('#div_alert').showAlert({message: error.message, level: 'danger'});
                     },
-                    success: function() {
+                    success: function () {
                         modifyWithoutSave = false;
                         window.location.replace('index.php?v=d&p=jeeNetwork&removeSuccessFull=1');
                     }
@@ -154,6 +188,6 @@ if (is_numeric(getUrlVars('id'))) {
     $('#ul_jeeNetwork .li_jeeNetwork:first').click();
 }
 
-$('body').delegate('.objectAttr', 'change', function() {
+$('body').delegate('.objectAttr', 'change', function () {
     modifyWithoutSave = true;
 });

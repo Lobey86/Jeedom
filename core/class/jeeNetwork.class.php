@@ -153,7 +153,6 @@ class jeeNetwork {
         foreach (self::all() as $jeeNetwork) {
             if ($jeeNetwork->getStatus() == 'ok') {
                 try {
-                    $jeeNetwork->handshake();
                     $jeeNetwork->save();
                 } catch (Exception $e) {
                     log::add('jeeNetwork', 'error', $e->getMessage());
@@ -225,6 +224,22 @@ class jeeNetwork {
     public function reboot() {
         $jsonrpc = $this->getJsonRpc();
         if (!$jsonrpc->sendRequest('jeeNetwork::reboot', array())) {
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+        }
+    }
+
+    public function update() {
+        $jsonrpc = $this->getJsonRpc();
+        if (!$jsonrpc->sendRequest('jeeNetwork::update', array())) {
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+        }
+    }
+
+    public function checkUpdate() {
+        $jsonrpc = $this->getJsonRpc();
+        if ($jsonrpc->sendRequest('jeeNetwork::update', array())) {
+            $this->save();
+        } else {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
         }
     }

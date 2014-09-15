@@ -317,6 +317,16 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $jsonrpc->makeSuccess('ok');
             }
 
+            if ($jsonrpc->getMethod() == 'jeeNetwork::update') {
+                jeedom::update('', 0);
+                $jsonrpc->makeSuccess('ok');
+            }
+
+            if ($jsonrpc->getMethod() == 'jeeNetwork::checkUpdate') {
+                update::checkAllUpdate();
+                $jsonrpc->makeSuccess('ok');
+            }
+
             /*             * ************************************************************************ */
         }
         throw new Exception('Aucune méthode correspondante : ' . $jsonrpc->getMethod(), -32500);

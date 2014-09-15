@@ -60,6 +60,22 @@ try {
         ajax::success($jeeNetwork->reboot());
     }
 
+    if (init('action') == 'update') {
+        $jeeNetwork = jeeNetwork::byId(init('id'));
+        if (!is_object($jeeNetwork)) {
+            throw new Exception(__('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
+        }
+        ajax::success($jeeNetwork->update());
+    }
+    
+     if (init('action') == 'checkUpdate') {
+        $jeeNetwork = jeeNetwork::byId(init('id'));
+        if (!is_object($jeeNetwork)) {
+            throw new Exception(__('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
+        }
+        ajax::success($jeeNetwork->checkUpdate());
+    }
+
     if (init('action') == 'all') {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
