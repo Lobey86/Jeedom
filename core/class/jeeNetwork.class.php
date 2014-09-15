@@ -196,6 +196,7 @@ class jeeNetwork {
             $this->setPlugin($result['plugin']);
             $this->setConfiguration('nbUpdate', $result['nbUpdate']);
             $this->setConfiguration('version', $result['version']);
+            $this->setConfiguration('nbMessage', $result['nbMessage']);
         } else {
             $this->setStatus('erreur');
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());

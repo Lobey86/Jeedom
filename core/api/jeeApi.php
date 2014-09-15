@@ -273,7 +273,8 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $return = array(
                     'mode' => config::byKey('jeeNetwork::mode'),
                     'nbUpdate' => update::nbNeedUpdate(),
-                    'version' => getVersion('jeedom')
+                    'version' => getVersion('jeedom'),
+                    'nbMessage' => message::nbMessage()
                 );
                 foreach (plugin::listPlugin(true) as $plugin) {
                     if ($plugin->getAllowRemote() == 1) {
