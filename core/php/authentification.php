@@ -84,7 +84,10 @@ if (init('logout') == 1) {
 
 if (trim(init('auiKey')) != '') {
     if (init('auiKey') == config::byKey('auiKey')) {
-        $user = user::byLogin('admin');
+        $user = user::byLogin('jeedom_master');
+        if (!is_object($user)) {
+            $user = user::byLogin('admin');
+        }
         if (is_object($user)) {
             connection::success($user->getLogin());
             @session_start();

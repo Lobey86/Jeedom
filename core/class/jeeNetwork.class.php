@@ -143,6 +143,11 @@ class jeeNetwork {
                     if (is_object($cron)) {
                         $cron->remove();
                     }
+                    $user = new user();
+                    $user->setLogin('jeedom_master');
+                    $user->setPassword(config::genKey(255));
+                    $user->setRights('admin', 1);
+                    $user->save();
                     config::save('jeeNetwork::mode', 'slave');
                 }
                 break;
@@ -274,7 +279,7 @@ class jeeNetwork {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
         }
     }
-    
+
     public function removeAllMessage() {
         $jsonrpc = $this->getJsonRpc();
         if (!$jsonrpc->sendRequest('message::removeAll', array())) {
