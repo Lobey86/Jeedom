@@ -289,6 +289,17 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $jsonrpc->makeSuccess($return);
             }
 
+            if ($jsonrpc->getMethod() == 'jeeNetwork::reload') {
+                foreach (plugin::listPlugin(true) as $plugin) {
+                    try {
+                        $plugin->launch('slaveReload');
+                    } catch (Exception $ex) {
+                        
+                    }
+                }
+                $jsonrpc->makeSuccess();
+            }
+
             /*             * ************************************************************************ */
         }
         throw new Exception('Aucune méthode correspondante : ' . $jsonrpc->getMethod(), -32500);
