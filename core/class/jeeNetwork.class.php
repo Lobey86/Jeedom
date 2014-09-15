@@ -237,7 +237,7 @@ class jeeNetwork {
 
     public function checkUpdate() {
         $jsonrpc = $this->getJsonRpc();
-        if ($jsonrpc->sendRequest('jeeNetwork::update', array())) {
+        if ($jsonrpc->sendRequest('jeeNetwork::checkUpdate', array())) {
             $this->save();
         } else {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
