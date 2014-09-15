@@ -19,60 +19,75 @@ if (!isConnect('admin')) {
         </div>
     </div>
     <div class="col-lg-10 jeeNetwork" style="display: none;" id="div_conf">
-        <form class="form-horizontal">
-            <fieldset>
-                <legend>{{Général}}</legend>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Nom du Jeedom exclave}}</label>
-                    <div class="col-lg-3">
-                        <input class="form-control jeeNetworkAttr" type="text" data-l1key="id" style="display : none;"/>
-                        <input class="form-control jeeNetworkAttr" type="text" data-l1key="name" placeholder="Nom du Jeedom exclave"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{IP}}</label>
-                    <div class="col-lg-3">
-                        <input class="form-control jeeNetworkAttr" type="text" data-l1key="ip" placeholder="IP"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Clef API}}</label>
-                    <div class="col-lg-3">
-                        <input class="form-control jeeNetworkAttr" type="text" data-l1key="apikey" placeholder="Clef API"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Statut}}</label>
-                    <div class="col-lg-3">
-                        <span class="label label-default jeeNetworkAttr" type="text" data-l1key="status" ></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Version de Jeedom}}</label>
-                    <div class="col-lg-3">
-                        <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="version" ></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Nombre de mise à jour}}</label>
-                    <div class="col-lg-3">
-                        <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="nbUpdate" ></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Nombre de message}}</label>
-                    <div class="col-lg-3">
-                        <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="nbMessage" ></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Plugin}}</label>
-                    <div class="col-lg-10" id="div_pluginList">
-
-                    </div>
-                </div>
-            </fieldset>
-        </form>
+        <div class="row">
+            <div class="col-lg-6">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend>{{Général}}</legend>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Nom du Jeedom exclave}}</label>
+                            <div class="col-lg-6">
+                                <input class="form-control jeeNetworkAttr" type="text" data-l1key="id" style="display : none;"/>
+                                <input class="form-control jeeNetworkAttr" type="text" data-l1key="name" placeholder="Nom du Jeedom exclave"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{IP}}</label>
+                            <div class="col-lg-6">
+                                <input class="form-control jeeNetworkAttr" type="text" data-l1key="ip" placeholder="IP"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Clef API}}</label>
+                            <div class="col-lg-6">
+                                <input class="form-control jeeNetworkAttr" type="text" data-l1key="apikey" placeholder="Clef API"/>
+                            </div>
+                        </div>
+                          <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Acceder (attention ne marche que si vous etes sur le reseau local)}}</label>
+                            <div class="col-lg-6">
+                                <a class="btn btn-default" id="bt_connectToSlave">Se connecter</a>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="col-lg-6">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend>{{Informations}}</legend>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Statut}}</label>
+                            <div class="col-lg-3">
+                                <span class="label label-default jeeNetworkAttr" type="text" data-l1key="status" ></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Version de Jeedom}}</label>
+                            <div class="col-lg-3">
+                                <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="version" ></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Nombre de mise à jour}}</label>
+                            <div class="col-lg-3">
+                                <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="nbUpdate" ></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Nombre de message}}</label>
+                            <div class="col-lg-3">
+                                <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="nbMessage" ></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Plugin}}</label>
+                            <div class="col-lg-6" id="div_pluginList"></div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
         <hr/>
         <form class="form-horizontal">
             <fieldset>
@@ -80,7 +95,6 @@ if (!isConnect('admin')) {
                     <a class="btn btn-success" id="bt_saveJeeNetwork"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
                     <a class="btn btn-danger" id="bt_removeJeeNetwork"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
                 </div>
-
             </fieldset>
         </form>
     </div>
