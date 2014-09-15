@@ -96,6 +96,7 @@ $('#bt_updateSlave').on('click', function () {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
                 success: function (data) {
+                    getJeedomSlaveLog(1, 'update');
                     $('#div_alert').showAlert({message: 'Le système est en cours de mise à jour', level: 'success'});
                 }
             });
@@ -187,3 +188,53 @@ if (is_numeric(getUrlVars('id'))) {
 $('body').delegate('.objectAttr', 'change', function () {
     modifyWithoutSave = true;
 });
+
+
+function getJeedomSlaveLog(_autoUpdate, _log) {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/jeeNetwork.ajax.php',
+        data: {
+            action: 'get',
+            logfile: _log,
+            id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id')
+        },
+        dataType: 'json',
+        global: false,
+        error: function (request, status, error) {
+            setTimeout(function () {
+                getJeedomSlaveLog(_autoUpdate, _log)
+            }, 1000);
+        },
+        success: function (data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            var log = '';
+            var regex = /<br\s*[\/]?>/gi;
+            for (var i in data.result.reverse()) {
+                log += data.result[i][2].replace(regex, "\n");
+                if ($.trim(data.result[i][2].replace(regex, "\n")) == '[END ' + _log.toUpperCase() + ' SUCCESS]') {
+                    printUpdate();
+                    $('#div_alert').showAlert({message: '{{L\'opération est réussie}}', level: 'success'});
+                    _autoUpdate = 0;
+                }
+                if ($.trim(data.result[i][2].replace(regex, "\n")) == '[END ' + _log.toUpperCase() + ' ERROR]') {
+                    printUpdate();
+                    $('#div_alert').showAlert({message: '{{L\'opération a échoué}}', level: 'danger'});
+                    _autoUpdate = 0;
+                }
+            }
+            $('#pre_' + _log + 'Info').text(log);
+            if (init(_autoUpdate, 0) == 1) {
+                setTimeout(function () {
+                    getJeedomSlaveLog(_autoUpdate, _log)
+                }, 1000);
+            } else {
+                $('#bt_' + _log + 'Jeedom .fa-refresh').hide();
+                $('.bt_' + _log + 'Jeedom .fa-refresh').hide();
+            }
+        }
+    });
+}

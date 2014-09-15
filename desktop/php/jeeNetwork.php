@@ -108,6 +108,8 @@ if (!isConnect('admin')) {
                 </form>
             </div>
         </div>
+        <legend>{{Log :}}</legend>
+        <pre id="pre_updateInfo"></pre>
         <hr/>
         <form class="form-horizontal">
             <fieldset>

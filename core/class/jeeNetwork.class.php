@@ -187,7 +187,6 @@ class jeeNetwork {
             'apikey_master' => config::byKey('api'),
             'address' => config::byKey('internalAddr'),
             'slave_ip' => $this->getRealIp(),
-            'reload' => $_reload
         );
         if ($jsonrpc->sendRequest('jeeNetwork::handshake', $params)) {
             $result = $jsonrpc->getResult();
@@ -239,6 +238,20 @@ class jeeNetwork {
         $jsonrpc = $this->getJsonRpc();
         if ($jsonrpc->sendRequest('jeeNetwork::checkUpdate', array())) {
             $this->save();
+        } else {
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+        }
+    }
+
+    public function getLog($_log = 'core', $_begin, $_nbLines) {
+        $jsonrpc = $this->getJsonRpc();
+        $params = array(
+            'log' => $_log,
+            'start' => $_begin,
+            'nbLine' => $_nbLines,
+        );
+        if ($jsonrpc->sendRequest('log::get', $params)) {
+            return $jsonrpc->getResult();
         } else {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
         }

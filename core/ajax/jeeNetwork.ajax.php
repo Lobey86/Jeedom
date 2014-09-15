@@ -67,13 +67,22 @@ try {
         }
         ajax::success($jeeNetwork->update());
     }
-    
-     if (init('action') == 'checkUpdate') {
+
+    if (init('action') == 'checkUpdate') {
         $jeeNetwork = jeeNetwork::byId(init('id'));
         if (!is_object($jeeNetwork)) {
             throw new Exception(__('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
         }
         ajax::success($jeeNetwork->checkUpdate());
+    }
+
+
+    if (init('action') == 'get') {
+        $jeeNetwork = jeeNetwork::byId(init('id'));
+        if (!is_object($jeeNetwork)) {
+            throw new Exception(__('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
+        }
+        ajax::success($jeeNetwork->getLog(init('logfile'), init('start', 0), init('nbLine', 3000)));
     }
 
     if (init('action') == 'all') {

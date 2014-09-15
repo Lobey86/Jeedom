@@ -327,6 +327,12 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $jsonrpc->makeSuccess('ok');
             }
 
+            /*             * ************************Log*************************** */
+            if ($jsonrpc->getMethod() == 'log::get') {
+                update::checkAllUpdate();
+                $jsonrpc->makeSuccess(log::get($params['logfile'], $params['start'], $params['nbLine']));
+            }
+
             /*             * ************************************************************************ */
         }
         throw new Exception('Aucune méthode correspondante : ' . $jsonrpc->getMethod(), -32500);
