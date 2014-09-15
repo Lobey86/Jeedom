@@ -172,7 +172,6 @@ class cmd {
                 FROM cmd
                 WHERE value=:value
                     AND id!=:value
-                    AND eventOnly=0
                 ORDER BY `order`';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
