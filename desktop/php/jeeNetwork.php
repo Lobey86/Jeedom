@@ -25,7 +25,7 @@ if (!isConnect('admin')) {
                     <fieldset>
                         <legend>{{Général}}</legend>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">{{Nom du Jeedom exclave}}</label>
+                            <label class="col-lg-4 control-label">{{Nom du Jeedom esclave}}</label>
                             <div class="col-lg-6">
                                 <input class="form-control jeeNetworkAttr" type="text" data-l1key="id" style="display : none;"/>
                                 <input class="form-control jeeNetworkAttr" type="text" data-l1key="name" placeholder="Nom du Jeedom exclave"/>
@@ -44,7 +44,7 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">{{Accéder (attention ne marche que si vous etes sur le reseau local)}}</label>
+                            <label class="col-lg-4 control-label">{{Accéder (attention ne marche que si vous êtes sur le réseau local)}}</label>
                             <div class="col-lg-6">
                                 <a class="btn btn-default" id="bt_connectToSlave" target="_blank">{{Se connecter}}</a>
                             </div>
@@ -83,19 +83,19 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">{{Nombre de mise à jour}}</label>
+                            <label class="col-lg-4 control-label">{{Nombre de mise(s) à jour}}</label>
                             <div class="col-lg-3">
                                 <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="nbUpdate" ></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">{{Nombre de message}}</label>
+                            <label class="col-lg-4 control-label">{{Nombre de message(s)}}</label>
                             <div class="col-lg-3">
                                 <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="nbMessage" ></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">{{Derniere communication}}</label>
+                            <label class="col-lg-4 control-label">{{Dernière communication}}</label>
                             <div class="col-lg-3">
                                 <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="lastCommunication" ></span>
                             </div>
