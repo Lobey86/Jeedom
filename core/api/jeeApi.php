@@ -270,7 +270,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (config::byKey('jeeNetwork::mode') != 'slave') {
                     throw new Exception('Impossible d\'ajouter une box jeedom non esclave à un reseau Jeedom');
                 }
-                $uiaKey = config::byKey('auiKey');
+                $auiKey = config::byKey('auiKey');
                 if ($uiaKey == '') {
                     $auiKey = config::genKey(255);
                     config::save('auiKey', $auiKey);
