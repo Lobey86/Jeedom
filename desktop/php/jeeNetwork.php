@@ -46,7 +46,7 @@ if (!isConnect('admin')) {
                           <div class="form-group">
                             <label class="col-lg-4 control-label">{{Acceder (attention ne marche que si vous etes sur le reseau local)}}</label>
                             <div class="col-lg-6">
-                                <a class="btn btn-default" id="bt_connectToSlave">Se connecter</a>
+                                <a class="btn btn-default" id="bt_connectToSlave" target="_blank">Se connecter</a>
                             </div>
                         </div>
                     </fieldset>

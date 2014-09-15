@@ -64,7 +64,7 @@ try {
         }
         utils::a2o($jeeNetwork, $jeeNetwork_json);
         $jeeNetwork->save();
-        $jeeNetwork->reload();
+      //  $jeeNetwork->reload();
         ajax::success(utils::o2a($jeeNetwork));
     }
 

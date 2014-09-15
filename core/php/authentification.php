@@ -82,28 +82,31 @@ if (init('logout') == 1) {
     logout();
 }
 
-if (trim(init('auiKey')) != '' && init('auiKey') == config::byKey('auiKey')) {
-    $user = user::byLogin('admin');
-    if (is_object($user)) {
-        connection::success($user->getLogin());
-        @session_start();
-        $_SESSION['user'] = $user;
-        $_SESSION['userHash'] = getUserHash();
-        @session_write_close();
-        log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $_login);
-        $getParams = '';
-        unset($_GET['auth']);
-        foreach ($_GET AS $var => $value) {
-            $getParams.= $var . '=' . $value . '&';
-        }
-        if (!$_ajax) {
-            if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
-                header('Location:../../index.php?' . trim($getParams, '&'));
-            } else {
-                header('Location:index.php?' . trim($getParams, '&'));
+if (trim(init('auiKey')) != '') {
+    if (init('auiKey') == config::byKey('auiKey')) {
+        $user = user::byLogin('admin');
+        if (is_object($user)) {
+            connection::success($user->getLogin());
+            @session_start();
+            $_SESSION['user'] = $user;
+            $_SESSION['userHash'] = getUserHash();
+            @session_write_close();
+            log::add('connection', 'info', __('Connexion par auikey', __FILE__));
+            $getParams = '';
+            unset($_GET['auth']);
+            foreach ($_GET AS $var => $value) {
+                $getParams.= $var . '=' . $value . '&';
+            }
+            if (!$_ajax) {
+                if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
+                    header('Location:../../index.php?' . trim($getParams, '&'));
+                } else {
+                    header('Location:index.php?' . trim($getParams, '&'));
+                }
             }
         }
     } else {
+        log::add('connection', 'info', __('Echec de connection par auikey', __FILE__));
         connection::failed();
         sleep(5);
         if (!$_ajax) {

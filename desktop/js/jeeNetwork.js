@@ -40,7 +40,11 @@ $(".li_jeeNetwork").on('click', function(event) {
             for (var i in data.plugin) {
                 plugin += '<span class="label label-info">' + data.plugin[i] + '</span> ';
             }
-            $('#bt_connectToSlave').attr('href', data.ip + '/index.php?v=d&auiKey=' + data.uiaKey);
+            if (isset(data.configuration) && isset(data.configuration.auiKey)) {
+                $('#bt_connectToSlave').attr('href', 'http://' + data.ip + '/index.php?v=d&auiKey=' + data.configuration.auiKey).show();
+            } else {
+                $('#bt_connectToSlave').hide();
+            }
             $('#div_pluginList').empty().append(plugin);
             modifyWithoutSave = false;
         }

@@ -196,7 +196,7 @@ class jeeNetwork {
             $this->setPlugin($result['plugin']);
             $this->setConfiguration('nbUpdate', $result['nbUpdate']);
             $this->setConfiguration('version', $result['version']);
-            $this->setConfiguration('uiaKey', $result['uiaKey']);
+            $this->setConfiguration('auiKey', $result['auiKey']);
             if ($this->getConfiguration('nbMessage') != $result['nbMessage'] && $result['nbMessage'] > 0) {
                 log::add('jeeNetwork', 'error', __('Le jeedom esclave : ', __FILE__) . $this->getName() . __(' à de nouveau message : ', __FILE__) . $result['nbMessage']);
             }
