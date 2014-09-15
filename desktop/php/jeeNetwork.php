@@ -48,7 +48,7 @@ if (!isConnect('admin')) {
                     </div>
                 </div>
                   <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Verison de Jeedom}}</label>
+                    <label class="col-lg-2 control-label">{{Version de Jeedom}}</label>
                     <div class="col-lg-3">
                         <span class="label label-default jeeNetworkAttr" type="text" data-l1key="configuration" data-l2key="version" ></span>
                     </div>
