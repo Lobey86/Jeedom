@@ -304,17 +304,17 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                         
                     }
                 }
-                $jsonrpc->makeSuccess();
+                $jsonrpc->makeSuccess('ok');
             }
 
             if ($jsonrpc->getMethod() == 'jeeNetwork::halt') {
                 jeedom::haltSystem();
-                $jsonrpc->makeSuccess();
+                $jsonrpc->makeSuccess('ok');
             }
 
             if ($jsonrpc->getMethod() == 'jeeNetwork::reboot') {
                 jeedom::rebootSystem();
-                $jsonrpc->makeSuccess();
+                $jsonrpc->makeSuccess('ok');
             }
 
             /*             * ************************************************************************ */
