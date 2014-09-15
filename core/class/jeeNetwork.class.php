@@ -196,6 +196,9 @@ class jeeNetwork {
             $this->setPlugin($result['plugin']);
             $this->setConfiguration('nbUpdate', $result['nbUpdate']);
             $this->setConfiguration('version', $result['version']);
+            if ($this->getConfiguration('nbMessage') != $result['nbMessage'] && $result['nbMessage'] > 0) {
+                log::add('jeeNetwork', 'error', __('Le jeedom esclave : ', __FILE__) . $this->getName() . __(' à de nouveau message : ', __FILE__) . $result['nbMessage']);
+            }
             $this->setConfiguration('nbMessage', $result['nbMessage']);
         } else {
             $this->setStatus('erreur');
@@ -206,7 +209,7 @@ class jeeNetwork {
     public function reload() {
         $jsonrpc = $this->getJsonRpc();
         if (!$jsonrpc->sendRequest('jeeNetwork::reload', array())) {
-           throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
         }
     }
 
