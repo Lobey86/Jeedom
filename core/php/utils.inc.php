@@ -713,3 +713,16 @@ function sudoExec($_user, $_password, $_cmds) {
 function useless() {
     
 }
+
+function getIpFromString($_string) {
+    if (strpos($_string, '://') !== false) {
+        $_string = substr($_string, strpos($_string, '://') + 3);
+        $pos = strpos($_string, '/');
+    } else {
+        $pos = strpos($_string, '/');
+    }
+    if ($pos > 0) {
+        $_string = substr($_string, 0, $pos);
+    }
+    return $_string;
+}

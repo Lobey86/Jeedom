@@ -315,12 +315,7 @@ class jeeNetwork {
     }
 
     public function getRealIp() {
-        $ip = $this->getIp();
-        $pos = strpos($ip, '/');
-        if ($pos > 0) {
-            $ip = substr($ip, 0, $pos);
-        }
-        return $ip;
+        return  getIpFromString($this->getIp());
     }
 
     /*     * **********************Getteur Setteur*************************** */
