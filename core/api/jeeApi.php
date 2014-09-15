@@ -336,6 +336,15 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $jsonrpc->makeSuccess(log::liste());
             }
 
+            /*             * ************************Messages*************************** */
+            if ($jsonrpc->getMethod() == 'message::removeAll') {
+                $jsonrpc->makeSuccess(message::removeAll());
+            }
+
+            if ($jsonrpc->getMethod() == 'message::all') {
+                $jsonrpc->makeSuccess(utils::o2a(message::all()));
+            }
+
             /*             * ************************************************************************ */
         }
         throw new Exception('Aucune méthode correspondante : ' . $jsonrpc->getMethod(), -32500);

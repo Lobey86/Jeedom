@@ -76,6 +76,10 @@ $('#bt_showLog').on('click', function () {
             var log = '';
             var regex = /<br\s*[\/]?>/gi;
             for (var i in data.reverse()) {
+                log += data[i][0].replace(regex, "\n");
+                log += " - ";
+                log += data[i][1].replace(regex, "\n");
+                log += " - ";
                 log += data[i][2].replace(regex, "\n");
                 log += "\n";
             }
@@ -139,6 +143,42 @@ $('#bt_updateSlave').on('click', function () {
 $('#bt_checkUpdateSlave').on('click', function () {
     $.hideAlert();
     jeedom.jeeNetwork.checkUpdate({
+        id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function (data) {
+            $('.li_jeeNetwork.active').click();
+        }
+    });
+});
+
+$('#bt_showMessage').on('click', function () {
+    $.hideAlert();
+    jeedom.jeeNetwork.getMessage({
+        id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function (data) {
+            var log = '';
+            var regex = /<br\s*[\/]?>/gi;
+            for (var i in data) {
+                log += data[i][0].replace(regex, "\n");
+                log += " - ";
+                log += data[i][1].replace(regex, "\n");
+                log += " - ";
+                log += data[i][2].replace(regex, "\n");
+                log += "\n";
+            }
+            $('#pre_updateInfo').text(log);
+        }
+    });
+});
+
+$('#bt_emptyMessage').on('click', function () {
+    $.hideAlert();
+    jeedom.jeeNetwork.removeAllMessage({
         id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
         error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
