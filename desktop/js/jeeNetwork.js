@@ -110,7 +110,7 @@ $('#bt_removeLog').on('click', function () {
         },
         success: function (data) {
             jeedom.jeeNetwork.listLog({
-                id: $(this).attr('data-jeeNetwork_id'),
+                id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
                 error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
