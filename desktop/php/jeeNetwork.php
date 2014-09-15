@@ -59,8 +59,8 @@ if (!isConnect('admin')) {
                         <div class="form-group">
                             <label class="col-lg-4 control-label">{{Mise à jour}}</label>
                             <div class="col-lg-6">
-                                <a class="btn btn-default" id="bt_checkUpdateSlave">{{Vérifier}}</a>
-                                <a class="btn btn-default" id="bt_updateSlave">{{Mettre à jour}}</a>
+                                <a class="btn btn-warning" id="bt_checkUpdateSlave"><i class="fa fa-refresh"></i>  {{Vérifier}}</a>
+                                <a class="btn btn-default" id="bt_updateSlave"><i class="fa fa-check"></i> {{Mettre à jour}}</a>
                             </div>
                         </div>
                     </fieldset>
