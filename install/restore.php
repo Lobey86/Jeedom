@@ -95,7 +95,9 @@ try {
         throw new Exception(__('Impossible de décompresser l\'archive', __FILE__));
     }
     echo "OK\n";
-
+    if (!file_exists($tmp . "/DB_backup.sql")) {
+        throw new Exception(__('Impossible de trouver le fichier de backup de la BDD dans l\'archive : DB_backup.sql', __FILE__));
+    }
     jeedom::stop();
     echo __("Suppression de toutes les tables", __FILE__);
     $tables = DB::Prepare("SHOW TABLES", array(), DB::FETCH_TYPE_ALL);
@@ -121,7 +123,7 @@ try {
     rcopy($tmp, dirname(__FILE__) . '/..', false);
     rcopy($tmp . '/plugins', dirname(__FILE__) . '/../plugins', false);
     echo __("OK\n", __FILE__);
-    
+
     if (!file_exists($jeedom_dir . '/install')) {
         mkdir($jeedom_dir . '/install');
         exec('cd ' . $jeedom_dir . '/install;wget http://git.jeedom.fr/jeedom/core/raw/stable/install/backup.php;wget http://git.jeedom.fr/jeedom/core/raw/stable/install/install.php;wget http://git.jeedom.fr/jeedom/core/raw/stable/install/restore.php');
