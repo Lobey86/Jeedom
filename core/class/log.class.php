@@ -183,6 +183,10 @@ class log {
         }
         return false;
     }
+    
+    public static function liste(){
+         return ls(dirname(__FILE__) . '/../../log/', '*');
+    }
 
     /*     * *********************Methode d'instance************************* */
 

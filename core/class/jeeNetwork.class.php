@@ -257,6 +257,15 @@ class jeeNetwork {
         }
     }
 
+    public function getListLog() {
+        $jsonrpc = $this->getJsonRpc();
+        if ($jsonrpc->sendRequest('log::list', array())) {
+            return $jsonrpc->getResult();
+        } else {
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+        }
+    }
+
     public function getJsonRpc() {
         if ($this->getIp() == '') {
             throw new Exception(__('Aucune addresse IP de renseignée pour : ', __FILE__) . $this->getName());

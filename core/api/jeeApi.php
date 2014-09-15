@@ -329,8 +329,11 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
 
             /*             * ************************Log*************************** */
             if ($jsonrpc->getMethod() == 'log::get') {
-                update::checkAllUpdate();
                 $jsonrpc->makeSuccess(log::get($params['log'], $params['start'], $params['nbLine']));
+            }
+
+            if ($jsonrpc->getMethod() == 'log::list') {
+                $jsonrpc->makeSuccess(log::liste());
             }
 
             /*             * ************************************************************************ */

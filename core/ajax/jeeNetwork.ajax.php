@@ -77,12 +77,20 @@ try {
     }
 
 
-    if (init('action') == 'get') {
+    if (init('action') == 'getLog') {
         $jeeNetwork = jeeNetwork::byId(init('id'));
         if (!is_object($jeeNetwork)) {
             throw new Exception(__('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
         }
-        ajax::success($jeeNetwork->getLog(init('logfile'), init('start', 0), init('nbLine', 3000)));
+        ajax::success($jeeNetwork->getLog(init('log'), init('start', 0), init('nbLine', 3000)));
+    }
+    
+    if (init('action') == 'getListLog') {
+        $jeeNetwork = jeeNetwork::byId(init('id'));
+        if (!is_object($jeeNetwork)) {
+            throw new Exception(__('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
+        }
+        ajax::success($jeeNetwork->getListLog());
     }
 
     if (init('action') == 'all') {

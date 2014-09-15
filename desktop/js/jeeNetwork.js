@@ -49,6 +49,24 @@ $(".li_jeeNetwork").on('click', function (event) {
             modifyWithoutSave = false;
         }
     });
+
+
+    jeedom.jeeNetwork.listLog({
+        id: $(this).attr('data-jeeNetwork_id'),
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function (data) {
+            var option = '';
+            for (var i in data) {
+                option += '<option>' + data[i] + '</option>';
+            }
+            $('#sel_logSlave').empty().append(option);
+        }
+    });
+
+
+
     return false;
 });
 
@@ -195,8 +213,8 @@ function getJeedomSlaveLog(_autoUpdate, _log) {
         type: 'POST',
         url: 'core/ajax/jeeNetwork.ajax.php',
         data: {
-            action: 'get',
-            logfile: _log,
+            action: 'getLog',
+            log: _log,
             id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id')
         },
         dataType: 'json',

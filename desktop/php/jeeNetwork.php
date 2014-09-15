@@ -109,6 +109,7 @@ if (!isConnect('admin')) {
             </div>
         </div>
         <legend>{{Log :}}</legend>
+        <select id="sel_logSlave"></select>
         <pre id="pre_updateInfo"></pre>
         <hr/>
         <form class="form-horizontal">
