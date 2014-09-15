@@ -98,7 +98,7 @@ $('#bt_haltSysteme').on('click', function () {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
                 success: function (data) {
-                    $('#div_alert').showAlert({message: 'Le système est en cours d\'arrêt', level: 'success'});
+                    $('#div_alert').showAlert({message: '{{Le système est en cours d\'arrêt}}', level: 'success'});
                 }
             });
         }
@@ -115,7 +115,7 @@ $('#bt_rebootSysteme').on('click', function () {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
                 success: function (data) {
-                    $('#div_alert').showAlert({message: 'Le système est en cours de redémarrage', level: 'success'});
+                    $('#div_alert').showAlert({message: '{{Le système est en cours de redémarrage}}', level: 'success'});
                 }
             });
         }
@@ -133,7 +133,7 @@ $('#bt_updateSlave').on('click', function () {
                 },
                 success: function (data) {
                     getJeedomSlaveLog(1, 'update');
-                    $('#div_alert').showAlert({message: 'Le système est en cours de mise à jour', level: 'success'});
+                    $('#div_alert').showAlert({message: '{{Le système est en cours de mise à jour}}', level: 'success'});
                 }
             });
         }
@@ -185,6 +185,7 @@ $('#bt_emptyMessage').on('click', function () {
         },
         success: function (data) {
             $('.li_jeeNetwork.active').click();
+            $('#div_alert').showAlert({message: '{{Les messages ont été correctement supprimés}}', level: 'success'});
         }
     });
 });
