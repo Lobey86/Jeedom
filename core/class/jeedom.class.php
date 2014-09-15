@@ -442,6 +442,14 @@ class jeedom {
         } catch (Exception $e) {
             log::add('scenario', 'error', $e->getMessage());
         }
+        try {
+            $c = new Cron\CronExpression(config::byKey('jeeNetwork::pull'), new Cron\FieldFactory);
+            if ($c->isDue()) {
+                jeeNetwork::pull();
+            }
+        } catch (Exception $e) {
+            log::add('jeeNetwork', 'error', $e->getMessage());
+        }
     }
 
     public static function checkOngoingThread($_cmd) {

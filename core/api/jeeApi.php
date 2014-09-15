@@ -271,7 +271,9 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                     throw new Exception('Impossible d\'ajouter une box jeedom non esclave à un reseau Jeedom');
                 }
                 $return = array(
-                    'mode' => config::byKey('jeeNetwork::mode')
+                    'mode' => config::byKey('jeeNetwork::mode'),
+                    'nbUpdate' => update::nbNeedUpdate(),
+                    'version' => getVersion('jeedom')
                 );
                 foreach (plugin::listPlugin(true) as $plugin) {
                     if ($plugin->getAllowRemote() == 1) {

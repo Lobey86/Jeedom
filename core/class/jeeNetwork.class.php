@@ -149,6 +149,19 @@ class jeeNetwork {
         }
     }
 
+    public static function pull() {
+        foreach (self::all() as $jeeNetwork) {
+            if ($jeeNetwork->getStatus() == 'ok') {
+                try {
+                    $jeeNetwork->handshake();
+                    $jeeNetwork->save();
+                } catch (Exception $e) {
+                    log::add('jeeNetwork', 'error', $e->getMessage());
+                }
+            }
+        }
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function preUpdate() {
@@ -169,17 +182,20 @@ class jeeNetwork {
         return DB::remove($this);
     }
 
-    public function handshake() {
+    public function handshake($_reload = false) {
         $jsonrpc = $this->getJsonRpc();
         $params = array(
             'apikey_master' => config::byKey('api'),
             'address' => config::byKey('internalAddr'),
-            'slave_ip' => $this->getRealIp()
+            'slave_ip' => $this->getRealIp(),
+            'reload' => $_reload
         );
         if ($jsonrpc->sendRequest('jeeNetwork::handshake', $params)) {
             $result = $jsonrpc->getResult();
             $this->setStatus('ok');
             $this->setPlugin($result['plugin']);
+            $this->setConfiguration('nbUpdate', $result['nbUpdate']);
+            $this->setConfiguration('version', $result['version']);
         } else {
             $this->setStatus('erreur');
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
