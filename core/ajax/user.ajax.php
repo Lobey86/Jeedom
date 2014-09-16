@@ -33,7 +33,7 @@ try {
             @session_write_close();
         } else {
             if (!login(init('username'), init('password'), true)) {
-                throw new Exception('Mot de passe ou nom d\'utilisateur incorrecteur');
+                throw new Exception('Mot de passe ou nom d\'utilisateur incorrect');
             }
         }
         if (init('storeConnection') == 1) {
