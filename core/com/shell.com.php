@@ -33,7 +33,13 @@ class com_shell {
     /*     * ************* Functions ************************************ */
 
     function exec() {
-        return exec($this->cmd);
+        $output = array();
+        $retval = 0;
+        $return = exec($this->cmd, $output, $retval);
+        if ($retval != 0) {
+            throw new Exception('Error on shell exec : ' . print_r($output, true));
+        }
+        return $return;
     }
 
     /*     * **********************Getteur Setteur*************************** */
