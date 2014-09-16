@@ -201,13 +201,12 @@ $('#bt_showMessage').on('click', function () {
         },
         success: function (data) {
             var log = '';
-            var regex = /<br\s*[\/]?>/gi;
             for (var i in data) {
-                log += data[i][0].replace(regex, "\n");
+                log += data[i]['date'];
                 log += " - ";
-                log += data[i][1].replace(regex, "\n");
+                log += data[i]['plugin'];
                 log += " - ";
-                log += data[i][2].replace(regex, "\n");
+                log += data[i]['message'];
                 log += "\n";
             }
             $('#pre_updateInfo').text(log);
