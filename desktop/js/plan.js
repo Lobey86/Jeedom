@@ -439,6 +439,7 @@ function displayObject(_type, _id, _html, _plan) {
     if (grid === false) {
         html.addClass('noResize');
     } else {
+        console.log(eqLogic_width_step);
         html.css("max-width", "");
         html.css("min-width", eqLogic_width_step);
         html.css("min-height", eqLogic_height_step);
