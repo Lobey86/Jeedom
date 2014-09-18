@@ -121,8 +121,8 @@ if (!isConnect('admin')) {
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
-                    <a class="btn btn-success" id="bt_saveJeeNetwork"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
                     <a class="btn btn-danger" id="bt_removeJeeNetwork"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+                    <a class="btn btn-success" id="bt_saveJeeNetwork"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
                 </div>
             </fieldset>
         </form>

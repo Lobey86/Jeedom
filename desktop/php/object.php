@@ -70,8 +70,8 @@ sendVarToJS('select_id', init('id', '-1'));
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
-                    <a class="btn btn-success" id="bt_saveObject"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
                     <a class="btn btn-danger" id="bt_removeObject"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+                    <a class="btn btn-success" id="bt_saveObject"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
                 </div>
 
             </fieldset>

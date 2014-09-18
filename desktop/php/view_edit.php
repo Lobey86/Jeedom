@@ -49,8 +49,8 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
 
         <div class="form-actions" style="margin-top: 10px;">
 
-            <a class="btn btn-danger" id="bt_removeView"><i class="fa fa-trash-o"></i> {{Supprimer}}</a>
-            <a class="btn btn-success" id="bt_saveView"><i class="fa fa-save"></i> {{Enregistrer}}</a>
+            <a class="btn btn-danger" id="bt_removeView"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+            <a class="btn btn-success" id="bt_saveView"><i class="fa fa-check-circle"></i> {{Enregistrer}}</a>
         </div>
     </div>
 
