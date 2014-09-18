@@ -1,15 +1,15 @@
 /***************Fonction d'initialisation*********************/
-$(function() {
+$(function () {
     $.mobile.orientationChangeEnabled = false;
     $.mobile.touchOverflowEnabled = true;
 
-    $(window).on("orientationchange", function(event) {
+    $(window).on("orientationchange", function (event) {
         deviceInfo = getDeviceType();
     });
 
     initApplication();
 
-    $('body').delegate('a.link', 'click', function() {
+    $('body').delegate('a.link', 'click', function () {
         modal(false);
         panel(false);
         page($(this).attr('data-page'), $(this).attr('data-title'), $(this).attr('data-option'), $(this).attr('data-plugin'));
@@ -59,12 +59,12 @@ function initApplication(_reinit) {
             action: 'getInfoApplication'
         },
         dataType: 'json',
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             if (confirm('Erreur de communication.Etes-vous connecté à internet? Voulez-vous ressayer ?')) {
                 window.location.reload();
             }
         },
-        success: function(data) { // si l'appel a bien fonctionné
+        success: function (data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 modal(false);
                 panel(false);
@@ -72,7 +72,7 @@ function initApplication(_reinit) {
                     if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
                         jeedom.user.logByKey({
                             key: localStorage.getItem("deviceKey"),
-                            success: function() {
+                            success: function () {
                                 initApplication();
                             }
                         });
@@ -97,13 +97,13 @@ function initApplication(_reinit) {
                     deviceInfo = getDeviceType();
                     userProfils = data.result.userProfils;
                     expertMode = userProfils.expertMode;
-                    $.get("core/php/icon.inc.php", function(data) {
+                    $.get("core/php/icon.inc.php", function (data) {
                         $("head").append(data);
                         var include = [
                             'core/js/core.js',
                         ];
                         $.showLoading();
-                        $.include(include, function() {
+                        $.include(include, function () {
                             jeedom.object.prefetch({id: 'all', version: 'mobile'});
                             jeedom.view.prefetch({id: 'all', version: 'mobile'});
                             if (isset(userProfils.homePageMobile) && userProfils.homePageMobile != 'home') {
@@ -143,13 +143,13 @@ function page(_page, _title, _option, _plugin) {
     }
     if (_page == 'connection') {
         var page = 'index.php?v=m&p=' + _page;
-        $('#page').load(page, function() {
+        $('#page').load(page, function () {
             $('#page').trigger('create');
         });
         return;
     }
     jeedom.user.isConnect({
-        success: function(result) {
+        success: function (result) {
             if (!result) {
                 initApplication(true);
                 return;
@@ -158,7 +158,7 @@ function page(_page, _title, _option, _plugin) {
             if (init(_plugin) != '') {
                 page += '&m=' + _plugin;
             }
-            $('#page').load(page, function() {
+            $('#page').load(page, function () {
                 $('#page').trigger('create');
                 var functionName = '';
                 if (init(_plugin) != '') {
@@ -185,7 +185,7 @@ function modal(_name) {
         $("[data-role=popup]").popup("close");
     } else {
         $('#div_popup').empty();
-        $('#div_popup').load(_name, function() {
+        $('#div_popup').load(_name, function () {
             $('#div_popup').trigger('create');
             $("#div_popup").popup("open");
         });
@@ -205,7 +205,7 @@ function panel(_content) {
 
 function refreshMessageNumber() {
     jeedom.message.number({
-        success: function(_number) {
+        success: function (_number) {
             $('.span_nbMessage').html(_number);
         }
     });
@@ -216,7 +216,7 @@ function notify(_title, _text) {
         return true;
     }
     $('#div_alert').html("<center><b>" + _title + "</b></center>" + _text).popup("open", {y: 0});
-    setTimeout(function() {
+    setTimeout(function () {
         $('#div_alert').popup("close");
     }, 1000)
 }
@@ -254,7 +254,7 @@ function getDeviceType() {
 }
 
 function setTileSize(_filter) {
-    $(_filter).each(function() {
+    $(_filter).each(function () {
         if (!$(this).hasClass('doNoResize')) {
             $(this).width(deviceInfo.bSize);
         }
@@ -269,4 +269,37 @@ function init(_value, _default) {
         return _default;
     }
     return _value;
+}
+
+function positionEqLogic(_id, _noResize, _class) {
+    $('.' + init(_class, 'eqLogic-widget') + ':not(.noResize)').each(function () {
+        if (init(_id, '') == '' || $(this).attr('data-eqLogic_id') == _id) {
+            var eqLogic = $(this);
+            var maxHeight = 0;
+            eqLogic.find('.cmd-widget').each(function () {
+                if ($(this).height() > maxHeight) {
+                    maxHeight = $(this).height();
+                }
+                var statistiques = $(this).find('.statistiques');
+                if (statistiques != undefined) {
+                    var left = ($(this).width() - statistiques.width()) / 2;
+                    statistiques.css('left', left);
+                }
+            });
+            if (!init(_noResize, false)) {
+                //eqLogic.find('.cmd-widget').height(maxHeight);
+                var hMarge = (Math.ceil(eqLogic.height() / eqLogic_height_step) - 1) * 6;
+                var wMarge = (Math.ceil(eqLogic.width() / eqLogic_width_step) - 1) * 6;
+                eqLogic.height((Math.ceil(eqLogic.height() / eqLogic_height_step) * eqLogic_height_step) - 6 + hMarge);
+                eqLogic.width((Math.ceil(eqLogic.width() / eqLogic_width_step) * eqLogic_width_step) - 6 + wMarge);
+            }
+
+            var verticalAlign = eqLogic.find('.verticalAlign');
+            if (count(verticalAlign) > 0 && verticalAlign != undefined) {
+                verticalAlign.css('position', 'relative');
+                verticalAlign.css('top', ((eqLogic.height() - verticalAlign.height()) / 2) - 20);
+                verticalAlign.css('left', (eqLogic.width() - verticalAlign.width()) / 2);
+            }
+        }
+    });
 }

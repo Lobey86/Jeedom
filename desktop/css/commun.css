@@ -61,13 +61,20 @@ body {
     color : white;
 }
 
+.view-link-widget,.plan-link-widget{
+    padding: 3px;
+    margin: 3px;
+    display: inline-block;
+    vertical-align: top;
+}
+
 .eqLogic-widget a{
     color:inherit;
 }
 
 .scenario-widget{
-    padding: 9.5px;
-    margin: 0 5px 5px;
+    padding: 3px;
+    margin: 3px;
     background-color: #7f8c8d;
     display: inline-block;
     position : relative;

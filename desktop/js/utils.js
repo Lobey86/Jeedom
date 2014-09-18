@@ -336,8 +336,8 @@ function chooseIcon(_callback) {
 }
 
 
-function positionEqLogic(_id, _noResize) {
-    $('.eqLogic-widget:not(.noResize)').each(function () {
+function positionEqLogic(_id, _noResize, _class) {
+    $('.' + init(_class, 'eqLogic-widget') + ':not(.noResize)').each(function () {
         if (init(_id, '') == '' || $(this).attr('data-eqLogic_id') == _id) {
             var eqLogic = $(this);
             var maxHeight = 0;
@@ -355,8 +355,6 @@ function positionEqLogic(_id, _noResize) {
                 //eqLogic.find('.cmd-widget').height(maxHeight);
                 var hMarge = (Math.ceil(eqLogic.height() / eqLogic_height_step) - 1) * 6;
                 var wMarge = (Math.ceil(eqLogic.width() / eqLogic_width_step) - 1) * 6;
-                console.log(eqLogic.width() + ' / ' + eqLogic_width_step + ' = ' + Math.ceil(eqLogic.width() / eqLogic_width_step));
-                console.log(Math.ceil(eqLogic.width() / eqLogic_width_step) + ' * ' + eqLogic_width_step + ' - 6 + ' + wMarge);
                 eqLogic.height((Math.ceil(eqLogic.height() / eqLogic_height_step) * eqLogic_height_step) - 6 + hMarge);
                 eqLogic.width((Math.ceil(eqLogic.width() / eqLogic_width_step) * eqLogic_width_step) - 6 + wMarge);
             }

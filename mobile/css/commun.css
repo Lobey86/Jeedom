@@ -49,6 +49,15 @@ body{
     text-shadow: initial !important;
 }
 
+.view-link-widget,.plan-link-widget{
+    padding: 3px;
+    margin: 3px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    background-color: #9b59b6;
+}
+
 .scenario-widget{
     display: inline-block;
     background-color: #7f8c8d;

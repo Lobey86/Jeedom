@@ -1,9 +1,9 @@
 function initPlan(_planHeader_id) {
     jeedom.plan.allHeader({
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(planHeader) {
+        success: function (planHeader) {
             var li = ' <ul data-role="listview">';
             for (var i in planHeader) {
                 li += '<li><a href="#" class="link" data-page="plan" data-title="' + planHeader[i].name + '" data-option="' + planHeader[i].id + '">' + planHeader[i].name + '</a></li>'
@@ -14,18 +14,18 @@ function initPlan(_planHeader_id) {
     });
 
     displayPlan(_planHeader_id);
-    if(init(userProfils.defaultMobilePlanFullscreen) == 1){
-       $("div[data-role=header]").remove();
-            $(this).css('top', '15px');
-            $('.ui-content').css('padding', '0');
-            displayPlan(_planHeader_id);
+    if (init(userProfils.defaultMobilePlanFullscreen) == 1) {
+        $("div[data-role=header]").remove();
+        $(this).css('top', '15px');
+        $('.ui-content').css('padding', '0');
+        displayPlan(_planHeader_id);
     }
 
-    $(window).on("orientationchange", function(event) {
+    $(window).on("orientationchange", function (event) {
         initPlan(_planHeader_id)
     });
 
-    $("#bt_fullScreen").on("click", function() {
+    $("#bt_fullScreen").on("click", function () {
         if ($("div[data-role=header]").length != 0) {
             $("div[data-role=header]").remove();
             $(this).css('top', '15px');
@@ -43,10 +43,10 @@ function initPlan(_planHeader_id) {
 function displayPlan(_planHeader_id) {
     jeedom.plan.getHeader({
         id: _planHeader_id,
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(data) {
+        success: function (data) {
             $('#div_displayObject').empty().append(data.image);
             var img = $('#div_displayObject img');
             if ($("div[data-role=header]").length != 0) {
@@ -54,7 +54,7 @@ function displayPlan(_planHeader_id) {
             } else {
                 var height = $(window).height();
             }
-            var width = $(window).width();
+            var width = $(window).width() - 35;
             if (data.configuration != null && init(data.configuration.sizeX) != '' && init(data.configuration.sizeY) != '') {
                 if (init(data.configuration.maxSizeAllow) == 1 && (height > data.configuration.sizeY || width > data.configuration.sizeX)) {
                     height = data.configuration.sizeY;
@@ -89,14 +89,19 @@ function displayPlan(_planHeader_id) {
 
             $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget').remove();
 
-
+            grid = false;
+            if (data.configuration != null && isset(data.configuration.gridX) && isset(data.configuration.gridY) && !isNaN(data.configuration.gridX) && !isNaN(data.configuration.gridY) && data.configuration.gridX > 0 && data.configuration.gridY > 0) {
+                grid = [width / data.configuration.gridX, height / data.configuration.gridY];
+                eqLogic_width_step = grid[0] - 5;
+                eqLogic_height_step = grid[1] - 5;
+            }
             jeedom.plan.byPlanHeader({
                 id: _planHeader_id,
                 version: 'mobile',
-                error: function(error) {
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
-                success: function(data) {
+                success: function (data) {
                     for (var i in data) {
                         if (data[i].plan.link_type == 'graph') {
                             addGraph(data[i].plan);
@@ -104,7 +109,7 @@ function displayPlan(_planHeader_id) {
                             displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
                         }
                     }
-                    setTileSize('.eqLogic');
+
                 },
             });
         }
@@ -120,7 +125,9 @@ function displayObject(_type, _id, _html, _plan) {
     _plan.css = init(_plan.css, {});
     var defaultZoom = 1;
     if (_type == 'eqLogic') {
-        defaultZoom = 0.65;
+        if (grid === false) {
+            defaultZoom = 0.65;
+        }
         $('.eqLogic-widget[data-eqLogic_id=' + _id + ']').remove();
     }
     if (_type == 'scenario') {
@@ -178,6 +185,35 @@ function displayObject(_type, _id, _html, _plan) {
         }
     }
 
+    if (grid === false) {
+        html.addClass('noResize');
+    } else {
+        html.css("max-width", "");
+        html.css("min-width", eqLogic_width_step - 6);
+        html.css("min-height", eqLogic_height_step - 6);
+        if (!isset(_plan.display) || !isset(_plan.display.width)) {
+            html.css('width', 'auto');
+        }
+        if (!isset(_plan.display) || !isset(_plan.display.height)) {
+            html.css('height', 'auto');
+        }
+        if (_type == 'eqLogic') {
+            positionEqLogic('', false, 'eqLogic-widget');
+        }
+        if (_type == 'scenario') {
+            positionEqLogic('', false, 'scenario-widget');
+        }
+        if (_type == 'view') {
+            positionEqLogic('', false, 'view-link-widget');
+        }
+        if (_type == 'plan') {
+            positionEqLogic('', false, 'plan-link-widget');
+        }
+        if (_type == 'graph') {
+            positionEqLogic('', false, 'graph-widget');
+        }
+    }
+
     if (_type == 'view' || _type == 'plan') {
         html.find('a').addClass('link');
         html.find('a').attr('data-page', _type);
@@ -187,11 +223,15 @@ function displayObject(_type, _id, _html, _plan) {
 }
 
 function addGraph(_plan) {
+    var parent = {
+        height: $('#div_displayObject').height(),
+        width: $('#div_displayObject').width(),
+    };
     _plan = init(_plan, {});
     _plan.display = init(_plan.display, {});
     _plan.link_id = init(_plan.link_id, Math.round(Math.random() * 99999999) + 9999);
     var options = init(_plan.display.graph, '[]');
-    var html = '<div class="graph-widget" data-graph_id="' + _plan.link_id + '" style="width : ' + init(_plan.display.width, 400) + 'px;height : ' + init(_plan.display.height, 200) + 'px;background-color : white;border : solid 1px black;">';
+    var html = '<div class="graph-widget" data-graph_id="' + _plan.link_id + '" style="width : ' + (init(_plan.display.width, 10) * parent.width / 100) + 'px;height : ' + (init(_plan.display.height, 10) * parent.height / 100) + 'px;background-color : white;border : solid 1px black;">';
     if ($('#bt_editPlan').attr('data-mode') == "1") {
         html += '<i class="fa fa-cogs pull-right editMode configureGraph" style="margin-right : 5px;margin-top : 5px;"></i>';
     } else {
