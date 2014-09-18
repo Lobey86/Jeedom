@@ -187,6 +187,7 @@ function displayObject(_type, _id, _html, _plan) {
 
     if (grid === false) {
         html.addClass('noResize');
+        setTileSize('.eqLogic');
     } else {
         html.css("max-width", "");
         html.css("min-width", eqLogic_width_step - 6);
