@@ -37,7 +37,7 @@ class com_shell {
         $retval = 0;
         $return = exec($this->cmd, $output, $retval);
         if ($retval != 0) {
-            throw new Exception('Error on shell exec : ' . print_r($output, true));
+            throw new Exception('Error on shell exec, return value : ' . $retval . '. Details : ' . $return);
         }
         return $return;
     }
