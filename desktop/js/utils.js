@@ -17,10 +17,12 @@
 
 modifyWithoutSave = false;
 nbActiveAjaxRequest = 0;
+eqLogic_width_step = 40;
+eqLogic_height_step = 80;
 
-$(function() {
+$(function () {
     /*********************Gestion de l'heure********************************/
-    setInterval(function() {
+    setInterval(function () {
         var date = new Date();
         date.setTime(date.getTime() + clientServerDiffDatetime);
         var hour = date.getHours();
@@ -37,11 +39,11 @@ $(function() {
     initTooltips();
 
     // Ajax Loading Screen
-    $(document).ajaxStart(function() {
+    $(document).ajaxStart(function () {
         nbActiveAjaxRequest++;
         $.showLoading();
     });
-    $(document).ajaxStop(function() {
+    $(document).ajaxStop(function () {
         nbActiveAjaxRequest--;
         if (nbActiveAjaxRequest <= 0) {
             nbActiveAjaxRequest = 0;
@@ -64,10 +66,10 @@ $(function() {
         "hideMethod": "fadeOut"
     }
 
-    $.fn.modal.Constructor.prototype.enforceFocus = function() {
+    $.fn.modal.Constructor.prototype.enforceFocus = function () {
     };
 
-    $('body').delegate(".modal", "show", function() {
+    $('body').delegate(".modal", "show", function () {
         document.activeElement.blur();
         $(this).find(".modal-body :input:visible:first").focus();
     });
@@ -85,10 +87,10 @@ $(function() {
         autoOpen: false,
         modal: true,
         width: 600,
-        open: function() {
+        open: function () {
             $("body").css({overflow: 'hidden'})
         },
-        beforeClose: function(event, ui) {
+        beforeClose: function (event, ui) {
             $("body").css({overflow: 'inherit'})
         }
     });
@@ -99,10 +101,10 @@ $(function() {
         modal: true,
         height: (jQuery(window).height() - 150),
         width: ((jQuery(window).width() - 50) < 1500) ? (jQuery(window).width() - 50) : 1500,
-        open: function() {
+        open: function () {
             $("body").css({overflow: 'hidden'});
         },
-        beforeClose: function(event, ui) {
+        beforeClose: function (event, ui) {
             $("body").css({overflow: 'inherit'});
         }
     });
@@ -113,10 +115,10 @@ $(function() {
         height: (jQuery(window).height() - 150),
         width: ((jQuery(window).width() - 50) < 1500) ? (jQuery(window).width() - 50) : 1500,
         position: {my: 'center', at: 'center', of: window},
-        open: function() {
+        open: function () {
             $("body").css({overflow: 'hidden'});
         },
-        beforeClose: function(event, ui) {
+        beforeClose: function (event, ui) {
             $("body").css({overflow: 'inherit'});
         }
     });
@@ -127,21 +129,21 @@ $(function() {
         height: (jQuery(window).height() - 200),
         width: ((jQuery(window).width() - 50) < 1200) ? (jQuery(window).width() - 50) : 1200,
         position: {my: 'center', at: 'center', of: window},
-        open: function() {
+        open: function () {
             $("body").css({overflow: 'hidden'});
         },
-        beforeClose: function(event, ui) {
+        beforeClose: function (event, ui) {
             $("body").css({overflow: 'inherit'});
         }
     });
 
-    $('#bt_jeedomAbout').on('click', function() {
+    $('#bt_jeedomAbout').on('click', function () {
         $('#md_modal').load('index.php?v=d&modal=about').dialog('open');
     });
 
     /******************Gestion mode expert**********************/
 
-    $('#bt_expertMode').on('click', function() {
+    $('#bt_expertMode').on('click', function () {
         if ($(this).attr('state') == 1) {
             var value = {options: {expertMode: 0}};
             $(this).attr('state', 0);
@@ -155,24 +157,24 @@ $(function() {
         jeedom.user.saveProfils({
             profils: value,
             global: false,
-            error: function(error) {
+            error: function (error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
-            success: function() {
+            success: function () {
             }
         });
     });
 
-    $('body').delegate('.bt_pageHelp', 'click', function() {
+    $('body').delegate('.bt_pageHelp', 'click', function () {
         showHelpModal($(this).attr('data-name'), $(this).attr('data-plugin'));
     });
 
-    $('body').delegate('.bt_reportBug', 'click', function() {
+    $('body').delegate('.bt_reportBug', 'click', function () {
         $('#md_reportBug').load('index.php?v=d&modal=report.bug');
         $('#md_reportBug').dialog('open');
     });
 
-    $(window).bind('beforeunload', function(e) {
+    $(window).bind('beforeunload', function (e) {
         if (modifyWithoutSave) {
             return '{{Attention vous quittez une page ayant des données modifiées non sauvegardé. Voulez-vous continuer ?}}';
         }
@@ -182,7 +184,7 @@ $(function() {
     initExpertMode();
     $.initTableFilter();
     initRowOverflow();
-    $(window).resize(function() {
+    $(window).resize(function () {
         initRowOverflow();
     });
 });
@@ -209,7 +211,7 @@ function initExpertMode() {
 }
 
 function initTableSorter() {
-    $(".tablesorter").each(function() {
+    $(".tablesorter").each(function () {
         var widgets = ['uitheme', 'filter', 'zebra', 'resizable'];
         if ($(this).hasClass('tablefixheader')) {
             widgets.push("stickyHeaders");
@@ -231,7 +233,7 @@ function initTableSorter() {
 
 function showHelpModal(_name, _plugin) {
     if (init(_plugin) != '' && _plugin != undefined) {
-        $('#div_helpWebsite').load('index.php?v=d&modal=help.website&page=doc_plugin_' + _plugin + '.php #primary', function() {
+        $('#div_helpWebsite').load('index.php?v=d&modal=help.website&page=doc_plugin_' + _plugin + '.php #primary', function () {
             if ($('#div_helpWebsite').find('.alert.alert-danger').length > 0 || $.trim($('#div_helpWebsite').text()) == '') {
                 $('a[href=#div_helpSpe]').click();
                 $('a[href=#div_helpWebsite]').hide();
@@ -242,7 +244,7 @@ function showHelpModal(_name, _plugin) {
         });
         $('#div_helpSpe').load('index.php?v=d&plugin=' + _plugin + '&modal=help.' + init(_name));
     } else {
-        $('#div_helpWebsite').load('index.php?v=d&modal=help.website&page=doc_' + init(_name) + '.php #primary', function() {
+        $('#div_helpWebsite').load('index.php?v=d&modal=help.website&page=doc_' + init(_name) + '.php #primary', function () {
             if ($('#div_helpWebsite').find('.alert.alert-danger').length > 0 || $.trim($('#div_helpWebsite').text()) == '') {
                 $('a[href=#div_helpSpe]').click();
                 $('a[href=#div_helpWebsite]').hide();
@@ -257,7 +259,7 @@ function showHelpModal(_name, _plugin) {
 }
 
 function refreshMessageNumber() {
-    jeedom.message.number(function(_number) {
+    jeedom.message.number(function (_number) {
         if (_number == 0 || _number == '0') {
             $('#span_nbMessage').hide();
         } else {
@@ -279,7 +281,7 @@ function notify(_title, _text, _class_name) {
     }
 }
 
-jQuery.fn.findAtDepth = function(selector, maxDepth) {
+jQuery.fn.findAtDepth = function (selector, maxDepth) {
     var depths = [], i;
 
     if (maxDepth > 0) {
@@ -302,13 +304,13 @@ function chooseIcon(_callback) {
             modal: true,
             height: (jQuery(window).height() - 150),
             width: 1500,
-            open: function() {
+            open: function () {
                 if ((jQuery(window).width() - 50) < 1500) {
                     $('#mod_selectIcon').dialog({width: jQuery(window).width() - 50});
                 }
                 $("body").css({overflow: 'hidden'});
             },
-            beforeClose: function(event, ui) {
+            beforeClose: function (event, ui) {
                 $("body").css({overflow: 'inherit'});
             }
         });
@@ -317,10 +319,10 @@ function chooseIcon(_callback) {
         jQuery.ajaxSetup({async: true});
     }
     $("#mod_selectIcon").dialog('option', 'buttons', {
-        "Annuler": function() {
+        "Annuler": function () {
             $(this).dialog("close");
         },
-        "Valider": function() {
+        "Valider": function () {
             var icon = $('.iconSelected').html();
             if (icon == undefined) {
                 icon = '';
@@ -335,13 +337,11 @@ function chooseIcon(_callback) {
 
 
 function positionEqLogic(_id, _noResize) {
-    var pasW = 40;
-    var pasH = 80;
-    $('.eqLogic-widget:not(.noResize)').each(function() {
+    $('.eqLogic-widget:not(.noResize)').each(function () {
         if (init(_id, '') == '' || $(this).attr('data-eqLogic_id') == _id) {
             var eqLogic = $(this);
             var maxHeight = 0;
-            eqLogic.find('.cmd-widget').each(function() {
+            eqLogic.find('.cmd-widget').each(function () {
                 if ($(this).height() > maxHeight) {
                     maxHeight = $(this).height();
                 }
@@ -353,10 +353,12 @@ function positionEqLogic(_id, _noResize) {
             });
             if (!init(_noResize, false)) {
                 //eqLogic.find('.cmd-widget').height(maxHeight);
-                var hMarge = (Math.ceil(eqLogic.height() / pasH) - 1) * 6;
-                var wMarge = (Math.ceil(eqLogic.width() / pasW) - 1) * 6;
-                eqLogic.height((Math.ceil((eqLogic.height()) / pasH) * pasH) - 6 + hMarge);
-                eqLogic.width((Math.ceil((eqLogic.width()) / pasW) * pasW) - 6 + wMarge);
+                var hMarge = (Math.ceil(eqLogic.height() / eqLogic_height_step) - 1) * 6;
+                var wMarge = (Math.ceil(eqLogic.width() / eqLogic_width_step) - 1) * 6;
+                console.log(eqLogic.width() + ' / ' + eqLogic_width_step + ' = ' + Math.ceil(eqLogic.width() / eqLogic_width_step));
+                console.log(Math.ceil(eqLogic.width() / eqLogic_width_step) + ' * ' + eqLogic_width_step + ' - 6 + ' + wMarge);
+                eqLogic.height((Math.ceil(eqLogic.height() / eqLogic_height_step) * eqLogic_height_step) - 6 + hMarge);
+                eqLogic.width((Math.ceil(eqLogic.width() / eqLogic_width_step) * eqLogic_width_step) - 6 + wMarge);
             }
 
             var verticalAlign = eqLogic.find('.verticalAlign');
