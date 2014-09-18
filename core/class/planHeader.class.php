@@ -60,6 +60,9 @@ class planHeader {
         if (!file_exists($dir)) {
             mkdir($dir);
         }
+        if($this->getImage('data') == ''){
+            return '';
+        }
         $filename = sha1($this->getImage('data')) . '.' . $this->getImage('type');
         $filepath = $dir . '/' . $filename;
 
