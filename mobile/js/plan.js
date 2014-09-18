@@ -21,7 +21,7 @@ function initPlan(_planHeader_id) {
         displayPlan(_planHeader_id);
     }
 
-    $(window).on("orientationchange", function (event) {
+    $(window).off().on("orientationchange", function (event) {
         initPlan(_planHeader_id)
     });
 

@@ -198,7 +198,7 @@ function panel(_content) {
         $('#bt_panel_right').hide();
         $('#panel_right').panel('close');
     } else {
-        $('#panel_right').append(_content).trigger('create');
+        $('#panel_right').empty().append(_content).trigger('create');
         $('#bt_panel_right').show();
     }
 }
