@@ -24,34 +24,37 @@ if (getUrlVars('removeSuccessFull') == 1) {
     $('#div_alert').showAlert({message: '{{Suppression effectuée avec succès}}', level: 'success'});
 }
 
-$(".li_interact").on('click', function(event) {
+$(".li_interact").on('click', function (event) {
     $('#div_conf').show();
     $('.li_interact').removeClass('active');
     $(this).addClass('active');
     jeedom.interact.get({
         id: $(this).attr('data-interact_id'),
-        success: function(data) {
+        success: function (data) {
             $('.interactAttr').value('');
+            $(".interactAttr[data-l1key=link_type]").off();
             $('.interact').setValues(data, '.interactAttr');
-            modifyWithoutSave = false;
+            changeLinkType(data);
+            $(".interactAttr[data-l1key=link_type]").on('change', function () {
+                changeLinkType({link_type: $(this).value()});
+            });
         }
     });
     return false;
 });
 
-$('#bt_duplicate').on('click', function() {
-    bootbox.prompt("Nom ?", function(result) {
+$('#bt_duplicate').on('click', function () {
+    bootbox.prompt("Nom ?", function (result) {
         if (result !== null) {
             var interact = $('.interact').getValues('.interactAttr')[0];
             interact.name = result;
             interact.id = '';
             jeedom.interact.save({
                 interact: interact,
-                error: function(error) {
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
-                success: function(data) {
-                    modifyWithoutSave = false;
+                success: function (data) {
                     window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
                 }
             });
@@ -69,48 +72,39 @@ if (is_numeric(getUrlVars('id'))) {
     $('#ul_interact .li_interact:first').click();
 }
 
-$('body').delegate('.interactAttr', 'change', function() {
-    modifyWithoutSave = true;
-});
 
-$(".interactAttr[data-l1key=link_type]").on('change', function() {
-    changeLinkType({link_type: $(this).value()});
-});
-
-$('.displayInteracQuery').on('click', function() {
+$('.displayInteracQuery').on('click', function () {
     $('#md_modal').dialog({title: "{{Liste des interactions}}"});
     $('#md_modal').load('index.php?v=d&modal=interact.query.display&interactDef_id=' + $('.interactAttr[data-l1key=id]').value()).dialog('open');
 });
 
-$('body').delegate('.listEquipementInfo', 'click', function() {
-    jeedom.cmd.getSelectModal({}, function(result) {
+$('body').delegate('.listEquipementInfo', 'click', function () {
+    jeedom.cmd.getSelectModal({}, function (result) {
         $('.interactAttr[data-l1key=link_id]').value(result.human);
     });
 });
 
-$("#bt_saveInteract").on('click', function(data) {
+$("#bt_saveInteract").on('click', function (data) {
     jeedom.interact.save({
         interact: $('.interact').getValues('.interactAttr')[0],
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function() {
-            modifyWithoutSave = false;
+        success: function () {
             window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
         }
     });
 });
 
-$("#bt_addInteract").on('click', function() {
-    bootbox.prompt("Demande ?", function(result) {
+$("#bt_addInteract").on('click', function () {
+    bootbox.prompt("Demande ?", function (result) {
         if (result !== null) {
             jeedom.interact.save({
                 interact: {query: result},
-                error: function(error) {
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
-                success: function(data) {
-                    modifyWithoutSave = false;
+                success: function (data) {
                     window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
                 }
             });
@@ -118,18 +112,17 @@ $("#bt_addInteract").on('click', function() {
     });
 });
 
-$("#bt_removeInteract").on('click', function() {
+$("#bt_removeInteract").on('click', function () {
     if ($('.li_interact.active').attr('data-interact_id') != undefined) {
         $.hideAlert();
-        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'intéraction}} <span style="font-weight: bold ;">' + $('.li_interact.active a').text() + '</span> ?', function(result) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'intéraction}} <span style="font-weight: bold ;">' + $('.li_interact.active a').text() + '</span> ?', function (result) {
             if (result) {
                 jeedom.interact.remove({
                     id: $('.li_interact.active').attr('data-interact_id'),
-                    error: function(error) {
+                    error: function (error) {
                         $('#div_alert').showAlert({message: error.message, level: 'danger'});
                     },
-                    success: function() {
-                        modifyWithoutSave = false;
+                    success: function () {
                         window.location.replace('index.php?v=d&p=interact&removeSuccessFull=1');
                     }
                 });
@@ -166,10 +159,10 @@ function changeLinkType(_options) {
     }
     if (_options.link_type == 'scenario') {
         jeedom.scenario.all({
-            error: function(error) {
+            error: function (error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
-            success: function(scenarios) {
+            success: function (scenarios) {
                 var options = '<div class="form-group">';
                 options += '<label class="col-lg-3 control-label">{{Scénario}}</label>';
                 options += '<div class="col-lg-9">';
