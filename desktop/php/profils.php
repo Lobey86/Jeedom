@@ -94,7 +94,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                         <legend>Page par default</legend>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Desktop}}</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="homePage">
                                     <?php
                                     foreach ($homePage as $key => $value) {
@@ -104,7 +104,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 </select>
                             </div>
                             <label class="col-lg-1 control-label">{{Mobile}}</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="homePageMobile">
                                     <option value="home">{{Accueil}}</option>
                                     <?php
@@ -118,7 +118,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                         <legend>{{Object par defaut sur le dashboard}}</legend>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Desktop}}</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardObject">
                                     <?php
                                     foreach (object::all() as $object) {
@@ -128,7 +128,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 </select>
                             </div>
                             <label class="col-lg-1 control-label">{{Mobile}}</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultMobileObject">
                                     <?php
                                     foreach (object::all() as $object) {
@@ -141,7 +141,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                         <legend>{{Vue par defaut}}</legend>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Desktop}}</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDesktopView">
                                     <?php
                                     foreach (view::all() as $view) {
@@ -151,7 +151,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 </select>
                             </div>
                             <label class="col-lg-1 control-label">{{Mobile}}</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultMobileView">
                                     <?php
                                     foreach (view::all() as $view) {
@@ -164,7 +164,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                         <legend>{{Plan par defaut}}</legend>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Desktop}}</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultDashboardPlan">
                                     <?php
                                     foreach (planHeader::all() as $plan) {
@@ -174,7 +174,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 </select>
                             </div>
                             <label class="col-lg-1 control-label">{{Mobile}}</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="defaultMobilePlan">
                                     <?php
                                     foreach (planHeader::all() as $plan) {
@@ -182,6 +182,10 @@ foreach (plugin::listPlugin() as $pluginList) {
                                     }
                                     ?>
                                 </select>
+                            </div>
+                            <label class="col-lg-1 control-label">{{Plein écran}}</label>
+                            <div class="col-lg-2">
+                                <input type="checkbox" class="userAttr" data-l1key="options" data-l2key="defaultMobilePlanFullscreen"/>
                             </div>
                         </div>
                     </fieldset>

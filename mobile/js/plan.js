@@ -14,6 +14,12 @@ function initPlan(_planHeader_id) {
     });
 
     displayPlan(_planHeader_id);
+    if(init(userProfils.defaultMobilePlanFullscreen) == 1){
+       $("div[data-role=header]").remove();
+            $(this).css('top', '15px');
+            $('.ui-content').css('padding', '0');
+            displayPlan(_planHeader_id);
+    }
 
     $(window).on("orientationchange", function(event) {
         initPlan(_planHeader_id)
@@ -28,10 +34,6 @@ function initPlan(_planHeader_id) {
         } else {
             window.location.reload();
         }
-    });
-
-    $('.plan-link-widget').off().on('click', function() {
-
     });
 
     $("body:not(.eqLogic)").off("swipeleft");
