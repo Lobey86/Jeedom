@@ -44,7 +44,6 @@ if (init('cron_id') != '') {
         echo 'Cron non trouvé';
         die();
     }
-    log::add('cron', 'info', __('Lancement de ', __FILE__) . $cron->getName() . __(' avec le PID : ', __FILE__) . getmypid());
     try {
         $cron->setState('run');
         $cron->setDuration('0s');
