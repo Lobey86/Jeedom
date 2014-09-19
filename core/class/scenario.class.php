@@ -258,7 +258,7 @@ class scenario {
                 $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '
                         FROM scenario s
                         WHERE s.name=:scenario_name
-                            AND `group` IS NULL
+                            AND ( `group` IS NULL OR `group` = "")
                             AND s.object_id IS NULL';
             } else {
                 $values['group_name'] = $_group_name;
@@ -276,7 +276,7 @@ class scenario {
                         INNER JOIN object ob ON s.object_id=ob.id
                         WHERE s.name=:scenario_name
                             AND ob.name=:object_name
-                            AND `group` IS NULL';
+                            AND ( `group` IS NULL OR `group` = "")';
             } else {
                 $values['group_name'] = $_group_name;
                 $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '
@@ -360,7 +360,6 @@ class scenario {
         $text = $_input;
 
         preg_match_all("/#\[(.*?)\]\[(.*?)\]\[(.*?)\]#/", $text, $matches);
-
         if (count($matches) == 4) {
             for ($i = 0; $i < count($matches[0]); $i++) {
                 if (isset($matches[1][$i]) && isset($matches[2][$i]) && isset($matches[3][$i])) {
