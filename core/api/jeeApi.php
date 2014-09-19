@@ -110,9 +110,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
         $params = $jsonrpc->getParams();
 
         if (config::byKey('api') == '' || (config::byKey('api') != $params['apikey'] && config::byKey('api') != $params['api'])) {
-            if (config::byKey('market::jeedom_apikey') != '' && config::byKey('market::jeedom_apikey') == $params['apikey'] && $_SERVER['REMOTE_ADDR'] == '94.23.188.164') {
-                
-            } else {
+            if (config::byKey('market::jeedom_apikey') == '' || config::byKey('market::jeedom_apikey') != $params['apikey'] || $_SERVER['REMOTE_ADDR'] != '94.23.188.164') {
                 connection::failed();
                 throw new Exception('Clef API invalide', -32001);
             }
@@ -125,6 +123,11 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             /*             * ***********************Ping********************************* */
             if ($jsonrpc->getMethod() == 'ping') {
                 $jsonrpc->makeSuccess('pong');
+            }
+
+            /*             * ***********************Get API Key********************************* */
+            if ($jsonrpc->getMethod() == 'getApiKey' && config::byKey('market::jeedom_apikey') == $params['apikey']) {
+                $jsonrpc->makeSuccess(config::byKey('api'));
             }
 
             /*             * ***********************Version********************************* */
