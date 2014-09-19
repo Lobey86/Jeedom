@@ -386,6 +386,19 @@ class market {
         }
     }
 
+    public static function updateIp() {
+        if (config::byKey('market::jeedom_apikey') == '') {
+            config::save('market::jeedom_apikey', config::genKey(255));
+        }
+        $market = self::getJsonRpc();
+        $params = array(
+            'marketkey' => config::byKey('market::jeedom_apikey')
+        );
+        if (!$market->sendRequest('jeedom::updateip', $params)) {
+            throw new Exception($market->getError());
+        }
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function getComment() {

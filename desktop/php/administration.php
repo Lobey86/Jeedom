@@ -628,12 +628,19 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <input type="checkbox"  class="configKey" data-l1key="market::autoInstallMissingWidget" />
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Utiliser le market comme DNS}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="checkbox"  class="configKey" data-l1key="market::allowDNS" />
+                                    </div>
+                                </div>
                                 <div class="form-group alert alert-danger">
                                     <label class="col-lg-2 control-label">{{Voir modules en beta (à vos risques et périls)}}</label>
                                     <div class="col-lg-3">
                                         <input type="checkbox"  class="configKey" data-l1key="market::showBetaMarket" />
                                     </div>
                                 </div>
+
                             </fieldset>
                         </form>
                     </div>

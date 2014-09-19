@@ -450,6 +450,16 @@ class jeedom {
         } catch (Exception $e) {
             log::add('jeeNetwork', 'error', $e->getMessage());
         }
+        if (config::byKey('market::allowDNS') == 1) {
+            try {
+                $c = new Cron\CronExpression('*/10 * * * *', new Cron\FieldFactory);
+                if ($c->isDue()) {
+                    market::updateIp();
+                }
+            } catch (Exception $e) {
+                log::add('market', 'error', $e->getMessage());
+            }
+        }
     }
 
     public static function checkOngoingThread($_cmd) {
