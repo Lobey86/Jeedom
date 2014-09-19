@@ -258,7 +258,7 @@ class scenario {
                 $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '
                         FROM scenario s
                         WHERE s.name=:scenario_name
-                            AND ( `group` IS NULL OR `group` = "")
+                            AND (`group` IS NULL OR `group`=""  OR `group`="Aucun" OR `group`="None")
                             AND s.object_id IS NULL';
             } else {
                 $values['group_name'] = $_group_name;
@@ -276,7 +276,7 @@ class scenario {
                         INNER JOIN object ob ON s.object_id=ob.id
                         WHERE s.name=:scenario_name
                             AND ob.name=:object_name
-                            AND ( `group` IS NULL OR `group` = "")';
+                            AND (`group` IS NULL OR `group`=""  OR `group`="Aucun" OR `group`="None")';
             } else {
                 $values['group_name'] = $_group_name;
                 $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '
