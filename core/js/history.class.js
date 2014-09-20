@@ -81,6 +81,8 @@ jeedom.history.drawChart = function (_params) {
             _params.option.graphScale = (_params.option.graphScale == undefined) ? 0 : parseInt(_params.option.graphScale);
             _params.showLegend = (init(_params.showLegend, true) && init(_params.showLegend, true) != "0") ? true : false;
             _params.showTimeSelector = (init(_params.showTimeSelector, true) && init(_params.showTimeSelector, true) != "0") ? true : false;
+            _params.showScrollbar = (init(_params.showScrollbar, true) && init(_params.showScrollbar, true) != "0") ? true : false;
+
             var series = {
                 dataGrouping: {
                     enabled: false
@@ -249,7 +251,8 @@ jeedom.history.drawChart = function (_params) {
                         buttonBorderRadius: 7,
                         trackBackgroundColor: 'none', trackBorderWidth: 1,
                         trackBorderRadius: 8,
-                        trackBorderColor: '#CCC'
+                        trackBorderColor: '#CCC',
+                        enabled: _params.showScrollbar
                     },
                     series: [series]
                 });

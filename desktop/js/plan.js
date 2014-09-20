@@ -454,7 +454,6 @@ function displayObject(_type, _id, _html, _plan) {
     if (grid === false) {
         html.addClass('noResize');
     } else {
-        console.log(eqLogic_width_step);
         html.css("max-width", "");
         html.css("min-width", eqLogic_width_step);
         html.css("min-height", eqLogic_height_step);
@@ -555,6 +554,7 @@ function addGraph(_plan) {
                 el: 'graph' + _plan.link_id,
                 showLegend: init(_plan.display.showLegend, true),
                 showTimeSelector: init(_plan.display.showTimeSelector, true),
+                showScrollbar: init(_plan.display.showScrollbar, true),
                 dateRange: init(_plan.display.dateRange, '7 days'),
                 option: init(options[i].configuration, {}),
                 global: false,

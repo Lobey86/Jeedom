@@ -98,10 +98,16 @@ sendVarToJS('id', $plan->getId());
                     <input type="checkbox" checked class="planAttr" data-l1key="display" data-l2key="showLegend" >
                 </div>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label class="col-lg-4 control-label">{{Afficher le selecteur de période}}</label>
                 <div class="col-lg-2">
                     <input type="checkbox" class="planAttr" checked data-l1key="display" data-l2key="showTimeSelector" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Afficher la barre de défilement}}</label>
+                <div class="col-lg-2">
+                    <input type="checkbox" class="planAttr" checked data-l1key="display" data-l2key="showScrollbar" >
                 </div>
             </div>
         <?php } else if ($plan->getLink_type() == 'plan' || $plan->getLink_type() == 'view') { ?>
