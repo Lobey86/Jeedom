@@ -92,6 +92,18 @@ sendVarToJS('id', $plan->getId());
                     </select>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Afficher la légende}}</label>
+                <div class="col-lg-2">
+                    <input type="checkbox" checked class="planAttr" data-l1key="display" data-l2key="showLegend" >
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="col-lg-4 control-label">{{Afficher le selecteur de période}}</label>
+                <div class="col-lg-2">
+                    <input type="checkbox" class="planAttr" checked data-l1key="display" data-l2key="showTimeSelector" >
+                </div>
+            </div>
         <?php } else if ($plan->getLink_type() == 'plan' || $plan->getLink_type() == 'view') { ?>
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Nom}}</label>
@@ -114,18 +126,18 @@ sendVarToJS('id', $plan->getId());
 
 
 <script>
-    $('#bt_chooseIcon').on('click', function() {
-        chooseIcon(function(_icon) {
+    $('#bt_chooseIcon').on('click', function () {
+        chooseIcon(function (_icon) {
             $('.planAttr[data-l1key=display][data-l2key=icon]').empty().append(_icon);
         });
     });
 
-    $('#bt_saveConfigurePlan').on('click', function() {
+    $('#bt_saveConfigurePlan').on('click', function () {
         save();
     });
 
-    $('#bt_removeConfigurePlan').on('click', function() {
-        bootbox.confirm('Etes-vous sûr de vouloir supprimer cet object du plan ?', function(result) {
+    $('#bt_removeConfigurePlan').on('click', function () {
+        bootbox.confirm('Etes-vous sûr de vouloir supprimer cet object du plan ?', function (result) {
             if (result) {
                 remove();
             }
@@ -145,10 +157,10 @@ sendVarToJS('id', $plan->getId());
                 id: _id
             },
             dataType: 'json',
-            error: function(request, status, error) {
+            error: function (request, status, error) {
                 handleAjaxError(request, status, error, $('#div_alertPlanConfigure'));
             },
-            success: function(data) { // si l'appel a bien fonctionné
+            success: function (data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
                     $('#div_alertPlanConfigure').showAlert({message: data.result, level: 'danger'});
                     return;
@@ -162,10 +174,10 @@ sendVarToJS('id', $plan->getId());
     function save() {
         jeedom.plan.save({
             plans: $('#fd_planConfigure').getValues('.planAttr'),
-            error: function(error) {
+            error: function (error) {
                 $('#div_alertPlanConfigure').showAlert({message: error.message, level: 'danger'});
             },
-            success: function() {
+            success: function () {
                 $('#div_alertPlanConfigure').showAlert({message: 'Plan sauvegardé', level: 'success'});
                 displayPlan();
                 $('#fd_planConfigure').closest("div.ui-dialog-content").dialog("close");
@@ -182,10 +194,10 @@ sendVarToJS('id', $plan->getId());
                 id: $(".planAttr[data-l1key=id]").value()
             },
             dataType: 'json',
-            error: function(request, status, error) {
+            error: function (request, status, error) {
                 handleAjaxError(request, status, error, $('#div_alertPlanConfigure'));
             },
-            success: function(data) { // si l'appel a bien fonctionné
+            success: function (data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
                     $('#div_alertPlanConfigure').showAlert({message: data.result, level: 'danger'});
                     return;

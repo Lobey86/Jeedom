@@ -538,6 +538,8 @@ function addGraph(_plan) {
             jeedom.history.drawChart({
                 cmd_id: options[i].link_id,
                 el: 'graph' + _plan.link_id,
+                showLegend: init(_plan.display.showLegend, true),
+                showTimeSelector: init(_plan.display.showTimeSelector, true),
                 dateRange: init(_plan.display.dateRange, '7 days'),
                 option: init(options[i].configuration, {}),
                 global: false,

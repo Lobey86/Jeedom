@@ -16,13 +16,13 @@
  */
 
 
-jeedom.history = function() {
+jeedom.history = function () {
 };
 
 jeedom.history.chart = [];
 
 
-jeedom.history.drawChart = function(_params) {
+jeedom.history.drawChart = function (_params) {
     $.showLoading();
     if ($.type(_params.dateRange) == 'object') {
         _params.dateRange = json_encode(_params.dateRange);
@@ -38,14 +38,14 @@ jeedom.history.drawChart = function(_params) {
             dateStart: _params.dateStart || '',
             dateEnd: _params.dateEnd || '',
             derive: _params.option.derive || 0,
-            allowZero: init(_params.option.allowZero,1)
+            allowZero: init(_params.option.allowZero, 1)
         },
         dataType: 'json',
         global: _params.global || true,
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) { // si l'appel a bien fonctionné 
+        success: function (data) { // si l'appel a bien fonctionné 
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
@@ -76,23 +76,11 @@ jeedom.history.drawChart = function(_params) {
             } else {
                 _params.option.graphColor = init(_params.option.graphColor, Highcharts.getOptions().colors[0]);
             }
-
-            if (!isset(_params.option.graphStep) && isset(data.result.cmd) && data.result.cmd.subType == 'binary') {
-                _params.option.graphStep = true;
-            } else {
-                _params.option.graphStep = (_params.option.graphStep == 1) ? true : false;
-            }
-            if (_params.option.graphStack == undefined || _params.option.graphStack == null || _params.option.graphStack == 0) {
-                _params.option.graphStack = Math.floor(Math.random() * 10000 + 2);
-            } else {
-                _params.option.graphStack = 1;
-            }
-            if (_params.option.graphScale == undefined) {
-                _params.option.graphScale = 0;
-            } else {
-                _params.option.graphScale = parseInt(_params.option.graphScale);
-            }
-
+            _params.option.graphStep = (!isset(_params.option.graphStep) && isset(data.result.cmd) && data.result.cmd.subType == 'binary') ? true : (_params.option.graphStep == 1) ? true : false;
+            _params.option.graphStack = (_params.option.graphStack == undefined || _params.option.graphStack == null || _params.option.graphStack == 0) ? Math.floor(Math.random() * 10000 + 2) : 1;
+            _params.option.graphScale = (_params.option.graphScale == undefined) ? 0 : parseInt(_params.option.graphScale);
+            _params.showLegend = (init(_params.showLegend, true) && init(_params.showLegend, true) != "0") ? true : false;
+            _params.showTimeSelector = (init(_params.showTimeSelector, true) && init(_params.showTimeSelector, true) != "0") ? true : false;
             var series = {
                 dataGrouping: {
                     enabled: false
@@ -111,12 +99,12 @@ jeedom.history.drawChart = function(_params) {
                 },
                 point: {
                     events: {
-                        click: function(event) {
+                        click: function (event) {
                             if (!$.mobile) {
                                 var id = this.series.userOptions.id;
                                 var datetime = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x);
                                 var value = this.y;
-                                bootbox.prompt("{{Edition de la série :}} <b>" + this.series.name + "</b> {{et du point de}} <b>" + datetime + "</b> ({{valeur :}} <b>" + value + "</b>) ? {{Ne rien mettre pour supprimer la valeur}}", function(result) {
+                                bootbox.prompt("{{Edition de la série :}} <b>" + this.series.name + "</b> {{et du point de}} <b>" + datetime + "</b> ({{valeur :}} <b>" + value + "</b>) ? {{Ne rien mettre pour supprimer la valeur}}", function (result) {
                                     if (result !== null) {
                                         jeedom.history.changePoint({cmd_id: id, datetime: datetime, value: result});
                                     }
@@ -128,11 +116,11 @@ jeedom.history.drawChart = function(_params) {
             };
             if (!$.mobile) {
                 var legend = {
-                    enabled: true,
                     borderColor: 'black',
                     borderWidth: 2,
                     shadow: true
                 };
+                legend.enabled = init(_params.showLegend, true);
             } else {
                 var legend = {};
             }
@@ -220,7 +208,8 @@ jeedom.history.drawChart = function(_params) {
                                 text: 'Tous'
                             }],
                         selected: dateRange,
-                        inputEnabled: false
+                        inputEnabled: false,
+                        enabled: _params.showTimeSelector
                     },
                     legend: legend,
                     tooltip: {
@@ -275,7 +264,7 @@ jeedom.history.drawChart = function(_params) {
 
 
 
-jeedom.history.generatePlotBand = function(_startTime, _endTime) {
+jeedom.history.generatePlotBand = function (_startTime, _endTime) {
     var plotBands = [];
     var pas = 43200000;
     var offset = 14400000; //Debut du jour - 4 (soit 20h)
@@ -291,13 +280,13 @@ jeedom.history.generatePlotBand = function(_startTime, _endTime) {
     return plotBands;
 }
 
-jeedom.history.changePoint = function(_params) {
+jeedom.history.changePoint = function (_params) {
     var paramsRequired = ['cmd_id'];
     var paramsSpecifics = {
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(result) {
+        success: function (result) {
             $('#div_alert').showAlert({message: '{{La valeur a été éditée avec succès}}', level: 'success'});
             var serie = null;
             for (var i in jeedom.history.chart) {
