@@ -84,14 +84,14 @@ $('body').delegate('.listEquipementInfo', 'click', function () {
     });
 });
 
-$("#bt_saveInteract").on('click', function (data) {
+$("#bt_saveInteract").on('click', function () {
     jeedom.interact.save({
         interact: $('.interact').getValues('.interactAttr')[0],
         error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function () {
-            window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
+        success: function (data) {
+            $('#ul_interact .li_interact[data-interact_id=' + data.id + ']').click()
         }
     });
 });
