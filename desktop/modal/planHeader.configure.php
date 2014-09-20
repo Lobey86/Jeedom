@@ -128,6 +128,8 @@ sendVarToJS('id', $planHeader->getId())
                 $('.planHeaderAttr[data-l1key=configuration][data-l2key=preconfigureDevice]').off().on('change',function(){
                     $('.planHeaderAttr[data-l1key=configuration][data-l2key=sizeX]').value($(this).find('option:selected').attr('data-width'));
                     $('.planHeaderAttr[data-l1key=configuration][data-l2key=sizeY]').value($(this).find('option:selected').attr('data-height'));
+                    $('.planHeaderAttr[data-l1key=configuration][data-l2key=maxSizeAllow]').value(1);
+                    $('.planHeaderAttr[data-l1key=configuration][data-l2key=minSizeAllow]').value(1);
                 });
             }
         });
