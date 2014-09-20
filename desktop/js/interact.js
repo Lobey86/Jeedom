@@ -91,7 +91,7 @@ $("#bt_saveInteract").on('click', function () {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function (data) {
-            $('#ul_interact .li_interact[data-interact_id=' + data.id + ']').click()
+            window.location.replace('index.php?v=d&p=interact&id=' + data.id + '&saveSuccessFull=1');
         }
     });
 });
