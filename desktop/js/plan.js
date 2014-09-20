@@ -177,11 +177,13 @@ $('#bt_editPlan').on('click', function () {
         $('.editMode').show();
         $(this).html('<i class="fa fa-pencil"></i> {{Quitter le mode édition}}');
         $(this).attr('data-mode', '1');
+        $('#div_displayObject').css('background-color', '#bdc3c7');
     } else {
         initDraggable(0);
         $('.editMode').hide();
         $(this).html('<i class="fa fa-pencil"></i> {{Mode édition}}');
         $(this).attr('data-mode', '0');
+        $('#div_displayObject').css('background-color', 'transparent');
     }
 });
 
