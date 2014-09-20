@@ -135,6 +135,13 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $jsonrpc->makeSuccess(getVersion('jeedom'));
             }
 
+            /*             * ************************Plugin*************************** */
+            if ($jsonrpc->getMethod() == 'plugin::listPlugin') {
+                $activateOnly = (isset($params['activateOnly']) && $params['activateOnly'] == 1) ? true : false;
+                $orderByCaterogy = (isset($params['orderByCaterogy']) && $params['orderByCaterogy'] == 1) ? true : false;
+                $jsonrpc->makeSuccess(utils::o2a(plugin::listPlugin($activateOnly, $orderByCaterogy)));
+            }
+
             /*             * ************************Object*************************** */
             if ($jsonrpc->getMethod() == 'object::all') {
                 $jsonrpc->makeSuccess(utils::o2a(object::all()));
@@ -151,6 +158,10 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             /*             * ************************Equipement*************************** */
             if ($jsonrpc->getMethod() == 'eqLogic::all') {
                 $jsonrpc->makeSuccess(utils::o2a(eqLogic::all()));
+            }
+            
+             if ($jsonrpc->getMethod() == 'eqLogic::byType') {
+                $jsonrpc->makeSuccess(utils::o2a(eqLogic::byType($params['type'])));
             }
 
             if ($jsonrpc->getMethod() == 'eqLogic::byObjectId') {

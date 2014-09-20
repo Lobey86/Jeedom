@@ -54,7 +54,7 @@ try {
     if (!class_exists($plugin_id) || !method_exists($plugin_id, $function)) {
         throw new Exception(__('Il n\'existe aucune méthode : ', __FILE__) . $plugin_id . '::' . $function);
     }
-    log::add(init('plugin_id', 'plugin'), 'info', __('Lancement de ', __FILE__) . $plugin_id . '::' . $function . '()');
+  //  log::add(init('plugin_id', 'plugin'), 'info', __('Lancement de ', __FILE__) . $plugin_id . '::' . $function . '()');
     $plugin_id::$function();
 } catch (Exception $e) {
     log::add(init('plugin_id', 'plugin'), 'error', $e->getMessage());
