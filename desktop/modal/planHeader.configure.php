@@ -43,6 +43,16 @@ sendVarToJS('id', $planHeader->getId())
             </div>
         </div>
         <legend>{{Taille}}</legend>
+         <div class="form-group">
+            <label class="col-lg-4 control-label">{{Taille pré-configurée}}</label>
+            <div class="col-lg-3">
+                <select class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='preconfigureDevice'>
+                    <option value="none">Aucun</option>
+                    <option value="nexus4" data-width="348" data-height="480">Nexus 4 (portait)</option>
+                    <option value="nexus4" data-width="480" data-height="348">Nexus 4 (paysage)</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Ratio/taille}}</label>
             <div class="col-lg-4">
@@ -115,6 +125,10 @@ sendVarToJS('id', $planHeader->getId())
                     return;
                 }
                 $('#fd_planHeaderConfigure').setValues(data.result, '.planHeaderAttr');
+                $('.planHeaderAttr[data-l1key=configuration][data-l2key=preconfigureDevice]').off().on('change',function(){
+                    $('.planHeaderAttr[data-l1key=configuration][data-l2key=sizeX]').value($(this).find('option:selected').attr('data-width'));
+                    $('.planHeaderAttr[data-l1key=configuration][data-l2key=sizeY]').value($(this).find('option:selected').attr('data-height'));
+                });
             }
         });
     }
