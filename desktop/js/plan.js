@@ -207,10 +207,23 @@ function initDraggable(_state) {
     }
     $('.plan-link-widget,.view-link-widget,.graph-widget,.eqLogic-widget,.scenario-widget').draggable({
         drag: function (evt, ui) {
+            if ((ui.position.left + $(this).width()) >= $('#div_displayObject').width()) {
+                ui.position.left = $('#div_displayObject').width() - $(this).width();
+            }
+            if ((ui.position.top + $(this).height()) >= $('#div_displayObject').height()) {
+                ui.position.top = $('#div_displayObject').height() - $('#div_displayObject').height();
+            }
+            if (ui.position.top < 0) {
+                ui.position.top = 0;
+            }
+            if (ui.position.left < 0) {
+                ui.position.left = 0;
+            }
             if (grid != false && grid[0] != false) {
                 ui.position.top = Math.round(ui.position.top / grid[1]) * grid[1];
                 ui.position.left = Math.round(ui.position.left / grid[0]) * grid[0];
             }
+
         },
     });
     $('.graph-widget').resizable();

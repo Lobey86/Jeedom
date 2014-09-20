@@ -45,10 +45,10 @@ sendVarToJS('id', $planHeader->getId())
         <legend>{{Taille}}</legend>
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Ratio/taille}}</label>
-            <div class="col-lg-2">
-                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key="sizeX" style="width: 50px;display: inline-block;"/> 
+            <div class="col-lg-4">
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key="sizeX" style="width: 80px;display: inline-block;"/> 
                 x 
-                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='sizeY' style="width: 50px;display: inline-block;"/>
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='sizeY' style="width: 80px;display: inline-block;"/>
             </div>
         </div>
         <div class="form-group">

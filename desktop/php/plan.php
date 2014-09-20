@@ -49,7 +49,7 @@ if (is_object($planHeader)) {
     }
     ?>
 </div>
-<div id="div_displayObject" style="min-height: 500px; min-width: 750px;position: relative;">
+<div id="div_displayObject" style="position: relative;">
     <?php
     if (is_object($planHeader) && $planHeader->getImage('type') != '') {
         echo $planHeader->displayImage();
