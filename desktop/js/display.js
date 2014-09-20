@@ -243,6 +243,7 @@ function displayCmd(_cmd_id) {
                 div += '<option value="avg">Moyenne</option>';
                 div += '<option value="min">Minimum</option>';
                 div += '<option value="max">Maximum</option>';
+                div += '<option value="nonde">Aucun</option>';
                 div += '</select>';
                 div += '</div>';
                 div += '</div>';

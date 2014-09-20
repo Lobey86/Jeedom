@@ -80,7 +80,7 @@ class history {
         foreach ($list_sensors as $sensors) {
             $cmd = cmd::byId($sensors['cmd_id']);
             if (is_object($cmd) && $cmd->getType() == 'info' && $cmd->getIsHistorized() == 1) {
-                if ($cmd->getSubType() == 'binary') {
+                if ($cmd->getSubType() == 'binary' || $cmd->getConfiguration('historizeMode', 'avg') == 'none') {
                     $values = array(
                         'cmd_id' => $cmd->getId(),
                     );
@@ -402,7 +402,7 @@ class history {
         if ($this->getDatetime() == '') {
             $this->setDatetime(date('Y-m-d H:i:s'));
         }
-        if ($cmd->getSubType() != 'binary') {
+        if ($cmd->getSubType() != 'binary' && $cmd->getConfiguration('historizeMode', 'avg') != 'none') {
             if ($this->getTableName() == 'history') {
                 $time = strtotime($this->getDatetime());
                 $time -= $time % 300;
