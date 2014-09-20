@@ -77,8 +77,6 @@ sendVarToJS('cmd_widgetMobile', cmd::availableWidget('mobile'));
 
 
     <div class="tab-pane" id="display_configuration">
-
-
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
