@@ -236,17 +236,22 @@ function displayCmd(_cmd_id) {
                     if (subtype.isHistorized.visible) {
                         div += '<div class="form-group">';
                         div += '<label class="col-lg-2 control-label">{{Historiser}}</label>';
-                        div += '<div class="col-lg-3">';
+                        div += '<div class="col-lg-1">';
                         div += '<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" />';
                         div += '</div>';
                         div += '<label class="col-lg-2 control-label">{{Mode de lissage}}</label>';
-                        div += '<div class="col-lg-3">';
+                        div += '<div class="col-lg-2">';
                         div += '<select class="form-control cmdAttr" data-l1key="configuration" data-l2key="historizeMode">';
                         div += '<option value="avg">Moyenne</option>';
                         div += '<option value="min">Minimum</option>';
                         div += '<option value="max">Maximum</option>';
-                        div += '<option value="nonde">Aucun</option>';
+                        div += '<option value="none">Aucun</option>';
                         div += '</select>';
+                        div += '</div>';
+                        div += '<label class="col-lg-2 control-label">{{Arrondit}}</label>';
+                        div += '<div class="col-lg-2">';
+                        div += '<input class="cmdAttr form-control" data-l1key="configuration" data-l2key="historizeRound" />';
+                        
                         div += '</div>';
                         div += '</div>';
                         $('#div_displayInfo').setValues(data, '.cmdAttr');

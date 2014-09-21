@@ -402,6 +402,9 @@ class history {
         if ($this->getDatetime() == '') {
             $this->setDatetime(date('Y-m-d H:i:s'));
         }
+        if ($cmd->getConfiguration('historizeRound') !== '' && is_numeric($cmd->getConfiguration('historizeRound')) && $cmd->getConfiguration('historizeRound') >= 0) {
+            $this->setValue(round($this->getValue(), $cmd->getConfiguration('historizeRound')));
+        }
         if ($cmd->getSubType() != 'binary' && $cmd->getConfiguration('historizeMode', 'avg') != 'none') {
             if ($this->getTableName() == 'history') {
                 $time = strtotime($this->getDatetime());
