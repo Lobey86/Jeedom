@@ -34,15 +34,15 @@ try {
 
 function jeedomCoreAutoload($classname) {
     try {
-        if ($classname == 'cache') {
+       /* if ($classname == 'cache') {
             if (extension_loaded('memcached')) {
                 include_file('core', 'cache.mc', 'class');
             } else {
                 include_file('core', 'cache.ms', 'class');
             }
-        } else {
+        } else {*/
             include_file('core', $classname, 'class');
-        }
+        //}
     } catch (Exception $e) {
         
     }

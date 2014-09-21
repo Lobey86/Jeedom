@@ -262,19 +262,6 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <i class="fa fa-question-circle cursor bt_pageHelp" data-name='cronSyntaxe'></i>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label">{{Moteur de cache}}</label>
-                                    <div class="col-lg-3">
-                                        <?php
-                                        if (extension_loaded('memcached')) {
-                                            echo '<span class="label label-success">Memcache</span>';
-                                        } else {
-                                            echo '<span class="label label-warning">MySQL</span>';
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
                             </fieldset>
                         </form>
                     </div>

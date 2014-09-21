@@ -16,7 +16,7 @@
  */
 
 
-$('#div_tree').on('select_node.jstree', function(node, selected) {
+$('#div_tree').on('select_node.jstree', function (node, selected) {
     if (selected.node.a_attr.class == 'infoObject') {
         displayObject(selected.node.a_attr['data-object_id']);
     }
@@ -30,20 +30,20 @@ $('#div_tree').on('select_node.jstree', function(node, selected) {
 $('#div_tree').jstree();
 
 
-$("#bt_displayConfig").on('click', function(event) {
+$("#bt_displayConfig").on('click', function (event) {
     $.hideAlert();
     saveConfiguration($('#display_configuration'));
 });
 
-$('.bt_resetColor').on('click', function() {
+$('.bt_resetColor').on('click', function () {
     var el = $(this);
     jeedom.getConfiguration({
         key: $(this).attr('data-l1key'),
         default: 1,
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(data) {
+        success: function (data) {
             $('.configKey[data-l1key="' + el.attr('data-l1key') + '"]').value(data);
         }
     });
@@ -53,10 +53,10 @@ $('.bt_resetColor').on('click', function() {
 function saveConfiguration(_el) {
     jeedom.config.save({
         configuration: _el.getValues('.configKey')[0],
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function() {
+        success: function () {
             $('#div_alert').showAlert({message: '{{Sauvegarde effectuée}}', level: 'success'});
             modifyWithoutSave = false;
         }
@@ -68,10 +68,10 @@ function displayCmd(_cmd_id) {
     jeedom.cmd.byId({
         id: _cmd_id,
         noCache: true,
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(data) {
+        success: function (data) {
             $('#div_displayInfo').empty();
             var div = '<div class="row">';
             div += '<div class="col-lg-6" >';
@@ -138,13 +138,6 @@ function displayCmd(_cmd_id) {
             div += '</div>';
 
             div += '<div class="form-group">';
-            div += '<label class="col-lg-4 control-label">{{Historisé}}</label>';
-            div += '<div class="col-lg-4">';
-            div += '<span class="cmdAttr label label-primary" data-l1key="isHistorized"></span>';
-            div += '</div>';
-            div += '</div>';
-
-            div += '<div class="form-group">';
             div += '<label class="col-lg-4 control-label">{{Evenement seulement}}</label>';
             div += '<div class="col-lg-4">';
             div += '<span class="cmdAttr label label-primary" data-l1key="eventOnly"></span>';
@@ -165,10 +158,10 @@ function displayCmd(_cmd_id) {
             div += '<fieldset id="fd_cmdUsedBy">';
             jeedom.cmd.usedBy({
                 id: _cmd_id,
-                error: function(error) {
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
-                success: function(data) {
+                success: function (data) {
                     var html = '';
                     html += '<div class="form-group">';
                     html += '<label class="col-lg-2 control-label">{{Equipement}}</label>';
@@ -214,7 +207,7 @@ function displayCmd(_cmd_id) {
             div += '<fieldset>';
 
             div += '<div class="form-group">';
-            div += '<label class="col-lg-2 control-label">{{Dashboard widget}}</label>';
+            div += '<label class="col-lg-2 control-label">{{Widget Desktop}}</label>';
             div += '<div class="col-lg-3">';
             div += '<select class="form-control cmdAttr" data-l1key="template" data-l2key="dashboard">';
             for (var i in cmd_widgetDashboard[data.type][data.subType]) {
@@ -222,10 +215,7 @@ function displayCmd(_cmd_id) {
             }
             div += '</select>';
             div += '</div>';
-            div += '</div>';
-
-            div += '<div class="form-group">';
-            div += '<label class="col-lg-2 control-label">{{Mobile widget}}</label>';
+            div += '<label class="col-lg-2 control-label">{{Mobile}}</label>';
             div += '<div class="col-lg-3">';
             div += '<select class="form-control cmdAttr" data-l1key="template" data-l2key="mobile">';
             for (var i in cmd_widgetMobile[data.type][data.subType]) {
@@ -235,19 +225,34 @@ function displayCmd(_cmd_id) {
             div += '</div>';
             div += '</div>';
 
-            if (data.isHistorized == 1) {
-                div += '<div class="form-group">';
-                div += '<label class="col-lg-2 control-label">{{Mode d\'historisation}}</label>';
-                div += '<div class="col-lg-3">';
-                div += '<select class="form-control cmdAttr" data-l1key="configuration" data-l2key="historizeMode">';
-                div += '<option value="avg">Moyenne</option>';
-                div += '<option value="min">Minimum</option>';
-                div += '<option value="max">Maximum</option>';
-                div += '<option value="nonde">Aucun</option>';
-                div += '</select>';
-                div += '</div>';
-                div += '</div>';
-            }
+            jeedom.getConfiguration({
+                key: 'cmd:type:' + data.type + ':subtype:' + data.subType,
+                default: 0,
+                async: false,
+                error: function (error) {
+                    _params.error(error);
+                },
+                success: function (subtype) {
+                    if (subtype.isHistorized.visible) {
+                        div += '<div class="form-group">';
+                        div += '<label class="col-lg-2 control-label">{{Historiser}}</label>';
+                        div += '<div class="col-lg-3">';
+                        div += '<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" />';
+                        div += '</div>';
+                        div += '<label class="col-lg-2 control-label">{{Mode de lissage}}</label>';
+                        div += '<div class="col-lg-3">';
+                        div += '<select class="form-control cmdAttr" data-l1key="configuration" data-l2key="historizeMode">';
+                        div += '<option value="avg">Moyenne</option>';
+                        div += '<option value="min">Minimum</option>';
+                        div += '<option value="max">Maximum</option>';
+                        div += '<option value="nonde">Aucun</option>';
+                        div += '</select>';
+                        div += '</div>';
+                        div += '</div>';
+                        $('#div_displayInfo').setValues(data, '.cmdAttr');
+                    }
+                }
+            });
 
             div += '</fieldset>';
             div += '</form>';
@@ -255,14 +260,14 @@ function displayCmd(_cmd_id) {
 
             $('#div_displayInfo').html(div);
             $('#div_displayInfo').setValues(data, '.cmdAttr');
-            $('#saveCmd').off().on('click', function() {
+            $('#saveCmd').off().on('click', function () {
                 var cmd = $('#div_displayInfo').getValues('.cmdAttr');
                 jeedom.cmd.save({
                     cmd: cmd[0],
-                    error: function(error) {
+                    error: function (error) {
                         $('#div_alert').showAlert({message: error.message, level: 'danger'});
                     },
-                    success: function() {
+                    success: function () {
                         $('#div_alert').showAlert({message: '{{Enregistrement réussi}}', level: 'success'});
                     }});
             });
@@ -274,10 +279,10 @@ function displayCmd(_cmd_id) {
 function displayObject(_object_id) {
     jeedom.object.byId({
         id: _object_id,
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(data) {
+        success: function (data) {
             $('#div_displayInfo').empty();
             var div = '<div class="row">';
             div += '<form class="form-horizontal">';
@@ -319,10 +324,10 @@ function displayEqLogic(_eqLogic_id) {
     $.hideAlert();
     jeedom.eqLogic.byId({
         id: _eqLogic_id,
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(data) {
+        success: function (data) {
             $('#div_displayInfo').empty();
             var div = '<div class="row">';
             div += '<div class="col-lg-6" >';

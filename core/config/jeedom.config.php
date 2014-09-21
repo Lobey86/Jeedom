@@ -46,7 +46,8 @@ $JEEDOM_INTERNAL_CONFIG = array(
             'info' => array(
                 'name' => 'Info',
                 'subtype' => array(
-                    'numeric' => array('name' => 'Numérique',
+                    'numeric' => array(
+                        'name' => 'Numérique',
                         'configuration' => array(
                             'minValue' => array('visible' => true),
                             'maxValue' => array('visible' => true)),
@@ -62,7 +63,8 @@ $JEEDOM_INTERNAL_CONFIG = array(
                             'icon' => array('visible' => false, 'parentVisible' => false),
                         ),
                     ),
-                    'binary' => array('name' => 'Binaire',
+                    'binary' => array(
+                        'name' => 'Binaire',
                         'configuration' => array(
                             'minValue' => array('visible' => false),
                             'maxValue' => array('visible' => false)),
@@ -78,7 +80,8 @@ $JEEDOM_INTERNAL_CONFIG = array(
                             'icon' => array('visible' => false, 'parentVisible' => false),
                         ),
                     ),
-                    'string' => array('name' => 'Autre',
+                    'string' => array(
+                        'name' => 'Autre',
                         'configuration' => array(
                             'minValue' => array('visible' => false),
                             'maxValue' => array('visible' => false)),
@@ -99,7 +102,8 @@ $JEEDOM_INTERNAL_CONFIG = array(
             'action' => array(
                 'name' => 'Action',
                 'subtype' => array(
-                    'other' => array('name' => 'Défaut',
+                    'other' => array(
+                        'name' => 'Défaut',
                         'configuration' => array(
                             'minValue' => array('visible' => false),
                             'maxValue' => array('visible' => false)),
@@ -115,7 +119,8 @@ $JEEDOM_INTERNAL_CONFIG = array(
                             'icon' => array('visible' => true, 'parentVisible' => true),
                         ),
                     ),
-                    'slider' => array('name' => 'Slider',
+                    'slider' => array(
+                        'name' => 'Slider',
                         'configuration' => array(
                             'minValue' => array('visible' => true),
                             'maxValue' => array('visible' => true)),
@@ -131,7 +136,8 @@ $JEEDOM_INTERNAL_CONFIG = array(
                             'icon' => array('visible' => true, 'parentVisible' => true),
                         ),
                     ),
-                    'message' => array('name' => 'Message',
+                    'message' => array(
+                        'name' => 'Message',
                         'configuration' => array(
                             'minValue' => array('visible' => false),
                             'maxValue' => array('visible' => false)),
@@ -147,7 +153,8 @@ $JEEDOM_INTERNAL_CONFIG = array(
                             'icon' => array('visible' => true, 'parentVisible' => true),
                         ),
                     ),
-                    'color' => array('name' => 'Couleur',
+                    'color' => array(
+                        'name' => 'Couleur',
                         'configuration' => array(
                             'minValue' => array('visible' => false),
                             'maxValue' => array('visible' => false)),
