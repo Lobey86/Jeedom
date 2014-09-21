@@ -369,18 +369,12 @@ class jeedom {
 
     public static function cron() {
         if (!self::isStarted()) {
-            if (extension_loaded('memcached') && method_exists('cache', 'load')) {
-                cache::load();
-                cache::set('start', 'ok');
-            }
             $cache = cache::byKey('jeedom::usbMapping');
             $cache->remove();
             jeedom::start();
             plugin::start();
             internalEvent::start();
-            if (!extension_loaded('memcached')) {
-                DB::Prepare("INSERT INTO `start` (`key` ,`value`) VALUES ('start',  'ok')", array());
-            }
+            DB::Prepare("INSERT INTO `start` (`key` ,`value`) VALUES ('start',  'ok')", array());
             self::event('start');
             log::add('core', 'info', 'Démarrage de Jeedom OK');
         }
@@ -388,16 +382,6 @@ class jeedom {
         interactDef::cron();
         eqLogic::checkAlive();
         connection::cron();
-        try {
-            $c = new Cron\CronExpression(config::byKey('persist::cron'), new Cron\FieldFactory);
-            if ($c->isDue()) {
-                if (method_exists('cache', 'persist')) {
-                    cache::persist();
-                }
-            }
-        } catch (Exception $e) {
-            log::add('log', 'error', $e->getMessage());
-        }
         try {
             $c = new Cron\CronExpression(config::byKey('log::chunck'), new Cron\FieldFactory);
             if ($c->isDue()) {
@@ -450,7 +434,7 @@ class jeedom {
         } catch (Exception $e) {
             log::add('jeeNetwork', 'error', $e->getMessage());
         }
-        if (config::byKey('market::allowDNS') == 1) {
+        if (config::byKey('market::allowDNS') == 1 && config::byKey('jeeNetwork::mode') == 'master') {
             try {
                 $c = new Cron\CronExpression('*/10 * * * *', new Cron\FieldFactory);
                 if ($c->isDue()) {

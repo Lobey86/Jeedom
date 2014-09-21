@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Lun 01 Septembre 2014 à 17:22
--- Version du serveur: 5.6.19-0ubuntu0.14.04.1
--- Version de PHP: 5.5.9-1ubuntu4.3
+-- Généré le: Dim 21 Septembre 2014 à 16:16
+-- Version du serveur: 5.6.19-0ubuntu0.14.04.1-log
+-- Version de PHP: 5.5.9-1ubuntu4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -32,7 +32,8 @@ CREATE TABLE IF NOT EXISTS `cache` (
   `lifetime` varchar(127) NOT NULL,
   `value` varchar(5119) DEFAULT NULL,
   `options` varchar(5119) DEFAULT NULL,
-  PRIMARY KEY (`key`)
+  PRIMARY KEY (`key`),
+  KEY `lifetime` (`lifetime`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -88,7 +89,8 @@ CREATE TABLE IF NOT EXISTS `cmd` (
   KEY `value` (`value`),
   KEY `order` (`order`),
   KEY `logicalID` (`logicalId`),
-  KEY `logicalId_eqLogicID` (`eqLogic_id`,`logicalId`)
+  KEY `logicalId_eqLogicID` (`eqLogic_id`,`logicalId`),
+  KEY `type_eventOnly` (`type`,`eventOnly`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -121,7 +123,9 @@ CREATE TABLE IF NOT EXISTS `connection` (
   `options` varchar(2048) DEFAULT NULL,
   `informations` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ip_UNIQUE` (`ip`)
+  UNIQUE KEY `ip_UNIQUE` (`ip`),
+  KEY `datetime` (`datetime`),
+  KEY `status_datetime` (`status`,`datetime`)
 ) ENGINE=MEMORY  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -150,7 +154,8 @@ CREATE TABLE IF NOT EXISTS `cron` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `class_function` (`class`,`function`,`option`),
   KEY `type` (`class`),
-  KEY `logicalId_Type` (`class`)
+  KEY `logicalId_Type` (`class`),
+  KEY `deamon` (`deamon`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -315,8 +320,27 @@ CREATE TABLE IF NOT EXISTS `interactQuery` (
 CREATE TABLE IF NOT EXISTS `internalEvent` (
   `datetime` datetime DEFAULT NULL,
   `event` varchar(127) DEFAULT NULL,
-  `options` varchar(511) DEFAULT NULL
+  `options` varchar(511) DEFAULT NULL,
+  KEY `datetime` (`datetime`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `jeeNetwork`
+--
+
+CREATE TABLE IF NOT EXISTS `jeeNetwork` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(127) DEFAULT NULL,
+  `apikey` varchar(255) DEFAULT NULL,
+  `plugin` text,
+  `configuration` text,
+  `name` varchar(127) DEFAULT NULL,
+  `status` varchar(127) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ip_UNIQUE` (`ip`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -347,7 +371,8 @@ CREATE TABLE IF NOT EXISTS `message` (
   `plugin` varchar(127) NOT NULL,
   `message` text,
   `action` text,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `plugin_logicalID` (`plugin`,`logicalId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -429,6 +454,7 @@ CREATE TABLE IF NOT EXISTS `scenario` (
   `hlogs` text,
   `display` text,
   `description` text,
+  `configuration` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`group`,`object_id`,`name`),
   KEY `group` (`group`),
