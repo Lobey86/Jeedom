@@ -392,7 +392,8 @@ class market {
         }
         $market = self::getJsonRpc();
         $params = array(
-            'marketkey' => config::byKey('market::jeedom_apikey')
+            'marketkey' => config::byKey('market::jeedom_apikey'),
+            'port' => config::byKey('externalPort', 80),
         );
         if (!$market->sendRequest('jeedom::updateip', $params)) {
             throw new Exception($market->getError());
