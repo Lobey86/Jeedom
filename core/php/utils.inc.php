@@ -710,10 +710,6 @@ function sudoExec($_user, $_password, $_cmds) {
     unlink($pwsh);
 }
 
-function useless() {
-    
-}
-
 function getIpFromString($_string) {
     if (strpos($_string, '://') !== false) {
         $_string = substr($_string, strpos($_string, '://') + 3);
@@ -723,6 +719,9 @@ function getIpFromString($_string) {
     }
     if ($pos > 0) {
         $_string = substr($_string, 0, $pos);
+    }
+    if (!filter_var($_string, FILTER_VALIDATE_IP)) {
+        $_string = gethostbyname($_string);
     }
     return $_string;
 }

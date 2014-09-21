@@ -374,6 +374,7 @@ class jeedom {
             jeedom::start();
             plugin::start();
             internalEvent::start();
+            self::doUPnP();
             DB::Prepare("INSERT INTO `start` (`key` ,`value`) VALUES ('start',  'ok')", array());
             self::event('start');
             log::add('core', 'info', 'Démarrage de Jeedom OK');
@@ -457,7 +458,6 @@ class jeedom {
     public static function getHardwareKey() {
         $cache = cache::byKey('jeedom::hwkey');
         if ($cache->getValue(0) == 0) {
-            //$key = shell_exec('cat /proc/cpuinfo');
             $key = shell_exec("/sbin/ifconfig eth0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}'");
             $hwkey = sha1($key);
             cache::set('jeedom::hwkey', $hwkey, 86400);
@@ -493,6 +493,34 @@ class jeedom {
 
     public static function rebootSystem() {
         exec('sudo reboot');
+    }
+
+    public static function portForwarding($_internalIp, $_internalPort, $_externalPort, $_protocol = 'TCP') {
+        $fp = popen("which upnpc", "r");
+        $result = fgets($fp, 255);
+        $exists = !empty($result);
+        pclose($fp);
+        if (!$exists) {
+            throw new Exception(__('Impossible de trouver : upnpc. Veuillez l\'installer en ssh en faisant : "sudo apt-get install -y miniupnpc"', __FILE__));
+        }
+        shell_exec('upnpc -d ' . $_externalPort . ' ' . $_protocol);
+        $result = exec('upnpc -a ' . $_internalIp . ' ' . $_internalPort . ' ' . $_externalPort . ' ' . $_protocol);
+        if (strpos($result, 'is redirected to internal') === false) {
+            throw new Exception(__('Echec de la redirection de port : ', __FILE__) . $result);
+        }
+    }
+
+    public static function doUPnP() {
+        if (config::byKey('internalAddr') == '') {
+            config::save('internalAddr', exec("/sbin/ifconfig eth0 | grep 'inet adr:' | cut -d: -f2 | awk '{ print $1}'"));
+        }
+        if (config::byKey('allowupnpn') == 1) {
+            try {
+                self::portForwarding(getIpFromString(config::byKey('internalAddr')), 80, config::byKey('externalPort', 80));
+            } catch (Exception $e) {
+                log::add('core', 'error', $e->getMessage());
+            }
+        }
     }
 
     /*     * *********************Methode d'instance************************* */

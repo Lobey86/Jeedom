@@ -50,6 +50,22 @@ $('#bt_rebootSysteme').on('click', function () {
     });
 });
 
+$('#bt_forceApplyUPnP').on('click', function () {
+    $.hideAlert();
+    bootbox.confirm('{{Etes-vous sûr de vouloir appliquer les regles UPnP ?}}', function (result) {
+        if (result) {
+            jeedom.doUPnP({
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function (data) {
+                    $('#div_alert').showAlert({message: 'Commande réalisée avec succès', level: 'success'});
+                }
+            });
+        }
+    });
+});
+
 $("#bt_nodeJsKey").on('click', function (event) {
     $.hideAlert();
     genNodeJsKey();

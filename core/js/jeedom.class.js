@@ -28,7 +28,7 @@ if (!isset(jeedom.cache.getConfiguration)) {
 }
 
 
-jeedom.init = function() {
+jeedom.init = function () {
     jeedom.display.version = 'desktop';
     if ($.mobile) {
         jeedom.display.version = 'mobile';
@@ -46,21 +46,21 @@ jeedom.init = function() {
     });
     if (nodeJsKey != '' && io != null) {
         socket = io.connect();
-        socket.on('error', function(reason) {
+        socket.on('error', function (reason) {
             console.log('Unable to connect Socket.IO', reason);
         });
-        socket.on('connect', function() {
+        socket.on('connect', function () {
             socket.emit('authentification', nodeJsKey, user_id);
             $('.span_nodeJsState').removeClass('red').addClass('green');
             jeedom.nodeJs.state = true;
             $('body').trigger('nodeJsConnect');
         });
-        socket.on('authentification_failed', function() {
+        socket.on('authentification_failed', function () {
             notify('Node JS erreur', '{{Erreur d\'authentification sur node JS, clef invalide}}', 'error');
             $('.span_nodeJsState').removeClass('green').addClass('red');
             jeedom.nodeJs.state = false;
         });
-        socket.on('eventCmd', function(_options) {
+        socket.on('eventCmd', function (_options) {
             _options = json_decode(_options);
             if ($.isArray(_options)) {
                 for (var i in _options) {
@@ -83,14 +83,14 @@ jeedom.init = function() {
             }
 
         });
-        socket.on('eventScenario', function(scenario_id) {
+        socket.on('eventScenario', function (scenario_id) {
             jeedom.scenario.refreshValue({id: scenario_id});
             if ($.mobile) {
                 jeedom.workflow.scenario[scenario_id] = true;
                 jeedom.scheduleWorkflow();
             }
         });
-        socket.on('notify', function(title, text, category) {
+        socket.on('notify', function (title, text, category) {
             var theme = '';
             switch (init(category)) {
                 case 'event' :
@@ -124,7 +124,7 @@ jeedom.init = function() {
     }
 }
 
-jeedom.scheduleWorkflow = function() {
+jeedom.scheduleWorkflow = function () {
     var nextrun = ((new Date()).getTime()) + jeedom.workflow.delay;
     if (nextrun > jeedom.workflow.nextrun) {
         if (nextrun < (jeedom.workflow.nextrun + jeedom.workflow.delay)) {
@@ -133,19 +133,19 @@ jeedom.scheduleWorkflow = function() {
             if (timeout < 1) {
                 timeout = jeedom.workflow.delay;
             }
-            setTimeout(function() {
+            setTimeout(function () {
                 jeedom.processWorkflow();
             }, timeout);
         } else {
             jeedom.workflow.nextrun = nextrun + jeedom.workflow.delay;
-            setTimeout(function() {
+            setTimeout(function () {
                 jeedom.processWorkflow();
             }, jeedom.workflow.delay);
         }
     }
 }
 
-jeedom.processWorkflow = function() {
+jeedom.processWorkflow = function () {
     var list_object = [];
     for (var i in jeedom.workflow.object) {
         if (jeedom.workflow.object[i]) {
@@ -194,10 +194,10 @@ jeedom.processWorkflow = function() {
     }
 }
 
-jeedom.getConfiguration = function(_params) {
+jeedom.getConfiguration = function (_params) {
     var paramsRequired = ['key'];
     var paramsSpecifics = {
-        pre_success: function(data) {
+        pre_success: function (data) {
             jeedom.cache.getConfiguration[_params.key] = data.result;
             return data;
         }
@@ -223,7 +223,7 @@ jeedom.getConfiguration = function(_params) {
     $.ajax(paramsAJAX);
 };
 
-jeedom.haltSystem = function(_params) {
+jeedom.haltSystem = function (_params) {
     var paramsRequired = [];
     var paramsSpecifics = {};
     try {
@@ -241,7 +241,7 @@ jeedom.haltSystem = function(_params) {
     $.ajax(paramsAJAX);
 };
 
-jeedom.rebootSystem = function(_params) {
+jeedom.rebootSystem = function (_params) {
     var paramsRequired = [];
     var paramsSpecifics = {};
     try {
@@ -255,6 +255,24 @@ jeedom.rebootSystem = function(_params) {
     paramsAJAX.url = 'core/ajax/jeedom.ajax.php';
     paramsAJAX.data = {
         action: 'rebootSystem',
+    };
+    $.ajax(paramsAJAX);
+};
+
+jeedom.doUPnP = function (_params) {
+    var paramsRequired = [];
+    var paramsSpecifics = {};
+    try {
+        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
+    } catch (e) {
+        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
+        return;
+    }
+    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
+    var paramsAJAX = jeedom.private.getParamsAJAX(params);
+    paramsAJAX.url = 'core/ajax/jeedom.ajax.php';
+    paramsAJAX.data = {
+        action: 'doUPnP',
     };
     $.ajax(paramsAJAX);
 };

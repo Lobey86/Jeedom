@@ -165,42 +165,8 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Adresse interne}}</label>
-                                <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="internalAddr" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Adresse externe}}</label>
-                                <div class="col-lg-3">
-                                    <input type="text"  class="configKey form-control" data-l1key="externalAddr" />
-                                </div>
-                            </div>
-                            <div class="form-group expertModeVisible alert alert-danger">
-                                <label class="col-lg-2 control-label">{{Mode}}</label>
-                                <div class="col-lg-6">
-                                    <?php
-                                    if (config::byKey('jeeNetwork::mode') == 'master') {
-                                        echo '<a class="btn btn-success changeJeeNetworkMode" data-mode="master">{{Maitre}}</a> ';
-                                        echo '<a class="btn btn-default changeJeeNetworkMode" data-mode="slave">{{Esclave}}</a>';
-                                    } else {
-                                        echo '<a class="btn btn-default changeJeeNetworkMode" data-mode="master">{{Maitre}}</a> ';
-                                        echo '<a class="btn btn-success changeJeeNetworkMode" data-mode="slave">{{Esclave}}</a>';
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                            <?php
-                            if (config::byKey('jeeNetwork::mode') == 'slave') {
-                                echo '<div class="form-group expertModeVisible">';
-                                echo '<label class="col-lg-2 control-label">{{IP Maitre}}</label>';
-                                echo '<div class="col-lg-6">';
-                                echo '<span class="label label-info">' . config::byKey('jeeNetwork::master::ip') . '</span>';
-                                echo '</div>';
-                                echo '</div>';
-                            }
-                            ?>
+
+
                         </fieldset>
                     </form>
                 </div>
@@ -226,6 +192,76 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                 </div>
             </div>
         </div>
+
+        <div class="panel panel-default expertModeVisible">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_network">
+                        {{Configuration réseaux}}
+                    </a>
+                </h3>
+            </div>
+            <div id="config_network" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <?php
+                            if (config::byKey('jeeNetwork::mode') == 'slave') {
+                                echo '<div class="form-group expertModeVisible">';
+                                echo '<label class="col-lg-2 control-label">{{IP Maitre}}</label>';
+                                echo '<div class="col-lg-6">';
+                                echo '<span class="label label-info">' . config::byKey('jeeNetwork::master::ip') . '</span>';
+                                echo '</div>';
+                                echo '</div>';
+                            }
+                            ?>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">{{Adresse interne}}</label>
+                                <div class="col-lg-3">
+                                    <input type="text"  class="configKey form-control" data-l1key="internalAddr" />
+                                </div>
+                            </div>
+                            <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Adresse externe}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="text"  class="configKey form-control" data-l1key="externalAddr" />
+                                    </div>
+                                    <label class="col-lg-2 control-label">{{Port externe}}</label>
+                                    <div class="col-lg-2">
+                                        <input type="text"  class="configKey form-control" data-l1key="externalPort" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Activer l'ouverture automatique de port (UPnP)}}</label>
+                                    <div class="col-lg-1">
+                                        <input type="checkbox"  class="configKey" data-l1key="allowupnpn" />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <a class="btn btn-default" id="bt_forceApplyUPnP"> {{Appliquer l'ouverture des ports}}</a>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <div class="form-group expertModeVisible alert alert-danger">
+                                <label class="col-lg-2 control-label">{{Mode}}</label>
+                                <div class="col-lg-6">
+                                    <?php
+                                    if (config::byKey('jeeNetwork::mode') == 'master') {
+                                        echo '<a class="btn btn-success changeJeeNetworkMode" data-mode="master">{{Maitre}}</a> ';
+                                        echo '<a class="btn btn-default changeJeeNetworkMode" data-mode="slave">{{Esclave}}</a>';
+                                    } else {
+                                        echo '<a class="btn btn-default changeJeeNetworkMode" data-mode="master">{{Maitre}}</a> ';
+                                        echo '<a class="btn btn-success changeJeeNetworkMode" data-mode="slave">{{Esclave}}</a>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
             <div class="panel panel-default expertModeVisible">
                 <div class="panel-heading">
