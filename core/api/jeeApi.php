@@ -127,6 +127,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
 
             /*             * ***********************Get API Key********************************* */
             if ($jsonrpc->getMethod() == 'getApiKey' && config::byKey('market::jeedom_apikey') == $params['apikey']) {
+                market::validateTicket($params['ticket']);
                 $jsonrpc->makeSuccess(config::byKey('api'));
             }
 

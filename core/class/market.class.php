@@ -399,6 +399,21 @@ class market {
         }
     }
 
+    public static function validateTicket($_ticket) {
+        if (config::byKey('market::jeedom_apikey') == '') {
+            config::save('market::jeedom_apikey', config::genKey(255));
+        }
+        $market = self::getJsonRpc();
+        $params = array(
+            'marketkey' => config::byKey('market::jeedom_apikey'),
+            'ticket' => $_ticket
+        );
+        if (!$market->sendRequest('jeedom::checkTicket', $params)) {
+            throw new Exception($market->getError());
+        }
+        return true;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function getComment() {
