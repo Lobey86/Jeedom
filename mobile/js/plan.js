@@ -21,10 +21,9 @@ function initPlan(_planHeader_id) {
         displayPlan(_planHeader_id);
     }
 
-    $(window).off().on("orientationchange", function (event) {
+    $(window).one("orientationchange", function (event) {
         initPlan(_planHeader_id)
     });
-
     $("#bt_fullScreen").on("click", function () {
         if ($("div[data-role=header]").length != 0) {
             $("div[data-role=header]").remove();

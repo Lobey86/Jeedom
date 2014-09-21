@@ -1,9 +1,10 @@
 function initHome() {
+    $('#ul_objectList').trigger('create');
     jeedom.object.all({
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(objects) {
+        success: function (objects) {
             var li = '';
             for (var i in objects) {
                 if (objects[i].isVisible == 1) {
@@ -19,10 +20,10 @@ function initHome() {
     });
 
     jeedom.view.all({
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(views) {
+        success: function (views) {
             var li = '';
             for (var i in views) {
                 li += '<li><a href="#" class="link" data-page="view" data-title="' + views[i].name + '" data-option="' + views[i].id + '">' + views[i].name + '</a></li>'
@@ -32,10 +33,10 @@ function initHome() {
     });
 
     jeedom.plan.allHeader({
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(planHeader) {
+        success: function (planHeader) {
             var li = '';
             for (var i in planHeader) {
                 if (deviceInfo.type != 'phone' || (deviceInfo.type == 'phone' && planHeader[i].configuration.enableOnMobile == "1")) {
@@ -58,7 +59,7 @@ function initHome() {
     }
     refreshMessageNumber();
 
-    $('#bt_logout').on('click', function() {
+    $('#bt_logout').on('click', function () {
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/user.ajax.php", // url du fichier php
@@ -66,10 +67,10 @@ function initHome() {
                 action: "logout",
             },
             dataType: 'json',
-            error: function(request, status, error) {
+            error: function (request, status, error) {
                 handleAjaxError(request, status, error, $('#div_alert'));
             },
-            success: function(data) { // si l'appel a bien fonctionné
+            success: function (data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
