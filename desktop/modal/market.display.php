@@ -157,13 +157,13 @@ if ($market->getPurchase() == 1) {
                 <label class="col-sm-4 control-label">Lien</label>
                 <div class="col-sm-8">
                     <?php if ($market->getLink('wiki') != '') { ?>
-                        <a class="btn btn-default btn-xs" target="_blank" href="<?php echo $market->getLink('wiki'); ?>">Wiki</a>
+                        <a class="btn btn-default btn-xs" target="_blank" href="<?php echo $market->getLink('wiki'); ?>"><i class="fa fa-krw"></i> Wiki</a>
                     <?php } ?>
                     <?php if ($market->getLink('video') != '') { ?>
-                        <a class="btn btn-default btn-xs" target="_blank" href="<?php echo $market->getLink('video'); ?>">Video</a>
+                        <a class="btn btn-default btn-xs" target="_blank" href="<?php echo $market->getLink('video'); ?>"><i class="fa fa-youtube"></i> Video</a>
                     <?php } ?>
                     <?php if ($market->getLink('forum') != '') { ?>
-                        <a class="btn btn-default btn-xs" target="_blank" href="<?php echo $market->getLink('forum'); ?>">Forum</a>
+                        <a class="btn btn-default btn-xs" target="_blank" href="<?php echo $market->getLink('forum'); ?>"><i class="fa fa-users"></i> Forum</a>
                     <?php } ?>
                 </div>
             </div>
