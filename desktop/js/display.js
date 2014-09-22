@@ -248,7 +248,7 @@ function displayCmd(_cmd_id) {
                         div += '<option value="none">Aucun</option>';
                         div += '</select>';
                         div += '</div>';
-                        div += '<label class="col-lg-2 control-label">{{Arrondit}}</label>';
+                        div += '<label class="col-lg-2 control-label">{{Arrondi (nombre de chiffre après la virgule)}}</label>';
                         div += '<div class="col-lg-2">';
                         div += '<input class="cmdAttr form-control" data-l1key="configuration" data-l2key="historizeRound" />';
                         
