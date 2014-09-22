@@ -300,7 +300,11 @@ class cron {
 
     public function halt() {
         if (!is_numeric($this->getPID())) {
-            return true;
+            $pid = $this->retrievePid();
+            if (!is_numeric($pid)) {
+                return true;
+            }
+            $this->setPID($pid);
         }
         log::add('cron', 'info', __('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '()');
         exec('kill ' . $this->getPID());

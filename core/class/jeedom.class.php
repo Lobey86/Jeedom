@@ -452,7 +452,7 @@ class jeedom {
     }
 
     public static function retrievePidThread($_cmd) {
-        return shell_exec('ps ax | grep "' . $_cmd . '$" | grep -v "grep" | awk "{print $1}"');
+        return shell_exec('ps ax | grep "' . $_cmd . '$" | grep -v "grep" | awk \'{print $1}\'');
     }
 
     public static function getHardwareKey() {
