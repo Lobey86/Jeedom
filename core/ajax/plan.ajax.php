@@ -46,7 +46,7 @@ try {
         $return = array();
         foreach ($plans as $plan) {
             $link = $plan->getLink();
-            if (is_object($link)) {
+            if (is_object($link) && $link->getIsVisible() == 1) {
                 $return[] = array(
                     'plan' => utils::o2a($plan),
                     'html' => $link->toHtml(init('version', 'dashboard'))
