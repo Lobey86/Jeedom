@@ -299,12 +299,11 @@ class cron {
      */
 
     public function halt() {
+        if ($this->getNbRun() == 0) {
+            return true;
+        }
         if (!is_numeric($this->getPID())) {
-            $pid = $this->retrievePid();
-            if (!is_numeric($pid)) {
-                return true;
-            }
-            $this->setPID($pid);
+            $this->setPID($this->retrievePid());
         }
         log::add('cron', 'info', __('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '()');
         exec('kill ' . $this->getPID());
