@@ -56,6 +56,9 @@ $(".li_jeeNetwork").on('click', function (event) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function (data) {
+            if (!$.isArray(data)) {
+                return;
+            }
             var option = '';
             for (var i in data) {
                 option += '<option>' + data[i] + '</option>';
@@ -74,6 +77,9 @@ $('#bt_showLog').on('click', function () {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function (data) {
+            if (!$.isArray(data)) {
+                return;
+            }
             var log = '';
             var regex = /<br\s*[\/]?>/gi;
             for (var i in data.reverse()) {
@@ -116,6 +122,9 @@ $('#bt_removeLog').on('click', function () {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
                 success: function (data) {
+                    if (!$.isArray(data)) {
+                        return;
+                    }
                     var option = '';
                     for (var i in data) {
                         option += '<option>' + data[i] + '</option>';
@@ -201,6 +210,9 @@ $('#bt_showMessage').on('click', function () {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function (data) {
+            if (!$.isArray(data)) {
+                return;
+            }
             var log = '';
             for (var i in data) {
                 log += data[i]['date'];
