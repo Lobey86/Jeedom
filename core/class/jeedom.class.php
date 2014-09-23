@@ -321,17 +321,10 @@ class jeedom {
     }
 
     public static function isStarted() {
-        if (extension_loaded('memcached')) {
-            $cache = cache::byKey('start');
-            if ($cache->getValue() == 'ok') {
-                return true;
-            }
-        } else {
-            $sql = "SELECT `value` FROM `start` WHERE `key`='start'";
-            $result = DB::Prepare($sql, array());
-            if (count($result) > 0 && $result['value'] == 'ok') {
-                return true;
-            }
+        $sql = "SELECT `value` FROM `start` WHERE `key`='start'";
+        $result = DB::Prepare($sql, array());
+        if (count($result) > 0 && $result['value'] == 'ok') {
+            return true;
         }
         return false;
     }
@@ -375,7 +368,7 @@ class jeedom {
             plugin::start();
             internalEvent::start();
             self::doUPnP();
-            DB::Prepare("INSERT INTO `start` (`key` ,`value`) VALUES ('start',  'ok')", array());
+            DB::Prepare("REPLACE INTO `start` (`key` ,`value`) VALUES ('start',  'ok')", array());
             self::event('start');
             log::add('core', 'info', 'Démarrage de Jeedom OK');
         }
