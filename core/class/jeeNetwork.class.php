@@ -353,7 +353,7 @@ class jeeNetwork {
 
     public function getJsonRpc() {
         if ($this->getIp() == '') {
-            throw new Exception(__('Aucune addresse IP de renseignée pour : ', __FILE__) . $this->getName());
+            throw new Exception(__('Aucune adresse IP renseignée pour : ', __FILE__) . $this->getName());
         }
         return new jsonrpcClient($this->getIp() . '/core/api/jeeApi.php', $this->getApikey());
     }
