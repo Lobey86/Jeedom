@@ -24,6 +24,7 @@ if (getUrlVars('removeSuccessFull') == 1) {
 }
 
 $(".li_jeeNetwork").on('click', function (event) {
+    $.hideAlert();
     $('#div_conf').show();
     $('.li_jeeNetwork').removeClass('active');
     $(this).addClass('active');

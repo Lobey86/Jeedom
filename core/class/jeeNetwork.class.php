@@ -162,6 +162,12 @@ class jeeNetwork {
                 } catch (Exception $e) {
                     log::add('jeeNetwork', 'error', $e->getMessage());
                 }
+            } else {
+                try {
+                    $jeeNetwork->save();
+                } catch (Exception $e) {
+                    
+                }
             }
         }
     }
@@ -211,12 +217,15 @@ class jeeNetwork {
             }
             $this->setConfiguration('nbMessage', $result['nbMessage']);
         } else {
-            $this->setStatus('erreur');
+            $this->setStatus('error');
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
         }
     }
 
     public function reload() {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         if (!$jsonrpc->sendRequest('jeeNetwork::reload', array())) {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
@@ -224,6 +233,9 @@ class jeeNetwork {
     }
 
     public function halt() {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         if (!$jsonrpc->sendRequest('jeeNetwork::halt', array())) {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
@@ -231,6 +243,9 @@ class jeeNetwork {
     }
 
     public function reboot() {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         if (!$jsonrpc->sendRequest('jeeNetwork::reboot', array())) {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
@@ -238,6 +253,9 @@ class jeeNetwork {
     }
 
     public function update() {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         if (!$jsonrpc->sendRequest('jeeNetwork::update', array())) {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
@@ -245,6 +263,9 @@ class jeeNetwork {
     }
 
     public function checkUpdate() {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         if ($jsonrpc->sendRequest('jeeNetwork::checkUpdate', array())) {
             $this->save();
@@ -254,6 +275,9 @@ class jeeNetwork {
     }
 
     public function getLog($_log = 'core', $_begin, $_nbLines) {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         $params = array(
             'log' => $_log,
@@ -268,6 +292,9 @@ class jeeNetwork {
     }
 
     public function emptyLog($_log = 'core') {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         $params = array(
             'log' => $_log,
@@ -278,6 +305,9 @@ class jeeNetwork {
     }
 
     public function removeLog($_log = 'core') {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         $params = array(
             'log' => $_log,
@@ -288,6 +318,9 @@ class jeeNetwork {
     }
 
     public function getListLog() {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         if ($jsonrpc->sendRequest('log::list', array())) {
             return $jsonrpc->getResult();
@@ -297,6 +330,9 @@ class jeeNetwork {
     }
 
     public function getMessage() {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         if ($jsonrpc->sendRequest('message::all', array())) {
             return $jsonrpc->getResult();
@@ -306,6 +342,9 @@ class jeeNetwork {
     }
 
     public function removeAllMessage() {
+        if ($this->getStatus() == 'error') {
+            return '';
+        }
         $jsonrpc = $this->getJsonRpc();
         if (!$jsonrpc->sendRequest('message::removeAll', array())) {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
