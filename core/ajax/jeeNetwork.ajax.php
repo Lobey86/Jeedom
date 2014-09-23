@@ -136,16 +136,20 @@ try {
         if (!isConnect('admin')) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
+        $update = true;
         $jeeNetwork_json = json_decode(init('jeeNetwork'), true);
         if (isset($jeeNetwork_json['id'])) {
             $jeeNetwork = jeeNetwork::byId($jeeNetwork_json['id']);
         }
         if (!isset($jeeNetwork) || !is_object($jeeNetwork)) {
+            $update = false;
             $jeeNetwork = new jeeNetwork();
         }
         utils::a2o($jeeNetwork, $jeeNetwork_json);
         $jeeNetwork->save();
-        $jeeNetwork->reload();
+        if ($update) {
+            $jeeNetwork->reload();
+        }
         ajax::success(utils::o2a($jeeNetwork));
     }
 

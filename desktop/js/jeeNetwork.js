@@ -229,7 +229,7 @@ $('#bt_emptyMessage').on('click', function () {
 });
 
 $("#bt_addJeeNetwork").on('click', function (event) {
-    bootbox.prompt("Nom de du Jeedom esclave ?", function (result) {
+    bootbox.prompt("Nom du Jeedom esclave ?", function (result) {
         if (result !== null) {
             jeedom.jeeNetwork.save({
                 jeeNetwork: {name: result},
