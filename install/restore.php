@@ -115,11 +115,11 @@ try {
     DB::Prepare("SET foreign_key_checks = 1", array(), DB::FETCH_TYPE_ROW);
     echo __("OK\n", __FILE__);
 
-    echo __("Reastauration de la base de données...", __FILE__);
+    echo __("Restauration de la base de données...", __FILE__);
     system("mysql --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'] . "  < " . $tmp . "/DB_backup.sql");
     echo __("OK\n", __FILE__);
 
-    echo __("Reastauration des fichiers...", __FILE__);
+    echo __("Restauration des fichiers...", __FILE__);
     rcopy($tmp, dirname(__FILE__) . '/..', false);
     rcopy($tmp . '/plugins', dirname(__FILE__) . '/../plugins', false);
     echo __("OK\n", __FILE__);
