@@ -10,7 +10,6 @@ ADD INDEX `datetime` (`datetime` ASC);
 ALTER TABLE `jeedom`.`cmd` 
 ADD INDEX `type_eventOnly` (`type` ASC, `eventOnly` ASC);
 
-ALTER TABLE `jeedom`.`message` 
 ALTER TABLE `jeedom`.`connection` 
 ADD INDEX `datetime` (`datetime` ASC);
 
