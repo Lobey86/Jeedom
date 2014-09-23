@@ -175,7 +175,12 @@ class jeeNetwork {
         if ($this->getApikey() == '') {
             throw new Exception('La clef API ne peut etre vide');
         }
-        $this->handshake();
+        try {
+            $this->handshake();
+        } catch (Exception $e) {
+            DB::save($this, true);
+            throw $e;
+        }
     }
 
     public function save() {
@@ -186,7 +191,7 @@ class jeeNetwork {
         return DB::remove($this);
     }
 
-    public function handshake($_reload = false) {
+    public function handshake() {
         $jsonrpc = $this->getJsonRpc();
         $params = array(
             'apikey_master' => config::byKey('api'),
@@ -315,7 +320,7 @@ class jeeNetwork {
     }
 
     public function getRealIp() {
-        return  getIpFromString($this->getIp());
+        return getIpFromString($this->getIp());
     }
 
     /*     * **********************Getteur Setteur*************************** */

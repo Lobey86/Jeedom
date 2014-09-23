@@ -35,7 +35,7 @@ class DB {
     private function __construct() {
         global $CONFIG;
         try {
-            $this->connection = new PDO('mysql:host=' . $CONFIG['db']['host'] . ';port=' . $CONFIG['db']['port'] . ';dbname=' . $CONFIG['db']['dbname'], $CONFIG['db']['username'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',PDO::ATTR_PERSISTENT => true));
+            $this->connection = new PDO('mysql:host=' . $CONFIG['db']['host'] . ';port=' . $CONFIG['db']['port'] . ';dbname=' . $CONFIG['db']['dbname'], $CONFIG['db']['username'], $CONFIG['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8', PDO::ATTR_PERSISTENT => true));
         } catch (Exception $e) {
             throw new Exception('DB : Incorrect parameters');
         }
@@ -116,13 +116,13 @@ class DB {
      * @param object $object
      * @return boolean
      */
-    public static function save($object) {
-        if (method_exists($object, 'preSave')) {
+    public static function save($object, $_direct = false) {
+        if (!$_direct && method_exists($object, 'preSave')) {
             $object->preSave();
         }
         if (!self::getField($object, 'id')) {
             //New object to save.
-            if (method_exists($object, 'preInsert')) {
+            if (!$_direct && method_exists($object, 'preInsert')) {
                 $object->preInsert();
             }
             list($sql, $parameters) = self::buildQuery($object);
@@ -132,25 +132,25 @@ class DB {
             if ($reflection->hasProperty('id')) {
                 self::setField($object, 'id', self::getLastInsertId());
             }
-            if (method_exists($object, 'postInsert')) {
+            if (!$_direct && method_exists($object, 'postInsert')) {
                 $object->postInsert();
             }
         } else {
             //Object to update.
-            if (method_exists($object, 'preUpdate')) {
+            if (!$_direct && method_exists($object, 'preUpdate')) {
                 $object->preUpdate();
             }
             list($sql, $parameters) = self::buildQuery($object);
-            if (method_exists($object, 'getId')) {
+            if (!$_direct && method_exists($object, 'getId')) {
                 $parameters['id'] = $object->getId(); //override if necessary
             }
             $sql = 'UPDATE `' . self::getTableName($object) . '` SET ' . implode(', ', $sql) . ' WHERE id = :id';
             $res = self::Prepare($sql, $parameters, DB::FETCH_TYPE_ROW);
-            if (method_exists($object, 'postUpdate')) {
+            if (!$_direct && method_exists($object, 'postUpdate')) {
                 $object->postUpdate();
             }
         }
-        if (method_exists($object, 'postSave')) {
+        if (!$_direct && method_exists($object, 'postSave')) {
             $object->postSave();
         }
         return null !== $res && false !== $res;
@@ -173,7 +173,7 @@ class DB {
         }
         $sql .= '1';
         $newObject = self::Prepare($sql, $parameters, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, get_class($object));
-        if(!is_object($newObject)){
+        if (!is_object($newObject)) {
             return false;
         }
         foreach (self::getFields($object) as $field) {
