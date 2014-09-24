@@ -47,7 +47,7 @@ class cron {
     public static function all($_order = false) {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cron';
-        if($_order){
+        if ($_order) {
             $sql .= ' ORDER BY deamon DESC';
         }
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
@@ -262,8 +262,7 @@ class cron {
      */
     public function running() {
         if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && $this->getPID() > 0) {
-            exec('ps ' . $this->pid . '  | grep php', $pState);
-            return (count($pState) >= 1);
+            return posix_getsid($this->pid);
         }
         return false;
     }
@@ -305,8 +304,9 @@ class cron {
         if (!is_numeric($this->getPID())) {
             $this->setPID($this->retrievePid());
         }
-        log::add('cron', 'info', __('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '()');
+        log::add('cron', 'info', __('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '(), PID : ' . $this->getPID());
         exec('kill ' . $this->getPID());
+        error_log('kill ' . $this->getPID());
         $check = $this->running();
         $retry = 0;
         while ($check) {
@@ -320,6 +320,7 @@ class cron {
         }
         if ($this->running()) {
             exec('kill -9 ' . $this->getPID());
+            error_log('kill -9 ' . $this->getPID());
             $check = $this->running();
             while ($check) {
                 $check = $this->running();
