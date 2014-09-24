@@ -215,20 +215,39 @@ class market {
             throw new Exception(__('Aucune addresse pour le market de renseignée', __FILE__));
         }
         if (config::byKey('market::registerkey') == '') {
-            $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), array(
-                'jeedomversion' => getVersion('jeedom'),
-                'hwkey' => jeedom::getHardwareKey()
-            ));
+            if (config::byKey('market::username') != '' && config::byKey('market::password') != '') {
+                $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
+                    'username' => config::byKey('market::username'),
+                    'password' => sha1(config::byKey('market::password')),
+                    'jeedomversion' => getVersion('jeedom'),
+                    'hwkey' => jeedom::getHardwareKey()
+                ));
+            } else {
+                $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), array(
+                    'jeedomversion' => getVersion('jeedom'),
+                    'hwkey' => jeedom::getHardwareKey()
+                ));
+            }
             if (!$register->sendRequest('register', array())) {
                 throw new Exception($register->getError());
             }
             config::save('market::registerkey', $register->getResult());
         }
-        return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), array(
-            'jeedomversion' => getVersion('jeedom'),
-            'jeedomkey' => config::byKey('market::registerkey'),
-            'hwkey' => jeedom::getHardwareKey()
-        ));
+        if (config::byKey('market::username') != '' && config::byKey('market::password') != '') {
+            return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
+                'username' => config::byKey('market::username'),
+                'password' => sha1(config::byKey('market::password')),
+                'jeedomversion' => getVersion('jeedom'),
+                'jeedomkey' => config::byKey('market::registerkey'),
+                'hwkey' => jeedom::getHardwareKey()
+            ));
+        } else {
+            return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), array(
+                'jeedomversion' => getVersion('jeedom'),
+                'jeedomkey' => config::byKey('market::registerkey'),
+                'hwkey' => jeedom::getHardwareKey()
+            ));
+        }
     }
 
     public static function getInfo($_logicalId, $_version = 'stable') {

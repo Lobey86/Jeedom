@@ -640,9 +640,15 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-lg-2 control-label">{{Clef API}}</label>
+                                    <label class="col-lg-2 control-label">{{Nom d'utilisateur}}</label>
                                     <div class="col-lg-3">
-                                        <input type="text"  class="configKey form-control" data-l1key="market::apikey" />
+                                        <input type="text"  class="configKey form-control" data-l1key="market::username" />
+                                    </div>
+                                </div>
+                                  <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Mot de passe}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="password"  class="configKey form-control" data-l1key="market::password" />
                                     </div>
                                 </div>
                                 <div class="form-group">
