@@ -262,7 +262,7 @@ class cron {
      */
     public function running() {
         if (($this->getState() == 'run' || $this->getState() == 'stoping' ) && $this->getPID() > 0) {
-            return posix_getsid($this->pid);
+            return posix_getsid($this->getPID());
         }
         return false;
     }
