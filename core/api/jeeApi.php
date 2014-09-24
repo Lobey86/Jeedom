@@ -250,7 +250,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
 
             /*             * ************************Scénario*************************** */
             if ($jsonrpc->getMethod() == 'scenario::all') {
-                $jsonrpc->makeSuccess(scenario::all());
+                $jsonrpc->makeSuccess(utils::o2a(scenario::all()));
             }
 
             if ($jsonrpc->getMethod() == 'scenario::byId') {
