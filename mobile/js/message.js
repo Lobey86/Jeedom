@@ -58,7 +58,6 @@ function getAllMessage(_plugin) {
         success: function(messages) {
             var tbody = '';
             for (var i in  messages) {
-                tbody += '<tr>';
                 tbody += '<tr data-message_id="' + messages[i].id + '">';
                 tbody += '<td><center><i class="fa fa-trash-o cursor removeMessage"></i></center></td>';
                 tbody += '<td class="datetime">' + messages[i].date + '</td>';
