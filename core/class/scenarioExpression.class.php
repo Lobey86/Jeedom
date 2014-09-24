@@ -349,7 +349,11 @@ class scenarioExpression {
                     $scenario->save();
                     die();
                 } else if ($this->getExpression() == 'scenario') {
-                    $actionScenario = scenario::byId($this->getOptions('scenario_id'));
+                    if ($this->getOptions('scenario_id') == $scenario->getId()) {
+                        $actionScenario = &$scenario;
+                    } else {
+                        $actionScenario = scenario::byId($this->getOptions('scenario_id'));
+                    }
                     if (!is_object($actionScenario)) {
                         throw new Exception($scenario, __('Action sur scénario impossible. Scénario introuvable vérifier l\'id : ', __FILE__) . $this->getOptions('scenario_id'));
                     }
