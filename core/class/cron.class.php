@@ -306,7 +306,6 @@ class cron {
         }
         log::add('cron', 'info', __('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '(), PID : ' . $this->getPID());
         exec('kill ' . $this->getPID());
-        error_log('kill ' . $this->getPID());
         $check = $this->running();
         $retry = 0;
         while ($check) {
