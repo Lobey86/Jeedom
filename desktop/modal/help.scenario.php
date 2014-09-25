@@ -73,6 +73,8 @@ if (!isConnect()) {
     Ex : variable(plop,10) renvoie la valeur de la variable plop ou 10 si elle est vide ou n'existe pas}}
 {{scenario(scenario) : donne le statut du scenario
     Ex : scenario(#[Salle de bain][Lumière][Auto]#) : Renvoi 1 en cours, 0 si arreté et -1 si desactivé}}
+{{stateDuration(commande,[valeur]) : donne la durée en minute depuis le dernier changement de valeur
+    Ex : stateDuration(#[Salle de bain][Hydrometrie][Humidité]#) : Renvoi 5 si cette valeur est la depuis 5min}}
                 </pre>
             </div>
         </div>

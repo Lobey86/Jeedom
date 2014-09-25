@@ -297,6 +297,37 @@ class history {
         return ($base / $divisor);
     }
 
+    public static function stateDuration($_cmd_id, $_value = null) {
+        $cmd = cmd::byId($_cmd_id);
+        if (!is_object($cmd)) {
+            throw new Exception(__('Commande introuvable : ', __FILE__) . $_cmd_id);
+        }
+        $values = array(
+            'cmd_id' => $_cmd_id,
+        );
+        if ($_value == null) {
+            $values['value'] = $cmd->execCmd();
+        } else {
+            $values['value'] = $_value;
+        }
+        $sql = 'SELECT  `datetime`
+                FROM (
+                    SELECT `datetime`
+                    FROM  `history` 
+                    WHERE  `cmd_id`=:cmd_id
+                    AND  `value` !=:value
+                    UNION ALL
+                    SELECT `datetime`
+                    FROM  `historyArch` 
+                    WHERE  `cmd_id`=:cmd_id
+                    AND  `value` !=:value
+                ) as dt
+                ORDER BY  `datetime` DESC 
+                LIMIT 1';
+        $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+        return round((strtotime('now') - strtotime($result['datetime'])) / 60);
+    }
+
     /**
      * Fonction qui recupere les valeurs actuellement des capteurs, 
      * les mets dans la BDD et archive celle-ci

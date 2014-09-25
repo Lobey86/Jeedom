@@ -271,6 +271,10 @@ class scenarioExpression {
         return $_default;
     }
 
+    public static function stateDuration($_cmd_id, $_value = null) {
+        return history::stateDuration(str_replace('#', '', $_cmd_id), $_value);
+    }
+
     public static function setTags($_expression) {
         $replace = array(
             '#heure#' => (int) date('G'),
