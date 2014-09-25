@@ -45,6 +45,8 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
             log::add('api', 'debug', 'Exécution de : ' . $cmd->getHumanName());
             echo $cmd->execCmd($_REQUEST);
+        } else if ($type == 'interact') {
+            echo interactQuery::tryToReply(init('query'));
         } else if ($type == 'scenario') {
             $scenario = scenario::byId(init('id'));
             if (!is_object($scenario)) {
@@ -74,7 +76,6 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
             echo 'ok';
         } else {
-
             if (class_exists($type)) {
                 if (method_exists($type, 'event')) {
                     log::add('api', 'info', 'Appels de ' . $type . '::event()');
@@ -160,8 +161,8 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             if ($jsonrpc->getMethod() == 'eqLogic::all') {
                 $jsonrpc->makeSuccess(utils::o2a(eqLogic::all()));
             }
-            
-             if ($jsonrpc->getMethod() == 'eqLogic::byType') {
+
+            if ($jsonrpc->getMethod() == 'eqLogic::byType') {
                 $jsonrpc->makeSuccess(utils::o2a(eqLogic::byType($params['type'])));
             }
 
@@ -370,6 +371,11 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
 
             if ($jsonrpc->getMethod() == 'message::all') {
                 $jsonrpc->makeSuccess(utils::o2a(message::all()));
+            }
+
+            /*             * ************************Interact*************************** */
+            if ($jsonrpc->getMethod() == 'interact::tryToReply') {
+                $jsonrpc->makeSuccess(interactQuery::tryToReply(init('query')));
             }
 
             /*             * ************************************************************************ */
