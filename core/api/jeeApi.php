@@ -110,12 +110,25 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
 
         $params = $jsonrpc->getParams();
 
-        if (config::byKey('api') == '' || (config::byKey('api') != $params['apikey'] && config::byKey('api') != $params['api'])) {
-            if (config::byKey('market::jeedom_apikey') == '' || config::byKey('market::jeedom_apikey') != $params['apikey'] || $_SERVER['REMOTE_ADDR'] != '94.23.188.164') {
-                connection::failed();
-                throw new Exception('Clef API invalide', -32001);
+
+        if (isset($params['apikey']) || isset($params['api'])) {
+            if (config::byKey('api') == '' || (config::byKey('api') != $params['apikey'] && config::byKey('api') != $params['api'])) {
+                if (config::byKey('market::jeedom_apikey') == '' || config::byKey('market::jeedom_apikey') != $params['apikey'] || $_SERVER['REMOTE_ADDR'] != '94.23.188.164') {
+                    connection::failed();
+                    throw new Exception('Clef API invalide', -32001);
+                }
             }
+        } else if (isset($params['username']) && isset($params['password'])) {
+            $user = user::connect($params['username'], $params['password']);
+            if (!is_object($user) || $user->getRights('admin') != 1) {
+                connection::failed();
+                throw new Exception('Nom d\'utilisateur ou mot de passe invalide', -32001);
+            }
+        } else {
+            connection::failed();
+            throw new Exception('Aucune clef API ou nom d\'utilisateur', -32001);
         }
+
         connection::success('api');
 
         if ($params['plugin'] != '') {
