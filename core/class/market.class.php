@@ -219,6 +219,7 @@ class market {
                 $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
                     'username' => config::byKey('market::username'),
                     'password' => sha1(config::byKey('market::password')),
+                    'password_type' => 'sha1',
                     'jeedomversion' => getVersion('jeedom'),
                     'hwkey' => jeedom::getHardwareKey()
                 ));
@@ -237,6 +238,7 @@ class market {
             return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
                 'username' => config::byKey('market::username'),
                 'password' => sha1(config::byKey('market::password')),
+                'password_type' => 'sha1',
                 'jeedomversion' => getVersion('jeedom'),
                 'jeedomkey' => config::byKey('market::registerkey'),
                 'hwkey' => jeedom::getHardwareKey()
