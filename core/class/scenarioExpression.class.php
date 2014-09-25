@@ -275,6 +275,14 @@ class scenarioExpression {
         return history::stateDuration(str_replace('#', '', $_cmd_id), $_value);
     }
 
+    public static function lastScenarioExecution($_scenario_id) {
+        $scenario = scenario::byId(str_replace(array('#scenario', '#'), '', $_scenario_id));
+        if (!is_object($scenario)) {
+            return 0;
+        }
+        return strtotime('now') - strtotime($scenario->getLastLaunch());
+    }
+
     public static function setTags($_expression) {
         $replace = array(
             '#heure#' => (int) date('G'),

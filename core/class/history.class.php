@@ -325,7 +325,7 @@ class history {
                 ORDER BY  `datetime` DESC 
                 LIMIT 1';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-        return round((strtotime('now') - strtotime($result['datetime'])) / 60);
+        return strtotime('now') - strtotime($result['datetime']);
     }
 
     /**
