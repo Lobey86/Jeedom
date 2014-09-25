@@ -58,10 +58,10 @@ if ($market->getPurchase() == 1) {
         </form>
         <?php
     } else {
-        echo '<div class="alert alert-info">{{Cet article est payant vous devez avoir un compte sur le maket et avoir renseigné la clef API de celui-ci dans Jeedom pour pouvoir l\'acheter}}</div>';
+        echo '<div class="alert alert-info">{{Cet article est payant vous devez avoir un compte sur le market et avoir renseigné la clef API de celui-ci dans Jeedom pour pouvoir l\'acheter}}</div>';
     }
 } else {
-    echo '<div class="alert alert-info">{{Cet article est payant vous devez avoir un compte sur le maket et avoir renseigné la clef API de celui-ci dans Jeedom pour pouvoir l\'acheter}}</div>';
+    echo '<div class="alert alert-info">{{Cet article est payant vous devez avoir un compte sur le market et avoir renseigné la clef API de celui-ci dans Jeedom pour pouvoir l\'acheter}}</div>';
 }
 ?>
 <?php if (is_object($update)) { ?>
