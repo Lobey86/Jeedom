@@ -218,6 +218,12 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 <input type="password" class="form-control" id="in_passwordCheck" />
                             </div>
                         </div>
+                        <div class="form-group expertModeVisible">
+                            <label class="col-lg-3 control-label">{{Clef de sécurité pour appareils enregistrés}}</label>
+                            <div class="col-lg-3">
+                                <input class="form-control userAttr" data-l1key="options" data-l2key="registerDevice" />
+                            </div>
+                        </div>
                     </fieldset>
                 </form>
             </div>

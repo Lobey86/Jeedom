@@ -28,16 +28,11 @@ setcookie('sess_id', session_id(), time() + 24 * 3600, "/", '', false, true);
 @session_write_close();
 
 
-if (!isConnect() && isset($_COOKIE['registerDesktop']) && init('v') == 'd') {
-    if (loginByKey($_COOKIE['registerDesktop'], true)) {
-        $key = config::genKey(255);
-        setcookie('registerDesktop', $key, time() + 24 * 3600, "/", '', false, true);
-        @session_start();
-        $_SESSION['user']->setOptions('registerDesktop', $key);
-        $_SESSION['user']->save();
-        @session_write_close();
+if (!isConnect() && isset($_COOKIE['registerDevice']) && init('v') == 'd') {
+    if (loginByKey($_COOKIE['registerDevice'], true)) {
+        setcookie('registerDevice', $key, time() + 24 * 3600, "/", '', false, true);
     } else {
-        setcookie('registerDesktop', '', time() - 3600, "/", '', false, true);
+        setcookie('registerDevice', '', time() - 3600, "/", '', false, true);
     }
 }
 
@@ -130,15 +125,12 @@ function login($_login, $_password, $_ajax = false) {
         connection::success($user->getLogin());
         @session_start();
         $_SESSION['user'] = $user;
-        if (init('v') == 'd' && init('registerDesktop') == 'on') {
-            $key = config::genKey(255);
-            setcookie('registerDesktop', $key, time() + 24 * 3600, "/", '', false, true);
-            $_SESSION['user']->setOptions('registerDesktop', $key);
-            $_SESSION['user']->save();
-        } else {
-            setcookie('registerDesktop', '', time() - 3600, "/", '', false, true);
-            $_SESSION['user']->setOptions('registerDesktop', '');
-            $_SESSION['user']->save();
+        if (init('v') == 'd' && init('registerDevice') == 'on') {
+            if ($_SESSION['user']->getOptions('registerDevice') == '') {
+                $_SESSION['user']->setOptions('registerDevice', config::genKey(255));
+                $_SESSION['user']->save();
+            }
+            setcookie('registerDevice', $_SESSION['user']->getOptions('registerDevice'), time() + 24 * 3600, "/", '', false, true);
         }
         $_SESSION['userHash'] = getUserHash();
         @session_write_close();
@@ -208,7 +200,7 @@ function logout() {
     global $isConnect;
     @session_start();
     setcookie('sess_id', '', time() - 3600, "/", '', false, true);
-    setcookie('registerDesktop', '', time() - 3600, "/", '', false, true);
+    setcookie('registerDevice', '', time() - 3600, "/", '', false, true);
     if (isset($_SESSION['user'])) {
         $_SESSION['user'] == null;
     }
