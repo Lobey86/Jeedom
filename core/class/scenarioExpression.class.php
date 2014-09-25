@@ -297,7 +297,7 @@ class scenarioExpression {
             '#semaine#' => date('W'),
             '#sjour#' => convertDayEnToFr(date('l')),
         );
-        preg_match_all("/([a-z][a-z]*?)\((.*?)\)/", $_expression, $matches, PREG_SET_ORDER);
+        preg_match_all("/([a-zA-Z][a-zA-Z]*?)\((.*?)\)/", $_expression, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
             $function = $match[1];
             $arguments = explode(',', $match[2]);
