@@ -271,7 +271,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (!is_object($cmd)) {
                     throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
                 }
-                $jsonrpc->makeSuccess($cmd->getHistory($params['startTime'], $params['endTime']));
+                $jsonrpc->makeSuccess(utils::o2a($cmd->getHistory($params['startTime'], $params['endTime'])));
             }
 
             /*             * ************************Scénario*************************** */
