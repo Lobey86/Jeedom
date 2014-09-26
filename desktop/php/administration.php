@@ -259,20 +259,22 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     </div>
                                 </div>
                             <?php } ?>
-                            <div class="form-group expertModeVisible alert alert-danger">
-                                <label class="col-lg-2 control-label">{{Mode}}</label>
-                                <div class="col-lg-6">
-                                    <?php
-                                    if (config::byKey('jeeNetwork::mode') == 'master') {
-                                        echo '<a class="btn btn-success changeJeeNetworkMode" data-mode="master">{{Maitre}}</a> ';
-                                        echo '<a class="btn btn-default changeJeeNetworkMode" data-mode="slave">{{Esclave}}</a>';
-                                    } else {
-                                        echo '<a class="btn btn-default changeJeeNetworkMode" data-mode="master">{{Maitre}}</a> ';
-                                        echo '<a class="btn btn-success changeJeeNetworkMode" data-mode="slave">{{Esclave}}</a>';
-                                    }
-                                    ?>
+                            <?php if (config::byKey('jeedom::licence') >= 5) { ?>
+                                <div class="form-group expertModeVisible alert alert-danger">
+                                    <label class="col-lg-2 control-label">{{Mode}}</label>
+                                    <div class="col-lg-6">
+                                        <?php
+                                        if (config::byKey('jeeNetwork::mode') == 'master') {
+                                            echo '<a class="btn btn-success changeJeeNetworkMode" data-mode="master">{{Maitre}}</a> ';
+                                            echo '<a class="btn btn-default changeJeeNetworkMode" data-mode="slave">{{Esclave}}</a>';
+                                        } else {
+                                            echo '<a class="btn btn-default changeJeeNetworkMode" data-mode="master">{{Maitre}}</a> ';
+                                            echo '<a class="btn btn-success changeJeeNetworkMode" data-mode="slave">{{Esclave}}</a>';
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } ?>
                         </fieldset>
                     </form>
                 </div>

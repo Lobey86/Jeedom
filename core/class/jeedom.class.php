@@ -428,7 +428,7 @@ class jeedom {
         } catch (Exception $e) {
             log::add('jeeNetwork', 'error', $e->getMessage());
         }
-        if (config::byKey('market::allowDNS') == 1 && config::byKey('jeeNetwork::mode') == 'master') {
+        if (config::byKey('market::allowDNS') == 1 && config::byKey('jeeNetwork::mode') == 'master' && config::byKey('jeedom::licence') >= 5) {
             try {
                 $c = new Cron\CronExpression('*/10 * * * *', new Cron\FieldFactory);
                 if ($c->isDue()) {
