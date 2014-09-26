@@ -131,27 +131,29 @@ class connection {
                 $http->setLogError(false);
                 $details = json_decode($http->exec(1, 2), true);
                 $localisation = '';
-                if (isset($details['country'])) {
-                    $localisation .= $details['country'] . ' - ';
-                }
-                if (isset($details['region'])) {
-                    $localisation .= $details['region'] . ' - ';
-                }
-                if (isset($details['postal'])) {
-                    $localisation .= ' (' . $details['postal'] . ') ';
-                }
-                if (isset($details['city'])) {
-                    $localisation .= $details['city'] . ' - ';
-                }
-                $this->setLocalisation($localisation);
-                if (isset($details['loc'])) {
-                    $this->setInformations('coordonate', $details['loc']);
-                }
-                if (isset($details['org'])) {
-                    $this->setInformations('org', $details['org']);
-                }
-                if (isset($details['hostname'])) {
-                    $this->setInformations('hostname', $details['hostname']);
+                if (is_array($details)) {
+                    if (isset($details['country'])) {
+                        $localisation .= $details['country'] . ' - ';
+                    }
+                    if (isset($details['region'])) {
+                        $localisation .= $details['region'] . ' - ';
+                    }
+                    if (isset($details['postal'])) {
+                        $localisation .= ' (' . $details['postal'] . ') ';
+                    }
+                    if (isset($details['city'])) {
+                        $localisation .= $details['city'] . ' - ';
+                    }
+                    $this->setLocalisation($localisation);
+                    if (isset($details['loc'])) {
+                        $this->setInformations('coordonate', $details['loc']);
+                    }
+                    if (isset($details['org'])) {
+                        $this->setInformations('org', $details['org']);
+                    }
+                    if (isset($details['hostname'])) {
+                        $this->setInformations('hostname', $details['hostname']);
+                    }
                 }
             } catch (Exception $e) {
                 $this->setLocalisation('Unknow');
