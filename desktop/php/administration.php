@@ -165,7 +165,24 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     </select>
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">{{Licence}}</label>
+                                <div class="col-lg-3">
+                                    <?php
+                                    switch (config::byKey('jeedom::licence')) {
+                                        case 0:
+                                            echo '<span class="label label-primary">Free</span>';
+                                            break;
+                                        case 5:
+                                            echo '<span class="label label-info">Power user</span>';
+                                            break;
+                                        case 10:
+                                            echo '<span class="label label-success">Pro</span>';
+                                            break;
+                                    }
+                                    ?>
+                                </div>
+                            </div>
 
                         </fieldset>
                     </form>
@@ -645,7 +662,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <input type="text"  class="configKey form-control" data-l1key="market::username" />
                                     </div>
                                 </div>
-                                  <div class="form-group">
+                                <div class="form-group">
                                     <label class="col-lg-2 control-label">{{Mot de passe}}</label>
                                     <div class="col-lg-3">
                                         <input type="password"  class="configKey form-control" data-l1key="market::password" />
