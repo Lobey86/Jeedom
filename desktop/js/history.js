@@ -85,6 +85,7 @@ function addChart(_cmd_id, _action) {
             option: {
                 graphType: $('#sel_chartType').value(),
                 derive: $('#cb_derive').value(),
+                graphStep : $('#cb_step').value(),
             }
         });
     }

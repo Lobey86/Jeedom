@@ -11,16 +11,21 @@ if (!isConnect()) {
         <option value="column">{{Colonne}}</option>
     </select>
     <span class="pull-right">Variation : <input type="checkbox" data-cmd_id="#id#" class="cb_derive" /></span>
+    <span class="pull-right">Variation : <input type="checkbox" data-cmd_id="#id#" class="cb_step" /></span>
 
 
     <script>
         $('.sel_chartType[data-cmd_id=#id#]').on('change', function() {
             $('#md_modal').dialog({title: "{{Historique}}"});
-            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>&graphType=' + $('.sel_chartType[data-cmd_id=#id#]').value() + '&derive=' + $('.cb_derive[data-cmd_id=#id#]').value()).dialog('open');
+            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>&graphType=' + $('.sel_chartType[data-cmd_id=#id#]').value() + '&derive=' + $('.cb_derive[data-cmd_id=#id#]').value()+ '&step=' + $('.cb_step[data-cmd_id=#id#]').value()).dialog('open');
         });
         $('.cb_derive[data-cmd_id=#id#]').on('change', function() {
             $('#md_modal').dialog({title: "{{Historique}}"});
-            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>&graphType=' + $('.sel_chartType[data-cmd_id=#id#]').value() + '&derive=' + $('.cb_derive[data-cmd_id=#id#]').value()).dialog('open');
+            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>&graphType=' + $('.sel_chartType[data-cmd_id=#id#]').value() + '&derive=' + $('.cb_derive[data-cmd_id=#id#]').value()+ '&step=' + $('.cb_step[data-cmd_id=#id#]').value()).dialog('open');
+        });
+         $('.cb_step[data-cmd_id=#id#]').on('change', function() {
+            $('#md_modal').dialog({title: "{{Historique}}"});
+            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>&graphType=' + $('.sel_chartType[data-cmd_id=#id#]').value() + '&derive=' + $('.cb_derive[data-cmd_id=#id#]').value()+ '&step=' + $('.cb_step[data-cmd_id=#id#]').value()).dialog('open');
         });
         $('#div_historyChart').css('position', 'relative').css('width', '100%');
         delete jeedom.history.chart['div_historyChart'];
@@ -30,7 +35,8 @@ if (!isConnect()) {
             daterange: 'all',
             option: {
                 graphType: "<?php echo init('graphType', 'line') ?>",
-                derive: "<?php echo init('derive', '0') ?>"
+                derive: "<?php echo init('derive', '0') ?>",
+                graphStep :"<?php echo init('step', '0') ?>",
             }
         });
     </script>
