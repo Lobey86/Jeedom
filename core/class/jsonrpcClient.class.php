@@ -60,9 +60,9 @@ class jsonrpcClient {
                     $callback_class::$callback_function($this->result);
                 }
             } elseif ($this->getCb_function() != '') {
-                $callback = $this->getCb_function();
-                if (function_exists($callback)) {
-                    $callback($this->result);
+                $callback_function = $this->getCb_function();
+                if (function_exists($callback_function)) {
+                    $callback_function($this->result);
                 }
             }
             return true;

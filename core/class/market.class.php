@@ -250,8 +250,8 @@ class market {
                 'hwkey' => jeedom::getHardwareKey()
             ));
         }
-        $jsonrpc->setCb_class('market');
-        $jsonrpc->setCb_function('updateLicence');
+       // $jsonrpc->setCb_class('market');
+       // $jsonrpc->setCb_function('updateLicence');
         return $jsonrpc;
     }
 
