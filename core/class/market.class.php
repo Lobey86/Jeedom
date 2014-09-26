@@ -101,7 +101,9 @@ class market {
             if (is_array($_logicalId)) {
                 $return = array();
                 foreach ($market->getResult() as $logicalId => $result) {
-                    $return[$logicalId] = self::construct($result);
+                    if (isset($result['id'])) {
+                        $return[$logicalId] = self::construct($result);
+                    }
                 }
                 return $return;
             }
@@ -117,7 +119,9 @@ class market {
         if ($market->sendRequest('market::byAuthor', array())) {
             $return = array();
             foreach ($market->getResult() as $result) {
-                $return[] = self::construct($result);
+                if (isset($result['id'])) {
+                    $return[] = self::construct($result);
+                }
             }
             return $return;
         } else {
@@ -130,7 +134,9 @@ class market {
         if ($market->sendRequest('market::byStatusAndType', array('status' => $_status, 'type' => $_type))) {
             $return = array();
             foreach ($market->getResult() as $result) {
-                $return[] = self::construct($result);
+                if (isset($result['id'])) {
+                    $return[] = self::construct($result);
+                }
             }
             return $return;
         } else {
@@ -144,7 +150,9 @@ class market {
         if ($market->sendRequest('market::byStatus', array('status' => $_status))) {
             $return = array();
             foreach ($market->getResult() as $result) {
-                $return[] = self::construct($result);
+                if (isset($result['id'])) {
+                    $return[] = self::construct($result);
+                }
             }
             return $return;
         } else {
@@ -250,8 +258,8 @@ class market {
                 'hwkey' => jeedom::getHardwareKey()
             ));
         }
-       // $jsonrpc->setCb_class('market');
-       // $jsonrpc->setCb_function('updateLicence');
+        // $jsonrpc->setCb_class('market');
+        // $jsonrpc->setCb_function('updateLicence');
         return $jsonrpc;
     }
 
