@@ -21,9 +21,9 @@ $(function () {
 
     function updateCache() {
         webappCache.swapCache();
-        if (confirm("Une nouvelle version de Jeedom vient d'être installée. Voulez-vous rafraichir pour l'utiliser maintenant ?")) {
+       // if (confirm("Une nouvelle version de Jeedom vient d'être installée. Voulez-vous rafraichir pour l'utiliser maintenant ?")) {
             window.location.reload();
-        }
+       // }
     }
 });
 
