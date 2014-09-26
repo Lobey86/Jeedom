@@ -126,6 +126,12 @@ sendVarToJS('id', $plan->getId());
                     <a class="btn btn-default btn-sm" id="bt_chooseIcon"><i class="fa fa-flag"></i> {{Choisir une icône}}</a>
                 </div>
             </div>
+             <div class="form-group">
+                <label class="col-lg-4 control-label">{{Taille de la police (ex 50%, il faut bien mettre le signe %)}}</label>
+                <div class="col-lg-2">
+                    <input class="planAttr form-control" data-l1key="css" data-l2key="font-size" />
+                </div>
+            </div>
         <?php } ?>
     </fieldset>
 </form>
