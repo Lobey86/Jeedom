@@ -256,7 +256,7 @@ class market {
     }
 
     public static function updateLicence($_result) {
-        if (isset($_result['licence'])) {
+        if (is_array($_result) && isset($_result['licence'])) {
             config::save('jeedom::licence', $_result['licence']);
         }
     }
