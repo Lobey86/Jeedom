@@ -16,6 +16,8 @@ class jsonrpcClient {
     private $apikey = '';
     private $options = array();
     private $apiAddr;
+    private $cb_function = '';
+    private $cb_class = '';
 
     /*     * ********Static******************* */
 
@@ -47,8 +49,22 @@ class jsonrpcClient {
         }
         $result = json_decode(trim($this->rawResult), true);
 
+
+
         if (isset($result['result'])) {
             $this->result = $result['result'];
+            if ($this->getCb_class() != '') {
+                $callback_class = $this->getCb_class();
+                $callback_function = $this->getCb_function();
+                if (method_exists($callback_class, $callback_function)) {
+                    $callback_class::$callback_function($this->result);
+                }
+            } elseif ($this->getCb_function() != '') {
+                $callback = $this->getCb_function();
+                if (function_exists($callback)) {
+                    $callback($this->result);
+                }
+            }
             return true;
         } else {
             if (isset($result['error']['code'])) {
@@ -129,6 +145,22 @@ class jsonrpcClient {
 
     public function getErrorMessage() {
         return $this->errorMessage;
+    }
+
+    function getCb_function() {
+        return $this->cb_function;
+    }
+
+    function getCb_class() {
+        return $this->cb_class;
+    }
+
+    function setCb_function($cb_function) {
+        $this->cb_function = $cb_function;
+    }
+
+    function setCb_class($cb_class) {
+        $this->cb_class = $cb_class;
     }
 
 }

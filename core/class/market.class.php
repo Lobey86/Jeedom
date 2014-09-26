@@ -235,7 +235,7 @@ class market {
             config::save('market::registerkey', $register->getResult());
         }
         if (config::byKey('market::username') != '' && config::byKey('market::password') != '') {
-            return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
+            $jsonrpc = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
                 'username' => config::byKey('market::username'),
                 'password' => sha1(config::byKey('market::password')),
                 'password_type' => 'sha1',
@@ -244,11 +244,20 @@ class market {
                 'hwkey' => jeedom::getHardwareKey()
             ));
         } else {
-            return new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), array(
+            $jsonrpc = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), array(
                 'jeedomversion' => getVersion('jeedom'),
                 'jeedomkey' => config::byKey('market::registerkey'),
                 'hwkey' => jeedom::getHardwareKey()
             ));
+        }
+        $jsonrpc->setCb_class('market');
+        $jsonrpc->setCb_function('updateLicence');
+        return $jsonrpc;
+    }
+
+    public static function updateLicence($_result) {
+        if (isset($_result['licence'])) {
+            config::save('jeedom::licence', $_result['licence']);
         }
     }
 
