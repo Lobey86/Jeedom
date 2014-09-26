@@ -282,6 +282,33 @@ class scenarioExpression {
         }
         return strtotime('now') - strtotime($scenario->getLastLaunch());
     }
+    
+    
+    public static function randomColor($_rangeLower, $_rangeHighter) {
+        $value = rand($_rangeLower, $_rangeHighter);
+        $color_range = 85;
+        $color = new stdClass();
+        $color->red = $_rangeLower;
+        $color->green = $_rangeLower;
+        $color->blue = $_rangeLower;
+        if ($value < $color_range * 1) {
+            $color->red += $color_range - $value;
+            $color->green += $value;
+        } else if ($value < $color_range * 2) {
+            $color->green += $color_range - $value;
+            $color->blue += $value;
+        } else if ($value < $color_range * 3) {
+            $color->blue += $color_range - $value;
+            $color->red += $value;
+        }
+        $color->red = ($color->red < 0) ? dechex(0) : dechex(round($color->red));
+        $color->blue = ($color->blue < 0) ? dechex(0) : dechex(round($color->blue));
+        $color->green = ($color->green < 0) ? dechex(0) : dechex(round($color->green));
+        $color->red = (strlen($color->red) == 1) ? '0' . $color->red : $color->red;
+        $color->green = (strlen($color->green) == 1) ? '0' . $color->green : $color->green;
+        $color->blue = (strlen($color->blue) == 1) ? '0' . $color->blue : $color->blue;
+        return '#' . $color->red . $color->green . $color->blue;
+    }
 
     public static function setTags($_expression) {
         $replace = array(

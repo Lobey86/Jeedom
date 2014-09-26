@@ -23,7 +23,7 @@ if (!isConnect()) {
         <div class="panel-heading">
             <h4 class="panel-title">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_condition">
-                    {{Condition}}
+                    {{Condition ou valeur d'une commande d'action}}
                 </a>
             </h4>
         </div>
@@ -77,6 +77,8 @@ if (!isConnect()) {
     Ex : stateDuration(#[Salle de bain][Hydrometrie][Humidité]#) : Renvoi 300 si cette valeur est la depuis 5min}}
 {{lastScenarioExecution(scenario) : donne la durée en seconde depuis le dernier lancement du scénario
     Ex : lastScenarioExecution(#[Salle de bain][Lumière][Auto]#) : Renvoi 300 si le scénario c'est lancé pour la derniere fois il y a 5min}}
+{{randomColor(min,max) : donne une couleur aléatoire compris entre 2 bornes ( 0 => rouge, 50 => vert, 100 => bleu)
+    Ex : randomColor(40,60) : Pour avoir une couleur aléatoire proche du vert}}
                 </pre>
             </div>
         </div>
