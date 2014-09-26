@@ -231,11 +231,23 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
 
             if ($jsonrpc->getMethod() == 'cmd::execCmd') {
-                $cmd = cmd::byId($params['id']);
-                if (!is_object($cmd)) {
-                    throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
+                if (is_array($params['id'])) {
+                    $return = array();
+                    foreach ($params['id'] as $id) {
+                        $cmd = cmd::byId($id);
+                        if (!is_object($cmd)) {
+                            throw new Exception('Cmd introuvable : ' . $id, -32702);
+                        }
+                        $return[$id] = array('value' => $cmd->execCmd($params['options']), 'collectDate' => $cmd->getCollectDate());
+                    }
+                } else {
+                    $cmd = cmd::byId($params['id']);
+                    if (!is_object($cmd)) {
+                        throw new Exception('Cmd introuvable : ' . $params['id'], -32702);
+                    }
+                    $return = array('value' => $cmd->execCmd($params['options']), 'collectDate' => $cmd->getCollectDate());
                 }
-                $jsonrpc->makeSuccess(array('value' => $cmd->execCmd($params['options']), 'collectDate' => $cmd->getCollectDate()));
+                $jsonrpc->makeSuccess($return);
             }
 
             if ($jsonrpc->getMethod() == 'cmd::getStatistique') {
