@@ -126,8 +126,8 @@ class cache {
     }
 
     public function remove() {
-        if (isset(self::$_cache[$_key])) {
-            unset(self::$_cache[$_key]);
+        if (isset(self::$_cache[$this->getKey()])) {
+            unset(self::$_cache[$this->getKey()]);
         }
         DB::remove($this);
     }

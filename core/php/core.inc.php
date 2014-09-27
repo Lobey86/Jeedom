@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
-error_reporting(E_ERROR);
 require_once dirname(__FILE__) . '/../config/common.config.php';
 require_once dirname(__FILE__) . '/../class/DB.class.php';
 require_once dirname(__FILE__) . '/../class/config.class.php';
