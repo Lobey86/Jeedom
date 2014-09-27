@@ -463,6 +463,13 @@ class cmd {
         return $return;
     }
 
+    public static function returnState($_options) {
+        $cmd = cmd::byId($_options['cmd_id']);
+        if (is_object($cmd) && is_numeric($cmd->getConfiguration('returnStateTime'))) {
+            $cmd->event($cmd->getConfiguration('returnStateValue'));
+        }
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function formatValue($_value) {
@@ -805,6 +812,26 @@ class cmd {
             $internalEvent->setDatetime($this->getCollectDate());
         }
         $internalEvent->save();
+        $this->checkReturnState($_value);
+    }
+
+    public function checkReturnState($_value) {
+        if (is_numeric($this->getConfiguration('returnStateTime')) && $this->getConfiguration('returnStateTime') > 0 && $_value != $this->getConfiguration('returnStateValue')) {
+            $cron = cron::byClassAndFunction('cmd', 'returnState', array('cmd_id' => intval($this->getId())));
+            if (!is_object($cron)) {
+                $cron = new cron();
+            }
+            $cron->setClass('cmd');
+            $cron->setFunction('returnState');
+            $cron->setOnce(1);
+            $cron->setOption(array('cmd_id' => intval($this->getId())));
+            $delay = $this->getConfiguration('returnStateTime') + 1;
+            $next = strtotime('+ ' . $delay . ' minutes ' . date('Y-m-d H:i:s'));
+            $schedule = date('i', $next) . ' ' . date('H', $next) . ' ' . date('d', $next) . ' ' . date('m', $next) . ' * ' . date('Y', $next);
+            $cron->setSchedule($schedule);
+            $cron->setLastRun(date('Y-m-d H:i:s'));
+            $cron->save();
+        }
     }
 
     public function invalidCache() {
