@@ -1,4 +1,5 @@
-<input type="color" class="expressionAttr form-control input-sm cursor" data-l1key="options" data-l2key="color" value="#color#" data-uid="#uid#" />
+<input type="color" class="form-control input-sm cursor colorChooser" data-uid="#uid#" value="#color#" style="width : 45%;display: inline-block;"/>
+<input class="expressionAttr form-control input-sm" data-l1key="options" data-l2key="color" value="#color#" data-uid="#uid#" style="width : 45%;display: inline-block;"/>
 <a class="btn btn-default form-control listEquipementInfo cursor" data-cmd_id="#id#" data-uid="#uid#" style="margin-top : 5px;"><i class="fa fa-list-alt"></i> {{Rechercher équipement}}</a>
 <script>
     $('.listEquipementInfo[data-uid=#uid#]').on('click', function() {
@@ -6,5 +7,9 @@
         jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {
             el.parent().find('.expressionAttr[data-l1key=options][data-l2key=color]').value(result.human);
         });
+    });
+    
+    $('.colorChooser[data-uid=#uid#]').on('change',function(){
+        $('.expressionAttr[data-uid=#uid#][data-l1key=options][data-l2key=color]').value($(this).value())
     });
 </script>
