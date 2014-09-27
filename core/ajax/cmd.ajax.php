@@ -36,7 +36,6 @@ try {
     }
 
     if (init('action') == 'execCmd') {
-        log::add('scenario','debug','Reception ajax');
         $cmd = cmd::byId(init('id'));
         if (!is_object($cmd)) {
             throw new Exception(__('Cmd ID inconnu : ', __FILE__) . init('id'));
