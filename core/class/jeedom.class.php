@@ -390,7 +390,7 @@ class jeedom {
                 update::checkAllUpdate();
                 $nbUpdate = update::nbNeedUpdate();
                 if ($nbUpdate > 0) {
-                    message::add('update', 'De nouvelles mise à  jour sont disponible (' . $nbUpdate . ')');
+                    message::add('update', 'De nouvelles mises à jour sont disponibles (' . $nbUpdate . ')');
                 }
             }
         } catch (Exception $e) {
