@@ -52,7 +52,7 @@ try {
         if ($scenario->getState() == 'in progress') {
             die(__('Impossible de lancer le scénario car déjà en cours : ', __FILE__) . $scenario->getHumanName());
         }
-        $scenario->execute(init('message'));
+        $scenario->execute(init('trigger'), init('message'));
     } else {
         $scenario->clearLog();
         $scenario->setLog(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());

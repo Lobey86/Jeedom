@@ -153,10 +153,10 @@ class scenarioExpression {
         } else {
             $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
             if (!is_object($cmd)) {
-                return null;
+                return '';
             }
             if ($cmd->getIsHistorized() == 0) {
-                return null;
+                return '';
             }
             $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
             $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
@@ -189,10 +189,10 @@ class scenarioExpression {
         } else {
             $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
             if (!is_object($cmd)) {
-                return null;
+                return '';
             }
             if ($cmd->getIsHistorized() == 0) {
-                return null;
+                return '';
             }
             $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
             $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
@@ -225,10 +225,10 @@ class scenarioExpression {
         } else {
             $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
             if (!is_object($cmd)) {
-                return null;
+                return '';
             }
             if ($cmd->getIsHistorized() == 0) {
-                return null;
+                return '';
             }
             $startHist = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' -' . $_period));
             $historyStatistique = $cmd->getStatistique($startHist, date('Y-m-d H:i:s'));
@@ -239,10 +239,10 @@ class scenarioExpression {
     public static function tendance($_cmd_id, $_period = '1 hour', $_threshold = '') {
         $cmd = cmd::byId(trim(str_replace('#', '', $_cmd_id)));
         if (!is_object($cmd)) {
-            return null;
+            return '';
         }
         if ($cmd->getIsHistorized() == 0) {
-            return null;
+            return '';
         }
         $endTime = date('Y-m-d H:i:s');
         $startTime = date('Y-m-d H:i:s', strtotime('-' . $_period . '' . $endTime));
@@ -282,8 +282,7 @@ class scenarioExpression {
         }
         return strtotime('now') - strtotime($scenario->getLastLaunch());
     }
-    
-    
+
     public static function randomColor($_rangeLower, $_rangeHighter) {
         $value = rand($_rangeLower, $_rangeHighter);
         $color_range = 85;
@@ -310,7 +309,17 @@ class scenarioExpression {
         return '#' . $color->red . $color->green . $color->blue;
     }
 
-    public static function setTags($_expression) {
+    public static function trigger($_name = '', &$_scenario = null) {
+        if ($_name == '') {
+            return $_scenario->getRealTrigger();
+        }
+        if ($_name == $_scenario->getRealTrigger()) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public static function setTags($_expression, &$_scenario = null) {
         $replace = array(
             '#heure#' => (int) date('G'),
             '#minute#' => (int) date('i'),
@@ -329,8 +338,14 @@ class scenarioExpression {
             $function = $match[1];
             $arguments = explode(',', $match[2]);
             if (method_exists(__CLASS__, $function)) {
-                $result = call_user_func_array(__CLASS__ . "::" . $function, $arguments);
-                $replace[$match[0]] = $result;
+                if ($function == 'trigger') {
+                    if (!isset($arguments[0])) {
+                        $arguments[0] = '';
+                    }
+                    $replace[$match[0]] = self::trigger($arguments[0], $_scenario);
+                } else {
+                    $replace[$match[0]] = call_user_func_array(__CLASS__ . "::" . $function, $arguments);
+                }
             }
         }
         return cmd::cmdToValue(str_replace(array_keys($replace), array_values($replace), $_expression));
@@ -352,7 +367,7 @@ class scenarioExpression {
             $options = $this->getOptions();
             if (is_array($options)) {
                 foreach ($options as $key => $value) {
-                    $options[$key] = str_replace('"', '', self::setTags($value));
+                    $options[$key] = str_replace('"', '', self::setTags($value, $scenario));
                 }
             }
             if ($this->getType() == 'action') {
@@ -418,7 +433,7 @@ class scenarioExpression {
                     }
                     return;
                 } else if ($this->getExpression() == 'variable') {
-                    $value = self::setTags($this->getOptions('value'));
+                    $value = self::setTags($this->getOptions('value'), $scenario);
                     $message = __('Affectation de la variable ', __FILE__) . $this->getOptions('name') . __(' à [', __FILE__) . $value . '] = ';
                     try {
                         $test = new evaluate();
@@ -448,7 +463,7 @@ class scenarioExpression {
                 }
             } else if ($this->getType() == 'condition') {
                 $test = new evaluate();
-                $expression = self::setTags($this->getExpression());
+                $expression = self::setTags($this->getExpression(), $scenario);
                 $message = __('Evaluation de la condition : [', __FILE__) . $expression . '] = ';
                 $result = $test->Evaluer($expression);
                 if (is_bool($result)) {

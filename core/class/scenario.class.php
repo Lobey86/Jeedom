@@ -45,6 +45,7 @@ class scenario {
     private static $_templateArray;
     private $_elements = array();
     private $_changeState = false;
+    private $_realTrigger = '';
 
     /*     * ***********************Methode static*************************** */
 
@@ -166,15 +167,18 @@ class scenario {
         if ($_event != null) {
             if (is_object($_event)) {
                 $scenarios = self::byTrigger($_event->getId());
+                $trigger = '#'.$_event->getId().'#';
                 $message = __('Scenario lance automatiquement sur evenement venant de : ', __FILE__) . $_event->getHumanName();
             } else {
                 $scenarios = self::byTrigger($_event);
+                $trigger = $_event;
                 $message = __('Scenario lance sur evenement : #', __FILE__) . $_event . '#';
             }
         } else {
             $message = __('Scenario lance automatiquement sur programmation', __FILE__);
             $scenarios = scenario::all();
             $dateOk = jeedom::isDateOk();
+            $trigger = '#schedule#';
             foreach ($scenarios as $key => &$scenario) {
                 if ($scenario->getState() == 'in progress') {
                     if ($scenario->running()) {
@@ -206,7 +210,7 @@ class scenario {
             return true;
         }
         foreach ($scenarios as $scenario_) {
-            $scenario_->launch(false, $message);
+            $scenario_->launch(false, $trigger, $message);
         }
         return true;
     }
@@ -403,14 +407,15 @@ class scenario {
 
     /*     * *********************Methode d'instance************************* */
 
-    public function launch($_force = false, $_message = '') {
+    public function launch($_force = false, $_trigger = '', $_message = '') {
         if (config::byKey('enableScenario') == 1) {
             if ($this->getConfiguration('launchInForeground', 0) == 1) {
-                $this->execute($_message);
+                $this->execute($_trigger, $_message);
             } else {
                 $cmd = '/usr/bin/php ' . dirname(__FILE__) . '/../../core/php/jeeScenario.php ';
                 $cmd.= ' scenario_id=' . $this->getId();
                 $cmd.= ' force=' . $_force;
+                $cmd.= ' trigger=' . escapeshellarg($_trigger);
                 $cmd.= ' message=' . escapeshellarg($_message);
                 $cmd.= ' >> /dev/null 2>&1 &';
                 exec($cmd);
@@ -420,7 +425,7 @@ class scenario {
         return false;
     }
 
-    public function execute($_message = '') {
+    public function execute($_trigger = '', $_message = '') {
         $logs = $this->getHlogs();
         if (trim($this->getLog()) != '') {
             if (is_array($logs)) {
@@ -440,6 +445,7 @@ class scenario {
         $this->setPID(getmypid());
         $this->setLastLaunch(date('Y-m-d H:i:s'));
         $this->save();
+        $this->setRealTrigger($_trigger);
         foreach ($this->getElement() as $element) {
             $element->execute($this);
         }
@@ -996,6 +1002,16 @@ class scenario {
     public function setConfiguration($_key, $_value) {
         $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
+
+    
+    function getRealTrigger() {
+        return $this->_realTrigger;
+    }
+
+    function setRealTrigger($_realTrigger) {
+        $this->_realTrigger = $_realTrigger;
+    }
+
 
 }
 
