@@ -129,15 +129,15 @@ class plan {
         return $this->link_id;
     }
 
-    public function getPosition($_key, $_default) {
+    public function getPosition($_key = '', $_default = '') {
         return utils::getJsonAttr($this->position, $_key, $_default);
     }
 
-    public function getDisplay($_key, $_default) {
+    public function getDisplay($_key = '', $_default = '') {
         return utils::getJsonAttr($this->display, $_key, $_default);
     }
 
-    public function getCss($_key, $_default) {
+    public function getCss($_key = '', $_default = '') {
         return utils::getJsonAttr($this->css, $_key, $_default);
     }
 
