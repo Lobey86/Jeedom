@@ -134,7 +134,6 @@ if (init('cron_id') != '') {
             die(__('Tous les crons sont actuellement désactivés', __FILE__));
         }
         foreach (cron::all() as $cron) {
-            print_r($cron);
             try {
                 if (!$started && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'cron') {
                     continue;

@@ -299,6 +299,10 @@ class cron {
 
     public function halt() {
         if ($this->getNbRun() == 0) {
+            $this->setState('stop');
+            $this->setPID();
+            $this->setServer('');
+            $this->save();
             return true;
         }
         if (!is_numeric($this->getPID())) {
