@@ -130,7 +130,7 @@ function login($_login, $_password, $_ajax = false) {
                 $_SESSION['user']->setOptions('registerDevice', config::genKey(255));
                 $_SESSION['user']->save();
             }
-            setcookie('registerDevice', $_SESSION['user']->getOptions('registerDevice'), time() + 24 * 3600, "/", '', false, true);
+            setcookie('registerDevice', $_SESSION['user']->getOptions('registerDevice'), time() + 365 * 24 * 3600, "/", '', false, true);
         }
         $_SESSION['userHash'] = getUserHash();
         @session_write_close();
