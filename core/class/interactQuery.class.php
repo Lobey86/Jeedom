@@ -312,6 +312,13 @@ class interactQuery {
         }
 
         $reply = $interactDef->selectReply();
+        $synonymes = array();
+        if ($interactDef->getOptions('synonymes') != '') {
+            foreach (explode('|', $interactDef->getOptions('synonymes')) as $value) {
+                $values = explode('=', $value);
+                $synonymes[$values[0]] = explode(',', $values[1]);
+            }
+        }
         $replace = array();
         $replace['#heure#'] = date('H\hi');
         $replace['#date#'] = date('l F Y');
@@ -324,7 +331,10 @@ class interactQuery {
                 log::add('interact', 'error', __('Commande : ', __FILE__) . $this->getLink_id() . __(' introuvable veuillez renvoyer les listes des commandes', __FILE__));
                 return __('Commande introuvable verifier qu\'elle existe toujours', __FILE__);
             }
-
+            $replace['#commande#'] = $cmd->getName();
+            if (isset($synonymes[$replace['#commande#']])) {
+                $replace['#commande#'] = $synonymes[$replace['#commande#']][rand(0, count($synonymes[$replace['#commande#']]) - 1)];
+            }
             $replace['#objet#'] = '';
             $replace['#equipement#'] = '';
             $eqLogic = $cmd->getEqLogic();
