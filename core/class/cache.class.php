@@ -114,7 +114,7 @@ class cache {
             'value' => $this->getValue(),
             'datetime' => date('Y-m-d H:i:s'),
             'lifetime' => $this->getLifetime(),
-            'options' => $this->getOptions()
+            'options' => json_encode($this->getOptions())
         );
         $sql = 'REPLACE cache
                  SET `key`=:key,

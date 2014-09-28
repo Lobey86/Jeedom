@@ -779,6 +779,7 @@ class cmd {
         if ($this->getCollectDate() != '' && (($nowtime - $collectDate) > 3600 || ($nowtime + 300 ) < $collectDate)) {
             return;
         }
+
         $_value = $this->formatValue($_value);
         cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
         $this->setCollect(0);
@@ -790,6 +791,7 @@ class cmd {
                 'object_id' => $eqLogic->getObject_id(),
             )
         );
+
         foreach (self::byValue($this->getId()) as $cmd) {
             if ($cmd->getType() == 'action') {
                 $nodeJs[] = array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id());
