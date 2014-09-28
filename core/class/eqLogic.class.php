@@ -417,7 +417,11 @@ class eqLogic {
         if ($version == 'mobile') {
             $vcolor = 'mcmdColor';
         }
-        $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
+        if ($this->getPrimaryCategory() == '') {
+            $cmdColor = '';
+        } else {
+            $cmdColor = jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
+        }
         if ($this->getIsEnable()) {
             foreach ($this->getCmd(null, null, true) as $cmd) {
                 $info.=$cmd->toHtml($version, '', $cmdColor);
@@ -638,7 +642,7 @@ class eqLogic {
     }
 
     public function setName($name) {
-        $name = str_replace(array('&', '#', ']', '[', '%',"'"), '', $name);
+        $name = str_replace(array('&', '#', ']', '[', '%', "'"), '', $name);
         if ($name != $this->getName()) {
             $this->setInternalEvent(1);
         }
