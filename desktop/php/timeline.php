@@ -29,49 +29,53 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
             echo '<table class="table table-bordered table-condensed" style="margin-bottom : 0px;">';
             echo '<thead>';
             echo '<tr>';
-            foreach ($internalEvent->getOptions() as $key => $value) {
-                echo '<th>';
-                echo $key;
-                echo '</th>';
-                if ($key == 'id') {
-                    echo '<th>{{Nom}}</th>';
+            if (is_array($internalEvent->getOptions())) {
+                foreach ($internalEvent->getOptions() as $key => $value) {
+                    echo '<th>';
+                    echo $key;
+                    echo '</th>';
+                    if ($key == 'id') {
+                        echo '<th>{{Nom}}</th>';
+                    }
                 }
             }
             echo '</tr>';
             echo '</thead>';
             echo '<tbody>';
             echo '<tr>';
-            foreach ($internalEvent->getOptions() as $key => $value) {
-                echo '<td style="width: 200px;">';
-                echo $value;
-                echo '</td>';
-                if ($key == 'id') {
-                    echo '<td>';
-                    if (strpos($internalEvent->getEvent(), 'cmd') !== false) {
-                        $cmd = cmd::byId($value);
-                        if (is_object($cmd)) {
-                            echo $cmd->getHumanName();
-                        }
-                    }
-                    if (strpos($internalEvent->getEvent(), 'eqLogic') !== false) {
-                        $eqLogic = eqLogic::byId($value);
-                        if (is_object($eqLogic)) {
-                            echo $eqLogic->getHumanName();
-                        }
-                    }
-                    if (strpos($internalEvent->getEvent(), 'scenario') !== false) {
-                        $scenario = scenario::byId($value);
-                        if (is_object($scenario)) {
-                            echo $scenario->getHumanName();
-                        }
-                    }
-                    if (strpos($internalEvent->getEvent(), 'object') !== false) {
-                        $object = object::byId($value);
-                        if (is_object($object)) {
-                            echo $object->getHumanName();
-                        }
-                    }
+            if (is_array($internalEvent->getOptions())) {
+                foreach ($internalEvent->getOptions() as $key => $value) {
+                    echo '<td style="width: 200px;">';
+                    echo $value;
                     echo '</td>';
+                    if ($key == 'id') {
+                        echo '<td>';
+                        if (strpos($internalEvent->getEvent(), 'cmd') !== false) {
+                            $cmd = cmd::byId($value);
+                            if (is_object($cmd)) {
+                                echo $cmd->getHumanName();
+                            }
+                        }
+                        if (strpos($internalEvent->getEvent(), 'eqLogic') !== false) {
+                            $eqLogic = eqLogic::byId($value);
+                            if (is_object($eqLogic)) {
+                                echo $eqLogic->getHumanName();
+                            }
+                        }
+                        if (strpos($internalEvent->getEvent(), 'scenario') !== false) {
+                            $scenario = scenario::byId($value);
+                            if (is_object($scenario)) {
+                                echo $scenario->getHumanName();
+                            }
+                        }
+                        if (strpos($internalEvent->getEvent(), 'object') !== false) {
+                            $object = object::byId($value);
+                            if (is_object($object)) {
+                                echo $object->getHumanName();
+                            }
+                        }
+                        echo '</td>';
+                    }
                 }
             }
             echo '</tr>';

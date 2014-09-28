@@ -703,7 +703,11 @@ class cmd {
         if ($_cmdColor == null && $_version != 'scenario') {
             $eqLogic = $this->getEqLogic();
             $vcolor = ($_version == 'mobile') ? 'mcmdColor' : 'cmdColor';
-            $replace['#cmdColor#'] = jeedom::getConfiguration('eqLogic:category:' . $eqLogic->getPrimaryCategory() . ':' . $vcolor);
+            if ($eqLogic->getPrimaryCategory() == '') {
+                $replace['#cmdColor#'] = '';
+            } else {
+                $replace['#cmdColor#'] = jeedom::getConfiguration('eqLogic:category:' . $eqLogic->getPrimaryCategory() . ':' . $vcolor);
+            }
         } else {
             $replace['#cmdColor#'] = $_cmdColor;
         }
