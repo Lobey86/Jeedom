@@ -165,6 +165,9 @@ class jeedom {
             if (isset($usbMapping[$_name])) {
                 return $usbMapping[$_name];
             }
+            if (file_exists($_name)) {
+                return $_name;
+            }
             return '';
         }
         return $usbMapping;
