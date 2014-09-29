@@ -192,7 +192,7 @@ class scenario {
                             }
                         }
                     } else {
-                        $scenario->setLog(__('Erreur : le c\'est incident (toujours marqué en cours mais arreté)', __FILE__));
+                        $scenario->setLog(__('Erreur : le scénario c\'est incident (toujours marqué en cours mais arreté)', __FILE__));
                         $scenario->setState('error');
                         $scenario->save();
                     }
