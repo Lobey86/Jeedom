@@ -207,7 +207,7 @@ class jeeNetwork {
             'address' => config::byKey('internalAddr'),
             'slave_ip' => $this->getRealIp(),
         );
-        if ($jsonrpc->sendRequest('jeeNetwork::handshake', $params)) {
+        if ($jsonrpc->sendRequest('jeeNetwork::handshake', $params, 60)) {
             $result = $jsonrpc->getResult();
             $this->setStatus('ok');
             $this->setPlugin($result['plugin']);

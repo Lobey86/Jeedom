@@ -602,7 +602,7 @@ class market {
                 break;
             default :
                 $type = $this->getType();
-                if (class_exists($type) && method_exists($type, 'getFromMarket')) {
+                if (class_exists($type) && method_exists($type, 'removeFromMarket')) {
                     $type::removeFromMarket($this);
                 }
                 break;
