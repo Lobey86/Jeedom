@@ -275,11 +275,13 @@ class update {
         } else {
             try {
                 $market = market::byLogicalId($this->getLogicalId());
-                if (is_object($market)) {
-                    $market->remove();
-                }
             } catch (Exception $e) {
-                
+                $market = new market();
+                $market->setLogicalId($this->getLogicalId());
+                $market->setType($this->getType());
+            }
+            if (is_object($market)) {
+                $market->remove();
             }
             $this->remove();
         }
