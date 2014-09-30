@@ -251,7 +251,7 @@ function displayCmd(_cmd_id) {
                         div += '<label class="col-lg-2 control-label">{{Arrondi (nombre de chiffre après la virgule)}}</label>';
                         div += '<div class="col-lg-2">';
                         div += '<input class="cmdAttr form-control" data-l1key="configuration" data-l2key="historizeRound" />';
-                        
+
                         div += '</div>';
                         div += '</div>';
                         $('#div_displayInfo').setValues(data, '.cmdAttr');
@@ -261,14 +261,74 @@ function displayCmd(_cmd_id) {
 
             div += '</fieldset>';
             div += '</form>';
+
+            div += '<legend>{{Paramètres optionels widget}} <a class="btn btn-success btn-xs pull-right" id="bt_addWidgetParameters"><i class="fa fa-plus-circle"></i> Ajouter</a></legend>';
+            div += '<table class="table table-bordered table-condensed" id="table_widgetParameters">';
+            div += '<thead>';
+            div += '<tr>';
+            div += '<th>Nom</th>';
+            div += '<th>Valeur</th>';
+            div += '<th>Action</th>';
+            div += '</tr>';
+            div += '</thead>';
+            div += '<tbody>';
+            if (isset(data.display) && isset(data.display.parameters)) {
+                for (var i in data.display.parameters) {
+                    div += '<tr>';
+                    div += '<td>';
+                    div += '<input class="form-control key" value="' + i + '" />';
+                    div += '</td>';
+                    div += '<td>';
+                    div += '<input class="form-control value" value="' + data.display.parameters[i] + '" />';
+                    div += '</td>';
+                    div += '<td>';
+                    div += '<a class="btn btn-danger btn-xs removeWidgetParameter"><i class="fa fa-times"></i> Supprimer</a>';
+                    div += '</td>';
+                    div += '</tr>';
+                }
+            }
+            div += '</tbody>';
+            div += '</table>';
             div += '<a class="btn btn-success" id="saveCmd"><i class="fa fa-check-circle"></i> {{Enregistrer}}</a>';
 
             $('#div_displayInfo').html(div);
+
+            $('#table_widgetParameters').off().delegate('.removeWidgetParameter', 'click', function () {
+                $(this).closest('tr').remove();
+            });
+
+            $('#bt_addWidgetParameters').off().on('click', function () {
+                var tr = '<tr>';
+                tr += '<td>';
+                tr += '<input class="form-control key" />';
+                tr += '</td>';
+                tr += '<td>';
+                tr += '<input class="form-control value" />';
+                tr += '</td>';
+                tr += '<td>';
+                tr += '<a class="btn btn-danger btn-xs removeWidgetParameter pull-right"><i class="fa fa-times"></i> Supprimer</a>';
+                tr += '</td>';
+                tr += '</tr>';
+                $('#table_widgetParameters tbody').append(tr);
+            });
+
+
             $('#div_displayInfo').setValues(data, '.cmdAttr');
             $('#saveCmd').off().on('click', function () {
-                var cmd = $('#div_displayInfo').getValues('.cmdAttr');
+                var cmd = $('#div_displayInfo').getValues('.cmdAttr')[0];
+                if (!isset(cmd.display)) {
+                    cmd.display = {};
+                }
+                if (!isset(cmd.display.parameters)) {
+                    cmd.display.parameters = {};
+                }
+                $('#table_widgetParameters tbody tr').each(function () {
+                    cmd.display.parameters[$(this).find('.key').value()] = $(this).find('.value').value();
+                });
+
+
                 jeedom.cmd.save({
-                    cmd: cmd[0],
+                    cmd: cmd,
                     error: function (error) {
                         $('#div_alert').showAlert({message: error.message, level: 'danger'});
                     },

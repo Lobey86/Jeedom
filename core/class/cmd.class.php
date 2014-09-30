@@ -738,6 +738,12 @@ class cmd {
                     }
                 }
             }
+            $parameters = $this->getDisplay('parameters');
+            if (is_array($parameters)) {
+                foreach ($parameters as $key => $value) {
+                    $replace['#' . $key . '#'] = $value;
+                }
+            }
             return template_replace($replace, $template);
         } else {
             $cmdValue = $this->getCmdValue();
