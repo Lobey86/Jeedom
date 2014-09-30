@@ -30,11 +30,11 @@ sendVarToJS('cmd_widgetMobile', cmd::availableWidget('mobile'));
                                     <?php
                                     foreach (eqLogic::byObjectId(null) as $eqLogic) {
                                         echo '<li>';
-                                        echo '<a>' . $eqLogic->getName() . '</a>';
+                                        echo '<a class="infoEqLogic" data-eqLogic_id="' . $eqLogic->getId() . '">' . $eqLogic->getName() . '</a>';
                                         echo '<ul>';
                                         foreach ($eqLogic->getCmd() as $cmd) {
                                             echo '<li>';
-                                            echo '<a class="cmd" data-cmd_id="' . $cmd->getId() . '">' . $cmd->getName() . '</a>';
+                                            echo '<a class="infoCmd" data-cmd_id="' . $cmd->getId() . '">' . $cmd->getName() . '</a>';
                                             echo '</li>';
                                         }
                                         echo '</ul>';
