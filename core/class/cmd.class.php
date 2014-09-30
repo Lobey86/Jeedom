@@ -754,6 +754,12 @@ class cmd {
                 $replace['#state#'] = ($this->getLastValue() != null) ? $this->getLastValue() : '';
                 $replace['#valueName#'] = $this->getName();
             }
+            $parameters = $this->getDisplay('parameters');
+            if (is_array($parameters)) {
+                foreach ($parameters as $key => $value) {
+                    $replace['#' . $key . '#'] = $value;
+                }
+            }
             $html .= template_replace($replace, $template);
             if (trim($html) == '') {
                 return $html;
