@@ -167,7 +167,7 @@ class scenario {
         if ($_event != null) {
             if (is_object($_event)) {
                 $scenarios = self::byTrigger($_event->getId());
-                $trigger = '#'.$_event->getId().'#';
+                $trigger = '#' . $_event->getId() . '#';
                 $message = __('Scenario lance automatiquement sur evenement venant de : ', __FILE__) . $_event->getHumanName();
             } else {
                 $scenarios = self::byTrigger($_event);
@@ -417,7 +417,7 @@ class scenario {
                 $cmd.= ' force=' . $_force;
                 $cmd.= ' trigger=' . escapeshellarg($_trigger);
                 $cmd.= ' message=' . escapeshellarg($_message);
-                $cmd.= ' >> /dev/null 2>&1 &';
+                $cmd.= ' >> ' . log::getPathToLog('scenario_execution') . ' 2>&1 &';
                 exec($cmd);
             }
             return true;
@@ -1003,7 +1003,6 @@ class scenario {
         $this->configuration = utils::setJsonAttr($this->configuration, $_key, $_value);
     }
 
-    
     function getRealTrigger() {
         return $this->_realTrigger;
     }
@@ -1011,7 +1010,6 @@ class scenario {
     function setRealTrigger($_realTrigger) {
         $this->_realTrigger = $_realTrigger;
     }
-
 
 }
 
