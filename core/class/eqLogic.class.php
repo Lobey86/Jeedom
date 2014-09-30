@@ -34,6 +34,7 @@ class eqLogic {
     protected $specificCapatibilities;
     protected $timeout;
     protected $category;
+    protected $display;
     protected $_internalEvent = 0;
     protected $_debug = false;
     protected $_object = null;
@@ -441,6 +442,14 @@ class eqLogic {
         } else {
             $replace['#object_name#'] = '';
         }
+
+        $parameters = $this->getDisplay('parameters');
+        if (is_array($parameters)) {
+            foreach ($parameters as $key => $value) {
+                $replace['#' . $key . '#'] = $value;
+            }
+        }
+
         if (!isset(self::$_templateArray[$version])) {
             self::$_templateArray[$version] = getTemplate('core', $version, 'eqLogic');
         }
@@ -714,6 +723,14 @@ class eqLogic {
 
     public function setSpecificCapatibilities($_key, $_value) {
         $this->specificCapatibilities = utils::setJsonAttr($this->specificCapatibilities, $_key, $_value);
+    }
+
+    public function getDisplay($_key = '', $_default = '') {
+        return utils::getJsonAttr($this->display, $_key, $_default);
+    }
+
+    public function setDisplay($_key, $_value) {
+        $this->display = utils::setJsonAttr($this->display, $_key, $_value);
     }
 
     public function getInternalEvent() {

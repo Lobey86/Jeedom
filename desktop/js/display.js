@@ -17,6 +17,7 @@
 
 
 $('#div_tree').on('select_node.jstree', function (node, selected) {
+  
     if (selected.node.a_attr.class == 'infoObject') {
         displayObject(selected.node.a_attr['data-object_id']);
     }
@@ -386,9 +387,12 @@ function displayObject(_object_id) {
 
 /***********************EqLogic***************************/
 function displayEqLogic(_eqLogic_id) {
+    
+     
     $.hideAlert();
     jeedom.eqLogic.byId({
         id: _eqLogic_id,
+        noCache : true,
         error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
@@ -464,10 +468,86 @@ function displayEqLogic(_eqLogic_id) {
 
             div += '</fieldset>';
             div += '</form>';
+
             div += '</div>';
+
+            div += '<legend>{{Paramètres optionels widget}} <a class="btn btn-success btn-xs pull-right" id="bt_addWidgetParameters"><i class="fa fa-plus-circle"></i> Ajouter</a></legend>';
+            div += '<table class="table table-bordered table-condensed" id="table_widgetParameters">';
+            div += '<thead>';
+            div += '<tr>';
+            div += '<th>Nom</th>';
+            div += '<th>Valeur</th>';
+            div += '<th>Action</th>';
+            div += '</tr>';
+            div += '</thead>';
+            div += '<tbody>';
+            if (isset(data.display) && isset(data.display.parameters)) {
+                for (var i in data.display.parameters) {
+                    div += '<tr>';
+                    div += '<td>';
+                    div += '<input class="form-control key" value="' + i + '" />';
+                    div += '</td>';
+                    div += '<td>';
+                    div += '<input class="form-control value" value="' + data.display.parameters[i] + '" />';
+                    div += '</td>';
+                    div += '<td>';
+                    div += '<a class="btn btn-danger btn-xs removeWidgetParameter"><i class="fa fa-times"></i> Supprimer</a>';
+                    div += '</td>';
+                    div += '</tr>';
+                }
+            }
+            div += '</tbody>';
+            div += '</table>';
+
+            div += '<a class="btn btn-success" id="saveEqLogic"><i class="fa fa-check-circle"></i> {{Enregistrer}}</a>';
+
+
             div += '</div>';
             $('#div_displayInfo').html(div);
             $('#div_displayInfo').setValues(data, '.eqLogicAttr');
+
+            $('#table_widgetParameters').off().delegate('.removeWidgetParameter', 'click', function () {
+                $(this).closest('tr').remove();
+            });
+
+            $('#bt_addWidgetParameters').off().on('click', function () {
+                var tr = '<tr>';
+                tr += '<td>';
+                tr += '<input class="form-control key" />';
+                tr += '</td>';
+                tr += '<td>';
+                tr += '<input class="form-control value" />';
+                tr += '</td>';
+                tr += '<td>';
+                tr += '<a class="btn btn-danger btn-xs removeWidgetParameter pull-right"><i class="fa fa-times"></i> Supprimer</a>';
+                tr += '</td>';
+                tr += '</tr>';
+                $('#table_widgetParameters tbody').append(tr);
+            });
+
+            $('#saveEqLogic').off().on('click', function () {
+                var eqLogic = $('#div_displayInfo').getValues('.eqLogicAttr')[0];
+                if (!isset(eqLogic.display)) {
+                    eqLogic.display = {};
+                }
+                if (!isset(eqLogic.display.parameters)) {
+                    eqLogic.display.parameters = {};
+                }
+                $('#table_widgetParameters tbody tr').each(function () {
+                    eqLogic.display.parameters[$(this).find('.key').value()] = $(this).find('.value').value();
+                });
+
+
+                jeedom.eqLogic.save({
+                    eqLogics: [eqLogic],
+                    type: eqLogic.eqType_name,
+                    error: function (error) {
+                        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                    },
+                    success: function () {
+                        $('#div_alert').showAlert({message: '{{Enregistrement réussi}}', level: 'success'});
+                    }});
+            });
         }
     });
 }
