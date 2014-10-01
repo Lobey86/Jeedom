@@ -314,6 +314,8 @@ class market {
                                 $return['status'] = 'ok';
                             }
                         }
+                    } else {
+                        $return['status'] = 'depreciated';
                     }
                 } catch (Exception $e) {
                     log::add('market', 'debug', __('Erreur market::getinfo : ', __FILE__) . $e->getMessage());
