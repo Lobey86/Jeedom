@@ -12,7 +12,7 @@ $markets = market::byStatusAndType('stable', init('type'));
 if (config::byKey('market::showBetaMarket') == 1) {
     $markets = array_merge($markets, market::byStatusAndType('beta', init('type')));
 } else {
-    if (config::byKey('market::apikey') != '') {
+     if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) {
         foreach (market::byMe() as $myMarket) {
             if ($myMarket->getStatus() != 'stable' && $myMarket->getType() == init('type')) {
                 $markets[] = $myMarket;

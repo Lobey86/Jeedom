@@ -39,7 +39,7 @@ include_file('3rdparty', 'jquery.fileupload/jquery.fileupload', 'js');
                             <input type="text" class="configKey form-control" data-l1key="backup::keepDays" />
                         </div>
                     </div>
-                    <?php if (config::byKey('market::apikey') != '') { ?>
+                    <?php  if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) { ?>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">{{Envoyer les sauvegardes dans le cloud}}</label>
                             <div class="col-lg-4">
@@ -89,7 +89,7 @@ include_file('3rdparty', 'jquery.fileupload/jquery.fileupload', 'js');
                     </div>
                 </fieldset>
             </form>
-            <?php if (config::byKey('market::apikey') != '') { ?>
+            <?php  if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) { ?>
                 <legend>{{Sauvegardes cloud}}</legend>
                 <form class="form-horizontal">
                     <fieldset>

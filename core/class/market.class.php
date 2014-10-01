@@ -258,8 +258,8 @@ class market {
                 'hwkey' => jeedom::getHardwareKey()
             ));
         }
-        // $jsonrpc->setCb_class('market');
-        // $jsonrpc->setCb_function('updateLicence');
+        $jsonrpc->setCb_class('market');
+        $jsonrpc->setCb_function('updateLicence');
         return $jsonrpc;
     }
 
@@ -283,7 +283,7 @@ class market {
                     return $return;
                 }
 
-                if (config::byKey('market::apikey') != '') {
+                if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) {
                     $return['market_owner'] = 1;
                 } else {
                     $return['market_owner'] = 0;
@@ -297,7 +297,7 @@ class market {
                     } else {
                         $return['datetime'] = $market->getDatetime($_version[$i]);
                         $return['market'] = 1;
-                        if ($market->getApi_author() == config::byKey('market::apikey') && $market->getApi_author() != '') {
+                        if ($market->getApi_author() != '') {
                             $return['market_owner'] = 1;
                         } else {
                             $return['market_owner'] = 0;
@@ -330,7 +330,7 @@ class market {
             return $return;
         }
 
-        if (config::byKey('market::apikey') != '') {
+        if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) {
             $return['market_owner'] = 1;
         } else {
             $return['market_owner'] = 0;
@@ -344,7 +344,7 @@ class market {
             } else {
                 $return['datetime'] = $market->getDatetime($_version);
                 $return['market'] = 1;
-                if ($market->getApi_author() == config::byKey('market::apikey') && $market->getApi_author() != '') {
+                if ($market->getApi_author() != '') {
                     $return['market_owner'] = 1;
                 } else {
                     $return['market_owner'] = 0;

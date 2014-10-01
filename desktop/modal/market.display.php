@@ -35,7 +35,7 @@ if ($market->getPurchase() == 1) {
     if ($market->getStatus('beta') == 1) {
         echo '<a class="btn btn-warning pull-right bt_installFromMarket" data-version="beta" style="color : white;" data-market_logicalId="'.$market->getLogicalId().'" data-market_id="' . $market->getId() . '" ><i class="fa fa-plus-circle"></i> {{Installer beta}}</a>';
     }
-} else if (config::byKey('market::apikey') != '') {
+} else  if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) {
     $purchase_info = market::getPurchaseInfo();
     if (count($purchase_info) == 3 && isset($purchase_info['user_id']) && is_numeric($purchase_info['user_id']) && isset($purchase_info['paypal::url']) && isset($purchase_info['paypal::marchandMail'])) {
         ?>
@@ -103,7 +103,7 @@ if ($market->getPurchase() == 1) {
                 <div class="col-lg-2">
                     <span class="label label-primary marketAttr" data-l1key="rating" style="font-size: 1.2em;"></span>
                 </div>
-                <?php if (config::byKey('market::apikey') != '') { ?>
+                <?php  if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) { ?>
                     <label class="col-lg-2 control-label">{{Ma Note}}</label>
                     <div class="col-lg-3">
                         <span><input type="number" class="rating" id="in_myRating" data-max="5" data-empty-value="0" data-min="1" data-clearable="Effacer" value="<?php echo $market->getRating('user') ?>" /></span>
