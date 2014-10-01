@@ -67,6 +67,9 @@ try {
         }
         $values = json_decode(init('value'), true);
         foreach ($values as $key => $value) {
+            if($key == 'market::password'){
+                $value = sha1($value);
+            }
             config::save($key, jeedom::fromHumanReadable($value), init('plugin', 'core'));
         }
         ajax::success();

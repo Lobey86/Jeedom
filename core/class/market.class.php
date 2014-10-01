@@ -226,7 +226,7 @@ class market {
             if (config::byKey('market::username') != '' && config::byKey('market::password') != '') {
                 $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
                     'username' => config::byKey('market::username'),
-                    'password' => sha1(config::byKey('market::password')),
+                    'password' =>config::byKey('market::password'),
                     'password_type' => 'sha1',
                     'jeedomversion' => getVersion('jeedom'),
                     'hwkey' => jeedom::getHardwareKey()
@@ -245,7 +245,7 @@ class market {
         if (config::byKey('market::username') != '' && config::byKey('market::password') != '') {
             $jsonrpc = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
                 'username' => config::byKey('market::username'),
-                'password' => sha1(config::byKey('market::password')),
+                'password' => config::byKey('market::password'),
                 'password_type' => 'sha1',
                 'jeedomversion' => getVersion('jeedom'),
                 'jeedomkey' => config::byKey('market::registerkey'),
@@ -388,7 +388,7 @@ class market {
 
     public static function retoreBackup($_backup) {
         if (config::byKey('market::username') != '' && config::byKey('market::password') != '') {
-            $url = config::byKey('market::address') . "/core/php/downloadBackup.php?backup=" . $_backup . '&hwkey=' . jeedom::getHardwareKey() . '&username=' . config::byKey('market::username') . '&password=' . sha1(config::byKey('market::password')) . '&password_type=sha1';
+            $url = config::byKey('market::address') . "/core/php/downloadBackup.php?backup=" . $_backup . '&hwkey=' . jeedom::getHardwareKey() . '&username=' . config::byKey('market::username') . '&password=' . config::byKey('market::password') . '&password_type=sha1';
         } else {
             $url = config::byKey('market::address') . "/core/php/downloadBackup.php?backup=" . $_backup . '&hwkey=' . jeedom::getHardwareKey() . '&apikey=' . config::byKey('market::apikey');
         }
@@ -500,7 +500,7 @@ class market {
             throw new Exception(__('Impossible d\'écrire dans le repertoire : ', __FILE__) . $tmp . __('. Exécuter la commande suivante en SSH : chmod 777 -R ', __FILE__) . $tmp_dir);
         }
         if (config::byKey('market::username') != '' && config::byKey('market::password') != '') {
-            $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId() . '&version=' . $_version . '&hwkey=' . jeedom::getHardwareKey() . '&username=' . config::byKey('market::username') . '&password=' . sha1(config::byKey('market::password')) . '&password_type=sha1';
+            $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId() . '&version=' . $_version . '&hwkey=' . jeedom::getHardwareKey() . '&username=' . config::byKey('market::username') . '&password=' . config::byKey('market::password') . '&password_type=sha1';
         } else {
             $url = config::byKey('market::address') . "/core/php/downloadFile.php?id=" . $this->getId() . '&version=' . $_version . '&hwkey=' . jeedom::getHardwareKey() . '&apikey=' . config::byKey('market::apikey');
         }
