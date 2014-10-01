@@ -226,7 +226,7 @@ class market {
             if (config::byKey('market::username') != '' && config::byKey('market::password') != '') {
                 $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
                     'username' => config::byKey('market::username'),
-                    'password' =>config::byKey('market::password'),
+                    'password' => config::byKey('market::password'),
                     'password_type' => 'sha1',
                     'jeedomversion' => getVersion('jeedom'),
                     'hwkey' => jeedom::getHardwareKey()
