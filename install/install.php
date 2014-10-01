@@ -206,7 +206,7 @@ try {
             }
             try {
                 echo __("Vérification de la mise à jour...", __FILE__);
-                update::checkAllUpdate('core');
+                update::checkAllUpdate();
                 config::save('version', getVersion('jeedom'));
                 echo __("OK\n", __FILE__);
             } catch (Exception $ex) {
