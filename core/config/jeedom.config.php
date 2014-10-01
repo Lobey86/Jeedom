@@ -39,6 +39,7 @@ $JEEDOM_INTERNAL_CONFIG = array(
             'multimedia' => array('name' => 'Multimédia', 'icon' => 'fa-sliders'),
             'wellness' => array('name' => 'Bien-être', 'icon' => 'fa-user'),
             'jeedomBox' => array('name' => 'Jeedom Box', 'icon' => 'fa-dropbox'),
+            'monitoring' => array('name' => 'Monitoring', 'icon' => 'fa-tachometer'),
         ),
     ),
     'cmd' => array(
