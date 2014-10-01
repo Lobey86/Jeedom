@@ -103,6 +103,8 @@ if (count($plugins_list) > 0) {
             sendVarToJS('user_id', $_SESSION['user']->getId());
             sendVarToJS('user_login', $_SESSION['user']->getLogin());
             sendVarToJS('nodeJsKey', config::byKey('nodeJsKey'));
+            sendVarToJS('eqLogic_width_step', config::byKey('eqLogic::widget::stepWidth'));
+            sendVarToJS('eqLogic_height_step', config::byKey('eqLogic::widget::stepHeight'));
             ?>
             <div id="wrap">
                 <header class="navbar navbar-fixed-top navbar-default">
