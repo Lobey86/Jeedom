@@ -212,13 +212,17 @@ try {
             } catch (Exception $ex) {
                 echo __("***ERREUR*** ", __FILE__) . $ex->getMessage() . "\n";
             }
-            jeedom::start();
             echo __("***************Jeedom est à jour en version ", __FILE__) . getVersion('jeedom') . "***************\n";
         }
         if (init('level', -1) > -1) {
             echo __("***************Mise à jour des plugins***************\n", __FILE__);
             update::updateAll();
             echo __("***************Mise à jour des plugins réussie***************\n", __FILE__);
+        }
+        try {
+            jeedom::start();
+        } catch (Exception $ex) {
+            echo __("***ERREUR*** ", __FILE__) . $ex->getMessage() . "\n";
         }
     } else {
 
