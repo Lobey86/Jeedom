@@ -291,26 +291,28 @@ class market {
                 $return['market'] = 0;
 
                 try {
-                    $market = $markets[$_logicalId[$i]];
-                    if (!is_object($market)) {
-                        $return['status'] = 'depreciated';
-                    } else {
-                        $return['datetime'] = $market->getDatetime($_version[$i]);
-                        $return['market'] = 1;
-                        if ($market->getApi_author() != '') {
-                            $return['market_owner'] = 1;
+                    if (isset($markets[$_logicalId[$i]])) {
+                        $market = $markets[$_logicalId[$i]];
+                        if (!is_object($market)) {
+                            $return['status'] = 'depreciated';
                         } else {
-                            $return['market_owner'] = 0;
-                        }
-                        $update = update::byTypeAndLogicalId($market->getType(), $market->getLogicalId());
-                        $updateDateTime = '0000-01-01 00:00:00';
-                        if (is_object($update)) {
-                            $updateDateTime = $update->getLocalVersion();
-                        }
-                        if ($updateDateTime < $market->getDatetime($_version[$i], $updateDateTime)) {
-                            $return['status'] = 'update';
-                        } else {
-                            $return['status'] = 'ok';
+                            $return['datetime'] = $market->getDatetime($_version[$i]);
+                            $return['market'] = 1;
+                            if ($market->getApi_author() != '') {
+                                $return['market_owner'] = 1;
+                            } else {
+                                $return['market_owner'] = 0;
+                            }
+                            $update = update::byTypeAndLogicalId($market->getType(), $market->getLogicalId());
+                            $updateDateTime = '0000-01-01 00:00:00';
+                            if (is_object($update)) {
+                                $updateDateTime = $update->getLocalVersion();
+                            }
+                            if ($updateDateTime < $market->getDatetime($_version[$i], $updateDateTime)) {
+                                $return['status'] = 'update';
+                            } else {
+                                $return['status'] = 'ok';
+                            }
                         }
                     }
                 } catch (Exception $e) {
