@@ -90,9 +90,11 @@ class jsonrpcClient {
             }
         }
         if ($_file !== null) {
-            foreach ($_file as $key => $value) {
+            $_request = array_merge($_request, $_file);
+            
+          /*  foreach ($_file as $key => $value) {
                 $_request[$key] = curl_file_create($value);
-            }
+            }*/
         }
         $nbRetry = 0;
         while ($nbRetry < $_maxRetry) {
