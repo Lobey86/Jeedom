@@ -249,7 +249,7 @@ if [ "${webserver}" = "apache" ] ; then
     echo "********************************************************"
     sudo cp install/apache_default /etc/apache2/sites-available/000-default.conf
     if [ ! -f '/etc/apache2/sites-enabled/000-default.conf' ]; then
-        sudo a2ensite 000-default
+        sudo a2ensite 000-default.conf
     fi
     sudo service apache2 restart
     sudo adduser www-data dialout
