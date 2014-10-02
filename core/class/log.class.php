@@ -116,13 +116,13 @@ class log {
      */
     public static function remove($_log) {
         $path = self::getPathToLog($_log);
-        if (file_exists($path) && $log != 'nginx.error') {
+        if (file_exists($path) && $_log != 'nginx.error') {
             unlink($path);
         }
         return true;
     }
 
-    public static function removeAll($_log) {
+    public static function removeAll() {
         $logs = ls(dirname(__FILE__) . '/../../log/', '*');
         foreach ($logs as $log) {
             $path = dirname(__FILE__) . '/../../log/' . $log;
