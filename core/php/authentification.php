@@ -30,7 +30,7 @@ setcookie('sess_id', session_id(), time() + 24 * 3600, "/", '', false, true);
 
 if (!isConnect() && isset($_COOKIE['registerDevice']) && init('v') == 'd') {
     if (loginByKey($_COOKIE['registerDevice'], true)) {
-        setcookie('registerDevice', $key, time() + 24 * 3600, "/", '', false, true);
+        setcookie('registerDevice', $_COOKIE['registerDevice'], time() + 24 * 3600, "/", '', false, true);
     } else {
         setcookie('registerDevice', '', time() - 3600, "/", '', false, true);
     }

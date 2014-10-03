@@ -379,6 +379,7 @@ class scenario {
     }
 
     public static function byUsedCommand($_cmd_id) {
+        $scenarios = null;
         $return = self::byTrigger($_cmd_id);
         $expressions = scenarioExpression::searchExpression('#' . $_cmd_id . '#');
         if (is_array($expressions)) {
