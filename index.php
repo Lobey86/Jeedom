@@ -34,14 +34,20 @@ if (!isset($_GET['v'])) {
                 }
                 include_file('desktop', init('modal'), 'modal', init('plugin'));
             } catch (Exception $e) {
-                $_folder = 'desktop/modal';
-                if (init('plugin') != '') {
-                    $_folder = 'plugins/' . init('plugin') . '/' . $_folder;
+                if ($e->getCode() == 35486 && strpos(init('modal'), 'help') !== false) {
+                    echo '<div class="alert alert-warning div_alert">';
+                    echo 'Il n\'y a encore aucune aide sur cette page pour le moment';
+                    echo '</div>';
+                } else {
+                    $_folder = 'desktop/modal';
+                    if (init('plugin') != '') {
+                        $_folder = 'plugins/' . init('plugin') . '/' . $_folder;
+                    }
+                    ob_end_clean(); //Clean pile after expetion (to prevent no-traduction)
+                    echo '<div class="alert alert-danger div_alert">';
+                    echo translate::exec(displayExeption($e), $_folder . '/' . init('modal') . '.php');
+                    echo '</div>';
                 }
-                ob_end_clean(); //Clean pile after expetion (to prevent no-traduction)
-                echo '<div class="alert alert-danger div_alert">';
-                echo translate::exec(displayExeption($e), $_folder . '/' . init('modal') . '.php');
-                echo '</div>';
             }
         } else {
             include_file('desktop', 'index', 'php');

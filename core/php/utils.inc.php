@@ -96,7 +96,7 @@ function include_file($_folder, $_fn, $_type, $_plugin = '') {
             echo "<script type=\"text/javascript\" src=\"core/php/getJS.php?file=$_folder/$_fn&md5=" . md5_file($path) . "\"></script>";
         }
     } else {
-        throw new Exception("File not found : $_fn at $_folder : $path");
+        throw new Exception("File not found : $_fn at $_folder : $path", 35486);
     }
 }
 
