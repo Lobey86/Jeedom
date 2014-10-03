@@ -22,7 +22,7 @@ include_file('core', 'authentification', 'php');
 if (!isConnect('admin')) {
     throw new Exception('401 - Accès non autorisé');
 }
-$dir = urldecode($_GET['dir']).'/';
+$dir = urldecode($_GET['dir']) . '/';
 $root = '';
 if (file_exists($root . $dir)) {
 
@@ -44,6 +44,8 @@ if (file_exists($root . $dir)) {
             }
         }
         echo "</ul>";
+    } else {
+        echo 'Aucun fichiers trouvés';
     }
 }
 ?>
