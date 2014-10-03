@@ -57,6 +57,19 @@ try {
 
     if ($update) {
         /*         * ************************MISE A JOUR********************************** */
+        try {
+            if (init('level', -1) > -1) {
+                echo __("Vérification des mises à jour...\n", __FILE__);
+                update::updateAll();
+                echo __("OK\n", __FILE__);
+            }
+        } catch (Exception $e) {
+            if (init('mode') != 'force') {
+                throw $e;
+            } else {
+                echo __('***ERREUR*** ', __FILE__) . $e->getMessage();
+            }
+        }
 
         if (init('level', -1) < 1) {
             if (config::byKey('update::backupBefore') == 1) {
@@ -123,8 +136,7 @@ try {
                     echo __("OK\n", __FILE__);
                 } catch (Exception $e) {
                     if (init('mode') != 'force') {
-                        print_r($e);
-                        die();
+                        throw $e;
                     } else {
                         echo __('***ERREUR*** ', __FILE__) . $e->getMessage();
                     }
@@ -206,7 +218,7 @@ try {
             }
             try {
                 echo __("Vérification de la mise à jour...", __FILE__);
-                update::checkAllUpdate();
+                update::checkAllUpdate('core');
                 config::save('version', getVersion('jeedom'));
                 echo __("OK\n", __FILE__);
             } catch (Exception $ex) {
