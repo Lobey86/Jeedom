@@ -466,6 +466,7 @@ class cmd {
     public static function returnState($_options) {
         $cmd = cmd::byId($_options['cmd_id']);
         if (is_object($cmd)) {
+            log::add('cmd', 'debug', 'Retour état de la commande : ' . $cmd->getHumanName() . ' => ' . $cmd->getConfiguration('returnStateValue', 0));
             $cmd->event($cmd->getConfiguration('returnStateValue', 0));
         }
     }
@@ -781,6 +782,7 @@ class cmd {
     }
 
     public function event($_value, $_loop = 0) {
+        log::add('cmd', 'event', 'Evènement sur la commande : ' . $this->getHumanName() . ' => ' . $_value);
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() == 0) {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id : ', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
@@ -811,7 +813,9 @@ class cmd {
             if ($cmd->getType() == 'action') {
                 $nodeJs[] = array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id());
             } else {
-                $cmd->event($cmd->execute(), $_loop);
+                if ($cmd->getEventOnly() == 0) {
+                    $cmd->event($cmd->execute(), $_loop);
+                }
             }
         }
         scenario::check($this);
@@ -842,8 +846,7 @@ class cmd {
             $cron->setFunction('returnState');
             $cron->setOnce(1);
             $cron->setOption(array('cmd_id' => intval($this->getId())));
-            $delay = $this->getConfiguration('returnStateTime') + 1;
-            $next = strtotime('+ ' . $delay . ' minutes ' . date('Y-m-d H:i:s'));
+            $next = strtotime('+ ' . ($this->getConfiguration('returnStateTime') + 1) . ' minutes ' . date('Y-m-d H:i:s'));
             $schedule = date('i', $next) . ' ' . date('H', $next) . ' ' . date('d', $next) . ' ' . date('m', $next) . ' * ' . date('Y', $next);
             $cron->setSchedule($schedule);
             $cron->setLastRun(date('Y-m-d H:i:s'));
