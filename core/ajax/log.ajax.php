@@ -42,6 +42,10 @@ try {
     if (init('action') == 'get') {
         ajax::success(log::get(init('logfile'), init('start', 0), init('nbLine', 3000)));
     }
+    
+     if (init('action') == 'getNbLine') {
+        ajax::success(log::nbLine(init('logfile')));
+    }
 
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
