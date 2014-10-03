@@ -465,8 +465,8 @@ class cmd {
 
     public static function returnState($_options) {
         $cmd = cmd::byId($_options['cmd_id']);
-        if (is_object($cmd) && is_numeric($cmd->getConfiguration('returnStateTime'))) {
-            $cmd->event($cmd->getConfiguration('returnStateValue'));
+        if (is_object($cmd)) {
+            $cmd->event($cmd->getConfiguration('returnStateValue', 0));
         }
     }
 
