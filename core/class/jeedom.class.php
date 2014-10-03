@@ -355,7 +355,7 @@ class jeedom {
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        log::add('core', 'error', __('La date systeme (', __FILE__) . date('Y-m-d H:00:00') . __(') est anterieur à la derniere date (', __FILE__) . $lastDate . __(')enregistrer. Tous les lancements des scénarios sont interrompu jusqu\'à correction.', __FILE__), 'dateCheckFailed');
+        log::add('core', 'error', __('La date système (', __FILE__) . date('Y-m-d H:00:00') . __(') est antérieur à la dernière date (', __FILE__) . date('Y-m-d H:i:s',$lastDate) . __(')enregistrer. Tous les lancements des scénarios sont interrompus jusqu\'à correction.', __FILE__), 'dateCheckFailed');
         return false;
     }
 
