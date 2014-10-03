@@ -154,7 +154,7 @@ class scenarioElement {
 
     public function getSubElement($_type = '') {
         if ($_type != '') {
-            if (is_object($this->_subelement[$_type])) {
+            if (isset($this->_subelement[$_type]) && is_object($this->_subelement[$_type])) {
                 return $this->_subelement[$_type];
             }
             $this->_subelement[$_type] = scenarioSubElement::byScenarioElementId($this->getId(), $_type);
