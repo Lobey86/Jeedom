@@ -833,7 +833,7 @@ class cmd {
     }
 
     public function checkReturnState($_value) {
-        if (is_numeric($this->getConfiguration('returnStateTime')) && $this->getConfiguration('returnStateTime') > 0 && $_value != $this->getConfiguration('returnStateValue')) {
+        if (is_numeric($this->getConfiguration('returnStateTime')) && $this->getConfiguration('returnStateTime') > 0 && $_value != $this->getConfiguration('returnStateValue') && trim($this->getConfiguration('returnStateValue')) != '') {
             $cron = cron::byClassAndFunction('cmd', 'returnState', array('cmd_id' => intval($this->getId())));
             if (!is_object($cron)) {
                 $cron = new cron();
