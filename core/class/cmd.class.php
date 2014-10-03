@@ -466,7 +466,6 @@ class cmd {
     public static function returnState($_options) {
         $cmd = cmd::byId($_options['cmd_id']);
         if (is_object($cmd)) {
-            log::add('cmd', 'debug', 'Retour état de la commande : ' . $cmd->getHumanName() . ' => ' . $cmd->getConfiguration('returnStateValue', 0));
             $cmd->event($cmd->getConfiguration('returnStateValue', 0));
         }
     }
@@ -782,7 +781,6 @@ class cmd {
     }
 
     public function event($_value, $_loop = 0) {
-        log::add('cmd', 'event', 'Evènement sur la commande : ' . $this->getHumanName() . ' => ' . $_value);
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() == 0) {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id : ', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
@@ -797,8 +795,9 @@ class cmd {
         if ($this->getCollectDate() != '' && (($nowtime - $collectDate) > 3600 || ($nowtime + 300 ) < $collectDate)) {
             return;
         }
-        $_value = $this->formatValue($_value);
-        cache::set('cmd' . $this->getId(), $_value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
+        $value = $this->formatValue($_value);
+        log::add('cmd', 'event', 'Evènement sur la commande : ' . $this->getHumanName() . ' => ' . $value . '(' . $_value . ')');
+        cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
         $this->setCollect(0);
 
         $nodeJs = array(
@@ -819,7 +818,7 @@ class cmd {
             }
         }
         scenario::check($this);
-        listener::check($this->getId(), $_value);
+        listener::check($this->getId(), $value);
         nodejs::pushUpdate('eventCmd', $nodeJs);
         if (strpos($_value, 'error') === false) {
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
@@ -828,12 +827,12 @@ class cmd {
         $internalEvent = new internalEvent();
         $internalEvent->setEvent('event::cmd');
         $internalEvent->setOptions('id', $this->getId());
-        $internalEvent->setOptions('value', $_value);
+        $internalEvent->setOptions('value', $value);
         if ($this->getCollectDate() != '') {
             $internalEvent->setDatetime($this->getCollectDate());
         }
         $internalEvent->save();
-        $this->checkReturnState($_value);
+        $this->checkReturnState($value);
     }
 
     public function checkReturnState($_value) {
