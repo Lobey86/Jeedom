@@ -54,7 +54,6 @@ try {
         }
         $scenario->execute(init('trigger'), init('message'));
     } else {
-        $scenario->clearLog();
         $scenario->setLog(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
         die(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
     }
