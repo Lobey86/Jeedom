@@ -587,7 +587,7 @@ class cmd {
         }
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() != 1) {
-            throw new Exception(__('Equipement desactivé impossible d\éxecuter la commande : ' . $this->getHumanName()));
+            throw new Exception(__('Equipement desactivé impossible d\éxecuter la commande : ' . $this->getHumanName(),__FILE__));
         }
         try {
             if ($_options !== null && $_options !== '') {
