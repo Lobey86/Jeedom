@@ -318,6 +318,10 @@ class scenarioExpression {
         }
         return 0;
     }
+    
+    public static function round($_value){
+        return ceil($_value);
+    }
 
     public static function setTags($_expression, &$_scenario = null) {
         $replace = array(
