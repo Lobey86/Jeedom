@@ -1077,9 +1077,6 @@ class cmd {
     }
 
     public function getValue() {
-        if (!is_numeric($this->value)) {
-            return null;
-        }
         return $this->value;
     }
 
