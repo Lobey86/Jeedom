@@ -134,8 +134,8 @@ class internalEvent {
         DB::Prepare($sql, $values);
         $values['datetime'] = $this->getDatetime();
         $sql = 'REPLACE INTO internalEvent
-                SET `datetime` = :datetime
-                    `event` = :event
+                SET `datetime` = :datetime,
+                    `event` = :event,
                     `options` = :options';
         DB::Prepare($sql, $values);
         self::cleanEvent();
