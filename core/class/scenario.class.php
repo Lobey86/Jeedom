@@ -427,6 +427,9 @@ class scenario {
     }
 
     public function execute($_trigger = '', $_message = '') {
+        if($this->getIsActive() != 1){
+            return;
+        }
         $logs = $this->getHlogs();
         if (trim($this->getLog()) != '') {
             if (is_array($logs)) {
