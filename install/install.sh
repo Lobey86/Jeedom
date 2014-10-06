@@ -241,6 +241,7 @@ if [ "${webserver}" = "nginx" ] ; then
     sudo sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
     sudo service php5-fpm restart
     sudo /etc/init.d/php5-fpm restart
+    sudo update-rc.d nginx defaults
 fi
 
 if [ "${webserver}" = "apache" ] ; then 
