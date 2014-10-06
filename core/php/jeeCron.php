@@ -138,11 +138,12 @@ if (init('cron_id') != '') {
                 if (!$started && $cron->getClass() != 'jeedom' && $cron->getFunction() != 'cron') {
                     continue;
                 }
+
                 if (!$cron->refresh()) {
                     continue;
                 }
                 $duration = strtotime('now') - strtotime($cron->getLastRun());
-                if ($cron->getEnable() == 1 && $cron->getState() != 'run' && $cron->getState() != 'starting') {
+                if ($cron->getEnable() == 1 && $cron->getState() != 'run' && $cron->getState() != 'starting' && $cron->getState() != 'stoping') {
                     if ($cron->getDeamon() == 0) {
                         if ($cron->isDue()) {
                             $cron->start();
@@ -154,6 +155,7 @@ if (init('cron_id') != '') {
                 if ($cron->getState() == 'run' && ($duration / 60) >= $cron->getTimeout()) {
                     $cron->stop();
                 }
+                
                 switch ($cron->getState()) {
                     case 'starting':
                         $cron->run();
