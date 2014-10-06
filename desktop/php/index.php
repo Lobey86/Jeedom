@@ -68,7 +68,7 @@ if (count($plugins_list) > 0) {
             var clientServerDiffDatetime = (<?php echo strtotime('now'); ?> * 1000) - clientDatetime.getTime();
             var io = null;
         </script>
-        <script type="text/javascript" src="/nodeJS/socket.io/socket.io.js?1.1.0"></script>
+        <script type="text/javascript" src="/socket.io/socket.io.js?1.1.0"></script>
         <?php
         include_file('3rdparty', 'bootstrap/css/bootstrap.min', 'css');
         include_file('core', 'icon.inc', 'php');
