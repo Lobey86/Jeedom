@@ -166,11 +166,12 @@ class cmd {
 
     public static function byValue($_value) {
         $values = array(
-            'value' => $_value
+            'value' => $_value,
+            'search' => '%#' . $_value . '#%'
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
-                WHERE value=:value
+                WHERE ( value=:value OR value LIKE :search)
                     AND id!=:value
                 ORDER BY `order`';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
@@ -587,7 +588,7 @@ class cmd {
         }
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() != 1) {
-            throw new Exception(__('Equipement desactivé impossible d\éxecuter la commande : ' . $this->getHumanName(),__FILE__));
+            throw new Exception(__('Equipement desactivé impossible d\éxecuter la commande : ' . $this->getHumanName(), __FILE__));
         }
         try {
             if ($_options !== null && $_options !== '') {
@@ -781,6 +782,9 @@ class cmd {
     }
 
     public function event($_value, $_loop = 0) {
+        if ($_value === '') {
+            return;
+        }
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() == 0) {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id : ', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
@@ -1073,9 +1077,6 @@ class cmd {
     }
 
     public function getValue() {
-        if (!is_numeric($this->value)) {
-            return null;
-        }
         return $this->value;
     }
 

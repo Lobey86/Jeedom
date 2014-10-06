@@ -38,6 +38,11 @@ autoCompleteCondition = [
     {val: 'average(commande,periode)'},
     {val: 'max(commande,periode)'},
     {val: 'min(commande,periode)'},
+    {val: 'round(valeur)'},
+    {val: 'trigger(commande)'},
+    {val: 'randomColor(debut,fin)'},
+    {val: 'lastScenarioExecution(scenario)'},
+    {val: 'stateDuration(commande)'},
 ];
 autoCompleteAction = ['sleep', 'variable', 'scenario', 'stop', 'icon'];
 

@@ -79,8 +79,10 @@ if (!isConnect()) {
     Ex : lastScenarioExecution(#[Salle de bain][Lumière][Auto]#) : Renvoi 300 si le scénario c'est lancé pour la derniere fois il y a 5min}}
 {{randomColor(min,max) : donne une couleur aléatoire compris entre 2 bornes ( 0 => rouge, 50 => vert, 100 => bleu)
     Ex : randomColor(40,60) : Pour avoir une couleur aléatoire proche du vert}}
-{{trigger([commande]) : permet de connaitre le declencheur du scénario ou de savoir si c'est bien la commande passé en parametre qui a declenchée le scénario
+{{trigger(commande) : permet de connaitre le declencheur du scénario ou de savoir si c'est bien la commande passé en parametre qui a declenchée le scénario
     Ex : trigger(#[Salle de bain][Hydrometrie][Humidité]#) : 1 si c'est bien #[Salle de bain][Hydrometrie][Humidité]# qui a declenché le scénario sinon 0}}
+{{round(valeur) :permet un arrondit au dessus
+    Ex : round(#[Salle de bain][Hydrometrie][Humidité]# / 10) : renverra 9 si le pourcentage d'humidité et 85}}
                 </pre>
             </div>
         </div>

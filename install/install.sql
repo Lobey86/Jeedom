@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mar 30 Septembre 2014 à 14:05
+-- Généré le: Dim 05 Octobre 2014 à 10:41
 -- Version du serveur: 5.6.19-0ubuntu0.14.04.1-log
 -- Version de PHP: 5.5.9-1ubuntu4.4
 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `cmd` (
   `eventOnly` tinyint(1) DEFAULT '0',
   `display` text,
   `isVisible` int(11) DEFAULT '1',
-  `value` int(11) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique` (`eqLogic_id`,`name`),
   KEY `isHistorized` (`isHistorized`),

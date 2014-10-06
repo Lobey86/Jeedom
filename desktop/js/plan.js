@@ -216,7 +216,7 @@ function initDraggable(_state) {
                 ui.position.left = $('#div_displayObject').width() - $(this).width();
             }
             if ((ui.position.top + $(this).height()) >= $('#div_displayObject').height()) {
-                ui.position.top = $('#div_displayObject').height() - $('#div_displayObject').height();
+                ui.position.top = $('#div_displayObject').height() - $(this).height();
             }
             if (ui.position.top < 0) {
                 ui.position.top = 0;

@@ -470,7 +470,7 @@
         "Voir variables": "View variables",
         "Nom à afficher": "Name to display",
         "Ne rien mettre pour laisser le nom par défaut": "Let empty to get the default name", 
-        "Déclencheur": "Déclencheur"
+        "Déclencheur": "Trigger"
     },
     "desktop\/js\/scenario.js": {
         "Etes-vous sûr de vouloir supprimer le scénario": "Are you agree to delete scenario?",
