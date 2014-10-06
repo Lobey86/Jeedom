@@ -332,8 +332,8 @@ class interactQuery {
                 return __('Commande introuvable verifier qu\'elle existe toujours', __FILE__);
             }
             $replace['#commande#'] = $cmd->getName();
-            if (isset($synonymes[$replace['#commande#']])) {
-                $replace['#commande#'] = $synonymes[$replace['#commande#']][rand(0, count($synonymes[$replace['#commande#']]) - 1)];
+            if (isset($synonymes[$cmd->getName()])) {
+                $replace['#commande#'] = $synonymes[$cmd->getName()][rand(0, count($synonymes[$cmd->getName()]) - 1)];
             }
             $replace['#objet#'] = '';
             $replace['#equipement#'] = '';
