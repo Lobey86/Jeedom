@@ -59,8 +59,8 @@ class internalEvent {
     }
 
     public static function byEventAndOptions($_event, $_options, $_last = false) {
-        if (is_array($_options)) {
-            $_options = json_encode($_options,JSON_UNESCAPED_UNICODE);
+        if (is_array($_options) || is_object($_options)) {
+            $_options = json_encode($_options, JSON_UNESCAPED_UNICODE);
         }
         $values = array(
             'event' => $_event,
@@ -110,7 +110,7 @@ class internalEvent {
 
     public static function start() {
         $caches = cache::search('::lastRetrievalInternalEvent');
-        if(count($caches) > 0){
+        if (count($caches) > 0) {
             foreach ($caches as $cache) {
                 $cache->remove();
             }
@@ -120,13 +120,24 @@ class internalEvent {
     /*     * *********************Methode d'instance************************* */
 
     public function save() {
-        foreach (self::byEventAndOptions($this->getEvent(), $this->getOptions()) as $same) {
-            $same->remove();
+        $options = $this->getOptions();
+        if (is_array($options) || is_object($options)) {
+            $options = json_encode($options, JSON_UNESCAPED_UNICODE);
         }
-        DB::save($this);
-    }
-
-    public function postSave() {
+        $values = array(
+            'options' => $options,
+            'event' => $this->getEvent(),
+        );
+        $sql = 'DELETE FROM internalEvent
+                WHERE `options` = :options
+                       AND `event` = :event';
+        DB::Prepare($sql, $values);
+        $values['datetime'] = $this->getDatetime();
+        $sql = 'REPLACE INTO internalEvent
+                SET `datetime` = :datetime
+                    `event` = :event
+                    `options` = :options';
+        DB::Prepare($sql, $values);
         self::cleanEvent();
     }
 
