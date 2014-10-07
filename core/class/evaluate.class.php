@@ -330,21 +330,18 @@ class evaluate {
                         unset($caracOuvrant[$nbCaractOuvrant]);
                         $nbCaractOuvrant--;
                     } else {
-                        if ($lettre == '{' || $lettre == '(') {
-                            if ($lettre == '{') {
-                                $caracOuvrant[$nbCaractOuvrant + 1] = "}";
-                            } else {
-                                if ($caracOuvrant[$nbCaractOuvrant] != "'" && $caracOuvrant[$nbCaractOuvrant] != '"') {
-                                    $caracOuvrant[$nbCaractOuvrant + 1] = ")";
-                                }
-                            }
+                        if ($lettre == '{') {
+                            $caracOuvrant[$nbCaractOuvrant + 1] = "}";
                             $nbCaractOuvrant++;
-                        }/* else {
-                            if (($lettre == '"' && $caracOuvrant[$nbCaractOuvrant] != "'") || ($lettre == "'" && $caracOuvrant[$nbCaractOuvrant] != '"')) {
-                                $caracOuvrant[$nbCaractOuvrant + 1] = $lettre;
+                        } else if ($lettre == '(') {
+                            if ($caracOuvrant[$nbCaractOuvrant] != "'" && $caracOuvrant[$nbCaractOuvrant] != '"') {
+                                $caracOuvrant[$nbCaractOuvrant + 1] = ")";
                                 $nbCaractOuvrant++;
                             }
-                        }*/
+                        } else if (($lettre == '"' && $caracOuvrant[$nbCaractOuvrant] != "'") || ($lettre == "'" && $caracOuvrant[$nbCaractOuvrant] != '"')) {
+                            $caracOuvrant[$nbCaractOuvrant + 1] = $lettre;
+                            $nbCaractOuvrant++;
+                        }
                     }
                 }
                 $caractereSpeciale = false;
@@ -365,6 +362,7 @@ class evaluate {
                     } else {
                         if (isset($lstP[$lastNum]["operateur"]) && $lastNum != -1) {
                             $ope = $lstP[$lastNum]["operateur"] . $lettre;
+                     
                             if (array_search($ope, $tabSignes) === false) {
                                 if ($lettre != '-') {
                                     throw new Exception(__("ERREUR deux opérations à la suite", __FILE__));
