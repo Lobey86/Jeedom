@@ -37,7 +37,7 @@ class jsonrpcClient {
                 'method' => $_method,
                 'params' => $_params,
         )));
-        $this->rawResult = $this->send($request, $_timeout, $_file, $_maxRetry);
+        $this->rawResult = trim($this->send($request, $_timeout, $_file, $_maxRetry));
 
         if ($this->rawResult === false) {
             return false;
