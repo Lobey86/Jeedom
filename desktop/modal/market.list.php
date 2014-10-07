@@ -49,7 +49,7 @@ $findMarket = array();
                 if (!is_object($update)) {
                     $install = "notInstall";
                 }
-                echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor '.$install.'" style="height:70px;">';
+                echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor '.$install.'" style="height:60px;">';
                 if ($market->getStatus('stable') == 1 && $market->getImg('stable')) {
                     $urlPath = config::byKey('market::address') . '/' . $market->getImg('stable');
                 } else {
@@ -57,7 +57,7 @@ $findMarket = array();
                         $urlPath = config::byKey('market::address') . '/' . $market->getImg('beta');
                     }
                 }
-                echo '<td><center><img src="core/img/no_image.gif" data-original="' . $urlPath . '"  class="lazy" height="70" /></center></td>';
+                echo '<td><center><img src="core/img/no_image.gif" data-original="' . $urlPath . '"  class="lazy" height="60" width="60" /></center></td>';
                 echo '<td>' . $market->getCategorie() . '</td>';
                 echo '<td>' . $market->getName() . '</td>';
                 echo '<td>' . $market->getDescription() . '</td>';
