@@ -21,9 +21,9 @@ $(function () {
 
     function updateCache() {
         webappCache.swapCache();
-       // if (confirm("Une nouvelle version de Jeedom vient d'être installée. Voulez-vous rafraichir pour l'utiliser maintenant ?")) {
-            window.location.reload();
-       // }
+        // if (confirm("Une nouvelle version de Jeedom vient d'être installée. Voulez-vous rafraichir pour l'utiliser maintenant ?")) {
+        window.location.reload();
+        // }
     }
 });
 
@@ -88,6 +88,7 @@ function initApplication(_reinit) {
                 return;
             } else {
                 if (init(_reinit, false) == false) {
+                    checkConnect();
                     modal(false);
                     panel(false);
                     /*************Initialisation environement********************/
@@ -174,6 +175,31 @@ function page(_page, _title, _option, _plugin) {
                     }
                 }
             });
+        }
+    });
+}
+
+function checkConnect() {
+    jeedom.user.isConnect({
+        success: function (result) {
+            if (!result) {
+                if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
+                    jeedom.user.logByKey({
+                        key: localStorage.getItem("deviceKey"),
+                        success: function () {
+                            initApplication();
+                        }
+                    });
+                    $.hideLoading();
+                } else {
+                    $.hideLoading();
+                    page('connection', 'Connexion');
+                }
+            } else {
+                setTimeout(function () {
+                    checkConnect();
+                }, 30000);
+            }
         }
     });
 }

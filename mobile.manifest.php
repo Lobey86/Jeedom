@@ -49,7 +49,7 @@ foreach (ls($root_dir, '*') as $dir) {
 CACHE MANIFEST
 
 CACHE:
-/nodeJS/socket.io/socket.io.js?1.0.6
+/socket.io/socket.io.js?1.1.0
 <?php
 foreach ($js_file as $file) {
     echo "\n";
