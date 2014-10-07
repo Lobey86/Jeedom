@@ -18,7 +18,11 @@
 
 require_once dirname(__FILE__) . '/core.inc.php';
 
-ini_set('session.gc_maxlifetime', 24 * 3600);
+$session_lifetime = config::byKey('session_lifetime', 24);
+if (!is_numeric($session_lifetime)) {
+    $session_lifetime = 24;
+}
+ini_set('session.gc_maxlifetime', $session_lifetime * 3600);
 ini_set('session.use_cookies', 1);
 if (isset($_COOKIE['sess_id'])) {
     session_id($_COOKIE['sess_id']);

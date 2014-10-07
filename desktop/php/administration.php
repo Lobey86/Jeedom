@@ -68,6 +68,12 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     </select>
                                 </div>
                             </div>
+                              <div class="form-group">
+                                <label class="col-lg-2 control-label">{{Durée de vie des sessions (heure)}}</label>
+                                <div class="col-lg-2">
+                                    <input type="text"  class="configKey form-control" data-l1key="session_lifetime" />
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">{{Date et heure}}</label>
                                 <div class="col-lg-4">
