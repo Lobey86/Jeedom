@@ -217,6 +217,8 @@ function addUpdate(_update) {
         if (isset(_update.configuration) && isset(_update.configuration.market) && _update.configuration.market == 1) {
             tr += '<a class="btn btn-primary btn-xs pull-right view tooltips cursor" style="color : white;"><i class="fa fa-search"></i> {{Voir}}</a>';
         }
+    }else{
+         tr += '<a class="btn btn-default btn-xs pull-right" href="https://wiki.jeedom.fr/index.php?title=Changelog" target="_blank"><i class="fa fa-bars"></i> {{Changelog}}</a>';
     }
 
     tr += '</td>';
