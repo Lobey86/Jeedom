@@ -190,8 +190,10 @@ class update {
                 $update->setLocalVersion(date('Y-m-d H:i:s'));
                 $update->save();
             }
+            $find = array();
             if (method_exists($plugin_id, 'listMarketObject')) {
                 foreach ($plugin_id::listMarketObject() as $logical_id) {
+                    $find[$logical_id] = true;
                     $update = self::byTypeAndLogicalId($plugin_id, $logical_id);
                     if (!is_object($update)) {
                         $update = new update();
@@ -199,6 +201,11 @@ class update {
                         $update->setType($plugin_id);
                         $update->setLocalVersion(date('Y-m-d H:i:s'));
                         $update->save();
+                    }
+                }
+                foreach (self::byType($plugin_id) as $update) {
+                    if (!isset($find[$update->getLogicalId()])) {
+                        $update->remove();
                     }
                 }
             }
