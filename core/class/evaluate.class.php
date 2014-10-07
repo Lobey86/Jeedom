@@ -327,7 +327,6 @@ class evaluate {
             } else {
                 if (!$caractereSpeciale) {
                     if ($caracOuvrant[$nbCaractOuvrant] == $lettre) {
-
                         unset($caracOuvrant[$nbCaractOuvrant]);
                         $nbCaractOuvrant--;
                     } else {
@@ -340,12 +339,12 @@ class evaluate {
                                 }
                             }
                             $nbCaractOuvrant++;
-                        } else {
+                        }/* else {
                             if (($lettre == '"' && $caracOuvrant[$nbCaractOuvrant] != "'") || ($lettre == "'" && $caracOuvrant[$nbCaractOuvrant] != '"')) {
                                 $caracOuvrant[$nbCaractOuvrant + 1] = $lettre;
                                 $nbCaractOuvrant++;
                             }
-                        }
+                        }*/
                     }
                 }
                 $caractereSpeciale = false;
@@ -414,7 +413,7 @@ class evaluate {
         }
         //ERREUR SI UN CARACTERE OUVRANT " ' ( ou { n'a pas été fermé
         if ($nbCaractOuvrant > 0) {
-            throw new Exception(__("ERREUR dans l'espression attendu caratère fermant : ", __FILE__) . $caracOuvrant[sizeof($caracOuvrant)]);
+            throw new Exception(__("ERREUR dans l'espression, caractère fermant attendu : ", __FILE__) . $caracOuvrant[sizeof($caracOuvrant)]);
         }
         return $lstP;
     }
