@@ -782,7 +782,7 @@ class cmd {
     }
 
     public function event($_value, $_loop = 0) {
-        if ($_value === '') {
+        if (trim($_value) === '') {
             return;
         }
         $eqLogic = $this->getEqLogic();
