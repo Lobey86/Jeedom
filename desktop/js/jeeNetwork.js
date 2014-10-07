@@ -198,6 +198,7 @@ $('#bt_checkUpdateSlave').on('click', function () {
         },
         success: function (data) {
             $('.li_jeeNetwork.active').click();
+            $('#div_alert').showAlert({message: '{{La vérification des mises à jour a été faite avec succès}}', level: 'success'});
         }
     });
 });
