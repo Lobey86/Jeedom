@@ -316,7 +316,7 @@ class interactQuery {
         if ($interactDef->getOptions('synonymes') != '') {
             foreach (explode('|', $interactDef->getOptions('synonymes')) as $value) {
                 $values = explode('=', $value);
-                $synonymes[$values[0]] = explode(',', $values[1]);
+                $synonymes[strtolower($values[0])] = explode(',', $values[1]);
             }
         }
         $replace = array();
@@ -332,8 +332,8 @@ class interactQuery {
                 return __('Commande introuvable verifier qu\'elle existe toujours', __FILE__);
             }
             $replace['#commande#'] = $cmd->getName();
-            if (isset($synonymes[$cmd->getName()])) {
-                $replace['#commande#'] = $synonymes[$cmd->getName()][rand(0, count($synonymes[$cmd->getName()]) - 1)];
+            if (isset($synonymes[strtolower($cmd->getName())])) {
+                $replace['#commande#'] = $synonymes[strtolower($cmd->getName())][rand(0, count($synonymes[strtolower($cmd->getName())]) - 1)];
             }
             $replace['#objet#'] = '';
             $replace['#equipement#'] = '';

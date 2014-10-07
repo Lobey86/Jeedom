@@ -248,7 +248,7 @@ class interactDef {
             $synonymes = array();
             foreach (explode('|', $this->getOptions('synonymes')) as $value) {
                 $values = explode('=', $value);
-                $synonymes[$values[0]] = explode(',', $values[1]);
+                $synonymes[strtolower($values[0])] = explode(',', $values[1]);
             }
             $return = array();
             foreach ($queries as $query) {
@@ -266,10 +266,10 @@ class interactDef {
         $return = array();
         if (count($_synonymes) > 0) {
             foreach ($_synonymes as $replace => $values) {
-                if (strpos($_text, $replace) !== false &&
-                        (substr($_text, strpos($_text, $replace) - 1, 1) == ' ' || strpos($_text, $replace) - 1 < 0) &&
-                        (substr($_text, strpos($_text, $replace) + strlen($replace), 1) == ' ' || strpos($_text, $replace) + strlen($replace) + 1 > strlen($_text))) {
-                    $start = strpos($_text, $replace);
+                if (stripos($_text, $replace) !== false &&
+                        (substr($_text, stripos($_text, $replace) - 1, 1) == ' ' || stripos($_text, $replace) - 1 < 0) &&
+                        (substr($_text, stripos($_text, $replace) + strlen($replace), 1) == ' ' || stripos($_text, $replace) + strlen($replace) + 1 > strlen($_text))) {
+                    $start = stripos($_text, $replace);
                     foreach (self::generateSynonymeVariante(substr($_text, $start + strlen($replace)), $_synonymes) as $endSentence) {
                         foreach ($values as $value) {
                             $return[] = substr($_text, 0, $start) . $value . $endSentence;
