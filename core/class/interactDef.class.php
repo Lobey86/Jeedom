@@ -194,23 +194,25 @@ class interactDef {
                     foreach (object::all() as $object) {
                         if (($this->getFiltres('object_id', 'all') == 'all' || $object->getId() == $this->getFiltres('object_id'))) {
                             foreach ($object->getEqLogic() as $eqLogic) {
-                                if (($this->getFiltres('plugin', 'all') == 'all' || $eqLogic->getEqType_name() == $this->getFiltres('plugin'))) {
-                                    foreach ($eqLogic->getCmd() as $cmd) {
-                                        if ($cmd->getType() == 'info' || ($cmd->getType() == 'action' && ($cmd->getSubType() == 'color' || $cmd->getSubType() == 'slider' || $cmd->getSubType() == 'other')))
-                                            if ($this->getFiltres('subtype') == 'all' || $this->getFiltres('subtype') == $cmd->getSubType()) {
-                                                if ($cmd->getType() == $this->getFiltres('cmd_type') && ($this->getFiltres('cmd_unite', 'all') == 'all' || $cmd->getUnite() == $this->getFiltres('cmd_unite'))) {
-                                                    $replace = array(
-                                                        '#objet#' => strtolower($object->getName()),
-                                                        '#commande#' => strtolower($cmd->getName()),
-                                                        '#equipement#' => strtolower($eqLogic->getName()),
-                                                    );
-                                                    $return[] = array(
-                                                        'query' => str_replace(array_keys($replace), $replace, $input),
-                                                        'link_type' => $this->getLink_type(),
-                                                        'link_id' => $cmd->getId(),
-                                                    );
+                                if (($this->getFiltres('eqLogic_id', 'all') == 'all' || $eqLogic->getId() == $this->getFiltres('eqLogic_id'))) {
+                                    if (($this->getFiltres('plugin', 'all') == 'all' || $eqLogic->getEqType_name() == $this->getFiltres('plugin'))) {
+                                        foreach ($eqLogic->getCmd() as $cmd) {
+                                            if ($cmd->getType() == 'info' || ($cmd->getType() == 'action' && ($cmd->getSubType() == 'color' || $cmd->getSubType() == 'slider' || $cmd->getSubType() == 'other')))
+                                                if ($this->getFiltres('subtype') == 'all' || $this->getFiltres('subtype') == $cmd->getSubType()) {
+                                                    if ($cmd->getType() == $this->getFiltres('cmd_type') && ($this->getFiltres('cmd_unite', 'all') == 'all' || $cmd->getUnite() == $this->getFiltres('cmd_unite'))) {
+                                                        $replace = array(
+                                                            '#objet#' => strtolower($object->getName()),
+                                                            '#commande#' => strtolower($cmd->getName()),
+                                                            '#equipement#' => strtolower($eqLogic->getName()),
+                                                        );
+                                                        $return[] = array(
+                                                            'query' => str_replace(array_keys($replace), $replace, $input),
+                                                            'link_type' => $this->getLink_type(),
+                                                            'link_id' => $cmd->getId(),
+                                                        );
+                                                    }
                                                 }
-                                            }
+                                        }
                                     }
                                 }
                             }

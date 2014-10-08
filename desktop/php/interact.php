@@ -174,6 +174,19 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-lg-6 control-label">{{Limiter à l'équipement}}</label>
+                            <div class="col-lg-4">
+                                <select class='interactAttr form-control' data-l1key='filtres' data-l2key='eqLogic_id' >
+                                    <option value="all">{{Tous}}</option>
+                                    <?php
+                                    foreach (eqLogic::all() as $eqLogic) {
+                                        echo '<option value="' . $eqLogic->getId() . '" >' . $eqLogic->getName() . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-lg-6 control-label">{{Limiter aux plugins}}</label>
                             <div class="col-lg-4">
                                 <select class='interactAttr form-control' data-l1key='filtres' data-l2key='plugin'>
