@@ -154,20 +154,21 @@ class interactQuery {
         if (isset($_parameters['profile'])) {
             $_parameters['profile'] = ucfirst($_parameters['profile']);
         }
-        $reply = self::dontUnderstand($_parameters);
+        $reply = '';
         $interactQuery = self::byQuery($_query);
         if (!is_object($interactQuery)) {
             $interactQuery = interactQuery::recognize($_query);
         }
-
         if (is_object($interactQuery)) {
             $reply = $interactQuery->executeAndReply($_parameters);
-        }
-        if (!is_object($interactQuery)) {
+        } else {
             $brainReply = self::brainReply($_query, $_parameters);
             if ($brainReply != '') {
                 $reply = $brainReply;
             }
+        }
+        if ($reply == '') {
+            $reply = self::dontUnderstand($_parameters);
         }
         return ucfirst($reply);
     }
@@ -193,7 +194,7 @@ class interactQuery {
                 $shortest = $lev;
             }
         }
-        if (isset($closest) && $BRAINREPLY[$closest]) {
+        if (isset($closest) && is_array($BRAINREPLY[$closest])) {
             $random = rand(0, count($BRAINREPLY[$closest]) - 1);
             return $BRAINREPLY[$closest][$random];
         }
