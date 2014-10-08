@@ -161,12 +161,12 @@ class interactQuery {
         }
         if (is_object($interactQuery)) {
             $reply = $interactQuery->executeAndReply($_parameters);
-        } else {
+        }/* else {
             $brainReply = self::brainReply($_query, $_parameters);
             if ($brainReply != '') {
                 $reply = $brainReply;
             }
-        }
+        }*/
         if ($reply == '') {
             $reply = self::dontUnderstand($_parameters);
         }
