@@ -59,7 +59,7 @@ try {
         /*         * ************************MISE A JOUR********************************** */
         try {
             if (init('level', -1) > -1) {
-                echo __("Vérification des mises à jour...\n", __FILE__);
+                echo __("Vérification des mises à jour...", __FILE__);
                 update::updateAll();
                 echo __("OK\n", __FILE__);
             }
