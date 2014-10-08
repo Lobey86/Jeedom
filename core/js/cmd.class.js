@@ -15,7 +15,7 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-jeedom.cmd = function() {
+jeedom.cmd = function () {
 };
 
 jeedom.cmd.cache = Array();
@@ -24,7 +24,7 @@ if (!isset(jeedom.cmd.cache.byId)) {
     jeedom.cmd.cache.byId = Array();
 }
 
-jeedom.cmd.execute = function(_params) {
+jeedom.cmd.execute = function (_params) {
     var notify = _params.notify || true;
     if (notify) {
         var eqLogic = $('.cmd[data-cmd_id=' + _params.id + ']').closest('.eqLogic');
@@ -36,14 +36,14 @@ jeedom.cmd.execute = function(_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {
         global: false,
-        pre_success: function(data) {
+        pre_success: function (data) {
             if (data.state != 'ok') {
                 if ('function' != typeof (_params.error)) {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 }
                 if (notify) {
                     eqLogic.find('.statusCmd').empty().append('<i class="fa fa-times"></i>');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         eqLogic.find('.statusCmd').empty();
                     }, 3000);
                 }
@@ -51,7 +51,7 @@ jeedom.cmd.execute = function(_params) {
             }
             if (notify) {
                 eqLogic.find('.statusCmd').empty().append('<i class="fa fa-rss"></i>');
-                setTimeout(function() {
+                setTimeout(function () {
                     eqLogic.find('.statusCmd').empty();
                 }, 3000);
             }
@@ -82,18 +82,18 @@ jeedom.cmd.execute = function(_params) {
 };
 
 
-jeedom.cmd.test = function(_params) {
+jeedom.cmd.test = function (_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {
         global: false,
-        success: function(result) {
+        success: function (result) {
             switch (result.type) {
                 case 'info' :
                     jeedom.cmd.execute({
                         id: _params.id,
                         cache: 0,
                         notify: false,
-                        success: function(result) {
+                        success: function (result) {
                             alert(result);
                         }
                     });
@@ -104,10 +104,10 @@ jeedom.cmd.test = function(_params) {
                             jeedom.cmd.execute({
                                 id: _params.id,
                                 cache: 0,
-                                error: function(error) {
+                                error: function (error) {
                                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                                 },
-                                success: function() {
+                                success: function () {
                                     $('#div_alert').showAlert({message: '{{Action éxecutée avec succès}}', level: 'success'});
                                 }
                             });
@@ -117,10 +117,10 @@ jeedom.cmd.test = function(_params) {
                                 id: _params.id,
                                 value: {slider: 50},
                                 cache: 0,
-                                error: function(error) {
+                                error: function (error) {
                                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                                 },
-                                success: function() {
+                                success: function () {
                                     $('#div_alert').showAlert({message: '{{Action éxecutée avec succès}}', level: 'success'});
                                 }
                             });
@@ -130,10 +130,10 @@ jeedom.cmd.test = function(_params) {
                                 id: _params.id,
                                 value: {color: '#fff000'},
                                 cache: 0,
-                                error: function(error) {
+                                error: function (error) {
                                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                                 },
-                                success: function() {
+                                success: function () {
                                     $('#div_alert').showAlert({message: '{{Action éxecutée avec succès}}', level: 'success'});
                                 }
                             });
@@ -143,10 +143,10 @@ jeedom.cmd.test = function(_params) {
                                 id: _params.id,
                                 value: {title: '{{[Jeedom] Message de test}}', message: '{{Ceci est un test de message pour la commande}} ' + result.name},
                                 cache: 0,
-                                error: function(error) {
+                                error: function (error) {
                                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                                 },
-                                success: function() {
+                                success: function () {
                                     $('#div_alert').showAlert({message: '{{Action éxecutée avec succès}}', level: 'success'});
                                 }
                             });
@@ -173,14 +173,14 @@ jeedom.cmd.test = function(_params) {
 };
 
 
-jeedom.cmd.refreshValue = function(_params) {
+jeedom.cmd.refreshValue = function (_params) {
     var cmd = $('.cmd[data-cmd_id=' + _params.id + ']');
     if (cmd.html() != undefined && cmd.closest('.eqLogic').attr('data-version') != undefined) {
         var version = cmd.closest('.eqLogic').attr('data-version');
         var paramsRequired = ['id'];
         var paramsSpecifics = {
             global: false,
-            success: function(result) {
+            success: function (result) {
                 cmd.replaceWith(result.html);
                 initTooltips();
                 if ($.mobile) {
@@ -210,10 +210,10 @@ jeedom.cmd.refreshValue = function(_params) {
 };
 
 
-jeedom.cmd.save = function(_params) {
+jeedom.cmd.save = function (_params) {
     var paramsRequired = ['cmd'];
     var paramsSpecifics = {
-        pre_success: function(data) {
+        pre_success: function (data) {
             if (isset(jeedom.cmd.cache.byId[data.result.id])) {
                 delete jeedom.cmd.cache.byId[data.result.id];
             }
@@ -237,10 +237,10 @@ jeedom.cmd.save = function(_params) {
 }
 
 
-jeedom.cmd.byId = function(_params) {
+jeedom.cmd.byId = function (_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {
-        pre_success: function(data) {
+        pre_success: function (data) {
             jeedom.cmd.cache.byId[data.result.id] = data.result;
             return data;
         }
@@ -265,7 +265,7 @@ jeedom.cmd.byId = function(_params) {
     $.ajax(paramsAJAX);
 }
 
-jeedom.cmd.usedBy = function(_params) {
+jeedom.cmd.usedBy = function (_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {};
     try {
@@ -284,17 +284,17 @@ jeedom.cmd.usedBy = function(_params) {
     $.ajax(paramsAJAX);
 }
 
-jeedom.cmd.changeType = function(_cmd, _subType) {
+jeedom.cmd.changeType = function (_cmd, _subType) {
     var selSubType = '<select style="width : 120px;margin-top : 5px;" class="cmdAttr form-control input-sm" data-l1key="subType">';
     var type = _cmd.find('.cmdAttr[data-l1key=type]').value();
     jeedom.getConfiguration({
         key: 'cmd:type:' + type + ':subtype',
         default: 0,
         async: false,
-        error: function(error) {
+        error: function (error) {
             _params.error(error);
         },
-        success: function(subType) {
+        success: function (subType) {
             for (var i in subType) {
                 selSubType += '<option value="' + i + '">' + subType[i].name + '</option>';
             }
@@ -313,15 +313,15 @@ jeedom.cmd.changeType = function(_cmd, _subType) {
     });
 };
 
-jeedom.cmd.changeSubType = function(_cmd) {
+jeedom.cmd.changeSubType = function (_cmd) {
     jeedom.getConfiguration({
         key: 'cmd:type:' + _cmd.find('.cmdAttr[data-l1key=type]').value() + ':subtype:' + _cmd.find('.cmdAttr[data-l1key=subType]').value(),
         default: 0,
         async: false,
-        error: function(error) {
+        error: function (error) {
             _params.error(error);
         },
-        success: function(subtype) {
+        success: function (subtype) {
             for (var i in subtype) {
                 if (isset(subtype[i].visible)) {
                     var el = _cmd.find('.cmdAttr[data-l1key=' + i + ']');
@@ -375,6 +375,10 @@ jeedom.cmd.changeSubType = function(_cmd) {
             if (_cmd.find('.cmdAttr[data-l1key=subType]').value() == 'slider' || _cmd.find('.cmdAttr[data-l1key=subType]').value() == 'other' || _cmd.find('.cmdAttr[data-l1key=subType]').value() == 'color') {
                 _cmd.find('.cmdAttr[data-l1key=value]').show();
             }
+            if (_cmd.find('.cmdAttr[data-l1key=type]').value() == 'action') {
+                _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=updateCmdId]').show();
+                _cmd.find('.cmdAttr[data-l1key=configuration][data-l2key=updateCmdToValue]').show();
+            } 
             _cmd.find('.cmdAttr[data-l1key=eventOnly]').trigger('change');
             modifyWithoutSave = false;
 
@@ -385,7 +389,7 @@ jeedom.cmd.changeSubType = function(_cmd) {
     });
 };
 
-jeedom.cmd.availableType = function() {
+jeedom.cmd.availableType = function () {
     var selType = '<select style="width : 120px; margin-bottom : 3px;" class="cmdAttr form-control input-sm" data-l1key="type">';
     selType += '<option value="info">{{Info}}</option>';
     selType += '<option value="action">{{Action}}</option>';
@@ -393,7 +397,7 @@ jeedom.cmd.availableType = function() {
     return selType;
 };
 
-jeedom.cmd.getSelectModal = function(_options, _callback) {
+jeedom.cmd.getSelectModal = function (_options, _callback) {
     if (!isset(_options)) {
         _options = {};
     }
@@ -412,10 +416,10 @@ jeedom.cmd.getSelectModal = function(_options, _callback) {
     }
     mod_insertCmd.setOptions(_options);
     $("#mod_insertCmdValue").dialog('option', 'buttons', {
-        "Annuler": function() {
+        "Annuler": function () {
             $(this).dialog("close");
         },
-        "Valider": function() {
+        "Valider": function () {
             var retour = {};
             retour.human = mod_insertCmd.getValue();
             if ($.trim(retour) != '' && 'function' == typeof (_callback)) {
@@ -428,7 +432,7 @@ jeedom.cmd.getSelectModal = function(_options, _callback) {
 };
 
 
-jeedom.cmd.displayActionOption = function(_expression, _options, _callback) {
+jeedom.cmd.displayActionOption = function (_expression, _options, _callback) {
     var html = '';
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
@@ -442,10 +446,10 @@ jeedom.cmd.displayActionOption = function(_expression, _options, _callback) {
         dataType: 'json',
         async: ('function' == typeof (_callback)),
         global: false,
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) { // si l'appel a bien fonctionné
+        success: function (data) { // si l'appel a bien fonctionné
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;

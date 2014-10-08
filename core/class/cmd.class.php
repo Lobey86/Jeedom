@@ -651,6 +651,21 @@ class cmd {
                 $this->save();
             }
         }
+        if ($this->getType() == 'action' && $this->getConfiguration('updateCmdId') != '') {
+            $cmd = cmd::byId($this->getConfiguration('updateCmdId'));
+            if (is_object($cmd)) {
+                $value = $this->getConfiguration('updateCmdToValue');
+                switch ($this->getSubType()) {
+                    case 'slider':
+                        $value = str_replace('#slider#', $_options['slider'], $value);
+                        break;
+                    case 'color':
+                        $value = str_replace('#color#', $_options['color'], $value);
+                        break;
+                }
+                $cmd->event($value);
+            }
+        }
         return $value;
     }
 
