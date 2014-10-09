@@ -244,11 +244,8 @@ try {
             $return['unite'] = init('unite');
         }
         $last = end($data);
-        if ($last[0] < (strtotime('now') * 1000)) {
-            $info_history = array();
-            $info_history[] = strtotime('now') * 1000;
-            $info_history[] = $last[1];
-            $data[] = $info_history;
+        if ($last[0] < (strtotime('now UTC') * 1000)) {
+            $data[] = array((strtotime('now UTC') * 1000), $last[1]);
         }
         $return['data'] = $data;
         ajax::success($return);
