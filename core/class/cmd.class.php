@@ -172,8 +172,7 @@ class cmd {
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
                 WHERE ( value=:value OR value LIKE :search)
-                    AND id!=:value
-                ORDER BY `order`';
+                    AND id!=:value';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
