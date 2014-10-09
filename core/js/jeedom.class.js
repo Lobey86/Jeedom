@@ -90,6 +90,9 @@ jeedom.init = function () {
                 jeedom.scheduleWorkflow();
             }
         });
+        socket.on('eventEqLogic', function (eqLogic_id) {
+            jeedom.eqLogic.refreshValue({id: eqLogic_id});
+        });
         socket.on('notify', function (title, text, category) {
             var theme = '';
             switch (init(category)) {

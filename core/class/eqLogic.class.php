@@ -591,6 +591,10 @@ class eqLogic {
         }
     }
 
+    public function refreshWidget() {
+        nodejs::pushUpdate('eventEqLogic', $this->getId());
+    }
+
     /*     * **********************Getteur Setteur*************************** */
 
     public function getId() {
