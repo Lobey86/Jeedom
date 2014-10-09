@@ -106,6 +106,7 @@ if (!isConnect('admin')) {
                                     <option value="cmd">{{Commande}}</option>
                                     <option value="whatDoYouKnow">{{Que sais tu ?}}</option>
                                     <option value="scenario">{{Scénario}}</option>
+                                    <option value="none">{{Aucun}}</option>
                                 </select>
                             </div>
                         </div>

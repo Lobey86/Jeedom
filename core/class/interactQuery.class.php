@@ -162,11 +162,11 @@ class interactQuery {
         if (is_object($interactQuery)) {
             $reply = $interactQuery->executeAndReply($_parameters);
         }/* else {
-            $brainReply = self::brainReply($_query, $_parameters);
-            if ($brainReply != '') {
-                $reply = $brainReply;
-            }
-        }*/
+          $brainReply = self::brainReply($_query, $_parameters);
+          if ($brainReply != '') {
+          $reply = $brainReply;
+          }
+          } */
         if ($reply == '') {
             $reply = self::dontUnderstand($_parameters);
         }
@@ -413,7 +413,7 @@ class interactQuery {
             }
         }
         $reply = str_replace(array_keys($replace), $replace, $reply);
-        return $reply;
+        return scenarioExpression::setTags($reply);
     }
 
     public function getInteractDef() {
