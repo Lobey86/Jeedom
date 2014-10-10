@@ -26,7 +26,7 @@ include_file('core', 'version', 'config');
 include_file('core', 'jeedom', 'config');
 include_file('core', 'utils', 'class');
 try {
-    date_default_timezone_set(config::byKey('timezone', 'UTC'));
+    date_default_timezone_set(config::byKey('timezone', 'core', 'UTC'));
 } catch (Exception $e) {
     date_default_timezone_set('UTC');
 }
