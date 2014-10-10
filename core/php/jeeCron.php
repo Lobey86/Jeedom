@@ -158,6 +158,7 @@ if (init('cron_id') != '') {
                 
                 switch ($cron->getState()) {
                     case 'starting':
+                        
                         $cron->run();
                         break;
                     case 'stoping':
