@@ -814,7 +814,7 @@ class cmd {
             return;
         }
         $value = $this->formatValue($_value);
-        log::add('cmd', 'event', 'Evènement sur la commande : ' . $this->getHumanName() . ' => ' . $value . '(' . $_value . ')');
+        log::add('cmd', 'event', 'Evènement sur la commande : ' . $this->getHumanName() . ' (' . $this->getId() . ') => ' . $value . '(' . $_value . ')');
         cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
         $this->setCollect(0);
 
@@ -830,9 +830,7 @@ class cmd {
             if ($cmd->getType() == 'action') {
                 $nodeJs[] = array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id());
             } else {
-                if ($cmd->getEventOnly() == 0) {
-                    $cmd->event($cmd->execute(), $_loop);
-                }
+                $cmd->event($cmd->execute(), $_loop);
             }
         }
         scenario::check($this);
