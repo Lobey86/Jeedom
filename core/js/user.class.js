@@ -123,7 +123,6 @@ jeedom.user.logByKey = function(_params) {
                 localStorage.setItem("deviceKey", '');
                 return {state: 'ok', result: false};
             } else {
-                localStorage.setItem("deviceKey", data.result.deviceKey);
                 return {state: 'ok', result: true};
             }
         }

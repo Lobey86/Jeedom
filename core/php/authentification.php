@@ -46,7 +46,6 @@ if (!isConnect() && config::byKey('sso:allowRemoteUser') == 1) {
         connection::success($user->getLogin());
         @session_start();
         $_SESSION['user'] = $user;
-        $_SESSION['userHash'] = getUserHash();
         @session_write_close();
         log::add('connection', 'info', __('Connexion de l\'utilisateur par REMOTE_USER : ', __FILE__) . $user->getLogin());
     }
@@ -54,20 +53,6 @@ if (!isConnect() && config::byKey('sso:allowRemoteUser') == 1) {
 
 if (ini_get('register_globals') == '1') {
     echo __('Vous devriez mettre <b>register_globals</b> à <b>Off</b><br/>', __FILE__);
-}
-
-if (isConnect() && (!isset($_SESSION['userHash']) || getUserHash() != $_SESSION['userHash'])) {
-    logout();
-    $getParams = '';
-    unset($_GET['auth']);
-    foreach ($_GET AS $var => $value) {
-        $getParams.= $var . '=' . $value . '&';
-    }
-    if (strpos($_SERVER['PHP_SELF'], 'core') || strpos($_SERVER['PHP_SELF'], 'desktop')) {
-        header('Location:../../index.php?' . $getParams);
-    } else {
-        header('Location:index.php?' . $getParams);
-    }
 }
 
 if (init('login') != '' && init('mdp') != '') {
@@ -91,7 +76,6 @@ if (trim(init('auiKey')) != '') {
             connection::success($user->getLogin());
             @session_start();
             $_SESSION['user'] = $user;
-            $_SESSION['userHash'] = getUserHash();
             @session_write_close();
             log::add('connection', 'info', __('Connexion par auikey', __FILE__));
             $getParams = '';
@@ -136,7 +120,6 @@ function login($_login, $_password, $_ajax = false) {
             }
             setcookie('registerDevice', $_SESSION['user']->getOptions('registerDevice'), time() + 365 * 24 * 3600, "/", '', false, true);
         }
-        $_SESSION['userHash'] = getUserHash();
         @session_write_close();
         log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $_login);
         $getParams = '';
@@ -171,9 +154,8 @@ function loginByKey($_key, $_ajax = false) {
         connection::success($user->getLogin());
         @session_start();
         $_SESSION['user'] = $user;
-        $_SESSION['userHash'] = getUserHash();
         @session_write_close();
-        log::add('connection', 'info', __('Connexion de l\'utilisateur : ', __FILE__) . $user->getLogin());
+        log::add('connection', 'info', __('Connexion de l\'utilisateur par clef : ', __FILE__) . $user->getLogin());
         $getParams = '';
         unset($_GET['auth']);
         foreach ($_GET AS $var => $value) {
@@ -219,10 +201,6 @@ function isConnect($_right = '') {
         return true;
     }
     return false;
-}
-
-function getUserHash() {
-    return sha1(getClientIp() . $_SERVER["HTTP_USER_AGENT"]);
 }
 
 ?>
