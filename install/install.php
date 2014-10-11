@@ -60,7 +60,7 @@ try {
         try {
             if (init('level', -1) > -1) {
                 echo __("Vérification des mises à jour...", __FILE__);
-                update::updateAll();
+                update::checkAllUpdate();
                 echo __("OK\n", __FILE__);
             }
         } catch (Exception $e) {

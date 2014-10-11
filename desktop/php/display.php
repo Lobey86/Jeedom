@@ -49,7 +49,7 @@ sendVarToJS('cmd_widgetMobile', cmd::availableWidget('mobile'));
                             echo '<li>';
                             echo '<a class="infoObject" data-object_id="' . $object->getId() . '">' . $object->getName() . '</a>';
                             echo '<ul>';
-                            foreach ($object->getEqLogic() as $eqLogic) {
+                            foreach ($object->getEqLogic(false, false) as $eqLogic) {
                                 echo '<li>';
                                 echo '<a class="infoEqLogic" data-eqLogic_id="' . $eqLogic->getId() . '">' . $eqLogic->getName() . '</a>';
                                 echo '<ul>';

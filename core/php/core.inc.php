@@ -28,7 +28,7 @@ include_file('core', 'utils', 'class');
 try {
     date_default_timezone_set(config::byKey('timezone'));
 } catch (Exception $e) {
-    date_default_timezone_set('Europe/Amsterdam');
+    date_default_timezone_set('Europe/Brussels');
 }
 
 function jeedomCoreAutoload($classname) {
