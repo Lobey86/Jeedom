@@ -137,8 +137,8 @@ class object {
         return $return;
     }
 
-    public function getEqLogic($_onlyEnable = true, $_onlyVisible = false) {
-        return eqLogic::byObjectId($this->getId(), $_onlyEnable, $_onlyVisible);
+    public function getEqLogic($_onlyEnable = true, $_onlyVisible = false, $_eqType_name = null, $_logicalId = null) {
+        return eqLogic::byObjectId($this->getId(), $_onlyEnable, $_onlyVisible, $_eqType_name, $_logicalId);
     }
 
     public function getScenario($_onlyEnable = true, $_onlyVisible = false) {
@@ -204,7 +204,7 @@ class object {
     }
 
     public function setName($name) {
-        $name = str_replace(array('&', '#', ']', '[', '%',"'"), '', $name);
+        $name = str_replace(array('&', '#', ']', '[', '%', "'"), '', $name);
         $this->name = $name;
     }
 
