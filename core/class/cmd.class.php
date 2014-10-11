@@ -804,7 +804,7 @@ class cmd {
             log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id : ', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
             return;
         }
-        if ($this->getType() != 'info' || $_loop > 3) {
+        if ($this->getType() != 'info' || $_loop > 5) {
             return;
         }
         $_loop++;
