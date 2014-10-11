@@ -170,42 +170,6 @@ class history {
                 }
             }
         }
-        self::fillHole();
-    }
-
-    public static function fillHole() {
-        $now = strtotime('now');
-        $archiveTime = (config::byKey('historyArchiveTime') + 1) * 3600;
-        $packetTime = (config::byKey('historyArchivePackage')) * 3600;
-        $endTime = date('Y-m-d H:00:00', $now - $archiveTime - 120);
-        $startTime = date('Y-m-d H:00:00', $now - 86400);
-        foreach (cmd::allHistoryCmd() as $cmd) {
-            if ($cmd->getConfiguration('historizeMode', 'avg') != 'none') {
-                $prevDatetime = null;
-                $prevValue = 0;
-                foreach ($cmd->getHistory($startTime, $endTime) as $history) {
-                    if ($prevDatetime != null) {
-                        $datetime = strtotime($history->getDatetime());
-                        $prevDatetime = date('Y-m-d H:00:00', strtotime($prevDatetime) + $packetTime);
-                        while (($now - strtotime($prevDatetime)) >= $archiveTime && strtotime($prevDatetime) < $datetime) {
-                            $newHistory = new history();
-                            $newHistory->setCmd_id($cmd->getId());
-                            $newHistory->setDatetime($prevDatetime);
-                            if ($cmd->getConfiguration('historyDefaultValue', null) === '#previsous#') {
-                                $newHistory->setValue($prevValue);
-                            } else {
-                                $newHistory->setValue($cmd->getConfiguration('historyDefaultValue', null));
-                            }
-                            $newHistory->setTableName('historyArch');
-                            $newHistory->save();
-                            $prevDatetime = date('Y-m-d H:00:00', strtotime($prevDatetime) + $packetTime);
-                        }
-                    }
-                    $prevDatetime = $history->getDatetime();
-                    $prevValue = $history->getValue();
-                }
-            }
-        }
     }
 
     /**

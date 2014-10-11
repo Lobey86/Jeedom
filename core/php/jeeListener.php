@@ -35,8 +35,9 @@ if (isset($argv)) {
         }
     }
 }
+
 try {
-    set_time_limit(config::byKey('maxExecTimeScript', 10));
+    set_time_limit(config::byKey('maxExecTimeScript', 60));
 
     $listener_id = init('listener_id');
     if ($listener_id == '') {
