@@ -69,18 +69,8 @@ function initApplication(_reinit) {
                 modal(false);
                 panel(false);
                 if (data.code == -1234) {
-                    if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
-                        jeedom.user.logByKey({
-                            key: localStorage.getItem("deviceKey"),
-                            success: function () {
-                                initApplication();
-                            }
-                        });
-                        $.hideLoading();
-                    } else {
-                        $.hideLoading();
-                        page('connection', 'Connexion');
-                    }
+                    $.hideLoading();
+                    page('connection', 'Connexion');
                     return;
                 } else {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
@@ -88,7 +78,6 @@ function initApplication(_reinit) {
                 return;
             } else {
                 if (init(_reinit, false) == false) {
-                    checkConnect();
                     modal(false);
                     panel(false);
                     /*************Initialisation environement********************/
@@ -175,31 +164,6 @@ function page(_page, _title, _option, _plugin) {
                     }
                 }
             });
-        }
-    });
-}
-
-function checkConnect() {
-    jeedom.user.isConnect({
-        success: function (result) {
-            if (!result) {
-                if (localStorage.getItem("deviceKey") != '' && localStorage.getItem("deviceKey") != undefined && localStorage.getItem("deviceKey") != null) {
-                    jeedom.user.logByKey({
-                        key: localStorage.getItem("deviceKey"),
-                        success: function () {
-                            initApplication();
-                        }
-                    });
-                    $.hideLoading();
-                } else {
-                    $.hideLoading();
-                    page('connection', 'Connexion');
-                }
-            } else {
-                setTimeout(function () {
-                    checkConnect();
-                }, 30000);
-            }
         }
     });
 }

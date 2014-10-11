@@ -115,34 +115,6 @@ jeedom.user.get = function(_params) {
     $.ajax(paramsAJAX);
 };
 
-jeedom.user.logByKey = function(_params) {
-    var paramsRequired = [];
-    var paramsSpecifics = {
-        pre_success: function(data) {
-            if (data.state != 'ok') {
-                localStorage.setItem("deviceKey", '');
-                return {state: 'ok', result: false};
-            } else {
-                return {state: 'ok', result: true};
-            }
-        }
-    };
-    try {
-        jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
-    } catch (e) {
-        (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
-        return;
-    }
-    var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
-    var paramsAJAX = jeedom.private.getParamsAJAX(params);
-    paramsAJAX.url = 'core/ajax/user.ajax.php';
-    paramsAJAX.data = {
-        action: 'login',
-        key: _params.key
-    };
-    $.ajax(paramsAJAX);
-};
-
 jeedom.user.isConnect = function(_params) {
     if (Math.round(+new Date() / 1000) > (jeedom.user.connectCheck + 20)) {
         var paramsRequired = [];

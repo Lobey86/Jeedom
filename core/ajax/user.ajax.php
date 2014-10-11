@@ -21,26 +21,19 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (init('action') == 'login') {
-        $return = array();
-        if (init('key') != '') {
-            if (!loginByKey(init('key'), true)) {
-                throw new Exception('Appareil inconnu');
-            }
-        } else {
-            if (!login(init('username'), init('password'), true)) {
-                throw new Exception('Mot de passe ou nom d\'utilisateur incorrect');
-            }
-            if (init('storeConnection') == 1) {
-                if ($_SESSION['user']->getOptions('registerDevice') == '') {
-                    @session_start();
-                    $_SESSION['user']->setOptions('registerDevice', config::genKey(255));
-                    $_SESSION['user']->save();
-                    @session_write_close();
-                }
-                $return['deviceKey'] = $_SESSION['user']->getOptions('registerDevice');
-            }
+        if (!login(init('username'), init('password'), true)) {
+            throw new Exception('Mot de passe ou nom d\'utilisateur incorrect');
         }
-        ajax::success($return);
+        if (init('storeConnection') == 1) {
+            if ($_SESSION['user']->getOptions('registerDevice') == '') {
+                @session_start();
+                $_SESSION['user']->setOptions('registerDevice', config::genKey(255));
+                $_SESSION['user']->save();
+                @session_write_close();
+            }
+            setcookie('registerDevice', $_SESSION['user']->getOptions('registerDevice'), time() + 24 * 3600, "/", '', false, true);
+        }
+        ajax::success();
     }
 
 

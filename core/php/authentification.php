@@ -32,7 +32,7 @@ setcookie('sess_id', session_id(), time() + 24 * 3600, "/", '', false, true);
 @session_write_close();
 
 
-if (!isConnect() && isset($_COOKIE['registerDevice']) && init('v') == 'd') {
+if (!isConnect() && isset($_COOKIE['registerDevice'])) {
     if (loginByKey($_COOKIE['registerDevice'], true)) {
         setcookie('registerDevice', $_COOKIE['registerDevice'], time() + 24 * 3600, "/", '', false, true);
     } else {
@@ -155,6 +155,7 @@ function loginByKey($_key, $_ajax = false) {
         @session_start();
         $_SESSION['user'] = $user;
         @session_write_close();
+        setcookie('registerDevice', $_key, time() + 24 * 3600, "/", '', false, true);
         log::add('connection', 'info', __('Connexion de l\'utilisateur par clef : ', __FILE__) . $user->getLogin());
         $getParams = '';
         unset($_GET['auth']);
