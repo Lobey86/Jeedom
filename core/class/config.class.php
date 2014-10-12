@@ -142,7 +142,7 @@ class config {
         $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
         foreach ($results as &$result) {
             if (is_json($result['value'])) {
-                $result['value'] = json_decode($result['value']);
+                $result['value'] = json_decode($result['value'],true);
             }
         }
         return $results;
