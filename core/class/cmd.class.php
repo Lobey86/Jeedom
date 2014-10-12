@@ -811,6 +811,7 @@ class cmd {
         if ($this->getType() != 'info' || $_loop > 5) {
             return;
         }
+        
         $_loop++;
         $collectDate = ($this->getCollectDate() != '' ) ? strtotime($this->getCollectDate()) : '';
         $nowtime = strtotime('now');
