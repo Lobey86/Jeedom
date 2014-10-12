@@ -101,7 +101,7 @@ class config {
      * @param string $_key nom de la clef dont on veut la valeur
      * @return string valeur de la clef
      */
-    public static function byKey($_key, $_plugin = 'core', $_default = '',$_forceFresh = false) {
+    public static function byKey($_key, $_plugin = 'core', $_default = '', $_forceFresh = false) {
         if (!$_forceFresh && isset(self::$cache[$_plugin . '::' . $_key])) {
             return self::$cache[$_plugin . '::' . $_key];
         }
@@ -139,7 +139,13 @@ class config {
                 FROM config 
                 WHERE `key` LIKE :key
                     AND plugin=:plugin';
-        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
+        $results = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL);
+        foreach ($results as &$result) {
+            if (is_json($result['value'])) {
+                $result['value'] = json_decode($result['value']);
+            }
+        }
+        return $results;
     }
 
     public static function genKey($_car = 20) {
