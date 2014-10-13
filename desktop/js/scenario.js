@@ -631,7 +631,7 @@ function addExpression(_expression) {
                 _expression.expression = _expression.expression.replace(/"/g, '&quot;');
             }
             retour += '<div class="col-lg-11" style="position : relative; top : 5px;">';
-            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="font-weight:bold;"/>';
+            retour += '<textarea class="expressionAttr form-control input-sm" data-l1key="expression" style="resize: vertical;" style="font-weight:bold;" rows="1">' + init(_expression.expression) + '</textarea>';
             retour += '</div>';
             retour += '<div class="col-lg-1">';
             retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" style="position : relative; top : 3px;" title="Rechercher une commande"><i class="fa fa-list-alt"></i></a>';
