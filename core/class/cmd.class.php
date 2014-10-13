@@ -141,14 +141,18 @@ class cmd {
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
-    public static function searchConfiguration($_configuration) {
+    public static function searchConfiguration($_configuration, $_type = null) {
         $values = array(
             'configuration' => '%' . $_configuration . '%'
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
                 FROM cmd
-                WHERE configuration LIKE :configuration
-                ORDER BY name';
+                WHERE configuration LIKE :configuration';
+        if ($_type != null) {
+            $values['eqType'] = $_type;
+            $sql .= ' AND eqType=:eqType ';
+        }
+        $sql .= ' ORDER BY name';
         return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
@@ -807,6 +811,7 @@ class cmd {
         if ($this->getType() != 'info' || $_loop > 5) {
             return;
         }
+        
         $_loop++;
         $collectDate = ($this->getCollectDate() != '' ) ? strtotime($this->getCollectDate()) : '';
         $nowtime = strtotime('now');
