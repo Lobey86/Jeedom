@@ -78,6 +78,7 @@ class user {
                         $user->setPassword(sha1($_mdp));
                         $user->save();
                         log::add("connection", "info", __('Utilisateur creer depuis le LDAP : ', __FILE__) . $_login);
+                        jeedom::event('user_connect');
                         return $user;
                     } else {
                         $user = self::byLogin($_login);
@@ -108,7 +109,11 @@ class user {
                 FROM user 
                 WHERE login=:login 
                     AND password=:password';
-        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+        $user = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW, PDO::FETCH_CLASS, __CLASS__);
+        if(is_object($user)){
+            jeedom::event('user_connect');
+        }
+        return $user;
     }
 
     public static function connectToLDAP() {
