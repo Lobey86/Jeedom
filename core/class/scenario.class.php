@@ -427,7 +427,7 @@ class scenario {
     }
 
     public function execute($_trigger = '', $_message = '') {
-        if($this->getIsActive() != 1){
+        if ($this->getIsActive() != 1) {
             return;
         }
         $logs = $this->getHlogs();
@@ -695,11 +695,11 @@ class scenario {
 
     public function stop() {
         if ($this->running()) {
-            exec('kill ' . $this->getPID());
+            $kill = posix_kill($this->getPID(), SIGTERM);
             $retry = 0;
-            while ($this->running() && $retry < 10) {
+            while (!$kill && $retry < 10) {
                 sleep(1);
-                exec('kill -9 ' . $this->getPID());
+                $kill = posix_kill($this->getPID(), SIGILL);
                 $retry++;
             }
             if ($this->running()) {

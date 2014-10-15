@@ -309,38 +309,19 @@ class cron {
             $this->setPID($this->retrievePid());
         }
         log::add('cron', 'info', __('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '(), PID : ' . $this->getPID());
-        exec('kill ' . $this->getPID());
-        $check = $this->running();
+        $kill = posix_kill($this->getPID(), SIGTERM);
         $retry = 0;
-        while ($check) {
-            $check = $this->running();
+        while (!$kill && $retry < (config::byKey('deamonsSleepTime') + 5)) {
+            sleep(1);
+            $kill = posix_kill($this->getPID(), SIGKILL);
             $retry++;
-            if ($retry > config::byKey('deamonsSleepTime') + 5) {
-                $check = false;
-            } else {
-                sleep(1);
-            }
         }
-        if ($this->running()) {
-            exec('kill -9 ' . $this->getPID());
-            error_log('kill -9 ' . $this->getPID());
-            $check = $this->running();
-            while ($check) {
-                $check = $this->running();
-                $retry++;
-                if ($retry > 20) {
-                    $check = false;
-                } else {
-                    sleep(1);
-                }
-            }
-        }
-        if ($this->running()) {
+        if (!$kill) {
             $this->setState('error');
             $this->setServer('');
             $this->setPID();
             $this->save();
-            throw new Exception($this->getClass() . '::' . $this->getFunction() . __('() : Impossible d\'arreter la tache', __FILE__));
+            throw new Exception($this->getClass() . '::' . $this->getFunction() . __('() : Impossible d\'arreter la tâche', __FILE__));
         } else {
             $this->setState('stop');
             $this->setDuration(-1);
