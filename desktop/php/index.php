@@ -246,6 +246,12 @@ if (count($plugins_list) > 0) {
                     if (!cron::ok()) {
                         echo '<div style="width : 100%" class="alert alert-warning">{{Erreur cron : il n\'y a pas eu de lancement depuis plus de 1h}}</div>';
                     }
+                    if (config::byKey('enableCron', 'core', 1, true) == 0) {
+                        echo '<div style="width : 100%" class="alert alert-warning">{{Erreur cron : les crons sont désactivés, aller dans Générale -> Administration -> Moteur de tache pour les réactiver}}</div>';
+                    }
+                    if (config::byKey('enableScenario') == 0) {
+                        echo '<div style="width : 100%" class="alert alert-warning">{{Erreur scéenario : tous les scénarios sont désactivés aller sur la page des scénarios pour les réactiver}}</div>';
+                    }
                     ?>
                     <div style="display: none;width : 100%" id="div_alert"></div>
                     <?php
