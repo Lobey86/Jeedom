@@ -252,6 +252,9 @@ if (count($plugins_list) > 0) {
                     if (config::byKey('enableScenario') == 0) {
                         echo '<div style="width : 100%" class="alert alert-warning">{{Erreur scéenario : tous les scénarios sont désactivés aller sur la page des scénarios pour les réactiver}}</div>';
                     }
+                    if (!jeedom::isDateOk()) {
+                        echo '<div style="width : 100%" class="alert alert-warning">{{Erreur date : la date du système est incoherente avec la dernière date enregistrée}}</div>';
+                    }
                     ?>
                     <div style="display: none;width : 100%" id="div_alert"></div>
                     <?php
