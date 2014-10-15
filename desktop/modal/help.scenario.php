@@ -16,6 +16,7 @@ if (!isConnect()) {
             <div class="panel-body">
                 {{Il existe des déclencheur spécifique (autre que ceux fournis par les commandes) :}} <br/>
                 <pre>{{#start#  : déclenché au (re)démarrage de Jeedom}}</pre>
+                <pre>{{#user_connect#  : déclenché lors de la connexion d'un utilisateur}}</pre>
             </div>
         </div>
     </div>
