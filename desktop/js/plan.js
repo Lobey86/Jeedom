@@ -488,15 +488,15 @@ function displayObject(_type, _id, _html, _plan) {
         if (isset(_plan.display) && isset(_plan.display.cmd)) {
             for (var id in _plan.display.cmd) {
                 if (_plan.display.cmd[id] == 1) {
-                    $('.cmd[data-cmd_id=' + id + ']').remove();
+                    $('.cmd[data-cmd_id=' + id + ']').hide();
                 }
             }
         }
         if (isset(_plan.display) && isset(_plan.display.cmdName)) {
             for (var id in _plan.display.cmdName) {
                 if (_plan.display.cmdName[id] == 1) {
-                    $('.cmd[data-cmd_id=' + id + '] .cmdName').remove();
-                    $('.cmd[data-cmd_id=' + id + '] .highcharts-yaxis-title').remove();
+                    $('.cmd[data-cmd_id=' + id + '] .cmdName').hide();
+                    $('.cmd[data-cmd_id=' + id + '] .highcharts-yaxis-title').hide();
                 }
             }
         }
