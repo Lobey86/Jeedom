@@ -398,6 +398,7 @@ class jeedom {
                 if ($nbUpdate > 0) {
                     message::add('update', 'De nouvelles mises à jour sont disponibles (' . $nbUpdate . ')');
                 }
+                config::save('update::check', rand(0, 59) . ' 06 * * *');
             }
         } catch (Exception $e) {
             log::add('update', 'error', $e->getMessage());
