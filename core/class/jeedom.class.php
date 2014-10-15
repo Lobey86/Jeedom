@@ -49,10 +49,13 @@ class jeedom {
         try {
             if (cron::jeeCronRun()) {
                 echo "Arret du cron master ";
-                posix_kill(cron::getPidFile(), 15);
-                while (cron::jeeCronRun()) {
-                    echo '.';
-                    sleep(2);
+                $pid = cron::getPidFile();
+                $kill = posix_kill($pid, 15);
+                if (!$kill) {
+                    $kill = posix_kill($pid, 9);
+                    if (!$kill) {
+                        throw new Exception('Impossible de coupé le cron master : ' . $pid);
+                    }
                 }
                 echo " OK\n";
             }
