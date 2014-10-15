@@ -12,7 +12,7 @@ $markets = market::byStatusAndType('stable', init('type'));
 if (config::byKey('market::showBetaMarket') == 1) {
     $markets = array_merge($markets, market::byStatusAndType('beta', init('type')));
 } else {
-     if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) {
+    if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) {
         foreach (market::byMe() as $myMarket) {
             if ($myMarket->getStatus() != 'stable' && $myMarket->getType() == init('type')) {
                 $markets[] = $myMarket;
@@ -49,7 +49,7 @@ $findMarket = array();
                 if (!is_object($update)) {
                     $install = "notInstall";
                 }
-                echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor '.$install.'" style="height:60px;">';
+                echo '<tr data-market_id="' . $market->getId() . '" data-market_type="' . $market->getType() . '" class="cursor ' . $install . '" style="height:60px;">';
                 if ($market->getStatus('stable') == 1 && $market->getImg('stable')) {
                     $urlPath = config::byKey('market::address') . '/' . $market->getImg('stable');
                 } else {
@@ -63,7 +63,7 @@ $findMarket = array();
                 echo '<td>' . $market->getDescription() . '</td>';
                 echo '<td>';
                 if ($market->getCost() > 0) {
-                    echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1em;">' . $market->getCost() . ' €</span>';
+                    echo '<span class="label label-primary" data-l1key="rating" style="font-size: 1em;">' . number_format($market->getCost(), 2) . ' €</span>';
                 } else {
                     echo '<span class="label label-success" data-l1key="rating" style="font-size: 1em;">Gratuit</span>';
                 }
@@ -108,25 +108,25 @@ $findMarket = array();
 </table>
 
 <script>
-    $(function() {
+    $(function () {
         $("img.lazy").lazyload({
             event: "sporty"
         });
         $("img.lazy").trigger("sporty");
         initTableSorter();
-        
+
         $('#table_market tbody tr.install').hide();
-        
-        $('#bt_marketListDisplayInstallObject').on('change',function(){
-            if($(this).value() == 1){
+
+        $('#bt_marketListDisplayInstallObject').on('change', function () {
+            if ($(this).value() == 1) {
                 $('#table_market tbody tr.install').show();
-            }else{
+            } else {
                 $('#table_market tbody tr.install').hide();
             }
         });
 
 
-        $('#table_market tbody tr').on('click', function() {
+        $('#table_market tbody tr').on('click', function () {
             $('#md_modal2').dialog({title: "{{Market Jeedom}}"});
             $('#md_modal2').load('index.php?v=d&modal=market.display&type=' + $(this).attr('data-market_type') + '&id=' + $(this).attr('data-market_id')).dialog('open');
         });
