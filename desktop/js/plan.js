@@ -138,9 +138,9 @@ $('.graphDataOption[data-l1key=configuration][data-l2key=graphColor]').on('chang
 });
 
 $('#div_displayObject').delegate('.configureGraph', 'click', function () {
-     var el = $(this).closest('.graph-widget');
+    var el = $(this).closest('.graph-widget');
     $("#md_addViewData").load('index.php?v=d&modal=cmd.graph.select', function () {
-       
+
         $('#table_addViewData tbody tr .enable').prop('checked', false);
         var options = json_decode(el.find('.graphOptions').value());
         for (var i in options) {
@@ -489,6 +489,14 @@ function displayObject(_type, _id, _html, _plan) {
             for (var id in _plan.display.cmd) {
                 if (_plan.display.cmd[id] == 1) {
                     $('.cmd[data-cmd_id=' + id + ']').remove();
+                }
+            }
+        }
+        if (isset(_plan.display) && isset(_plan.display.cmdName)) {
+            for (var id in _plan.display.cmdName) {
+                if (_plan.display.cmdName[id] == 1) {
+                    $('.cmd[data-cmd_id=' + id + '] .cmdName').remove();
+                    $('.cmd[data-cmd_id=' + id + '] .highcharts-yaxis-title').remove();
                 }
             }
         }
