@@ -49,7 +49,7 @@ class jeedom {
         try {
             if (cron::jeeCronRun()) {
                 echo "Arret du cron master ";
-                posix_kill(cron::getPidFile(), SIGTERM);
+                posix_kill(cron::getPidFile(), 15);
                 while (cron::jeeCronRun()) {
                     echo '.';
                     sleep(2);

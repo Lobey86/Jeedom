@@ -695,11 +695,11 @@ class scenario {
 
     public function stop() {
         if ($this->running()) {
-            $kill = posix_kill($this->getPID(), SIGTERM);
+            $kill = posix_kill($this->getPID(), 15);
             $retry = 0;
             while (!$kill && $retry < 10) {
                 sleep(1);
-                $kill = posix_kill($this->getPID(), SIGILL);
+                $kill = posix_kill($this->getPID(), 9);
                 $retry++;
             }
             if ($this->running()) {

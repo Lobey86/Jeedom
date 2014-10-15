@@ -309,11 +309,11 @@ class cron {
             $this->setPID($this->retrievePid());
         }
         log::add('cron', 'info', __('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '(), PID : ' . $this->getPID());
-        $kill = posix_kill($this->getPID(), SIGTERM);
+        $kill = posix_kill($this->getPID(), 15);
         $retry = 0;
         while (!$kill && $retry < (config::byKey('deamonsSleepTime') + 5)) {
             sleep(1);
-            $kill = posix_kill($this->getPID(), SIGKILL);
+            $kill = posix_kill($this->getPID(), 9);
             $retry++;
         }
         if (!$kill) {
