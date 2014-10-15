@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Dim 05 Octobre 2014 à 10:41
+-- Généré le: Mer 15 Octobre 2014 à 10:31
 -- Version du serveur: 5.6.19-0ubuntu0.14.04.1-log
 -- Version de PHP: 5.5.9-1ubuntu4.4
 
@@ -172,24 +172,6 @@ CREATE TABLE IF NOT EXISTS `dataStore` (
   `value` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE` (`type`,`link_id`,`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `energy`
---
-
-CREATE TABLE IF NOT EXISTS `energy` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `eqLogic_id` int(11) NOT NULL,
-  `category` varchar(127) DEFAULT NULL,
-  `consumption` varchar(255) DEFAULT NULL,
-  `power` varchar(255) DEFAULT NULL,
-  `options` text,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `eqLogic_id` (`eqLogic_id`),
-  KEY `category` (`category`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -564,6 +546,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `options` text,
   `hash` varchar(255) DEFAULT NULL,
   `rights` text,
+  `enable` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 

@@ -122,6 +122,9 @@ function printUsers() {
                 }
                 ligne += '</td>';
                 ligne += '<td>';
+                ligne += '<input type="checkbox" class="userAttr" data-l1key="enable" />';
+                ligne += '</td>';
+                ligne += '<td>';
                 ligne += '<input type="checkbox" class="userAttr" data-l1key="rights" data-l2key="admin"/> Admin';
                 ligne += '</td>';
                 ligne += '</tr>';

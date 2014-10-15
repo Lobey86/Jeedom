@@ -42,7 +42,7 @@ if (!isConnect() && isset($_COOKIE['registerDevice'])) {
 
 if (!isConnect() && config::byKey('sso:allowRemoteUser') == 1) {
     $user = user::byLogin($_SERVER['REMOTE_USER']);
-    if (is_object($user)) {
+    if (is_object($user) && $user->getEnable() == 1) {
         connection::success($user->getLogin());
         @session_start();
         $_SESSION['user'] = $user;
@@ -72,7 +72,7 @@ if (trim(init('auiKey')) != '') {
         if (!is_object($user)) {
             $user = user::byLogin('admin');
         }
-        if (is_object($user)) {
+        if (is_object($user) && $user->getEnable() == 1) {
             connection::success($user->getLogin());
             @session_start();
             $_SESSION['user'] = $user;
@@ -109,7 +109,7 @@ if (trim(init('auiKey')) != '') {
 
 function login($_login, $_password, $_ajax = false) {
     $user = user::connect($_login, $_password);
-    if (is_object($user)) {
+    if (is_object($user) && $user->getEnable() == 1) {
         connection::success($user->getLogin());
         @session_start();
         $_SESSION['user'] = $user;
@@ -150,7 +150,7 @@ function login($_login, $_password, $_ajax = false) {
 
 function loginByKey($_key, $_ajax = false) {
     $user = user::byKey($_key);
-    if (is_object($user)) {
+    if (is_object($user) && $user->getEnable() == 1) {
         connection::success($user->getLogin());
         @session_start();
         $_SESSION['user'] = $user;

@@ -28,6 +28,7 @@ class user {
     private $options;
     private $hash;
     private $rights;
+    private $enable = 1;
 
     /*     * ***********************Methode static*************************** */
 
@@ -236,19 +237,13 @@ class user {
     public function setRights($_key, $_value) {
         $this->rights = utils::setJsonAttr($this->rights, $_key, $_value);
     }
-
-    public function getHash() {
-        if ($this->hash == '' && $this->id != '') {
-            $this->setHash(sha1(uniqid('ddfhHoiJLd56646dg' . mt_rand(), true)));
-            $this->save();
-        }
-        return $this->hash;
+    
+    function getEnable() {
+        return $this->enable;
     }
 
-    public function setHash($hash) {
-        @session_start();
-        $this->hash = $hash;
-        @session_write_close();
+    function setEnable($enable) {
+        $this->enable = $enable;
     }
 
 }
