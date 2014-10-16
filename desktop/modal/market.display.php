@@ -39,6 +39,7 @@ if ($market->getPurchase() == 1) {
     $purchase_info = market::getPurchaseInfo();
     if (count($purchase_info) == 3 && isset($purchase_info['user_id']) && is_numeric($purchase_info['user_id']) && isset($purchase_info['paypal::url']) && isset($purchase_info['paypal::marchandMail'])) {
         ?>
+        <a class="btn btn-default btn-xs pull-right" href='https://market.jeedom.fr/index.php?v=d&p=profils'><i class="fa fa-eur"></i> Code promo</a>
         <form action="<?php echo $purchase_info['paypal::url'] ?>/cgi-bin/webscr" method="post" style="display: inline-block;" class="pull-right" target="_blank" id='form_paypal'>
             <input type='hidden' name="amount" value="<?php echo $market->getCost() ?>" />
             <input name="currency_code" type="hidden" value="EUR" />
