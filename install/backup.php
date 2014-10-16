@@ -79,7 +79,7 @@ try {
     }
 
     echo __("Vérification de la base : \n", __FILE__);
-    system("mysqlcheck --host=" . $CONFIG['db']['host'] . " --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname']);
+    system("mysqlcheck --host=" . $CONFIG['db']['host'] . " --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'].' --auto-repair --silent');
 
 
     echo __('Sauvegarde de la base de données...', __FILE__);
