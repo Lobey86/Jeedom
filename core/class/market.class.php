@@ -44,6 +44,7 @@ class market {
     private $cost = 0;
     private $realcost = 0;
     private $link;
+    private $certification;
 
     /*     * ***********************Methode static*************************** */
 
@@ -66,6 +67,7 @@ class market {
         $market->setChangelog($_arrayMarket['changelog']);
         $market->setLogicalId($_arrayMarket['logicalId']);
         $market->setUtilization($_arrayMarket['utilization']);
+        $market->setCertification($_arrayMarket['certification']);
         $market->setPurchase($_arrayMarket['purchase']);
         $market->setCost($_arrayMarket['cost']);
         $market->rating = ($_arrayMarket['rating']);
@@ -837,6 +839,14 @@ class market {
 
     public function setBuyer($buyer) {
         $this->buyer = $buyer;
+    }
+    
+    function getCertification() {
+        return $this->certification;
+    }
+
+    function setCertification($certification) {
+        $this->certification = $certification;
     }
 
 }

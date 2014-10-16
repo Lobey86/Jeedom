@@ -92,6 +92,19 @@ if ($market->getPurchase() == 1) {
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-4 control-label">Certification</label>
+                <div class="col-sm-8">
+                    <?php
+                    if ($market->getCertification() == 'Officiel') {
+                        echo '<span class="label label-success">Officiel</span>';
+                    }
+                    if ($market->getCertification() == 'Recommandé') {
+                        echo '<span class="label label-primary">Recommandé</span>';
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-lg-4 control-label">{{Description}}</label>
                 <div class="col-lg-8">
                     <pre class="marketAttr" data-l1key="description" style="word-wrap: break-word;white-space: -moz-pre-wrap;white-space: pre-wrap;" ></pre>

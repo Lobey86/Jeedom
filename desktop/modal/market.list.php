@@ -28,6 +28,7 @@ $findMarket = array();
     <thead>
         <tr>
             <th data-sorter="false"></th>
+            <th>{{Certification}}</th>
             <th>{{Catégorie}}</th>
             <th>{{Nom}}</th>
             <th>{{Description}}</th>
@@ -58,6 +59,14 @@ $findMarket = array();
                     }
                 }
                 echo '<td><center><img src="core/img/no_image.gif" data-original="' . $urlPath . '"  class="lazy" height="60" width="60" /></center></td>';
+                echo '<td><center>';
+                if ($market->getCertification() == 'Officiel') {
+                    echo '<span class="label label-success" style="font-size : 1.4em;position : relative;top : 5px;">Officiel</span>';
+                }
+                if ($market->getCertification() == 'Recommandé') {
+                    echo '<span class="label label-primary" style="font-size : 1.4em;position : relative;top : 5px;">Recommandé</span>';
+                }
+                echo '</center></td>';
                 echo '<td>' . $market->getCategorie() . '</td>';
                 echo '<td>' . $market->getName() . '</td>';
                 echo '<td>' . $market->getDescription() . '</td>';
