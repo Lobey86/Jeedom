@@ -84,6 +84,15 @@ class market {
         return $market;
     }
 
+    public static function getPromo() {
+        $market = self::getJsonRpc();
+        if ($market->sendRequest('market::getPromotion')) {
+            return $market->getResult();
+        } else {
+               throw new Exception($market->getError(), $market->getErrorCode());
+        }
+    }
+
     public static function byId($_id) {
         $market = self::getJsonRpc();
         if ($market->sendRequest('market::byId', array('id' => $_id))) {
@@ -191,7 +200,7 @@ class market {
 
 
         $file = array(
-            'file' => '@'.realpath($tmp)
+            'file' => '@' . realpath($tmp)
         );
         $_ticket['options']['jeedom_version'] = getVersion('jeedom');
         if (!$jsonrpc->sendRequest('ticket::save', array('ticket' => $_ticket), 600, $file)) {
@@ -377,7 +386,7 @@ class market {
     public static function sendBackup($_path) {
         $market = self::getJsonRpc();
         $file = array(
-            'file' => '@'.realpath($_path)
+            'file' => '@' . realpath($_path)
         );
         if (!$market->sendRequest('backup::upload', array(), 3600, $file)) {
             throw new Exception($market->getError());
@@ -658,7 +667,7 @@ class market {
             throw new Exception(__('Impossible de trouver le fichier à envoyer : ', __FILE__) . $tmp);
         }
         $file = array(
-            'file' => '@'.realpath($tmp)
+            'file' => '@' . realpath($tmp)
         );
         if (!$market->sendRequest('market::save', $params, 30, $file)) {
             throw new Exception($market->getError());
@@ -840,7 +849,7 @@ class market {
     public function setBuyer($buyer) {
         $this->buyer = $buyer;
     }
-    
+
     function getCertification() {
         return $this->certification;
     }

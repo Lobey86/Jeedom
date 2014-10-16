@@ -42,6 +42,11 @@ sendVarToJS('select_id', init('id', '-1'));
         </div>
     </div>
     <div class="col-lg-10" id="div_confPlugin" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
+        <div>
+            <?php
+            echo market::getPromo();
+            ?>
+        </div>
         <legend>
             <span id="span_plugin_name" ></span> (<span id="span_plugin_id"></span>)
         </legend>
