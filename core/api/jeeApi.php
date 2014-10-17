@@ -40,7 +40,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
         $type = init('type');
         if ($type == 'cmd') {
             if (is_json(init('id'))) {
-                $ids = json_decode(init('id'));
+                $ids = json_decode(init('id'),true);
                 $result = array();
                 foreach ($ids as $id) {
                     $cmd = cmd::byId($id);
