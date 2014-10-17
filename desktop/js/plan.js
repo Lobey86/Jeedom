@@ -66,6 +66,11 @@ $('#bt_addGraph').on('click', function () {
     savePlan();
 });
 
+$('#bt_addTexte').on('click', function () {
+    addText({display: {text: 'Texte à insérer ici'}});
+    savePlan();
+});
+
 displayPlan();
 
 $('#bt_savePlan').on('click', function () {
@@ -97,6 +102,13 @@ $('#div_displayObject').delegate('.plan-link-widget', 'dblclick', function () {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
         $('#md_modal').dialog({title: "{{Configuration du lien}}"});
         $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=plan&link_id=' + $(this).attr('data-link_id') + '&planHeader_id=' + planHeader_id).dialog('open');
+    }
+});
+
+$('#div_displayObject').delegate('.text-widget', 'dblclick', function () {
+    if ($('#bt_editPlan').attr('data-mode') == "1") {
+        $('#md_modal').dialog({title: "{{Configuration du texte}}"});
+        $('#md_modal').load('index.php?v=d&modal=plan.configure&link_type=text&link_id=' + $(this).attr('data-text_id') + '&planHeader_id=' + planHeader_id).dialog('open');
     }
 });
 
@@ -210,7 +222,7 @@ function initDraggable(_state) {
     if (grid != false) {
         dragOption.grid = grid;
     }
-    $('.plan-link-widget,.view-link-widget,.graph-widget,.eqLogic-widget,.scenario-widget').draggable({
+    $('.plan-link-widget,.view-link-widget,.graph-widget,.eqLogic-widget,.scenario-widget,.text-widget').draggable({
         drag: function (evt, ui) {
             if ((ui.position.left + $(this).width()) >= $('#div_displayObject').width()) {
                 ui.position.left = $('#div_displayObject').width() - $(this).width();
@@ -239,7 +251,7 @@ function initDraggable(_state) {
         }
     });
     if (_state != 1 && _state != '1') {
-        $('.plan-link-widget,.view-link-widget,.graph-widget,.eqLogic-widget,.scenario-widget').draggable("destroy");
+        $('.plan-link-widget,.view-link-widget,.graph-widget,.eqLogic-widget,.scenario-widget,.text-widget').draggable("destroy");
         $('#div_displayObject a').each(function () {
             $(this).attr('href', $(this).attr('data-href'));
         });
@@ -287,7 +299,7 @@ function displayPlan() {
             }
             $('#div_displayObject img').height(rHeight);
             $('#div_displayObject img').width(rWidth);
-            $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget').remove();
+            $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget,.text-widget').remove();
 
             grid = false;
             if (data.configuration != null && isset(data.configuration.gridX) && isset(data.configuration.gridY) && !isNaN(data.configuration.gridX) && !isNaN(data.configuration.gridY) && data.configuration.gridX > 0 && data.configuration.gridY > 0) {
@@ -382,6 +394,20 @@ function savePlan(_refreshDisplay) {
             plan.position.left = ((position.left) / parent.width) * 100;
             plans.push(plan);
         });
+        $('.text-widget').each(function () {
+            var plan = {};
+            plan.position = {};
+            plan.display = {};
+            plan.link_type = 'text';
+            plan.link_id = $(this).attr('data-text_id');
+            plan.planHeader_id = planHeader_id;
+            plan.display.height = ($(this).height() / parent.height) * 100;
+            plan.display.width = ($(this).width() / parent.width) * 100;
+            var position = $(this).position();
+            plan.position.top = ((position.top) / parent.height) * 100;
+            plan.position.left = ((position.left) / parent.width) * 100;
+            plans.push(plan);
+        });
         jeedom.plan.save({
             plans: plans,
             error: function (error) {
@@ -422,6 +448,9 @@ function displayObject(_type, _id, _html, _plan) {
     if (_type == 'graph') {
         $('.graph-widget[data-graph_id=' + _id + ']').remove();
     }
+    if (_type == 'text') {
+        $('.graph-widget[data-text_id=' + _id + ']').remove();
+    }
     var parent = {
         height: $('#div_displayObject').height(),
         width: $('#div_displayObject').width(),
@@ -429,6 +458,7 @@ function displayObject(_type, _id, _html, _plan) {
 
     var html = $(_html);
     $('#div_displayObject').append(html);
+    
 
     for (var key in _plan.css) {
         if (_plan.css[key] != '' && key != 'zoom') {
@@ -599,10 +629,21 @@ function addLink(_link, _plan) {
         label = 'label-primary';
     }
     var html = '<span class="' + _link.type + '-link-widget label ' + label + '" data-link_id="' + _link.id + '" >';
-    html += '<a href="' + link + '" style="color:'+init(_plan.css.color,'white')+';text-decoration:none;font-size : 1.5em;">';
+    html += '<a href="' + link + '" style="color:' + init(_plan.css.color, 'white') + ';text-decoration:none;font-size : 1.5em;">';
     html += _link.name;
     html += '</a>';
     html += '</span>';
     displayObject(_link.type, _link.id, html, _plan);
     savePlan();
+}
+
+/*********************************TEXTE*************************************/
+function addText(_plan) {
+    _plan = init(_plan, {});
+    _plan.css = init(_plan.css, {});
+    _plan.link_id = init(_plan.link_id, Math.round(Math.random() * 99999999) + 9999);
+    var html = '<span class="text-widget label label-default" data-text_id="' + _plan.link_id + '" style="color:' + init(_plan.css.color, 'white') + ';text-decoration:none;font-size : 1.5em;">';
+    html += _plan.display.text;
+    html += '</span>';
+    displayObject('text', _plan.link_id, html, _plan);
 }

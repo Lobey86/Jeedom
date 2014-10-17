@@ -22,7 +22,7 @@ require_once dirname(__FILE__) . '/../class/jeedom.class.php';
 require_once dirname(__FILE__) . '/../class/plugin.class.php';
 require_once dirname(__FILE__) . '/../class/translate.class.php';
 require_once dirname(__FILE__) . '/utils.inc.php';
-include_file('core', 'version', 'config');
+require dirname(__FILE__) . '/../config/version.config.php';
 include_file('core', 'jeedom', 'config');
 include_file('core', 'utils', 'class');
 try {

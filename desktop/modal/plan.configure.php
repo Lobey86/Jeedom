@@ -182,6 +182,70 @@ sendVarToJS('id', $plan->getId());
                     </select>
                 </div>
             </div>
+        <?php } else if ($plan->getLink_type() == 'text') { ?>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Nom}}</label>
+                <div class="col-lg-4">
+                    <textarea class="planAttr form-control" data-l1key="display" data-l2key="text" >Texte à insérer ici</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Icône}}</label>
+                <div class="col-lg-2">
+                    <div class="planAttr" data-l1key="display" data-l2key="icon" ></div>
+                </div>
+                <div class="col-lg-2">
+                    <a class="btn btn-default btn-sm" id="bt_chooseIcon"><i class="fa fa-flag"></i> {{Choisir une icône}}</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Couleur de fond}}</label>
+                <div class="col-lg-2">
+                    <select class="planAttr form-control" data-l1key="css" data-l2key="background-color">
+                        <option value="">Normale</option>
+                        <option value="transparent">Transparent</option>
+                        <option value="#1abc9c" style="background-color: #1abc9c;color:white;">Turquoise</option>
+                        <option value="#2ecc71" style="background-color: #2ecc71;color:white;">Emerald</option>
+                        <option value="#3498db" style="background-color: #3498db;color:white;">Pete rider</option>
+                        <option value="#9b59b6" style="background-color: #9b59b6;color:white;">Amethyst</option>
+                        <option value="#34495e" style="background-color: #34495e;color:white;">Wet asphalt</option>
+                        <option value="#f1c40f" style="background-color: #f1c40f;color:white;">Sun flower</option>
+                        <option value="#e67e22" style="background-color: #e67e22;color:white;">Carrot</option>
+                        <option value="#e74c3c" style="background-color: #e74c3c;color:white;">Alizarin</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Couleur du texte}}</label>
+                <div class="col-lg-2">
+                    <select class="planAttr form-control" data-l1key="css" data-l2key="color">
+                        <option value="">Normale</option>
+                        <option value="#1abc9c" style="background-color: #1abc9c;color:white;">Turquoise</option>
+                        <option value="#2ecc71" style="background-color: #2ecc71;color:white;">Emerald</option>
+                        <option value="#3498db" style="background-color: #3498db;color:white;">Pete rider</option>
+                        <option value="#9b59b6" style="background-color: #9b59b6;color:white;">Amethyst</option>
+                        <option value="#34495e" style="background-color: #34495e;color:white;">Wet asphalt</option>
+                        <option value="#f1c40f" style="background-color: #f1c40f;color:white;">Sun flower</option>
+                        <option value="#e67e22" style="background-color: #e67e22;color:white;">Carrot</option>
+                        <option value="#e74c3c" style="background-color: #e74c3c;color:white;">Alizarin</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Taille de la police (ex 50%, il faut bien mettre le signe %)}}</label>
+                <div class="col-lg-2">
+                    <input class="planAttr form-control" data-l1key="css" data-l2key="font-size" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Gras)}}</label>
+                <div class="col-lg-2">
+                    <select class="planAttr form-control" data-l1key="css" data-l2key="font-weight">
+                        <option value="bold">Gras</option>
+                        <option value="normal">Normal</option>
+                    </select>
+                </div>
+            </div>
         <?php } ?>
     </fieldset>
 </form>

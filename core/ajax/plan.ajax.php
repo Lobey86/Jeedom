@@ -87,7 +87,7 @@ try {
                 $html = '<span class="view-link-widget label label-primary" data-link_id="' . $view->getId() . '" >';
                 $html .= '<a href="' . $link . '" style="color:' . $plan->getCss('color', 'white') . ';text-decoration:none;font-size : 1.5em;">';
                 if ($plan->getDisplay('name') != '' || $plan->getDisplay('icon') != '') {
-                    $html .=$plan->getDisplay('icon') . ' ' . $plan->getDisplay('name');
+                    $html .= $plan->getDisplay('icon') . ' ' . $plan->getDisplay('name');
                 } else {
                     $html .= $view->getName();
                 }
@@ -102,6 +102,19 @@ try {
                 $return[] = array(
                     'plan' => utils::o2a($plan),
                     'html' => ''
+                );
+            }
+            if ($plan->getLink_type() == 'text') {
+                $html = '<span class="text-widget label label-default" data-text_id="' . $plan->getLink_id() . '" style="color:' . $plan->getCss('color', 'white') . ';text-decoration:none;font-size : 1.5em;">';
+                if ($plan->getDisplay('name') != '' || $plan->getDisplay('icon') != '') {
+                    $html .= $plan->getDisplay('icon') . ' ' . $plan->getDisplay('text');
+                } else {
+                    $html .= $plan->getDisplay('text','Texte à insérer ici');
+                }
+                $html .= '</span>';
+                $return[] = array(
+                    'plan' => utils::o2a($plan),
+                    'html' => $html
                 );
             }
         }

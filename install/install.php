@@ -142,7 +142,7 @@ try {
                     }
                 }
             }
-            @include dirname(__FILE__) . '/../core/config/version.config.php';
+            include dirname(__FILE__) . '/../core/config/version.config.php';
 
             if (init('v') != '') {
                 echo __("La mise à jour ", __FILE__) . init('v') . __(" va être reapliquée. Voulez vous continuer  ? [o/N] ", __FILE__);
