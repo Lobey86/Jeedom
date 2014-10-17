@@ -72,10 +72,6 @@ sendVarToJS('id', $plan->getId());
                         echo '<div class="col-lg-1">';
                         echo '<input type="checkbox" class="planAttr" data-l1key="display" data-l2key="cmd" data-l3key="' . $cmd->getID() . '" />';
                         echo '</div>';
-                        echo '<label class="col-lg-2 control-label">{{Ne pas afficher le nom}}</label>';
-                        echo '<div class="col-lg-1">';
-                        echo '<input type="checkbox" class="planAttr" data-l1key="display" data-l2key="cmdName" data-l3key="' . $cmd->getID() . '" />';
-                        echo '</div>';
                         echo '</div>';
                     }
                 }
