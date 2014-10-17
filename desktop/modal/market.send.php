@@ -36,16 +36,36 @@ if (init('type') == 'plugin') {
 
 
 <a class="btn btn-success pull-right" style="color : white;" id="bt_sendToMarket"><i class="fa fa-cloud-upload"></i> {{Envoyer}}</a>
-
+<br/><br/>
 <form class="form-horizontal" role="form" id="form_sendToMarket">
+    <hr/>
     <div class="row">
-        <div class="col-lg-6 col-lg-offset-3" id="div_marketPrice">
-            <img src="core/img/euro-market.jpg" class="pull-left"/>
-            <h2>Monétisez votre création !</h2>
-            <h4 style="font-weight:bold;">Fixer le prix de vente public <input class="form-control marketAttr" data-l1key="cost" placeholder="{{Prix}}" style="display : inline-block; width : 80px;"> €</h4>
-            Sur ce prix seront prélevés 0,25€ de frais paypal puis 25% destinés à l'équipe du projet Jeedom. Le reste <span id="span_marketDevGain">0</span> €, est pour vous !
+        <div class="col-lg-3">
+            <div style="height: 130px;" class="priceChoose alert alert-success">
+                <br/>
+                <center><input type="radio" name="rb_price" class="rb_price free" data-value="" checked/> <h4 style="display: inline-block">Gratuit</h4></center>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div style="height: 130px;" class="priceChoose">
+                <center><input type="radio" name="rb_price" class="rb_price" data-value="1" /> <h4 style="display: inline-block">1€</h4></center>
+                <center>Sur ce prix seront prélevés 0,25€ de frais paypal puis 45% destinés à l'équipe du projet Jeedom</center>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div style="height: 130px;" class="priceChoose">
+                <center><input type="radio" name="rb_price" class="rb_price" data-value="2" /> <h4 style="display: inline-block">2€</h4></center>
+                <center>Sur ce prix seront prélevés 0,25€ de frais paypal puis 35% destinés à l'équipe du projet Jeedom</center>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div style="height: 130px;" class="priceChoose">
+                <center><input type="radio" name="rb_price" class="rb_price" data-value="custom" /> <h4 style="display: inline-block">Libre</h4> <input class="form-control marketAttr input-sm" data-l1key="cost" placeholder="Prix" style="display : inline-block; width : 80px;"> €</center>
+                <center>Sur ce prix seront prélevés 0,25€ de frais paypal puis 25% destinés à l'équipe du projet Jeedom (le prix doit etre > 2€)</center>
+            </div>
         </div>
     </div>
+    <hr/>
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
@@ -129,7 +149,7 @@ if (is_object($market)) {
 }
 ?>
 <script>
-    $('.marketAttr[data-l1key=type]').on('change', function() {
+    $('.marketAttr[data-l1key=type]').on('change', function () {
         if ($(this).value() == 'plugin') {
             $('#div_marketPrice').show();
         } else {
@@ -137,22 +157,49 @@ if (is_object($market)) {
         }
     });
 
-    $('.marketAttr[data-l1key=cost]').on('change', function() {
-        if ($(this).value() == '' || isNaN($(this).value()) || parseFloat($(this).value()) < 0.99) {
-            $('#span_marketDevGain').value('0');
-        } else {
-            $('#span_marketDevGain').value(Math.round(($(this).value() - (0.25 + 0.034 * $(this).value())) * 75) / 100);
-        }
+    $('.rb_price').on('change', function () {
+        $('.priceChoose').removeClass('alert alert-success');
+        $(this).closest('.priceChoose').addClass('alert alert-success');
+    });
 
+    $('.priceChoose').on('click', function () {
+        $(this).find('.rb_price').prop('checked', true);
+        $('.priceChoose').removeClass('alert alert-success');
+        $(this).addClass('alert alert-success');
     });
 
     $('body').setValues(market_display_info, '.marketAttr');
 
+    if (market_display_info.cost == '' || market_display_info.cost == 0) {
+        $('.rb_price.free').prop('checked', true);
+        $('.marketAttr[data-l1key=cost]').value('');
+        $('.rb_price.free').closest('.priceChoose').addClass('alert alert-success');
+    } else if (market_display_info.cost == 1) {
+        $('.rb_price[data-value=1]').prop('checked', true);
+        $('.marketAttr[data-l1key=cost]').value('');
+        $('.rb_price[data-value=1]').closest('.priceChoose').addClass('alert alert-success');
+        $('.rb_price.free').closest('.priceChoose').removeClass('alert alert-success');
+    } else if (market_display_info.cost == 2) {
+        $('.rb_price[data-value=2]').prop('checked', true);
+        $('.marketAttr[data-l1key=cost]').value('');
+        $('.rb_price[data-value=2]').closest('.priceChoose').addClass('alert alert-success');
+        $('.rb_price.free').closest('.priceChoose').removeClass('alert alert-success');
+        $('.rb_price.free').closest('.priceChoose').removeClass('alert alert-success');
+    } else {
+        $('.rb_price[data-value=custom]').prop('checked', true);
+        $('.rb_price[data-value=custom]').closest('.priceChoose').addClass('alert alert-success');
+        $('.rb_price.free').closest('.priceChoose').removeClass('alert alert-success');
+    }
+
     $('.marketAttr[data-l1key=type]').value(market_type);
 
-    $('#bt_sendToMarket').on('click', function() {
-        var market = $('#form_sendToMarket').getValues('.marketAttr');
-        market = market[0];
+    $('#bt_sendToMarket').on('click', function () {
+        var market = $('#form_sendToMarket').getValues('.marketAttr')[0];
+        $('.rb_price').each(function () {
+            if ($(this).is(":checked") && $(this).attr('data-value') != 'custom') {
+                market.cost = parseInt($(this).attr('data-value'));
+            }
+        });
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/market.ajax.php", // url du fichier php
@@ -161,10 +208,10 @@ if (is_object($market)) {
                 market: json_encode(market),
             },
             dataType: 'json',
-            error: function(request, status, error) {
+            error: function (request, status, error) {
                 handleAjaxError(request, status, error, $('#div_alertMarketSend'));
             },
-            success: function(data) { // si l'appel a bien fonctionné
+            success: function (data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
                     $('#div_alertMarketSend').showAlert({message: data.result, level: 'danger'});
                     return;
