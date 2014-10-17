@@ -68,7 +68,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                     </select>
                                 </div>
                             </div>
-                              <div class="form-group">
+                            <div class="form-group">
                                 <label class="col-lg-2 control-label">{{Durée de vie des sessions (heure)}}</label>
                                 <div class="col-lg-2">
                                     <input type="text"  class="configKey form-control" data-l1key="session_lifetime" />
@@ -688,13 +688,19 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <input type="checkbox"  class="configKey" data-l1key="market::allowDNS" />
                                     </div>
                                 </div>
+                                   <div class="form-group">
+                                    <label class="col-lg-2 control-label">{{Afficher les plugins mis en avant par le market}}</label>
+                                    <div class="col-lg-3">
+                                        <input type="checkbox"  class="configKey" data-l1key="market::showPromotion" />
+                                    </div>
+                                </div>
                                 <div class="form-group alert alert-danger">
                                     <label class="col-lg-2 control-label">{{Voir modules en beta (à vos risques et périls)}}</label>
                                     <div class="col-lg-3">
                                         <input type="checkbox"  class="configKey" data-l1key="market::showBetaMarket" />
                                     </div>
                                 </div>
-
+                             
                             </fieldset>
                         </form>
                     </div>

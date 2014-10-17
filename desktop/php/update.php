@@ -8,7 +8,9 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
 ?>
 <div>
     <?php
-    echo market::getPromo();
+    if (config::byKey('market::showPromotion') == 1) {
+        echo market::getPromo();
+    }
     ?>
 </div><br/>
 <div class="row">
