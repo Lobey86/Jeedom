@@ -39,12 +39,25 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
         connection::success('api');
         $type = init('type');
         if ($type == 'cmd') {
-            $cmd = cmd::byId(init('id'));
-            if (!is_object($cmd)) {
-                throw new Exception('Aucune commande correspondant à l\'id : ' . init('id'));
+            if (is_json(init('id'))) {
+                $ids = json_decode(init('id'));
+                $result = array();
+                foreach ($ids as $id) {
+                    $cmd = cmd::byId($id);
+                    if (!is_object($cmd)) {
+                        throw new Exception(__('Aucune commande correspondant à l\'id : ', __FILE__) . $id);
+                    }
+                    $result[$id] = $cmd->execCmd($_REQUEST);
+                }
+                echo json_encode($result);
+            } else {
+                $cmd = cmd::byId(init('id'));
+                if (!is_object($cmd)) {
+                    throw new Exception('Aucune commande correspondant à l\'id : ' . init('id'));
+                }
+                log::add('api', 'debug', 'Exécution de : ' . $cmd->getHumanName());
+                echo $cmd->execCmd($_REQUEST);
             }
-            log::add('api', 'debug', 'Exécution de : ' . $cmd->getHumanName());
-            echo $cmd->execCmd($_REQUEST);
         } else if ($type == 'interact') {
             echo interactQuery::tryToReply(init('query'));
         } else if ($type == 'scenario') {
