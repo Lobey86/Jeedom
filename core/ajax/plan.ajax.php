@@ -85,7 +85,7 @@ try {
                     $link = 'index.php?v=d&p=view&view_id=' . $view->getId();
                 }
                 $html = '<span class="view-link-widget label label-primary" data-link_id="' . $view->getId() . '" >';
-                $html .= '<a href="' . $link . '" style="color:white;text-decoration:none;font-size : 1.5em;">';
+                $html .= '<a href="' . $link . '" style="color:' . $plan->getCss('color', 'white') . ';text-decoration:none;font-size : 1.5em;">';
                 if ($plan->getDisplay('name') != '' || $plan->getDisplay('icon') != '') {
                     $html .=$plan->getDisplay('icon') . ' ' . $plan->getDisplay('name');
                 } else {

@@ -599,7 +599,7 @@ function addLink(_link, _plan) {
         label = 'label-primary';
     }
     var html = '<span class="' + _link.type + '-link-widget label ' + label + '" data-link_id="' + _link.id + '" >';
-    html += '<a href="' + link + '" style="color:white;text-decoration:none;font-size : 1.5em;">';
+    html += '<a href="' + link + '" style="color:'+init(_plan.css.color,'white')+';text-decoration:none;font-size : 1.5em;">';
     html += _link.name;
     html += '</a>';
     html += '</span>';

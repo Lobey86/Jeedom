@@ -152,7 +152,7 @@ sendVarToJS('id', $plan->getId());
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 control-label">{{Couleur du text}}</label>
+                <label class="col-lg-4 control-label">{{Couleur du texte}}</label>
                 <div class="col-lg-2">
                     <select class="planAttr form-control" data-l1key="css" data-l2key="color">
                         <option value="">Normale</option>
