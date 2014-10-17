@@ -62,7 +62,7 @@ try {
                     $link = 'index.php?v=d&p=plan&plan_id=' . $plan_link->getId();
                 }
                 $html = '<span class="plan-link-widget label label-success" data-link_id="' . $plan_link->getId() . '">';
-                $html .= '<a href="' . $link . '" style="color:white;text-decoration:none;font-size : 1.5em;">';
+                $html .= '<a href="' . $link . '" style="color:' . $plan->getCss('color', 'white') . ';text-decoration:none;font-size : 1.5em;">';
                 if ($plan->getDisplay('name') != '' || $plan->getDisplay('icon') != '') {
                     $html .=$plan->getDisplay('icon') . ' ' . $plan->getDisplay('name');
                 } else {
@@ -105,11 +105,11 @@ try {
                 );
             }
             if ($plan->getLink_type() == 'text') {
-                $html = '<span class="text-widget label label-default" data-text_id="' . $plan->getLink_id() . '" style="color:' . $plan->getCss('color', 'white') . ';text-decoration:none;font-size : 1.5em;">';
+                $html = '<span class="text-widget label label-default" data-text_id="' . $plan->getLink_id() . '" style="color:' . $plan->getCss('color', 'white') . ';font-size : 1.5em;">';
                 if ($plan->getDisplay('name') != '' || $plan->getDisplay('icon') != '') {
                     $html .= $plan->getDisplay('icon') . ' ' . $plan->getDisplay('text');
                 } else {
-                    $html .= $plan->getDisplay('text','Texte à insérer ici');
+                    $html .= $plan->getDisplay('text', 'Texte à insérer ici');
                 }
                 $html .= '</span>';
                 $return[] = array(
