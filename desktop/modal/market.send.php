@@ -51,13 +51,13 @@ if (init('type') == 'plugin') {
             <div class="col-lg-3">
                 <div style="height: 130px;" class="priceChoose">
                     <center><input type="radio" name="rb_price" class="rb_price" data-value="1" /> <h4 style="display: inline-block">1€</h4></center>
-                    <center>Sur ce prix seront prélevés 0,25€ de frais paypal puis 45% destinés à l'équipe du projet Jeedom</center>
+                    <center>Sur ce prix seront prélevés 0,25€ de frais paypal puis 35% destinés à l'équipe du projet Jeedom</center>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div style="height: 130px;" class="priceChoose">
                     <center><input type="radio" name="rb_price" class="rb_price" data-value="2" /> <h4 style="display: inline-block">2€</h4></center>
-                    <center>Sur ce prix seront prélevés 0,25€ de frais paypal puis 35% destinés à l'équipe du projet Jeedom</center>
+                    <center>Sur ce prix seront prélevés 0,25€ de frais paypal puis 30% destinés à l'équipe du projet Jeedom</center>
                 </div>
             </div>
             <div class="col-lg-3">
