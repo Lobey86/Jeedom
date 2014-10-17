@@ -458,7 +458,7 @@ function displayObject(_type, _id, _html, _plan) {
 
     var html = $(_html);
     $('#div_displayObject').append(html);
-    
+
 
     for (var key in _plan.css) {
         if (_plan.css[key] != '' && key != 'zoom') {
@@ -618,6 +618,8 @@ $('#md_selectLink .validate').on('click', function () {
 });
 
 function addLink(_link, _plan) {
+    _plan = init(_plan, {});
+    _plan.css = init(_plan.css, {});
     var link = '';
     var label = '';
     if (_link.type == 'plan') {
