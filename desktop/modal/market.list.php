@@ -64,7 +64,7 @@ $findMarket = array();
                     echo '<span class="label label-success" style="font-size : 1.4em;position : relative;top : 5px;">Officiel</span>';
                 }
                 if ($market->getCertification() == 'Recommandé') {
-                    echo '<span class="label label-primary" style="font-size : 1.4em;position : relative;top : 5px;">Recommandé</span>';
+                    echo '<span class="label label-primary" style="font-size : 1.1em;position : relative;top : 5px;">Recommandé</span>';
                 }
                 echo '</center></td>';
                 echo '<td>' . $market->getCategorie() . '</td>';
