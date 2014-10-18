@@ -31,7 +31,7 @@ try {
                 $_SESSION['user']->save();
                 @session_write_close();
             }
-            setcookie('registerDevice', $_SESSION['user']->getOptions('registerDevice'), time() + 24 * 3600, "/", '', false, true);
+            setcookie('registerDevice', $_SESSION['user']->getOptions('registerDevice'), time() + 365 * 24 * 3600, "/", '', false, true);
         }
         ajax::success();
     }
