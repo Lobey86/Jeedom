@@ -1,3 +1,10 @@
+#!/bin/sh
+########################################################################
+#
+# Jeedom installer: shell script to deploy Jeedom and its dependencies
+#
+########################################################################
+
 webserver=${1-nginx}
 
 if [ "${webserver}" = "nginx" ] ; then
