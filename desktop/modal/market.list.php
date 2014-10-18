@@ -124,7 +124,10 @@ $findMarket = array();
         $("img.lazy").trigger("sporty");
         initTableSorter();
 
-        $('#table_market tbody tr.install').hide();
+        setTimeout(function () {
+            $('#table_market tbody tr.install').hide();
+        }, 500);
+
 
         $('#bt_marketListDisplayInstallObject').on('change', function () {
             if ($(this).value() == 1) {
