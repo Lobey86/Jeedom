@@ -60,53 +60,64 @@ $parentNumber = array();
             </ul>
         </div>
     </div>
-
-    <div class="col-lg-10" id="div_displayObject">
-        <i class='fa fa-cogs pull-right cursor tooltips' id='bt_displayScenario' data-display='0' title="Afficher/Masquer les scénarios"></i>
-        <?php
-        echo '<div object_id="' . $object->getId() . '">';
-        echo '<legend>' . $object->getDisplay('icon') . ' ' . $object->getName() . '</legend>';
-        echo '<div class="div_displayEquipement" style="width: 100%;">';
-        foreach ($object->getEqLogic(true, true) as $eqLogic) {
+    <?php
+    if ($_SESSION['user']->getOptions('displayScenarioByDefault') == 1) {
+        echo '<div class="col-lg-8" id="div_displayObject">';
+    } else {
+        echo '<div class="col-lg-10" id="div_displayObject">';
+    }
+    ?>
+    <i class='fa fa-cogs pull-right cursor tooltips' id='bt_displayScenario' data-display='<?php echo $_SESSION['user']->getOptions('displayScenarioByDefault') ?>' title="Afficher/Masquer les scénarios"></i>
+    <?php
+    echo '<div object_id="' . $object->getId() . '">';
+    echo '<legend>' . $object->getDisplay('icon') . ' ' . $object->getName() . '</legend>';
+    echo '<div class="div_displayEquipement" style="width: 100%;">';
+    foreach ($object->getEqLogic(true, true) as $eqLogic) {
+        if ((init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
+            echo $eqLogic->toHtml('dashboard');
+        }
+    }
+    echo '</div>';
+    foreach ($child_object as $child) {
+        $margin = 40 * $parentNumber[$child->getId()];
+        echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
+        echo '<legend>' . $child->getDisplay('icon') . ' ' . $child->getName() . '</legend>';
+        echo '<div class="div_displayEquipement" id="div_ob' . $child->getId() . '" style="width: 100%;">';
+        foreach ($child->getEqLogic(true, true) as $eqLogic) {
             if ((init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
                 echo $eqLogic->toHtml('dashboard');
             }
         }
         echo '</div>';
-        foreach ($child_object as $child) {
-            $margin = 40 * $parentNumber[$child->getId()];
-            echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
-            echo '<legend>' . $child->getDisplay('icon') . ' ' . $child->getName() . '</legend>';
-            echo '<div class="div_displayEquipement" id="div_ob' . $child->getId() . '" style="width: 100%;">';
-            foreach ($child->getEqLogic(true, true) as $eqLogic) {
-                if ((init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
-                    echo $eqLogic->toHtml('dashboard');
-                }
-            }
-            echo '</div>';
-            echo '</div>';
-        }
         echo '</div>';
-        ?>
-    </div>
-    <div class="col-lg-2" id='div_displayScenario' style="display:none;">
-        <legend><i class="fa fa-history"></i> {{Scénarios}}</legend>
-        <?php
-        if (init('object_id') == '') {
-            foreach (scenario::byObjectId(null, false, true) as $scenario) {
-                echo $scenario->toHtml('dashboard');
-            }
-        }
-        foreach ($object->getScenario(false, true) as $scenario) {
-            echo $scenario->toHtml('dashboard');
-        }
-        foreach ($child_object as $child) {
-            foreach ($child->getScenario(false, true) as $scenario) {
-                echo $scenario->toHtml('dashboard');
-            }
-        }
-        ?>
-    </div>     
+    }
+    echo '</div>';
+    ?>
+</div>
+<?php
+if ($_SESSION['user']->getOptions('displayScenarioByDefault') == 1) {
+    echo '<div class="col-lg-2" id="div_displayScenario">';
+} else {
+    echo '<div class="col-lg-2" id="div_displayScenario" style="display:none;">';
+}
+?>
+<legend><i class="fa fa-history"></i> {{Scénarios}}</legend>
+<?php
+if (init('object_id') == '') {
+    foreach (scenario::byObjectId(null, false, true) as $scenario) {
+        echo $scenario->toHtml('dashboard');
+    }
+}
+foreach ($object->getScenario(false, true) as $scenario) {
+    echo $scenario->toHtml('dashboard');
+}
+foreach ($child_object as $child) {
+    foreach ($child->getScenario(false, true) as $scenario) {
+        echo $scenario->toHtml('dashboard');
+    }
+}
+?>
+</div>     
 </div>
 
 <?php include_file('desktop', 'dashboard', 'js'); ?>

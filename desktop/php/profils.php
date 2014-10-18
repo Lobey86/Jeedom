@@ -188,6 +188,19 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 <input type="checkbox" class="userAttr" data-l1key="options" data-l2key="defaultMobilePlanFullscreen"/>
                             </div>
                         </div>
+                        <legend>Dashboard</legend>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Afficher les scénarios par défaut}}</label>
+                            <div class="col-lg-2">
+                                <input type="checkbox" class="userAttr" data-l1key="options" data-l2key="displayScenarioByDefault"/>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Afficher les objets par défaut}}</label>
+                            <div class="col-lg-2">
+                                <input type="checkbox" class="userAttr" data-l1key="options" data-l2key="displayObjetByDefault"/>
+                            </div>
+                        </div>
                     </fieldset>
                 </form>
             </div>
