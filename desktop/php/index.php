@@ -38,7 +38,7 @@ if (count($plugins_list) > 0) {
         if (isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]) && isset($JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'])) {
             $name = $JEEDOM_INTERNAL_CONFIG['plugin']['category'][$category_name]['name'];
         }
-        $plugin_menu .= '<li class="dropdown-submenu"><a href="#"><i class="fa ' . $icon . '"></i> {{' . $name . '}}</a>';
+        $plugin_menu .= '<li class="dropdown-submenu"><a data-toggle="dropdown"><i class="fa ' . $icon . '"></i> {{' . $name . '}}</a>';
         $plugin_menu .= '<ul class="dropdown-menu">';
         foreach ($category as $pluginList) {
             $plugin_menu .= '<li><a href="index.php?v=d&m=' . $pluginList->getId() . '&p=' . $pluginList->getIndex() . '"><i class="' . $pluginList->getIcon() . '"></i> ' . $pluginList->getName() . '</a></li>';
@@ -71,6 +71,7 @@ if (count($plugins_list) > 0) {
         <script type="text/javascript" src="/socket.io/socket.io.js?1.1.0"></script>
         <?php
         include_file('3rdparty', 'bootstrap/css/bootstrap.min', 'css');
+
         include_file('core', 'icon.inc', 'php');
         include_file('desktop', 'commun', 'css');
         include_file('core', 'core', 'css');
@@ -106,6 +107,9 @@ if (count($plugins_list) > 0) {
             sendVarToJS('eqLogic_width_step', config::byKey('eqLogic::widget::stepWidth'));
             sendVarToJS('eqLogic_height_step', config::byKey('eqLogic::widget::stepHeight'));
             ?>
+
+
+
             <div id="wrap">
                 <header class="navbar navbar-fixed-top navbar-default">
                     <div class="container-fluid">
@@ -137,13 +141,15 @@ if (count($plugins_list) > 0) {
                                     </li>
                                     <li><a href="index.php?v=d&p=history"><i class="fa fa-bar-chart-o"></i> {{Historique}}</a></li>
                                 <?php } ?>
+
                                 <?php if (isConnect('admin')) { ?>
                                     <li class="dropdown cursor">
-                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> {{Général}} <b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                            <li class="dropdown-submenu"><a href="#"><i class="fa fa-cogs"></i> {{Administration}}</a>
+                                        <a data-toggle="dropdown"><i class="fa fa-qrcode"></i> {{Général}} <b class="caret"></b></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li class="dropdown-submenu">
+                                                <a data-toggle="dropdown"><i class="fa fa-cogs"></i> {{Administration}}</a>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="index.php?v=d&p=administration"><i class="fa fa-wrench"></i> {{Configuration}}</a></li>
+                                                    <li><a href="index.php?v=d&p=administration" tabindex="0"><i class="fa fa-wrench"></i> {{Configuration}}</a></li>
                                                     <li><a href="index.php?v=d&p=user"><i class="fa fa-users"></i> {{Utilisateurs}}</a></li>
                                                     <li><a href="index.php?v=d&p=backup"><i class="fa fa-floppy-o"></i> {{Sauvegarde}}</a></li>
                                                     <li><a href="index.php?v=d&p=update"><i class="fa fa-refresh"></i> {{Centre de mise à jour}}</a></li>
@@ -154,8 +160,8 @@ if (count($plugins_list) > 0) {
                                                         <?php } ?>
                                                     <?php } ?>
                                                     <li class="expertModeVisible"><a href="index.php?v=d&p=cron"><i class="fa fa-tasks"></i> {{Moteur de tâches}}</a></li>
-                                                    <li class='expertModeVisible'><a href="index.php?v=d&p=security"><i class="fa fa-lock"></i> {{Sécurité}}</a></li>
-                                                    <li class='expertModeVisible'><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> {{Log}}</a></li>
+                                                    <li class="expertModeVisible"><a href="index.php?v=d&p=security"><i class="fa fa-lock"></i> {{Sécurité}}</a></li>
+                                                    <li class="expertModeVisible"><a href="index.php?v=d&p=log"><i class="fa fa-file-o"></i> {{Log}}</a></li>
                                                 </ul>
                                             </li>
                                             <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
@@ -165,6 +171,11 @@ if (count($plugins_list) > 0) {
                                             <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
                                                 <li><a href="index.php?v=d&p=interact"><i class="fa fa-comments-o"></i> {{Interaction}}</a></li>
                                                 <li><a href="index.php?v=d&p=display"><i class="fa fa-th"></i> {{Affichage}}</a></li>
+                                                <?php
+                                            }
+                                            if (isConnect('admin') && config::byKey('jeeNetwork::mode') == 'master') {
+                                                ?>
+                                                <li><a href="index.php?v=d&p=scenario"><i class="fa fa-cogs"></i> {{Scénario}}</a></li>
                                             <?php } ?>
                                         </ul>
                                     </li>
@@ -172,10 +183,10 @@ if (count($plugins_list) > 0) {
                                 }
                                 if (isConnect('admin') && config::byKey('jeeNetwork::mode') == 'master') {
                                     ?>
-                                    <li><a href="index.php?v=d&p=scenario"><i class="fa fa-cogs"></i> {{Scénario}}</a></li>
+
                                     <li class="dropdown cursor">
-                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i> {{Plugins}} <b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
+                                        <a data-toggle="dropdown"><i class="fa fa-tasks"></i> {{Plugins}} <b class="caret"></b></a>
+                                        <ul class="dropdown-menu" role="menu">
                                             <?php
                                             if (count($plugins_list) == 0) {
                                                 echo '<li><a href="index.php?v=d&p=plugin"><i class="fa fa-tags"></i> {{Installer un plugin}}</a></li>';
