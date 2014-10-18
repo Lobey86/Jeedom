@@ -660,20 +660,19 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                             <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">{{Adresse}}</label>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <input class="configKey form-control" data-l1key="market::address"/>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label">{{Nom d'utilisateur}}</label>
-                                    <div class="col-lg-3">
+                                    <label class="col-lg-1 control-label">{{Nom d'utilisateur}}</label>
+                                    <div class="col-lg-2">
                                         <input type="text"  class="configKey form-control" data-l1key="market::username" />
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label">{{Mot de passe}}</label>
-                                    <div class="col-lg-3">
+                                    <label class="col-lg-1 control-label">{{Mot de passe}}</label>
+                                    <div class="col-lg-2">
                                         <input type="password"  class="configKey form-control" data-l1key="market::password" />
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <a class="btn btn-default" id="bt_testMarketConnection">Tester</a>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -688,7 +687,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <input type="checkbox"  class="configKey" data-l1key="market::allowDNS" />
                                     </div>
                                 </div>
-                                   <div class="form-group">
+                                <div class="form-group">
                                     <label class="col-lg-2 control-label">{{Afficher les plugins mis en avant par le market}}</label>
                                     <div class="col-lg-3">
                                         <input type="checkbox"  class="configKey" data-l1key="market::showPromotion" />
@@ -700,7 +699,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <input type="checkbox"  class="configKey" data-l1key="market::showBetaMarket" />
                                     </div>
                                 </div>
-                             
+
                             </fieldset>
                         </form>
                     </div>

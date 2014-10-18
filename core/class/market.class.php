@@ -89,7 +89,16 @@ class market {
         if ($market->sendRequest('market::getPromotion')) {
             return $market->getResult();
         } else {
-               throw new Exception($market->getError(), $market->getErrorCode());
+            throw new Exception($market->getError(), $market->getErrorCode());
+        }
+    }
+
+    public static function test() {
+        $market = self::getJsonRpc();
+        if ($market->sendRequest('market::test')) {
+            return $market->getResult();
+        } else {
+            throw new Exception($market->getError(), $market->getErrorCode());
         }
     }
 

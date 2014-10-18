@@ -29,7 +29,7 @@ try {
         if (!is_object($market)) {
             throw new Exception(__('Impossible de trouver l\'objet associé : ', __FILE__) . init('id'));
         }
-        $market->install(init('version','stable'));
+        $market->install(init('version', 'stable'));
         ajax::success();
     }
 
@@ -59,6 +59,10 @@ try {
 
     if (init('action') == 'getInfo') {
         ajax::success(market::getInfo(init('logicalId')));
+    }
+
+    if (init('action') == 'test') {
+        ajax::success(market::test());
     }
 
     if (init('action') == 'setRating') {
