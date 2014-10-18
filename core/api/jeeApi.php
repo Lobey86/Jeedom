@@ -144,7 +144,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
 
         connection::success('api');
 
-        if ($params['plugin'] != '') {
+        if (isset($params['plugin']) && $params['plugin'] != '') {
             include_file('core', $params['plugin'], 'api', $params['plugin']);
         } else {
             /*             * ***********************Ping********************************* */
