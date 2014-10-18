@@ -26,27 +26,7 @@ $parentNumber = array();
         echo '<div class="col-lg-2" style="display:none;" id="div_displayObjectList">';
     }
     ?>
-    <center>
-        <?php
-        if (init('category', 'all') == 'all') {
-            echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
-        } else {
-            echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
-        }
-        foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-            if (init('category', 'all') == $key) {
-                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-primary btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
-            } else {
-                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-default btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
-            }
-        }
-        if (init('category', 'all') == 'other') {
-            echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
-        } else {
-            echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
-        }
-        ?>
-    </center>
+
     <div class="bs-sidebar">
         <ul id="ul_object" class="nav nav-list bs-sidenav">
             <li class="nav-header">{{Liste objets}} </li>
@@ -81,8 +61,31 @@ if ($_SESSION['user']->getOptions('displayScenarioByDefault') == 1) {
     }
 }
 ?>
-<i class='fa fa-picture-o cursor tooltips' id='bt_displayObject' data-display='<?php echo $_SESSION['user']->getOptions('displayObjetByDefault') ?>' title="Afficher/Masquer les objets"></i>
+<i class='fa fa-picture-o cursor tooltips pull-left' id='bt_displayObject' data-display='<?php echo $_SESSION['user']->getOptions('displayObjetByDefault') ?>' title="Afficher/Masquer les objets"></i>
 <i class='fa fa-cogs pull-right cursor tooltips' id='bt_displayScenario' data-display='<?php echo $_SESSION['user']->getOptions('displayScenarioByDefault') ?>' title="Afficher/Masquer les scénarios"></i>
+
+<center>
+    <?php
+    if (init('category', 'all') == 'all') {
+        echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
+    } else {
+        echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
+    }
+    foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+        if (init('category', 'all') == $key) {
+            echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-primary btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
+        } else {
+            echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-default btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
+        }
+    }
+    if (init('category', 'all') == 'other') {
+        echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
+    } else {
+        echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
+    }
+    ?>
+</center>
+
 <?php
 echo '<div object_id="' . $object->getId() . '">';
 echo '<legend>' . $object->getDisplay('icon') . ' ' . $object->getName() . '</legend>';
