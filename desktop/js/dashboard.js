@@ -29,14 +29,46 @@ $('body').delegate('.eqLogic-widget .history', 'click', function () {
 $('#bt_displayScenario').on('click', function () {
     if ($(this).attr('data-display') == 1) {
         $('#div_displayScenario').hide();
-        $('#div_displayObject').removeClass('col-lg-8').addClass('col-lg-10');
+        if ($('#bt_displayObject').attr('data-display') == 1) {
+            $('#div_displayObject').removeClass('col-lg-8 col-lg-10 col-lg-12').addClass('col-lg-10');
+        } else {
+            $('#div_displayObject').removeClass('col-lg-8 col-lg-10 col-lg-12').addClass('col-lg-12');
+        }
         $('.div_displayEquipement').each(function () {
             $(this).masonry({columnWidth: 1});
         });
         $(this).attr('data-display', 0);
     } else {
         $('#div_displayScenario').show();
-        $('#div_displayObject').removeClass('col-lg-10').addClass('col-lg-8');
+        if ($('#bt_displayObject').attr('data-display') == 1) {
+            $('#div_displayObject').removeClass('col-lg-8 col-lg-10 col-lg-12').addClass('col-lg-8');
+        } else {
+            $('#div_displayObject').removeClass('col-lg-8 col-lg-10 col-lg-12').addClass('col-lg-10');
+        }
+        $('.div_displayEquipement').masonry({columnWidth: 1});
+        $(this).attr('data-display', 1);
+    }
+});
+
+$('#bt_displayObject').on('click', function () {
+    if ($(this).attr('data-display') == 1) {
+        $('#div_displayObjectList').hide();
+        if ($('#bt_displayScenario').attr('data-display') == 1) {
+            $('#div_displayObject').removeClass('col-lg-8 col-lg-10 col-lg-12').addClass('col-lg-10');
+        } else {
+            $('#div_displayObject').removeClass('col-lg-8 col-lg-10 col-lg-12').addClass('col-lg-12');
+        }
+        $('.div_displayEquipement').each(function () {
+            $(this).masonry({columnWidth: 1});
+        });
+        $(this).attr('data-display', 0);
+    } else {
+        $('#div_displayObjectList').show();
+        if ($('#bt_displayScenario').attr('data-display') == 1) {
+            $('#div_displayObject').removeClass('col-lg-8 col-lg-10 col-lg-12').addClass('col-lg-8');
+        } else {
+            $('#div_displayObject').removeClass('col-lg-8 col-lg-10 col-lg-12').addClass('col-lg-10');
+        }
         $('.div_displayEquipement').masonry({columnWidth: 1});
         $(this).attr('data-display', 1);
     }

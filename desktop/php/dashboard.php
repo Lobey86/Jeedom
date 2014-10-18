@@ -19,80 +19,95 @@ $parentNumber = array();
 ?>
 
 <div class="row row-overflow">
-    <div class="col-lg-2">
-        <center>
+    <?php
+    if ($_SESSION['user']->getOptions('displayObjetByDefault') == 1) {
+        echo '<div class="col-lg-2" id="div_displayObjectList">';
+    } else {
+        echo '<div class="col-lg-2" style="display:none;" id="div_displayObjectList">';
+    }
+    ?>
+    <center>
+        <?php
+        if (init('category', 'all') == 'all') {
+            echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
+        } else {
+            echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
+        }
+        foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+            if (init('category', 'all') == $key) {
+                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-primary btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
+            } else {
+                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-default btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
+            }
+        }
+        if (init('category', 'all') == 'other') {
+            echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
+        } else {
+            echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
+        }
+        ?>
+    </center>
+    <div class="bs-sidebar">
+        <ul id="ul_object" class="nav nav-list bs-sidenav">
+            <li class="nav-header">{{Liste objets}} </li>
+            <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
             <?php
-            if (init('category', 'all') == 'all') {
-                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
-            } else {
-                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=all" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Tous}}</a>';
-            }
-            foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-                if (init('category', 'all') == $key) {
-                    echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-primary btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
+            $allObject = object::buildTree(null, true);
+            foreach ($allObject as $object_li) {
+                $parentNumber[$object_li->getId()] = $object_li->parentNumber();
+                $margin = 15 * $parentNumber[$object_li->getId()];
+                if ($object_li->getId() == $object->getId()) {
+                    echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
                 } else {
-                    echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=' . $key . '" class="btn btn-default btn-sm categoryAction" data-l1key="' . $key . '" style="margin-bottom: 5px;margin-right: 3px;">{{' . $value['name'] . '}}</a>';
+                    echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
                 }
-            }
-            if (init('category', 'all') == 'other') {
-                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-primary btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
-            } else {
-                echo '<a href="index.php?v=d&p=dashboard&object_id=' . init('object_id') . '&category=other" class="btn btn-default btn-sm categoryAction" style="margin-bottom: 5px;margin-right: 3px;">{{Autre}}</a>';
             }
             ?>
-        </center>
-        <div class="bs-sidebar">
-            <ul id="ul_object" class="nav nav-list bs-sidenav">
-                <li class="nav-header">{{Liste objets}} </li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
-                <?php
-                $allObject = object::buildTree(null, true);
-                foreach ($allObject as $object_li) {
-                    $parentNumber[$object_li->getId()] = $object_li->parentNumber();
-                    $margin = 15 * $parentNumber[$object_li->getId()];
-                    if ($object_li->getId() == $object->getId()) {
-                        echo '<li class="cursor li_object active" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
-                    } else {
-                        echo '<li class="cursor li_object" ><a href="index.php?v=d&p=dashboard&object_id=' . $object_li->getId() . '&category=' . init('category', 'all') . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
-                    }
-                }
-                ?>
-            </ul>
-        </div>
+        </ul>
     </div>
-    <?php
-    if ($_SESSION['user']->getOptions('displayScenarioByDefault') == 1) {
+</div>
+<?php
+if ($_SESSION['user']->getOptions('displayScenarioByDefault') == 1) {
+    if ($_SESSION['user']->getOptions('displayObjetByDefault') == 1) {
         echo '<div class="col-lg-8" id="div_displayObject">';
     } else {
         echo '<div class="col-lg-10" id="div_displayObject">';
     }
-    ?>
-    <i class='fa fa-cogs pull-right cursor tooltips' id='bt_displayScenario' data-display='<?php echo $_SESSION['user']->getOptions('displayScenarioByDefault') ?>' title="Afficher/Masquer les scénarios"></i>
-    <?php
-    echo '<div object_id="' . $object->getId() . '">';
-    echo '<legend>' . $object->getDisplay('icon') . ' ' . $object->getName() . '</legend>';
-    echo '<div class="div_displayEquipement" style="width: 100%;">';
-    foreach ($object->getEqLogic(true, true) as $eqLogic) {
+} else {
+    if ($_SESSION['user']->getOptions('displayObjetByDefault') == 1) {
+        echo '<div class="col-lg-10" id="div_displayObject">';
+    } else {
+        echo '<div class="col-lg-12" id="div_displayObject">';
+    }
+}
+?>
+<i class='fa fa-picture-o cursor tooltips' id='bt_displayObject' data-display='<?php echo $_SESSION['user']->getOptions('displayObjetByDefault') ?>' title="Afficher/Masquer les objets"></i>
+<i class='fa fa-cogs pull-right cursor tooltips' id='bt_displayScenario' data-display='<?php echo $_SESSION['user']->getOptions('displayScenarioByDefault') ?>' title="Afficher/Masquer les scénarios"></i>
+<?php
+echo '<div object_id="' . $object->getId() . '">';
+echo '<legend>' . $object->getDisplay('icon') . ' ' . $object->getName() . '</legend>';
+echo '<div class="div_displayEquipement" style="width: 100%;">';
+foreach ($object->getEqLogic(true, true) as $eqLogic) {
+    if ((init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
+        echo $eqLogic->toHtml('dashboard');
+    }
+}
+echo '</div>';
+foreach ($child_object as $child) {
+    $margin = 40 * $parentNumber[$child->getId()];
+    echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
+    echo '<legend>' . $child->getDisplay('icon') . ' ' . $child->getName() . '</legend>';
+    echo '<div class="div_displayEquipement" id="div_ob' . $child->getId() . '" style="width: 100%;">';
+    foreach ($child->getEqLogic(true, true) as $eqLogic) {
         if ((init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
             echo $eqLogic->toHtml('dashboard');
         }
     }
     echo '</div>';
-    foreach ($child_object as $child) {
-        $margin = 40 * $parentNumber[$child->getId()];
-        echo '<div object_id="' . $child->getId() . '" style="margin-left : ' . $margin . 'px;">';
-        echo '<legend>' . $child->getDisplay('icon') . ' ' . $child->getName() . '</legend>';
-        echo '<div class="div_displayEquipement" id="div_ob' . $child->getId() . '" style="width: 100%;">';
-        foreach ($child->getEqLogic(true, true) as $eqLogic) {
-            if ((init('category', 'all') == 'all' || $eqLogic->getCategory(init('category')) == 1)) {
-                echo $eqLogic->toHtml('dashboard');
-            }
-        }
-        echo '</div>';
-        echo '</div>';
-    }
     echo '</div>';
-    ?>
+}
+echo '</div>';
+?>
 </div>
 <?php
 if ($_SESSION['user']->getOptions('displayScenarioByDefault') == 1) {
