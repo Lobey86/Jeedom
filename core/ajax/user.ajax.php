@@ -37,6 +37,7 @@ try {
     }
 
     if (init('action') == 'forgotPassword') {
+        log::add('user', 'info', __('Demande de récupération de mot de passe pour : ', __FILE__) . init('login'));
         $user = user::byLogin(init('login'));
         if (!is_object($user)) {
             connection::failed();
