@@ -458,8 +458,13 @@ class jeedom {
     public static function getHardwareKey() {
         $cache = cache::byKey('jeedom::hwkey');
         if ($cache->getValue(0) == 0) {
+            $rdkey = config::byKey('jeedom::rdkey');
+            if ($rdkey == '') {
+                $rdkey = config::genKey();
+                config::save('jeedom::rdkey', $rdkey);
+            }
             $key = shell_exec("/sbin/ifconfig eth0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}'");
-            $hwkey = sha1($key);
+            $hwkey = sha1($key) . $rdkey;
             cache::set('jeedom::hwkey', $hwkey, 86400);
             return $hwkey;
         }
