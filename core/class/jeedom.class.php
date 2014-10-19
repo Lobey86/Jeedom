@@ -464,7 +464,7 @@ class jeedom {
                 config::save('jeedom::rdkey', $rdkey);
             }
             $key = shell_exec("/sbin/ifconfig eth0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}'");
-            $hwkey = sha1($key) . $rdkey;
+            $hwkey = sha1($key . $rdkey);
             cache::set('jeedom::hwkey', $hwkey, 86400);
             return $hwkey;
         }
