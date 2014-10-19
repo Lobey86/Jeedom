@@ -36,7 +36,10 @@ if (is_object($planHeader)) {
     </select>
     <?php if (isConnect('admin')) { ?>
         <a class="btn btn-success btn-sm" style="margin-bottom: 3px;" id="bt_addPlanHeader"><i class="fa fa-plus-circle"></i></a>
-        <a class="btn btn-default btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_configurePlanHeader"><i class="fa fa-cogs"></i></a>
+        <a class="btn btn-default btn-sm editMode tooltips" style="margin-bottom: 3px;display: none;" id="bt_configurePlanHeader" title="{{Editer/configurer le plan}}"><i class="fa fa-cogs"></i></a>
+        <?php if (is_object($planHeader)) { ?>
+            <a class="btn btn-default btn-sm editMode tooltips" style="margin-bottom: 3px;display: none;" id='bt_duplicatePlanHeader' title="{{Dupliquer le plan}}"><i class="fa fa-files-o"></i></a>
+        <?php } ?>
         <a class="btn btn-warning pull-right btn-sm" style="margin-bottom: 3px;" id="bt_editPlan" data-mode="0"><i class="fa fa-pencil"></i> {{Mode édition}}</a>
         <?php if (is_object($planHeader)) { ?>
             <a class="btn btn-success pull-right btn-sm editMode" style="margin-bottom: 3px;display: none;" id="bt_savePlan" data-mode="0"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>

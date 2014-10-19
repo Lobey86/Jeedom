@@ -43,7 +43,7 @@ sendVarToJS('id', $planHeader->getId())
             </div>
         </div>
         <legend>{{Taille}}</legend>
-         <div class="form-group">
+        <div class="form-group">
             <label class="col-lg-4 control-label">{{Taille pré-configurée}}</label>
             <div class="col-lg-3">
                 <select class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='preconfigureDevice'>
@@ -78,12 +78,11 @@ sendVarToJS('id', $planHeader->getId())
 
 
 <script>
-
     $('#bt_uploadImage').fileupload({
         replaceFileInput: false,
         url: 'core/ajax/plan.ajax.php?action=uploadImage&id=' + planHeader_id,
         dataType: 'json',
-        done: function(e, data) {
+        done: function (e, data) {
             if (data.result.state != 'ok') {
                 $('#div_alertPlanHeaderConfigure').showAlert({message: data.result.result, level: 'danger'});
                 return;
@@ -91,12 +90,12 @@ sendVarToJS('id', $planHeader->getId())
         }
     });
 
-    $('#bt_saveConfigurePlanHeader').on('click', function() {
+    $('#bt_saveConfigurePlanHeader').on('click', function () {
         save();
     });
 
-    $('#bt_removeConfigurePlanHeader').on('click', function() {
-        bootbox.confirm('Etes-vous sûr de vouloir supprimer cet object du plan ?', function(result) {
+    $('#bt_removeConfigurePlanHeader').on('click', function () {
+        bootbox.confirm('Etes-vous sûr de vouloir supprimer cet object du plan ?', function (result) {
             if (result) {
                 remove();
             }
@@ -116,16 +115,16 @@ sendVarToJS('id', $planHeader->getId())
                 id: _id
             },
             dataType: 'json',
-            error: function(request, status, error) {
+            error: function (request, status, error) {
                 handleAjaxError(request, status, error, $('#div_alertPlanHeaderConfigure'));
             },
-            success: function(data) { // si l'appel a bien fonctionné
+            success: function (data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
                     $('#div_alertPlanHeaderConfigure').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
                 $('#fd_planHeaderConfigure').setValues(data.result, '.planHeaderAttr');
-                $('.planHeaderAttr[data-l1key=configuration][data-l2key=preconfigureDevice]').off().on('change',function(){
+                $('.planHeaderAttr[data-l1key=configuration][data-l2key=preconfigureDevice]').off().on('change', function () {
                     $('.planHeaderAttr[data-l1key=configuration][data-l2key=sizeX]').value($(this).find('option:selected').attr('data-width'));
                     $('.planHeaderAttr[data-l1key=configuration][data-l2key=sizeY]').value($(this).find('option:selected').attr('data-height'));
                     $('.planHeaderAttr[data-l1key=configuration][data-l2key=maxSizeAllow]').value(1);
@@ -139,10 +138,10 @@ sendVarToJS('id', $planHeader->getId())
     function save() {
         jeedom.plan.saveHeader({
             planHeader: $('#fd_planHeaderConfigure').getValues('.planHeaderAttr')[0],
-            error: function(error) {
+            error: function (error) {
                 $('#div_alertPlanHeaderConfigure').showAlert({message: error.message, level: 'danger'});
             },
-            success: function() {
+            success: function () {
                 $('#div_alertPlanHeaderConfigure').showAlert({message: 'Plan sauvegardé', level: 'success'});
                 window.location.reload();
             },
@@ -158,10 +157,10 @@ sendVarToJS('id', $planHeader->getId())
                 id: $(".planHeaderAttr[data-l1key=id]").value()
             },
             dataType: 'json',
-            error: function(request, status, error) {
+            error: function (request, status, error) {
                 handleAjaxError(request, status, error, $('#div_alertPlanHeaderConfigure'));
             },
-            success: function(data) { // si l'appel a bien fonctionné
+            success: function (data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
                     $('#div_alertPlanHeaderConfigure').showAlert({message: data.result, level: 'danger'});
                     return;

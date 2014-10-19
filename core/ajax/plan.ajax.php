@@ -171,7 +171,7 @@ try {
     if (init('action') == 'getPlanHeader') {
         $planHeader = planHeader::byId(init('id'));
         if (!is_object($planHeader)) {
-            throw new Exception(__('Objet inconnu verifié l\'id', __FILE__));
+            throw new Exception(__('Plan header inconnu verifié l\'id : ', __FILE__) . init('id'));
         }
         $return = utils::o2a($planHeader);
         $return['image'] = $planHeader->displayImage();
@@ -187,6 +187,14 @@ try {
         utils::a2o($planHeader, $planHeader_ajax);
         $planHeader->save();
         ajax::success(utils::o2a($planHeader));
+    }
+
+    if (init('action') == 'copyPlanHeader') {
+        $planHeader = planHeader::byId(init('id'));
+        if (!is_object($planHeader)) {
+            throw new Exception(__('Plan header inconnu verifié l\'id : ', __FILE__) . init('id'));
+        }
+        ajax::success(utils::o2a($planHeader->copy(init('name'))));
     }
 
     if (init('action') == 'uploadImage') {

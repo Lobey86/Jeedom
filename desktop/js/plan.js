@@ -40,6 +40,23 @@ $('#bt_addPlanHeader').on('click', function () {
     });
 });
 
+$('#bt_duplicatePlanHeader').on('click', function () {
+    bootbox.prompt("{{Nom la copie du plan ?}}", function (result) {
+        if (result !== null) {
+            jeedom.plan.copyHeader({
+                name: result,
+                id: $('#sel_planHeader').value(),
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function (data) {
+                    window.location.replace('index.php?v=d&p=plan&plan_id=' + data.id);
+                },
+            });
+        }
+    });
+});
+
 $('#sel_planHeader').on('change', function () {
     window.location.replace('index.php?v=d&p=plan&plan_id=' + $(this).value());
 });

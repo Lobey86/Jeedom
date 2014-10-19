@@ -47,6 +47,26 @@ class planHeader {
 
     /*     * *********************Methode d'instance************************* */
 
+    public function copy($_name) {
+        $planHeaderCopy = clone $this;
+        $planHeaderCopy->setName($_name);
+        $planHeaderCopy->setId('');
+        $planHeaderCopy->save();
+        foreach ($this->getPlan() as $plan) {
+            $planCopy = clone $plan;
+            $planCopy->setId('');
+            $planCopy->setPlanHeader_id($planHeaderCopy->getId());
+            $planCopy->save();
+        }
+        return $planHeaderCopy;
+    }
+
+    public function preSave() {
+        if (trim($this->getName()) == '') {
+            throw new Exception(__('Le nom du plan ne peut être vide'));
+        }
+    }
+
     public function save() {
         DB::save($this);
     }
@@ -60,7 +80,7 @@ class planHeader {
         if (!file_exists($dir)) {
             mkdir($dir);
         }
-        if($this->getImage('data') == ''){
+        if ($this->getImage('data') == '') {
             return '';
         }
         $filename = sha1($this->getImage('data')) . '.' . $this->getImage('type');
@@ -71,6 +91,10 @@ class planHeader {
         }
         $size = $this->getImage('size');
         return '<img src="core/img/plan/' . $filename . '" data-sixe_y="' . $size[1] . '" data-sixe_x="' . $size[0] . '">';
+    }
+
+    public function getPlan() {
+        return plan::byPlanHeaderId($this->getId());
     }
 
     /*     * **********************Getteur Setteur*************************** */
