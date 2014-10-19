@@ -5,45 +5,135 @@
 #
 ########################################################################
 
+########################## Helper functions ############################
+
+usage_help()
+{
+	echo "Usage: $0 [<webserver_name>]"
+	echo "            webserver_name can be 'apache' or 'nginx' (default)"
+	exit 1
+}
+configure_php()
+{
+    sudo adduser www-data dialout
+    sudo adduser www-data gpio
+    sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
+    sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 1G/g' /etc/php5/fpm/php.ini
+    sudo sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
+    sudo service php5-fpm restart
+    sudo /etc/init.d/php5-fpm restart
+}
+
+# Install nodeJS from alternative sources, in case it was not in the
+# official repository
+nodejs_manual_install()
+{
+	if [ ${1} -ne 0 ] ; then
+		x86=$(uname -a | grep x86_64 | wc -l)
+		if [ ${x86} -ne 0 ] ; then
+			echo "********************************************************"
+			echo "*          Installation de nodeJS manuellement x86     *"
+			echo "********************************************************"
+			sudo deb http://http.debian.net/debian wheezy-backports main
+			sudo apt-get install -y nodejs
+		else
+			echo "********************************************************"
+			echo "*          Installation de nodeJS manuellement ARM     *"
+			echo "********************************************************"
+			wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
+			sudo tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
+			if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
+				sudo ln -s /usr/local/bin/node /usr/bin/nodejs
+			fi
+			sudo rm -rf node-v0.10.21-cubie.tar.xz
+		fi
+	fi
+	if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
+		echo "********************************************************"
+		echo "*  Installation de nodeJS manuellement pour Raspberry  *"
+		echo "********************************************************"
+		wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-raspberry.bin
+		sudo rm -rf /usr/local/bin/node
+		sudo rm -rf /usr/bin/nodejs
+		sudo mv node-raspberry.bin /usr/local/bin/node
+		sudo ln -s /usr/local/bin/node /usr/bin/nodejs
+		sudo chmod +x /usr/local/bin/node
+	fi
+}
+
+configure_nginx()
+{
+    echo "********************************************************"
+    echo "*                Configuration de NGINX                *"
+    echo "********************************************************"
+    if [ -f '/etc/init.d/apache2' ]; then
+        sudo service apache2 stop
+        sudo update-rc.d apache2 remove
+    fi
+    if [ -f '/etc/init.d/apache' ]; then
+        sudo service apache stop
+        sudo update-rc.d apache remove
+    fi
+
+    sudo service nginx stop
+    if [ -f '/etc/nginx/sites-available/defaults' ]; then
+        sudo rm /etc/nginx/sites-available/default
+    fi
+    sudo cp install/nginx_default /etc/nginx/sites-available/default
+    if [ ! -f '/etc/nginx/sites-enabled/default' ]; then
+        sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+    fi
+    sudo service nginx restart
+    configure_php
+    sudo update-rc.d nginx defaults
+}
+
+configure_apache()
+{
+    echo "********************************************************"
+    echo "*                Configuration de APACHE               *"
+    echo "********************************************************"
+    sudo cp install/apache_default /etc/apache2/sites-available/000-default.conf
+    if [ ! -f '/etc/apache2/sites-enabled/000-default.conf' ]; then
+        sudo a2ensite 000-default.conf
+    fi
+    sudo service apache2 restart
+    configure_php
+}
+
+##################### Main (script entry point) ########################
+
 webserver=${1-nginx}
+ws_upname="$(echo ${webserver} | tr 'a-z' 'A-Z')"
 
-if [ "${webserver}" = "nginx" ] ; then
-    echo "Etes-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de NGINX s'il elle existe !"
-    while true
-    do
-            echo -n "oui/non: "
-            read ANSWER < /dev/tty
-            case $ANSWER in
-                    oui)
-                            break
-                            ;;
-                    non)
-                             echo "Annulation de l'installation"
-                            exit 1
-                            ;;
-            esac
-            echo "Répondez oui ou non"
-    done
-fi
+# Check that the provided ${webserver} is supported [nginx,apache]
+case ${webserver} in
+	nginx)
+		;;
+	apache)
+		;;
+	*)
+		usage_help
+		exit 1
+		;;
+esac
 
-if [ "${webserver}" = "apache" ] ; then
-    echo "Etes-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de APACHE s'il elle existe !"
-    while true
-    do
-            echo -n "oui/non: "
-            read ANSWER < /dev/tty
-            case $ANSWER in
-                    oui)
-                            break
-                            ;;
-                    non)
-                             echo "Annulation de l'installation"
-                            exit 1
-                            ;;
-            esac
-            echo "Répondez oui ou non"
-    done
-fi
+echo "Etes-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de ${ws_upname} s'il elle existe !"
+while true
+do
+		echo -n "oui/non: "
+		read ANSWER < /dev/tty
+		case $ANSWER in
+				oui)
+						break
+						;;
+				non)
+						 echo "Annulation de l'installation"
+						exit 1
+						;;
+		esac
+		echo "Répondez oui ou non"
+done
 
 echo "********************************************************"
 echo "*             Installation des dépendances             *"
@@ -51,10 +141,16 @@ echo "********************************************************"
 sudo apt-get update
 
 if [ "${webserver}" = "nginx" ] ; then 
+    # Packages dependencies
     sudo apt-get install -y nginx-common nginx-full
+
+    # Configuration
+    webserver_home="/usr/share/nginx/www"
+    croncmd="su --shell=/bin/bash - www-data -c 'nice -n 19 /usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php' >> /dev/null"
 fi
 
 if [ "${webserver}" = "apache" ] ; then 
+    # Packages dependencies
     sudo apt-get install -y apache2 libapache2-mod-php5
     sudo apt-get install -y autoconf make subversion
     sudo svn checkout http://svn.apache.org/repos/asf/httpd/httpd/tags/2.2.22/ httpd-2.2.22
@@ -73,6 +169,10 @@ if [ "${webserver}" = "apache" ] ; then
     sudo a2enmod proxy_http
     sudo a2enmod proxy
     sudo service apache2 restart
+
+    # Configuration
+    webserver_home="/var/www"
+    croncmd="su --shell=/bin/bash - www-data -c 'nice -n 19 /usr/bin/php /var/www/jeedom/core/php/jeeCron.php' >> /dev/null"
 fi
 
 sudo apt-get install -y ffmpeg
@@ -115,16 +215,9 @@ echo "********************************************************"
 echo "* Création des répertoire et mise en place des droits  *"
 echo "********************************************************"
 
-if [ "${webserver}" = "nginx" ] ; then 
-    sudo mkdir -p /usr/share/nginx/www
-    cd /usr/share/nginx/www
-    chown www-data:www-data -R /usr/share/nginx/www
-fi
-if [ "${webserver}" = "apache" ] ; then 
-    sudo mkdir -p /var/www
-    cd /var/www
-    chown www-data:www-data -R /var/www
-fi
+sudo mkdir -p "${webserver_home}"
+cd "${webserver_home}"
+chown www-data:www-data -R "${webserver_home}"
 
 echo "********************************************************"
 echo "*             Copie des fichiers de Jeedom             *"
@@ -141,50 +234,14 @@ if [  $? -ne 0 ] ; then
     fi
 fi
 unzip jeedom.zip -d jeedom
-if [ "${webserver}" = "nginx" ] ; then 
-    sudo mkdir /usr/share/nginx/www/jeedom/tmp
-    sudo chmod 775 -R /usr/share/nginx/www
-    sudo chown -R www-data:www-data /usr/share/nginx/www
-fi
-if [ "${webserver}" = "apache" ] ; then 
-    sudo mkdir /var/www/jeedom/tmp
-    sudo chmod 775 -R /var/www
-    sudo chown -R www-data:www-data /var/www
-fi
+sudo mkdir "${webserver_home}"/jeedom/tmp
+sudo chmod 775 -R "${webserver_home}"
+sudo chown -R www-data:www-data "${webserver_home}"
 rm -rf jeedom.zip
 cd jeedom
 
-if [ ${nodeJS} -ne 0 ] ; then
-    x86=$(uname -a | grep x86_64 | wc -l)
-    if [ ${x86} -ne 0 ] ; then
-        echo "********************************************************"
-        echo "*          Installation de nodeJS manuellement x86     *"
-        echo "********************************************************"
-        sudo deb http://http.debian.net/debian wheezy-backports main
-        sudo apt-get install -y nodejs
-    else
-        echo "********************************************************"
-        echo "*          Installation de nodeJS manuellement ARM     *"
-        echo "********************************************************"
-        wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
-        sudo tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
-        if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
-            sudo ln -s /usr/local/bin/node /usr/bin/nodejs
-        fi
-        sudo rm -rf node-v0.10.21-cubie.tar.xz
-    fi
-fi
-if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
-    echo "********************************************************"
-    echo "*  Installation de nodeJS manuellement pour Raspberry  *"
-    echo "********************************************************"
-    wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-raspberry.bin
-    sudo rm -rf /usr/local/bin/node
-    sudo rm -rf /usr/bin/nodejs
-    sudo mv node-raspberry.bin /usr/local/bin/node
-    sudo ln -s /usr/local/bin/node /usr/bin/nodejs
-    sudo chmod +x /usr/local/bin/node
-fi
+# Check if nodeJS was actually, otherwise do a manual install
+nodejs_manual_install ${nodeJS}
 
 echo "********************************************************"
 echo "*          Configuration de la base de données         *"
@@ -209,65 +266,19 @@ sudo php install/install.php mode=force
 echo "********************************************************"
 echo "*                Mise en place du cron                 *"
 echo "********************************************************"
-if [ "${webserver}" = "nginx" ] ; then 
-    croncmd="su --shell=/bin/bash - www-data -c 'nice -n 19 /usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php' >> /dev/null"
-fi
-if [ "${webserver}" = "apache" ] ; then
-    croncmd="su --shell=/bin/bash - www-data -c 'nice -n 19 /usr/bin/php /var/www/jeedom/core/php/jeeCron.php' >> /dev/null"
-fi
+
+croncmd="su --shell=/bin/bash - www-data -c 'nice -n 19 /usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php' >> /dev/null"
 cronjob="* * * * * $croncmd"
 ( crontab -l | grep -v "$croncmd" ; echo "$cronjob" ) | crontab -
 
-
-if [ "${webserver}" = "nginx" ] ; then 
-    echo "********************************************************"
-    echo "*                Configuration de NGINX                *"
-    echo "********************************************************"
-    if [ -f '/etc/init.d/apache2' ]; then
-        sudo service apache2 stop
-        sudo update-rc.d apache2 remove
-    fi
-    if [ -f '/etc/init.d/apache' ]; then
-        sudo service apache stop
-        sudo update-rc.d apache remove
-    fi
-
-    sudo service nginx stop
-    if [ -f '/etc/nginx/sites-available/defaults' ]; then
-        sudo rm /etc/nginx/sites-available/default
-    fi
-    sudo cp install/nginx_default /etc/nginx/sites-available/default
-    if [ ! -f '/etc/nginx/sites-enabled/default' ]; then
-        sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-    fi
-    sudo service nginx restart
-    sudo adduser www-data dialout
-    sudo adduser www-data gpio
-    sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
-    sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 1G/g' /etc/php5/fpm/php.ini
-    sudo sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
-    sudo service php5-fpm restart
-    sudo /etc/init.d/php5-fpm restart
-    sudo update-rc.d nginx defaults
-fi
-
-if [ "${webserver}" = "apache" ] ; then 
-    echo "********************************************************"
-    echo "*                Configuration de APACHE                *"
-    echo "********************************************************"
-    sudo cp install/apache_default /etc/apache2/sites-available/000-default.conf
-    if [ ! -f '/etc/apache2/sites-enabled/000-default.conf' ]; then
-        sudo a2ensite 000-default.conf
-    fi
-    sudo service apache2 restart
-    sudo adduser www-data dialout
-    sudo adduser www-data gpio
-    sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
-    sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 1G/g' /etc/php5/fpm/php.ini
-    sudo sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
-    sudo service php5-fpm restart
-    sudo /etc/init.d/php5-fpm restart
-fi
+case ${webserver} in
+	nginx)
+		configure_nginx
+		;;
+	apache)
+		configure_apache
+		;;
+esac
 
 echo "********************************************************"
 echo "*             Mise en place service nodeJS             *"
@@ -278,7 +289,6 @@ sudo update-rc.d jeedom defaults
 if [ "${webserver}" = "apache" ] ; then 
     sudo sed -i 's%PATH_TO_JEEDOM="/usr/share/nginx/www/jeedom"%PATH_TO_JEEDOM="/var/www/jeedom"%g' /etc/init.d/jeedom
 fi
-
 
 echo "********************************************************"
 echo "*             Démarrage du service nodeJS              *"
@@ -296,4 +306,5 @@ echo "********************************************************"
 echo "*                 Installation finie                   *"
 echo "********************************************************"
 IP=$(ifconfig eth0 | grep 'inet adr:' | cut -d: -f2 | awk '{print $1}')
-echo "Vous pouvez vous connecter sur jeedom en allant sur $IP/jeedom et en utilisant les identifiants admin/admin"
+HOST=$(hostname -f)
+echo "Vous pouvez vous connecter sur jeedom en allant sur $IP/jeedom (ou $HOST/jeedom) et en utilisant les identifiants admin/admin"
