@@ -442,6 +442,7 @@ class scenario {
         if ($this->getIsActive() != 1) {
             $this->setLog(__('Impossible d\'éxecuter le scénario : ', __FILE__) . $this->getHumanName() . ' sur : ' . $_message . ' car il est désactivé');
             $this->setDisplay('icon', '');
+            $this->save();
             return;
         }
         $this->setLog('');
