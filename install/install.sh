@@ -5,12 +5,99 @@
 #
 ########################################################################
 
+############################ Translations ##############################
+# MUST be embedded, otherwise the network installation of Jeedom
+# won't work!
+
+install_msg_en()
+{
+	msg_installer_welcome="*           Welcome to the Jeedom installer            *"
+	msg_usage1="Usage: $0 [<webserver_name>]"
+	msg_usage2="            webserver_name can be 'apache' or 'nginx' (default)"
+	msg_manual_install_nodejs_x86="*          Manual installation of nodeJS for x86       *"
+	msg_manual_install_nodejs_ARM="*          Manual installation of nodeJS for ARM       *"
+	msg_manual_install_nodejs_RPI="*          Manual installation of nodeJS for Raspberry *"
+	msg_nginx_config="*                  NGINX configuration                 *"
+	msg_apache_config="*                  APACHE configuration                *"
+	msg_question_install_jeedom="Are you sure you want to install Jeedom?"
+	msg_warning_install_jeedom="Warning: this will overwrite the default ${ws_upname} configuration if it exists!"
+	msg_yes="yes"
+	msg_no="no"
+	msg_yesno="yes/no: "
+	msg_cancel_install="Canceling the installation"
+	msg_answer_yesno="Answer yes or no"
+	msg_install_deps="*               Dependencies installation              *"
+	msg_passwd_mysql="What password do you have just typed (MySQL root password)?"
+	msg_confirm_passwd_mysql="Do you confirm that the password is:"
+	msg_setup_dirs_and_privs="*      Creating directories and setting up rights       *"
+	msg_copy_jeedom_files="*                Copying files of Jeedom               *"
+	msg_unable_to_download_file="Unable to download the file"
+	msg_config_db="*               Configuring the database               *"
+	msg_install_jeedom="*                 Installing de Jeedom                 *"
+	msg_setup_cron="*                   Setting up cron                    *"
+	msg_setup_nodejs_service="*               Setting up nodeJS service              *"
+	msg_startup_nodejs_service="*             Starting the nodeJS service              *"
+	msg_post_install_actions="*             Post-installation actions                *"
+	msg_install_complete="*                Installation complete                 *"
+	msg_or="or"
+	msg_login_info1="You can log in to Jeedom by going on:"
+	msg_login_info2="Your credentials are:"
+}
+
+install_msg_fr()
+{
+	msg_installer_welcome="*         Bienvenue dans l'installateur Jeedom         *"
+	msg_usage1="Utilisation: $0 [<nom_du_webserver>]"
+	msg_usage2="             nom_du_webserver peut être 'apache' ou 'nginx' (par défaut)"
+	msg_manual_install_nodejs_x86="*        Installation manuelle de nodeJS pour x86       *"
+	msg_manual_install_nodejs_ARM="*        Installation manuelle de nodeJS pour ARM       *"
+	msg_manual_install_nodejs_RPI="*     Installation manuelle de nodeJS pour Raspberry    *"
+	msg_nginx_config="*                Configuration de NGINX                *"
+	msg_apache_config="*                Configuration de APACHE               *"
+	msg_question_install_jeedom="Etes-vous sûr de vouloir installer Jeedom ?"
+	msg_warning_install_jeedom="Attention : ceci écrasera la configuration par défaut de ${ws_upname} si elle existe !"
+	msg_yes="oui"
+	msg_no="non"
+	msg_yesno="oui / non : "
+	msg_cancel_install="Annulation de l'installation"
+	msg_answer_yesno="Répondez oui ou non"
+	msg_install_deps="*             Installation des dépendances             *"
+	msg_passwd_mysql="Quel mot de passe venez vous de taper (mot de passe root de la MySql) ?"
+	msg_confirm_passwd_mysql="Confirmez vous que le mot de passe est :"
+	msg_setup_dirs_and_privs="* Création des répertoires et mise en place des droits  *"
+	msg_copy_jeedom_files="*             Copie des fichiers de Jeedom             *"
+	msg_unable_to_download_file="Impossible de télécharger le fichier"
+	msg_config_db="*          Configuration de la base de données         *"
+	msg_install_jeedom="*                Installation de Jeedom                *"
+	msg_setup_cron="*                Mise en place du cron                 *"
+	msg_setup_nodejs_service="*            Mise en place du service nodeJS           *"
+	msg_startup_nodejs_service="*             Démarrage du service nodeJS              *"
+	msg_post_install_actions="*             Action post installation                 *"
+	msg_install_complete="*                Installation terminée                 *"
+	msg_or="ou"
+	msg_login_info1="Vous pouvez vous connecter sur Jeedom en allant sur :"
+	msg_login_info2="Vos identifiants sont :"
+}
+
 ########################## Helper functions ############################
+
+setup_i18n()
+{
+	lang=${LANG:=en_US}
+	case ${lang} in
+		[Ff][Rr]*)
+			install_msg_fr
+			;;
+		[Ee][Nn]*|*)
+			install_msg_en
+			;;
+	esac
+}
 
 usage_help()
 {
-	echo "Usage: $0 [<webserver_name>]"
-	echo "            webserver_name can be 'apache' or 'nginx' (default)"
+	echo "${msg_usage1}"
+	echo "${msg_usage2}"
 	exit 1
 }
 configure_php()
@@ -32,13 +119,13 @@ nodejs_manual_install()
 		x86=$(uname -a | grep x86_64 | wc -l)
 		if [ ${x86} -ne 0 ] ; then
 			echo "********************************************************"
-			echo "*          Installation de nodeJS manuellement x86     *"
+			echo "${msg_manual_install_nodejs_x86}"
 			echo "********************************************************"
 			sudo deb http://http.debian.net/debian wheezy-backports main
 			sudo apt-get install -y nodejs
 		else
 			echo "********************************************************"
-			echo "*          Installation de nodeJS manuellement ARM     *"
+			echo "${msg_manual_install_nodejs_ARM}"
 			echo "********************************************************"
 			wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
 			sudo tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
@@ -50,7 +137,7 @@ nodejs_manual_install()
 	fi
 	if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
 		echo "********************************************************"
-		echo "*  Installation de nodeJS manuellement pour Raspberry  *"
+		echo "${msg_manual_install_nodejs_RPI}"
 		echo "********************************************************"
 		wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-raspberry.bin
 		sudo rm -rf /usr/local/bin/node
@@ -64,7 +151,7 @@ nodejs_manual_install()
 configure_nginx()
 {
     echo "********************************************************"
-    echo "*                Configuration de NGINX                *"
+	echo "${msg_nginx_config}"
     echo "********************************************************"
     if [ -f '/etc/init.d/apache2' ]; then
         sudo service apache2 stop
@@ -91,7 +178,7 @@ configure_nginx()
 configure_apache()
 {
     echo "********************************************************"
-    echo "*                Configuration de APACHE               *"
+	echo "${msg_apache_config}"
     echo "********************************************************"
     sudo cp install/apache_default /etc/apache2/sites-available/000-default.conf
     if [ ! -f '/etc/apache2/sites-enabled/000-default.conf' ]; then
@@ -106,6 +193,12 @@ configure_apache()
 webserver=${1-nginx}
 ws_upname="$(echo ${webserver} | tr 'a-z' 'A-Z')"
 
+setup_i18n
+
+echo "********************************************************"
+echo "${msg_installer_welcome}"
+echo "********************************************************"
+
 # Check that the provided ${webserver} is supported [nginx,apache]
 case ${webserver} in
 	nginx)
@@ -118,25 +211,26 @@ case ${webserver} in
 		;;
 esac
 
-echo "Etes-vous sur de vouloir installer Jeedom ? Attention : ceci ecrasera la configuration par défaut de ${ws_upname} s'il elle existe !"
+echo "${msg_question_install_jeedom}"
+echo "${msg_warning_install_jeedom}"
 while true
 do
-		echo -n "oui/non: "
+		echo -n "${msg_yesno}"
 		read ANSWER < /dev/tty
 		case $ANSWER in
-				oui)
+				${msg_yes})
 						break
 						;;
-				non)
-						 echo "Annulation de l'installation"
+				${msg_no})
+						echo "${msg_cancel_install}"
 						exit 1
 						;;
 		esac
-		echo "Répondez oui ou non"
+		echo "${msg_answer_yesno}"
 done
 
 echo "********************************************************"
-echo "*             Installation des dépendances             *"
+echo "${msg_install_deps}"
 echo "********************************************************"
 sudo apt-get update
 
@@ -181,26 +275,26 @@ sudo apt-get install -y ntp
 sudo apt-get install -y unzip
 sudo apt-get install -y miniupnpc
 sudo apt-get install -y mysql-client mysql-common mysql-server mysql-server-core-5.5
-echo "Quel mot de passe venez vous de taper (mot de passe root de la MySql) ?"
+echo "${msg_passwd_mysql}"
 while true
 do
         read MySQL_root < /dev/tty
-        echo "Confirmez vous que le mot de passe est : "${MySQL_root}
+        echo "${msg_confirm_passwd_mysql} ${MySQL_root}"
         while true
         do
-            echo -n "oui/non: "
+            echo -n "${msg_yesno}"
             read ANSWER < /dev/tty
             case $ANSWER in
-			oui)
+			${msg_yes})
 				break
 				;;
-			non)
+			${msg_no})
 				break
 				;;
             esac
-            echo "Répondez oui ou non"
+            echo "${msg_answer_yesno}"
         done    
-        if [ "${ANSWER}" = "oui" ]; then
+        if [ "${ANSWER}" = "${msg_yes}" ]; then
             break
         fi
 done
@@ -212,7 +306,7 @@ sudo apt-get install -y usb-modeswitch python-serial
 
 
 echo "********************************************************"
-echo "* Création des répertoire et mise en place des droits  *"
+echo "${msg_setup_dirs_and_privs}"
 echo "********************************************************"
 
 sudo mkdir -p "${webserver_home}"
@@ -220,7 +314,7 @@ cd "${webserver_home}"
 chown www-data:www-data -R "${webserver_home}"
 
 echo "********************************************************"
-echo "*             Copie des fichiers de Jeedom             *"
+echo "${msg_copy_jeedom_files}"
 echo "********************************************************"
 if [ -d "jeedom" ] ; then
     rm -rf jeedom
@@ -229,7 +323,7 @@ wget --no-check-certificate -O jeedom.zip https://market.jeedom.fr/jeedom/stable
 if [  $? -ne 0 ] ; then
     wget --no-check-certificate -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip
     if [  $? -ne 0 ] ; then
-        echo "Impossible de télécharger le fichier";
+        echo "${msg_unable_to_download_file}"
         exit 0
     fi
 fi
@@ -244,7 +338,7 @@ cd jeedom
 nodejs_manual_install ${nodeJS}
 
 echo "********************************************************"
-echo "*          Configuration de la base de données         *"
+echo "${msg_config_db}"
 echo "********************************************************"
 bdd_password=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 15)
 echo "DROP USER 'jeedom'@'localhost'" | mysql -uroot -p${MySQL_root}
@@ -255,16 +349,15 @@ echo "GRANT ALL PRIVILEGES ON jeedom.* TO 'jeedom'@'localhost';" | mysql -uroot 
 
 
 echo "********************************************************"
-echo "*                Installation de Jeedom                *"
+echo "${msg_install_jeedom}"
 echo "********************************************************"
 sudo cp core/config/common.config.sample.php core/config/common.config.php
 sudo sed -i -e "s/#PASSWORD#/${bdd_password}/g" core/config/common.config.php 
 sudo chown www-data:www-data core/config/common.config.php
 sudo php install/install.php mode=force
 
-
 echo "********************************************************"
-echo "*                Mise en place du cron                 *"
+echo "${msg_setup_cron}"
 echo "********************************************************"
 
 croncmd="su --shell=/bin/bash - www-data -c 'nice -n 19 /usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php' >> /dev/null"
@@ -281,7 +374,7 @@ case ${webserver} in
 esac
 
 echo "********************************************************"
-echo "*             Mise en place service nodeJS             *"
+echo "${msg_setup_nodejs_service}"
 echo "********************************************************"
 sudo cp jeedom /etc/init.d/
 sudo chmod +x /etc/init.d/jeedom
@@ -291,20 +384,22 @@ if [ "${webserver}" = "apache" ] ; then
 fi
 
 echo "********************************************************"
-echo "*             Démarrage du service nodeJS              *"
+echo "${msg_startup_nodejs_service}"
 echo "********************************************************"
 sudo service jeedom start
 
 echo "********************************************************"
-echo "*             Action post installation                 *"
+echo "${msg_post_install_actions}"
 echo "********************************************************"
 sudo cp install/motd /etc
 sudo chown root:root /etc/motd
 sudo chmod 644 /etc/motd
 
 echo "********************************************************"
-echo "*                 Installation finie                   *"
+echo "${msg_install_complete}"
 echo "********************************************************"
 IP=$(ifconfig eth0 | grep 'inet adr:' | cut -d: -f2 | awk '{print $1}')
 HOST=$(hostname -f)
-echo "Vous pouvez vous connecter sur jeedom en allant sur $IP/jeedom (ou $HOST/jeedom) et en utilisant les identifiants admin/admin"
+echo "${msg_login_info1}"
+echo "\n\t\thttp://$IP/jeedom ${msg_or} http://$HOST/jeedom\n"
+echo "${msg_login_info2} admin/admin"
