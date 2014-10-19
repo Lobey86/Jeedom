@@ -102,6 +102,15 @@ class market {
         }
     }
 
+    public static function sendUserMessage($_title, $_message) {
+        $market = self::getJsonRpc();
+        if ($market->sendRequest('user::sendMessage', array('title' => $_title, 'message' => $_message))) {
+            return $market->getResult();
+        } else {
+            throw new Exception($market->getError(), $market->getErrorCode());
+        }
+    }
+
     public static function byId($_id) {
         $market = self::getJsonRpc();
         if ($market->sendRequest('market::byId', array('id' => $_id))) {

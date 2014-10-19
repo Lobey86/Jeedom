@@ -36,6 +36,32 @@ try {
         ajax::success();
     }
 
+    if (init('action') == 'forgotPassword') {
+        $user = user::byLogin(init('login'));
+        if (!is_object($user)) {
+            connection::failed();
+            throw new Exception('Utilisateur introuvable');
+        }
+        $newPassword = config::genKey();
+        $user->setPassword(sha1($newPassword));
+        $user->save();
+        $cmds = explode(('&&'), config::byKey('emailAdmin'));
+        if (count($cmds) > 0) {
+            foreach ($cmds as $id) {
+                $cmd = cmd::byId(str_replace('#', '', $id));
+                if (is_object($cmd)) {
+                    $cmd->execCmd(array(
+                        'title' => __('[JEEDOM] Récuperation de mot de passe', __FILE__),
+                        'message' => 'Voici votre nouveau mot de passe pour votre installation jeedom : ' . $newPassword
+                    ));
+                }
+            }
+        } else {
+            market::sendUserMessage(__('[JEEDOM] Récuperation de mot de passe', __FILE__), 'Voici votre nouveau mot de passe pour votre installation jeedom : ' . $newPassword);
+        }
+        ajax::success();
+    }
+
 
     if (!isConnect()) {
         throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);

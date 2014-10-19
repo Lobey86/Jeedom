@@ -107,9 +107,6 @@ if (count($plugins_list) > 0) {
             sendVarToJS('eqLogic_width_step', config::byKey('eqLogic::widget::stepWidth'));
             sendVarToJS('eqLogic_height_step', config::byKey('eqLogic::widget::stepHeight'));
             ?>
-
-
-
             <div id="wrap">
                 <header class="navbar navbar-fixed-top navbar-default">
                     <div class="container-fluid">
