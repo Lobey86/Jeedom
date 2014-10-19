@@ -265,6 +265,9 @@ class market {
         if (is_array($_result) && isset($_result['licence'])) {
             config::save('jeedom::licence', $_result['licence']);
         }
+        if (is_array($_result) && isset($_result['register::datetime'])) {
+            config::save('register::datetime', $_result['register::datetime']);
+        }
     }
 
     public static function getInfo($_logicalId, $_version = 'stable') {

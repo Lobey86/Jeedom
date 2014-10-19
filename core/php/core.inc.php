@@ -88,6 +88,8 @@ spl_autoload_register('jeedomComAutoload', true, true);
 spl_autoload_register('jeedomPluginAutoload', true, true);
 spl_autoload_register('jeedom3rdPartyAutoload', true, true);
 
+/* * *******************Securité licence**************************** */
+jeedom::isRestrictionOk();
 
 /* * *******************Securité anti piratage**************************** */
 try {

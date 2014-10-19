@@ -266,6 +266,10 @@ if (count($plugins_list) > 0) {
                     if (!jeedom::isDateOk()) {
                         echo '<div style="width : 100%" class="alert alert-warning">{{Erreur date : la date du système est incoherente avec la dernière date enregistrée}}</div>';
                     }
+                    $hw_restrict = jeedom::isRestrictionOk();
+                    if (is_numeric($hw_restrict) && $hw_restrict !== true) {
+                        echo '<div style="width : 100%" class="alert alert-warning">{{Attention vous utilisez Jeedom sur un hardware soumis à une licence, veuillez enregistrer votre compte market et/ou acheter une licence, il vous reste ' . convertDuration($hw_restrict) . '}}</div>';
+                    }
                     ?>
                     <div style="display: none;width : 100%" id="div_alert"></div>
                     <?php
