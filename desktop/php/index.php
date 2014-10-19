@@ -234,7 +234,7 @@ if (count($plugins_list) > 0) {
                                     <?php
                                     echo 'data-name="' . $page . '"';
                                     if (isset($plugin) && is_object($plugin)) {
-                                        echo 'data-plugin="' . $plugin->getId() . '"';
+                                        echo ' data-plugin="' . $plugin->getId() . '"';
                                     }
                                     ?>>
                                         <i class="fa fa-question-circle" ></i>
