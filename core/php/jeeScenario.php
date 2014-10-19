@@ -45,18 +45,13 @@ if (is_numeric($scenario->getTimeout()) && $scenario->getTimeout() != '' && $sce
 }
 
 try {
-    if (($scenario->getIsActive() == 1 || init('force') == 1)) {
-        if ($scenario->getState() == 'in progress') {
-            sleep(1);
-        }
-        if ($scenario->getState() == 'in progress') {
-            die(__('Impossible de lancer le scénario car déjà en cours : ', __FILE__) . $scenario->getHumanName());
-        }
-        $scenario->execute(init('trigger'), init('message'));
-    } else {
-        $scenario->setLog(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
-        die(__('Impossible de lancer le scénario car désactivé : ', __FILE__) . $scenario->getHumanName());
+    if ($scenario->getState() == 'in progress') {
+        sleep(1);
     }
+    if ($scenario->getState() == 'in progress') {
+        die(__('Impossible de lancer le scénario car déjà en cours : ', __FILE__) . $scenario->getHumanName());
+    }
+    $scenario->execute(init('trigger'), init('message'));
 } catch (Exception $e) {
     log::add('scenario', 'error', __('Scenario  : ', __FILE__) . $scenario->getHumanName() . '. ' . __('Erreur : ', __FILE__) . $e->getMessage());
     $scenario->setState('error');
