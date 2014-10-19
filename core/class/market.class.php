@@ -242,39 +242,17 @@ class market {
         if (config::byKey('market::address') == '') {
             throw new Exception(__('Aucune addresse pour le market de renseignée', __FILE__));
         }
-        if (config::byKey('market::registerkey') == '') {
-            if (config::byKey('market::username') != '' && config::byKey('market::password') != '') {
-                $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
-                    'username' => config::byKey('market::username'),
-                    'password' => config::byKey('market::password'),
-                    'password_type' => 'sha1',
-                    'jeedomversion' => getVersion('jeedom'),
-                    'hwkey' => jeedom::getHardwareKey()
-                ));
-            } else {
-                $register = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), array(
-                    'jeedomversion' => getVersion('jeedom'),
-                    'hwkey' => jeedom::getHardwareKey()
-                ));
-            }
-            if (!$register->sendRequest('register', array())) {
-                throw new Exception($register->getError());
-            }
-            config::save('market::registerkey', $register->getResult());
-        }
         if (config::byKey('market::username') != '' && config::byKey('market::password') != '') {
             $jsonrpc = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', '', array(
                 'username' => config::byKey('market::username'),
                 'password' => config::byKey('market::password'),
                 'password_type' => 'sha1',
                 'jeedomversion' => getVersion('jeedom'),
-                'jeedomkey' => config::byKey('market::registerkey'),
                 'hwkey' => jeedom::getHardwareKey()
             ));
         } else {
             $jsonrpc = new jsonrpcClient(config::byKey('market::address') . '/core/api/api.php', config::byKey('market::apikey'), array(
                 'jeedomversion' => getVersion('jeedom'),
-                'jeedomkey' => config::byKey('market::registerkey'),
                 'hwkey' => jeedom::getHardwareKey()
             ));
         }
