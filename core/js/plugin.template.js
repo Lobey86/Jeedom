@@ -15,20 +15,25 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(".li_eqLogic").on('click', function() {
+$(".li_eqLogic").on('click', function () {
     if ('function' == typeof (prePrintEqLogic)) {
         prePrintEqLogic();
     }
-    $('.eqLogic').show();
+    if (isset($(this).attr('data-eqLogic_type')) && isset($('.' + $(this).attr('data-eqLogic_type')))) {
+        $('.' + $(this).attr('data-eqLogic_type')).show();
+    } else {
+        $('.eqLogic').show();
+    }
     $('.li_eqLogic').removeClass('active');
     $(this).addClass('active');
     $.showLoading();
     jeedom.eqLogic.print({
-        type: eqType, id: $(this).attr('data-eqLogic_id'),
-        error: function(error) {
+        type: isset($(this).attr('data-subEqLogic_type')) ? $(this).attr('data-subEqLogic_type') : eqType,
+        id: $(this).attr('data-eqLogic_id'),
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(data) {
+        success: function (data) {
             $('body .eqLogicAttr').value('');
             $('body').setValues(data, '.eqLogicAttr');
             if ('function' == typeof (printEqLogic)) {
@@ -42,11 +47,11 @@ $(".li_eqLogic").on('click', function() {
             }
             initTooltips();
             modifyWithoutSave = false;
-            $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function() {
+            $('body').delegate('.cmd .cmdAttr[data-l1key=type]', 'change', function () {
                 jeedom.cmd.changeType($(this).closest('.cmd'));
             });
 
-            $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function() {
+            $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function () {
                 jeedom.cmd.changeSubType($(this).closest('.cmd'));
             });
             initExpertMode();
@@ -64,17 +69,17 @@ if (getUrlVars('removeSuccessFull') == 1) {
 }
 
 /**************************EqLogic*********************************************/
-$('.eqLogicAction[data-action=copy]').on('click', function() {
+$('.eqLogicAction[data-action=copy]').on('click', function () {
     if ($('.li_eqLogic.active').attr('data-eqLogic_id') != undefined) {
-        bootbox.prompt("{{Nom la copie de l'équipement ?}}", function(result) {
+        bootbox.prompt("{{Nom la copie de l'équipement ?}}", function (result) {
             if (result !== null) {
                 jeedom.eqLogic.copy({
                     id: $('.li_eqLogic.active').attr('data-eqLogic_id'),
                     name: result,
-                    error: function(error) {
+                    error: function (error) {
                         $('#div_alert').showAlert({message: error.message, level: 'danger'});
                     },
-                    success: function(data) {
+                    success: function (data) {
                         modifyWithoutSave = false;
                         if ($('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + ']').length != 0) {
                             var name = $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + '] a').text();
@@ -99,9 +104,9 @@ $('.eqLogicAction[data-action=copy]').on('click', function() {
     }
 });
 
-$('.eqLogicAction[data-action=save]').on('click', function() {
+$('.eqLogicAction[data-action=save]').on('click', function () {
     var eqLogics = [];
-    $('.eqLogic').each(function() {
+    $('.eqLogic').each(function () {
         var eqLogic = $(this).getValues('.eqLogicAttr');
         eqLogic = eqLogic[0];
         if ('function' == typeof (saveEqLogic)) {
@@ -113,10 +118,10 @@ $('.eqLogicAction[data-action=save]').on('click', function() {
     jeedom.eqLogic.save({
         type: eqType,
         eqLogics: eqLogics,
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(data) {
+        success: function (data) {
             modifyWithoutSave = false;
             if ($('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + ']').length != 0) {
                 var name = $('#ul_eqLogic .li_eqLogic[data-eqLogic_id=' + data.id + '] a').text();
@@ -139,17 +144,17 @@ $('.eqLogicAction[data-action=save]').on('click', function() {
     return false;
 });
 
-$('.eqLogicAction[data-action=remove]').on('click', function() {
+$('.eqLogicAction[data-action=remove]').on('click', function () {
     if ($('.li_eqLogic.active').attr('data-eqLogic_id') != undefined) {
-        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'équipement}} ' + eqType + ' <b>' + $('.li_eqLogic.active a:first').text() + '</b> ?', function(result) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'équipement}} ' + eqType + ' <b>' + $('.li_eqLogic.active a:first').text() + '</b> ?', function (result) {
             if (result) {
                 jeedom.eqLogic.remove({
                     type: eqType,
                     id: $('.li_eqLogic.active').attr('data-eqLogic_id'),
-                    error: function(error) {
+                    error: function (error) {
                         $('#div_alert').showAlert({message: error.message, level: 'danger'});
                     },
-                    success: function() {
+                    success: function () {
                         var vars = getUrlVars();
                         var url = 'index.php?';
                         for (var i in vars) {
@@ -170,16 +175,16 @@ $('.eqLogicAction[data-action=remove]').on('click', function() {
 });
 
 
-$('.eqLogicAction[data-action=add]').on('click', function() {
-    bootbox.prompt("{{Nom de l'équipement ?}}", function(result) {
+$('.eqLogicAction[data-action=add]').on('click', function () {
+    bootbox.prompt("{{Nom de l'équipement ?}}", function (result) {
         if (result !== null) {
             jeedom.eqLogic.save({
                 type: eqType,
                 eqLogics: [{name: result}],
-                error: function(error) {
+                error: function (error) {
                     $('#div_alert').showAlert({message: error.message, level: 'danger'});
                 },
-                success: function(_data) {
+                success: function (_data) {
                     var vars = getUrlVars();
                     var url = 'index.php?';
                     for (var i in vars) {
@@ -197,23 +202,23 @@ $('.eqLogicAction[data-action=add]').on('click', function() {
 });
 
 /**************************CMD*********************************************/
-$('.cmdAction[data-action=add]').on('click', function() {
+$('.cmdAction[data-action=add]').on('click', function () {
     addCmdToTable();
     $('.cmd:last .cmdAttr[data-l1key=type]').trigger('change');
 });
 
-$('body').delegate('.cmd .cmdAction[data-l1key=chooseIcon]', 'click', function() {
+$('body').delegate('.cmd .cmdAction[data-l1key=chooseIcon]', 'click', function () {
     var cmd = $(this).closest('.cmd');
-    chooseIcon(function(_icon) {
+    chooseIcon(function (_icon) {
         cmd.find('.cmdAttr[data-l1key=display][data-l2key=icon]').empty().append(_icon);
     });
 });
 
-$('body').delegate('.cmd .cmdAttr[data-l1key=display][data-l2key=icon]', 'click', function() {
+$('body').delegate('.cmd .cmdAttr[data-l1key=display][data-l2key=icon]', 'click', function () {
     $(this).empty();
 });
 
-$('body').delegate('.cmd .cmdAttr[data-l1key=eventOnly]', 'change', function() {
+$('body').delegate('.cmd .cmdAttr[data-l1key=eventOnly]', 'change', function () {
     if ($(this).value() == 1) {
         $(this).closest('.cmd').find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').hide();
         $(this).closest('.cmd').find('.cmdAttr[data-l1key=cache][data-l2key=lifetime]').addClass('hide');
@@ -223,11 +228,11 @@ $('body').delegate('.cmd .cmdAttr[data-l1key=eventOnly]', 'change', function() {
     }
 });
 
-$('body').delegate('.cmd .cmdAction[data-action=remove]', 'click', function() {
+$('body').delegate('.cmd .cmdAction[data-action=remove]', 'click', function () {
     $(this).closest('tr').remove();
 });
 
-$('body').delegate('.cmd .cmdAction[data-action=test]', 'click', function() {
+$('body').delegate('.cmd .cmdAction[data-action=test]', 'click', function () {
     $.hideAlert();
     if ($('.eqLogicAttr[data-l1key=isEnable]').is(':checked')) {
         var id = $(this).closest('.cmd').attr('data-cmd_id');
@@ -247,10 +252,10 @@ if (is_numeric(getUrlVars('id'))) {
     $('#ul_eqLogic .li_eqLogic:first').click();
 }
 
-$('body').delegate('.cmdAttr', 'change', function() {
+$('body').delegate('.cmdAttr', 'change', function () {
     modifyWithoutSave = true;
 });
 
-$('body').delegate('.eqLogicAttr', 'change', function() {
+$('body').delegate('.eqLogicAttr', 'change', function () {
     modifyWithoutSave = true;
 });
