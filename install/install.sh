@@ -21,6 +21,7 @@ install_msg_en()
 	msg_apache_config="*                  APACHE configuration                *"
 	msg_question_install_jeedom="Are you sure you want to install Jeedom?"
 	msg_warning_install_jeedom="Warning: this will overwrite the default ${ws_upname} configuration if it exists!"
+	msg_warning_overwrite_jeedom="Warning: your existing Jeedom installation will be overwritten!"
 	msg_yes="yes"
 	msg_no="no"
 	msg_yesno="yes/no: "
@@ -56,6 +57,7 @@ install_msg_fr()
 	msg_apache_config="*                Configuration de APACHE               *"
 	msg_question_install_jeedom="Etes-vous sûr de vouloir installer Jeedom ?"
 	msg_warning_install_jeedom="Attention : ceci écrasera la configuration par défaut de ${ws_upname} si elle existe !"
+	msg_warning_overwrite_jeedom="Attention : votre installation existante de Jeedom va être écrasée !"
 	msg_yes="oui"
 	msg_no="non"
 	msg_yesno="oui / non : "
@@ -202,8 +204,14 @@ echo "********************************************************"
 # Check that the provided ${webserver} is supported [nginx,apache]
 case ${webserver} in
 	nginx)
+		# Configuration
+		webserver_home="/usr/share/nginx/www"
+		croncmd="su --shell=/bin/bash - www-data -c 'nice -n 19 /usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php' >> /dev/null"
 		;;
 	apache)
+		# Configuration
+		webserver_home="/var/www"
+		croncmd="su --shell=/bin/bash - www-data -c 'nice -n 19 /usr/bin/php /var/www/jeedom/core/php/jeeCron.php' >> /dev/null"
 		;;
 	*)
 		usage_help
@@ -213,6 +221,7 @@ esac
 
 echo "${msg_question_install_jeedom}"
 echo "${msg_warning_install_jeedom}"
+[ -d "${webserver_home}/jeedom/" ] && echo "${msg_warning_overwrite_jeedom}"
 while true
 do
 		echo -n "${msg_yesno}"
@@ -237,10 +246,6 @@ sudo apt-get update
 if [ "${webserver}" = "nginx" ] ; then 
     # Packages dependencies
     sudo apt-get install -y nginx-common nginx-full
-
-    # Configuration
-    webserver_home="/usr/share/nginx/www"
-    croncmd="su --shell=/bin/bash - www-data -c 'nice -n 19 /usr/bin/php /usr/share/nginx/www/jeedom/core/php/jeeCron.php' >> /dev/null"
 fi
 
 if [ "${webserver}" = "apache" ] ; then 
@@ -263,10 +268,6 @@ if [ "${webserver}" = "apache" ] ; then
     sudo a2enmod proxy_http
     sudo a2enmod proxy
     sudo service apache2 restart
-
-    # Configuration
-    webserver_home="/var/www"
-    croncmd="su --shell=/bin/bash - www-data -c 'nice -n 19 /usr/bin/php /var/www/jeedom/core/php/jeeCron.php' >> /dev/null"
 fi
 
 sudo apt-get install -y ffmpeg
