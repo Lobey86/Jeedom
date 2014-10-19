@@ -59,7 +59,7 @@ function jeedomPluginAutoload($classname) {
             if (strpos($classname, 'Cmd') !== false) {
                 $plugin = plugin::byId(substr($classname, 0, -3));
             }
-            if (strpos($classname, '_') !== false) {
+            if (strpos($classname, '_') !== false && strpos($classname, 'com') === false) {
                 $plugin = plugin::byId(substr($classname, 0, strpos($classname, '_')));
             }
         }
