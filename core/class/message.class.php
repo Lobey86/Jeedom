@@ -113,43 +113,31 @@ class message {
 
     public function save() {
         if ($this->getLogicalId() == '') {
-            DB::save($this);
-            @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
-            $cmds = explode(('&&'), config::byKey('emailAdmin'));
-            foreach ($cmds as $id) {
-                $cmd = cmd::byId(str_replace('#', '', $id));
-                if (is_object($cmd)) {
-                    $cmd->execCmd(array(
-                        'title' => __('[JEEDOM] Message de ', __FILE__) . $this->getPlugin(),
-                        'message' => $this->getMessage()
-                    ));
-                }
-            }
-        } else {
-            $values = array(
-                'message' => $this->getMessage(),
-                'logicalId' => $this->getLogicalId(),
-                'plugin' => $this->getPlugin()
-            );
-            $sql = 'SELECT count(*)
+            $this->setLogicalId($this->getPlugin() . '::' . config::genKey());
+        }
+        $values = array(
+            'message' => $this->getMessage(),
+            'logicalId' => $this->getLogicalId(),
+            'plugin' => $this->getPlugin()
+        );
+        $sql = 'SELECT count(*)
                 FROM message
                 WHERE plugin=:plugin
                       AND ( logicalId=:logicalId 
                         OR message=:message ) ';
-            $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
-            if ($result['count(*)'] == 0) {
-                DB::save($this);
-                @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
-                $cmds = explode(('&&'), config::byKey('emailAdmin'));
-                if (count($cmds) > 0) {
-                    foreach ($cmds as $id) {
-                        $cmd = cmd::byId(str_replace('#', '', $id));
-                        if (is_object($cmd)) {
-                            $cmd->execCmd(array(
-                                'title' => __('[JEEDOM] Message de ', __FILE__) . $this->getPlugin(),
-                                'message' => $this->getMessage()
-                            ));
-                        }
+        $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+        if ($result['count(*)'] == 0) {
+            DB::save($this);
+            @nodejs::pushNotification(__('Message de ', __FILE__) . $this->getPlugin(), $this->getMessage(), 'message');
+            $cmds = explode(('&&'), config::byKey('emailAdmin'));
+            if (count($cmds) > 0) {
+                foreach ($cmds as $id) {
+                    $cmd = cmd::byId(str_replace('#', '', $id));
+                    if (is_object($cmd)) {
+                        $cmd->execCmd(array(
+                            'title' => __('[JEEDOM] Message de ', __FILE__) . $this->getPlugin(),
+                            'message' => $this->getMessage()
+                        ));
                     }
                 }
             }

@@ -117,8 +117,12 @@ if (init('cron_id') != '') {
         $cron->setServer('');
         $cron->setDuration(-1);
         $cron->save();
+        $logicalId = config::genKey();
+        if ($e->getCode() != 0) {
+            $logicalId = $cron->getName() . '::' . $e->getCode();
+        }
         echo '[Erreur] ' . $cron->getName() . ' : ' . print_r($e, true);
-        log::add('cron', 'error', __('Erreur sur ', __FILE__) . $cron->getName() . ' : ' . print_r($e, true));
+        log::add('cron', 'error', __('Erreur sur ', __FILE__) . $cron->getName() . ' : ' . print_r($e, true), $logicalId);
     }
 } else {
     if (cron::jeeCronRun()) {
@@ -155,10 +159,10 @@ if (init('cron_id') != '') {
                 if ($cron->getState() == 'run' && ($duration / 60) >= $cron->getTimeout()) {
                     $cron->stop();
                 }
-                
+
                 switch ($cron->getState()) {
                     case 'starting':
-                        
+
                         $cron->run();
                         break;
                     case 'stoping':
