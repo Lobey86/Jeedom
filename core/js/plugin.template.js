@@ -149,7 +149,7 @@ $('.eqLogicAction[data-action=remove]').on('click', function () {
         bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'équipement}} ' + eqType + ' <b>' + $('.li_eqLogic.active a:first').text() + '</b> ?', function (result) {
             if (result) {
                 jeedom.eqLogic.remove({
-                    type: eqType,
+                    type: isset($(this).attr('data-eqLogic_type')) ? $(this).attr('data-eqLogic_type'):eqType,
                     id: $('.li_eqLogic.active').attr('data-eqLogic_id'),
                     error: function (error) {
                         $('#div_alert').showAlert({message: error.message, level: 'danger'});
