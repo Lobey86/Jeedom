@@ -427,9 +427,6 @@ class scenario {
     }
 
     public function execute($_trigger = '', $_message = '') {
-        if ($this->getIsActive() != 1) {
-            return;
-        }
         $logs = $this->getHlogs();
         if (trim($this->getLog()) != '') {
             if (is_array($logs)) {
@@ -441,6 +438,11 @@ class scenario {
             } else {
                 $this->setHlogs(array($this->getLog()));
             }
+        }
+        if ($this->getIsActive() != 1) {
+            $this->setLog(__('Impossible d\'éxecuter le scénario : ', __FILE__) . $this->getHumanName() . ' sur : ' . $_message . ' car il est désactivé');
+            $this->setDisplay('icon', '');
+            return;
         }
         $this->setLog('');
         $this->setDisplay('icon', '');
