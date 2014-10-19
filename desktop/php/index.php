@@ -106,6 +106,7 @@ if (count($plugins_list) > 0) {
             sendVarToJS('nodeJsKey', config::byKey('nodeJsKey'));
             sendVarToJS('eqLogic_width_step', config::byKey('eqLogic::widget::stepWidth'));
             sendVarToJS('eqLogic_height_step', config::byKey('eqLogic::widget::stepHeight'));
+            sendVarToJS('jeedom_firstUse', config::byKey('jeedom::firstUse', 'core', 1));
             ?>
             <div id="wrap">
                 <header class="navbar navbar-fixed-top navbar-default">

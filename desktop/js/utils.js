@@ -209,6 +209,12 @@ $(function () {
     $(window).resize(function () {
         initRowOverflow();
     });
+
+
+    if (isset(jeedom_firstUse) && jeedom_firstUse == 1 && getUrlVars('noFirstUse') != 1) {
+        $('#md_modal').dialog({title: "{{Bienvenue dans Jeedom}}"});
+        $("#md_modal").load('index.php?v=d&modal=first.use').dialog('open');
+    }
 });
 
 function initRowOverflow() {
