@@ -298,15 +298,12 @@ class cron {
      */
 
     public function halt() {
-        if ($this->getNbRun() == 0) {
+        if (!$this->running()) {
             $this->setState('stop');
             $this->setPID();
             $this->setServer('');
             $this->save();
             return true;
-        }
-        if (!is_numeric($this->getPID())) {
-            $this->setPID($this->retrievePid());
         }
         log::add('cron', 'info', __('Arret de ', __FILE__) . $this->getClass() . '::' . $this->getFunction() . '(), PID : ' . $this->getPID());
         $kill = posix_kill($this->getPID(), 15);
@@ -316,7 +313,7 @@ class cron {
             $kill = posix_kill($this->getPID(), 9);
             $retry++;
         }
-        if (!$kill) {
+        if (!$kill && $this->running()) {
             $this->setState('error');
             $this->setServer('');
             $this->setPID();

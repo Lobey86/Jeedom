@@ -690,8 +690,7 @@ class scenario {
 
     public function running() {
         if ($this->getPID() > 0) {
-            exec('ps ' . $this->pid, $pState);
-            return (count($pState) >= 2);
+            return posix_getsid($this->getPID());
         }
         return false;
     }
