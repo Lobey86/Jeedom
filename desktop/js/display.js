@@ -17,7 +17,7 @@
 
 
 $('#div_tree').on('select_node.jstree', function (node, selected) {
-  
+
     if (selected.node.a_attr.class == 'infoObject') {
         displayObject(selected.node.a_attr['data-object_id']);
     }
@@ -85,8 +85,8 @@ function displayCmd(_cmd_id) {
             div += '<span class="cmdAttr label label-primary" data-l1key="id"></span>';
             div += '</div>';
             div += '</div>';
-            
-             div += '<div class="form-group">';
+
+            div += '<div class="form-group">';
             div += '<label class="col-lg-4 control-label">{{Logical ID}}</label>';
             div += '<div class="col-lg-4">';
             div += '<span class="cmdAttr label label-primary" data-l1key="logicalId"></span>';
@@ -213,6 +213,17 @@ function displayCmd(_cmd_id) {
             div += '<legend>{{Configuration}}</legend>';
             div += '<form class="form-horizontal">';
             div += '<fieldset>';
+            
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Ne pas afficher le nom de l\'équipement sur le dashboard}}</label>';
+            div += '<div class="col-lg-1">';
+            div += '<input type="checkbox" class="cmdAttr" data-l1key="display" data-l2key="doNotShowNameOnDashboard" />';
+            div += '</div>';
+            div += '<label class="col-lg-2 control-label">{{sur les vues}}</label>';
+            div += '<div class="col-lg-1">';
+            div += '<input type="checkbox" class="cmdAttr" data-l1key="display" data-l2key="doNotShowNameOnView" />';
+            div += '</div>';
+            div += '</div>';
 
             div += '<div class="form-group">';
             div += '<label class="col-lg-2 control-label">{{Widget Desktop}}</label>';
@@ -394,12 +405,12 @@ function displayObject(_object_id) {
 
 /***********************EqLogic***************************/
 function displayEqLogic(_eqLogic_id) {
-    
-     
+
+
     $.hideAlert();
     jeedom.eqLogic.byId({
         id: _eqLogic_id,
-        noCache : true,
+        noCache: true,
         error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
@@ -476,6 +487,19 @@ function displayEqLogic(_eqLogic_id) {
             div += '</fieldset>';
             div += '</form>';
 
+            div += '</div>';
+
+            div += '<legend>Configuration</legend>';
+
+            div += '<div class="form-group">';
+            div += '<label class="col-lg-4 control-label">{{Ne pas afficher le nom de l\'équipement sur le dashboard}}</label>';
+            div += '<div class="col-lg-1">';
+            div += '<input type="checkbox" class="eqLogicAttr" data-l1key="display" data-l2key="doNotShowNameOnDashboard" />';
+            div += '</div>';
+            div += '<label class="col-lg-2 control-label">{{sur les vues}}</label>';
+            div += '<div class="col-lg-1">';
+            div += '<input type="checkbox" class="eqLogicAttr" data-l1key="display" data-l2key="doNotShowNameOnView" />';
+            div += '</div>';
             div += '</div>';
 
             div += '<legend>{{Paramètres optionels widget}} <a class="btn btn-success btn-xs pull-right" id="bt_addWidgetParameters"><i class="fa fa-plus-circle"></i> Ajouter</a></legend>';

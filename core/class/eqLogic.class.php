@@ -437,7 +437,7 @@ class eqLogic {
         }
         if ($this->getIsEnable()) {
             foreach ($this->getCmd(null, null, true) as $cmd) {
-                $info.=$cmd->toHtml($version, '', $cmdColor);
+                $info.=$cmd->toHtml($_version, '', $cmdColor);
             }
         }
         $replace = array(
@@ -450,11 +450,18 @@ class eqLogic {
         );
         if ($_version == 'dview' || $_version == 'mview') {
             $object = $this->getObject();
-            $replace['#object_name#'] = (is_object($object)) ? '('.$object->getName().')' : '';
+            $replace['#object_name#'] = (is_object($object)) ? '(' . $object->getName() . ')' : '';
         } else {
             $replace['#object_name#'] = '';
         }
-
+        if (($_version == 'dview' || $_version == 'mview') && $this->getDisplay('doNotShowNameOnView') == 1) {
+            $replace['#name#'] = '';
+            $replace['#object_name#'] = '';
+        }
+        if (($_version == 'mobile' || $_version == 'dashboard') && $this->getDisplay('doNotShowNameOnDashboard') == 1) {
+            $replace['#name#'] = '';
+            $replace['#object_name#'] = '';
+        }
         $parameters = $this->getDisplay('parameters');
         if (is_array($parameters)) {
             foreach ($parameters as $key => $value) {

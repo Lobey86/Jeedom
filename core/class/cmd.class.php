@@ -673,15 +673,15 @@ class cmd {
     }
 
     public function toHtml($_version = 'dashboard', $options = '', $_cmdColor = null, $_cache = 2) {
-        $_version = jeedom::versionAlias($_version);
+        $version = jeedom::versionAlias($_version);
         $html = '';
-        $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($_version, 'default');
-        if (!isset(self::$_templateArray[$_version . '::' . $template_name])) {
-            if ($this->getTemplate($_version, 'default') != 'default') {
-                $template = getTemplate('core', $_version, $template_name, 'widget');
+        $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($version, 'default');
+        if (!isset(self::$_templateArray[$version . '::' . $template_name])) {
+            if ($this->getTemplate($version, 'default') != 'default') {
+                $template = getTemplate('core', $version, $template_name, 'widget');
                 if ($template == '') {
                     foreach (plugin::listPlugin(true) as $plugin) {
-                        $template = getTemplate('core', $_version, $template_name, $plugin->getId());
+                        $template = getTemplate('core', $version, $template_name, $plugin->getId());
                         if ($template != '') {
                             break;
                         }
@@ -689,26 +689,26 @@ class cmd {
                 }
                 if ($template == '' && config::byKey('market::autoInstallMissingWidget') == 1) {
                     try {
-                        $market = market::byLogicalId(str_replace('.cmd', '', $_version . '.' . $template_name));
+                        $market = market::byLogicalId(str_replace('.cmd', '', $version . '.' . $template_name));
                         if (is_object($market)) {
                             $market->install();
-                            $template = getTemplate('core', $_version, $template_name, 'widget');
+                            $template = getTemplate('core', $version, $template_name, 'widget');
                         }
                     } catch (Exception $e) {
-                        $this->setTemplate($_version, 'default');
+                        $this->setTemplate($version, 'default');
                         $this->save();
                     }
                 }
                 if ($template == '') {
                     $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.default';
-                    $template = getTemplate('core', $_version, $template_name);
+                    $template = getTemplate('core', $version, $template_name);
                 }
             } else {
-                $template = getTemplate('core', $_version, $template_name);
+                $template = getTemplate('core', $version, $template_name);
             }
-            self::$_templateArray[$_version . '::' . $template_name] = $template;
+            self::$_templateArray[$version . '::' . $template_name] = $template;
         } else {
-            $template = self::$_templateArray[$_version . '::' . $template_name];
+            $template = self::$_templateArray[$version . '::' . $template_name];
         }
         $replace = array(
             '#id#' => $this->getId(),
@@ -719,9 +719,15 @@ class cmd {
             '#minValue#' => $this->getConfiguration('minValue', 0),
             '#maxValue#' => $this->getConfiguration('maxValue', 100)
         );
-        if ($_cmdColor == null && $_version != 'scenario') {
+        if (($_version == 'dview' || $_version == 'mview') && $this->getDisplay('doNotShowNameOnView') == 1) {
+            $replace['#name#'] = '';
+        }
+        if (($_version == 'mobile' || $_version == 'dashboard') && $this->getDisplay('doNotShowNameOnDashboard') == 1) {
+            $replace['#name#'] = '';
+        }
+        if ($_cmdColor == null && $version != 'scenario') {
             $eqLogic = $this->getEqLogic();
-            $vcolor = ($_version == 'mobile') ? 'mcmdColor' : 'cmdColor';
+            $vcolor = ($version == 'mobile') ? 'mcmdColor' : 'cmdColor';
             if ($eqLogic->getPrimaryCategory() == '') {
                 $replace['#cmdColor#'] = '';
             } else {
