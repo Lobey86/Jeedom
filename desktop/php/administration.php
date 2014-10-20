@@ -199,7 +199,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
             <div class="panel-heading">
                 <h3 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_systeme">
-                        {{Systeme}}
+                        {{Système}}
                     </a>
                 </h3>
             </div>
@@ -207,9 +207,9 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                 <div class="panel-body">
                     <form class="form-horizontal">
                         <fieldset>
-                            <div class="alert alert-danger">{{ATTENTION ces opérations sont risqué, vous pouvez perdre l'accès à votre systeme. Ces opérations peuvent ne pas marcher en fonction du niveau de droits de l'utilisateur www-data}}</div>
-                            <a class="btn btn-danger" id="bt_haltSysteme"><i class="fa fa-stop"></i> {{Arreter le système}}</a>
-                            <a class="btn btn-warning" id="bt_rebootSysteme"><i class="fa fa-repeat"></i> {{Redemarrer le système}}</a>
+                            <div class="alert alert-danger">{{ATTENTION ces opérations sont risquées, vous pouvez perdre l'accès à votre systeme. Ces opérations peuvent ne pas marcher en fonction du niveau de droits de l'utilisateur www-data}}</div>
+                            <a class="btn btn-danger" id="bt_haltSysteme"><i class="fa fa-stop"></i> {{Arrêter le système}}</a>
+                            <a class="btn btn-warning" id="bt_rebootSysteme"><i class="fa fa-repeat"></i> {{Redémarrer le système}}</a>
                         </fieldset>
                     </form>
                 </div>
@@ -610,7 +610,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                         <form class="form-horizontal">
                             <fieldset>
                                 <div class="form-group">
-                                    <label class="col-lg-2 control-label">{{Nombre d'échec avant désactivation de l'équipement}}</label>
+                                    <label class="col-lg-2 control-label">{{Nombre d'échecs avant désactivation de l'équipement}}</label>
                                     <div class="col-lg-3">
                                         <input type="text"  class="configKey form-control" data-l1key="numberOfTryBeforeEqLogicDisable" />
                                     </div>
