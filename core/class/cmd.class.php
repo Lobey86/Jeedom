@@ -720,10 +720,10 @@ class cmd {
             '#maxValue#' => $this->getConfiguration('maxValue', 100)
         );
         if (($_version == 'dview' || $_version == 'mview') && $this->getDisplay('doNotShowNameOnView') == 1) {
-            $replace['#name#'] = '';
+            $replace['#name#'] = '<br/>';
         }
         if (($_version == 'mobile' || $_version == 'dashboard') && $this->getDisplay('doNotShowNameOnDashboard') == 1) {
-            $replace['#name#'] = '';
+            $replace['#name#'] = '<br/>';
         }
         if ($_cmdColor == null && $version != 'scenario') {
             $eqLogic = $this->getEqLogic();

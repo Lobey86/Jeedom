@@ -455,11 +455,11 @@ class eqLogic {
             $replace['#object_name#'] = '';
         }
         if (($_version == 'dview' || $_version == 'mview') && $this->getDisplay('doNotShowNameOnView') == 1) {
-            $replace['#name#'] = '';
+            $replace['#name#'] = '<br/>';
             $replace['#object_name#'] = '';
         }
         if (($_version == 'mobile' || $_version == 'dashboard') && $this->getDisplay('doNotShowNameOnDashboard') == 1) {
-            $replace['#name#'] = '';
+            $replace['#name#'] = '<br/>';
             $replace['#object_name#'] = '';
         }
         $parameters = $this->getDisplay('parameters');
