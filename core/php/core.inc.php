@@ -92,7 +92,13 @@ spl_autoload_register('jeedomPluginAutoload', true, true);
 spl_autoload_register('jeedom3rdPartyAutoload', true, true);
 
 /* * *******************Securité licence**************************** */
-jeedom::isRestrictionOk();
+try {
+    if (jeedom::isRestrictionOk() === false) {
+       throw new Exception('Vous n\'avez pas la licence pour faire tourner jeedom sur ce hardware');
+    }
+} catch (Exception $e) {
+    
+}
 
 /* * *******************Securité anti piratage**************************** */
 try {

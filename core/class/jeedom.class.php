@@ -486,7 +486,7 @@ class jeedom {
             if (($register_datetime + 604800) > strtotime('now')) {
                 return $register_datetime + 604800 - strtotime('now');
             }
-            throw new Exception('Vous n\'avez pas la licence pour faire tourner jeedom sur ce hardware');
+            return false;
         }
         return true;
     }
