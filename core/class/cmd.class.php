@@ -393,7 +393,7 @@ class cmd {
                 $cmd = self::byId($cmd_id);
                 if (is_object($cmd) && $cmd->getType() == 'info') {
                     $cmd_value = $cmd->execCmd();
-                    if ($cmd->getSubtype() == "string") {
+                    if ($cmd->getSubtype() == "string" && substr($cmd_value, 0, 1) != '"' && substr($cmd_value, -1) != '"') {
                         $cmd_value = '"' . $cmd_value . '"';
                     }
                     $text = str_replace('#' . $cmd_id . '#', $cmd_value, $text);
@@ -811,7 +811,7 @@ class cmd {
         if ($this->getType() != 'info' || $_loop > 5) {
             return;
         }
-        
+
         $_loop++;
         $collectDate = ($this->getCollectDate() != '' ) ? strtotime($this->getCollectDate()) : '';
         $nowtime = strtotime('now');
