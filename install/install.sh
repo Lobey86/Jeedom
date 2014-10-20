@@ -399,7 +399,7 @@ sudo chmod 644 /etc/motd
 echo "********************************************************"
 echo "${msg_install_complete}"
 echo "********************************************************"
-IP=$(ifconfig eth0 | grep 'inet adr:' | cut -d: -f2 | awk '{print $1}')
+IP=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
 HOST=$(hostname -f)
 echo "${msg_login_info1}"
 echo "\n\t\thttp://$IP/jeedom ${msg_or} http://$HOST/jeedom\n"
