@@ -130,7 +130,7 @@ if (count($plugins_list) > 0) {
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-home"></i> {{Accueil}} <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="index.php?v=d&p=dashboard"><i class="fa fa-dashboard"></i> {{Dashboard}}</a></li>
-                                            <li><a href="index.php?v=d&p=view"><i class="fa fa-bars"></i> {{Vue (déprécié)}}</a></li>
+                                            <li><a href="index.php?v=d&p=view"><i class="fa fa-bars"></i> {{Vue}}</a></li>
                                             <li><a href="index.php?v=d&p=plan"><i class="fa fa-picture-o"></i> {{Plan}}</a></li>
                                             <?php
                                             echo $panel_menu;

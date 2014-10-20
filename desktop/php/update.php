@@ -8,7 +8,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
 ?>
 <div>
     <?php
-    if (config::byKey('market::showPromotion') == 1) {
+    if (config::byKey('jeedom::licence') < 5 || config::byKey('market::showPromotion') == 1) {
         echo market::getPromo();
     }
     ?>

@@ -44,7 +44,7 @@ sendVarToJS('select_id', init('id', '-1'));
     <div class="col-lg-10" id="div_confPlugin" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <div>
             <?php
-            if (config::byKey('market::showPromotion') == 1) {
+            if (config::byKey('jeedom::licence') < 5 || config::byKey('market::showPromotion') == 1) {
                 echo market::getPromo();
             }
             ?>

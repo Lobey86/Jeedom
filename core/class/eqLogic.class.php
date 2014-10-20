@@ -450,7 +450,7 @@ class eqLogic {
         );
         if ($_version == 'dview' || $_version == 'mview') {
             $object = $this->getObject();
-            $replace['#object_name#'] = (is_object($object)) ? $object->getName() . "<br/>" : '';
+            $replace['#object_name#'] = (is_object($object)) ? '('.$object->getName().')' : '';
         } else {
             $replace['#object_name#'] = '';
         }
