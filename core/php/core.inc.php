@@ -104,7 +104,7 @@ try {
             exit();
         }
     }
-    if (jeedom::isRestrictionOk() === false) {
+    if (jeedom::isRestrictionOk() == 0) {
         header("Status: 401 Not Found");
         header('HTTP/1.0 401 Unautorized');
         $_SERVER['REDIRECT_STATUS'] = 401;

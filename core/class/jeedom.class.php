@@ -472,23 +472,23 @@ class jeedom {
     }
 
     public static function isRestrictionOk() {
-        $register_datetime = strtotime(config::byKey('register::datetime', 0));
-        if ($register_datetime == 0) {
-            $register_datetime = strtotime(date('Y-m-d H:i:s'));
-            config::save('register::datetime', date('Y-m-d H:i:s'));
+        $isRestrictionOk = cache::byKey('isRestrictionOk');
+        if ($isRestrictionOk->getValue(-1) != -1) {
+            return $isRestrictionOk;
         }
-        $restrict_hw = cache::byKey('restrict_hw');
-        if ($restrict_hw->getValue(-1) == -1) {
-            cache::set('restrict_hw', shell_exec("dmesg | grep HummingBoard | wc -l"), 86400);
-            $restrict_hw = cache::byKey('restrict_hw');
-        }
-        if ($restrict_hw->getValue(0) == 1 && config::byKey('jeedom::licence') < 1) {
+        $register_datetime = config::save('register::datetime', date('Y-m-d H:i:s'));
+        $restrict_hw = shell_exec("dmesg | grep HummingBoard | wc -l");
+        if ($restrict_hw == 1 && config::byKey('jeedom::licence') < 1) {
             if (($register_datetime + 604800) > strtotime('now')) {
-                return $register_datetime + 604800 - strtotime('now');
+                $result = $register_datetime + 604800 - strtotime('now');
+                cache::set('isRestrictionOk', $result, 86400);
+                return $result;
             }
-            return false;
+            cache::set('isRestrictionOk', 0, 86400);
+            return 0;
         }
-        return true;
+        cache::set('isRestrictionOk', 1, 86400);
+        return 1;
     }
 
     public static function versionAlias($_version) {
