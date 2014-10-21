@@ -69,8 +69,10 @@ class eqLogic {
     }
 
     public static function all() {
-        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
-                FROM eqLogic';
+        $sql = 'SELECT ' . DB::buildField(__CLASS__,'el') . '
+                FROM eqLogic el
+                 LEFT JOIN object ob ON el.object_id=ob.id
+                 ORDER BY ob.name,el.name';
         return self::cast(DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
@@ -142,17 +144,10 @@ class eqLogic {
         );
         $sql = 'SELECT ' . DB::buildField(__CLASS__, 'el') . '
                 FROM eqLogic el
-                WHERE eqType_name=:eqType_name
-                    AND el.object_id IS NULL
-                ORDER BY el.name';
-        $result1 = self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
-        $sql = 'SELECT ' . DB::buildField(__CLASS__, 'el') . '
-                FROM eqLogic el
-                INNER JOIN object ob ON el.object_id=ob.id
+                LEFT JOIN object ob ON el.object_id=ob.id
                 WHERE eqType_name=:eqType_name
                 ORDER BY ob.name,el.name';
-        $result2 = self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
-        return array_merge($result1, $result2);
+        return self::cast(DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__));
     }
 
     public static function byCategorie($_category) {
