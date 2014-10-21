@@ -62,7 +62,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 </select>
                             </div>
                         </div>
-                        <legend>Page par default</legend>
+                        <legend>Page par défaut</legend>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Desktop}}</label>
                             <div class="col-lg-2">
@@ -86,7 +86,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 </select>
                             </div>
                         </div>
-                        <legend>{{Object par defaut sur le dashboard}}</legend>
+                        <legend>{{Object par défaut sur le dashboard}}</legend>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Desktop}}</label>
                             <div class="col-lg-2">
