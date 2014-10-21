@@ -52,7 +52,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                                     <option value="cosmo">Cosmo</option>
                                     <option value="cyborg">Cyborg</option>
                                     <option value="journal">Journal</option>
-                                    <option value="cosmo">Lumen</option>
+                                    <option value="lumen">Lumen</option>
                                     <option value="readable">Readable</option>
                                     <option value="sandstone">Sandstone</option>
                                     <option value="simplex">Simplex</option>
