@@ -143,9 +143,9 @@ if (init('cron_id') != '') {
                     continue;
                 }
 
-                /*if (!$cron->refresh()) {
+                if (!$cron->refresh()) {
                     continue;
-                }*/
+                }
                 $duration = strtotime('now') - strtotime($cron->getLastRun());
                 if ($cron->getEnable() == 1 && $cron->getState() != 'run' && $cron->getState() != 'starting' && $cron->getState() != 'stoping') {
                     if ($cron->getDeamon() == 0) {
