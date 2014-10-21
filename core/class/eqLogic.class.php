@@ -454,7 +454,7 @@ class eqLogic {
             $replace['#object_name#'] = (is_object($object)) ? $object->getName() : '';
         }
         if (($_version == 'mobile' || $_version == 'dashboard') && $this->getDisplay('doNotShowNameOnDashboard') == 1) {
-            $replace['#name#'] = '';
+            $replace['#name#'] = '<br/>';
             $replace['#object_name#'] = (is_object($object)) ? $object->getName() : '';
         }
         $parameters = $this->getDisplay('parameters');
