@@ -25,59 +25,7 @@ foreach (plugin::listPlugin() as $pluginList) {
 
 <div class="panel-group" id="accordionConfiguration">
     <input style="display: none;" class="userAttr form-control" data-l1key="id" />
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_notification">
-                    {{Notifications}}
-                </a>
-            </h3>
-        </div>
-        <div id="config_notification" class="panel-collapse collapse in">
-            <div class="panel-body">
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">{{Notifier des événements}}</label>
-                            <div class="col-lg-3">
-                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyEvent">
-                                    <?php
-                                    foreach ($notifyTheme as $key => $value) {
-                                        echo "<option value='$key'>$value</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">{{Notifier du lancement des scénarios}}</label>
-                            <div class="col-lg-3">
-                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyLaunchScenario">
-                                    <?php
-                                    foreach ($notifyTheme as $key => $value) {
-                                        echo "<option value='$key'>$value</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">{{Notifier nouveau message}}</label>
-                            <div class="col-lg-3">
-                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyNewMessage">
-                                    <?php
-                                    foreach ($notifyTheme as $key => $value) {
-                                        echo "<option value='$key'>$value</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
+
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -87,10 +35,34 @@ foreach (plugin::listPlugin() as $pluginList) {
                 </a>
             </h3>
         </div>
-        <div id="config_interface" class="panel-collapse collapse">
+        <div id="config_interface" class="panel-collapse collapse in">
             <div class="panel-body">
                 <form class="form-horizontal">
                     <fieldset>
+                        <legend>Thèmes</legend>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Thèmes}}</label>
+                            <div class="col-lg-2">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="bootstrap_theme">
+                                    <option value="">Défaut</option>
+                                    <option value="superhero">Superhero</option>
+                                    <option value="slate">Slate</option>
+                                    <option value="flatly">Faltly</option>
+                                    <option value="cerulean">Cerulean</option>
+                                    <option value="cosmo">Cosmo</option>
+                                    <option value="cyborg">Cyborg</option>
+                                    <option value="cerulean">Journal</option>
+                                    <option value="cosmo">Lumen</option>
+                                    <option value="cyborg">Paper</option>
+                                    <option value="readable">Readable</option>
+                                    <option value="sandstone">Sandstone</option>
+                                    <option value="simplex">Simplex</option>
+                                    <option value="spacelab">Spacelab</option>
+                                    <option value="united">United</option>
+                                    <option value="yeti">Yeti</option>
+                                </select>
+                            </div>
+                        </div>
                         <legend>Page par default</legend>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Desktop}}</label>
@@ -195,10 +167,64 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 <input type="checkbox" class="userAttr" data-l1key="options" data-l2key="displayScenarioByDefault"/>
                             </div>
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <label class="col-lg-3 control-label">{{Afficher les objets par défaut}}</label>
                             <div class="col-lg-2">
                                 <input type="checkbox" class="userAttr" data-l1key="options" data-l2key="displayObjetByDefault"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_notification">
+                    {{Notifications}}
+                </a>
+            </h3>
+        </div>
+        <div id="config_notification" class="panel-collapse collapse">
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Notifier des événements}}</label>
+                            <div class="col-lg-3">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyEvent">
+                                    <?php
+                                    foreach ($notifyTheme as $key => $value) {
+                                        echo "<option value='$key'>$value</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Notifier du lancement des scénarios}}</label>
+                            <div class="col-lg-3">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyLaunchScenario">
+                                    <?php
+                                    foreach ($notifyTheme as $key => $value) {
+                                        echo "<option value='$key'>$value</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Notifier nouveau message}}</label>
+                            <div class="col-lg-3">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="notifyNewMessage">
+                                    <?php
+                                    foreach ($notifyTheme as $key => $value) {
+                                        echo "<option value='$key'>$value</option>";
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </fieldset>
