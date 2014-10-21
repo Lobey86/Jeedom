@@ -114,7 +114,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                 if (!is_object($eqLogic)) {
                     continue;
                 }
-                if ($eqLogic->getIsVisible() == 1 && $cmd->getIsHistorized() == 1) {
+                if ($cmd->getIsHistorized() == 1) {
                     $object = $cmd->getEqLogic()->getObject();
                     echo '<tr data-link_id="' . $cmd->getId() . '" data-type="graph" data-viewDataType="cmd">';
                     echo '<td>';
@@ -131,8 +131,8 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                     }
                     echo '</td>';
                     echo '<td class="name">';
-                    echo '['.$eqLogic->getName() . '][';
-                    echo $cmd->getName().']';
+                    echo '[' . $eqLogic->getName() . '][';
+                    echo $cmd->getName() . ']';
                     echo '</td>';
                     echo '<td class="display">';
                     echo '<div class="option">';
@@ -180,28 +180,26 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
             }
 
             foreach (eqLogic::all() as $eqLogic) {
-                if ($eqLogic->getIsVisible() == 1) {
-                    $object = $eqLogic->getObject();
-                    echo '<tr data-link_id="' . $eqLogic->getId() . '" data-type="widget" data-viewDataType="eqLogic">';
-                    echo '<td>';
-                    echo '<input type="checkbox" class="enable" />';
-                    echo '<input class="viewDataOption" data-l1key="type" value="eqLogic" hidden/>';
-                    echo '<input class="viewDataOption" data-l1key="link_id" value="' . $eqLogic->getId() . '" hidden/>';
-                    echo '</td>';
-                    echo '<td class="type">';
-                    echo 'Equipement';
-                    echo '</td>';
-                    echo '<td class="object_name">';
-                    if (is_object($object)) {
-                        echo $object->getName();
-                    }
-                    echo '</td>';
-                    echo '<td class="name">';
-                    echo $eqLogic->getName();
-                    echo '</td>';
-                    echo '<td></td>';
-                    echo '</tr>';
+                $object = $eqLogic->getObject();
+                echo '<tr data-link_id="' . $eqLogic->getId() . '" data-type="widget" data-viewDataType="eqLogic">';
+                echo '<td>';
+                echo '<input type="checkbox" class="enable" />';
+                echo '<input class="viewDataOption" data-l1key="type" value="eqLogic" hidden/>';
+                echo '<input class="viewDataOption" data-l1key="link_id" value="' . $eqLogic->getId() . '" hidden/>';
+                echo '</td>';
+                echo '<td class="type">';
+                echo 'Equipement';
+                echo '</td>';
+                echo '<td class="object_name">';
+                if (is_object($object)) {
+                    echo $object->getName();
                 }
+                echo '</td>';
+                echo '<td class="name">';
+                echo $eqLogic->getName();
+                echo '</td>';
+                echo '<td></td>';
+                echo '</tr>';
             }
             foreach (scenario::all() as $scenario) {
                 echo '<tr data-link_id="' . $scenario->getId() . '" data-type="widget" data-viewDataType="scenario">';
