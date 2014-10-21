@@ -181,7 +181,7 @@ if (!isConnect('admin')) {
                                     <option value="all">{{Tous}}</option>
                                     <?php
                                     foreach (eqLogic::all() as $eqLogic) {
-                                        echo '<option value="' . $eqLogic->getId() . '" >' . $eqLogic->getName() . '</option>';
+                                        echo '<option value="' . $eqLogic->getId() . '" >' . $eqLogic->getHumanName() . '</option>';
                                     }
                                     ?>
                                 </select>
