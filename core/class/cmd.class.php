@@ -811,7 +811,7 @@ class cmd {
         }
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() == 0) {
-            log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id : ', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
+            //log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id : ', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
             return;
         }
         if ($this->getType() != 'info' || $_loop > 5) {
