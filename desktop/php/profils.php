@@ -41,7 +41,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                     <fieldset>
                         <legend>Thèmes</legend>
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">{{Thèmes}}</label>
+                            <label class="col-lg-3 control-label">{{Desktop}}</label>
                             <div class="col-lg-2">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="bootstrap_theme">
                                     <option value="">Défaut</option>

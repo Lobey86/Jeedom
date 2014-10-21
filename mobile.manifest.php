@@ -28,7 +28,9 @@ $js_file = array(
 $other_file = array(
     'core/php/icon.inc.php',
     '3rdparty/font-awesome/css/font-awesome.min.css',
-    '3rdparty/jquery.mobile/jquery.mobile.css',
+    '3rdparty/jquery.mobile/jquery.mobile.theme.min.css',
+    '3rdparty/jquery.mobile/jquery.mobile.structure.min.css',
+    '3rdparty/jquery.mobile/jquery.mobile.icons.min.css',
     'core/css/core.css',
     '3rdparty/jquery.utils/jquery.utils.css',
     'mobile/css/commun.css',
