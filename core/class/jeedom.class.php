@@ -474,7 +474,7 @@ class jeedom {
     public static function isRestrictionOk() {
         $isRestrictionOk = cache::byKey('isRestrictionOk');
         if ($isRestrictionOk->getValue(-1) != -1) {
-            return $isRestrictionOk;
+            return $isRestrictionOk->getValue(0);
         }
         $register_datetime = config::save('register::datetime', date('Y-m-d H:i:s'));
         $restrict_hw = shell_exec("dmesg | grep HummingBoard | wc -l");
