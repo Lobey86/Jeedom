@@ -62,6 +62,25 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Mobile}}</label>
+                            <div class="col-lg-2">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="mobile_theme">
+                                    <option value="dark">Sombre</option>
+                                    <option value="light">Clair</option>
+                                </select>
+                            </div>
+                            <label class="col-lg-3 control-label">{{Couleur}}</label>
+                            <div class="col-lg-2">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="mobile_theme_color">
+                                    <option value="green">Vert</option>
+                                    <option value="yellow">Jaune</option>
+                                    <option value="red">Rouge</option>
+                                    <option value="blue">Bleu</option>
+                                    <option value="purple">Violet</option>
+                                </select>
+                            </div>
+                        </div>
                         <legend>Page par défaut</legend>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Desktop}}</label>

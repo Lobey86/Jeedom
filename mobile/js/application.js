@@ -87,6 +87,14 @@ function initApplication(_reinit) {
                     deviceInfo = getDeviceType();
                     userProfils = data.result.userProfils;
                     expertMode = userProfils.expertMode;
+
+                    if (isset(userProfils.mobile_theme_color) && userProfils.mobile_theme_color != '') {
+                        $('#jQMnDColor').attr('href', '3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.color.' + userProfils.mobile_theme_color + '.css');
+                    }
+                    if (isset(userProfils.mobile_theme) && userProfils.mobile_theme != '') {
+                        $('#jQMnDTheme').attr('href', '3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.' + userProfils.mobile_theme + '.css');
+                    }
+
                     $.get("core/php/icon.inc.php", function (data) {
                         $("head").append(data);
                         var include = [
@@ -235,9 +243,9 @@ function getDeviceType() {
     if (result.type == 'phone') {
         var ori = window.orientation;
         if (ori == 90 || ori == -90) {
-            result.bSize = (result.width / 3) - 30;
+            result.bSize = (result.width / 3) -15;
         } else {
-            result.bSize = (result.width / 2) - 30;
+            result.bSize = (result.width / 2) -15;
         }
     }
     return result;

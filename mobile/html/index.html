@@ -30,9 +30,15 @@
         <link href="core/img/logo-jeedom-petit-nom-couleur-2008x1536.png" media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
         <!-- iPad (Retina, landscape) SPLASHSCREEN-->
         <link href="core/img/logo-jeedom-petit-nom-couleur-2048x1496.png" media="(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-        <link rel="stylesheet" href="3rdparty/jquery.mobile/jquery.mobile.theme.min.css">
-        <link rel="stylesheet" href="3rdparty/jquery.mobile/jquery.mobile.icons.min.css">
-        <link rel="stylesheet" href="3rdparty/jquery.mobile/jquery.mobile.structure.min.css">
+
+
+        <link rel="stylesheet" href="3rdparty/jquery.mobile/jquery.mobile.min.css" />
+        <link rel="stylesheet" href="3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.css" />
+        <link rel="stylesheet" href="3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.dark.css"  id='jQMnDTheme' />
+        <link rel="stylesheet" href="3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.color.green.css" id='jQMnDColor' />
+        <link rel="stylesheet" href="3rdparty/jquery.mobile/css/fonts.css">
+
+
         <link rel="stylesheet" href="core/css/core.css">
         <link rel="stylesheet" href="3rdparty/jquery.utils/jquery.utils.css">
         <link rel="stylesheet" href="mobile/css/commun.css">
@@ -60,22 +66,22 @@
     </head>
     <body>
         <!-- alert -->
-        <div id="div_alert" data-theme="a"></div>
+        <div id="div_alert" data-theme="b"></div>
         <!-- /alert -->
         <!-- page -->
-        <div data-role="page" id="pagecontainer">
+        <div data-role="page" id="pagecontainer" data-theme='b'>
             <!-- panel -->
-            <div data-role="panel" id="panel_right" data-position="right" data-display="overlay" data-animate="false" data-theme="a" data-rel="close"></div>
+            <div data-role="panel" id="panel_right" data-position="right" data-theme="b"></div>
             <!-- /panel -->
             <!-- popup -->
-            <div data-role="popup" id="div_popup" data-theme="a" class="ui-corner-all"></div>
+            <div data-role="popup" id="div_popup" data-theme="b" class="ui-corner-all"></div>
             <!-- /popup -->
 
             <!-- header -->
-            <div data-role="header" data-position="fixed">
+            <div data-role="header" data-position="fixed" data-theme="b">
                 <h1 id="pageTitle"></h1>
-                <a class="link" data-page="home" data-title="{{Accueil}}" data-icon="home" data-iconpos="notext">{{Menu}}</a>
-                <a href="#panel_right" id="bt_panel_right" data-icon="gear" data-iconpos="notext">{{Options}}</a>
+                <a class="link" data-page="home" data-title="{{Accueil}}"><i class="fa fa-home"></i></a>
+                <a href="#panel_right" id="bt_panel_right"><i class="fa fa-list"></i></a>
             </div>
             <!-- /header -->
             <!-- content --><div role="main" class="ui-content" id="page" ></div><!-- /content -->
