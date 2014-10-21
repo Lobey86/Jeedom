@@ -239,7 +239,7 @@ class cron {
     public function run($_noErrorReport = false) {
         $cmd = '/usr/bin/php ' . dirname(__FILE__) . '/../php/jeeCron.php';
         $cmd.= ' cron_id=' . $this->getId();
-        if ($this->getNbRun() == 0) {
+        if (!$this->running()) {
             exec($cmd . ' >> /dev/null 2>&1 &');
         } else {
             if (!$_noErrorReport) {
@@ -247,7 +247,7 @@ class cron {
                 $this->setServer(gethostname());
                 $this->setState('run');
                 $this->halt();
-                if ($this->getNbRun() == 0) {
+                if (!$this->running()) {
                     exec($cmd . ' >> /dev/null 2>&1 &');
                 } else {
                     throw new Exception(__('Impossible de lancer la tache car elle est déjà en cours (', __FILE__) . $this->getNbRun() . ') : ' . $cmd);

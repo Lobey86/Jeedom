@@ -91,15 +91,6 @@ spl_autoload_register('jeedomComAutoload', true, true);
 spl_autoload_register('jeedomPluginAutoload', true, true);
 spl_autoload_register('jeedom3rdPartyAutoload', true, true);
 
-/* * *******************Securité licence**************************** */
-try {
-    if (jeedom::isRestrictionOk() === false) {
-       throw new Exception('Vous n\'avez pas la licence pour faire tourner jeedom sur ce hardware');
-    }
-} catch (Exception $e) {
-    
-}
-
 /* * *******************Securité anti piratage**************************** */
 try {
     if (config::byKey('security::enable') == 1) {
@@ -112,6 +103,14 @@ try {
             echo "The page that you have requested could not be found.";
             exit();
         }
+    }
+    if (jeedom::isRestrictionOk() === false) {
+        header("Status: 401 Not Found");
+        header('HTTP/1.0 401 Unautorized');
+        $_SERVER['REDIRECT_STATUS'] = 401;
+        echo "<h1>401 unauthorized hardware</h1>";
+        echo "The page that you have requested could not be found.";
+        exit();
     }
 } catch (Exception $e) {
     
