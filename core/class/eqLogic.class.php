@@ -69,7 +69,7 @@ class eqLogic {
     }
 
     public static function all() {
-        $sql = 'SELECT ' . DB::buildField(__CLASS__,'el') . '
+        $sql = 'SELECT ' . DB::buildField(__CLASS__, 'el') . '
                 FROM eqLogic el
                  LEFT JOIN object ob ON el.object_id=ob.id
                  ORDER BY ob.name,el.name';
@@ -451,11 +451,11 @@ class eqLogic {
         }
         if (($_version == 'dview' || $_version == 'mview') && $this->getDisplay('doNotShowNameOnView') == 1) {
             $replace['#name#'] = '<br/>';
-            $replace['#object_name#'] = $object->getName();
+            $replace['#object_name#'] = (is_object($object)) ? $object->getName() : '';
         }
         if (($_version == 'mobile' || $_version == 'dashboard') && $this->getDisplay('doNotShowNameOnDashboard') == 1) {
             $replace['#name#'] = '<br/>';
-            $replace['#object_name#'] = $object->getName();
+            $replace['#object_name#'] = (is_object($object)) ? $object->getName() : '';
         }
         $parameters = $this->getDisplay('parameters');
         if (is_array($parameters)) {
