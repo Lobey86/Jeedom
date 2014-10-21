@@ -130,12 +130,14 @@ class plugin {
         } else {
             $rootPluginPath = dirname(__FILE__) . '/../../plugins';
             foreach (ls($rootPluginPath, '*') as $dirPlugin) {
-                $pathInfoPlugin = $rootPluginPath . '/' . $dirPlugin . '/plugin_info/info.xml';
-                if (file_exists($pathInfoPlugin)) {
-                    try {
-                        $listPlugin[] = plugin::byId($pathInfoPlugin);
-                    } catch (Exception $e) {
-                        log::add('plugin', 'error', $e->getMessage(), 'pluginNotFound::' . $pathInfoPlugin);
+                if (is_dir($rootPluginPath . '/' . $dirPlugin)) {
+                    $pathInfoPlugin = $rootPluginPath . '/' . $dirPlugin . '/plugin_info/info.xml';
+                    if (file_exists($pathInfoPlugin)) {
+                        try {
+                            $listPlugin[] = plugin::byId($pathInfoPlugin);
+                        } catch (Exception $e) {
+                            log::add('plugin', 'error', $e->getMessage(), 'pluginNotFound::' . $pathInfoPlugin);
+                        }
                     }
                 }
             }
