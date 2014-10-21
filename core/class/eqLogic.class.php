@@ -456,11 +456,11 @@ class eqLogic {
         }
         if (($_version == 'dview' || $_version == 'mview') && $this->getDisplay('doNotShowNameOnView') == 1) {
             $replace['#name#'] = '<br/>';
-            $replace['#object_name#'] = '';
+            $replace['#object_name#'] = $object->getName();
         }
         if (($_version == 'mobile' || $_version == 'dashboard') && $this->getDisplay('doNotShowNameOnDashboard') == 1) {
             $replace['#name#'] = '<br/>';
-            $replace['#object_name#'] = '';
+            $replace['#object_name#'] = $object->getName();
         }
         $parameters = $this->getDisplay('parameters');
         if (is_array($parameters)) {
