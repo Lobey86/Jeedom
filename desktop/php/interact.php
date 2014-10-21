@@ -201,6 +201,20 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">{{Limiter aux catégories}}</label>
+                            <div class="col-lg-4">
+                                <select class='interactAttr form-control' data-l1key='filtres' data-l2key='eqLogic_category'>
+                                    <option value="all">{{Toutes}}</option>
+                                    <?php
+                                    foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+                                        echo '<option value="' . $key . '">{{' . $value['name'] . '}}</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
                     </fieldset>
                 </form>
             </div>
