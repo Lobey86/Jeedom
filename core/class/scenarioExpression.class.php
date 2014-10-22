@@ -319,14 +319,18 @@ class scenarioExpression {
         return 0;
     }
 
-    public static function round($_value) {
+    public static function round($_value, $_decimal = 0) {
         $_value = cmd::cmdToValue($_value);
         $test = new evaluate();
         $result = $test->Evaluer($_value);
         if (is_string($result)) { //Alors la valeur n'est pas un calcul
             $result = $_value;
         }
-        return ceil(floatval(str_replace(',', '.', $result)));
+        if ($_decimal == 0) {
+            return ceil(floatval(str_replace(',', '.', $result)));
+        } else {
+            return round(floatval(str_replace(',', '.', $result)), $_decimal);
+        }
     }
 
     public static function setTags($_expression, &$_scenario = null) {
