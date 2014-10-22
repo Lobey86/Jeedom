@@ -347,7 +347,7 @@ class jeedom {
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        if (($lastDate + 259200) > strtotime(date('Y-m-d H:00:00')) && ($lastDate - 7200) < strtotime(date('Y-m-d H:00:00'))) {
+        if (($lastDate + 2592000) > strtotime(date('Y-m-d H:00:00')) && ($lastDate - 7200) < strtotime(date('Y-m-d H:00:00'))) {
             cache::set('jeedom::lastDate', date('Y-m-d H:00:00'), 0);
             message::removeAll('core', 'dateCheckFailed');
             return true;
