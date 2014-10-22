@@ -51,7 +51,7 @@ try {
         throw new Exception(__('Le dossier des backups n\'est pas accessible en écriture. Vérifier les droits : ', __FILE__) . $backup_dir);
     }
 
-    $bakcup_name = 'backup-' . date("d-m-Y-H\hi") . '.tar.gz';
+    $bakcup_name = 'backup-' . getVersion('jeedom') . '-' . date("d-m-Y-H\hi") . '.tar.gz';
 
     echo __('Sauvegarde des fichiers...', __FILE__);
     rcopy(dirname(__FILE__) . '/..', $tmp, true, array('tmp', 'backup', 'log'));
@@ -79,7 +79,7 @@ try {
     }
 
     echo __("Vérification de la base : \n", __FILE__);
-    system("mysqlcheck --host=" . $CONFIG['db']['host'] . " --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'].' --auto-repair --silent');
+    system("mysqlcheck --host=" . $CONFIG['db']['host'] . " --user=" . $CONFIG['db']['username'] . " --password=" . $CONFIG['db']['password'] . " " . $CONFIG['db']['dbname'] . ' --auto-repair --silent');
 
 
     echo __('Sauvegarde de la base de données...', __FILE__);
