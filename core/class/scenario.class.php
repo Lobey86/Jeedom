@@ -704,8 +704,11 @@ class scenario {
                 $kill = posix_kill($this->getPID(), 9);
                 $retry++;
             }
-            if ($this->running()) {
-                exec('kill -9 '.$this->getPID());
+            $retry = 0;
+            while ($this->running() && $retry < 5) {
+                sleep(1);
+                exec('kill -9 ' . $this->getPID());
+                $retry++;
             }
             if ($this->running()) {
                 throw new Exception(__('Impossible d\'arreter le scénario : ', __FILE__) . $this->getHumanName() . __('. PID : ', __FILE__) . $this->getPID());
