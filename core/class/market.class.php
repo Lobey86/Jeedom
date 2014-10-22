@@ -89,7 +89,7 @@ class market {
         if ($market->sendRequest('market::getPromotion')) {
             return $market->getResult();
         } else {
-            throw new Exception($market->getError(), $market->getErrorCode());
+            
         }
     }
 
