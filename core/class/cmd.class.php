@@ -679,15 +679,19 @@ class cmd {
         if (!isset(self::$_templateArray[$version . '::' . $template_name])) {
             if ($this->getTemplate($version, 'default') != 'default') {
                 $template = getTemplate('core', $version, $template_name, 'widget');
+                $findWidgetPlugin = false;
                 if ($template == '') {
                     foreach (plugin::listPlugin(true) as $plugin) {
                         $template = getTemplate('core', $version, $template_name, $plugin->getId());
                         if ($template != '') {
                             break;
                         }
+                        if ($plugin->getId() == 'widget') {
+                            $findWidgetPlugin = true;
+                        }
                     }
                 }
-                if ($template == '' && config::byKey('market::autoInstallMissingWidget') == 1) {
+                if ($findWidgetPlugin && $template == '' && config::byKey('market::autoInstallMissingWidget') == 1) {
                     try {
                         $market = market::byLogicalId(str_replace('.cmd', '', $version . '.' . $template_name));
                         if (is_object($market)) {
