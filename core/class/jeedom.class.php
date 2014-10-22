@@ -347,18 +347,18 @@ class jeedom {
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        if (($lastDate + 7200) > strtotime(date('Y-m-d H:00:00')) && ($lastDate - 3600) < strtotime(date('Y-m-d H:00:00'))) {
+        if (($lastDate + 259200) > strtotime(date('Y-m-d H:00:00')) && ($lastDate - 7200) < strtotime(date('Y-m-d H:00:00'))) {
             cache::set('jeedom::lastDate', date('Y-m-d H:00:00'), 0);
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
         $ntptime = strtotime(getNtpTime());
-        if ($ntptime !== false && ($ntptime + 3600) > strtotime('now') && ($ntptime - 3600) < strtotime('now')) {
+        if ($ntptime !== false && ($ntptime + 7200) > strtotime('now') && ($ntptime - 7200) < strtotime('now')) {
             cache::set('jeedom::lastDate', date('Y-m-d H:00:00'), 0);
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        log::add('core', 'error', __('La date système (', __FILE__) . date('Y-m-d H:00:00') . __(') est antérieur à la dernière date (', __FILE__) . date('Y-m-d H:i:s', $lastDate) . __(')enregistrer. Tous les lancements des scénarios sont interrompus jusqu\'à correction.', __FILE__), 'dateCheckFailed');
+        log::add('core', 'error', __('La date système (', __FILE__) . date('Y-m-d H:00:00') . __(') est antérieur ou trop loin à la dernière date (', __FILE__) . date('Y-m-d H:i:s', $lastDate) . __(')enregistrer. Tous les lancements des scénarios sont interrompus jusqu\'à correction.', __FILE__), 'dateCheckFailed');
         return false;
     }
 

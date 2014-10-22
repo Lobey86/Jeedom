@@ -48,9 +48,7 @@ try {
 
     if (init('action') == 'clearDate') {
         $cache = cache::byKey('jeedom::lastDate');
-        if ($cache->getValue() != '') {
-            $cache->remove();
-        }
+        $cache->remove();
         ajax::success();
     }
 
