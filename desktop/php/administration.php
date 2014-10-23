@@ -51,7 +51,7 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 control-label">{{Email admin}}</label>
+                                <label class="col-lg-2 control-label">{{Commande d'information utilisateur}}</label>
                                 <div class="col-lg-3">
                                     <input type="text"  class="configKey form-control" data-l1key="emailAdmin" />
                                 </div>
