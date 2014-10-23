@@ -396,7 +396,7 @@ class jeedom {
                 update::checkAllUpdate();
                 $nbUpdate = update::nbNeedUpdate();
                 if ($nbUpdate > 0) {
-                    message::add('update', 'De nouvelles mises à jour sont disponibles (' . $nbUpdate . ')');
+                    message::add('update', 'De nouvelles mises à jour sont disponibles (' . $nbUpdate . ')','','newUpdate');
                 }
                 config::save('update::check', rand(0, 59) . ' 06 * * *');
             }
