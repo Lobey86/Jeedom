@@ -481,10 +481,12 @@ class jeedom {
         if ($restrict_hw == 1 && config::byKey('jeedom::licence') < 1) {
             if (($register_datetime + 604800) > strtotime('now')) {
                 $result = $register_datetime + 604800 - strtotime('now');
+                log::add(__('hardware', 'error', 'Attention vous utilisez Jeedom sur un hardware soumis à une licence, veuillez enregistrer votre compte market et/ou acheter une licence, il vous reste ', __FILE__) . convertDuration($result),'restrictHardwareTime');
                 cache::set('isRestrictionOk', $result, 86400);
                 return $result;
             }
             cache::set('isRestrictionOk', 0, 86400);
+
             return 0;
         }
         cache::set('isRestrictionOk', 1, 86400);
