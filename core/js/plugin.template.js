@@ -16,6 +16,7 @@
  */
 
 $(".li_eqLogic").on('click', function () {
+    $('.eqLogic').hide();
     if ('function' == typeof (prePrintEqLogic)) {
         prePrintEqLogic();
     }
@@ -110,10 +111,10 @@ $('.eqLogicAction[data-action=save]').on('click', function () {
         if ($(this).is(':visible')) {
             var eqLogic = $(this).getValues('.eqLogicAttr');
             eqLogic = eqLogic[0];
+            eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
             if ('function' == typeof (saveEqLogic)) {
                 eqLogic = saveEqLogic(eqLogic);
             }
-            eqLogic.cmd = $(this).find('.cmd').getValues('.cmdAttr');
             eqLogics.push(eqLogic);
         }
     });
