@@ -24,6 +24,7 @@ try {
         if (!isConnect()) {
             throw new Exception(__('401 - Accès non autorisé', __FILE__), -1234);
         }
+        $_SESSION['user']-refresh();
         $return = array();
         $return['user_id'] = $_SESSION['user']->getId();
         $return['nodeJsKey'] = config::byKey('nodeJsKey');
