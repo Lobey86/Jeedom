@@ -727,7 +727,7 @@ class cmd {
             $replace['#name#'] = '';
         }
         if (($_version == 'mobile' || $_version == 'dashboard') && $this->getDisplay('doNotShowNameOnDashboard') == 1) {
-            $replace['#name#'] = '<br/>';
+            $replace['#name#'] = '';
         }
         if ($_cmdColor == null && $version != 'scenario') {
             $eqLogic = $this->getEqLogic();
