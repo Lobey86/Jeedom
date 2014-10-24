@@ -56,10 +56,15 @@ function jeedomPluginAutoload($classname) {
             if (strpos($classname, 'Real') !== false) {
                 $plugin = plugin::byId(substr($classname, 0, -4));
             }
-            if (strpos($classname, 'Cmd') !== false) {
-                $plugin = plugin::byId(substr($classname, 0, -3));
+            if (!is_object($plugin) && strpos($classname, 'Cmd') !== false) {
+                $classname = str_replace('Cmd', '', $classname);
+                if (strpos($classname, '_') !== false && strpos($classname, 'com_') === false) {
+                    $plugin = plugin::byId(substr($classname, 0, strpos($classname, '_')));
+                } else {
+                    $plugin = plugin::byId($classname);
+                }
             }
-            if (strpos($classname, '_') !== false && strpos($classname, 'com_') === false) {
+            if (!is_object($plugin) && strpos($classname, '_') !== false && strpos($classname, 'com_') === false) {
                 $plugin = plugin::byId(substr($classname, 0, strpos($classname, '_')));
             }
         }
