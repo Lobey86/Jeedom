@@ -442,6 +442,7 @@ class eqLogic {
             '#category#' => $this->getPrimaryCategory(),
             '#background_color#' => $this->getBackgroundColor($version),
             '#info#' => $info,
+            '#style#' => '',
         );
         if ($_version == 'dview' || $_version == 'mview') {
             $object = $this->getObject();
