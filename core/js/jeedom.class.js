@@ -93,10 +93,10 @@ jeedom.init = function () {
         socket.on('eventEqLogic', function (eqLogic_id) {
             jeedom.eqLogic.refreshValue({id: eqLogic_id});
         });
-        socket.on('alert', function (_options) {
+        socket.on('jeedom::alert', function (_options) {
             _options = json_decode(_options);
             if (_options.message == '') {
-                $('#div_alert').showAlert({message: _options.message, level: _options.level});
+                $.hideAlert();
             } else {
                 $('#div_alert').showAlert({message: _options.message, level: _options.level});
             }
