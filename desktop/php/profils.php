@@ -26,7 +26,6 @@ foreach (plugin::listPlugin() as $pluginList) {
 <div class="panel-group" id="accordionConfiguration">
     <input style="display: none;" class="userAttr form-control" data-l1key="id" />
 
-
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">
@@ -61,6 +60,9 @@ foreach (plugin::listPlugin() as $pluginList) {
                                     <option value="yeti">Yeti</option>
                                 </select>
                             </div>
+                            <div class="col-lg-7" id="div_imgThemeDesktop">
+
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Mobile}}</label>
@@ -81,6 +83,24 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 </select>
                             </div>
                         </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionConfiguration" href="#config_interface">
+                    Interface
+                </a>
+            </h3>
+        </div>
+        <div id="config_interface" class="panel-collapse collapse">
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <fieldset>
                         <legend>Page par défaut</legend>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{Desktop}}</label>
