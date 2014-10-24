@@ -396,12 +396,12 @@ class jeedom {
                 update::checkAllUpdate();
                 $nbUpdate = update::nbNeedUpdate();
                 if ($nbUpdate > 0) {
-                    message::add('update', 'De nouvelles mises à jour sont disponibles (' . $nbUpdate . ')','','newUpdate');
+                    message::add('update', 'De nouvelles mises à jour sont disponibles (' . $nbUpdate . ')', '', 'newUpdate');
                 }
                 config::save('update::check', rand(0, 59) . ' 06 * * *');
             }
         } catch (Exception $e) {
-            log::add('update', 'error', $e->getMessage());
+            log::add('update', 'error', '[' . config::byKey('update::check') . ']' . $e->getMessage());
         }
         try {
             $c = new Cron\CronExpression(config::byKey('backup::cron'), new Cron\FieldFactory);
@@ -409,7 +409,7 @@ class jeedom {
                 jeedom::backup();
             }
         } catch (Exception $e) {
-            log::add('backup', 'error', $e->getMessage());
+            log::add('backup', 'error', '[' . config::byKey('backup::cron') . ']' . $e->getMessage());
         }
         try {
             $c = new Cron\CronExpression('50 23 * * *', new Cron\FieldFactory);
@@ -433,7 +433,7 @@ class jeedom {
                 jeeNetwork::pull();
             }
         } catch (Exception $e) {
-            log::add('jeeNetwork', 'error', $e->getMessage());
+            log::add('jeeNetwork', 'error', '[' . config::byKey('jeeNetwork::pull') . ']' . $e->getMessage());
         }
         if (config::byKey('market::allowDNS') == 1 && config::byKey('jeeNetwork::mode') == 'master' && config::byKey('jeedom::licence') >= 5) {
             try {
@@ -442,7 +442,7 @@ class jeedom {
                     market::updateIp();
                 }
             } catch (Exception $e) {
-                log::add('market', 'error', $e->getMessage());
+                log::add('market', 'error', '[' . config::byKey('jeeNetwork::mode') . ']' . $e->getMessage());
             }
         }
     }
@@ -481,7 +481,7 @@ class jeedom {
         if ($restrict_hw == 1 && config::byKey('jeedom::licence') < 1) {
             if (($register_datetime + 604800) > strtotime('now')) {
                 $result = $register_datetime + 604800 - strtotime('now');
-                log::add(__('hardware', 'error', 'Attention vous utilisez Jeedom sur un hardware soumis à une licence, veuillez enregistrer votre compte market et/ou acheter une licence, il vous reste ', __FILE__) . convertDuration($result),'restrictHardwareTime');
+                log::add(__('hardware', 'error', 'Attention vous utilisez Jeedom sur un hardware soumis à une licence, veuillez enregistrer votre compte market et/ou acheter une licence, il vous reste ', __FILE__) . convertDuration($result), 'restrictHardwareTime');
                 cache::set('isRestrictionOk', $result, 86400);
                 return $result;
             }
