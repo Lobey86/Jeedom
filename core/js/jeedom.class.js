@@ -95,7 +95,7 @@ jeedom.init = function () {
         });
         socket.on('jeedom::alert', function (_options) {
             _options = json_decode(_options);
-            if (_options.message == '') {
+            if (!isset(_options.message) || $.trim(_options.message) == '') {
                 $.hideAlert();
             } else {
                 $('#div_alert').showAlert({message: _options.message, level: _options.level});
