@@ -66,6 +66,18 @@ $(".li_jeeNetwork").on('click', function (event) {
             $('#sel_logSlave').empty().append(option);
         }
     });
+    jeedom.jeeNetwork.listLocalSlaveBackup({
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function (data) {
+            var option = '';
+            for (var i in data) {
+                option += '<option value="' + i + '">' + data[i] + '</option>';
+            }
+            $('#sel_backupList').empty().append(option);
+        }
+    });
     return false;
 });
 
@@ -136,6 +148,25 @@ $('#bt_removeLog').on('click', function () {
         }
     });
 });
+
+$('#bt_restoreSlave').on('click', function () {
+    $.hideAlert();
+    bootbox.confirm('{{Etes-vous sûr de vouloir restaurer cette sauvegarde sur ce Jeedom esclave ?}}', function (result) {
+        if (result) {
+            jeedom.jeeNetwork.restoreLocalBackup({
+                id: $('.li_jeeNetwork.active').attr('data-jeeNetwork_id'),
+                backup: $('#sel_backupList').value(),
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function (data) {
+                    getJeedomSlaveLog(1, 'restore');
+                }
+            });
+        }
+    });
+});
+
 
 $('#bt_haltSysteme').on('click', function () {
     $.hideAlert();

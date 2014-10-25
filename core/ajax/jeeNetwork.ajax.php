@@ -134,6 +134,14 @@ try {
         }
         ajax::success(utils::o2a(jeeNetwork::all()));
     }
+    
+     if (init('action') == 'restoreLocalBackup') {
+        $jeeNetwork = jeeNetwork::byId(init('id'));
+        if (!is_object($jeeNetwork)) {
+            throw new Exception(__('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
+        }
+        ajax::success($jeeNetwork->restoreLocalBackup(init('backup')));
+    }
 
     if (init('action') == 'save') {
         if (!isConnect('admin')) {
@@ -161,6 +169,24 @@ try {
             throw new Exception(__('401 - Accès non autorisé', __FILE__));
         }
         ajax::success(jeeNetwork::changeMode(init('mode')));
+    }
+
+    if (init('action') == 'listLocalSlaveBackup') {
+        if (!isConnect('admin')) {
+            throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        }
+        if (substr(config::byKey('backup::path'), 0, 1) != '/') {
+            $backup_dir = dirname(__FILE__) . '/../../' . config::byKey('backup::path');
+        } else {
+            $backup_dir = config::byKey('backup::path');
+        }
+        $backup_dir .= '/slave/';
+        $backups = ls($backup_dir, '*.tar.gz', false, array('files', 'quiet', 'datetime_asc'));
+        $return = array();
+        foreach ($backups as $backup) {
+            $return[$backup_dir . '/' . $backup] = $backup;
+        }
+        ajax::success($return);
     }
 
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));

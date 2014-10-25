@@ -69,6 +69,15 @@ if (config::byKey('jeedom::licence') < 5) {
                                 <a class="btn btn-default" id="bt_updateSlave"><i class="fa fa-check"></i> {{Mettre à jour}}</a>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{Backup}}</label>
+                            <div class="col-lg-6">
+                                <select class="form-control" id="sel_backupList"></select>
+                            </div>
+                            <div class="col-lg-2">
+                                <a class="btn btn-default" id="bt_restoreSlave"><i class="fa fa-check"></i> {{Restaurer}}</a>
+                            </div>
+                        </div>
                     </fieldset>
                 </form>
             </div>

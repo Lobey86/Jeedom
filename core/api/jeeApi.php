@@ -399,11 +399,19 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
 
             if ($jsonrpc->getMethod() == 'jeeNetwork::receivedBackup') {
+                if (config::byKey('jeeNetwork::mode') == 'slave') {
+                    throw new Exception(__('Seul un maitre peut recevoir un backup', __FILE__));
+                }
                 $jeeNetwork = jeeNetwork::byId($params['slave_id']);
                 if (!is_object($jeeNetwork)) {
                     throw new Exception(__('Aucun esclave correspondant à l\'id : ', __FILE__) . $params['slave_id']);
                 }
-                $uploaddir = dirname(__FILE__) . '/../../backup/' . $jeeNetwork->getId() . '/';
+                if (substr(config::byKey('backup::path'), 0, 1) != '/') {
+                    $backup_dir = dirname(__FILE__) . '/../../' . config::byKey('backup::path');
+                } else {
+                    $backup_dir = config::byKey('backup::path');
+                }
+                $uploaddir = $backup_dir . '/slave/';
                 if (!file_exists($uploaddir)) {
                     mkdir($uploaddir);
                 }
@@ -418,10 +426,41 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (filesize($_file['tmp_name']) > 50000000) {
                     throw new Exception('Le fichier est trop gros (miximum 50mo)');
                 }
-                $uploadfile = $uploaddir . $jeeNetwork->getName() . '-' . $jeeNetwork->getConfiguration('version') . '-' . date('Y-m-d') . $extension;
+                $uploadfile = $uploaddir . $jeeNetwork->getId() . '-' . $jeeNetwork->getName() . '-' . $jeeNetwork->getConfiguration('version') . '-' . date('Y-m-d') . '.tar' . $extension;
                 if (!move_uploaded_file($_file['tmp_name'], $uploadfile)) {
                     throw new Exception('Impossible d\'uploader le fichier');
                 }
+                $jsonrpc->makeSuccess('ok');
+            }
+
+            if ($jsonrpc->getMethod() == 'jeeNetwork::restoreBackup') {
+                if (config::byKey('jeeNetwork::mode') != 'slave') {
+                    throw new Exception(__('Seul un esclave peut restorer un backup', __FILE__));
+                }
+                if (substr(config::byKey('backup::path'), 0, 1) != '/') {
+                    $backup_dir = dirname(__FILE__) . '/../../' . config::byKey('backup::path');
+                } else {
+                    $backup_dir = config::byKey('backup::path');
+                }
+                if (!file_exists($uploaddir)) {
+                    mkdir($uploaddir);
+                }
+                if (!file_exists($uploaddir)) {
+                    throw new Exception('Répertoire d\'upload non trouvé : ' . $uploaddir);
+                }
+                $_file = $_FILES['file'];
+                $extension = strtolower(strrchr($_file['name'], '.'));
+                if (!in_array($extension, array('.tar.gz', '.gz', '.tar'))) {
+                    throw new Exception('Extension du fichier non valide (autorisé .tar.gz, .tar et .gz) : ' . $extension);
+                }
+                if (filesize($_file['tmp_name']) > 50000000) {
+                    throw new Exception('Le fichier est trop gros (miximum 50mo)');
+                }
+                $uploadfile = $uploaddir . $jeeNetwork->getId() . '-' . $jeeNetwork->getName() . '-' . $jeeNetwork->getConfiguration('version') . '-' . date('Y-m-d') . '.tar' . $extension;
+                if (!move_uploaded_file($_file['tmp_name'], $uploadfile)) {
+                    throw new Exception('Impossible d\'uploader le fichier');
+                }
+                jeedom::restore($uploadfile);
                 $jsonrpc->makeSuccess('ok');
             }
 

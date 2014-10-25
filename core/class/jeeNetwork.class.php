@@ -386,6 +386,19 @@ class jeeNetwork {
         }
     }
 
+    public function restoreLocalBackup($_backup) {
+        if (!file_exists($_backup)) {
+            throw new Exception(__('Backup non trouvé : ', __FILE__) . $_backup);
+        }
+        $jsonrpc = $this->getJsonRpc();
+        $file = array(
+            'file' => '@' . realpath($_backup)
+        );
+        if (!$jsonrpc->sendRequest('jeeNetwork::restoreBackup', array(), 3600, $file)) {
+            throw new Exception($jsonrpc->getError());
+        }
+    }
+
     public function getJsonRpc() {
         if ($this->getIp() == '') {
             throw new Exception(__('Aucune adresse IP renseignée pour : ', __FILE__) . $this->getName());
