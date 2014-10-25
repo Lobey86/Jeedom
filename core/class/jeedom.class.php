@@ -28,7 +28,7 @@ class jeedom {
 
     public static function stop() {
         try {
-            echo "Désactivation de toutes les tâches";
+            echo "Desactivation de toutes les tâches";
             config::save('enableCron', 0);
             foreach (cron::all() as $cron) {
                 if ($cron->running()) {
@@ -54,7 +54,7 @@ class jeedom {
                 if (!$kill) {
                     $kill = posix_kill($pid, 9);
                     if (!$kill) {
-                        throw new Exception('Impossible de coupé le cron master : ' . $pid);
+                        throw new Exception('Impossible de coupe le cron master : ' . $pid);
                     }
                 }
                 echo " OK\n";
@@ -68,9 +68,9 @@ class jeedom {
         }
 
 
-        /*         * *********Arret des scénarios**************** */
+        /*         * *********Arret des scenarios**************** */
         try {
-            echo "Désactivation de tous les scénarios";
+            echo "Desactivation de tous les scenarios";
             config::save('enableScenario', 0);
             foreach (scenario::all() as $scenario) {
                 $scenario->stop();
@@ -88,12 +88,12 @@ class jeedom {
 
     public static function start() {
         try {
-            /*             * *********Réactivation des scénarios**************** */
-            echo "Réactivation des scénarios : ";
+            /*             * *********Reactivation des scenarios**************** */
+            echo "Reactivation des scenarios : ";
             config::save('enableScenario', 1);
             echo "OK\n";
-            /*             * *********Réactivation des tâches**************** */
-            echo "Réactivation des tâches : ";
+            /*             * *********Reactivation des tâches**************** */
+            echo "Reactivation des tâches : ";
             config::save('enableCron', 1);
             echo "OK\n";
         } catch (Exception $e) {
@@ -358,7 +358,7 @@ class jeedom {
             message::removeAll('core', 'dateCheckFailed');
             return true;
         }
-        log::add('core', 'error', __('La date système (', __FILE__) . date('Y-m-d H:00:00') . __(') est antérieur ou trop loin à la dernière date (', __FILE__) . date('Y-m-d H:i:s', $lastDate) . __(')enregistrer. Tous les lancements des scénarios sont interrompus jusqu\'à correction.', __FILE__), 'dateCheckFailed');
+        log::add('core', 'error', __('La date système (', __FILE__) . date('Y-m-d H:00:00') . __(') est anterieur ou trop loin à la dernière date (', __FILE__) . date('Y-m-d H:i:s', $lastDate) . __(')enregistrer. Tous les lancements des scenarios sont interrompus jusqu\'à correction.', __FILE__), 'dateCheckFailed');
         return false;
     }
 
@@ -376,7 +376,7 @@ class jeedom {
             self::doUPnP();
             DB::Prepare("REPLACE INTO `start` (`key` ,`value`) VALUES ('start',  'ok')", array());
             self::event('start');
-            log::add('core', 'info', 'Démarrage de Jeedom OK');
+            log::add('core', 'info', 'Demarrage de Jeedom OK');
         }
         plugin::cron();
         interactDef::cron();

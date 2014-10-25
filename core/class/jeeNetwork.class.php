@@ -192,7 +192,7 @@ class jeeNetwork {
         if (config::get('jeeNetwork::master::ip') == '') {
             throw new Exception(__('Aucune adresse IP renseignée pour le maitre ', __FILE__));
         }
-        return new jsonrpcClient(config::get('jeeNetwork::master::ip') . '/core/api/jeeApi.php', config::get('jeeNetwork::master::apikey'), array('slave_id' => config::get('jeeNetwork::slave::id')));
+        return new jsonrpcClient(config::byKey('jeeNetwork::master::ip') . '/core/api/jeeApi.php', config::byKey('jeeNetwork::master::apikey'), array('slave_id' => config::byKey('jeeNetwork::slave::id')));
     }
 
     /*     * *********************Methode d'instance************************* */
