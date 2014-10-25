@@ -342,7 +342,6 @@ function getJeedomSlaveLog(_autoUpdate, _log) {
                 log += data.result[i][2].replace(regex, "\n");
                 if ($.trim(data.result[i][2].replace(regex, "\n")) == '[END ' + _log.toUpperCase() + ' SUCCESS]') {
                     _autoUpdate = 0;
-                    $("#bt_saveJeeNetwork").click();
                     $('#div_alert').showAlert({message: '{{L\'opération est réussie}}', level: 'success'});
                 }
                 if ($.trim(data.result[i][2].replace(regex, "\n")) == '[END ' + _log.toUpperCase() + ' ERROR]') {
