@@ -321,10 +321,14 @@ class scenarioExpression {
 
     public static function round($_value, $_decimal = 0) {
         $_value = cmd::cmdToValue($_value);
-        $test = new evaluate();
-        $result = $test->Evaluer($_value);
-        if (is_string($result)) { //Alors la valeur n'est pas un calcul
-            $result = $_value;
+        try {
+            $test = new evaluate();
+            $result = $test->Evaluer($_value);
+            if (is_string($result)) { //Alors la valeur n'est pas un calcul
+                $result = $_value;
+            }
+        } catch (Exception $e) {
+            
         }
         if ($_decimal == 0) {
             return ceil(floatval(str_replace(',', '.', $result)));

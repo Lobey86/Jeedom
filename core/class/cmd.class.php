@@ -495,6 +495,14 @@ class cmd {
                     }
                     return 0;
                 case 'numeric':
+                    if ($this->getConfiguration('calculValueOffset') != '') {
+                        try {
+                            $test = new evaluate();
+                            $_value = $test->Evaluer(str_replace('#value#', $_value, $this->getConfiguration('calculValueOffset')));
+                        } catch (Exception $ex) {
+                            
+                        }
+                    }
                     return floatval($_value);
             }
         }

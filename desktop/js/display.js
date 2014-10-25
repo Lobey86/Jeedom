@@ -213,7 +213,16 @@ function displayCmd(_cmd_id) {
             div += '<legend>{{Configuration}}</legend>';
             div += '<form class="form-horizontal">';
             div += '<fieldset>';
-            
+
+            if (data.type == 'info' && data.subType == 'numeric') {
+                div += '<div class="form-group">';
+                div += '<label class="col-lg-4 control-label">{{Formule de calcul (utiliser #value#)}}</label>';
+                div += '<div class="col-lg-1">';
+                div += '<input class="eqLogicAttr" data-l1key="configuration" data-l2key="calculValueOffset" />';
+                div += '</div>';
+                div += '</div>';
+            }
+
             div += '<div class="form-group">';
             div += '<label class="col-lg-4 control-label">{{Ne pas afficher le nom de l\'équipement sur le dashboard}}</label>';
             div += '<div class="col-lg-1">';
@@ -405,8 +414,6 @@ function displayObject(_object_id) {
 
 /***********************EqLogic***************************/
 function displayEqLogic(_eqLogic_id) {
-
-
     $.hideAlert();
     jeedom.eqLogic.byId({
         id: _eqLogic_id,
