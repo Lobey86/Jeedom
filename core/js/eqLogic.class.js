@@ -164,7 +164,7 @@ jeedom.eqLogic.getCmd = function (_params) {
         (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
         return;
     }
-    if (isset(jeedom.eqLogic.cache.getCmd[_params.id]) && 'function' == typeof (_params.success)) {
+    if (isset(jeedom.eqLogic.cache.getCmd[_params.id]) && 'function' == typeof (_params.success) && init(_params.noCache, false) == false) {
         _params.success(jeedom.eqLogic.cache.getCmd[_params.id]);
         return;
     }
@@ -214,6 +214,7 @@ jeedom.eqLogic.builSelectCmd = function (_params) {
     jeedom.eqLogic.getCmd({
         id: _params.id,
         async: false,
+        noCache: true,
         success: function (cmds) {
             var result = '';
             for (var i in cmds) {
