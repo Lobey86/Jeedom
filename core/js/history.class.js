@@ -235,7 +235,6 @@ jeedom.history.drawChart = function (_params) {
                             maxPadding: 0.25,
                             labels: {
                                 align: 'left',
-                                x: -5
                             }
                         }],
                     xAxis: {

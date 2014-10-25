@@ -77,8 +77,8 @@ if (!isConnect()) {
                 echo ' <label>Variation : <input type="checkbox" class="graphDataOption" data-l1key="configuration" data-l2key="derive">';
                 echo '</label>';
                 echo ' <label>Echelle :</label> <select class="graphDataOption form-control" data-l1key="configuration" data-l2key="graphScale" style="width : 60px;">';
-                echo '<option value="0">0</option>';
-                echo '<option value="1">1</option>';
+                echo '<option value="0">Droite</option>';
+                echo '<option value="1">Gauche</option>';
                 echo '</select>';
 
                 echo '</div>';
