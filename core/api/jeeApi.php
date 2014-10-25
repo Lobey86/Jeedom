@@ -426,7 +426,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (filesize($_file['tmp_name']) > 50000000) {
                     throw new Exception('Le fichier est trop gros (miximum 50mo)');
                 }
-                $uploadfile = $uploaddir . $jeeNetwork->getId() . '-' . $jeeNetwork->getName() . '-' . $jeeNetwork->getConfiguration('version') . '-' . date('Y-m-d') . '.tar' . $extension;
+                $uploadfile = $uploaddir . $jeeNetwork->getId() . '-' . $jeeNetwork->getName() . '-' . $jeeNetwork->getConfiguration('version') . '-' . date('Y-m-d_H:i:s') . '.tar' . $extension;
                 if (!move_uploaded_file($_file['tmp_name'], $uploadfile)) {
                     throw new Exception('Impossible d\'uploader le fichier');
                 }
@@ -438,9 +438,9 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                     throw new Exception(__('Seul un esclave peut restorer un backup', __FILE__));
                 }
                 if (substr(config::byKey('backup::path'), 0, 1) != '/') {
-                    $backup_dir = dirname(__FILE__) . '/../../' . config::byKey('backup::path');
+                    $uploaddir = dirname(__FILE__) . '/../../' . config::byKey('backup::path');
                 } else {
-                    $backup_dir = config::byKey('backup::path');
+                    $uploaddir = config::byKey('backup::path');
                 }
                 if (!file_exists($uploaddir)) {
                     mkdir($uploaddir);
@@ -456,7 +456,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (filesize($_file['tmp_name']) > 50000000) {
                     throw new Exception('Le fichier est trop gros (miximum 50mo)');
                 }
-                $uploadfile = $uploaddir . $jeeNetwork->getId() . '-' . $jeeNetwork->getName() . '-' . $jeeNetwork->getConfiguration('version') . '-' . date('Y-m-d') . '.tar' . $extension;
+                $uploadfile = $uploaddir . $jeeNetwork->getId() . '-' . $jeeNetwork->getName() . '-' . $jeeNetwork->getConfiguration('version') . '-' . date('Y-m-d_H:i:s') . '.tar' . $extension;
                 if (!move_uploaded_file($_file['tmp_name'], $uploadfile)) {
                     throw new Exception('Impossible d\'uploader le fichier');
                 }

@@ -243,7 +243,8 @@ jeedom.jeeNetwork.restoreLocalBackup = function (_params) {
     paramsAJAX.url = 'core/ajax/jeeNetwork.ajax.php';
     paramsAJAX.data = {
         action: 'restoreLocalBackup',
-        backup: _params.backup
+        backup: _params.backup,
+        id: _params.id
     };
     $.ajax(paramsAJAX);
 };

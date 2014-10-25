@@ -138,7 +138,7 @@ try {
      if (init('action') == 'restoreLocalBackup') {
         $jeeNetwork = jeeNetwork::byId(init('id'));
         if (!is_object($jeeNetwork)) {
-            throw new Exception(__('Objet inconnu verifié l\'id : ', __FILE__) . init('id'));
+            throw new Exception(__('JeeNetwork inconnu verifié l\'id : ', __FILE__) . init('id'));
         }
         ajax::success($jeeNetwork->restoreLocalBackup(init('backup')));
     }
