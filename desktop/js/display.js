@@ -218,7 +218,7 @@ function displayCmd(_cmd_id) {
                 div += '<div class="form-group">';
                 div += '<label class="col-lg-6 control-label">{{Formule de calcul (utiliser #value# pour la valeur, ex #value# - 2)}}</label>';
                 div += '<div class="col-lg-6">';
-                div += '<input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="calculValueOffset" />';
+                div += '<input class="cmdAttr form-control" data-l1key="configuration" data-l2key="calculValueOffset" />';
                 div += '</div>';
                 div += '</div>';
             }
