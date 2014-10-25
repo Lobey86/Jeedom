@@ -125,9 +125,13 @@ class listener {
         $event = $this->getEvent();
         if ($_type == 'cmd') {
             if (strpos($_id, '#') !== false) {
-                $event[] = $_id;
+                if (!in_array($_id, $event)) {
+                    $event[] = $_id;
+                }
             } else {
-                $event[] = '#' . $_id . '#';
+                if (!in_array('#' . $_id . '#', $event)) {
+                    $event[] = '#' . $_id . '#';
+                }
             }
         }
         $this->setEvent($event);
