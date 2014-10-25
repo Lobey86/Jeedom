@@ -446,7 +446,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                     mkdir($uploaddir);
                 }
                 if (!file_exists($uploaddir)) {
-                    throw new Exception('Répertoire d\'upload non trouvé : ' . $uploaddir);
+                    throw new Exception('Repertoire d\'upload non trouve : ' . $uploaddir);
                 }
                 $_file = $_FILES['file'];
                 $extension = strtolower(strrchr($_file['name'], '.'));
