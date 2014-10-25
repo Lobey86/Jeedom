@@ -93,8 +93,6 @@ class jsonrpcClient {
         if ($_file !== null) {
             $_request = array_merge($_request, $_file);
         }
-        
-        print_r($_request);
         $nbRetry = 0;
         while ($nbRetry < $_maxRetry) {
             $ch = curl_init();

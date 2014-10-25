@@ -418,7 +418,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (filesize($_file['tmp_name']) > 50000000) {
                     throw new Exception('Le fichier est trop gros (miximum 50mo)');
                 }
-                $uploadfile = $uploaddir . $jeeNetwork->getName() . '-' . date('Y-m-d') . $extension;
+                $uploadfile = $uploaddir . $jeeNetwork->getName() . '-' . $jeeNetwork->getConfiguration('version') . '-' . date('Y-m-d') . $extension;
                 if (!move_uploaded_file($_file['tmp_name'], $uploadfile)) {
                     throw new Exception('Impossible d\'uploader le fichier');
                 }
