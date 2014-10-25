@@ -37,7 +37,7 @@ class jsonrpcClient {
                 'method' => $_method,
                 'params' => $_params,
         )));
-        $this->rawResult = preg_replace('/[^[:print:]]/', '',trim($this->send($request, $_timeout, $_file, $_maxRetry)));
+        $this->rawResult = preg_replace('/[^[:print:]]/', '', trim($this->send($request, $_timeout, $_file, $_maxRetry)));
 
         if ($this->rawResult === false) {
             return false;
@@ -79,7 +79,10 @@ class jsonrpcClient {
 
     private function send($_request, $_timeout = 10, $_file = null, $_maxRetry = 3) {
         $url = parse_url($this->apiAddr);
-        $host = $url['host'];
+        $host = '';
+        if (isset($url['host'])) {
+            $host = $url['host'];
+        }
         if (!ip2long($host) && config::byKey('http::ping_disable') != 1 && $host != '') {
             $timeout = config::byKey('http::ping_timeout', 'core', 2);
             exec("timeout $timeout ping -n -c 1 -W 2 $host", $output, $retval);
