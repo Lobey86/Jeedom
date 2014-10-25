@@ -461,7 +461,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (!move_uploaded_file($_file['tmp_name'], $uploadfile)) {
                     throw new Exception('Impossible d\'uploader le fichier');
                 }
-                jeedom::restore($uploadfile);
+                jeedom::restore($uploadfile, true);
                 $jsonrpc->makeSuccess('ok');
             }
 
