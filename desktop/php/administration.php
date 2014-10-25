@@ -243,6 +243,9 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                 <div class="col-lg-3">
                                     <input type="text"  class="configKey form-control" data-l1key="internalAddr" />
                                 </div>
+                                <div class="col-lg-4">
+                                    <div class="alert alert-info">{{Attention ne pas oublié le /jeedom après l'ip si vous l'utilisez pour vous rendre sur l'interface de jeedom}}</div>
+                                </div>
                             </div>
                             <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
                                 <div class="form-group">

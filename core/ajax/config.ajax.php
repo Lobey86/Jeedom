@@ -71,6 +71,9 @@ try {
                 $value = sha1($value);
             }
             config::save($key, jeedom::fromHumanReadable($value), init('plugin', 'core'));
+            if($key == 'internalAddr'){
+                jeeNetwork::pull();
+            }
         }
         ajax::success();
     }
