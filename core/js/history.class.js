@@ -162,10 +162,10 @@ jeedom.history.drawChart = function (_params) {
                         zoomType: 'x',
                         renderTo: _params.el,
                         alignTicks: false,
-                        spacingBottom: 0,
-                        spacingTop: 0,
-                        spacingRight: 0,
-                        spacingLeft: 0,
+                        spacingBottom: 5,
+                        spacingTop: 5,
+                        spacingRight: 5,
+                        spacingLeft: 5,
                     },
                     plotOptions: {
                         series: {
