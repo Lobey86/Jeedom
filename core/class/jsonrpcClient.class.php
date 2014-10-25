@@ -37,6 +37,7 @@ class jsonrpcClient {
                 'method' => $_method,
                 'params' => $_params,
         )));
+        print_r($request);
         $this->rawResult = preg_replace('/[^[:print:]]/', '', trim($this->send($request, $_timeout, $_file, $_maxRetry)));
 
         if ($this->rawResult === false) {
