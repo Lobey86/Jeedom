@@ -14,11 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
-
-if (getUrlVars('saveSuccessFull') == 1) {
-    $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
-}
-
 if (getUrlVars('removeSuccessFull') == 1) {
     $('#div_alert').showAlert({message: '{{Suppression effectuée avec succès}}', level: 'success'});
 }
@@ -299,7 +294,8 @@ $("#bt_saveJeeNetwork").on('click', function (event) {
             },
             success: function (data) {
                 modifyWithoutSave = false;
-                window.location.replace('index.php?v=d&p=jeeNetwork&id=' + data.id + '&saveSuccessFull=1');
+                $('.li_jeeNetwork.active').click();
+                $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
             }
         });
     } else {
@@ -364,7 +360,9 @@ function getJeedomSlaveLog(_autoUpdate, _log) {
         },
         success: function (data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                setTimeout(function () {
+                    getJeedomSlaveLog(_autoUpdate, _log)
+                }, 1000);
                 return;
             }
             var log = '';
@@ -374,13 +372,14 @@ function getJeedomSlaveLog(_autoUpdate, _log) {
                 if ($.trim(data.result[i][2].replace(regex, "\n")) == '[END ' + _log.toUpperCase() + ' SUCCESS]') {
                     _autoUpdate = 0;
                     $('#div_alert').showAlert({message: '{{L\'opération est réussie}}', level: 'success'});
+                    $("#bt_saveJeeNetwork").click();
                 }
                 if ($.trim(data.result[i][2].replace(regex, "\n")) == '[END ' + _log.toUpperCase() + ' ERROR]') {
                     $('#div_alert').showAlert({message: '{{L\'opération a échoué}}', level: 'danger'});
                     _autoUpdate = 0;
                 }
             }
-            $('#pre_' + _log + 'Info').text(log);
+            $('#pre_updateInfo').text(log);
             if (init(_autoUpdate, 0) == 1) {
                 setTimeout(function () {
                     getJeedomSlaveLog(_autoUpdate, _log)

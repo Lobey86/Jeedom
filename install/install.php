@@ -40,7 +40,7 @@ $update = false;
 $backup_ok = false;
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
-    echo __("***************Installation/Mise à jour de Jeedom " . getVersion('jeedom') . "***************\n", __FILE__);
+    echo __("***************Installation/Mise a jour de Jeedom " . getVersion('jeedom') . "***************\n", __FILE__);
 
 
     try {
@@ -59,7 +59,7 @@ try {
         /*         * ************************MISE A JOUR********************************** */
         try {
             if (init('level', -1) > -1) {
-                echo __("Verification des mises à jour...", __FILE__);
+                echo __("Verification des mises a jour...", __FILE__);
                 update::checkAllUpdate();
                 echo __("OK\n", __FILE__);
             }
@@ -85,7 +85,7 @@ try {
                 $backup_ok = true;
             }
             if (init('mode') == 'force') {
-                echo __("/!\ Mise à jour en mode forcee /!\ \n", __FILE__);
+                echo __("/!\ Mise a jour en mode forcee /!\ \n", __FILE__);
             }
             jeedom::stop();
             if (init('v') == '') {
@@ -107,7 +107,7 @@ try {
                         throw new Exception(__('Impossible de telecharger le fichier depuis : ' . $url . '. Si l\'application est payante, l\'avez vous achetee ?', __FILE__));
                     }
                     if (filesize($tmp) < 10) {
-                        throw new Exception(__('Echec lors du telechargement du fichier veuillez reessayer plus tard (taile inferieur à 10 octets)', __FILE__));
+                        throw new Exception(__('Echec lors du telechargement du fichier veuillez reessayer plus tard (taile inferieur a 10 octets)', __FILE__));
                     }
 
                     $cibDir = dirname(__FILE__) . '/../tmp/jeedom';
@@ -122,7 +122,7 @@ try {
                     $zip = new ZipArchive;
                     if ($zip->open($tmp) === TRUE) {
                         if (!$zip->extractTo($cibDir)) {
-                            throw new Exception(__('Impossible d\'installer la mise à jour. Les fichiers n\'ont pu être decompresses', __FILE__));
+                            throw new Exception(__('Impossible d\'installer la mise a jour. Les fichiers n\'ont pu être decompresses', __FILE__));
                         }
                         $zip->close();
                     } else {
@@ -145,9 +145,9 @@ try {
             include dirname(__FILE__) . '/../core/config/version.config.php';
 
             if (init('v') != '') {
-                echo __("La mise à jour ", __FILE__) . init('v') . __(" va être reapliquee. Voulez vous continuer  ? [o/N] ", __FILE__);
+                echo __("La mise a jour ", __FILE__) . init('v') . __(" va être reapliquee. Voulez vous continuer  ? [o/N] ", __FILE__);
                 if (trim(fgets(STDIN)) !== 'o') {
-                    echo __("Mise à jour forcee de Jeedom est annulee\n", __FILE__);
+                    echo __("Mise a jour forcee de Jeedom est annulee\n", __FILE__);
                     jeedom::start();
                     echo "[END UPDATE SUCCESS]\n";
                     exit(0);
@@ -170,7 +170,7 @@ try {
                 $updateScript = dirname(__FILE__) . '/update/' . init('v') . '.php';
                 if (file_exists($updateScript)) {
                     try {
-                        echo __("Mise à jour systeme en version : ", __FILE__) . init('v') . "\n";
+                        echo __("Mise a jour systeme en version : ", __FILE__) . init('v') . "\n";
                         require_once $updateScript;
                         echo __("OK\n", __FILE__);
                     } catch (Exception $e) {
@@ -187,7 +187,7 @@ try {
                     $updateSql = dirname(__FILE__) . '/update/' . $nextVersion . '.sql';
                     if (file_exists($updateSql)) {
                         try {
-                            echo __("Mise à jour BDD en version : ", __FILE__) . $nextVersion . "...";
+                            echo __("Mise a jour BDD en version : ", __FILE__) . $nextVersion . "...";
                             $sql = file_get_contents($updateSql);
                             DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);
                             echo "OK\n";
@@ -202,7 +202,7 @@ try {
                     $updateScript = dirname(__FILE__) . '/update/' . $nextVersion . '.php';
                     if (file_exists($updateScript)) {
                         try {
-                            echo __("Mise à jour systeme en version : ", __FILE__) . $nextVersion . "...";
+                            echo __("Mise a jour systeme en version : ", __FILE__) . $nextVersion . "...";
                             require_once $updateScript;
                             echo __("OK\n", __FILE__);
                         } catch (Exception $e) {
@@ -217,19 +217,19 @@ try {
                 }
             }
             try {
-                echo __("Verification de la mise à jour...", __FILE__);
+                echo __("Verification de la mise a jour...", __FILE__);
                 update::checkAllUpdate('core');
                 config::save('version', getVersion('jeedom'));
                 echo __("OK\n", __FILE__);
             } catch (Exception $ex) {
                 echo __("***ERREUR*** ", __FILE__) . $ex->getMessage() . "\n";
             }
-            echo __("***************Jeedom est à jour en version ", __FILE__) . getVersion('jeedom') . "***************\n";
+            echo __("***************Jeedom est a jour en version ", __FILE__) . getVersion('jeedom') . "***************\n";
         }
         if (init('level', -1) > -1) {
-            echo __("***************Mise à jour des plugins***************\n", __FILE__);
+            echo __("***************Mise a jour des plugins***************\n", __FILE__);
             update::updateAll();
-            echo __("***************Mise à jour des plugins reussie***************\n", __FILE__);
+            echo __("***************Mise a jour des plugins reussie***************\n", __FILE__);
         }
         try {
             jeedom::start();
