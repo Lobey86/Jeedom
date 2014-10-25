@@ -351,7 +351,7 @@ function chooseIcon(_callback) {
             $(this).dialog("close");
         },
         "Valider": function () {
-            var icon = $('.iconSelected').html();
+            var icon = $('.iconSelected .iconSel').html();
             if (icon == undefined) {
                 icon = '';
             }
