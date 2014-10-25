@@ -109,6 +109,17 @@ try {
         echo __("OK\n", __FILE__);
     }
 
+    if (config::byKey('jeeNetwork::mode') == 1) {
+        echo __('Envoie de la sauvegarde sur le maitre...', __FILE__);
+        try {
+            jeeNetwork::sendBackup($backup_dir . '/' . $bakcup_name);
+        } catch (Exception $e) {
+            log::add('backup', 'error', $e->getMessage());
+            echo '/!\ ' . br2nl($e->getMessage()) . ' /!\\';
+        }
+        echo __("OK\n", __FILE__);
+    }
+
     echo __("***************Fin du backup de Jeedom***************\n", __FILE__);
     echo "[END BACKUP SUCCESS]\n";
 } catch (Exception $e) {

@@ -175,6 +175,26 @@ class jeeNetwork {
         }
     }
 
+    public static function sendBackup($_path) {
+        if (config::byKey('jeeNetwork::mode') != 'slave') {
+            throw new Exception(__('Seul un esclave peut envoyer un backup au maitre', __FILE__));
+        }
+        $jsonrpc = self::getJsonRpcMaster();
+        $file = array(
+            'file' => '@' . realpath($_path)
+        );
+        if (!$jsonrpc->sendRequest('jeeNetwork::receivedBackup', array(), 3600, $file)) {
+            throw new Exception($jsonrpc->getError());
+        }
+    }
+
+    public static function getJsonRpcMaster() {
+        if (config::get('jeeNetwork::master::ip') == '') {
+            throw new Exception(__('Aucune adresse IP renseignée pour le maitre ', __FILE__));
+        }
+        return new jsonrpcClient(config::get('jeeNetwork::master::ip') . '/core/api/jeeApi.php', config::get('jeeNetwork::master::apikey'), array('slave_id' => config::get('jeeNetwork::slave::id')));
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function preUpdate() {
@@ -206,6 +226,7 @@ class jeeNetwork {
             'apikey_master' => config::byKey('api'),
             'address' => config::byKey('internalAddr'),
             'slave_ip' => $this->getRealIp(),
+            'slave_id' => $this->getId(),
         );
         if ($jsonrpc->sendRequest('jeeNetwork::handshake', $params, 60)) {
             $result = $jsonrpc->getResult();
@@ -273,6 +294,17 @@ class jeeNetwork {
         if ($jsonrpc->sendRequest('jeeNetwork::checkUpdate', array())) {
             $this->save();
         } else {
+            throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
+        }
+    }
+
+    public function installPlugin($_plugin_id, $_version = 'stable') {
+        $jsonrpc = $this->getJsonRpc();
+        $params = array(
+            'plugin_id' => $_plugin_id,
+            'version' => $_version,
+        );
+        if (!$jsonrpc->sendRequest('jeeNetwork::installPlugin', $params)) {
             throw new Exception($jsonrpc->getError(), $jsonrpc->getErrorCode());
         }
     }

@@ -40,7 +40,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
         $type = init('type');
         if ($type == 'cmd') {
             if (is_json(init('id'))) {
-                $ids = json_decode(init('id'),true);
+                $ids = json_decode(init('id'), true);
                 $result = array();
                 foreach ($ids as $id) {
                     $cmd = cmd::byId($id);
@@ -348,6 +348,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $address = (isset($params['address']) && $params['address'] != '') ? $params['address'] : getClientIp();
                 config::save('jeeNetwork::master::ip', $address);
                 config::save('jeeNetwork::master::apikey', $params['apikey_master']);
+                config::save('jeeNetwork::slave::id', $params['slave_id']);
                 if (config::byKey('internalAddr') == '') {
                     config::save('internalAddr', $params['slave_ip']);
                 }
@@ -382,6 +383,45 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
 
             if ($jsonrpc->getMethod() == 'jeeNetwork::checkUpdate') {
                 update::checkAllUpdate();
+                $jsonrpc->makeSuccess('ok');
+            }
+
+            if ($jsonrpc->getMethod() == 'jeeNetwork::installPlugin') {
+                $market = market::byId($params['plugin_id']);
+                if (!is_object($market)) {
+                    throw new Exception(__('Impossible de trouver l\'objet associé : ', __FILE__) . $params['plugin_id']);
+                }
+                if (!isset($params['version'])) {
+                    $params['version'] = 'stable';
+                }
+                $market->install($params['version']);
+                $jsonrpc->makeSuccess('ok');
+            }
+
+            if ($jsonrpc->getMethod() == 'jeeNetwork::receivedBackup') {
+                $jeeNetwork = jeeNetwork::byId($params['slave_id']);
+                if (!is_object($jeeNetwork)) {
+                    throw new Exception(__('Aucun esclave correspondant à l\'id : ', __FILE__) . $params['slave_id']);
+                }
+                $uploaddir = dirname(__FILE__) . '/../../backup/' . $jeeNetwork->getId() . '/';
+                if (!file_exists($uploaddir)) {
+                    mkdir($uploaddir);
+                }
+                if (!file_exists($uploaddir)) {
+                    throw new Exception('Répertoire d\'upload non trouvé : ' . $uploaddir);
+                }
+                $_file = $_FILES['file'];
+                $extension = strtolower(strrchr($_file['name'], '.'));
+                if (!in_array($extension, array('.tar.gz', '.gz', '.tar'))) {
+                    throw new Exception('Extension du fichier non valide (autorisé .tar.gz, .tar et .gz) : ' . $extension);
+                }
+                if (filesize($_file['tmp_name']) > 50000000) {
+                    throw new Exception('Le fichier est trop gros (miximum 50mo)');
+                }
+                $uploadfile = $uploaddir . $jeeNetwork->getName() . '-' . date('Y-m-d') . $extension;
+                if (!move_uploaded_file($_file['tmp_name'], $uploadfile)) {
+                    throw new Exception('Impossible d\'uploader le fichier');
+                }
                 $jsonrpc->makeSuccess('ok');
             }
 
