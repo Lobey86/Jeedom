@@ -457,7 +457,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                     throw new Exception('Le fichier est trop gros (miximum 50mo)');
                 }
                 $bakcup_name = 'backup-' . getVersion('jeedom') . '-' . date("d-m-Y-H\hi") . '.tar.gz';
-                $uploadfile = $uploaddir . $bakcup_name;
+                $uploadfile = $uploaddir . '/' . $bakcup_name;
                 if (!move_uploaded_file($_file['tmp_name'], $uploadfile)) {
                     throw new Exception('Impossible d\'uploader le fichier');
                 }
