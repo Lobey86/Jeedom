@@ -37,7 +37,6 @@ class jsonrpcClient {
                 'method' => $_method,
                 'params' => $_params,
         )));
-        print_r($request);
         $this->rawResult = preg_replace('/[^[:print:]]/', '', trim($this->send($request, $_timeout, $_file, $_maxRetry)));
 
         if ($this->rawResult === false) {
@@ -94,6 +93,8 @@ class jsonrpcClient {
         if ($_file !== null) {
             $_request = array_merge($_request, $_file);
         }
+        
+        print_r($_request);
         $nbRetry = 0;
         while ($nbRetry < $_maxRetry) {
             $ch = curl_init();
