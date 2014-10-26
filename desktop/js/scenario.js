@@ -481,7 +481,7 @@ function printScenario(_id) {
             $('#span_lastLaunch').text(data.lastLaunch);
 
             $('#div_scenarioElement').empty();
-            $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a>');
+            $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement btn-sm pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a><br/><br/>');
             $('.provokeMode').empty();
             $('.scheduleMode').empty();
             $('.scenarioAttr[data-l1key=mode]').trigger('change');
@@ -589,13 +589,13 @@ function addTrigger(_trigger) {
     var div = '<div class="form-group trigger">';
     div += '<label class="col-lg-3 control-label">{{Evènement}}</label>';
     div += '<div class="col-lg-7">';
-    div += '<input class="scenarioAttr input-sm form-control" data-l1key="trigger" value="' + _trigger + '">';
+    div += '<input class="scenarioAttr input-xs form-control" data-l1key="trigger" value="' + _trigger + '">';
     div += '</div>';
     div += '<div class="col-lg-1">';
-    div += '<a class="btn btn-default btn-sm cursor bt_selectTrigger"><i class="fa fa-list-alt"></i></a>';
+    div += '<a class="btn btn-default btn-xs cursor bt_selectTrigger"><i class="fa fa-list-alt"></i></a>';
     div += '</div>';
     div += '<div class="col-lg-1">';
-    div += '<i class="fa fa-minus-circle bt_removeTrigger cursor" style="margin-top : 9px;"></i>';
+    div += '<i class="fa fa-minus-circle bt_removeTrigger cursor"></i>';
     div += '</div>';
     div += '</div>';
     $('.provokeMode').append(div);
@@ -605,7 +605,7 @@ function addSchedule(_schedule) {
     var div = '<div class="form-group schedule">';
     div += '<label class="col-lg-3 control-label">{{Programmation}}</label>';
     div += '<div class="col-lg-7">';
-    div += '<input class="scenarioAttr input-sm form-control" data-l1key="schedule" value="' + _schedule + '">';
+    div += '<input class="scenarioAttr input-xs form-control" data-l1key="schedule" value="' + _schedule + '">';
     div += '</div>';
     div += '<div class="col-lg-1">';
     div += '<i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>';
@@ -631,11 +631,11 @@ function addExpression(_expression) {
                 _expression.expression = _expression.expression.replace(/"/g, '&quot;');
             }
             retour += '<div class="col-lg-11" style="position : relative; top : 5px;">';
-            retour += '<textarea class="expressionAttr form-control input-sm" data-l1key="expression" style="resize: vertical;" style="font-weight:bold;" rows="1">' + init(_expression.expression) + '</textarea>';
+            retour += '<textarea class="expressionAttr form-control input-xs" data-l1key="expression" style="resize: vertical;" rows="1">' + init(_expression.expression) + '</textarea>';
             retour += '</div>';
             retour += '<div class="col-lg-1">';
-            retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression" style="position : relative; top : 3px;" title="Rechercher une commande"><i class="fa fa-list-alt"></i></a>';
-            retour += ' <a class="btn btn-default btn-sm cursor bt_selectScenarioExpression" style="position : relative; top : 3px;" title="Rechercher un scenario"><i class="fa fa-history"></i></a>';
+            retour += ' <a class="btn btn-default btn-xs cursor bt_selectCmdExpression" style="position : relative; top : 3px;" title="Rechercher une commande"><i class="fa fa-list-alt"></i></a>';
+            retour += ' <a class="btn btn-default btn-xs cursor bt_selectScenarioExpression" style="position : relative; top : 3px;" title="Rechercher un scenario"><i class="fa fa-history"></i></a>';
             retour += '</div>';
             break;
         case 'element' :
@@ -657,10 +657,10 @@ function addExpression(_expression) {
             retour += '<i class="fa fa-minus-circle pull-left cursor bt_removeExpression" style="margin-top : 9px;"></i>';
             retour += '</div>';
             retour += '<div class="col-lg-6">';
-            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="font-weight:bold;"/>';
+            retour += '<input class="expressionAttr form-control input-xs" data-l1key="expression" value="' + init(_expression.expression) + '" style="font-weight:bold;"/>';
             retour += '</div>';
             retour += '<div class="col-lg-1">';
-            retour += ' <a class="btn btn-default btn-sm cursor bt_selectCmdExpression"><i class="fa fa-list-alt"></i></a>';
+            retour += ' <a class="btn btn-default btn-xs cursor bt_selectCmdExpression"><i class="fa fa-list-alt"></i></a>';
             retour += '</div>';
             retour += '<div class="col-lg-4 expressionOptions">';
             retour += jeedom.cmd.displayActionOption(init(_expression.expression), init(_expression.options));
@@ -695,7 +695,7 @@ function addSubElement(_subElement) {
     switch (_subElement.type) {
         case 'if' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="condition"/>';
-            retour += '<legend style="margin-top : 4px;margin-bottom : 5px;color : inherit;font-weight:bold;border : none;"><div style="position : relative;left:15px;">{{SI}} ';
+            retour += '<legend style="margin-top : 0px;margin-bottom : 0px;color : inherit;font-weight:bold;border : none;font-size:1.2em;"><div style="position : relative;left:15px;">{{SI}} ';
             retour += '<div class="expressions" style="display : inline-block; width : 90%">';
             var expression = {type: 'condition'};
             if (isset(_subElement.expressions) && isset(_subElement.expressions[0])) {
@@ -707,7 +707,7 @@ function addSubElement(_subElement) {
             break;
         case 'then' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 3px;margin-bottom : 5px;color : inherit;font-weight:bold;border : none;border-top: 1px solid #e5e5e5;">{{ALORS}}';
+            retour += '<legend style="margin-top : 0px;margin-bottom : 0px;color : inherit;font-weight:bold;border : none;border-top: 1px solid #e5e5e5;font-size:1.2em;">{{ALORS}}';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
@@ -722,7 +722,7 @@ function addSubElement(_subElement) {
             break;
         case 'else' :
             retour += '<input class="subElementAttr" data-l1key="subtype" style="display : none;" value="action"/>';
-            retour += '<legend style="margin-top : 3px;margin-bottom : 5px;color : inherit;font-weight:bold;border : none;border-top: 1px solid #e5e5e5;">{{SINON}}';
+            retour += '<legend style="margin-top : 2px;margin-bottom : 0px;color : inherit;font-weight:bold;border : none;border-top: 1px solid #e5e5e5;font-size:1.2em;">{{SINON}}';
             retour += '<a class="btn btn-xs btn-default bt_addScenarioElement pull-right fromSubElement" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter élément}}</a>';
             retour += '<a class="btn btn-xs btn-default bt_addAction pull-right" style="position : relative; top : 2px;"><i class="fa fa-plus-circle"></i> {{Ajouter action}}</a>';
             retour += '</legend>';
@@ -808,7 +808,7 @@ function addElement(_element) {
     if (pColor > 4) {
         pColor = 0;
     }
-    var div = '<div class="element" style="color : white;padding : 7px;padding-bottom : 0px;margin : 7px;background-color : ' + color + '">';
+    var div = '<div class="element" style="color : white;padding-right : 7px;padding-left : 7px;padding-bottom : 0px;margin-bottom : 2px;background-color : ' + color + '">';
     div += '<input class="elementAttr" data-l1key="id" style="display : none;" value="' + init(_element.id) + '"/>';
     div += '<input class="elementAttr" data-l1key="type" style="display : none;" value="' + init(_element.type) + '"/>';
     div += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="position : relative; top : 15px;z-index : 2;"></i>';

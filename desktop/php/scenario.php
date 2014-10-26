@@ -71,7 +71,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
             <a class="btn btn-danger btn-xs pull-right" id="bt_stopScenario"><i class="fa fa-stop"></i> {{Arrêter}}</a>
         </legend>
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
@@ -121,12 +121,7 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                                 <input class="form-control scenarioAttr input-sm" data-l1key="timeout">
                             </div>
                         </div>
-                        <div class="form-group expertModeVisible">
-                            <label class="col-lg-11 control-label">{{Lancer en avant-plan (a ne surtout pas utiliser si vous avez des sleep dans le scénario)}}</label>
-                            <div class="col-lg-1">
-                                <input type="checkbox" class="scenarioAttr input-sm" data-l1key="configuration" data-l2key="launchInForeground">
-                            </div>
-                        </div>
+
                     </fieldset>
                 </form>
             </div>
@@ -142,8 +137,8 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                             </select>
                         </div>
                         <div class="col-lg-6">
-                            <a class="btn btn-default" id="bt_addTrigger"><i class="fa fa-plus-square"></i> {{Déclencheur}}</a>
-                            <a class="btn btn-default" id="bt_addSchedule"><i class="fa fa-plus-square"></i> {{Programmation}}</a>
+                            <a class="btn btn-default btn-sm" id="bt_addTrigger"><i class="fa fa-plus-square"></i> {{Déclencheur}}</a>
+                            <a class="btn btn-default btn-sm" id="bt_addSchedule"><i class="fa fa-plus-square"></i> {{Programmation}}</a>
                         </div>
                     </div>
                     <div class="scheduleDisplay" style="display: none;">
@@ -163,6 +158,18 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
             <div class="col-lg-3">
                 <form class="form-horizontal">
                     <div class="form-group">
+                        <div class="col-lg-12">
+                            <textarea class="form-control scenarioAttr" data-l1key="description" placeholder="Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group expertModeVisible">
+                        <label class="col-lg-11 control-label">{{Lancer en avant-plan (a ne surtout pas utiliser si vous avez des sleep dans le scénario)}}</label>
+                        <div class="col-lg-1">
+                            <input type="checkbox" class="scenarioAttr input-sm" data-l1key="configuration" data-l2key="launchInForeground">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-lg-6 control-label" for="span_lastCheck">{{Dernier lancement}}</label>
                         <div class="col-lg-6">
                             <div><span id="span_lastLaunch" class="label label-info" style="position: relative; top: 4px;"></span></div>
@@ -174,13 +181,12 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                             <div><span id="span_ongoing" class="label" style="position: relative; top: 4px;"></span></div>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>
-        <textarea class="form-control scenarioAttr" data-l1key="description" placeholder="Description"></textarea><br/>
 
         <div id="div_scenarioElement" class="element"></div>
-
 
         <div class="form-actions">
             <a class="btn btn-warning tooltips" id="bt_testScenario" title='{{Veuillez sauvegarder avant de tester. Ceci peut ne pas aboutir.}}'><i class="fa fa-gamepad"></i> Exécuter</a>

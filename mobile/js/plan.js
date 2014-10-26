@@ -108,8 +108,7 @@ function displayPlan(_planHeader_id) {
                             displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
                         }
                     }
-
-                },
+                }
             });
         }
     });

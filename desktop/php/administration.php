@@ -667,15 +667,18 @@ sendVarToJS('ldapEnable', config::byKey('ldap::enable'));
                                         <input class="configKey form-control" data-l1key="market::address"/>
                                     </div>
                                     <label class="col-lg-1 control-label">{{Nom d'utilisateur}}</label>
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-1">
                                         <input type="text"  class="configKey form-control" data-l1key="market::username" />
                                     </div>
                                     <label class="col-lg-1 control-label">{{Mot de passe}}</label>
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-1">
                                         <input type="password"  class="configKey form-control" data-l1key="market::password" />
                                     </div>
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-1">
                                         <a class="btn btn-default" id="bt_testMarketConnection">Tester</a>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="alert alert-info">{{N'oubliez pas de sauvegarder la configuration avant de tester}}</div>
                                     </div>
                                 </div>
                                 <div class="form-group">

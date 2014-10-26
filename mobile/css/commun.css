@@ -88,3 +88,52 @@ legend{
     margin: 0 0 .7375em;
     width : 100%;
 }
+
+.break{
+    position:absolute;
+    background:#222;
+    width:20px;
+    height:3px;  
+}
+
+.dot1{
+    -webkit-animation: loading 6s infinite;
+    -moz-animation: loading 6s infinite;
+    -ms-animation: loading 6s infinite;
+    -o-animation: loading 6s infinite;
+    animation: loading 6s infinite;
+}
+.dot2{
+    -webkit-animation: loading 6s 0.5s infinite;
+    -moz-animation: loading 6s 0.5s infinite;
+    -ms-animation: loading 6s 0.5s infinite;
+    -o-animation: loading 6s 0.5s infinite;
+    animation: loading 6s 0.5s infinite;
+}
+.dot3{
+    -webkit-animation: loading 6s 1s infinite;
+    -moz-animation: loading 6s 1s infinite;
+    -ms-animation: loading 6s 1s infinite;
+    -o-animation: loading 6s 1s infinite;
+    animation: loading 6s 1s infinite;
+}
+
+@keyframes "loading" {
+    from { left: 0; }
+     to { left: 100%; }
+}
+@-moz-keyframes loading {
+    from { left: 0; }
+    to { left: 100%; }
+}
+@-webkit-keyframes "loading" {
+    from { left: 0; }
+    to { left: 100%; }
+}
+@-ms-keyframes "loading" {
+    from { left: 0; }
+    to { left: 100%; }
+}
+@-o-keyframes "loading" {
+    from { left: 0; }
+    to { left: 100%; }

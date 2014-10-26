@@ -2,10 +2,10 @@ function initScenario() {
     jeedom.scenario.toHtml({
         id: 'all',
         version: 'mobile',
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(htmls) {
+        success: function (htmls) {
             var html = '';
             for (var i in htmls) {
                 html += htmls[i];
@@ -14,7 +14,7 @@ function initScenario() {
             setTileSize('.scenario');
         }
     });
-    $(window).on("orientationchange", function(event) {
+    $(window).on("orientationchange", function (event) {
         setTileSize('.scenario');
     });
 }

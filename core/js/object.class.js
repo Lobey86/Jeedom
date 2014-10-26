@@ -93,12 +93,6 @@ jeedom.object.all = function(_params) {
     $.ajax(paramsAJAX);
 };
 
-jeedom.object.prefetch = function(_params) {
-    if (!isset(jeedom.object.cache.html[_params.id])) {
-        jeedom.object.toHtml({id: _params.id, version: _params.version, useCache: false, global: false,success : function(){}});
-    }
-};
-
 jeedom.object.toHtml = function(_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {
@@ -108,9 +102,6 @@ jeedom.object.toHtml = function(_params) {
                     jeedom.object.cache.html[i] = data.result[i];
                 }
             } else {
-                if (isset(jeedom) && isset(jeedom.workflow) && isset(jeedom.workflow.object) && jeedom.workflow.object[_params.id]) {
-                    jeedom.workflow.object[_params.id] = false;
-                }
                 jeedom.object.cache.html[_params.id] = data.result;
             }
             return data;

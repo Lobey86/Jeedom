@@ -41,7 +41,7 @@ function json_decode(a) {
         }
     b = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
     b.lastIndex = 0;
-    b.test(a) && (a = a.replace(b, function(a) {
+    b.test(a) && (a = a.replace(b, function (a) {
         return"\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4)
     }));
     if (/^[\],:{}\s]*$/.test(a.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, "@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, "]").replace(/(?:^|:|,)(?:\s*\[)+/g, "")))
@@ -60,15 +60,15 @@ function json_encode(a) {
                 throw new SyntaxError("json_encode");
             return b
         }
-        var c = function(a) {
+        var c = function (a) {
             var b = /[\\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g, c = {"\b": "\\b", "\t": "\\t", "\n": "\\n", "\f": "\\f", "\r": "\\r", '"': '\\"', "\\": "\\\\"};
             b.lastIndex = 0;
-            return b.test(a) ? '"' + a.replace(b, function(a) {
+            return b.test(a) ? '"' + a.replace(b, function (a) {
                 var b = c[a];
                 return"string" ===
                         typeof b ? b : "\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4)
             }) + '"' : '"' + a + '"'
-        }, e = function(a, b) {
+        }, e = function (a, b) {
             var d = "", f = 0, m = f = "", m = 0, s = d, k = [], l = b[a];
             l && ("object" === typeof l && "function" === typeof l.toJSON) && (l = l.toJSON(a));
             switch (typeof l) {
@@ -167,7 +167,7 @@ function is_unicode(a) {
 }
 
 function is_array(a) {
-    var b, d = function(a) {
+    var b, d = function (a) {
         return(a = /\W*function\s+([\w\$]+)\s*\(/.exec(a)) ? a[1] : "(Anonymous)"
     };
     if (!a || "object" !== typeof a)
@@ -175,7 +175,7 @@ function is_array(a) {
     this.php_js = this.php_js || {};
     this.php_js.ini = this.php_js.ini || {};
     b = this.php_js.ini["phpjs.objectsAsArrays"];
-    return function(a) {
+    return function (a) {
         if (!a || "object" !== typeof a || "number" !== typeof a.length)
             return!1;
         var b = a.length;
@@ -220,10 +220,10 @@ function init(_value, _default) {
     return _value;
 }
 
-(function($) {
+(function ($) {
     var scriptsCache = [];
-    $.include = function(_path, _callback) {
-        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+    $.include = function (_path, _callback) {
+        $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
             if (options.dataType == 'script' || originalOptions.dataType == 'script') {
                 options.cache = true;
             }
@@ -246,7 +246,7 @@ function init(_value, _default) {
                 scriptsCache.push(_path[i]);
             }
         }
-        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+        $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
             if (options.dataType == 'script' || originalOptions.dataType == 'script') {
                 options.cache = false;
             }
@@ -256,12 +256,9 @@ function init(_value, _default) {
     };
 
     /********************************loading************************/
-    $.showLoading = function() {
+    $.showLoading = function () {
         if ($.mobile) {
-            $.mobile.loading('show', {
-                text: 'Chargement...',
-                textVisible: true,
-            });
+            $('#div_loadingSpinner').show()
         } else {
             if ($('#jqueryLoadingDiv').length == 0) {
                 $('body').append('<div id="jqueryLoadingDiv"><div class="overlay"></div><i class="fa fa-cog fa-spin loadingImg"></i></div>');
@@ -269,16 +266,16 @@ function init(_value, _default) {
             $('#jqueryLoadingDiv').show();
         }
     };
-    $.hideLoading = function() {
+    $.hideLoading = function () {
         if ($.mobile) {
-            $.mobile.loading('hide');
+            $('#div_loadingSpinner').hide()
         } else {
             $('#jqueryLoadingDiv').hide();
         }
     };
 
     /*********************jquery alert*************************************/
-    $.fn.showAlert = function(_options) {
+    $.fn.showAlert = function (_options) {
         var options = init(_options, {});
         options.message = init(options.message, '');
         options.level = init(options.level, '');
@@ -319,12 +316,12 @@ function init(_value, _default) {
                 }, 650);
             }
 
-            $(this).find('.btn_closeAlert').on('click', function() {
+            $(this).find('.btn_closeAlert').on('click', function () {
                 $(this).closest('.jqAlert').hide();
             });
         }
         //Hide/show debug trace
-        $(this).find('.bt_errorShowTrace').on('click', function() {
+        $(this).find('.bt_errorShowTrace').on('click', function () {
             var errorTrace = $(this).parent().find('.pre_errorTrace');
             if (errorTrace.is(':visible')) {
                 errorTrace.hide();
@@ -337,13 +334,13 @@ function init(_value, _default) {
         return this;
     };
 
-    $.fn.hideAlert = function() {
+    $.fn.hideAlert = function () {
         $('#jqAlertSpacer' + $(this).attr('id')).remove();
         $(this).text('').hide();
         return $(this);
     };
 
-    $.hideAlert = function() {
+    $.hideAlert = function () {
         if ($.mobile) {
             $('.jqAlert').popup("close");
         } else {
@@ -354,7 +351,7 @@ function init(_value, _default) {
 
     /**********************Jquery.value******************************/
 
-    jQuery.fn.findAtDepth = function(selector, maxDepth) {
+    jQuery.fn.findAtDepth = function (selector, maxDepth) {
         var depths = [], i;
 
         if (maxDepth > 0) {
@@ -369,10 +366,10 @@ function init(_value, _default) {
     };
 
 
-    $.fn.value = function(_value) {
+    $.fn.value = function (_value) {
         if (isset(_value)) {
             if ($(this).length > 1) {
-                $(this).each(function() {
+                $(this).each(function () {
                     $(this).value(_value);
                 });
             } else {
@@ -427,12 +424,12 @@ function init(_value, _default) {
         }
     };
 
-    $.fn.getValues = function(_attr, _depth) {
+    $.fn.getValues = function (_attr, _depth) {
         var values = [];
         if ($(this).length > 1) {
-            $(this).each(function() {
+            $(this).each(function () {
                 var value = {};
-                $(this).findAtDepth(_attr, init(_depth, 0)).each(function() {
+                $(this).findAtDepth(_attr, init(_depth, 0)).each(function () {
                     var elValue = $(this).value();
                     try {
                         if ($.trim(elValue).substr(0, 1) == '{') {
@@ -488,7 +485,7 @@ function init(_value, _default) {
         }
         if ($(this).length == 1) {
             var value = {};
-            $(this).findAtDepth(_attr, init(_depth, 0)).each(function() {
+            $(this).findAtDepth(_attr, init(_depth, 0)).each(function () {
                 if ($(this).attr('data-l1key') != undefined && $(this).attr('data-l1key') != '') {
                     var elValue = $(this).value();
                     try {
@@ -544,7 +541,7 @@ function init(_value, _default) {
         return values;
     }
 
-    $.fn.setValues = function(_object, _attr) {
+    $.fn.setValues = function (_object, _attr) {
         for (var i in _object) {
             if (!is_array(_object[i]) && !is_object(_object[i])) {
                 $(this).find(_attr + '[data-l1key="' + i + '"]').value(_object[i]);
@@ -565,20 +562,20 @@ function init(_value, _default) {
 
     /**************LI FILTER*****************************/
 
-    $.initTableFilter = function() {
-        $("body").delegate("ul li input.filter", 'keyup', function() {
+    $.initTableFilter = function () {
+        $("body").delegate("ul li input.filter", 'keyup', function () {
             $(this).closest('ul').ulFilter();
         });
     };
 
 
-    $.fn.ulFilter = function() {
+    $.fn.ulFilter = function () {
         var ul = $(this);
         var li = $(this).find('li:not(.filter):not(.nav-header):first');
         var find = 'li.filter input.filter';
         delete inputs;
         var inputs = new Array();
-        ul.find(find).each(function(i) {
+        ul.find(find).each(function (i) {
             var filterOn = '';
             if ($(this).is(':visible')) {
                 var value = $(this).value();
@@ -612,7 +609,7 @@ function init(_value, _default) {
         return this;
     };
 
-    String.prototype.stripAccents = function() {
+    String.prototype.stripAccents = function () {
         var in_chrs = 'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ',
                 out_chrs = 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY',
                 transl = {};
@@ -620,7 +617,7 @@ function init(_value, _default) {
         for (var i = 0; i < in_chrs.length; i++) {
             transl[in_chrs.charAt(i)] = out_chrs.charAt(i);
         }
-        return this.replace(chars_rgx, function(match) {
+        return this.replace(chars_rgx, function (match) {
             return transl[match];
         });
     };

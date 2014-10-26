@@ -99,6 +99,14 @@ if (count($plugins_list) > 0) {
         include_file('desktop', 'utils', 'js');
         include_file('3rdparty', 'jquery.toastr/jquery.toastr.min', 'js');
         include_file('3rdparty', 'jquery.at.caret/jquery.at.caret.min', 'js');
+
+        if (isConnect() && $_SESSION['user']->getOptions('desktop_highcharts_theme') != '') {
+            try {
+                include_file('3rdparty', 'highstock/themes/' . $_SESSION['user']->getOptions('desktop_highcharts_theme'), 'js');
+            } catch (Exception $e) {
+                
+            }
+        }
         ?>
     </head>
     <body>

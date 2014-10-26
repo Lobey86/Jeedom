@@ -1,7 +1,9 @@
 /***************Fonction d'initialisation*********************/
 $(function () {
+    MESSAGE_NUMBER = null;
+    nbActiveAjaxRequest = 0;
+
     $.mobile.orientationChangeEnabled = false;
-    $.mobile.touchOverflowEnabled = true;
 
     $(window).on("orientationchange", function (event) {
         deviceInfo = getDeviceType();
@@ -21,10 +23,20 @@ $(function () {
 
     function updateCache() {
         webappCache.swapCache();
-        // if (confirm("Une nouvelle version de Jeedom vient d'être installée. Voulez-vous rafraichir pour l'utiliser maintenant ?")) {
         window.location.reload();
-        // }
     }
+
+    $(document).ajaxStart(function () {
+        nbActiveAjaxRequest++;
+        $.showLoading();
+    });
+    $(document).ajaxStop(function () {
+        nbActiveAjaxRequest--;
+        if (nbActiveAjaxRequest <= 0) {
+            nbActiveAjaxRequest = 0;
+            $.hideLoading();
+        }
+    });
 });
 
 function isset() {
@@ -39,19 +51,7 @@ function isset() {
     return!0
 }
 
-function initExpertMode() {
-    if (expertMode == 1) {
-        $('.expertModeDisable').attr('disabled', true);
-        $('.expertModeVisible').show();
-    } else {
-        $('.expertModeDisable').attr('disabled', false);
-        $('.expertModeVisible').hide();
-    }
-}
-
-
 function initApplication(_reinit) {
-    $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
         type: 'POST', // methode de transmission des données au fichier php
         url: 'core/ajax/jeedom.ajax.php', // url du fichier php
@@ -69,7 +69,6 @@ function initApplication(_reinit) {
                 modal(false);
                 panel(false);
                 if (data.code == -1234) {
-                    $.hideLoading();
                     page('connection', 'Connexion');
                     return;
                 } else {
@@ -86,7 +85,7 @@ function initApplication(_reinit) {
                     plugins = data.result.plugins;
                     deviceInfo = getDeviceType();
                     userProfils = data.result.userProfils;
-                    expertMode = userProfils.expertMode;
+                    var include = ['core/js/core.js'];
 
                     if (isset(userProfils.mobile_theme_color) && userProfils.mobile_theme_color != '') {
                         $('#jQMnDColor').attr('href', '3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.color.' + userProfils.mobile_theme_color + '.css');
@@ -94,16 +93,13 @@ function initApplication(_reinit) {
                     if (isset(userProfils.mobile_theme) && userProfils.mobile_theme != '') {
                         $('#jQMnDTheme').attr('href', '3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.' + userProfils.mobile_theme + '.css');
                     }
+                    if (isset(userProfils.mobile_highcharts_theme) && userProfils.mobile_highcharts_theme != '') {
+                        include.push('3rdparty/highstock/themes/' + userProfils.mobile_highcharts_theme + '.js');
+                    }
 
                     $.get("core/php/icon.inc.php", function (data) {
                         $("head").append(data);
-                        var include = [
-                            'core/js/core.js',
-                        ];
-                        $.showLoading();
                         $.include(include, function () {
-                            jeedom.object.prefetch({id: 'all', version: 'mobile'});
-                            jeedom.view.prefetch({id: 'all', version: 'mobile'});
                             if (isset(userProfils.homePageMobile) && userProfils.homePageMobile != 'home') {
                                 var res = userProfils.homePageMobile.split("::");
                                 if (res[0] == 'core') {
@@ -124,7 +120,6 @@ function initApplication(_reinit) {
                             } else {
                                 page('home', 'Accueil');
                             }
-                            $.hideLoading();
                         });
                     });
                 }
@@ -134,6 +129,7 @@ function initApplication(_reinit) {
 }
 
 function page(_page, _title, _option, _plugin) {
+    $.showLoading();
     $('.ui-popup').popup('close');
     $('#page').empty();
     if (isset(_title)) {
@@ -146,6 +142,7 @@ function page(_page, _title, _option, _plugin) {
         });
         return;
     }
+    
     jeedom.user.isConnect({
         success: function (result) {
             if (!result) {
@@ -202,11 +199,16 @@ function panel(_content) {
 }
 
 function refreshMessageNumber() {
-    jeedom.message.number({
-        success: function (_number) {
-            $('.span_nbMessage').html(_number);
-        }
-    });
+    if (MESSAGE_NUMBER !== null) {
+        $('.span_nbMessage').html(MESSAGE_NUMBER);
+    } else {
+        jeedom.message.number({
+            success: function (_number) {
+                MESSAGE_NUMBER = _number;
+                $('.span_nbMessage').html(_number);
+            }
+        });
+    }
 }
 
 function notify(_title, _text) {
@@ -243,9 +245,9 @@ function getDeviceType() {
     if (result.type == 'phone') {
         var ori = window.orientation;
         if (ori == 90 || ori == -90) {
-            result.bSize = (result.width / 3) -15;
+            result.bSize = (result.width / 3) - 15;
         } else {
-            result.bSize = (result.width / 2) -15;
+            result.bSize = (result.width / 2) - 15;
         }
     }
     return result;

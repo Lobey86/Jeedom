@@ -844,14 +844,12 @@ class cmd {
         $nodeJs = array(
             array(
                 'cmd_id' => $this->getId(),
-                'eqLogic_id' => $this->getEqLogic_id(),
-                'object_id' => $eqLogic->getObject_id(),
             )
         );
 
         foreach (self::byValue($this->getId()) as $cmd) {
             if ($cmd->getType() == 'action') {
-                $nodeJs[] = array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id());
+                $nodeJs[] = array('cmd_id' => $cmd->getId());
             } else {
                 $cmd->event($cmd->execute(), $_loop);
             }
@@ -861,7 +859,7 @@ class cmd {
         nodejs::pushUpdate('eventCmd', $nodeJs);
         if (strpos($_value, 'error') === false) {
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-            $this->addHistoryValue($_value, $this->getCollectDate());
+            $this->addHistoryValue($value, $this->getCollectDate());
         }
         $internalEvent = new internalEvent();
         $internalEvent->setEvent('event::cmd');

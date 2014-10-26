@@ -21,7 +21,6 @@ function jeedom() {
 jeedom.cache = [];
 jeedom.nodeJs = {state: -1};
 jeedom.display = {};
-jeedom.workflow = {object: [], eqLogic: [], cmd: [], scenario: [], nextrun: 0, delay: 1500};
 
 if (!isset(jeedom.cache.getConfiguration)) {
     jeedom.cache.getConfiguration = Array();
@@ -65,30 +64,14 @@ jeedom.init = function () {
             if ($.isArray(_options)) {
                 for (var i in _options) {
                     jeedom.cmd.refreshValue({id: _options[i].cmd_id});
-                    if ($.mobile) {
-                        jeedom.workflow.cmd[_options[i].cmd_id] = true;
-                        jeedom.workflow.eqLogic[_options[i].eqLogic_id] = true;
-                        jeedom.workflow.object[_options[i].object_id] = true;
-                    }
                 }
-                jeedom.scheduleWorkflow();
             } else {
                 jeedom.cmd.refreshValue({id: _options.cmd_id});
-                if ($.mobile) {
-                    jeedom.workflow.cmd[_options.cmd_id] = true;
-                    jeedom.workflow.eqLogic[_options.eqLogic_id] = true;
-                    jeedom.workflow.object[_options.object_id] = true;
-                    jeedom.scheduleWorkflow();
-                }
             }
 
         });
         socket.on('eventScenario', function (scenario_id) {
             jeedom.scenario.refreshValue({id: scenario_id});
-            if ($.mobile) {
-                jeedom.workflow.scenario[scenario_id] = true;
-                jeedom.scheduleWorkflow();
-            }
         });
         socket.on('eventEqLogic', function (eqLogic_id) {
             jeedom.eqLogic.refreshValue({id: eqLogic_id});
@@ -133,76 +116,6 @@ jeedom.init = function () {
     } else {
         $('.span_nodeJsState').removeClass('red').addClass('grey');
         jeedom.nodeJs.state = null;
-    }
-}
-
-jeedom.scheduleWorkflow = function () {
-    var nextrun = ((new Date()).getTime()) + jeedom.workflow.delay;
-    if (nextrun > jeedom.workflow.nextrun) {
-        if (nextrun < (jeedom.workflow.nextrun + jeedom.workflow.delay)) {
-            jeedom.workflow.nextrun += jeedom.workflow.delay;
-            var timeout = (new Date()).getTime() - jeedom.workflow.nextrun;
-            if (timeout < 1) {
-                timeout = jeedom.workflow.delay;
-            }
-            setTimeout(function () {
-                jeedom.processWorkflow();
-            }, timeout);
-        } else {
-            jeedom.workflow.nextrun = nextrun + jeedom.workflow.delay;
-            setTimeout(function () {
-                jeedom.processWorkflow();
-            }, jeedom.workflow.delay);
-        }
-    }
-}
-
-jeedom.processWorkflow = function () {
-    var list_object = [];
-    for (var i in jeedom.workflow.object) {
-        if (jeedom.workflow.object[i]) {
-            list_object.push(i);
-            jeedom.workflow.object[i] = false;
-        }
-    }
-
-    var list_view = [];
-    for (var i in jeedom.workflow.eqLogic) {
-        if (jeedom.workflow.eqLogic[i]) {
-            if (isset(jeedom.view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
-                for (var j in jeedom.view.cache.html) {
-                    if ($.inArray(j, list_view) < 0 && $.inArray(i, jeedom.view.cache.html[j].eqLogic) >= 0) {
-                        list_view.push(j);
-                    }
-                }
-            }
-            jeedom.workflow.eqLogic[i] = false;
-        }
-    }
-
-    for (var i in jeedom.workflow.scenario) {
-        if (jeedom.workflow.scenario[i]) {
-            if (isset(jeedom.view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
-                for (var j in jeedom.view.cache.html) {
-                    if ($.inArray(j, list_view) < 0 && $.inArray(i, jeedom.view.cache.html[j].scenario) >= 0) {
-                        list_view.push(j);
-                    }
-                }
-            }
-            jeedom.workflow.scenario[i] = false;
-        }
-    }
-    for (var i in jeedom.workflow.cmd) {
-        if (jeedom.workflow.cmd[i]) {
-            jeedom.workflow.cmd[i] = false;
-        }
-    }
-
-    if (list_object.length > 0 && isset(jeedom.object) && isset(jeedom.object.cache) && isset(jeedom.object.cache.html)) {
-        jeedom.object.prefetch({id: list_object, version: jeedom.display.version});
-    }
-    if (list_view.length > 0 && isset(jeedom.view) && isset(jeedom.view.cache) && isset(jeedom.view.cache.html)) {
-        jeedom.view.prefetch({id: list_view, version: jeedom.display.version});
     }
 }
 
