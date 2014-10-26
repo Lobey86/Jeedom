@@ -152,27 +152,28 @@ nodejs_manual_install()
 			sudo deb http://http.debian.net/debian wheezy-backports main
 			sudo apt-get install -y nodejs
 		else
-			echo "********************************************************"
-			echo "${msg_manual_install_nodejs_ARM}"
-			echo "********************************************************"
-			wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
-			sudo tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
-			if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
+			if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
+				echo "********************************************************"
+				echo "${msg_manual_install_nodejs_RPI}"
+				echo "********************************************************"
+				wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-raspberry.bin
+				sudo rm -rf /usr/local/bin/node
+				sudo rm -rf /usr/bin/nodejs
+				sudo mv node-raspberry.bin /usr/local/bin/node
 				sudo ln -s /usr/local/bin/node /usr/bin/nodejs
+				sudo chmod +x /usr/local/bin/node
+			else
+				echo "********************************************************"
+				echo "${msg_manual_install_nodejs_ARM}"
+				echo "********************************************************"
+				wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
+				sudo tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
+				if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
+					sudo ln -s /usr/local/bin/node /usr/bin/nodejs
+				fi
+				sudo rm -rf node-v0.10.21-cubie.tar.xz
 			fi
-			sudo rm -rf node-v0.10.21-cubie.tar.xz
 		fi
-	fi
-	if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
-		echo "********************************************************"
-		echo "${msg_manual_install_nodejs_RPI}"
-		echo "********************************************************"
-		wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-raspberry.bin
-		sudo rm -rf /usr/local/bin/node
-		sudo rm -rf /usr/bin/nodejs
-		sudo mv node-raspberry.bin /usr/local/bin/node
-		sudo ln -s /usr/local/bin/node /usr/bin/nodejs
-		sudo chmod +x /usr/local/bin/node
 	fi
 }
 
@@ -488,7 +489,9 @@ do
 done
 
 sudo apt-get install -y nodejs
-nodeJS=$?
+# Check if nodeJS was actually installed, otherwise do a manual install
+nodejs_manual_install $?
+
 sudo apt-get install -y php5-common php5-fpm php5-cli php5-curl php5-json php5-mysql
 sudo apt-get install -y usb-modeswitch python-serial
 
@@ -521,9 +524,6 @@ sudo chmod 775 -R "${webserver_home}"
 sudo chown -R www-data:www-data "${webserver_home}"
 rm -rf jeedom.zip
 cd jeedom
-
-# Check if nodeJS was actually, otherwise do a manual install
-nodejs_manual_install ${nodeJS}
 
 echo "********************************************************"
 echo "${msg_config_db}"
