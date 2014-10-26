@@ -130,13 +130,13 @@ usage_help()
 }
 configure_php()
 {
-    sudo adduser www-data dialout
-    sudo adduser www-data gpio
-    sudo sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
-    sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 1G/g' /etc/php5/fpm/php.ini
-    sudo sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
-    sudo service php5-fpm restart
-    sudo /etc/init.d/php5-fpm restart
+    adduser www-data dialout
+    adduser www-data gpio
+    sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
+    sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 1G/g' /etc/php5/fpm/php.ini
+    sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
+    service php5-fpm restart
+    /etc/init.d/php5-fpm restart
 }
 
 # Install nodeJS from alternative sources, in case it was not in the
@@ -149,29 +149,29 @@ nodejs_manual_install()
 			echo "********************************************************"
 			echo "${msg_manual_install_nodejs_x86}"
 			echo "********************************************************"
-			sudo deb http://http.debian.net/debian wheezy-backports main
-			sudo apt-get install -y nodejs
+			deb http://http.debian.net/debian wheezy-backports main
+			apt-get install -y nodejs
 		else
 			if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
 				echo "********************************************************"
 				echo "${msg_manual_install_nodejs_RPI}"
 				echo "********************************************************"
 				wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-raspberry.bin
-				sudo rm -rf /usr/local/bin/node
-				sudo rm -rf /usr/bin/nodejs
-				sudo mv node-raspberry.bin /usr/local/bin/node
-				sudo ln -s /usr/local/bin/node /usr/bin/nodejs
-				sudo chmod +x /usr/local/bin/node
+				rm -rf /usr/local/bin/node
+				rm -rf /usr/bin/nodejs
+				mv node-raspberry.bin /usr/local/bin/node
+				ln -s /usr/local/bin/node /usr/bin/nodejs
+				chmod +x /usr/local/bin/node
 			else
 				echo "********************************************************"
 				echo "${msg_manual_install_nodejs_ARM}"
 				echo "********************************************************"
 				wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
-				sudo tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
+				tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
 				if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
-					sudo ln -s /usr/local/bin/node /usr/bin/nodejs
+					ln -s /usr/local/bin/node /usr/bin/nodejs
 				fi
-				sudo rm -rf node-v0.10.21-cubie.tar.xz
+				rm -rf node-v0.10.21-cubie.tar.xz
 			fi
 		fi
 	fi
@@ -183,25 +183,25 @@ configure_nginx()
 	echo "${msg_nginx_config}"
     echo "********************************************************"
     if [ -f '/etc/init.d/apache2' ]; then
-        sudo service apache2 stop
-        sudo update-rc.d apache2 remove
+        service apache2 stop
+        update-rc.d apache2 remove
     fi
     if [ -f '/etc/init.d/apache' ]; then
-        sudo service apache stop
-        sudo update-rc.d apache remove
+        service apache stop
+        update-rc.d apache remove
     fi
 
-    sudo service nginx stop
+    service nginx stop
     if [ -f '/etc/nginx/sites-available/defaults' ]; then
-        sudo rm /etc/nginx/sites-available/default
+        rm /etc/nginx/sites-available/default
     fi
-    sudo cp install/nginx_default /etc/nginx/sites-available/default
+    cp install/nginx_default /etc/nginx/sites-available/default
     if [ ! -f '/etc/nginx/sites-enabled/default' ]; then
-        sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+        ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
     fi
-    sudo service nginx restart
+    service nginx restart
     configure_php
-    sudo update-rc.d nginx defaults
+    update-rc.d nginx defaults
 }
 
 configure_apache()
@@ -209,11 +209,11 @@ configure_apache()
     echo "********************************************************"
 	echo "${msg_apache_config}"
     echo "********************************************************"
-    sudo cp install/apache_default /etc/apache2/sites-available/000-default.conf
+    cp install/apache_default /etc/apache2/sites-available/000-default.conf
     if [ ! -f '/etc/apache2/sites-enabled/000-default.conf' ]; then
-        sudo a2ensite 000-default.conf
+        a2ensite 000-default.conf
     fi
-    sudo service apache2 restart
+    service apache2 restart
     configure_php
 }
 
@@ -241,13 +241,13 @@ optimize_webserver_cache_apc()
 {
 	# php < 5.5 => APC
 	echo "${msg_optimize_webserver_cache_apc}"
-	sudo apt-get install -y php-apc php-pear php5-dev build-essential libpcre3-dev
-	sudo pear config-set php_ini /etc/php5/fpm/php_ini
-	sudo pear config-set php_ini /etc/php5/cli/php_ini
-	sudo pecl config-set php_ini /etc/php5/fpm/php_ini
-	sudo pecl config-set php_ini /etc/php5/cli/php_ini
+	apt-get install -y php-apc php-pear php5-dev build-essential libpcre3-dev
+	pear config-set php_ini /etc/php5/fpm/php_ini
+	pear config-set php_ini /etc/php5/cli/php_ini
+	pecl config-set php_ini /etc/php5/fpm/php_ini
+	pecl config-set php_ini /etc/php5/cli/php_ini
 	# Force pecl unattended mode
-	yes '' | sudo pecl install -fs apc
+	yes '' | pecl install -fs apc
 	echo 'apc.enable_cli = 1' >> /etc/php5/cli/conf.d/20-apc.ini
 }
 
@@ -255,9 +255,9 @@ optimize_webserver_cache_opcache()
 {
 	# php >= 5.5 => OPcache
 	echo "${msg_optimize_webserver_cache_opcache}"
-	sudo apt-get install -y php-pear php5-dev build-essential
+	apt-get install -y php-pear php5-dev build-essential
 	# Force pecl unattended mode
-	yes '' | sudo pecl install -fs zendopcache-7.0.3
+	yes '' | pecl install -fs zendopcache-7.0.3
 
 	# Enable cache for FPM and CLI
 	for i in fpm cli
@@ -350,7 +350,7 @@ install_razberry_zway()
 	[ ! -f zway-install ] && wget -q -O - razberry.z-wave.me/install -O zway-install
 
 	# actual installation
-	sudo bash zway-install
+	bash zway-install
 
 	# Check installation status
 	if [ $? -ne 0 ]; then
@@ -378,6 +378,14 @@ setup_i18n
 echo "********************************************************"
 echo "${msg_installer_welcome}"
 echo "********************************************************"
+
+# Check for root priviledges
+if [ $(id -u) != 0 ]
+then
+        echo "Super-user (root) privileges are required to install Jeedom"
+        echo "Please run 'sudo $0' or log in as root, and rerun $0"
+        exit 1
+fi
 
 # Check that the provided ${webserver} is supported [nginx,apache]
 case ${webserver} in
@@ -419,41 +427,41 @@ done
 echo "********************************************************"
 echo "${msg_install_deps}"
 echo "********************************************************"
-sudo apt-get update
+apt-get update
 
 if [ "${webserver}" = "nginx" ] ; then 
     # Packages dependencies
-    sudo apt-get install -y nginx-common nginx-full
+    apt-get install -y nginx-common nginx-full
 fi
 
 if [ "${webserver}" = "apache" ] ; then 
     # Packages dependencies
-    sudo apt-get install -y apache2 libapache2-mod-php5
-    sudo apt-get install -y autoconf make subversion
-    sudo svn checkout http://svn.apache.org/repos/asf/httpd/httpd/tags/2.2.22/ httpd-2.2.22
-    sudo wget --no-check-certificate http://cafarelli.fr/gentoo/apache-2.2.24-wstunnel.patch
-    sudo cd httpd-2.2.22
-    sudo patch -p1 < ../apache-2.2.24-wstunnel.patch
-    sudo svn co http://svn.apache.org/repos/asf/apr/apr/branches/1.4.x srclib/apr
-    sudo svn co http://svn.apache.org/repos/asf/apr/apr-util/branches/1.3.x srclib/apr-util
-    sudo ./buildconf
-    sudo ./configure --enable-proxy=shared --enable-proxy_wstunnel=shared
-    sudo make
-    sudo cp modules/proxy/.libs/mod_proxy{_wstunnel,}.so /usr/lib/apache2/modules/
-    sudo chmod 644 /usr/lib/apache2/modules/mod_proxy{_wstunnel,}.so
-    echo "# Depends: proxy\nLoadModule proxy_wstunnel_module /usr/lib/apache2/modules/mod_proxy_wstunnel.so" | sudo tee -a /etc/apache2/mods-available/proxy_wstunnel.load
-    sudo a2enmod proxy_wstunnel
-    sudo a2enmod proxy_http
-    sudo a2enmod proxy
-    sudo service apache2 restart
+    apt-get install -y apache2 libapache2-mod-php5
+    apt-get install -y autoconf make subversion
+    svn checkout http://svn.apache.org/repos/asf/httpd/httpd/tags/2.2.22/ httpd-2.2.22
+    wget --no-check-certificate http://cafarelli.fr/gentoo/apache-2.2.24-wstunnel.patch
+    cd httpd-2.2.22
+    patch -p1 < ../apache-2.2.24-wstunnel.patch
+    svn co http://svn.apache.org/repos/asf/apr/apr/branches/1.4.x srclib/apr
+    svn co http://svn.apache.org/repos/asf/apr/apr-util/branches/1.3.x srclib/apr-util
+    ./buildconf
+    ./configure --enable-proxy=shared --enable-proxy_wstunnel=shared
+    make
+    cp modules/proxy/.libs/mod_proxy{_wstunnel,}.so /usr/lib/apache2/modules/
+    chmod 644 /usr/lib/apache2/modules/mod_proxy{_wstunnel,}.so
+    echo "# Depends: proxy\nLoadModule proxy_wstunnel_module /usr/lib/apache2/modules/mod_proxy_wstunnel.so" | tee -a /etc/apache2/mods-available/proxy_wstunnel.load
+    a2enmod proxy_wstunnel
+    a2enmod proxy_http
+    a2enmod proxy
+    service apache2 restart
 fi
 
-sudo apt-get install -y ffmpeg
-sudo apt-get install -y libssh2-php
-sudo apt-get install -y ntp
-sudo apt-get install -y unzip
-sudo apt-get install -y miniupnpc
-sudo apt-get install -y mysql-client mysql-common mysql-server mysql-server-core-5.5
+apt-get install -y ffmpeg
+apt-get install -y libssh2-php
+apt-get install -y ntp
+apt-get install -y unzip
+apt-get install -y miniupnpc
+apt-get install -y mysql-client mysql-common mysql-server mysql-server-core-5.5
 echo "${msg_passwd_mysql}"
 while true
 do
@@ -488,19 +496,19 @@ do
         fi
 done
 
-sudo apt-get install -y nodejs
+apt-get install -y nodejs
 # Check if nodeJS was actually installed, otherwise do a manual install
 nodejs_manual_install $?
 
-sudo apt-get install -y php5-common php5-fpm php5-cli php5-curl php5-json php5-mysql
-sudo apt-get install -y usb-modeswitch python-serial
+apt-get install -y php5-common php5-fpm php5-cli php5-curl php5-json php5-mysql
+apt-get install -y usb-modeswitch python-serial
 
 
 echo "********************************************************"
 echo "${msg_setup_dirs_and_privs}"
 echo "********************************************************"
 
-sudo mkdir -p "${webserver_home}"
+mkdir -p "${webserver_home}"
 cd "${webserver_home}"
 chown www-data:www-data -R "${webserver_home}"
 
@@ -519,9 +527,9 @@ if [  $? -ne 0 ] ; then
     fi
 fi
 unzip jeedom.zip -d jeedom
-sudo mkdir "${webserver_home}"/jeedom/tmp
-sudo chmod 775 -R "${webserver_home}"
-sudo chown -R www-data:www-data "${webserver_home}"
+mkdir "${webserver_home}"/jeedom/tmp
+chmod 775 -R "${webserver_home}"
+chown -R www-data:www-data "${webserver_home}"
 rm -rf jeedom.zip
 cd jeedom
 
@@ -543,10 +551,10 @@ install_razberry_zway
 echo "********************************************************"
 echo "${msg_install_jeedom}"
 echo "********************************************************"
-sudo cp core/config/common.config.sample.php core/config/common.config.php
-sudo sed -i -e "s/#PASSWORD#/${bdd_password}/g" core/config/common.config.php 
-sudo chown www-data:www-data core/config/common.config.php
-sudo php install/install.php mode=force
+cp core/config/common.config.sample.php core/config/common.config.php
+sed -i -e "s/#PASSWORD#/${bdd_password}/g" core/config/common.config.php 
+chown www-data:www-data core/config/common.config.php
+php install/install.php mode=force
 
 echo "********************************************************"
 echo "${msg_setup_cron}"
@@ -573,24 +581,24 @@ optimize_webserver_cache
 echo "********************************************************"
 echo "${msg_setup_nodejs_service}"
 echo "********************************************************"
-sudo cp jeedom /etc/init.d/
-sudo chmod +x /etc/init.d/jeedom
-sudo update-rc.d jeedom defaults
+cp jeedom /etc/init.d/
+chmod +x /etc/init.d/jeedom
+update-rc.d jeedom defaults
 if [ "${webserver}" = "apache" ] ; then 
-    sudo sed -i 's%PATH_TO_JEEDOM="/usr/share/nginx/www/jeedom"%PATH_TO_JEEDOM="/var/www/jeedom"%g' /etc/init.d/jeedom
+    sed -i 's%PATH_TO_JEEDOM="/usr/share/nginx/www/jeedom"%PATH_TO_JEEDOM="/var/www/jeedom"%g' /etc/init.d/jeedom
 fi
 
 echo "********************************************************"
 echo "${msg_startup_nodejs_service}"
 echo "********************************************************"
-sudo service jeedom start
+service jeedom start
 
 echo "********************************************************"
 echo "${msg_post_install_actions}"
 echo "********************************************************"
-sudo cp install/motd /etc
-sudo chown root:root /etc/motd
-sudo chmod 644 /etc/motd
+cp install/motd /etc
+chown root:root /etc/motd
+chmod 644 /etc/motd
 
 echo "********************************************************"
 echo "${msg_install_complete}"
