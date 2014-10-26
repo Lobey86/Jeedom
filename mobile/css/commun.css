@@ -97,25 +97,25 @@ legend{
 }
 
 .dot1{
-    -webkit-animation: loading 8s infinite;
-    -moz-animation: loading 8s infinite;
-    -ms-animation: loading 8s infinite;
-    -o-animation: loading 8s infinite;
-    animation: loading 8s infinite;
+    -webkit-animation: loading 6s infinite;
+    -moz-animation: loading 6s infinite;
+    -ms-animation: loading 6s infinite;
+    -o-animation: loading 6s infinite;
+    animation: loading 6s infinite;
 }
 .dot2{
-    -webkit-animation: loading 8s 0.5s infinite;
-    -moz-animation: loading 8s 0.5s infinite;
-    -ms-animation: loading 8s 0.5s infinite;
-    -o-animation: loading 8s 0.5s infinite;
-    animation: loading 8s 0.5s infinite;
+    -webkit-animation: loading 6s 0.5s infinite;
+    -moz-animation: loading 6s 0.5s infinite;
+    -ms-animation: loading 6s 0.5s infinite;
+    -o-animation: loading 6s 0.5s infinite;
+    animation: loading 6s 0.5s infinite;
 }
 .dot3{
-    -webkit-animation: loading 8s 1s infinite;
-    -moz-animation: loading 8s 1s infinite;
-    -ms-animation: loading 8s 1s infinite;
-    -o-animation: loading 8s 1s infinite;
-    animation: loading 8s 1s infinite;
+    -webkit-animation: loading 6s 1s infinite;
+    -moz-animation: loading 6s 1s infinite;
+    -ms-animation: loading 6s 1s infinite;
+    -o-animation: loading 6s 1s infinite;
+    animation: loading 6s 1s infinite;
 }
 
 @keyframes "loading" {
