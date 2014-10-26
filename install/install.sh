@@ -49,6 +49,13 @@ install_msg_en()
 	msg_php_already_optimized="PHP is already optimized (using ${PHP_OPTIMIZATION})"
 	msg_optimize_webserver_cache_apc="Installing APC cache optimization"
 	msg_optimize_webserver_cache_opcache="Installing Zend OpCache cache optimization"
+	msg_install_razberry_zway="* Checking for Z-Way for RaZberry installation         *"
+	msg_available_update_razberry_zway="A newer version is available: "
+	msg_ask_update_razberry_zway="Do you wish to update Z-Way?"
+	msg_uptodate_razberry_zway="Z-Way is already installed and up-to-date"
+	msg_ask_install_razberry_zway="Do you wish to install Z-Way?"
+	msg_failed_installupdate_razberry_zway="Z-Way for RaZberry installation failed!"
+	msg_succeeded_installupdate_razberry_zway="Z-Way for RaZberry installation succeeded!"
 }
 
 install_msg_fr()
@@ -91,6 +98,13 @@ install_msg_fr()
 	msg_php_already_optimized="PHP est déjà optimisé (utilisation d'${PHP_OPTIMIZATION})"
 	msg_optimize_webserver_cache_apc"Installation de l'optimisation de cache APC"
 	msg_optimize_webserver_cache_opcache="Installation de l'optimisation de cache Zend OpCache"
+	msg_install_razberry_zway="* Vérification de Z-Way pour RaZberry                  *"
+	msg_available_update_razberry_zway="Une version plus récente est disponible : "
+	msg_ask_update_razberry_zway="Souhaitez-vous mettre à jour Z-Way ?"
+	msg_uptodate_razberry_zway="Z-Way est déjà installé et à jour"
+	msg_ask_install_razberry_zway="Souhaitez-vous installer Z-Way ?"
+	msg_failed_installupdate_razberry_zway="L'installation de Z-Way pour RaZberry a échoué !"
+	msg_succeeded_installupdate_razberry_zway="L'installation de Z-Way pour RaZberry a réussi !"
 }
 
 ########################## Helper functions ############################
@@ -283,6 +297,71 @@ optimize_webserver_cache()
 	service php5-fpm restart
 }
 
+# Check for the need to install razberry zway server and install it
+install_razberry_zway()
+{
+	ZWAY_INSTALLED_VERSION="`cat /etc/z-way/VERSION 2>/dev/null | cut -d'v' -f2`"
+
+	# Check if already installed
+	if [ -f /etc/z-way/VERSION ]; then
+		# Get latest zway install
+		wget -q -O - razberry.z-wave.me/install -O zway-install
+		# Check version
+		ZWAY_AVAIL_VERSION="`cat zway-install | awk '/.*[0-9].[0-9].[0-9].*z-way\/VERSION$/{ print $2 }' | sed 's/["v]//g'`"
+		is_version_greater_or_equal ${ZWAY_INSTALLED_VERSION} ${ZWAY_AVAIL_VERSION} 
+		case $? in
+			0)
+				# A newer version is available, propose update
+				echo "${msg_available_update_razberry_zway}" ${ZWAY_INSTALLED_VERSION} " => " ${ZWAY_AVAIL_VERSION}
+				echo "${msg_ask_update_razberry_zway}"
+				# return on 'no', and process to common install/update
+				;;
+			1)
+				# echo "already installed and up to date"
+				echo "${msg_uptodate_razberry_zway}"
+				return
+				;;
+		esac
+	else
+		# Not installed, propose to install
+		echo "${msg_ask_install_razberry_zway}"
+		# return on 'no', and process to common install/update
+	fi
+
+	# Common yes/no processing
+	while true
+	do
+			echo -n "${msg_yesno}"
+			read ANSWER < /dev/tty
+			case $ANSWER in
+					${msg_yes})
+						break
+						;;
+					${msg_no})
+						return
+						;;
+			esac
+			echo "${msg_answer_yesno}"
+	done
+
+	# Common install/update
+	# Download installer, if not already done
+	[ ! -f zway-install ] && wget -q -O - razberry.z-wave.me/install -O zway-install
+
+	# actual installation
+	sudo bash zway-install
+
+	# Check installation status
+	if [ $? -ne 0 ]; then
+		echo "${msg_failed_installupdate_razberry_zway}"
+	else
+		echo "${msg_succeeded_installupdate_razberry_zway}"
+	fi
+
+	# Cleanup
+	rm -f zway-install
+}
+
 ##################### Main (script entry point) ########################
 
 webserver=${1-nginx}
@@ -456,6 +535,10 @@ echo "DROP DATABASE IF EXISTS jeedom;" | mysql -uroot -p${MySQL_root}
 echo "CREATE DATABASE jeedom;" | mysql -uroot -p${MySQL_root}
 echo "GRANT ALL PRIVILEGES ON jeedom.* TO 'jeedom'@'localhost';" | mysql -uroot -p${MySQL_root}
 
+echo "********************************************************"
+echo "${msg_install_razberry_zway}"
+echo "********************************************************"
+install_razberry_zway
 
 echo "********************************************************"
 echo "${msg_install_jeedom}"
