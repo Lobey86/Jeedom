@@ -43,6 +43,11 @@ install_msg_en()
 	msg_or="or"
 	msg_login_info1="You can log in to Jeedom by going on:"
 	msg_login_info2="Your credentials are:"
+	msg_optimize_webserver_cache="* Checking for webserver cache optimization            *"
+	msg_php_version="PHP version ${PHP_VERSION} found"
+	msg_php_already_optimized="PHP is already optimized (using ${PHP_OPTIMIZATION})"
+	msg_optimize_webserver_cache_apc="Installing APC cache optimization"
+	msg_optimize_webserver_cache_opcache="Installing Zend OpCache cache optimization"
 }
 
 install_msg_fr()
@@ -79,6 +84,11 @@ install_msg_fr()
 	msg_or="ou"
 	msg_login_info1="Vous pouvez vous connecter sur Jeedom en allant sur :"
 	msg_login_info2="Vos identifiants sont :"
+	msg_optimize_webserver_cache="* Vérification de l'optimisation de cache              *"
+	msg_php_version="PHP version ${PHP_VERSION} trouvé"
+	msg_php_already_optimized="PHP est déjà optimisé (utilisation d'${PHP_OPTIMIZATION})"
+	msg_optimize_webserver_cache_apc"Installation de l'optimisation de cache APC"
+	msg_optimize_webserver_cache_opcache="Installation de l'optimisation de cache Zend OpCache"
 }
 
 ########################## Helper functions ############################
@@ -190,11 +200,97 @@ configure_apache()
     configure_php
 }
 
+# Compare two "X.Y.Z" formated versions
+# Return 0 if $1 is lesser than $2
+# Return 1 if $1 is greater than or equal to $2
+is_version_greater_or_equal()
+{
+	# only compare the 2 first digits
+	for i in 1 2 3
+	do
+		REF="`echo $2 | cut -d. -f$i`"
+		CMP="`echo $1 | cut -d. -f$i`"
+		if [ $CMP -lt $REF ]; then
+			# not greater or equal
+			return 0
+			break
+		fi
+	done
+	# greater or equal
+	return 1
+}
+
+optimize_webserver_cache_apc()
+{
+	# php < 5.5 => APC
+	echo "${msg_optimize_webserver_cache_apc}"
+	sudo apt-get install -y php-apc php-pear php5-dev build-essential libpcre3-dev
+	sudo pear config-set php_ini /etc/php5/fpm/php_ini
+	sudo pear config-set php_ini /etc/php5/cli/php_ini
+	sudo pecl config-set php_ini /etc/php5/fpm/php_ini
+	sudo pecl config-set php_ini /etc/php5/cli/php_ini
+	# Force pecl unattended mode
+	yes '' | sudo pecl install -fs apc
+	echo 'apc.enable_cli = 1' >> /etc/php5/cli/conf.d/20-apc.ini
+}
+
+optimize_webserver_cache_opcache()
+{
+	# php >= 5.5 => OPcache
+	echo "${msg_optimize_webserver_cache_opcache}"
+	sudo apt-get install -y php-pear php5-dev build-essential
+	# Force pecl unattended mode
+	yes '' | sudo pecl install -fs zendopcache-7.0.3
+
+	# Enable cache for FPM and CLI
+	for i in fpm cli
+	do
+		echo "zend_extension=opcache.so" >> /etc/php5/${i}/php.ini
+		echo "opcache.memory_consumption=256"  >> /etc/php5/${i}/php.ini
+		echo "opcache.interned_strings_buffer=8"  >> /etc/php5/${i}/php.ini
+		echo "opcache.max_accelerated_files=4000"  >> /etc/php5/${i}/php.ini
+		echo "opcache.revalidate_freq=1"  >> /etc/php5/${i}/php.ini
+		echo "opcache.fast_shutdown=1"  >> /etc/php5/${i}/php.ini
+		echo "opcache.enable_cli=1"  >> /etc/php5/${i}/php.ini
+		echo "opcache.enable=1"  >> /etc/php5/${i}/php.ini
+	done
+}
+
+# Check the version of PHP, and if already optimized
+# Otherwise, install cache optimization according to PHP version
+optimize_webserver_cache()
+{
+	echo "${msg_php_version}"
+
+	# Check if PHP is already optimized or not (empty string)
+	if [ -n "${PHP_OPTIMIZATION}" ]; then
+		echo "${msg_php_already_optimized}"
+		return
+	fi
+
+	is_version_greater_or_equal "${PHP_VERSION}" "5.5.0"
+	case $? in
+		0)
+			optimize_webserver_cache_apc
+			;;
+		1)
+			optimize_webserver_cache_opcache
+			;;
+	esac
+	# FIXME: may be done in common with configure_php()
+	service php5-fpm restart
+}
+
 ##################### Main (script entry point) ########################
 
 webserver=${1-nginx}
 ws_upname="$(echo ${webserver} | tr 'a-z' 'A-Z')"
 
+# Get the currently installed php version
+PHP_VERSION="`php -v | awk '/PHP [0-9].[0-9].[0-9].*/{ print $2 }' | cut -d'-' -f1`"
+PHP_OPTIMIZATION="`php -v | grep -e 'OPcache' -o -e 'APC'`"
+
+# Select the right language, among available ones
 setup_i18n
 
 echo "********************************************************"
@@ -373,6 +469,11 @@ case ${webserver} in
 		configure_apache
 		;;
 esac
+
+echo "********************************************************"
+echo "${msg_optimize_webserver_cache}"
+echo "********************************************************"
+optimize_webserver_cache
 
 echo "********************************************************"
 echo "${msg_setup_nodejs_service}"
