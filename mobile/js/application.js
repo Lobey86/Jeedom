@@ -153,7 +153,6 @@ function page(_page, _title, _option, _plugin) {
             if (init(_plugin) != '') {
                 page += '&m=' + _plugin;
             }
-            
             $('#page').load(page, function () {
                 $('#page').trigger('create');
                 var functionName = '';
