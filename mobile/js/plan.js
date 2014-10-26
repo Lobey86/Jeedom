@@ -40,7 +40,6 @@ function initPlan(_planHeader_id) {
 }
 
 function displayPlan(_planHeader_id) {
-    $.showLoading();
     jeedom.plan.getHeader({
         id: _planHeader_id,
         error: function (error) {
@@ -109,7 +108,6 @@ function displayPlan(_planHeader_id) {
                             displayObject(data[i].plan.link_type, data[i].plan.link_id, data[i].html, data[i].plan);
                         }
                     }
-                    $.hideLoading();
                 }
             });
         }

@@ -20,7 +20,6 @@ function initEquipment(_object_id) {
     });
 
     if (isset(_object_id) && is_numeric(_object_id)) {
-        $.showLoading();
         jeedom.object.toHtml({
             id: _object_id,
             version: 'mobile',
@@ -31,7 +30,6 @@ function initEquipment(_object_id) {
                 $('#div_displayEquipement').empty().html(html).trigger('create');
                 setTileSize('.eqLogic');
                 $('#div_displayEquipement').masonry();
-                $.hideLoading();
             }
         });
     } else {

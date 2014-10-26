@@ -14,7 +14,6 @@ function initView(_view_id) {
     });
 
     if (isset(_view_id) && is_numeric(_view_id)) {
-        $.showLoading();
         jeedom.history.chart = [];
         jeedom.view.toHtml({
             id: _view_id,
@@ -24,7 +23,6 @@ function initView(_view_id) {
             },
             success: function (html) {
                 displayView(html);
-                $.hideLoading();
             }});
     } else {
         $('#panel_right').panel('open');
@@ -52,5 +50,4 @@ function displayView(html) {
     setTileSize('.eqLogic');
     setTileSize('.scenario');
     $('.eqLogicZone').masonry();
-    $.hideLoading();
 }

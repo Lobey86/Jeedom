@@ -1,7 +1,8 @@
 /***************Fonction d'initialisation*********************/
 $(function () {
-    MESSAGE_NUMBER = null
-    
+    MESSAGE_NUMBER = null;
+    nbActiveAjaxRequest = 0;
+
     $.mobile.orientationChangeEnabled = false;
 
     $(window).on("orientationchange", function (event) {
@@ -24,6 +25,18 @@ $(function () {
         webappCache.swapCache();
         window.location.reload();
     }
+
+    $(document).ajaxStart(function () {
+        nbActiveAjaxRequest++;
+        $.showLoading();
+    });
+    $(document).ajaxStop(function () {
+        nbActiveAjaxRequest--;
+        if (nbActiveAjaxRequest <= 0) {
+            nbActiveAjaxRequest = 0;
+            $.hideLoading();
+        }
+    });
 });
 
 function isset() {
@@ -39,7 +52,6 @@ function isset() {
 }
 
 function initApplication(_reinit) {
-    $.showLoading();
     $.ajax({// fonction permettant de faire de l'ajax
         type: 'POST', // methode de transmission des données au fichier php
         url: 'core/ajax/jeedom.ajax.php', // url du fichier php
@@ -57,7 +69,6 @@ function initApplication(_reinit) {
                 modal(false);
                 panel(false);
                 if (data.code == -1234) {
-                    $.hideLoading();
                     page('connection', 'Connexion');
                     return;
                 } else {
@@ -109,7 +120,6 @@ function initApplication(_reinit) {
                             } else {
                                 page('home', 'Accueil');
                             }
-                            $.hideLoading();
                         });
                     });
                 }

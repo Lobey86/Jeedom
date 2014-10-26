@@ -50,7 +50,6 @@ function initMessage() {
 }
 
 function getAllMessage(_plugin) {
-    $.showLoading();
     jeedom.message.all({
         plugin: _plugin || '',
         error: function (error) {
@@ -68,7 +67,6 @@ function getAllMessage(_plugin) {
             }
             $('#table_message tbody').empty().append(tbody);
             $("#table_message").table("rebuild");
-            $.hideLoading();
         }
     });
 }

@@ -1,5 +1,4 @@
 function initScenario() {
-    $.showLoading();
     jeedom.scenario.toHtml({
         id: 'all',
         version: 'mobile',
@@ -13,7 +12,6 @@ function initScenario() {
             }
             $('#div_displayScenario').empty().html(html).trigger('create');
             setTileSize('.scenario');
-            $.hideLoading();
         }
     });
     $(window).on("orientationchange", function (event) {
