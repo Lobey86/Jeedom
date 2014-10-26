@@ -861,7 +861,7 @@ class cmd {
         nodejs::pushUpdate('eventCmd', $nodeJs);
         if (strpos($_value, 'error') === false) {
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
-            $this->addHistoryValue($_value, $this->getCollectDate());
+            $this->addHistoryValue($value, $this->getCollectDate());
         }
         $internalEvent = new internalEvent();
         $internalEvent->setEvent('event::cmd');
