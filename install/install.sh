@@ -170,7 +170,8 @@ install_nodejs()
 	apt-get update
 
 	# Install nodeJS
-	apt-get -t wheezy-backports -y install nodejs
+	apt-get -t wheezy-backports -y install nodejs libev4 libv8-3.8.9.20
+
 	# Seems buggy on Raspbian (throw 'Illegal instruction')
 	nodejs -v
 	
@@ -212,14 +213,13 @@ configure_nginx()
     echo "********************************************************"
 	echo "${msg_nginx_config}"
     echo "********************************************************"
-    if [ -f '/etc/init.d/apache2' ]; then
-        service apache2 stop
-        update-rc.d apache2 remove
-    fi
-    if [ -f '/etc/init.d/apache' ]; then
-        service apache stop
-        update-rc.d apache remove
-    fi
+	for i in apache2 apache
+	do
+		if [ -f "/etc/init.d/${i}" ]; then
+			service ${i} stop
+			update-rc.d ${i} remove
+		fi
+	done
 
     service nginx stop
     if [ -f '/etc/nginx/sites-available/defaults' ]; then
