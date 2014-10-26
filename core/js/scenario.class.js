@@ -61,9 +61,6 @@ jeedom.scenario.toHtml = function(_params) {
                     jeedom.scenario.cache.html[i] = data.result[i];
                 }
             } else {
-                if (isset(jeedom) && isset(jeedom.workflow) && isset(jeedom.workflow.scenario) && jeedom.workflow.scenario[_params.id]) {
-                    jeedom.workflow.object[_params.id] = false;
-                }
                 jeedom.scenario.cache.html[_params.id] = data.result;
             }
             return data;

@@ -1,4 +1,5 @@
 function initHome() {
+    refreshMessageNumber();
     $('#ul_objectList').trigger('create');
     jeedom.object.all({
         error: function (error) {
@@ -57,7 +58,6 @@ function initHome() {
     } else {
         $('#bt_listPlugin').hide();
     }
-    refreshMessageNumber();
 
     $('#bt_logout').on('click', function () {
         $.ajax({// fonction permettant de faire de l'ajax

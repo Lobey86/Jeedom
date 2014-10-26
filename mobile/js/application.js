@@ -1,5 +1,7 @@
 /***************Fonction d'initialisation*********************/
 $(function () {
+    MESSAGE_NUMBER = null
+    
     $.mobile.orientationChangeEnabled = false;
     $.mobile.touchOverflowEnabled = true;
 
@@ -21,9 +23,7 @@ $(function () {
 
     function updateCache() {
         webappCache.swapCache();
-        // if (confirm("Une nouvelle version de Jeedom vient d'être installée. Voulez-vous rafraichir pour l'utiliser maintenant ?")) {
         window.location.reload();
-        // }
     }
 });
 
@@ -38,17 +38,6 @@ function isset() {
     }
     return!0
 }
-
-function initExpertMode() {
-    if (expertMode == 1) {
-        $('.expertModeDisable').attr('disabled', true);
-        $('.expertModeVisible').show();
-    } else {
-        $('.expertModeDisable').attr('disabled', false);
-        $('.expertModeVisible').hide();
-    }
-}
-
 
 function initApplication(_reinit) {
     $.showLoading();
@@ -86,7 +75,7 @@ function initApplication(_reinit) {
                     plugins = data.result.plugins;
                     deviceInfo = getDeviceType();
                     userProfils = data.result.userProfils;
-                    expertMode = userProfils.expertMode;
+                    var include = ['core/js/core.js'];
 
                     if (isset(userProfils.mobile_theme_color) && userProfils.mobile_theme_color != '') {
                         $('#jQMnDColor').attr('href', '3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.color.' + userProfils.mobile_theme_color + '.css');
@@ -95,19 +84,12 @@ function initApplication(_reinit) {
                         $('#jQMnDTheme').attr('href', '3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.' + userProfils.mobile_theme + '.css');
                     }
                     if (isset(userProfils.mobile_highcharts_theme) && userProfils.mobile_highcharts_theme != '') {
-                        $.include(['3rdparty/highstock/themes/' + userProfils.mobile_highcharts_theme + '.js'], function () {
-                        });
+                        include.push('3rdparty/highstock/themes/' + userProfils.mobile_highcharts_theme + '.js');
                     }
 
                     $.get("core/php/icon.inc.php", function (data) {
                         $("head").append(data);
-                        var include = [
-                            'core/js/core.js',
-                        ];
-                        $.showLoading();
                         $.include(include, function () {
-                            jeedom.object.prefetch({id: 'all', version: 'mobile'});
-                            jeedom.view.prefetch({id: 'all', version: 'mobile'});
                             if (isset(userProfils.homePageMobile) && userProfils.homePageMobile != 'home') {
                                 var res = userProfils.homePageMobile.split("::");
                                 if (res[0] == 'core') {
@@ -206,11 +188,16 @@ function panel(_content) {
 }
 
 function refreshMessageNumber() {
-    jeedom.message.number({
-        success: function (_number) {
-            $('.span_nbMessage').html(_number);
-        }
-    });
+    if (MESSAGE_NUMBER !== null) {
+        $('.span_nbMessage').html(MESSAGE_NUMBER);
+    } else {
+        jeedom.message.number({
+            success: function (_number) {
+                MESSAGE_NUMBER = _number;
+                $('.span_nbMessage').html(_number);
+            }
+        });
+    }
 }
 
 function notify(_title, _text) {

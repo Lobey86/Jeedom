@@ -288,13 +288,13 @@ function showHelpModal(_name, _plugin) {
 
 function refreshMessageNumber() {
     jeedom.message.number(function (_number) {
+        MESSAGE_NUMBER = _number;
         if (_number == 0 || _number == '0') {
             $('#span_nbMessage').hide();
         } else {
             $('#span_nbMessage').html('<i class="fa fa-envelope icon-white"></i> ' + _number + ' message(s)');
             $('#span_nbMessage').show();
         }
-
     });
 }
 

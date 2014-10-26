@@ -52,21 +52,6 @@ jeedom.view.all = function(_params) {
     $.ajax(paramsAJAX);
 }
 
-jeedom.view.prefetch = function(_params) {
-    if (_params.version == 'mobile') {
-        _params.version = 'mview';
-    }
-    if (_params.version == 'dashboard') {
-        _params.version = 'dview';
-    }
-    if (!isset(jeedom.view.cache.html)) {
-        jeedom.view.cache.html = Array();
-    }
-    if (!isset(jeedom.view.cache.html[_params.id])) {
-        jeedom.view.toHtml({id: _params.id, version: _params.version, useCache: false, global: false,success : function(){}});
-    }
-}
-
 jeedom.view.toHtml = function(_params) {
     if (_params.version == 'mobile') {
         _params.version = 'mview';

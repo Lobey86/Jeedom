@@ -844,14 +844,12 @@ class cmd {
         $nodeJs = array(
             array(
                 'cmd_id' => $this->getId(),
-                'eqLogic_id' => $this->getEqLogic_id(),
-                'object_id' => $eqLogic->getObject_id(),
             )
         );
 
         foreach (self::byValue($this->getId()) as $cmd) {
             if ($cmd->getType() == 'action') {
-                $nodeJs[] = array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id());
+                $nodeJs[] = array('cmd_id' => $cmd->getId());
             } else {
                 $cmd->event($cmd->execute(), $_loop);
             }
