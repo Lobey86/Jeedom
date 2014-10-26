@@ -481,7 +481,7 @@ function printScenario(_id) {
             $('#span_lastLaunch').text(data.lastLaunch);
 
             $('#div_scenarioElement').empty();
-            $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a>');
+            $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement btn-sm pull-right"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a><br/><br/>');
             $('.provokeMode').empty();
             $('.scheduleMode').empty();
             $('.scenarioAttr[data-l1key=mode]').trigger('change');
@@ -589,13 +589,13 @@ function addTrigger(_trigger) {
     var div = '<div class="form-group trigger">';
     div += '<label class="col-lg-3 control-label">{{Evènement}}</label>';
     div += '<div class="col-lg-7">';
-    div += '<input class="scenarioAttr input-sm form-control" data-l1key="trigger" value="' + _trigger + '">';
+    div += '<input class="scenarioAttr input-xs form-control" data-l1key="trigger" value="' + _trigger + '">';
     div += '</div>';
     div += '<div class="col-lg-1">';
-    div += '<a class="btn btn-default btn-sm cursor bt_selectTrigger"><i class="fa fa-list-alt"></i></a>';
+    div += '<a class="btn btn-default btn-xs cursor bt_selectTrigger"><i class="fa fa-list-alt"></i></a>';
     div += '</div>';
     div += '<div class="col-lg-1">';
-    div += '<i class="fa fa-minus-circle bt_removeTrigger cursor" style="margin-top : 9px;"></i>';
+    div += '<i class="fa fa-minus-circle bt_removeTrigger cursor"></i>';
     div += '</div>';
     div += '</div>';
     $('.provokeMode').append(div);
@@ -605,7 +605,7 @@ function addSchedule(_schedule) {
     var div = '<div class="form-group schedule">';
     div += '<label class="col-lg-3 control-label">{{Programmation}}</label>';
     div += '<div class="col-lg-7">';
-    div += '<input class="scenarioAttr input-sm form-control" data-l1key="schedule" value="' + _schedule + '">';
+    div += '<input class="scenarioAttr input-xs form-control" data-l1key="schedule" value="' + _schedule + '">';
     div += '</div>';
     div += '<div class="col-lg-1">';
     div += '<i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>';

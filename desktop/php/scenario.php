@@ -137,8 +137,8 @@ include_file('3rdparty', 'codemirror/mode/php/php', 'js');
                             </select>
                         </div>
                         <div class="col-lg-6">
-                            <a class="btn btn-default" id="bt_addTrigger"><i class="fa fa-plus-square"></i> {{Déclencheur}}</a>
-                            <a class="btn btn-default" id="bt_addSchedule"><i class="fa fa-plus-square"></i> {{Programmation}}</a>
+                            <a class="btn btn-default btn-sm" id="bt_addTrigger"><i class="fa fa-plus-square"></i> {{Déclencheur}}</a>
+                            <a class="btn btn-default btn-sm" id="bt_addSchedule"><i class="fa fa-plus-square"></i> {{Programmation}}</a>
                         </div>
                     </div>
                     <div class="scheduleDisplay" style="display: none;">
