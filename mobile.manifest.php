@@ -5,6 +5,14 @@ require_once dirname(__FILE__) . "/core/php/core.inc.php";
 $js_file = array(
     '3rdparty/highstock/highcharts-more.js',
     '3rdparty/highstock/highstock.js',
+    '3rdparty/highstock/themes/dark-blue.js',
+    '3rdparty/highstock/themes/dark-green.js',
+    '3rdparty/highstock/themes/dark-unica.js',
+    '3rdparty/highstock/themes/gray.js',
+    '3rdparty/highstock/themes/grid-light.js',
+    '3rdparty/highstock/themes/grid.js',
+    '3rdparty/highstock/themes/sand-signika.js',
+    '3rdparty/highstock/themes/skies.js',
     '3rdparty/jquery/jquery.min.js',
     '3rdparty/jquery.mobile/jquery.mobile.min.js',
     '3rdparty/jquery.utils/jquery.utils.js',
@@ -27,7 +35,7 @@ $js_file = array(
 
 $other_file = array(
     'core/php/icon.inc.php',
-    '3rdparty/font-awesome/css/font-awesome.min.css',
+    '3rdparty/jquery.mobile/css/font-awesome.min.css',
     '3rdparty/jquery.mobile/jquery.mobile.min.css',
     '3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.css',
     '3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.dark.css',
@@ -41,8 +49,10 @@ $other_file = array(
     'core/css/core.css',
     '3rdparty/jquery.utils/jquery.utils.css',
     'mobile/css/commun.css',
-    '3rdparty/font-awesome/fonts/fontawesome-webfont.woff?v=4.0.3',
+    '3rdparty/jquery.mobile/css/fonts/fontawesome-webfont.woff?v=4.1.0',
     '3rdparty/jquery.mobile/images/ajax-loader.gif',
+    '3rdparty/jquery.mobile/css/fonts/roboto/Roboto-Thin-webfont.woff',
+    '3rdparty/jquery.mobile/css/fonts/roboto/Roboto-Light-webfont.woff'
 );
 
 $root_dir = dirname(__FILE__) . '/core/css/icon/';

@@ -94,6 +94,10 @@ function initApplication(_reinit) {
                     if (isset(userProfils.mobile_theme) && userProfils.mobile_theme != '') {
                         $('#jQMnDTheme').attr('href', '3rdparty/jquery.mobile/css/jquery.mobile.nativedroid.' + userProfils.mobile_theme + '.css');
                     }
+                    if (isset(userProfils.mobile_highcharts_theme) && userProfils.mobile_highcharts_theme != '') {
+                        $.include(['3rdparty/highstock/themes/' + userProfils.mobile_highcharts_theme + '.js'], function () {
+                        });
+                    }
 
                     $.get("core/php/icon.inc.php", function (data) {
                         $("head").append(data);
@@ -243,9 +247,9 @@ function getDeviceType() {
     if (result.type == 'phone') {
         var ori = window.orientation;
         if (ori == 90 || ori == -90) {
-            result.bSize = (result.width / 3) -15;
+            result.bSize = (result.width / 3) - 15;
         } else {
-            result.bSize = (result.width / 2) -15;
+            result.bSize = (result.width / 2) - 15;
         }
     }
     return result;

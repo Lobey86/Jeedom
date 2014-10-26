@@ -81,6 +81,36 @@ foreach (plugin::listPlugin() as $pluginList) {
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Graphique Desktop}}</label>
+                            <div class="col-lg-2">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="desktop_highcharts_theme">
+                                    <option value="">Défaut</option>
+                                    <option value="dark-blue">Dark-blue</option>
+                                    <option value="dark-green">Dark-green</option>
+                                    <option value="dark-unica">Dark-unica</option>
+                                    <option value="gray">Gray</option>
+                                    <option value="grid-light">Grid-light</option>
+                                    <option value="grid">Grid</option>
+                                    <option value="sand-signika">Sand-signika</option>
+                                    <option value="skies">Skies</option>
+                                </select>
+                            </div>
+                            <label class="col-lg-3 control-label">{{Graphique Desktop}}</label>
+                            <div class="col-lg-2">
+                                <select class="userAttr form-control" data-l1key="options" data-l2key="mobile_highcharts_theme">
+                                    <option value="">Défaut</option>
+                                    <option value="dark-blue">Dark-blue</option>
+                                    <option value="dark-green">Dark-green</option>
+                                    <option value="dark-unica">Dark-unica</option>
+                                    <option value="gray">Gray</option>
+                                    <option value="grid-light">Grid-light</option>
+                                    <option value="grid">Grid</option>
+                                    <option value="sand-signika">Sand-signika</option>
+                                    <option value="skies">Skies</option>
+                                </select>
+                            </div>
+                        </div>
                     </fieldset>
                 </form>
             </div>
