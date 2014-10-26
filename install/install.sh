@@ -30,6 +30,7 @@ install_msg_en()
 	msg_install_deps="*               Dependencies installation              *"
 	msg_passwd_mysql="What password do you have just typed (MySQL root password)?"
 	msg_confirm_passwd_mysql="Do you confirm that the password is:"
+	msg_bad_passwd_mysql="The MySQL password provided is invalid!"
 	msg_setup_dirs_and_privs="*      Creating directories and setting up rights      *"
 	msg_copy_jeedom_files="*                Copying files of Jeedom               *"
 	msg_unable_to_download_file="Unable to download the file"
@@ -71,6 +72,7 @@ install_msg_fr()
 	msg_install_deps="*             Installation des dépendances             *"
 	msg_passwd_mysql="Quel mot de passe venez vous de taper (mot de passe root de la MySql) ?"
 	msg_confirm_passwd_mysql="Confirmez vous que le mot de passe est :"
+	msg_bad_passwd_mysql="Le mot de passe MySQL fourni est invalide !"
 	msg_setup_dirs_and_privs="* Création des répertoires et mise en place des droits *"
 	msg_copy_jeedom_files="*             Copie des fichiers de Jeedom             *"
 	msg_unable_to_download_file="Impossible de télécharger le fichier"
@@ -392,7 +394,17 @@ do
             echo "${msg_answer_yesno}"
         done    
         if [ "${ANSWER}" = "${msg_yes}" ]; then
-            break
+			# Test access immediately
+			# to ensure that the provided password is valid
+			CMD="`echo "show databases;" | mysql -uroot -p${MySQL_root}`"
+			if [ $? -eq 0 ]; then
+				# good password
+				break
+			else
+				echo "${msg_bad_passwd_mysql}"
+				echo "${msg_passwd_mysql}"
+				continue
+			fi
         fi
 done
 
