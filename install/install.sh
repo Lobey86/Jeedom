@@ -170,7 +170,7 @@ install_nodejs()
 	apt-get update
 
 	# Install nodeJS
-	apt-get -t wheezy-backports install -y nodejs
+	apt-get -t wheezy-backports -y install nodejs
 	# Seems buggy on Raspbian (throw 'Illegal instruction')
 	nodejs -v
 	
@@ -476,8 +476,7 @@ fi
 
 if [ "${webserver}" = "apache" ] ; then 
     # Packages dependencies
-    apt-get install -y apache2 libapache2-mod-php5
-    apt-get install -y autoconf make subversion
+    apt-get install -y apache2 libapache2-mod-php5 autoconf make subversion
     svn checkout http://svn.apache.org/repos/asf/httpd/httpd/tags/2.2.22/ httpd-2.2.22
     wget --no-check-certificate http://cafarelli.fr/gentoo/apache-2.2.24-wstunnel.patch
     cd httpd-2.2.22
@@ -496,12 +495,8 @@ if [ "${webserver}" = "apache" ] ; then
     service apache2 restart
 fi
 
-apt-get install -y ffmpeg
-apt-get install -y libssh2-php
-apt-get install -y ntp
-apt-get install -y unzip
-apt-get install -y miniupnpc
-apt-get install -y mysql-client mysql-common mysql-server mysql-server-core-5.5
+apt-get install -y ffmpeg libssh2-php ntp unzip miniupnpc \
+                   mysql-client mysql-common mysql-server mysql-server-core-5.5
 echo "${msg_passwd_mysql}"
 while true
 do
@@ -539,9 +534,8 @@ done
 # Check if nodeJS was actually installed, otherwise do a manual install
 install_nodejs
 
-apt-get install -y php5-common php5-fpm php5-cli php5-curl php5-json php5-mysql
-apt-get install -y usb-modeswitch python-serial
-
+apt-get install -y php5-common php5-fpm php5-cli php5-curl php5-json php5-mysql \
+                   usb-modeswitch python-serial
 
 echo "********************************************************"
 echo "${msg_setup_dirs_and_privs}"
