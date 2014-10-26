@@ -14,7 +14,6 @@ install_msg_en()
 	msg_installer_welcome="*           Welcome to the Jeedom installer            *"
 	msg_usage1="Usage: $0 [<webserver_name>]"
 	msg_usage2="            webserver_name can be 'apache' or 'nginx' (default)"
-	msg_manual_install_nodejs_x86="*          Manual installation of nodeJS for x86       *"
 	msg_manual_install_nodejs_ARM="*          Manual installation of nodeJS for ARM       *"
 	msg_manual_install_nodejs_RPI="*     Manual installation of nodeJS for Raspberry      *"
 	msg_nginx_config="*                  NGINX configuration                 *"
@@ -52,7 +51,7 @@ install_msg_en()
 	msg_install_razberry_zway="*     Checking for Z-Way for RaZberry installation     *"
 	msg_available_update_razberry_zway="A newer version is available: "
 	msg_ask_update_razberry_zway="Do you wish to update Z-Way?"
-	msg_uptodate_razberry_zway="Z-Way is already installed and up-to-date"
+	msg_uptodate="is already installed and up-to-date"
 	msg_ask_install_razberry_zway="Do you wish to install Z-Way?"
 	msg_failed_installupdate_razberry_zway="Z-Way for RaZberry installation failed!"
 	msg_succeeded_installupdate_razberry_zway="Z-Way for RaZberry installation succeeded!"
@@ -63,7 +62,6 @@ install_msg_fr()
 	msg_installer_welcome="*         Bienvenue dans l'installateur Jeedom         *"
 	msg_usage1="Utilisation: $0 [<nom_du_webserver>]"
 	msg_usage2="             nom_du_webserver peut être 'apache' ou 'nginx' (par défaut)"
-	msg_manual_install_nodejs_x86="*        Installation manuelle de nodeJS pour x86       *"
 	msg_manual_install_nodejs_ARM="*        Installation manuelle de nodeJS pour ARM       *"
 	msg_manual_install_nodejs_RPI="*     Installation manuelle de nodeJS pour Raspberry    *"
 	msg_nginx_config="*                Configuration de NGINX                *"
@@ -101,7 +99,7 @@ install_msg_fr()
 	msg_install_razberry_zway="*         Vérification de Z-Way pour RaZberry          *"
 	msg_available_update_razberry_zway="Une version plus récente est disponible : "
 	msg_ask_update_razberry_zway="Souhaitez-vous mettre à jour Z-Way ?"
-	msg_uptodate_razberry_zway="Z-Way est déjà installé et à jour"
+	msg_uptodate="est déjà installé et à jour"
 	msg_ask_install_razberry_zway="Souhaitez-vous installer Z-Way ?"
 	msg_failed_installupdate_razberry_zway="L'installation de Z-Way pour RaZberry a échoué !"
 	msg_succeeded_installupdate_razberry_zway="L'installation de Z-Way pour RaZberry a réussi !"
@@ -139,41 +137,73 @@ configure_php()
     /etc/init.d/php5-fpm restart
 }
 
-# Install nodeJS from alternative sources, in case it was not in the
-# official repository
-nodejs_manual_install()
+# Check if nodeJS v0.10.25 is installed,
+# otherwise, try to install it from various sources (official,
+# backport, jeedom.fr
+install_nodejs()
 {
-	if [ ${1} -ne 0 ] ; then
-		x86=$(uname -a | grep x86_64 | wc -l)
-		if [ ${x86} -ne 0 ] ; then
+	NODEJS_VERSION="`nodejs -v 2>/dev/null  | sed 's/["v]//g'`"
+	is_version_greater_or_equal "${NODEJS_VERSION}" "0.10.25"
+	case $? in
+		1)
+			# Already installed and up to date
+			echo "nodeJS ${msg_uptodate}"
+			return
+			;;
+		0)
+			# continue...
+			;;
+	esac
+
+	# If running wheezy, try wheezy-backport
+	[ -n "`grep wheezy /etc/apt/sources.list`" -a \
+	  -z "`grep wheezy-backports /etc/apt/sources.list`" ] &&
+		echo "deb http://http.debian.net/debian wheezy-backports main" >> /etc/apt/sources.list
+
+	# otherwise, Jessie is good ; other-otherwise ?
+	# Add wheezy-backport keyring
+	gpg --keyserver pgpkeys.mit.edu --recv 8B48AD6246925553
+	gpg --export --armor 8B48AD6246925553 > missingkey.gpg
+	apt-key add missingkey.gpg
+	rm -f missingkey.gpg
+
+	apt-get update
+
+	# Install nodeJS
+	apt-get -t wheezy-backports install -y nodejs
+	# Seems buggy on Raspbian (throw 'Illegal instruction')
+	nodejs -v
+	
+	# Fallback, if APT method failed
+	if [ $? -ne 0 ] ; then
+		ARM=$(uname -a | grep arm | wc -l)
+		if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
 			echo "********************************************************"
-			echo "${msg_manual_install_nodejs_x86}"
+			echo "${msg_manual_install_nodejs_RPI}"
 			echo "********************************************************"
-			deb http://http.debian.net/debian wheezy-backports main
-			apt-get install -y nodejs
-		else
-			if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
-				echo "********************************************************"
-				echo "${msg_manual_install_nodejs_RPI}"
-				echo "********************************************************"
-				wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-raspberry.bin
-				rm -rf /usr/local/bin/node
-				rm -rf /usr/bin/nodejs
-				mv node-raspberry.bin /usr/local/bin/node
+			wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-raspberry.bin
+			rm -rf /usr/local/bin/node
+			rm -rf /usr/bin/nodejs
+			mv node-raspberry.bin /usr/local/bin/node
+			ln -s /usr/local/bin/node /usr/bin/nodejs
+			chmod +x /usr/local/bin/node
+		elif [ ${ARM} -ne 0 ] ; then
+			echo "********************************************************"
+			echo "${msg_manual_install_nodejs_ARM}"
+			echo "********************************************************"
+			wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
+			tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
+			if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
 				ln -s /usr/local/bin/node /usr/bin/nodejs
-				chmod +x /usr/local/bin/node
-			else
-				echo "********************************************************"
-				echo "${msg_manual_install_nodejs_ARM}"
-				echo "********************************************************"
-				wget --no-check-certificate https://jeedom.fr/ressources/nodejs/node-v0.10.21-cubie.tar.xz
-				tar xJvf node-v0.10.21-cubie.tar.xz -C /usr/local --strip-components 1
-				if [ ! -f '/usr/bin/nodejs' ] && [ -f '/usr/local/bin/node' ]; then
-					ln -s /usr/local/bin/node /usr/bin/nodejs
-				fi
-				rm -rf node-v0.10.21-cubie.tar.xz
 			fi
+			rm -rf node-v0.10.21-cubie.tar.xz
 		fi
+	fi
+	
+	# Remove wheezy-backports
+	if [ -n "`grep wheezy-backports /etc/apt/sources.list`" ]; then
+		cat /etc/apt/sources.list | sed 's/deb http:\/\/http.debian.net\/debian wheezy-backports main//' > sources.list
+		mv -f sources.list /etc/apt/sources.list
 	fi
 }
 
@@ -222,11 +252,14 @@ configure_apache()
 # Return 1 if $1 is greater than or equal to $2
 is_version_greater_or_equal()
 {
+	newCMP="$1"
+	[ -z "$1" ] && newCMP="0.0.0"
+
 	# only compare the 2 first digits
 	for i in 1 2 3
 	do
 		REF="`echo $2 | cut -d. -f$i`"
-		CMP="`echo $1 | cut -d. -f$i`"
+		CMP="`echo ${newCMP} | cut -d. -f$i`"
 		if [ $CMP -lt $REF ]; then
 			# not greater or equal
 			return 0
@@ -319,7 +352,7 @@ install_razberry_zway()
 				;;
 			1)
 				# echo "already installed and up to date"
-				echo "${msg_uptodate_razberry_zway}"
+				echo "Z-Way ${msg_uptodate}"
 				return
 				;;
 		esac
@@ -503,9 +536,8 @@ do
         fi
 done
 
-apt-get install -y nodejs
 # Check if nodeJS was actually installed, otherwise do a manual install
-nodejs_manual_install $?
+install_nodejs
 
 apt-get install -y php5-common php5-fpm php5-cli php5-curl php5-json php5-mysql
 apt-get install -y usb-modeswitch python-serial
