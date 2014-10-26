@@ -130,8 +130,8 @@ usage_help()
 }
 configure_php()
 {
-    adduser www-data dialout
-    adduser www-data gpio
+    [ -z "`getent group dialout | grep www-data`" ] && adduser www-data dialout
+    [ -z "`getent group gpio | grep www-data`" ] && adduser www-data gpio
     sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php5/fpm/php.ini
     sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 1G/g' /etc/php5/fpm/php.ini
     sed -i 's/post_max_size = 8M/post_max_size = 1G/g' /etc/php5/fpm/php.ini
