@@ -1,9 +1,9 @@
 function initEquipment(_object_id) {
     jeedom.object.all({
-        error: function(error) {
+        error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
-        success: function(objects) {
+        success: function (objects) {
             var li = ' <ul data-role="listview">';
             for (var i in objects) {
                 if (objects[i].isVisible == 1) {
@@ -24,21 +24,21 @@ function initEquipment(_object_id) {
         jeedom.object.toHtml({
             id: _object_id,
             version: 'mobile',
-            error: function(error) {
+            error: function (error) {
                 $('#div_alert').showAlert({message: error.message, level: 'danger'});
             },
-            success: function(html) {
+            success: function (html) {
                 $('#div_displayEquipement').empty().html(html).trigger('create');
                 setTileSize('.eqLogic');
                 $('#div_displayEquipement').masonry();
-                 $.hideLoading();
+                $.hideLoading();
             }
         });
     } else {
         $('#panel_right').panel('open');
     }
 
-    $(window).on("orientationchange", function(event) {
+    $(window).on("orientationchange", function (event) {
         setTileSize('.eqLogic');
         $('#div_displayEquipement').masonry();
     });

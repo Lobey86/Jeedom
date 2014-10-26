@@ -3,7 +3,6 @@ $(function () {
     MESSAGE_NUMBER = null
     
     $.mobile.orientationChangeEnabled = false;
-    $.mobile.touchOverflowEnabled = true;
 
     $(window).on("orientationchange", function (event) {
         deviceInfo = getDeviceType();
