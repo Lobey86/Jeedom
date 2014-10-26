@@ -129,6 +129,7 @@ function initApplication(_reinit) {
 }
 
 function page(_page, _title, _option, _plugin) {
+    
     $('.ui-popup').popup('close');
     $('#page').empty();
     if (isset(_title)) {
@@ -141,6 +142,7 @@ function page(_page, _title, _option, _plugin) {
         });
         return;
     }
+    
     jeedom.user.isConnect({
         success: function (result) {
             if (!result) {
@@ -151,6 +153,7 @@ function page(_page, _title, _option, _plugin) {
             if (init(_plugin) != '') {
                 page += '&m=' + _plugin;
             }
+            
             $('#page').load(page, function () {
                 $('#page').trigger('create');
                 var functionName = '';

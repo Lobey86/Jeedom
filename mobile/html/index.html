@@ -78,18 +78,20 @@
             <!-- /popup -->
 
             <!-- header -->
-            <div data-role="header" data-position="fixed" data-theme="b" data-tap-toggle="false">
+            <div data-role="header" data-position="fixed" data-theme="b" data-tap-toggle="false" style="height: 30px;">
                 <h1 id="pageTitle"></h1>
                 <a class="link" data-page="home" data-title="{{Accueil}}"><i class="fa fa-home"></i></a>
                 <a href="#panel_right" id="bt_panel_right"><i class="fa fa-list"></i></a>
                 <div id="div_loadingSpinner" style="display: none;">
-                    <div class="break dot1" style="position : relative;top : 9px;"></div>
-                    <div class="break dot2" style="position : relative;top : 6px;"></div>
-                    <div class="break dot3" style="position : relative;top : 3px;"></div>
+                    <div class="break dot1" style="position : relative;top : 0px;"></div>
+                    <div class="break dot2" style="position : relative;top : -3px;"></div>
+                    <div class="break dot3" style="position : relative;top : -6px;"></div>
                 </div>
             </div>
             <!-- /header -->
-            <!-- content --><div role="main" class="ui-content" id="page" ></div><!-- /content -->
+            <!-- content -->
+            <div role="main" class="ui-content" id="page" ></div>
+            <!-- /content -->
         </div>
         <!-- /page -->
     </body>
