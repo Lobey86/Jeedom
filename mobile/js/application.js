@@ -129,7 +129,7 @@ function initApplication(_reinit) {
 }
 
 function page(_page, _title, _option, _plugin) {
-    
+    $.showLoading();
     $('.ui-popup').popup('close');
     $('#page').empty();
     if (isset(_title)) {
