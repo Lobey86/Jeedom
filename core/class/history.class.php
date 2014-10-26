@@ -303,7 +303,7 @@ class history {
         foreach ($listHistorizedCmd as $cmd) {
             try {
                 if ($cmd->getEqLogic()->getIsEnable() == 1) {
-                    $value = $cmd->execCmd(null, 0);
+                    $value = $cmd->formatValue($cmd->execCmd(null, 0));
                     if ($value !== false) {
                         $cmd->addHistoryValue($value);
                     }
