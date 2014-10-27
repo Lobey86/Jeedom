@@ -148,11 +148,7 @@ class cron {
         if ($pid == '' || !is_numeric($pid)) {
             return false;
         }
-        $result = exec('ps -p' . $pid . ' e | grep "jeeCron.php" | wc -l');
-        if ($result == 0) {
-            return false;
-        }
-        return true;
+        return posix_getsid($pid);
     }
 
     public static function ok() {
