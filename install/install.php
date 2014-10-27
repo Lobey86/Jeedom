@@ -41,7 +41,7 @@ $backup_ok = false;
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
     echo __("***************Installation/Mise a jour de Jeedom " . getVersion('jeedom') . "***************\n", __FILE__);
-
+    echo "Parametres de la mise à jour : level : " . init('level', -1) . ", mode : " . init('mode') . " \n";
 
     try {
         $curentVersion = config::byKey('version');
