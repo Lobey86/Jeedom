@@ -96,7 +96,7 @@ foreach (plugin::listPlugin() as $pluginList) {
                                     <option value="skies">Skies</option>
                                 </select>
                             </div>
-                            <label class="col-lg-3 control-label">{{Graphique Desktop}}</label>
+                            <label class="col-lg-3 control-label">{{Graphique mobile}}</label>
                             <div class="col-lg-2">
                                 <select class="userAttr form-control" data-l1key="options" data-l2key="mobile_highcharts_theme">
                                     <option value="">Défaut</option>
