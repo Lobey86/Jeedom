@@ -223,7 +223,7 @@ function notify(_title, _text) {
 
 function getDeviceType() {
     var result = {};
-    result.type = 'dekstop';
+    result.type = 'desktop';
     result.width = $('#pagecontainer').width();
     if (navigator.userAgent.match(/(android)/gi)) {
         result.width = screen.width;

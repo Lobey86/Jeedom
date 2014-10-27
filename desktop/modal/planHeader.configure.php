@@ -37,42 +37,37 @@ sendVarToJS('id', $planHeader->getId())
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Grille}}</label>
             <div class="col-lg-2">
-                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key="gridX" style="width: 50px;display: inline-block;"/> 
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key="gridY" style="width: 50px;display: inline-block;"/> 
                 x 
-                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='gridY' style="width: 50px;display: inline-block;"/>
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='gridX' style="width: 50px;display: inline-block;"/>
             </div>
         </div>
-        <legend>{{Taille}}</legend>
+        <legend>{{Tailles}}</legend>
         <div class="form-group">
-            <label class="col-lg-4 control-label">{{Taille pré-configurée}}</label>
-            <div class="col-lg-3">
-                <select class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='preconfigureDevice'>
-                    <option value="none">Aucun</option>
-                    <option value="nexus4" data-width="348" data-height="480">Nexus 4 (portait)</option>
-                    <option value="nexus4" data-width="480" data-height="348">Nexus 4 (paysage)</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-4 control-label">{{Ratio/taille}}</label>
+            <label class="col-lg-4 control-label">{{Taille desktop}}</label>
             <div class="col-lg-4">
-                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key="sizeX" style="width: 80px;display: inline-block;"/> 
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key="desktopSizeY" style="width: 80px;display: inline-block;"/> 
                 x 
-                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='sizeY' style="width: 80px;display: inline-block;"/>
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='desktopSizeX' style="width: 80px;display: inline-block;"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">{{Taille maximale autorisée}}</label>
-            <div class="col-lg-2">
-                <input type="checkbox" class="planHeaderAttr" data-l1key='configuration' data-l2key='maxSizeAllow' />
+            <label class="col-lg-4 control-label">{{Taille tablette}}</label>
+            <div class="col-lg-4">
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key="tabletSizeY" style="width: 80px;display: inline-block;"/> 
+                x 
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='tabletSizeX' style="width: 80px;display: inline-block;"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">{{Taille minimale autorisée}}</label>
-            <div class="col-lg-2">
-                <input type="checkbox" class="planHeaderAttr" data-l1key='configuration' data-l2key='minSizeAllow' />
+            <label class="col-lg-4 control-label">{{Taille mobile}}</label>
+            <div class="col-lg-4">
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key="mobileSizeY" style="width: 80px;display: inline-block;"/> 
+                x 
+                <input class="form-control input-sm planHeaderAttr" data-l1key='configuration' data-l2key='mobileSizeX' style="width: 80px;display: inline-block;"/>
             </div>
         </div>
+
     </fieldset>
 </form>
 

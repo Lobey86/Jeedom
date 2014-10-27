@@ -283,40 +283,18 @@ function displayPlan() {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function (data) {
-            var img = $('#div_displayObject img');
-            var height = $(window).height() - $('header').height() - $('#div_planHeader').height() - 45;
-            var width = $(window).width() - 22;
-            if (data.configuration != null && init(data.configuration.sizeX) != '' && init(data.configuration.sizeY) != '') {
-                if (init(data.configuration.maxSizeAllow) == 1 && (height > data.configuration.sizeY || width > data.configuration.sizeX)) {
-                    height = data.configuration.sizeY;
-                    width = data.configuration.sizeX;
-                }
-                if (init(data.configuration.minSizeAllow) == 1 && (height < data.configuration.sizeY || width < data.configuration.sizeX)) {
-                    height = data.configuration.sizeY;
-                    width = data.configuration.sizeX;
-                }
-                if (width / height != data.configuration.sizeX / data.configuration.sizeY) {
-                    var cHeight = width / (data.configuration.sizeX / data.configuration.sizeY);
-                    if (height < cHeight) {
-                        width = height * (data.configuration.sizeX / data.configuration.sizeY);
-                    } else {
-                        height = cHeight;
-                    }
-                }
+            var sizeSet = false;
+            if (data.configuration != null && init(data.configuration.desktopSizeX) != '' && init(data.configuration.desktopSizeY) != '') {
+                $('#div_displayObject').height(data.configuration.desktopSizeX);
+                $('#div_displayObject').width(data.configuration.desktopSizeY);
+                $('#div_displayObject img').height(data.configuration.desktopSizeX);
+                $('#div_displayObject img').width(data.configuration.desktopSizeY);
+                sizeSet = true;
             }
-            var size_x = img.attr('data-sixe_x');
-            var size_y = img.attr('data-sixe_y');
-            var ratio = size_x / size_y;
-            $('#div_displayObject').height(height);
-            $('#div_displayObject').width(width);
-            var rWidth = width;
-            var rHeight = width / ratio;
-            if (rHeight > height) {
-                rHeight = height;
-                rWidth = height * ratio;
+            if (!sizeSet) {
+                $('#div_displayObject').width($('#div_displayObject img').attr('data-sixe_y'));
+                $('#div_displayObject').height($('#div_displayObject img').attr('data-sixe_x'));
             }
-            $('#div_displayObject img').height(rHeight);
-            $('#div_displayObject img').width(rWidth);
             $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget,.text-widget').remove();
 
             grid = false;

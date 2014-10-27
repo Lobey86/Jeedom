@@ -21,9 +21,6 @@ function initPlan(_planHeader_id) {
         displayPlan(_planHeader_id);
     }
 
-    $(window).one("orientationchange", function (event) {
-        initPlan(_planHeader_id)
-    });
     $("#bt_fullScreen").on("click", function () {
         if ($("div[data-role=header]").length != 0) {
             $("div[data-role=header]").remove();
@@ -47,44 +44,38 @@ function displayPlan(_planHeader_id) {
         },
         success: function (data) {
             $('#div_displayObject').empty().append(data.image);
-            var img = $('#div_displayObject img');
-            if ($("div[data-role=header]").length != 0) {
-                var height = $(window).height() - $('#pageTitle').height() - 55;
-            } else {
-                var height = $(window).height();
-            }
-            var width = $(window).width() - 35;
-            if (data.configuration != null && init(data.configuration.sizeX) != '' && init(data.configuration.sizeY) != '') {
-                if (init(data.configuration.maxSizeAllow) == 1 && (height > data.configuration.sizeY || width > data.configuration.sizeX)) {
-                    height = data.configuration.sizeY;
-                    width = data.configuration.sizeX;
-                }
-                if (init(data.configuration.minSizeAllow) == 1 && (height < data.configuration.sizeY || width < data.configuration.sizeX)) {
-                    height = data.configuration.sizeY;
-                    width = data.configuration.sizeX;
-                }
-                if (width / height != data.configuration.sizeX / data.configuration.sizeY) {
-                    var cHeight = width / (data.configuration.sizeX / data.configuration.sizeY);
-                    if (height < cHeight) {
-                        width = height * (data.configuration.sizeX / data.configuration.sizeY);
-                    } else {
-                        height = cHeight;
-                    }
+            var sizeSet = false;
+            if (deviceInfo.type == 'desktop') {
+                if (data.configuration != null && init(data.configuration.desktopSizeX) != '' && init(data.configuration.desktopSizeY) != '') {
+                    $('#div_displayObject').height(data.configuration.desktopSizeX);
+                    $('#div_displayObject').width(data.configuration.desktopSizeY);
+                    $('#div_displayObject img').css('height', data.configuration.desktopSizeX + 'px');
+                    $('#div_displayObject img').css('width', data.configuration.desktopSizeY + 'px');
+                    sizeSet = true;
                 }
             }
-            var size_x = img.attr('data-sixe_x');
-            var size_y = img.attr('data-sixe_y');
-            var ratio = size_x / size_y;
-            $('#div_displayObject').height(height);
-            $('#div_displayObject').width(width);
-            var rWidth = width;
-            var rHeight = width / ratio;
-            if (rHeight > height) {
-                rHeight = height;
-                rWidth = height * ratio;
+            if (deviceInfo.type == 'tablet') {
+                if (data.configuration != null && init(data.configuration.tabletSizeX) != '' && init(data.configuration.tabletSizeY) != '') {
+                    $('#div_displayObject').height(data.configuration.tabletSizeX);
+                    $('#div_displayObject').width(data.configuration.tabletSizeY);
+                    $('#div_displayObject img').css('height', data.configuration.tabletSizeX + 'px');
+                    $('#div_displayObject img').css('width', data.configuration.tabletSizeY + 'px');
+                    sizeSet = true;
+                }
             }
-            $('#div_displayObject img').height(rHeight);
-            $('#div_displayObject img').width(rWidth);
+            if (deviceInfo.type == 'phone') {
+                if (data.configuration != null && init(data.configuration.mobileSizeX) != '' && init(data.configuration.mobileSizeY) != '') {
+                    $('#div_displayObject').height(data.configuration.mobileSizeX);
+                    $('#div_displayObject').width(data.configuration.mobileSizeY);
+                    $('#div_displayObject img').css('height', data.configuration.mobileSizeX + 'px');
+                    $('#div_displayObject img').css('width', data.configuration.mobileSizeY + 'px');
+                    sizeSet = true;
+                }
+            }
+            if(!sizeSet){
+                $('#div_displayObject').width($('#div_displayObject img').attr('data-sixe_y'));
+                $('#div_displayObject').height($('#div_displayObject img').attr('data-sixe_x'));
+            }
 
             $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget').remove();
 
