@@ -310,7 +310,7 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
             if (!file_exists($folder))
                 return array();
         }
-        if (!chdir($folder))
+        if (!is_dir($folder) || !chdir($folder))
             return array();
     }
     $get_files = in_array('files', $options);
