@@ -182,7 +182,7 @@ class jeeNetwork {
         $jsonrpc = self::getJsonRpcMaster();
         if ($jsonrpc->sendRequest('ping')) {
             if ($jsonrpc->getResult() != 'pong') {
-                throw new Exception(__('Erreur reponse du maitre != pong', __FILE__));
+                throw new Exception(__('Erreur reponse du maitre != pong : ', __FILE__) . $jsonrpc->getResult());
             }
         } else {
             throw new Exception($jsonrpc->getError());
