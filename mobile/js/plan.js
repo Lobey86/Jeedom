@@ -81,7 +81,7 @@ function displayPlan(_planHeader_id) {
 
             grid = false;
             if (data.configuration != null && isset(data.configuration.gridX) && isset(data.configuration.gridY) && !isNaN(data.configuration.gridX) && !isNaN(data.configuration.gridY) && data.configuration.gridX > 0 && data.configuration.gridY > 0) {
-                grid = [width / data.configuration.gridX, height / data.configuration.gridY];
+                grid = [$('#div_displayObject').width() / data.configuration.gridX, $('#div_displayObject').height() / data.configuration.gridY];
                 eqLogic_width_step = grid[0] - 5;
                 eqLogic_height_step = grid[1] - 5;
             }
