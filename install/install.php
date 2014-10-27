@@ -58,7 +58,7 @@ try {
     if ($update) {
         /*         * ************************MISE A JOUR********************************** */
         try {
-            if (init('level', -1) > -1) {
+            if (init('level', -1) > -1 && init('mode') != 'force') {
                 echo __("Verification des mises a jour...", __FILE__);
                 update::checkAllUpdate();
                 echo __("OK\n", __FILE__);
@@ -71,7 +71,7 @@ try {
             }
         }
 
-        if (init('level', -1) < 1) {
+        if (init('level', -1) < 1 && init('mode') != 'force') {
             if (config::byKey('update::backupBefore') == 1) {
                 try {
                     jeedom::backup();
