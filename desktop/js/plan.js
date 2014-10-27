@@ -96,7 +96,7 @@ $('#bt_savePlan').on('click', function () {
 
 $('#bt_configurePlanHeader').on('click', function () {
     if ($('#bt_editPlan').attr('data-mode') == "1") {
-        $('#md_modal').dialog({title: "{{Configuration du plan}}"});
+        $('#md_modal').dialog({title: "{{Configuration du design}}"});
         $('#md_modal').load('index.php?v=d&modal=planHeader.configure&planHeader_id=' + planHeader_id).dialog('open');
     }
 });
