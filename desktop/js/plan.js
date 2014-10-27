@@ -25,7 +25,7 @@ $("#md_addViewData").dialog({
 });
 /*****************************PLAN HEADER***********************************/
 $('#bt_addPlanHeader').on('click', function () {
-    bootbox.prompt("Nom du plan ?", function (result) {
+    bootbox.prompt("Nom du design ?", function (result) {
         if (result !== null) {
             jeedom.plan.saveHeader({
                 planHeader: {name: result},
@@ -41,7 +41,7 @@ $('#bt_addPlanHeader').on('click', function () {
 });
 
 $('#bt_duplicatePlanHeader').on('click', function () {
-    bootbox.prompt("{{Nom la copie du plan ?}}", function (result) {
+    bootbox.prompt("{{Nom la copie du design ?}}", function (result) {
         if (result !== null) {
             jeedom.plan.copyHeader({
                 name: result,
