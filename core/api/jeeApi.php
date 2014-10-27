@@ -352,6 +352,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (config::byKey('internalAddr') == '') {
                     config::save('internalAddr', $params['slave_ip']);
                 }
+                jeeNetwork::testMaster();
                 $jsonrpc->makeSuccess($return);
             }
 

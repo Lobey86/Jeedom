@@ -175,6 +175,20 @@ class jeeNetwork {
         }
     }
 
+    public static function testMaster() {
+        if (config::byKey('jeeNetwork::mode') != 'slave') {
+            throw new Exception(__('Seul un esclave peut envoyer un backup au maitre', __FILE__));
+        }
+        $jsonrpc = self::getJsonRpcMaster();
+        if ($jsonrpc->sendRequest('ping')) {
+            if ($jsonrpc->getResult() != 'pong') {
+                throw new Exception(__('Erreur reponse du maitre != pong', __FILE__));
+            }
+        } else {
+            throw new Exception($jsonrpc->getError());
+        }
+    }
+
     public static function sendBackup($_path) {
         if (config::byKey('jeeNetwork::mode') != 'slave') {
             throw new Exception(__('Seul un esclave peut envoyer un backup au maitre', __FILE__));
