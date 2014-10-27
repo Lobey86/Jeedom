@@ -183,6 +183,50 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $jsonrpc->makeSuccess(utils::o2a($object));
             }
 
+            if ($jsonrpc->getMethod() == 'object::full') {
+                $return = array();
+                foreach (object::all() as $object) {
+                    $object_return = utils::o2a($object);
+                    $object_return['eqLogics'] = array();
+                    foreach ($object->getEqLogic() as $eqLogic) {
+                        $eqLogic_return = utils::o2a($eqLogic);
+                        $eqLogic_return['cmds'] = array();
+                        foreach ($eqLogic->getCmd() as $cmd) {
+                            $cmd_return = utils::o2a($cmd);
+                            if ($cmd->getType() == 'info') {
+                                $cmd_return['state'] = $cmd->execCmd();
+                            }
+                            $eqLogic_return['cmds'][] = $cmd_return;
+                        }
+                        $object_return['eqLogics'][] = $eqLogic_return;
+                    }
+                    $return[] = $object_return;
+                }
+                $jsonrpc->makeSuccess($return);
+            }
+
+            if ($jsonrpc->getMethod() == 'object::fullById') {
+                $object = object::byId($params['id']);
+                if (!is_object($object)) {
+                    throw new Exception('Objet introuvable : ' . $params['id'], -32601);
+                }
+                $return = utils::o2a($object);
+                $return['eqLogics'] = array();
+                foreach ($object->getEqLogic() as $eqLogic) {
+                    $eqLogic_return = utils::o2a($eqLogic);
+                    $eqLogic_return['cmds'] = array();
+                    foreach ($eqLogic->getCmd() as $cmd) {
+                        $cmd_return = utils::o2a($cmd);
+                        if ($cmd->getType() == 'info') {
+                            $cmd_return['state'] = $cmd->execCmd();
+                        }
+                        $eqLogic_return['cmds'][] = $cmd_return;
+                    }
+                    $return['eqLogics'][] = $eqLogic_return;
+                }
+                $jsonrpc->makeSuccess($return);
+            }
+
             /*             * ************************Equipement*************************** */
             if ($jsonrpc->getMethod() == 'eqLogic::all') {
                 $jsonrpc->makeSuccess(utils::o2a(eqLogic::all()));
@@ -200,6 +244,23 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $eqLogic = eqLogic::byId($params['id']);
                 if (!is_object($eqLogic)) {
                     throw new Exception('EqLogic introuvable : ' . $params['id'], -32602);
+                }
+                $jsonrpc->makeSuccess(utils::o2a($eqLogic));
+            }
+
+            if ($jsonrpc->getMethod() == 'eqLogic::fullById') {
+                $eqLogic = eqLogic::byId($params['id']);
+                if (!is_object($eqLogic)) {
+                    throw new Exception('EqLogic introuvable : ' . $params['id'], -32602);
+                }
+                $return = utils::o2a($eqLogic);
+                $return['cmds'] = array();
+                foreach ($eqLogic->getCmd() as $cmd) {
+                    $cmd_return = utils::o2a($cmd);
+                    if ($cmd->getType() == 'info') {
+                        $cmd_return['state'] = $cmd->execCmd();
+                    }
+                    $return['cmds'][] = $cmd_return;
                 }
                 $jsonrpc->makeSuccess(utils::o2a($eqLogic));
             }
