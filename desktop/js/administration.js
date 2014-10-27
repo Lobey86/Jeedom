@@ -189,7 +189,7 @@ $('#bt_testMarketConnection').on('click', function () {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Connexion au market réussi', level: 'success'});
+            $('#div_alert').showAlert({message: 'Connexion au market réussie', level: 'success'});
         }
     });
 });
