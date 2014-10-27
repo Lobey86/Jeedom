@@ -401,7 +401,7 @@ class jeedom {
                 config::save('update::check', rand(0, 59) . ' 06 * * *');
             }
         } catch (Exception $e) {
-            log::add('update', 'error', '[' . config::byKey('update::check') . ']' . $e->getMessage());
+            //log::add('update', 'error', '[' . config::byKey('update::check') . ']' . $e->getMessage());
         }
         try {
             $c = new Cron\CronExpression(config::byKey('backup::cron'), new Cron\FieldFactory);
