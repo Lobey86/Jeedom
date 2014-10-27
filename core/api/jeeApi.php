@@ -205,6 +205,28 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $jsonrpc->makeSuccess($return);
             }
 
+            if ($jsonrpc->getMethod() == 'object::fullById') {
+                $object = object::byId($params['id']);
+                if (!is_object($object)) {
+                    throw new Exception('Objet introuvable : ' . $params['id'], -32601);
+                }
+                $return = utils::o2a($object);
+                $return['eqLogics'] = array();
+                foreach ($object->getEqLogic() as $eqLogic) {
+                    $eqLogic_return = utils::o2a($eqLogic);
+                    $eqLogic_return['cmds'] = array();
+                    foreach ($eqLogic->getCmd() as $cmd) {
+                        $cmd_return = utils::o2a($cmd);
+                        if ($cmd->getType() == 'info') {
+                            $cmd_return['state'] = $cmd->execCmd();
+                        }
+                        $eqLogic_return['cmds'][] = $cmd_return;
+                    }
+                    $return['eqLogics'][] = $eqLogic_return;
+                }
+                $jsonrpc->makeSuccess($return);
+            }
+
             /*             * ************************Equipement*************************** */
             if ($jsonrpc->getMethod() == 'eqLogic::all') {
                 $jsonrpc->makeSuccess(utils::o2a(eqLogic::all()));
