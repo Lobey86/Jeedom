@@ -71,8 +71,8 @@ try {
             }
         }
 
-        if (init('level', -1) < 1 && init('mode') != 'force') {
-            if (config::byKey('update::backupBefore') == 1) {
+        if (init('level', -1) < 1) {
+            if (config::byKey('update::backupBefore') == 1 && init('mode') != 'force') {
                 try {
                     jeedom::backup();
                 } catch (Exception $e) {
