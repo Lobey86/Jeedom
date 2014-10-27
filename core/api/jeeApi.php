@@ -226,6 +226,23 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $jsonrpc->makeSuccess(utils::o2a($eqLogic));
             }
 
+            if ($jsonrpc->getMethod() == 'eqLogic::fullById') {
+                $eqLogic = eqLogic::byId($params['id']);
+                if (!is_object($eqLogic)) {
+                    throw new Exception('EqLogic introuvable : ' . $params['id'], -32602);
+                }
+                $return = utils::o2a($eqLogic);
+                $return['cmds'] = array();
+                foreach ($eqLogic->getCmd() as $cmd) {
+                    $cmd_return = utils::o2a($cmd);
+                    if ($cmd->getType() == 'info') {
+                        $cmd_return['state'] = $cmd->execCmd();
+                    }
+                    $return['cmds'][] = $cmd_return;
+                }
+                $jsonrpc->makeSuccess(utils::o2a($eqLogic));
+            }
+
             if ($jsonrpc->getMethod() == 'eqLogic::save') {
                 $typeEqLogic = $params['eqType_name'];
                 $typeCmd = $typeEqLogic . 'Cmd';
