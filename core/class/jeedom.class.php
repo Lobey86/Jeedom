@@ -398,7 +398,7 @@ class jeedom {
                 if ($nbUpdate > 0) {
                     message::add('update', 'De nouvelles mises à jour sont disponibles (' . $nbUpdate . ')', '', 'newUpdate');
                 }
-                config::save('update::check', rand(0, 59) . ' 06 * * *');
+                config::save('update::check', rand(10, 59) . ' 06 * * *');
             }
         } catch (Exception $e) {
             //log::add('update', 'error', '[' . config::byKey('update::check') . ']' . $e->getMessage());
@@ -409,7 +409,7 @@ class jeedom {
                 jeedom::backup();
             }
         } catch (Exception $e) {
-            log::add('backup', 'error', '[' . config::byKey('backup::cron') . ']' . $e->getMessage());
+           // log::add('backup', 'error', '[' . config::byKey('backup::cron') . ']' . $e->getMessage());
         }
         try {
             $c = new Cron\CronExpression('50 23 * * *', new Cron\FieldFactory);
