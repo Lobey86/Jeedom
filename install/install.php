@@ -38,6 +38,7 @@ if (isset($argv)) {
 
 $update = false;
 $backup_ok = false;
+$update_begin = false;
 try {
     require_once dirname(__FILE__) . '/../core/php/core.inc.php';
     echo __("***************Installation/Mise a jour de Jeedom " . getVersion('jeedom') . "***************\n", __FILE__);
@@ -130,6 +131,7 @@ try {
                     }
                     echo __("OK\n", __FILE__);
                     echo __("Installation en cours...", __FILE__);
+                    $update_begin = true;
                     @rcopy($cibDir . '/', dirname(__FILE__) . '/../', false);
                     rrmdir($cibDir);
                     unlink($tmp);
@@ -305,18 +307,14 @@ try {
         $user->setPassword(sha1('admin'));
         $user->setRights('admin', 1);
         $user->save();
-
+        $logLevel = array('info' => 0, 'debug' => 0, 'event' => 0, 'error' => 1);
         if (init('mode') != 'force') {
             echo __("Jeedom est-il installe sur un Rasberry PI ? [o/N] ", __FILE__);
             if (trim(fgets(STDIN)) === 'o') {
                 config::save('cronSleepTime', 60);
-                $logLevel = array('info' => 0, 'debug' => 0, 'event' => 0, 'error' => 1);
-            } else {
-                $logLevel = array('info' => 1, 'debug' => 0, 'event' => 1, 'error' => 1);
             }
         } else {
             config::save('cronSleepTime', 60);
-            $logLevel = array('info' => 0, 'debug' => 0, 'event' => 0, 'error' => 1);
         }
         config::save('logLevel', $logLevel);
         echo "OK\n";
@@ -325,7 +323,7 @@ try {
     config::save('version', getVersion('jeedom'));
 } catch (Exception $e) {
     if ($update) {
-        if ($backup_ok) {
+        if ($backup_ok && $update_begin) {
             jeedom::restore();
         }
         jeedom::start();
