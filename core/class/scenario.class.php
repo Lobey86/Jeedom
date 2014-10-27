@@ -458,6 +458,12 @@ class scenario {
         }
         $this->setState('stop');
         $this->setPID('');
+        if ($this->getIsActive() == 1) {
+            $scenario = self::byId($this->getId());
+            if (is_object($scenario)) {
+                $this->setIsActive($scenario->getIsActive());
+            }
+        }
         $this->save();
         return true;
     }
