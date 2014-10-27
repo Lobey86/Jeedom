@@ -63,6 +63,12 @@ if (!isConnect('admin')) {
                                 <input class="form-control tooltips interactAttr" type="text" data-l1key="options" data-l2key="convertBinary" placeholder="" title="{{Convertir les commandes binaire}}"/>
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label class="col-lg-3 control-label">{{Liste utilisateur autorisés}}</label>
+                            <div class="col-lg-9">
+                                <input class="form-control tooltips interactAttr" type="text" data-l1key="person" placeholder="" title="{{Liste des utilisateur (login) separé par un |}}"/>
+                            </div>
+                        </div>
                     </fieldset>
                 </form>
             </div>

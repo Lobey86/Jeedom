@@ -152,7 +152,7 @@ class interactQuery {
     public static function tryToReply($_query, $_parameters = array()) {
         $_parameters['dictation'] = $_query;
         if (isset($_parameters['profile'])) {
-            $_parameters['profile'] = ucfirst($_parameters['profile']);
+            $_parameters['profile'] = strtolower($_parameters['profile']);
         }
         $reply = '';
         $interactQuery = self::byQuery($_query);
@@ -161,12 +161,7 @@ class interactQuery {
         }
         if (is_object($interactQuery)) {
             $reply = $interactQuery->executeAndReply($_parameters);
-        }/* else {
-          $brainReply = self::brainReply($_query, $_parameters);
-          if ($brainReply != '') {
-          $reply = $brainReply;
-          }
-          } */
+        }
         if ($reply == '') {
             $reply = self::dontUnderstand($_parameters);
         }
@@ -261,11 +256,11 @@ class interactQuery {
         if (!is_object($interactDef)) {
             return __('Inconsistance de la base de données', __FILE__);
         }
-        if (isset($_parameters['profile']) && $interactDef->getPerson() != '') {
-            $person = $interactDef->getPerson();
+        if (isset($_parameters['profile']) && trim($interactDef->getPerson()) != '') {
+            $person = strtolower($interactDef->getPerson());
             $person = explode('|', $person);
             if (!in_array($_parameters['profile'], $person)) {
-                return __('Tu n\es pas autorisé à executer cette action', __FILE__);
+                return __('Tu n\'es pas autorisé à executer cette action', __FILE__);
             }
         }
         if ($this->getLink_type() == 'whatDoYouKnow') {
