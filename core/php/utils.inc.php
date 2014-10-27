@@ -358,7 +358,7 @@ function ls($folder = "", $pattern = "*", $recursivly = false, $options = array(
         }
     }
 
-    if ($folder)
+    if ($folder && is_dir($current_folder))
         chdir($current_folder);
 
     if (in_array('datetime_asc', $options)) {
