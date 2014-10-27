@@ -116,17 +116,12 @@ jeedom.history.drawChart = function (_params) {
                     }
                 }
             };
-            if (!$.mobile) {
-                var legend = {
-                    borderColor: 'black',
-                    borderWidth: 2,
-                    shadow: true
-                };
-                legend.enabled = init(_params.showLegend, true);
-            } else {
-                var legend = {};
-            }
-
+            var legend = {
+                borderColor: 'black',
+                borderWidth: 2,
+                shadow: true
+            };
+            legend.enabled = init(_params.showLegend, true);
             if (!isset(jeedom.history.chart[_params.el])) {
                 jeedom.history.chart[_params.el] = {};
                 jeedom.history.chart[_params.el].cmd = new Array();
