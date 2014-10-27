@@ -474,7 +474,7 @@
     },
     "desktop\/js\/scenario.js": {
         "Etes-vous sûr de vouloir supprimer le scénario": "Are you agree to delete scenario?",
-        "Variable des scénarios": "Scenario variables",
+        "Variables des scénarios": "Scenario variables",
         "Log d\\'exécution du scénario": "Log of scenario running",
         "Exécution réussie": "Running complete",
         "SI": "IF",

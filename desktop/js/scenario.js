@@ -167,7 +167,7 @@ $("#bt_testScenario").on('click', function () {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function () {
-            $('#div_alert').showAlert({message: '{{Lancement du scénario réussie}}', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Lancement du scénario réussi}}', level: 'success'});
         }
     });
 });
@@ -204,7 +204,7 @@ $("#bt_stopScenario").on('click', function () {
 
 $('#bt_displayScenarioVariable').on('click', function () {
     $('#md_modal').closest('.ui-dialog').css('z-index', '1030');
-    $('#md_modal').dialog({title: "{{Variable des scénarios}}"});
+    $('#md_modal').dialog({title: "{{Variables des scénarios}}"});
     $("#md_modal").load('index.php?v=d&modal=dataStore.management&type=scenario').dialog('open');
 });
 
