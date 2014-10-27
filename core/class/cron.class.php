@@ -309,6 +309,13 @@ class cron {
             $kill = posix_kill($this->getPID(), 9);
             $retry++;
         }
+        $retry = 0;
+        while (!$kill && $retry < (config::byKey('deamonsSleepTime') + 5)) {
+            sleep(1);
+            exec('kill -9 ' . $this->getPID());
+            $kill = $this->running();
+            $retry++;
+        }
         if (!$kill && $this->running()) {
             $this->setState('error');
             $this->setServer('');
