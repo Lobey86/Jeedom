@@ -583,12 +583,12 @@ class cmd {
      * @return command result
      * @throws Exception
      */
-    public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true) {
+    public function execCmd($_options = null, $cache = 1, $_sendNodeJsEvent = true,$_allowFastCache = true) {
         if ($this->getEventOnly() == 1) {
             $cache = 2;
         }
         if ($this->getType() == 'info' && $cache != 0) {
-            $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2) ? true : false);
+            $mc = cache::byKey('cmd' . $this->getId(), ($cache == 2 && $_allowFastCache) ? true : false);
             if ($cache == 2 || !$mc->hasExpired()) {
                 if ($mc->hasExpired()) {
                     $this->setCollect(1);
