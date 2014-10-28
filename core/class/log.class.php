@@ -140,7 +140,7 @@ class log {
      */
     public static function get($_log = 'core', $_begin, $_nbLines) {
         $page = array();
-        if (!file_exists($_log)) {
+        if (!file_exists($_log) || !is_file($_log)) {
             $path = self::getPathToLog($_log);
             if (!file_exists($path)) {
                 return false;
