@@ -390,7 +390,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                     throw new Exception('Impossible d\'ajouter une box jeedom non esclave à un reseau Jeedom');
                 }
                 $auiKey = config::byKey('auiKey');
-                if ($uiaKey == '') {
+                if ($auiKey == '') {
                     $auiKey = config::genKey(255);
                     config::save('auiKey', $auiKey);
                 }
