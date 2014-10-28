@@ -589,7 +589,7 @@ function addTrigger(_trigger) {
     var div = '<div class="form-group trigger">';
     div += '<label class="col-lg-3 control-label">{{Evènement}}</label>';
     div += '<div class="col-lg-7">';
-    div += '<input class="scenarioAttr input-xs form-control" data-l1key="trigger" value="' + _trigger + '">';
+    div += '<input class="scenarioAttr input-sm form-control" data-l1key="trigger" value="' + _trigger + '">';
     div += '</div>';
     div += '<div class="col-lg-1">';
     div += '<a class="btn btn-default btn-xs cursor bt_selectTrigger"><i class="fa fa-list-alt"></i></a>';
@@ -605,7 +605,7 @@ function addSchedule(_schedule) {
     var div = '<div class="form-group schedule">';
     div += '<label class="col-lg-3 control-label">{{Programmation}}</label>';
     div += '<div class="col-lg-7">';
-    div += '<input class="scenarioAttr input-xs form-control" data-l1key="schedule" value="' + _schedule + '">';
+    div += '<input class="scenarioAttr input-sm form-control" data-l1key="schedule" value="' + _schedule + '">';
     div += '</div>';
     div += '<div class="col-lg-1">';
     div += '<i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>';
@@ -631,7 +631,7 @@ function addExpression(_expression) {
                 _expression.expression = _expression.expression.replace(/"/g, '&quot;');
             }
             retour += '<div class="col-lg-11" style="position : relative; top : 5px;">';
-            retour += '<textarea class="expressionAttr form-control input-xs" data-l1key="expression" style="resize: vertical;" rows="1">' + init(_expression.expression) + '</textarea>';
+            retour += '<textarea class="expressionAttr form-control input-sm" data-l1key="expression" style="resize: vertical;" rows="1">' + init(_expression.expression) + '</textarea>';
             retour += '</div>';
             retour += '<div class="col-lg-1">';
             retour += ' <a class="btn btn-default btn-xs cursor bt_selectCmdExpression" style="position : relative; top : 3px;" title="Rechercher une commande"><i class="fa fa-list-alt"></i></a>';
@@ -655,14 +655,12 @@ function addExpression(_expression) {
             retour += '<div class="col-lg-1">';
             retour += '<i class="fa fa-arrows-v pull-left cursor bt_sortable" style="margin-top : 9px;"></i>';
             retour += '<i class="fa fa-minus-circle pull-left cursor bt_removeExpression" style="margin-top : 9px;"></i>';
+            retour += ' <a class="btn btn-default btn-xs cursor bt_selectCmdExpression pull-right"><i class="fa fa-list-alt"></i></a>';
             retour += '</div>';
-            retour += '<div class="col-lg-6">';
-            retour += '<input class="expressionAttr form-control input-xs" data-l1key="expression" value="' + init(_expression.expression) + '" style="font-weight:bold;"/>';
+            retour += '<div class="col-lg-3">';
+            retour += '<input class="expressionAttr form-control input-sm" data-l1key="expression" value="' + init(_expression.expression) + '" style="font-weight:bold;"/>';
             retour += '</div>';
-            retour += '<div class="col-lg-1">';
-            retour += ' <a class="btn btn-default btn-xs cursor bt_selectCmdExpression"><i class="fa fa-list-alt"></i></a>';
-            retour += '</div>';
-            retour += '<div class="col-lg-4 expressionOptions">';
+            retour += '<div class="col-lg-8 expressionOptions">';
             retour += jeedom.cmd.displayActionOption(init(_expression.expression), init(_expression.options));
             retour += '</div>';
             break;

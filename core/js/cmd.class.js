@@ -455,9 +455,9 @@ jeedom.cmd.displayActionOption = function (_expression, _options, _callback) {
                 return;
             }
             if (data.result.html != '') {
-                html += '<div class="alert alert-info" style="margin : 0px; padding : 3px;">';
+                //html += '<div style="position : relative; top : -4px;">';
                 html += data.result.html;
-                html += '</div>';
+               // html += '</div>';
             }
             if ('function' == typeof (_callback)) {
                 _callback(html);
