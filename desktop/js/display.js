@@ -290,7 +290,7 @@ function displayCmd(_cmd_id) {
             div += '</fieldset>';
             div += '</form>';
 
-            div += '<legend>{{Paramètres optionels widget}} <a class="btn btn-success btn-xs pull-right" id="bt_addWidgetParameters"><i class="fa fa-plus-circle"></i> Ajouter</a></legend>';
+            div += '<legend>{{Paramètres optionnels widget}} <a class="btn btn-success btn-xs pull-right" id="bt_addWidgetParameters"><i class="fa fa-plus-circle"></i> Ajouter</a></legend>';
             div += '<table class="table table-bordered table-condensed" id="table_widgetParameters">';
             div += '<thead>';
             div += '<tr>';
@@ -509,7 +509,7 @@ function displayEqLogic(_eqLogic_id) {
             div += '</div>';
             div += '</div>';
 
-            div += '<legend>{{Paramètres optionels widget}} <a class="btn btn-success btn-xs pull-right" id="bt_addWidgetParameters"><i class="fa fa-plus-circle"></i> Ajouter</a></legend>';
+            div += '<legend>{{Paramètres optionnels widget}} <a class="btn btn-success btn-xs pull-right" id="bt_addWidgetParameters"><i class="fa fa-plus-circle"></i> Ajouter</a></legend>';
             div += '<table class="table table-bordered table-condensed" id="table_widgetParameters">';
             div += '<thead>';
             div += '<tr>';
