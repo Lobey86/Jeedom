@@ -41,7 +41,7 @@ class jeedom {
             if (!isset($_GET['mode']) || $_GET['mode'] != 'force') {
                 throw $e;
             } else {
-                echo '***ERREUR*** ' . $e->getMessage();
+                echo "\n***ERREUR*** " . $e->getMessage();
             }
         }
         /*         * **********Arret des crons********************* */

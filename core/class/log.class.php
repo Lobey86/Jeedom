@@ -140,9 +140,13 @@ class log {
      */
     public static function get($_log = 'core', $_begin, $_nbLines) {
         $page = array();
-        $path = self::getPathToLog($_log);
-        if (!file_exists($path)) {
-            return false;
+        if (!file_exists($_log)) {
+            $path = self::getPathToLog($_log);
+            if (!file_exists($path)) {
+                return false;
+            }
+        } else {
+            $path = $_log;
         }
         $log = new SplFileObject($path);
         if ($log) {
@@ -183,9 +187,9 @@ class log {
         }
         return false;
     }
-    
-    public static function liste(){
-         return ls(dirname(__FILE__) . '/../../log/', '*');
+
+    public static function liste() {
+        return ls(dirname(__FILE__) . '/../../log/', '*');
     }
 
     /*     * *********************Methode d'instance************************* */

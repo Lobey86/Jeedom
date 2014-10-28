@@ -95,6 +95,17 @@ try {
         ajax::success();
     }
 
+    if (init('action') == 'changeAllState') {
+        $interactQueries = interactQuery::byInteractDefId(init('id'));
+        if (is_array($interactQueries)) {
+            foreach ($interactQueries as $interactQuery) {
+                $interactQuery->setEnable(init('enable'));
+                $interactQuery->save();
+            }
+        }
+        ajax::success();
+    }
+
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

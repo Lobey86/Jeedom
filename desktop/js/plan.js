@@ -572,7 +572,7 @@ function addGraph(_plan) {
         html += '<i class="fa fa-cogs pull-right editMode configureGraph" style="margin-right : 5px;margin-top : 5px;display:none;"></i>';
     }
     html += '<span class="graphOptions" style="display:none;">' + json_encode(init(_plan.display.graph, '[]')) + '</span>';
-    html += '<div class="graph" id="graph' + _plan.link_id + '" style="width : 100%;height : 90%;"></div>';
+    html += '<div class="graph" id="graph' + _plan.link_id + '" style="width : 100%;height : 100%;"></div>';
     html += '</div>';
     displayObject('graph', _plan.link_id, html, _plan);
 

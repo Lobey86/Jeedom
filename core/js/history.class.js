@@ -162,15 +162,6 @@ jeedom.history.drawChart = function (_params) {
                         spacingRight: 5,
                         spacingLeft: 5,
                     },
-                    plotOptions: {
-                        series: {
-                            stacking: 'normal',
-                            connectNulls: true,
-                            dataGrouping: {
-                                enable: false
-                            }
-                        }
-                    },
                     credits: {
                         text: '',
                         href: '',

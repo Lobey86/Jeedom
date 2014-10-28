@@ -40,10 +40,17 @@ try {
     }
 
     if (init('action') == 'get') {
-        ajax::success(log::get(init('logfile'), init('start', 0), init('nbLine', 3000)));
+        if (init('jeeNetwork_id') != '') {
+            $jeeNetwork = jeeNetwork::byId(init('jeeNetwork_id'));
+            if (is_object($jeeNetwork)) {
+                $jeeNetwork->getLog(init('log'), init('start', 0), init('nbLine', 3000));
+            }
+        } else {
+            ajax::success(log::get(init('logfile'), init('start', 0), init('nbLine', 3000)));
+        }
     }
-    
-     if (init('action') == 'getNbLine') {
+
+    if (init('action') == 'getNbLine') {
         ajax::success(log::nbLine(init('logfile')));
     }
 

@@ -148,11 +148,7 @@ class cron {
         if ($pid == '' || !is_numeric($pid)) {
             return false;
         }
-        $result = exec('ps -p' . $pid . ' e | grep "jeeCron.php" | wc -l');
-        if ($result == 0) {
-            return false;
-        }
-        return true;
+        return posix_getsid($pid);
     }
 
     public static function ok() {
@@ -311,6 +307,13 @@ class cron {
         while (!$kill && $retry < (config::byKey('deamonsSleepTime') + 5)) {
             sleep(1);
             $kill = posix_kill($this->getPID(), 9);
+            $retry++;
+        }
+        $retry = 0;
+        while (!$kill && $retry < (config::byKey('deamonsSleepTime') + 5)) {
+            sleep(1);
+            exec('kill -9 ' . $this->getPID());
+            $kill = $this->running();
             $retry++;
         }
         if (!$kill && $this->running()) {
