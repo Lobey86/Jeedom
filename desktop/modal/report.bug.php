@@ -5,7 +5,7 @@ if (!isConnect()) {
 if (config::byKey('market::address') == '') {
     throw new Exception('{{Aucune addresse pour le market de renseignée}}');
 }
-if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) {
+if (config::byKey('market::apikey') == '' && config::byKey('market::username') == '') {
     throw new Exception('{{Aucune clef market de renseigner. Veuillez vous enregistrer sur le market puis renseigner la clef dans Jeedom avant d\'ouvrir un ticket}}');
 }
 ?>
@@ -50,7 +50,7 @@ if (config::byKey('market::apikey') != '' || (config::byKey('market::username') 
 <script>
     $('.ticketAttr[data-l1key=options][data-l2key=page]').value(location.href);
 
-    $('#bt_sendBugReport').on('click', function() {
+    $('#bt_sendBugReport').on('click', function () {
         var ticket = $('#form_reportBug').getValues('.ticketAttr');
         var ticket = ticket[0];
         ticket.messages = $('#form_reportBug').getValues('.messageAttr');
@@ -62,10 +62,10 @@ if (config::byKey('market::apikey') != '' || (config::byKey('market::username') 
                 ticket: json_encode(ticket),
             },
             dataType: 'json',
-            error: function(request, status, error) {
+            error: function (request, status, error) {
                 handleAjaxError(request, status, error, $('#div_alertReportBug'));
             },
-            success: function(data) { // si l'appel a bien fonctionné
+            success: function (data) { // si l'appel a bien fonctionné
                 if (data.state != 'ok') {
                     $('#div_alertReportBug').showAlert({message: data.result, level: 'danger'});
                     return;
