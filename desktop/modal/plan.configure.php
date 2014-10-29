@@ -5,7 +5,7 @@ if (!isConnect('admin')) {
 
 $plan = plan::byLinkTypeLinkIdPlanHedaerId(init('link_type'), init('link_id'), init('planHeader_id'));
 if (!is_object($plan)) {
-    throw new Exception('Impossible de trouver le plan');
+    throw new Exception('Impossible de trouver le design');
 }
 $link = $plan->getLink();
 sendVarToJS('id', $plan->getId());
@@ -263,7 +263,7 @@ sendVarToJS('id', $plan->getId());
     });
 
     $('#bt_removeConfigurePlan').on('click', function () {
-        bootbox.confirm('Etes-vous sûr de vouloir supprimer cet object du plan ?', function (result) {
+        bootbox.confirm('Etes-vous sûr de vouloir supprimer cet object du design ?', function (result) {
             if (result) {
                 remove();
             }
@@ -304,7 +304,7 @@ sendVarToJS('id', $plan->getId());
                 $('#div_alertPlanConfigure').showAlert({message: error.message, level: 'danger'});
             },
             success: function () {
-                $('#div_alertPlanConfigure').showAlert({message: 'Plan sauvegardé', level: 'success'});
+                $('#div_alertPlanConfigure').showAlert({message: 'Design sauvegardé', level: 'success'});
                 displayPlan();
                 $('#fd_planConfigure').closest("div.ui-dialog-content").dialog("close");
             },
@@ -328,7 +328,7 @@ sendVarToJS('id', $plan->getId());
                     $('#div_alertPlanConfigure').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('#div_alertPlanConfigure').showAlert({message: 'Plan supprimé', level: 'success'});
+                $('#div_alertPlanConfigure').showAlert({message: 'Design supprimé', level: 'success'});
                 displayPlan();
                 $('#fd_planConfigure').closest("div.ui-dialog-content").dialog("close");
             }

@@ -90,7 +90,7 @@ sendVarToJS('id', $planHeader->getId())
     });
 
     $('#bt_removeConfigurePlanHeader').on('click', function () {
-        bootbox.confirm('Etes-vous sûr de vouloir supprimer cet object du plan ?', function (result) {
+        bootbox.confirm('Etes-vous sûr de vouloir supprimer cet object du design ?', function (result) {
             if (result) {
                 remove();
             }
@@ -137,7 +137,7 @@ sendVarToJS('id', $planHeader->getId())
                 $('#div_alertPlanHeaderConfigure').showAlert({message: error.message, level: 'danger'});
             },
             success: function () {
-                $('#div_alertPlanHeaderConfigure').showAlert({message: 'Plan sauvegardé', level: 'success'});
+                $('#div_alertPlanHeaderConfigure').showAlert({message: 'Design sauvegardé', level: 'success'});
                 window.location.reload();
             },
         });
@@ -160,7 +160,7 @@ sendVarToJS('id', $planHeader->getId())
                     $('#div_alertPlanHeaderConfigure').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                $('#div_alertPlanHeaderConfigure').showAlert({message: 'Plan supprimé', level: 'success'});
+                $('#div_alertPlanHeaderConfigure').showAlert({message: 'Design supprimé', level: 'success'});
                 window.location.reload();
             }
         });
