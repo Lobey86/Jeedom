@@ -511,7 +511,7 @@ class jeedom {
 
     public static function evaluateExpression($_input) {
         $test = new evaluate();
-        return $test->Evaluer(cmd::cmdToValue($_input));
+        return $test->Evaluer(scenarioExpression::setTags($_input));
     }
 
     public static function haltSystem() {
