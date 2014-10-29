@@ -93,6 +93,7 @@ if (init('type') == 'plugin') {
                         <option value="zwave">{{[Zwave] Configuration module}}</option>
                         <option value="script">{{Script}}</option>
                         <option value="camera">{{[Camera] Modèle}}</option>
+                        <option value="snmp">{{[SNMP] Configuration}}</option>
                     </select>
                 </div>
             </div>
