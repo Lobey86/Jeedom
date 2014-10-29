@@ -241,7 +241,7 @@ function getDeviceType() {
     if (navigator.userAgent.match(/(Ipad)/gi)) {
         result.type = 'tablet';
     }
-    result.bSize = 150;
+    result.bSize = 220;
     if (result.type == 'phone') {
         var ori = window.orientation;
         if (ori == 90 || ori == -90) {
