@@ -409,7 +409,7 @@ class jeedom {
                 jeedom::backup();
             }
         } catch (Exception $e) {
-           // log::add('backup', 'error', '[' . config::byKey('backup::cron') . ']' . $e->getMessage());
+            // log::add('backup', 'error', '[' . config::byKey('backup::cron') . ']' . $e->getMessage());
         }
         try {
             $c = new Cron\CronExpression('50 23 * * *', new Cron\FieldFactory);
@@ -510,8 +510,13 @@ class jeedom {
     }
 
     public static function evaluateExpression($_input) {
+        $_input = scenarioExpression::setTags($_input);
         $test = new evaluate();
-        return $test->Evaluer(scenarioExpression::setTags($_input));
+        try {
+            return $test->Evaluer($_input);
+        } catch (Exception $exc) {
+            return $_input;
+        }
     }
 
     public static function haltSystem() {
