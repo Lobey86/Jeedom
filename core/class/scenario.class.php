@@ -760,23 +760,27 @@ class scenario {
         }
         $return .= '- Mode du scénario : ' . $this->getMode() . "\n";
         $schedules = $this->getSchedule();
-        if (is_array($schedules)) {
-            foreach ($schedules as $schedule) {
-                $return .= '    - Programmation : ' . $schedule . "\n";
-            }
-        } else {
-            if ($schedules != '') {
-                $return .= '    - Programmation : ' . $schedules . "\n";
+        if ($this->getMode() == 'schedule' || $this->getMode() == 'all') {
+            if (is_array($schedules)) {
+                foreach ($schedules as $schedule) {
+                    $return .= '    - Programmation : ' . $schedule . "\n";
+                }
+            } else {
+                if ($schedules != '') {
+                    $return .= '    - Programmation : ' . $schedules . "\n";
+                }
             }
         }
-        $triggers = $this->getTrigger();
-        if (is_array($triggers)) {
-            foreach ($triggers as $trigger) {
-                $return .= '    - Evènement : ' . jeedom::toHumanReadable($trigger) . "\n";
-            }
-        } else {
-            if ($triggers != '') {
-                $return .= '    - Evènement : ' . $triggers . "\n";
+        if ($this->getMode() == 'provoke' || $this->getMode() == 'all') {
+            $triggers = $this->getTrigger();
+            if (is_array($triggers)) {
+                foreach ($triggers as $trigger) {
+                    $return .= '    - Evènement : ' . jeedom::toHumanReadable($trigger) . "\n";
+                }
+            } else {
+                if ($triggers != '') {
+                    $return .= '    - Evènement : ' . $triggers . "\n";
+                }
             }
         }
         $return .= "\n";
