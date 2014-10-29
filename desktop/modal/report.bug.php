@@ -5,7 +5,7 @@ if (!isConnect()) {
 if (config::byKey('market::address') == '') {
     throw new Exception('{{Aucune addresse pour le market de renseignée}}');
 }
-if (config::byKey('market::registerkey') == '') {
+if (config::byKey('market::apikey') != '' || (config::byKey('market::username') != '' && config::byKey('market::password') != '')) {
     throw new Exception('{{Aucune clef market de renseigner. Veuillez vous enregistrer sur le market puis renseigner la clef dans Jeedom avant d\'ouvrir un ticket}}');
 }
 ?>
