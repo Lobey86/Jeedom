@@ -28,14 +28,10 @@ class cache {
     private $datetime;
     private $options = null;
     private $_hasExpired = -1;
-    private static $_cache = array();
 
     /*     * ***********************Methode static*************************** */
 
     public static function byKey($_key, $_noRemove = false, $_allowFastCache = false) {
-        if (isset(self::$_cache[$_key]) && $_allowFastCache) {
-            return self::$_cache[$_key]['value'];
-        }
         $values = array(
             'key' => $_key
         );
@@ -53,17 +49,7 @@ class cache {
                 $cache->remove();
             }
         }
-        self::$_cache[$_key] = array('value' => $cache, 'datetime' => strtotime('now'));
         return $cache;
-    }
-
-    public static function loadAllCache() {
-        $sql = 'SELECT ' . DB::buildField(__CLASS__) . '
-                FROM cache';
-        $results = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
-        foreach ($results as $cache) {
-            self::$_cache[$cache->getKey()] = array('value' => $cache, 'datetime' => strtotime('now'));
-        }
     }
 
     public static function search($_search, $_noRemove = false) {
@@ -102,7 +88,6 @@ class cache {
                 $cache->setOptions($key, $value);
             }
         }
-        self::$_cache[$_key] = array('value' => $cache, 'datetime' => strtotime('now'));
         return $cache->save();
     }
 
@@ -126,9 +111,6 @@ class cache {
     }
 
     public function remove() {
-        if (isset(self::$_cache[$this->getKey()])) {
-            unset(self::$_cache[$this->getKey()]);
-        }
         DB::remove($this);
     }
 
