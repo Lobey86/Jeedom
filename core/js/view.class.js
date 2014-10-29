@@ -16,7 +16,7 @@
  */
 
 
-jeedom.view = function() {
+jeedom.view = function () {
 };
 
 jeedom.view.cache = Array();
@@ -25,10 +25,10 @@ if (!isset(jeedom.view.cache.html)) {
     jeedom.view.cache.html = Array();
 }
 
-jeedom.view.all = function(_params) {
+jeedom.view.all = function (_params) {
     var paramsRequired = [];
     var paramsSpecifics = {
-        pre_success: function(data) {
+        pre_success: function (data) {
             jeedom.view.cache.all = data.result;
             return data;
         }
@@ -52,29 +52,17 @@ jeedom.view.all = function(_params) {
     $.ajax(paramsAJAX);
 }
 
-jeedom.view.toHtml = function(_params) {
+jeedom.view.toHtml = function (_params) {
     if (_params.version == 'mobile') {
         _params.version = 'mview';
     }
     if (_params.version == 'dashboard') {
         _params.version = 'dview';
     }
-    if (init(_params.useCache, false) == true && isset(jeedom.view.cache.html[_params.id]) && 'function' == typeof (_params.success)) {
-        _params.success(jeedom.view.cache.html[_params.id]);
-        return;
-    }
     var paramsRequired = ['id', 'version'];
     var paramsSpecifics = {
-        pre_success: function(data) {
-            var result = {html: '', scenario: [], cmd: [], eqLogic: []};
-            if (_params.id == 'all' || $.isArray(_params.id)) {
-                for (var i in data.result) {
-                    jeedom.view.cache.html[i] = jeedom.view.handleViewAjax({view: data.result[i]});
-                }
-            } else {
-                result = jeedom.view.handleViewAjax({view: data.result});
-                jeedom.view.cache.html[_params.id] = result;
-            }
+        pre_success: function (data) {
+            result = jeedom.view.handleViewAjax({view: data.result});
             data.result = result;
             return data;
         }
@@ -83,10 +71,6 @@ jeedom.view.toHtml = function(_params) {
         jeedom.private.checkParamsRequired(_params || {}, paramsRequired);
     } catch (e) {
         (_params.error || paramsSpecifics.error || jeedom.private.default_params.error)(e);
-        return;
-    }
-    if (isset(jeedom.view.cache.all) && 'function' == typeof (_params.success)) {
-        _params.success(jeedom.view.cache.all);
         return;
     }
     var params = $.extend({}, jeedom.private.default_params, paramsSpecifics, _params || {});
@@ -100,7 +84,7 @@ jeedom.view.toHtml = function(_params) {
     $.ajax(paramsAJAX);
 }
 
-jeedom.view.handleViewAjax = function(_params) {
+jeedom.view.handleViewAjax = function (_params) {
     var result = {html: '', scenario: [], cmd: [], eqLogic: []};
     for (var i in _params.view.viewZone) {
         var viewZone = _params.view.viewZone[i];
@@ -135,7 +119,7 @@ jeedom.view.handleViewAjax = function(_params) {
 }
 
 
-jeedom.view.remove = function(_params) {
+jeedom.view.remove = function (_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {};
     try {
@@ -155,7 +139,7 @@ jeedom.view.remove = function(_params) {
 }
 
 
-jeedom.view.save = function(_params) {
+jeedom.view.save = function (_params) {
     var paramsRequired = ['id', 'viewZones'];
     var paramsSpecifics = {};
     try {
@@ -175,7 +159,7 @@ jeedom.view.save = function(_params) {
     $.ajax(paramsAJAX);
 }
 
-jeedom.view.get = function(_params) {
+jeedom.view.get = function (_params) {
     var paramsRequired = ['id'];
     var paramsSpecifics = {};
     try {
