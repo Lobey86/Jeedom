@@ -480,6 +480,9 @@ class cmd {
         if (trim($_value) == '') {
             return '';
         }
+        if(strpos('error', $_value) !== false){
+            return $_value;
+        }
         if ($this->getType() == 'info') {
             switch ($this->getSubType()) {
                 case 'binary':
