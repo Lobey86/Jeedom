@@ -81,21 +81,27 @@ class object {
     public static function fullData() {
         $return = array();
         foreach (object::all() as $object) {
-            $object_return = utils::o2a($object);
-            $object_return['eqLogics'] = array();
-            foreach ($object->getEqLogic() as $eqLogic) {
-                $eqLogic_return = utils::o2a($eqLogic);
-                $eqLogic_return['cmds'] = array();
-                foreach ($eqLogic->getCmd() as $cmd) {
-                    $cmd_return = utils::o2a($cmd);
-                    if ($cmd->getType() == 'info') {
-                        $cmd_return['state'] = $cmd->execCmd();
+            if ($object->getIsVisible() == 1) {
+                $object_return = utils::o2a($object);
+                $object_return['eqLogics'] = array();
+                foreach ($object->getEqLogic() as $eqLogic) {
+                    if ($eqLogic->getIsVisible() == 1) {
+                        $eqLogic_return = utils::o2a($eqLogic);
+                        $eqLogic_return['cmds'] = array();
+                        foreach ($eqLogic->getCmd() as $cmd) {
+                            if ($cmd->getIsVisible() == 1) {
+                                $cmd_return = utils::o2a($cmd);
+                                if ($cmd->getType() == 'info') {
+                                    $cmd_return['state'] = $cmd->execCmd();
+                                }
+                                $eqLogic_return['cmds'][] = $cmd_return;
+                            }
+                        }
+                        $object_return['eqLogics'][] = $eqLogic_return;
                     }
-                    $eqLogic_return['cmds'][] = $cmd_return;
                 }
-                $object_return['eqLogics'][] = $eqLogic_return;
+                $return[] = $object_return;
             }
-            $return[] = $object_return;
         }
         cache::set('api::object::full', '1', 0, array('result' => $return));
         return $return;
