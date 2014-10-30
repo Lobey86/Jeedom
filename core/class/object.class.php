@@ -97,7 +97,7 @@ class object {
             }
             $return[] = $object_return;
         }
-        config::save('api::object::full', json_encode($return));
+        cache::set('api::object::full', '1', 0, array('result' => $return));
         return $return;
     }
 

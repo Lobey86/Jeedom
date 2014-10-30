@@ -17,3 +17,7 @@ COLLATE = utf8_general_ci;
 
 ALTER TABLE `jeedom`.`rights` 
 ADD UNIQUE INDEX `entityUser` (`entity` ASC, `user_id` ASC);
+
+
+ALTER TABLE `jeedom`.`cache` 
+CHANGE COLUMN `options` `options` MEDIUMTEXT NULL DEFAULT NULL ;
