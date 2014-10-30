@@ -185,22 +185,22 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
 
             if ($jsonrpc->getMethod() == 'object::full') {
                 $result = config::byKey('api::object::full');
+                $cron = cron::byClassAndFunction('object', 'fullData');
+                if (!is_object($cron)) {
+                    $cron = new cron();
+                }
+                $cron->setClass('object');
+                $cron->setFunction('fullData');
+                $cron->setSchedule('* * * * * 2000');
+                $cron->setTimeout(5);
+                $cron->save();
+                if (!$cron->running()) {
+                    $cron->run(true);
+                }
                 if ($result != '') {
-                    $cron = cron::byClassAndFunction('object', 'fullData');
-                    if (!is_object($cron)) {
-                        $cron = new cron();
-                    }
-                    $cron->setClass('object');
-                    $cron->setFunction('fullData');
-                    $cron->setSchedule('* * * * * 2000');
-                    $cron->setTimeout(5);
-                    $cron->save();
-                    if (!$cron->running()) {
-                        $cron->run(true);
-                    }
                     $jsonrpc->makeSuccess(json_decode($result, true));
                 }
-                $jsonrpc->makeSuccess(object::fullData());
+                $jsonrpc->makeSuccess(array());
             }
 
             if ($jsonrpc->getMethod() == 'object::fullById') {
