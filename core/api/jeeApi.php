@@ -492,6 +492,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 if (!move_uploaded_file($_file['tmp_name'], $uploadfile)) {
                     throw new Exception('Impossible d\'uploader le fichier');
                 }
+                system('find ' . $uploaddir . $jeeNetwork->getId() . '*' . ' -mtime +' . config::byKey('backup::keepDays') . ' -print | xargs -r rm');
                 $jsonrpc->makeSuccess('ok');
             }
 
