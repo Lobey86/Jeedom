@@ -78,6 +78,29 @@ class object {
         return $return;
     }
 
+    public static function fullData() {
+        $return = array();
+        foreach (object::all() as $object) {
+            $object_return = utils::o2a($object);
+            $object_return['eqLogics'] = array();
+            foreach ($object->getEqLogic() as $eqLogic) {
+                $eqLogic_return = utils::o2a($eqLogic);
+                $eqLogic_return['cmds'] = array();
+                foreach ($eqLogic->getCmd() as $cmd) {
+                    $cmd_return = utils::o2a($cmd);
+                    if ($cmd->getType() == 'info') {
+                        $cmd_return['state'] = $cmd->execCmd();
+                    }
+                    $eqLogic_return['cmds'][] = $cmd_return;
+                }
+                $object_return['eqLogics'][] = $eqLogic_return;
+            }
+            $return[] = $object_return;
+        }
+        cache::set('api::object::full', json_encode($return), 0);
+        return $return;
+    }
+
     /*     * *********************Methode d'instance************************* */
 
     public function preSave() {

@@ -184,25 +184,23 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
 
             if ($jsonrpc->getMethod() == 'object::full') {
-                $return = array();
-                foreach (object::all() as $object) {
-                    $object_return = utils::o2a($object);
-                    $object_return['eqLogics'] = array();
-                    foreach ($object->getEqLogic() as $eqLogic) {
-                        $eqLogic_return = utils::o2a($eqLogic);
-                        $eqLogic_return['cmds'] = array();
-                        foreach ($eqLogic->getCmd() as $cmd) {
-                            $cmd_return = utils::o2a($cmd);
-                            if ($cmd->getType() == 'info') {
-                                $cmd_return['state'] = $cmd->execCmd();
-                            }
-                            $eqLogic_return['cmds'][] = $cmd_return;
-                        }
-                        $object_return['eqLogics'][] = $eqLogic_return;
+                $cache = cache::byKey('api::object::full');
+                if ($cache->getValue() != '') {
+                    $cron = cron::byClassAndFunction('object', 'fullData');
+                    if (!is_object($cron)) {
+                        $cron = new cron();
                     }
-                    $return[] = $object_return;
+                    $cron->setClass('object');
+                    $cron->setFunction('fullData');
+                    $cron->setSchedule('* * * * * 2000');
+                    $cron->setTimeout(5);
+                    $cron->save();
+                    if (!$cron->running()) {
+                        $cron->run(true);
+                    }
+                    $jsonrpc->makeSuccess(json_decode($cache->getValue(), true));
                 }
-                $jsonrpc->makeSuccess($return);
+                $jsonrpc->makeSuccess(object::fullData());
             }
 
             if ($jsonrpc->getMethod() == 'object::fullById') {
