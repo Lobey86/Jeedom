@@ -241,6 +241,7 @@ if (count($plugins_list) > 0) {
                                             }
                                         }
                                         ?>
+                                        <li><a href="index.php?v=m"><i class="fa fa-mobile"></i> {{Version mobile}}</a></li>
                                         <li class="divider"></li>
                                         <li><a href="index.php?v=d&logout=1"><i class="fa fa-sign-out"></i> {{Se déconnecter}}</a></li>
                                     </ul>
