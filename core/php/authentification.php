@@ -184,13 +184,11 @@ function loginByKey($_key, $_ajax = false) {
 }
 
 function logout() {
-    global $isConnect;
     @session_start();
     setcookie('sess_id', '', time() - 3600, "/", '', false, true);
     setcookie('registerDevice', '', time() - 3600, "/", '', false, true);
     session_unset();
     session_destroy();
-    $isConnect = array();
     return;
 }
 

@@ -59,7 +59,7 @@ function initHome() {
         $('#bt_listPlugin').hide();
     }
 
-    $('#bt_logout').on('click', function () {
+    $('#bt_logout').off().on('click', function () {
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "core/ajax/user.ajax.php", // url du fichier php
@@ -75,7 +75,6 @@ function initHome() {
                     $('#div_alert').showAlert({message: data.result, level: 'danger'});
                     return;
                 }
-                localStorage.setItem("deviceKey", '');
                 initApplication();
             }
         });
