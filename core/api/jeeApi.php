@@ -184,8 +184,8 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
             }
 
             if ($jsonrpc->getMethod() == 'object::full') {
-                $cache = cache::byKey('api::object::full');
-                if ($cache->getValue() != '') {
+                $result = config::byKey('api::object::full');
+                if ($result != '') {
                     $cron = cron::byClassAndFunction('object', 'fullData');
                     if (!is_object($cron)) {
                         $cron = new cron();
@@ -198,7 +198,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                     if (!$cron->running()) {
                         $cron->run(true);
                     }
-                    $jsonrpc->makeSuccess(json_decode($cache->getValue(), true));
+                    $jsonrpc->makeSuccess(json_decode($result, true));
                 }
                 $jsonrpc->makeSuccess(object::fullData());
             }
