@@ -24,7 +24,22 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
+    if (init('action') == 'byUserId') {
+        ajax::success(utils::o2a(rights::byUserId(init('user_id'))));
+    }
 
+    if (init('action') == 'save') {
+        $rights_json = json_decode(init('rights'), true);
+        foreach ($rights_json as $right_json) {
+            $rights = rights::byId($right_json['id']);
+            if (!is_object($rights)) {
+                $rights = new rights();
+            }
+            utils::a2o($rights, $right_json);
+            $rights->save();
+        }
+        ajax::success();
+    }
 
 
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
