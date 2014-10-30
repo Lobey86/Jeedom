@@ -137,8 +137,6 @@ class eqLogic {
     }
 
     public static function byType($_eqType_name) {
-        $result1 = array();
-        $result2 = array();
         $values = array(
             'eqType_name' => $_eqType_name
         );
