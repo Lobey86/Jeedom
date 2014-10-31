@@ -859,9 +859,6 @@ class cmd {
         $this->setCollect(0);
         cache::deleteBySearch('eqLogicWidget%' . $this->getEqLogic_id());
         cache::deleteBySearch('cmdWidget%' . $this->getId());
-        if ($eqLogic->getIsVisible() == 1) {
-            $eqLogic->generateAllWidget();
-        }
         $nodeJs = array(
             array(
                 'cmd_id' => $this->getId(),
