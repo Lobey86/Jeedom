@@ -198,7 +198,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                     $cron->run(true);
                 }
                 if ($cache->getValue()) {
-                    $jsonrpc->makeSuccess($cache->getOptions('result'));
+                    $jsonrpc->makeSuccess(json_decode($cache->getValue(), true));
                 }
                 $jsonrpc->makeSuccess(array());
             }
