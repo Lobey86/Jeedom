@@ -650,10 +650,15 @@ class cmd {
                 $this->setCollectDate(date('Y-m-d H:i:s'));
             }
             $this->setCollect(0);
-            nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
+            $nodeJs = array(
+                array(
+                    'cmd_id' => $this->getId(),
+                )
+            );
             foreach (self::byValue($this->getId()) as $cmd) {
-                nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
+                $nodeJs[] = array('cmd_id' => $cmd->getId());
             }
+            nodejs::pushUpdate('eventCmd', $nodeJs);
         }
         if (!is_array($value) && strpos($value, 'error') === false) {
             if ($eqLogic->getStatus('numberTryWithoutSuccess') != 0) {
@@ -871,9 +876,9 @@ class cmd {
                 $cmd->event($cmd->execute(), $_loop);
             }
         }
+        nodejs::pushUpdate('eventCmd', $nodeJs);
         scenario::check($this);
         listener::check($this->getId(), $value);
-        nodejs::pushUpdate('eventCmd', $nodeJs);
         if (strpos($_value, 'error') === false) {
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
             $this->addHistoryValue($value, $this->getCollectDate());

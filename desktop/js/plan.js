@@ -285,15 +285,17 @@ function displayPlan() {
         success: function (data) {
             var sizeSet = false;
             if (data.configuration != null && init(data.configuration.desktopSizeX) != '' && init(data.configuration.desktopSizeY) != '') {
-                $('#div_displayObject').height(data.configuration.desktopSizeX);
-                $('#div_displayObject').width(data.configuration.desktopSizeY);
-                $('#div_displayObject img').height(data.configuration.desktopSizeX);
-                $('#div_displayObject img').width(data.configuration.desktopSizeY);
+                $('#div_displayObject').height(data.configuration.desktopSizeY);
+                $('#div_displayObject').width(data.configuration.desktopSizeX);
+                $('#div_displayObject img').height(data.configuration.desktopSizeY);
+                $('#div_displayObject img').width(data.configuration.desktopSizeX);
                 sizeSet = true;
             }
             if (!sizeSet) {
-                $('#div_displayObject').width($('#div_displayObject img').attr('data-sixe_y'));
-                $('#div_displayObject').height($('#div_displayObject img').attr('data-sixe_x'));
+                $('#div_displayObject img').height($('#div_displayObject img').attr('data-sixe_y'));
+                $('#div_displayObject img').width($('#div_displayObject img').attr('data-sixe_x'));
+                $('#div_displayObject').width($('#div_displayObject img').attr('data-sixe_x'));
+                $('#div_displayObject').height($('#div_displayObject img').attr('data-sixe_y'));
             }
             $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget,.text-widget').remove();
 
