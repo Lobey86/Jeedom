@@ -496,13 +496,6 @@ class eqLogic {
         return $html;
     }
 
-    public function generateAllWidget() {
-        $this->toHtml('dashboard');
-        $this->toHtml('dview');
-        $this->toHtml('mobile');
-        $this->toHtml('mview');
-    }
-
     public function getShowOnChild() {
         return false;
     }
