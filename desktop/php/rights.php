@@ -95,8 +95,8 @@ include_file('3rdparty', 'jquery.tablesorter/theme.bootstrap', 'css');
 include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.min', 'js');
 include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'js');
 ?>
-<a class="btn btn-success pull-right"><i class="fa fa-floppy-o"></i> Sauvegarder</a>
-<select class="form-control pull-right" style="display: inline-block; width: 200px;">
+<a class="btn btn-success pull-right" id="bt_saveRights"><i class="fa fa-floppy-o"></i> Sauvegarder</a>
+<select class="form-control pull-right" id="sel_userId" style="display: inline-block; width: 200px;">
     <?php
     foreach (user::all() as $user) {
         echo '<option value="' . $user->getId() . '">' . $user->getLogin() . '</option>';
@@ -126,11 +126,16 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
             <tbody>
                 <?php
                 foreach ($pages as $kpage => $page) {
-                    echo '<tr class="rights">';
+                    echo '<tr>';
                     echo '<td>';
                     foreach ($page as $kright => $right) {
                         if ($kright != 'title' && $kright != 'title') {
-                            echo '<input type="checkbox" data-l1key="' . $kpage . $kright . '"  checked />' . $right['title'] . '<br/>';
+                            echo '<span class="rights">';
+                            echo '<input class="rightsAttr" data-l1key="id" style="display:none;" />';
+                            echo '<input class="rightsAttr" data-l1key="user_id" style="display:none;" />';
+                            echo '<input class="rightsAttr" data-l1key="entity" style="display:none;" value="' . $kpage . $kright . '" />';
+                            echo '<input type="checkbox" class="rightsAttr" data-l1key="right"  checked />' . $right['title'] . '<br/>';
+                            echo '</span>';
                         }
                     }
                     echo '</td>';
@@ -168,3 +173,5 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
         </tbody>
     </div>
 </div>
+
+<?php include_file("desktop", "rights", "js"); ?>
