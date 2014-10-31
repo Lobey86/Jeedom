@@ -480,7 +480,7 @@ class cmd {
         if (trim($_value) == '') {
             return '';
         }
-        if(strpos('error', $_value) !== false){
+        if (strpos('error', $_value) !== false) {
             return $_value;
         }
         if ($this->getType() == 'info') {
@@ -826,7 +826,6 @@ class cmd {
         }
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() == 0) {
-            //log::add('core', 'Error', __('Impossible de trouver l\'équipement correspondant à l\'id : ', __FILE__) . $this->getEqLogic_id() . __(' ou équipement désactivé. Evènement sur commande :', __FILE__) . $this->getHumanName(), 'notFound' . $this->getEqLogic_id());
             return;
         }
         if ($this->getType() != 'info' || $_loop > 5) {
@@ -843,13 +842,13 @@ class cmd {
         log::add('cmd', 'event', 'Evènement sur la commande : ' . $this->getHumanName() . ' (' . $this->getId() . ') => ' . $value . '(' . $_value . ')');
         cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
         $this->setCollect(0);
-
+        cache::deleteBySearch('eqLogicWidget%' . $eqLogic->getId());
+        $eqLogic->generateAllWidget();
         $nodeJs = array(
             array(
                 'cmd_id' => $this->getId(),
             )
         );
-
         foreach (self::byValue($this->getId()) as $cmd) {
             if ($cmd->getType() == 'action') {
                 $nodeJs[] = array('cmd_id' => $cmd->getId());

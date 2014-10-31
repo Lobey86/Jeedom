@@ -413,12 +413,35 @@ class eqLogic {
         return 'eqLogic';
     }
 
+    public function hasOnlyEventOnlyCmd() {
+        $values = array(
+            'eqLogic_id' => $this->getId(),
+        );
+        $sql = 'SELECT count(*)
+                FROM cmd
+                WHERE eqLogic_id=:eqLogic_id
+                    AND eventOnly!=1
+                    AND type="info"
+                    AND isVisible=1';
+        $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+        if ($result['count(*)'] > 0) {
+            return false;
+        }
+        return true;
+    }
+
     public function toHtml($_version = 'dashboard') {
         if ($_version == '') {
             throw new Exception(__('La version demandé ne peut être vide (mobile, dashboard ou scenario)', __FILE__));
         }
         $info = '';
         $version = jeedom::versionAlias($_version);
+        if ($this->hasOnlyEventOnlyCmd()) {
+            $mc = cache::byKey('eqLogicWidget' . $_version . $this->getId());
+            if ($mc->getValue() != '') {
+                return $mc->getValue();
+            }
+        }
         $vcolor = 'cmdColor';
         if ($version == 'mobile') {
             $vcolor = 'mcmdColor';
@@ -466,7 +489,16 @@ class eqLogic {
         if (!isset(self::$_templateArray[$version])) {
             self::$_templateArray[$version] = getTemplate('core', $version, 'eqLogic');
         }
-        return template_replace($replace, self::$_templateArray[$version]);
+        $html = template_replace($replace, self::$_templateArray[$version]);
+        cache::set('eqLogicWidget' . $_version . $this->getId(), $html, 0);
+        return $html;
+    }
+
+    public function generateAllWidget() {
+        $this->toHtml('dashboard');
+        $this->toHtml('dview');
+        $this->toHtml('mobile');
+        $this->toHtml('mview');
     }
 
     public function getShowOnChild() {

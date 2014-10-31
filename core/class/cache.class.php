@@ -70,6 +70,15 @@ class cache {
         return $caches;
     }
 
+    public static function deleteBySearch($_search) {
+        $values = array(
+            'key' => '%' . $_search . '%'
+        );
+        $sql = 'DELETE FROM cache
+                WHERE `key` LIKE :key';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
+    }
+
     public static function flush() {
         $sql = 'TRUNCATE TABLE cache';
         return DB::Prepare($sql, array(), DB::FETCH_TYPE_ROW);

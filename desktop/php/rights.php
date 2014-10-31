@@ -134,7 +134,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                             echo '<input class="rightsAttr" data-l1key="id" style="display:none;" />';
                             echo '<input class="rightsAttr" data-l1key="user_id" style="display:none;" />';
                             echo '<input class="rightsAttr" data-l1key="entity" style="display:none;" value="' . $kpage . $kright . '" />';
-                            echo '<input type="checkbox" class="rightsAttr" data-l1key="right"  checked />' . $right['title'] . '<br/>';
+                            echo '<input type="checkbox" class="rightsAttr" data-l1key="right"  checked /> ' . $right['title'] . '<br/>';
                             echo '</span>';
                         }
                     }
@@ -151,26 +151,50 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
         </table>
     </div>
     <div role="tabpanel" class="tab-pane" id="eqLogic">
-        <thead>
-            <tr>
-                <td>{{Nom}}</td>
-                <td>{{Droits}}</td>
-            </tr>
-        </thead>
-        <tbody>
+        <table class="table table-bordered table-condensed tablesorter" >
+            <thead>
+                <tr>
+                    <td>{{Droits}}</td>
+                    <td>{{Nom}}</td>
+                </tr>
+            </thead>
+            <tbody>
 
-        </tbody>
+            </tbody>
+        </table>
     </div>
     <div role="tabpanel" class="tab-pane" id="scenario">
-        <thead>
-            <tr>
-                <td>{{Nom}}</td>
-                <td>{{Droits}}</td>
-            </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
+        <table class="table table-bordered table-condensed tablesorter" >
+            <thead>
+                <tr>
+                    <td>{{Nom}}</td>
+                    <td>{{Droits}}</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach (scenario::all() as $scenario) {
+                    echo '<tr>';
+                    echo '<td>';
+                    foreach (array('edit' => 'Editer') as $kright => $right) {
+                        echo '<span class="rights">';
+                        echo '<input class="rightsAttr" data-l1key="id" style="display:none;" />';
+                        echo '<input class="rightsAttr" data-l1key="user_id" style="display:none;" />';
+                        echo '<input class="rightsAttr" data-l1key="entity" style="display:none;" value="scenario' . $scenario->getId() . $kright . '" />';
+                        echo '<input type="checkbox" class="rightsAttr" data-l1key="right"  checked /> ' . $right . '<br/>';
+                        echo '</span>';
+                    }
+                    echo '</td>';
+                    echo '<td>';
+                    echo $scenario->getHumanName();
+                    echo '</td>';
+                    echo '<td>';
+                    echo '</td>';
+                    echo '</tr>';
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
