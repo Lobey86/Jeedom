@@ -151,24 +151,44 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
         </table>
     </div>
     <div role="tabpanel" class="tab-pane" id="eqLogic">
+        <br/>
         <table class="table table-bordered table-condensed tablesorter" >
             <thead>
                 <tr>
-                    <td>{{Droits}}</td>
+                    <td style="width: 100px;">{{Droits}}</td>
                     <td>{{Nom}}</td>
                 </tr>
             </thead>
             <tbody>
-
+                <?php
+                foreach (eqLogic::all() as $eqLogic) {
+                    echo '<tr>';
+                    echo '<td>';
+                    foreach (array('edit' => 'Editer', 'view' => 'Voir', 'action' => 'Action') as $kright => $right) {
+                        echo '<span class="rights">';
+                        echo '<input class="rightsAttr" data-l1key="id" style="display:none;" />';
+                        echo '<input class="rightsAttr" data-l1key="user_id" style="display:none;" />';
+                        echo '<input class="rightsAttr" data-l1key="entity" style="display:none;" value="scenario' . $eqLogic->getId() . $kright . '" />';
+                        echo '<input type="checkbox" class="rightsAttr" data-l1key="right"  checked /> ' . $right . '<br/>';
+                        echo '</span>';
+                    }
+                    echo '</td>';
+                    echo '<td>';
+                    echo $eqLogic->getHumanName();
+                    echo '</td>';
+                    echo '</tr>';
+                }
+                ?>
             </tbody>
         </table>
     </div>
     <div role="tabpanel" class="tab-pane" id="scenario">
+        <br/>
         <table class="table table-bordered table-condensed tablesorter" >
             <thead>
                 <tr>
+                    <td style="width: 100px;">{{Droits}}</td>
                     <td>{{Nom}}</td>
-                    <td>{{Droits}}</td>
                 </tr>
             </thead>
             <tbody>
@@ -176,7 +196,7 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                 foreach (scenario::all() as $scenario) {
                     echo '<tr>';
                     echo '<td>';
-                    foreach (array('edit' => 'Editer') as $kright => $right) {
+                    foreach (array('edit' => 'Editer', 'action' => 'Action') as $kright => $right) {
                         echo '<span class="rights">';
                         echo '<input class="rightsAttr" data-l1key="id" style="display:none;" />';
                         echo '<input class="rightsAttr" data-l1key="user_id" style="display:none;" />';
@@ -187,8 +207,6 @@ include_file('3rdparty', 'jquery.tablesorter/jquery.tablesorter.widgets.min', 'j
                     echo '</td>';
                     echo '<td>';
                     echo $scenario->getHumanName();
-                    echo '</td>';
-                    echo '<td>';
                     echo '</td>';
                     echo '</tr>';
                 }
