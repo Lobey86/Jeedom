@@ -260,7 +260,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                     }
                     $return['cmds'][] = $cmd_return;
                 }
-                $jsonrpc->makeSuccess(utils::o2a($eqLogic));
+                $jsonrpc->makeSuccess(utils::o2a($return));
             }
 
             if ($jsonrpc->getMethod() == 'eqLogic::save') {
