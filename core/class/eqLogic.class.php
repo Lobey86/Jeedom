@@ -518,6 +518,7 @@ class eqLogic {
         $internalEvent->setOptions('id', $this->getId());
         DB::remove($this);
         $internalEvent->save();
+        cache::deleteBySearch('eqLogicWidget%' . $this->getId());
     }
 
     public function save() {
@@ -537,6 +538,7 @@ class eqLogic {
             $internalEvent->setOptions('id', $this->getId());
             $internalEvent->save();
         }
+        cache::deleteBySearch('eqLogicWidget%' . $this->getId());
         return true;
     }
 

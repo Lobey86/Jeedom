@@ -558,6 +558,8 @@ class cmd {
         if ($mc->getLifetime() != $this->getCacheLifetime()) {
             $mc->remove();
         }
+        cache::deleteBySearch('eqLogicWidget%' . $this->getEqLogic_id());
+        cache::deleteBySearch('cmdWidget%' . $this->getId());
         return true;
     }
 
@@ -573,6 +575,8 @@ class cmd {
         $internalEvent->setOptions('id', $this->getId());
         DB::remove($this);
         $internalEvent->save();
+        cache::deleteBySearch('eqLogicWidget%' . $this->getEqLogic_id());
+        cache::deleteBySearch('cmdWidget%' . $this->getId());
     }
 
     public function execute($_options = array()) {
@@ -684,6 +688,12 @@ class cmd {
     }
 
     public function toHtml($_version = 'dashboard', $options = '', $_cmdColor = null, $_cache = 2) {
+        if ($this->getEventOnly() == 1) {
+            $mc = cache::byKey('cmdWidget' . $_version . $this->getId());
+            if ($mc->getValue() != '') {
+                return $mc->getValue();
+            }
+        }
         $version = jeedom::versionAlias($_version);
         $html = '';
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($version, 'default');
@@ -784,7 +794,9 @@ class cmd {
                     $replace['#' . $key . '#'] = $value;
                 }
             }
-            return template_replace($replace, $template);
+            $html = template_replace($replace, $template);
+            cache::set('cmdWidget' . $_version . $this->getId(), $html, 0);
+            return $html;
         } else {
             $cmdValue = $this->getCmdValue();
             if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
@@ -816,6 +828,7 @@ class cmd {
                     $html = template_replace($replace, $html);
                 }
             }
+            cache::set('cmdWidget' . $_version . $this->getId(), $html, 0);
             return $html;
         }
     }
@@ -842,7 +855,8 @@ class cmd {
         log::add('cmd', 'event', 'Evènement sur la commande : ' . $this->getHumanName() . ' (' . $this->getId() . ') => ' . $value . '(' . $_value . ')');
         cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
         $this->setCollect(0);
-        cache::deleteBySearch('eqLogicWidget%' . $eqLogic->getId());
+        cache::deleteBySearch('eqLogicWidget%' . $this->getEqLogic_id());
+        cache::deleteBySearch('cmdWidget%' . $this->getId());
         $eqLogic->generateAllWidget();
         $nodeJs = array(
             array(
