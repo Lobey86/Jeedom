@@ -631,7 +631,7 @@ function addExpression(_expression) {
                 _expression.expression = _expression.expression.replace(/"/g, '&quot;');
             }
             retour += '<div class="col-lg-11" style="position : relative; top : 5px;">';
-            retour += '<textarea class="expressionAttr form-control input-sm" data-l1key="expression" style="resize: vertical;" rows="1">' + init(_expression.expression) + '</textarea>';
+            retour += '<textarea class="expressionAttr form-control input-sm" data-l1key="expression" style="resize: vertical;height : 27px;" rows="1">' + init(_expression.expression) + '</textarea>';
             retour += '</div>';
             retour += '<div class="col-lg-1">';
             retour += ' <a class="btn btn-default btn-xs cursor bt_selectCmdExpression" style="position : relative; top : 3px;" title="Rechercher une commande"><i class="fa fa-list-alt"></i></a>';
@@ -686,7 +686,7 @@ function addSubElement(_subElement) {
     if (_subElement.type == 'if' || _subElement.type == 'for' || _subElement.type == 'code') {
         noSortable = 'noSortable';
     }
-    var retour = '<div class="subElement ' + noSortable + '" style="position : relative;top : -12px;">';
+    var retour = '<div class="subElement ' + noSortable + '" style="position : relative;top : -8px;">';
     retour += '<input class="subElementAttr" data-l1key="id" style="display : none;" value="' + init(_subElement.id) + '"/>';
     retour += '<input class="subElementAttr" data-l1key="scenarioElement_id" style="display : none;" value="' + init(_subElement.scenarioElement_id) + '"/>';
     retour += '<input class="subElementAttr" data-l1key="type" style="display : none;" value="' + init(_subElement.type) + '"/>';
