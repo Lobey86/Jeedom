@@ -423,7 +423,8 @@ class eqLogic {
                     AND eventOnly!=1
                     AND type="info"
                     AND isVisible=1
-                    AND isHistorized=0';
+                    AND isHistorized=0
+                    AND (`value` = 0 OR `value` IS NULL OR `value`="")';
         $result = DB::Prepare($sql, $values, DB::FETCH_TYPE_ROW);
         if ($result['count(*)'] > 0) {
             return false;
