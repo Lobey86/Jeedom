@@ -484,11 +484,6 @@ class scenario {
 
     public function toHtml($_version) {
         $_version = jeedom::versionAlias($_version);
-        $mc = cache::byKey('scenarioWidget' . $_version . $this->getId());
-        if ($mc->getValue() != '') {
-            return $mc->getValue();
-        }
-
         $replace = array(
             '#id#' => $this->getId(),
             '#state#' => $this->getState(),
@@ -504,9 +499,7 @@ class scenario {
         if (!isset(self::$_templateArray[$_version])) {
             self::$_templateArray[$_version] = getTemplate('core', $_version, 'scenario');
         }
-        $html = template_replace($replace, self::$_templateArray[$_version]);
-        cache::set('scenarioWidget' . $_version . $this->getId(), $html, 0);
-        return $html;
+        return template_replace($replace, self::$_templateArray[$_version]);
     }
 
     public function getIcon() {
@@ -564,7 +557,6 @@ class scenario {
         if ($this->_changeState) {
             @nodejs::pushUpdate('eventScenario', $this->getId());
         }
-        cache::deleteBySearch('scenarioWidget%' . $this->getId());
     }
 
     public function refresh() {
