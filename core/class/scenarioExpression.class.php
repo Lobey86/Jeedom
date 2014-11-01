@@ -429,6 +429,7 @@ class scenarioExpression {
                         $occurence++;
                         sleep(1);
                     }
+                    $this->setLog($scenario, __('[Wait] Condition valide : ', __FILE__) . $expression);
                     return;
                 } else if ($this->getExpression() == 'sleep') {
                     if (isset($options['duration'])) {
