@@ -47,34 +47,37 @@ function displayPlan(_planHeader_id) {
             var sizeSet = false;
             if (deviceInfo.type == 'desktop') {
                 if (data.configuration != null && init(data.configuration.desktopSizeX) != '' && init(data.configuration.desktopSizeY) != '') {
-                    $('#div_displayObject').height(data.configuration.desktopSizeX);
-                    $('#div_displayObject').width(data.configuration.desktopSizeY);
-                    $('#div_displayObject img').css('height', data.configuration.desktopSizeX + 'px');
-                    $('#div_displayObject img').css('width', data.configuration.desktopSizeY + 'px');
+                    $('#div_displayObject').height(data.configuration.desktopSizeY);
+                    $('#div_displayObject').width(data.configuration.desktopSizeX);
+                    $('#div_displayObject img').css('height', data.configuration.desktopSizeY + 'px');
+                    $('#div_displayObject img').css('width', data.configuration.desktopSizeX + 'px');
                     sizeSet = true;
                 }
             }
             if (deviceInfo.type == 'tablet') {
                 if (data.configuration != null && init(data.configuration.tabletSizeX) != '' && init(data.configuration.tabletSizeY) != '') {
-                    $('#div_displayObject').height(data.configuration.tabletSizeX);
-                    $('#div_displayObject').width(data.configuration.tabletSizeY);
-                    $('#div_displayObject img').css('height', data.configuration.tabletSizeX + 'px');
-                    $('#div_displayObject img').css('width', data.configuration.tabletSizeY + 'px');
+                    $('#div_displayObject').height(data.configuration.tabletSizeY);
+                    $('#div_displayObject').width(data.configuration.tabletSizeX);
+                    $('#div_displayObject img').css('height', data.configuration.tabletSizeY + 'px');
+                    $('#div_displayObject img').css('width', data.configuration.tabletSizeX + 'px');
                     sizeSet = true;
                 }
             }
             if (deviceInfo.type == 'phone') {
                 if (data.configuration != null && init(data.configuration.mobileSizeX) != '' && init(data.configuration.mobileSizeY) != '') {
-                    $('#div_displayObject').height(data.configuration.mobileSizeX);
-                    $('#div_displayObject').width(data.configuration.mobileSizeY);
-                    $('#div_displayObject img').css('height', data.configuration.mobileSizeX + 'px');
-                    $('#div_displayObject img').css('width', data.configuration.mobileSizeY + 'px');
+                    $('#div_displayObject').height(data.configuration.mobileSizeY);
+                    $('#div_displayObject').width(data.configuration.mobileSizeX);
+                    $('#div_displayObject img').css('height', data.configuration.mobileSizeY + 'px');
+                    $('#div_displayObject img').css('width', data.configuration.mobileSizeX + 'px');
                     sizeSet = true;
                 }
             }
-            if(!sizeSet){
-                $('#div_displayObject').width($('#div_displayObject img').attr('data-sixe_y'));
-                $('#div_displayObject').height($('#div_displayObject img').attr('data-sixe_x'));
+            if (!sizeSet) {
+                $('#div_displayObject').width($('#div_displayObject img').attr('data-sixe_x'));
+                $('#div_displayObject').height($('#div_displayObject img').attr('data-sixe_y'));
+                $('#div_displayObject img').css('height', $('#div_displayObject img').attr('data-sixe_y') + 'px');
+                $('#div_displayObject img').css('width', $('#div_displayObject img').attr('data-sixe_x') + 'px');
+
             }
 
             $('.eqLogic-widget,.scenario-widget,.plan-link-widget,.view-link-widget,.graph-widget').remove();

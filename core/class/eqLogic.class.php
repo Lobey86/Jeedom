@@ -438,12 +438,6 @@ class eqLogic {
         }
         $info = '';
         $version = jeedom::versionAlias($_version);
-        if ($this->hasOnlyEventOnlyCmd()) {
-            $mc = cache::byKey('eqLogicWidget' . $_version . $this->getId());
-            if ($mc->getValue() != '') {
-                return $mc->getValue();
-            }
-        }
         $vcolor = 'cmdColor';
         if ($version == 'mobile') {
             $vcolor = 'mcmdColor';
@@ -491,16 +485,7 @@ class eqLogic {
         if (!isset(self::$_templateArray[$version])) {
             self::$_templateArray[$version] = getTemplate('core', $version, 'eqLogic');
         }
-        $html = template_replace($replace, self::$_templateArray[$version]);
-        cache::set('eqLogicWidget' . $_version . $this->getId(), $html, 0);
-        return $html;
-    }
-
-    public function generateAllWidget() {
-        $this->toHtml('dashboard');
-        $this->toHtml('dview');
-        $this->toHtml('mobile');
-        $this->toHtml('mview');
+        return template_replace($replace, self::$_templateArray[$version]);
     }
 
     public function getShowOnChild() {
@@ -518,7 +503,6 @@ class eqLogic {
         $internalEvent->setOptions('id', $this->getId());
         DB::remove($this);
         $internalEvent->save();
-        cache::deleteBySearch('eqLogicWidget%' . $this->getId());
     }
 
     public function save() {
@@ -538,7 +522,6 @@ class eqLogic {
             $internalEvent->setOptions('id', $this->getId());
             $internalEvent->save();
         }
-        cache::deleteBySearch('eqLogicWidget%' . $this->getId());
         return true;
     }
 

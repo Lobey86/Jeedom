@@ -558,8 +558,6 @@ class cmd {
         if ($mc->getLifetime() != $this->getCacheLifetime()) {
             $mc->remove();
         }
-        cache::deleteBySearch('eqLogicWidget%' . $this->getEqLogic_id());
-        cache::deleteBySearch('cmdWidget%' . $this->getId());
         return true;
     }
 
@@ -575,8 +573,6 @@ class cmd {
         $internalEvent->setOptions('id', $this->getId());
         DB::remove($this);
         $internalEvent->save();
-        cache::deleteBySearch('eqLogicWidget%' . $this->getEqLogic_id());
-        cache::deleteBySearch('cmdWidget%' . $this->getId());
     }
 
     public function execute($_options = array()) {
@@ -608,8 +604,6 @@ class cmd {
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() != 1) {
             throw new Exception(__('Equipement desactivé impossible d\éxecuter la commande : ' . $this->getHumanName(), __FILE__));
         }
-        cache::deleteBySearch('eqLogicWidget%' . $this->getEqLogic_id());
-        cache::deleteBySearch('cmdWidget%' . $this->getId());
         try {
             if ($_options !== null && $_options !== '') {
                 $options = self::cmdToValue($_options);
@@ -650,10 +644,15 @@ class cmd {
                 $this->setCollectDate(date('Y-m-d H:i:s'));
             }
             $this->setCollect(0);
-            nodejs::pushUpdate('eventCmd', array('cmd_id' => $this->getId(), 'eqLogic_id' => $this->getEqLogic_id(), 'object_id' => $this->getEqLogic()->getObject_id()));
+            $nodeJs = array(
+                array(
+                    'cmd_id' => $this->getId(),
+                )
+            );
             foreach (self::byValue($this->getId()) as $cmd) {
-                nodejs::pushUpdate('eventCmd', array('cmd_id' => $cmd->getId(), 'eqLogic_id' => $cmd->getEqLogic_id(), 'object_id' => $cmd->getEqLogic()->getObject_id()));
+                $nodeJs[] = array('cmd_id' => $cmd->getId());
             }
+            nodejs::pushUpdate('eventCmd', $nodeJs);
         }
         if (!is_array($value) && strpos($value, 'error') === false) {
             if ($eqLogic->getStatus('numberTryWithoutSuccess') != 0) {
@@ -690,12 +689,6 @@ class cmd {
     }
 
     public function toHtml($_version = 'dashboard', $options = '', $_cmdColor = null, $_cache = 2) {
-        if ($this->getEventOnly() == 1) {
-            $mc = cache::byKey('cmdWidget' . $_version . $this->getId());
-            if ($mc->getValue() != '') {
-                return $mc->getValue();
-            }
-        }
         $version = jeedom::versionAlias($_version);
         $html = '';
         $template_name = 'cmd.' . $this->getType() . '.' . $this->getSubType() . '.' . $this->getTemplate($version, 'default');
@@ -796,9 +789,7 @@ class cmd {
                     $replace['#' . $key . '#'] = $value;
                 }
             }
-            $html = template_replace($replace, $template);
-            cache::set('cmdWidget' . $_version . $this->getId(), $html, 0);
-            return $html;
+            return  template_replace($replace, $template);
         } else {
             $cmdValue = $this->getCmdValue();
             if (is_object($cmdValue) && $cmdValue->getType() == 'info') {
@@ -830,7 +821,6 @@ class cmd {
                     $html = template_replace($replace, $html);
                 }
             }
-            cache::set('cmdWidget' . $_version . $this->getId(), $html, 0);
             return $html;
         }
     }
@@ -857,11 +847,6 @@ class cmd {
         log::add('cmd', 'event', 'Evènement sur la commande : ' . $this->getHumanName() . ' (' . $this->getId() . ') => ' . $value . '(' . $_value . ')');
         cache::set('cmd' . $this->getId(), $value, $this->getCacheLifetime(), array('collectDate' => $this->getCollectDate()));
         $this->setCollect(0);
-        cache::deleteBySearch('eqLogicWidget%' . $this->getEqLogic_id());
-        cache::deleteBySearch('cmdWidget%' . $this->getId());
-        if ($eqLogic->getIsVisible() == 1) {
-            $eqLogic->generateAllWidget();
-        }
         $nodeJs = array(
             array(
                 'cmd_id' => $this->getId(),
@@ -874,9 +859,9 @@ class cmd {
                 $cmd->event($cmd->execute(), $_loop);
             }
         }
+        nodejs::pushUpdate('eventCmd', $nodeJs);
         scenario::check($this);
         listener::check($this->getId(), $value);
-        nodejs::pushUpdate('eventCmd', $nodeJs);
         if (strpos($_value, 'error') === false) {
             $eqLogic->setStatus('lastCommunication', date('Y-m-d H:i:s'));
             $this->addHistoryValue($value, $this->getCollectDate());

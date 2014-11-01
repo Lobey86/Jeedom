@@ -192,13 +192,13 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $cron->setClass('object');
                 $cron->setFunction('fullData');
                 $cron->setSchedule('* * * * * 2000');
-                $cron->setTimeout(5);
+                $cron->setTimeout(10);
                 $cron->save();
                 if (!$cron->running()) {
                     $cron->run(true);
                 }
-                if ($cache->getValue()) {
-                    $jsonrpc->makeSuccess($cache->getOptions('result'));
+                if ($cache->getValue() != '') {
+                    $jsonrpc->makeSuccess(json_decode($cache->getValue(), true));
                 }
                 $jsonrpc->makeSuccess(array());
             }

@@ -3,7 +3,7 @@
     <div class="container">
         <center>
             <img src="core/img/logo-jeedom-grand-nom-couleur.svg"/><br/><br/>
-             <div style="display: none;width : 100%" id="div_alert"></div>
+            <div style="display: none;width : 100%" id="div_alert"></div>
             <?php
             if (init('error') == 1) {
                 echo '<div class="alert alert-danger">{{Nom d\'utilisateur ou mot de passe incorrect !}}</div>';
@@ -35,23 +35,27 @@
             $('#div_alert').showAlert({message: 'Vous devez d\'abord entrer votre nom d\'utilisateur', level: 'danger'});
             return;
         }
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "core/ajax/user.ajax.php", // url du fichier php
-            data: {
-                action: 'forgotPassword',
-                login: $('#login').value(),
-            },
-            dataType: 'json',
-            error: function (request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function (data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                $('#div_alert').showAlert({message: 'Un nouveau mot de passe vient de vous être envoyé', level: 'success'});
+        bootbox.confirm('{{Etes-vous sûr de vouloir réinitialiser votre mot de passe ?}}', function (result) {
+            if (result) {
+                $.ajax({// fonction permettant de faire de l'ajax
+                    type: "POST", // methode de transmission des données au fichier php
+                    url: "core/ajax/user.ajax.php", // url du fichier php
+                    data: {
+                        action: 'forgotPassword',
+                        login: $('#login').value(),
+                    },
+                    dataType: 'json',
+                    error: function (request, status, error) {
+                        handleAjaxError(request, status, error);
+                    },
+                    success: function (data) { // si l'appel a bien fonctionné
+                        if (data.state != 'ok') {
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        $('#div_alert').showAlert({message: 'Un nouveau mot de passe vient de vous être envoyé', level: 'success'});
+                    }
+                });
             }
         });
     });

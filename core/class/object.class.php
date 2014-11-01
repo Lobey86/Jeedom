@@ -85,7 +85,7 @@ class object {
                 $object_return = utils::o2a($object);
                 $object_return['eqLogics'] = array();
                 foreach ($object->getEqLogic() as $eqLogic) {
-                    if ($eqLogic->getIsVisible() == 1) {
+                    if ($eqLogic->getIsVisible() == 1 && $eqLogic->getIsEnable() == 1) {
                         $eqLogic_return = utils::o2a($eqLogic);
                         $eqLogic_return['cmds'] = array();
                         foreach ($eqLogic->getCmd() as $cmd) {
@@ -103,7 +103,7 @@ class object {
                 $return[] = $object_return;
             }
         }
-        cache::set('api::object::full', '1', 0, array('result' => $return));
+        cache::set('api::object::full', json_encode($return), 0);
         return $return;
     }
 
