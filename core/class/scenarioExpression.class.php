@@ -402,10 +402,11 @@ class scenarioExpression {
                     $test = new evaluate();
                     $result = false;
                     $occurence = 0;
+                    $limit = (isset($options['timeout']) && is_numeric($options['timeout'])) ? $options['timeout'] : 7200;
                     while ($result === false) {
                         $expression = self::setTags($options['condition'],$scenario );
                         $result = $test->Evaluer($expression);
-                        if($occurence > 7200){
+                        if($occurence > $limit){
                             $result = true;
                         }
                         $occurence++;
