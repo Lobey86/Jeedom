@@ -200,6 +200,23 @@ class scenarioExpression {
         }
     }
 
+    public static function wait($_condition, $_timeout = 7200) {
+        $test = new evaluate();
+        $result = false;
+        $occurence = 0;
+        $limit = (is_numeric($_timeout)) ? $_timeout : 7200;
+        while ($result === false) {
+            $expression = self::setTags($_condition);
+            $result = $test->Evaluer($expression);
+            if ($occurence > $limit) {
+                return 0;
+            }
+            $occurence++;
+            sleep(1);
+        }
+        return 1;
+    }
+
     public static function min($_cmd_id, $_period = '1 hour') {
         $args = func_get_args();
         if (count($args) > 2 || strpos($_period, '#') !== false || is_numeric($_period)) {
@@ -404,9 +421,9 @@ class scenarioExpression {
                     $occurence = 0;
                     $limit = (isset($options['timeout']) && is_numeric($options['timeout'])) ? $options['timeout'] : 7200;
                     while ($result === false) {
-                        $expression = self::setTags($options['condition'],$scenario );
+                        $expression = self::setTags($options['condition'], $scenario);
                         $result = $test->Evaluer($expression);
-                        if($occurence > $limit){
+                        if ($occurence > $limit) {
                             $result = true;
                         }
                         $occurence++;
