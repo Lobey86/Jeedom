@@ -481,7 +481,7 @@ function printScenario(_id) {
             $('#span_lastLaunch').text(data.lastLaunch);
 
             $('#div_scenarioElement').empty();
-            $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement btn-sm"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a><br/><br/>');
+            $('#div_scenarioElement').append('<a class="btn btn-default bt_addScenarioElement"><i class="fa fa-plus-circle"></i> {{Ajouter Elément}}</a><br/><br/>');
             $('.provokeMode').empty();
             $('.scheduleMode').empty();
             $('.scenarioAttr[data-l1key=mode]').trigger('change');
