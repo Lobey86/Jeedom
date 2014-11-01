@@ -27,7 +27,8 @@ jeedom.history.drawChart = function (_params) {
     if ($.type(_params.dateRange) == 'object') {
         _params.dateRange = json_encode(_params.dateRange);
     }
-    _params.option = init(_params.option, {derive: 0});
+    _params.option = init(_params.option, {derive: ''});
+    console.log( _params.option);
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/cmd.ajax.php", // url du fichier php
@@ -37,7 +38,7 @@ jeedom.history.drawChart = function (_params) {
             dateRange: _params.dateRange || '',
             dateStart: _params.dateStart || '',
             dateEnd: _params.dateEnd || '',
-            derive: _params.option.derive || 0,
+            derive: _params.option.derive || '',
             allowZero: init(_params.option.allowZero, 1)
         },
         dataType: 'json',
@@ -70,13 +71,29 @@ jeedom.history.drawChart = function (_params) {
                 jeedom.history.chart[_params.el].cmd[parseInt(_params.cmd_id)] = null;
             }
 
-            _params.option.graphType = init(_params.option.graphType, 'line');
+           
             if (isset(jeedom.history.chart[_params.el])) {
                 _params.option.graphColor = init(_params.option.graphColor, Highcharts.getOptions().colors[init(jeedom.history.chart[_params.el].color, 0)]);
             } else {
                 _params.option.graphColor = init(_params.option.graphColor, Highcharts.getOptions().colors[0]);
             }
-            _params.option.graphStep = (!isset(_params.option.graphStep) && isset(data.result.cmd) && data.result.cmd.subType == 'binary') ? true : (_params.option.graphStep == 1) ? true : false;
+            
+            if (init(_params.option.graphStep) == '') {
+                if (init(data.result.cmd.display.graphStep) != '') {
+                    _params.option.graphStep = data.result.cmd.display.graphStep;
+                } else {
+                    _params.option.graphStep = (data.result.cmd.subType == 'binary') ? true : false;
+                }
+            }
+            
+            if (init(_params.option.graphType) == '') {
+                if (init(data.result.cmd.display.graphType) != '') {
+                    _params.option.graphType = data.result.cmd.display.graphType;
+                } else {
+                    _params.option.graphType = 'line';
+                }
+            }
+
             _params.option.graphStack = (_params.option.graphStack == undefined || _params.option.graphStack == null || _params.option.graphStack == 0) ? Math.floor(Math.random() * 10000 + 2) : 1;
             _params.option.graphScale = (_params.option.graphScale == undefined) ? 0 : parseInt(_params.option.graphScale);
             _params.showLegend = (init(_params.showLegend, true) && init(_params.showLegend, true) != "0") ? true : false;

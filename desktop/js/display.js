@@ -354,7 +354,6 @@ function displayCmd(_cmd_id) {
                     cmd.display.parameters[$(this).find('.key').value()] = $(this).find('.value').value();
                 });
 
-
                 jeedom.cmd.save({
                     cmd: cmd,
                     error: function (error) {
@@ -362,7 +361,8 @@ function displayCmd(_cmd_id) {
                     },
                     success: function () {
                         $('#div_alert').showAlert({message: '{{Enregistrement réussi}}', level: 'success'});
-                    }});
+                    }
+                });
             });
         }
     });

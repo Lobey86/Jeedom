@@ -18,8 +18,9 @@
 var chart;
 var noChart = 1;
 var colorChart = 0;
+var lastId = null;
 
-$(".li_history .history").on('click', function(event) {
+$(".li_history .history").on('click', function (event) {
     $.hideAlert();
     if ($(this).closest('.li_history').hasClass('active')) {
         $(this).closest('.li_history').removeClass('active');
@@ -27,21 +28,22 @@ $(".li_history .history").on('click', function(event) {
     } else {
         $(this).closest('.li_history').addClass('active');
         addChart($(this).closest('.li_history').attr('data-cmd_id'), 1);
+        lastId = $(this).closest('.li_history').attr('data-cmd_id');
     }
     return false;
 });
 
-$(".li_history .remove").on('click', function() {
+$(".li_history .remove").on('click', function () {
     var bt_remove = $(this);
     $.hideAlert();
-    bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'historique de}} <span style="font-weight: bold ;">' + bt_remove.closest('.li_history').find('.history').text() + '</span> ?', function(result) {
+    bootbox.confirm('{{Etes-vous sûr de vouloir supprimer l\'historique de}} <span style="font-weight: bold ;">' + bt_remove.closest('.li_history').find('.history').text() + '</span> ?', function (result) {
         if (result) {
             emptyHistory(bt_remove.closest('.li_history').attr('data-cmd_id'));
         }
     });
 });
 
-$(".li_history .export").on('click', function() {
+$(".li_history .export").on('click', function () {
     window.open('core/php/export.php?type=cmdHistory&id=' + $(this).closest('.li_history').attr('data-cmd_id'), "_blank", null);
 });
 
@@ -54,10 +56,10 @@ function emptyHistory(_cmd_id) {
             id: _cmd_id
         },
         dataType: 'json',
-        error: function(request, status, error) {
+        error: function (request, status, error) {
             handleAjaxError(request, status, error);
         },
-        success: function(data) {
+        success: function (data) {
             if (data.state != 'ok') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
@@ -69,8 +71,44 @@ function emptyHistory(_cmd_id) {
             }
         }
     });
-
 }
+
+$('#sel_chartType').on('change', function () {
+    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+    jeedom.cmd.save({
+        cmd: {id: lastId, display: {graphType: $(this).value()}},
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function () {
+            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+        }
+    });
+});
+$('#cb_derive').on('change', function () {
+    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+    jeedom.cmd.save({
+        cmd: {id: lastId, display: {graphDerive: $(this).value()}},
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function () {
+            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+        }
+    });
+});
+$('#cb_step').on('change', function () {
+    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+    jeedom.cmd.save({
+        cmd: {id: lastId, display: {graphStep: $(this).value()}},
+        error: function (error) {
+            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        },
+        success: function () {
+            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+        }
+    });
+});
 
 function addChart(_cmd_id, _action) {
     if (_action == 0) {
@@ -82,11 +120,6 @@ function addChart(_cmd_id, _action) {
             cmd_id: _cmd_id,
             el: 'div_graph',
             daterange: 'all',
-            option: {
-                graphType: $('#sel_chartType').value(),
-                derive: $('#cb_derive').value(),
-                graphStep : $('#cb_step').value(),
-            }
         });
     }
 }

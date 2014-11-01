@@ -17,7 +17,7 @@ if (!isConnect()) {
     } else {
         echo '<span class="pull-right">Variation : <input type="checkbox" data-cmd_id="#id#" class="cb_derive" /></span>';
     }
-     if (init('step', 0) == 1) {
+    if (init('step', 0) == 1) {
         echo '<span class="pull-right">Escalier : <input type="checkbox" data-cmd_id="#id#" class="cb_step" checked /></span>';
     } else {
         echo '<span class="pull-right">Escalier : <input type="checkbox" data-cmd_id="#id#" class="cb_step" /></span>';
@@ -25,16 +25,43 @@ if (!isConnect()) {
     ?>
     <script>
         $('.sel_chartType[data-cmd_id=#id#]').on('change', function () {
+            jeedom.cmd.save({
+                cmd: {id: <?php echo init('id') ?>, display: {graphType: $(this).value()}},
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function () {
+                    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+                }
+            });
             $('#md_modal').dialog({title: "{{Historique}}"});
-            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>&graphType=' + $('.sel_chartType[data-cmd_id=#id#]').value() + '&derive=' + $('.cb_derive[data-cmd_id=#id#]').value() + '&step=' + $('.cb_step[data-cmd_id=#id#]').value()).dialog('open');
+            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
         });
         $('.cb_derive[data-cmd_id=#id#]').on('change', function () {
+            jeedom.cmd.save({
+                cmd: {id: <?php echo init('id') ?>, display: {graphDerive: $(this).value()}},
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function () {
+                    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+                }
+            });
             $('#md_modal').dialog({title: "{{Historique}}"});
-            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>&graphType=' + $('.sel_chartType[data-cmd_id=#id#]').value() + '&derive=' + $('.cb_derive[data-cmd_id=#id#]').value() + '&step=' + $('.cb_step[data-cmd_id=#id#]').value()).dialog('open');
+            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
         });
         $('.cb_step[data-cmd_id=#id#]').on('change', function () {
+            jeedom.cmd.save({
+                cmd: {id: <?php echo init('id') ?>, display: {graphStep: $(this).value()}},
+                error: function (error) {
+                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                },
+                success: function () {
+                    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+                }
+            });
             $('#md_modal').dialog({title: "{{Historique}}"});
-            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>&graphType=' + $('.sel_chartType[data-cmd_id=#id#]').value() + '&derive=' + $('.cb_derive[data-cmd_id=#id#]').value() + '&step=' + $('.cb_step[data-cmd_id=#id#]').value()).dialog('open');
+            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
         });
         $('#div_historyChart').css('position', 'relative').css('width', '100%');
         delete jeedom.history.chart['div_historyChart'];
@@ -42,11 +69,6 @@ if (!isConnect()) {
             cmd_id: "<?php echo init('id') ?>",
             el: 'div_historyChart',
             daterange: 'all',
-            option: {
-                graphType: "<?php echo init('graphType', 'line') ?>",
-                derive: "<?php echo init('derive', 0) ?>",
-                graphStep: "<?php echo init('step', 0) ?>",
-            }
         });
     </script>
 </div>

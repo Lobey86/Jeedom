@@ -202,11 +202,15 @@ try {
             $return['cmd'] = utils::o2a($cmd);
             $return['eqLogic'] = utils::o2a($cmd->getEqLogic());
             $previsousValue = null;
+            $derive = init('derive', $cmd->getDisplay('graphDerive'));
+            if (trim($derive) == '') {
+                $derive = $cmd->getDisplay('graphDerive');
+            }
             foreach ($histories as $history) {
                 $info_history = array();
                 $info_history[] = floatval(strtotime($history->getDatetime() . " UTC")) * 1000;
                 $value = ($history->getValue() === null ) ? null : floatval($history->getValue());
-                if (init('derive') == 1) {
+                if ($derive == 1 || $derive == '1') {
                     if ($value !== null && $previsousValue != null) {
                         $value = $value - $previsousValue;
                     } else {
