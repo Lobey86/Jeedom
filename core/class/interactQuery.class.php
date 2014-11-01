@@ -407,9 +407,7 @@ class interactQuery {
                 }
             }
         }
-        $reply = str_replace(array_keys($replace), $replace, $reply);
-        log::add('interact','debug',$reply);
-        return jeedom::evaluateExpression($reply);
+        return jeedom::evaluateExpression(str_replace(array_keys($replace), $replace, $reply));
     }
 
     public function getInteractDef() {
