@@ -787,7 +787,7 @@ class scenario {
                 }
             } else {
                 if ($triggers != '') {
-                    $return .= '    - Evènement : ' . $triggers . "\n";
+                    $return .= '    - Evènement : ' . jeedom::toHumanReadable($triggers) . "\n";
                 }
             }
         }
