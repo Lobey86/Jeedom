@@ -20,6 +20,8 @@ var noChart = 1;
 var colorChart = 0;
 var lastId = null;
 
+initHistoryTrigger();
+
 $(".li_history .history").on('click', function (event) {
     $.hideAlert();
     if ($(this).closest('.li_history').hasClass('active')) {
@@ -73,42 +75,44 @@ function emptyHistory(_cmd_id) {
     });
 }
 
-$('#sel_chartType').on('change', function () {
-    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
-    jeedom.cmd.save({
-        cmd: {id: lastId, display: {graphType: $(this).value()}},
-        error: function (error) {
-            $('#div_alert').showAlert({message: error.message, level: 'danger'});
-        },
-        success: function () {
-            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
-        }
+function initHistoryTrigger() {
+    $('#sel_chartType').on('change', function () {
+        $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+        jeedom.cmd.save({
+            cmd: {id: lastId, display: {graphType: $(this).value()}},
+            error: function (error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function () {
+                $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+            }
+        });
     });
-});
-$('#cb_derive').on('change', function () {
-    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
-    jeedom.cmd.save({
-        cmd: {id: lastId, display: {graphDerive: $(this).value()}},
-        error: function (error) {
-            $('#div_alert').showAlert({message: error.message, level: 'danger'});
-        },
-        success: function () {
-            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
-        }
+    $('#cb_derive').on('change', function () {
+        $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+        jeedom.cmd.save({
+            cmd: {id: lastId, display: {graphDerive: $(this).value()}},
+            error: function (error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function () {
+                $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+            }
+        });
     });
-});
-$('#cb_step').on('change', function () {
-    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
-    jeedom.cmd.save({
-        cmd: {id: lastId, display: {graphStep: $(this).value()}},
-        error: function (error) {
-            $('#div_alert').showAlert({message: error.message, level: 'danger'});
-        },
-        success: function () {
-            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
-        }
+    $('#cb_step').on('change', function () {
+        $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+        jeedom.cmd.save({
+            cmd: {id: lastId, display: {graphStep: $(this).value()}},
+            error: function (error) {
+                $('#div_alert').showAlert({message: error.message, level: 'danger'});
+            },
+            success: function () {
+                $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+            }
+        });
     });
-});
+}
 
 function addChart(_cmd_id, _action) {
     if (_action == 0) {
@@ -120,6 +124,18 @@ function addChart(_cmd_id, _action) {
             cmd_id: _cmd_id,
             el: 'div_graph',
             daterange: 'all',
+            success: function (data) {
+                if (init(data.cmd.display.graphStep) != '') {
+                    $('#cb_step').off().value(init(data.cmd.display.graphStep));
+                }
+                if (init(data.cmd.display.graphType) != '') {
+                    $('#sel_chartType').off().value(init(data.cmd.display.graphType));
+                }
+                if (init(data.cmd.display.graphDerive) != '') {
+                    $('#cb_derive').off().value(init(data.cmd.display.graphDerive));
+                }
+                initHistoryTrigger();
+            }
         });
     }
 }

@@ -28,7 +28,6 @@ jeedom.history.drawChart = function (_params) {
         _params.dateRange = json_encode(_params.dateRange);
     }
     _params.option = init(_params.option, {derive: ''});
-    console.log( _params.option);
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
         url: "core/ajax/cmd.ajax.php", // url du fichier php
@@ -71,13 +70,13 @@ jeedom.history.drawChart = function (_params) {
                 jeedom.history.chart[_params.el].cmd[parseInt(_params.cmd_id)] = null;
             }
 
-           
+
             if (isset(jeedom.history.chart[_params.el])) {
                 _params.option.graphColor = init(_params.option.graphColor, Highcharts.getOptions().colors[init(jeedom.history.chart[_params.el].color, 0)]);
             } else {
                 _params.option.graphColor = init(_params.option.graphColor, Highcharts.getOptions().colors[0]);
             }
-            
+
             if (init(_params.option.graphStep) == '') {
                 if (init(data.result.cmd.display.graphStep) != '') {
                     _params.option.graphStep = data.result.cmd.display.graphStep;
@@ -85,7 +84,7 @@ jeedom.history.drawChart = function (_params) {
                     _params.option.graphStep = (data.result.cmd.subType == 'binary') ? true : false;
                 }
             }
-            
+
             if (init(_params.option.graphType) == '') {
                 if (init(data.result.cmd.display.graphType) != '') {
                     _params.option.graphType = data.result.cmd.display.graphType;
@@ -268,6 +267,9 @@ jeedom.history.drawChart = function (_params) {
                 jeedom.history.chart[_params.el].color = 0;
             }
             $.hideLoading();
+            if (typeof (init(_params.success)) == 'function') {
+                _params.success(data.result);
+            }
         }
     });
 }

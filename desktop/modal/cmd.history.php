@@ -24,51 +24,64 @@ if (!isConnect()) {
     }
     ?>
     <script>
-        $('.sel_chartType[data-cmd_id=#id#]').on('change', function () {
-            jeedom.cmd.save({
-                cmd: {id: <?php echo init('id') ?>, display: {graphType: $(this).value()}},
-                error: function (error) {
-                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                },
-                success: function () {
-                    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
-                }
-            });
-            $('#md_modal').dialog({title: "{{Historique}}"});
-            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
-        });
-        $('.cb_derive[data-cmd_id=#id#]').on('change', function () {
-            jeedom.cmd.save({
-                cmd: {id: <?php echo init('id') ?>, display: {graphDerive: $(this).value()}},
-                error: function (error) {
-                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                },
-                success: function () {
-                    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
-                }
-            });
-            $('#md_modal').dialog({title: "{{Historique}}"});
-            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
-        });
-        $('.cb_step[data-cmd_id=#id#]').on('change', function () {
-            jeedom.cmd.save({
-                cmd: {id: <?php echo init('id') ?>, display: {graphStep: $(this).value()}},
-                error: function (error) {
-                    $('#div_alert').showAlert({message: error.message, level: 'danger'});
-                },
-                success: function () {
-                    $('.li_history[data-cmd_id=' + lastId + '] .history').click();
-                }
-            });
-            $('#md_modal').dialog({title: "{{Historique}}"});
-            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
-        });
+
         $('#div_historyChart').css('position', 'relative').css('width', '100%');
         delete jeedom.history.chart['div_historyChart'];
         jeedom.history.drawChart({
             cmd_id: "<?php echo init('id') ?>",
             el: 'div_historyChart',
             daterange: 'all',
+            success: function (data) {
+                if (init(data.cmd.display.graphStep) != '') {
+                    $('.cb_step[data-cmd_id=#id#]').off().value(init(data.cmd.display.graphStep));
+                }
+                if (init(data.cmd.display.graphType) != '') {
+                    $('.sel_chartType[data-cmd_id=#id#]').off().value(init(data.cmd.display.graphType));
+                }
+                if (init(data.cmd.display.graphDerive) != '') {
+                    $('.cb_derive[data-cmd_id=#id#]').off().value(init(data.cmd.display.graphDerive));
+                }
+
+                $('.sel_chartType[data-cmd_id=#id#]').on('change', function () {
+                    jeedom.cmd.save({
+                        cmd: {id: <?php echo init('id') ?>, display: {graphType: $(this).value()}},
+                        error: function (error) {
+                            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                        },
+                        success: function () {
+                            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+                        }
+                    });
+                    $('#md_modal').dialog({title: "{{Historique}}"});
+                    $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
+                });
+                $('.cb_derive[data-cmd_id=#id#]').on('change', function () {
+                    jeedom.cmd.save({
+                        cmd: {id: <?php echo init('id') ?>, display: {graphDerive: $(this).value()}},
+                        error: function (error) {
+                            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                        },
+                        success: function () {
+                            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+                        }
+                    });
+                    $('#md_modal').dialog({title: "{{Historique}}"});
+                    $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
+                });
+                $('.cb_step[data-cmd_id=#id#]').on('change', function () {
+                    jeedom.cmd.save({
+                        cmd: {id: <?php echo init('id') ?>, display: {graphStep: $(this).value()}},
+                        error: function (error) {
+                            $('#div_alert').showAlert({message: error.message, level: 'danger'});
+                        },
+                        success: function () {
+                            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+                        }
+                    });
+                    $('#md_modal').dialog({title: "{{Historique}}"});
+                    $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
+                });
+            }
         });
     </script>
 </div>
