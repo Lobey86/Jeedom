@@ -395,6 +395,22 @@ class scenarioExpression {
                     $scenario->setDisplay('icon', $options['icon']);
                     $scenario->save();
                     return;
+                } else if ($this->getExpression() == 'wait') {
+                    if (!isset($options['condition'])) {
+                        return;
+                    }
+                    $test = new evaluate();
+                    $result = false;
+                    $occurence = 0;
+                    while ($result === false) {
+                        $expression = self::setTags($options['condition'],$scenario );
+                        $result = $test->Evaluer($expression);
+                        if($occurence > 7200){
+                            $result = true;
+                        }
+                        $occurence++;
+                    }
+                    return;
                 } else if ($this->getExpression() == 'sleep') {
                     if (isset($options['duration'])) {
                         try {
