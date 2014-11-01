@@ -101,6 +101,7 @@ if (!isConnect()) {
                 {{En plus des commandes domotiques vous avez accès aux fonctions suivantes : }}
                 <pre>
 {{sleep : pause de x seconde(s)
+wait : attend jusqu'a ce que la condition soit valide (maximum 2h)                         
 variable : création/modification d'une ou de la valeur d'une variable
 scenario : permet le controle des scénarios
 stop : arrête le scénario

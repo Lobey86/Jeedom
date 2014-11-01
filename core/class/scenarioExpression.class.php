@@ -409,6 +409,7 @@ class scenarioExpression {
                             $result = true;
                         }
                         $occurence++;
+                        sleep(1);
                     }
                     return;
                 } else if ($this->getExpression() == 'sleep') {
