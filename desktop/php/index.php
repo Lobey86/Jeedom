@@ -70,15 +70,15 @@ if (count($plugins_list) > 0) {
         </script>
         <script type="text/javascript" src="/socket.io/socket.io.js?1.1.0"></script>
         <?php
-       // if (!isConnect() || $_SESSION['user']->getOptions('bootstrap_theme') == '') {
-            include_file('3rdparty', 'bootstrap/css/bootstrap.min', 'css');
-      /*  } else {
-            try {
-                include_file('3rdparty', 'bootstrap/css/bootstrap.min.' . $_SESSION['user']->getOptions('bootstrap_theme'), 'css');
-            } catch (Exception $e) {
-                include_file('3rdparty', 'bootstrap/css/bootstrap.min', 'css');
-            }
-        }*/
+        // if (!isConnect() || $_SESSION['user']->getOptions('bootstrap_theme') == '') {
+        include_file('3rdparty', 'bootstrap/css/bootstrap.min', 'css');
+        /*  } else {
+          try {
+          include_file('3rdparty', 'bootstrap/css/bootstrap.min.' . $_SESSION['user']->getOptions('bootstrap_theme'), 'css');
+          } catch (Exception $e) {
+          include_file('3rdparty', 'bootstrap/css/bootstrap.min', 'css');
+          }
+          } */
         include_file('core', 'icon.inc', 'php');
         include_file('desktop', 'commun', 'css');
         include_file('core', 'core', 'css');
@@ -111,10 +111,11 @@ if (count($plugins_list) > 0) {
     </head>
     <body>
         <?php
+        sendVarToJS('jeedom_langage', config::byKey('language'));
         if (!isConnect()) {
             include_file('desktop', 'connection', 'php');
         } else {
-            sendVarToJS('jeedom_langage', config::byKey('language'));
+
             sendVarToJS('userProfils', $_SESSION['user']->getOptions());
             sendVarToJS('user_id', $_SESSION['user']->getId());
             sendVarToJS('user_login', $_SESSION['user']->getLogin());
