@@ -78,7 +78,7 @@ jeedom.history.drawChart = function (_params) {
             }
 
             if (init(_params.option.graphStep) == '') {
-                if (init(data.result.cmd.display.graphStep) != '') {
+                if (isset(data.result.cmd.display) && init(data.result.cmd.display.graphStep) != '') {
                     _params.option.graphStep = data.result.cmd.display.graphStep;
                 } else {
                     _params.option.graphStep = (data.result.cmd.subType == 'binary') ? true : false;
@@ -86,7 +86,7 @@ jeedom.history.drawChart = function (_params) {
             }
 
             if (init(_params.option.graphType) == '') {
-                if (init(data.result.cmd.display.graphType) != '') {
+                if (isset(data.result.cmd.display) && init(data.result.cmd.display.graphType) != '') {
                     _params.option.graphType = data.result.cmd.display.graphType;
                 } else {
                     _params.option.graphType = 'line';
