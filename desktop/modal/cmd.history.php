@@ -49,11 +49,11 @@ if (!isConnect()) {
                             $('#div_alert').showAlert({message: error.message, level: 'danger'});
                         },
                         success: function () {
-                            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+                            $('#md_modal').dialog({title: "{{Historique}}"});
+                            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
                         }
                     });
-                    $('#md_modal').dialog({title: "{{Historique}}"});
-                    $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
+
                 });
                 $('.cb_derive[data-cmd_id=#id#]').on('change', function () {
                     jeedom.cmd.save({
@@ -62,11 +62,10 @@ if (!isConnect()) {
                             $('#div_alert').showAlert({message: error.message, level: 'danger'});
                         },
                         success: function () {
-                            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+                            $('#md_modal').dialog({title: "{{Historique}}"});
+                            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
                         }
                     });
-                    $('#md_modal').dialog({title: "{{Historique}}"});
-                    $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
                 });
                 $('.cb_step[data-cmd_id=#id#]').on('change', function () {
                     jeedom.cmd.save({
@@ -75,11 +74,10 @@ if (!isConnect()) {
                             $('#div_alert').showAlert({message: error.message, level: 'danger'});
                         },
                         success: function () {
-                            $('.li_history[data-cmd_id=' + lastId + '] .history').click();
+                            $('#md_modal').dialog({title: "{{Historique}}"});
+                            $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
                         }
                     });
-                    $('#md_modal').dialog({title: "{{Historique}}"});
-                    $("#md_modal").load('index.php?v=d&modal=cmd.history&id=<?php echo init('id') ?>').dialog('open');
                 });
             }
         });
