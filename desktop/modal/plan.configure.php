@@ -125,6 +125,33 @@ sendVarToJS('id', $plan->getId());
                     <input class="planAttr form-control" data-l1key="display" data-l2key="name" />
                 </div>
             </div>
+
+            <?php if ($plan->getLink_type() == 'view') { ?>
+                <div class="form-group">
+                    <select class="form-control planAttr" data-l1key="link_id">
+                        <?php
+                        foreach (view::all() as $views) {
+                            echo '<option value="' . $views->getId() . '">' . $views->getName() . '</option>';
+                        }
+                        ?>   
+                    </select>
+                </div>
+                <?php
+            }
+            if ($plan->getLink_type() == 'plan') {
+                ?>
+                <div class="form-group">
+                    <select class="form-control planAttr" data-l1key="link_id">
+                        <?php
+                        foreach (planHeader::all() as $planHeader_select) {
+                            if ($planHeader_select->getId() != $plan->getPlanHeader_id()) {
+                                echo '<option value="' . $planHeader_select->getId() . '">' . $planHeader_select->getName() . '</option>';
+                            }
+                        }
+                        ?>   
+                    </select>
+                </div>
+            <?php } ?>
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Icône}}</label>
                 <div class="col-lg-2">
