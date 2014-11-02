@@ -276,7 +276,7 @@ if (count($plugins_list) > 0) {
                         echo '<div style="width : 100%" class="alert alert-warning">{{Erreur cron : les crons sont désactivés, aller dans Générale -> Administration -> Moteur de tache pour les réactiver}}</div>';
                     }
                     if (config::byKey('enableScenario') == 0) {
-                        echo '<div style="width : 100%" class="alert alert-warning">{{Erreur scéenario : tous les scénarios sont désactivés aller sur la page des scénarios pour les réactiver}}</div>';
+                        echo '<div style="width : 100%" class="alert alert-warning">{{Erreur scénario : tous les scénarios sont désactivés aller sur la page des scénarios pour les réactiver}}</div>';
                     }
                     ?>
                     <div style="display: none;width : 100%" id="div_alert"></div>
