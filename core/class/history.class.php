@@ -213,6 +213,67 @@ class history {
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function getPlurality($_cmd_id, $_startTime = null, $_endTime = null, $_period = 'day') {
+        $values = array(
+            'cmd_id' => $_cmd_id,
+        );
+        if ($_startTime != null) {
+            $values['startTime'] = $_startTime;
+        }
+        if ($_endTime != null) {
+            $values['endTime'] = $_endTime;
+        }
+        switch ($_period) {
+            case 'day':
+                $sql = 'SELECT cmd_id,`value`,DATE_FORMAT(`datetime`,"%Y-%m-%d 00:00:00") as `datetime`';
+                break;
+            case 'month':
+                $sql = 'SELECT cmd_id,`value`,DATE_FORMAT(`datetime`,"%Y-%m-01 00:00:00") as `datetime`';
+                break;
+            case 'year':
+                $sql = 'SELECT cmd_id,`value`,DATE_FORMAT(`datetime`,"%Y-01-01 00:00:00") as `datetime`';
+                break;
+            default :
+                $sql = 'SELECT ' . DB::buildField(__CLASS__);
+                break;
+        }
+
+        $sql .= ' FROM (
+                    SELECT ' . DB::buildField(__CLASS__) . '
+                    FROM history
+                    WHERE cmd_id=:cmd_id ';
+        if ($_startTime != null) {
+            $sql .= ' AND datetime>=:startTime';
+        }
+        if ($_endTime != null) {
+            $sql .= ' AND datetime<=:endTime';
+        }
+        $sql .= ' UNION ALL
+                    SELECT ' . DB::buildField(__CLASS__) . '
+                    FROM historyArch
+                    WHERE cmd_id=:cmd_id';
+        if ($_startTime != null) {
+            $sql .= ' AND `datetime`>=:startTime';
+        }
+        if ($_endTime != null) {
+            $sql .= ' AND `datetime`<=:endTime';
+        }
+        $sql .=' ) as dt';
+        switch ($_period) {
+            case 'day':
+                $sql .= ' GROUP BY date(`datetime`)';
+                break;
+            case 'month':
+                $sql .= ' GROUP BY month(`datetime`)';
+                break;
+            case 'year':
+                $sql .= ' GROUP BY YEAR(`datetime`)';
+                break;
+        }
+        $sql .= ' ORDER BY `datetime` ASC ';
+        return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+    }
+
     public static function getStatistique($_cmd_id, $_startTime, $_endTime) {
         $values = array(
             'cmd_id' => $_cmd_id,
