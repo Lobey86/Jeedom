@@ -359,7 +359,7 @@ if ((init('apikey') != '' || init('api') != '') && init('type') != '') {
                 $jsonrpc->makeSuccess(utils::o2a($scenario));
             }
 
-            if ($jsonrpc->getMethod() == 'scenario::changeSate') {
+            if ($jsonrpc->getMethod() == 'scenario::changeState') {
                 $scenario = cmd::byId($params['id']);
                 if (!is_object($scenario)) {
                     throw new Exception('Scenario introuvable : ' . $params['id'], -32702);
