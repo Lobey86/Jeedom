@@ -64,7 +64,7 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
                          <div class="form-group">
-                            <label class="col-lg-3 control-label">{{Liste utilisateur autorisés}}</label>
+                            <label class="col-lg-3 control-label">{{Liste des utilisateurs autorisés}}</label>
                             <div class="col-lg-9">
                                 <input class="form-control tooltips interactAttr" type="text" data-l1key="person" placeholder="" title="{{Liste des utilisateur (login) separé par un |}}"/>
                             </div>
@@ -125,7 +125,7 @@ if (!isConnect('admin')) {
             <div class="col-lg-6">
                 <form class="form-horizontal" id="div_filtre">
                     <fieldset>
-                        <legend>{{Filtre}}</legend>
+                        <legend>{{Filtres}}</legend>
 
                         <div class="form-group">
                             <label class="col-lg-6 control-label">{{Limiter aux commandes de type}}</label>
@@ -194,7 +194,7 @@ if (!isConnect('admin')) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-6 control-label">{{Limiter aux plugins}}</label>
+                            <label class="col-lg-6 control-label">{{Limiter au plugin}}</label>
                             <div class="col-lg-4">
                                 <select class='interactAttr form-control' data-l1key='filtres' data-l2key='plugin'>
                                     <option value="all">{{Tous}}</option>
@@ -208,7 +208,7 @@ if (!isConnect('admin')) {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-6 control-label">{{Limiter aux catégories}}</label>
+                            <label class="col-lg-6 control-label">{{Limiter à la catégorie}}</label>
                             <div class="col-lg-4">
                                 <select class='interactAttr form-control' data-l1key='filtres' data-l2key='eqLogic_category'>
                                     <option value="all">{{Toutes}}</option>
