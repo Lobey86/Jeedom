@@ -407,7 +407,7 @@ class interactQuery {
                 }
             }
         }
-        return jeedom::evaluateExpression(str_replace(array_keys($replace), $replace, $reply));
+        return scenarioExpression::setTags(str_replace(array_keys($replace), $replace, $reply));
     }
 
     public function getInteractDef() {

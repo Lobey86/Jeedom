@@ -514,7 +514,7 @@ class jeedom {
             $_input = scenarioExpression::setTags($_input);
             $test = new evaluate();
             $result = $test->Evaluer($_input);
-            if(is_bool($result) || is_numeric($result)){
+            if (is_bool($result) || is_numeric($result)) {
                 return $result;
             }
             return $_input;
