@@ -69,7 +69,7 @@ class scenario {
      * @return [] scenario object scenario
      */
     public static function all($_group = '') {
-        if ($_group == '') {
+        if ($_group === '') {
             $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . ' 
                     FROM scenario s
                     INNER JOIN object ob ON s.object_id=ob.id
@@ -79,6 +79,20 @@ class scenario {
                     FROM scenario s
                     WHERE s.object_id IS NULL
                     ORDER BY s.group, s.name';
+            $result2 = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+            return array_merge($result1, $result2);
+        } else if ($_group === null) {
+            $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '  
+                    FROM scenario s
+                    INNER JOIN object ob ON s.object_id=ob.id
+                    WHERE (`group` IS NULL OR `group` = "")
+                    ORDER BY ob.name, s.name';
+            $result1 = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
+            $sql = 'SELECT ' . DB::buildField(__CLASS__, 's') . '  
+                    FROM scenario s
+                    WHERE (`group` IS NULL OR `group` = "")
+                        AND s.object_id IS NULL
+                    ORDER BY  s.name';
             $result2 = DB::Prepare($sql, array(), DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
             return array_merge($result1, $result2);
         } else {
@@ -502,21 +516,39 @@ class scenario {
         return template_replace($replace, self::$_templateArray[$_version]);
     }
 
-    public function getIcon() {
-        if ($this->getIsActive() == 1) {
-            switch ($this->getState()) {
-                case 'in progress':
-                    return '<i class="fa fa-spinner fa-spin"></i>';
-                case 'error':
-                    return '<i class="fa fa-exclamation-triangle"></i>';
-                default:
-                    if (strpos($this->getDisplay('icon'), '<i') === 0) {
-                        return $this->getDisplay('icon');
-                    }
-                    return '<i class="fa fa-check"></i>';
+    public function getIcon($_only_class = false) {
+        if ($_only_class) {
+            if ($this->getIsActive() == 1) {
+                switch ($this->getState()) {
+                    case 'in progress':
+                        return 'fa fa-spinner fa-spin';
+                    case 'error':
+                        return 'fa fa-exclamation-triangle';
+                    default:
+                        if (strpos($this->getDisplay('icon'), '<i') === 0) {
+                            return str_replace(array('<i', 'class=', '"', '/>'), '', $this->getDisplay('icon'));
+                        }
+                        return 'fa fa-check';
+                }
+            } else {
+                return 'fa fa-times';
             }
         } else {
-            return '<i class="fa fa-times"></i>';
+            if ($this->getIsActive() == 1) {
+                switch ($this->getState()) {
+                    case 'in progress':
+                        return '<i class="fa fa-spinner fa-spin"></i>';
+                    case 'error':
+                        return '<i class="fa fa-exclamation-triangle"></i>';
+                    default:
+                        if (strpos($this->getDisplay('icon'), '<i') === 0) {
+                            return $this->getDisplay('icon');
+                        }
+                        return '<i class="fa fa-check"></i>';
+                }
+            } else {
+                return '<i class="fa fa-times"></i>';
+            }
         }
     }
 
@@ -799,7 +831,7 @@ class scenario {
         return object::byId($this->object_id);
     }
 
-    public function getHumanName($_complete = false) {
+    public function getHumanName($_complete = false, $_noGroup = false) {
         $return = '';
         if (is_numeric($this->getObject_id())) {
             $return .= '[' . $this->getObject()->getName() . ']';
@@ -808,11 +840,13 @@ class scenario {
                 $return .= '[' . __('Aucun', __FILE__) . ']';
             }
         }
-        if ($this->getGroup() != '') {
-            $return .= '[' . $this->getGroup() . ']';
-        } else {
-            if ($_complete) {
-                $return .= '[' . __('Aucun', __FILE__) . ']';
+        if (!$_noGroup) {
+            if ($this->getGroup() != '') {
+                $return .= '[' . $this->getGroup() . ']';
+            } else {
+                if ($_complete) {
+                    $return .= '[' . __('Aucun', __FILE__) . ']';
+                }
             }
         }
         $return .= '[' . $this->getName() . ']';

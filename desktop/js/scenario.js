@@ -50,6 +50,17 @@ if (getUrlVars('saveSuccessFull') == 1) {
     $('#div_alert').showAlert({message: '{{Sauvegarde effectuée avec succès}}', level: 'success'});
 }
 
+$('#div_tree').on('select_node.jstree', function (node, selected) {
+    if (selected.node.a_attr.class == 'li_scenario') {
+        $.hideAlert();
+        $(".li_scenario").removeClass('active');
+        $(this).addClass('active');
+        printScenario(selected.node.a_attr['data-scenario_id']);
+    }
+});
+
+$('#div_tree').jstree();
+
 $('.scenarioAttr[data-l1key=group]').autocomplete({
     source: function (request, response, url) {
         $.ajax({
@@ -77,10 +88,7 @@ $('.scenarioAttr[data-l1key=group]').autocomplete({
 });
 
 $(".li_scenario").on('click', function (event) {
-    $.hideAlert();
-    $(".li_scenario").removeClass('active');
-    $(this).addClass('active');
-    printScenario($(this).attr('data-scenario_id'));
+
 });
 
 $("#bt_changeAllScenarioState").on('click', function () {
@@ -407,13 +415,11 @@ $('body').delegate('.subElementAttr', 'change', function () {
 });
 
 if (is_numeric(getUrlVars('id'))) {
-    if ($('#ul_scenario .li_scenario[data-scenario_id=' + getUrlVars('id') + ']').length != 0) {
-        $('#ul_scenario .li_scenario[data-scenario_id=' + getUrlVars('id') + ']').click();
-    } else {
-        $('#ul_scenario .li_scenario:first').click();
-    }
+    $('#div_tree').jstree('deselect_all');
+    $('#div_tree').jstree('select_node', 'scenario' + getUrlVars('id'));
 } else {
-    $('#ul_scenario .li_scenario:first').click();
+    $('#div_tree').jstree('deselect_all');
+    $('#div_tree').jstree('select_node', $('.li_scenario:first').attr('id'));
 }
 
 function updateSortable() {

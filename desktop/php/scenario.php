@@ -11,54 +11,57 @@ include_file('3rdparty', 'codemirror/addon/edit/matchbrackets', 'js');
 include_file('3rdparty', 'codemirror/mode/htmlmixed/htmlmixed', 'js');
 include_file('3rdparty', 'codemirror/mode/clike/clike', 'js');
 include_file('3rdparty', 'codemirror/mode/php/php', 'js');
+include_file('3rdparty', 'jquery.tree/themes/default/style.min', 'css');
+include_file('3rdparty', 'jquery.tree/jquery.tree', 'js');
 ?>
 
 
 <div class="row row-overflow">
     <div class="col-lg-2">
-        <div class="bs-sidebar">
-            <ul id="ul_scenario" class="nav nav-list bs-sidenav">   
-                <center>
-                    <?php
-                    if (config::byKey('enableScenario') == 0) {
-                        echo '<a class="btn btn-sm btn-success expertModeVisible" id="bt_changeAllScenarioState" data-state="1" style="width : 49%;min-width : 127px;margin-top : 3px;text-shadow: none" ><i class="fa fa-check"></i> {{Act. scénarios}}</a>';
-                    } else {
-                        echo '<a class="btn btn-sm btn-danger expertModeVisible" id="bt_changeAllScenarioState" data-state="0" style="width : 49%;min-width : 127px;margin-top : 3px;text-shadow: none" ><i class="fa fa-times"></i> {{Désac. scénarios}}</a>';
-                    }
-                    ?>
-                    <a class="btn btn-default btn-sm tooltips expertModeVisible" id="bt_displayScenarioVariable" title="{{Voir toutes les variables de scénario}}" style="width : 49%;min-width : 127px;margin-top : 3px;"><i class="fa fa fa-eye" style="font-size : 1.5em;"></i> {{Voir variables}}</a>
-                </center>
-                <a class="btn btn-default" id="bt_addScenario" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle cursor" ></i> Nouveau scénario</a>
-                <li class="filter"> 
-                    <select style="width: 100%;margin-bottom: 5px;" id="sel_group" class="form-control input-sm">
-                        <option value=''>{{Tous}}</option>
+        <div class="bs-sidebar nav nav-list bs-sidenav"> 
+            <center>
+                <?php
+                if (config::byKey('enableScenario') == 0) {
+                    echo '<a class="btn btn-sm btn-success expertModeVisible" id="bt_changeAllScenarioState" data-state="1" style="width : 49%;min-width : 127px;margin-top : 3px;text-shadow: none" ><i class="fa fa-check"></i> {{Act. scénarios}}</a>';
+                } else {
+                    echo '<a class="btn btn-sm btn-danger expertModeVisible" id="bt_changeAllScenarioState" data-state="0" style="width : 49%;min-width : 127px;margin-top : 3px;text-shadow: none" ><i class="fa fa-times"></i> {{Désac. scénarios}}</a>';
+                }
+                ?>
+                <a class="btn btn-default btn-sm tooltips expertModeVisible" id="bt_displayScenarioVariable" title="{{Voir toutes les variables de scénario}}" style="width : 49%;min-width : 127px;margin-top : 3px;"><i class="fa fa fa-eye" style="font-size : 1.5em;"></i> {{Voir variables}}</a>
+            </center>
+            <a class="btn btn-default" id="bt_addScenario" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-plus-circle cursor" ></i> Nouveau scénario</a>
+
+            <div id="div_tree">
+                <ul id="ul_scenario" >  
+                    <li data-jstree='{"opened":true}'>
+                        <a>Aucune</a>
+                        <ul>
+                            <?php
+                            foreach (scenario::all(null) as $scenario) {
+                                echo '<li data-jstree=\'{"opened":true,"icon":"' . $scenario->getIcon(true) . '"}\'>';
+                                echo ' <a class="li_scenario" id="scenario' . $scenario->getId() . '" data-scenario_id="' . $scenario->getId() . '" >' . $scenario->getHumanName(false, true) . '</a>';
+                                echo '</li>';
+                            }
+                            ?>
+                        </ul>
                         <?php
                         foreach (scenario::listGroup() as $group) {
                             if ($group['group'] != '') {
-                                if (init('group') == $group['group'] && init('group') != '') {
-                                    echo '<option selected>' . $group['group'] . '</option>';
-                                } else {
-                                    echo '<option>' . $group['group'] . '</option>';
+                                echo '<li data-jstree=\'{"opened":true}\'>';
+                                echo '<a>' . $group['group'] . '</a>';
+                                echo '<ul>';
+                                foreach (scenario::all($group['group']) as $scenario) {
+                                    echo '<li data-jstree=\'{"opened":true,"icon":"' . $scenario->getIcon(true) . '"}\'>';
+                                    echo ' <a class="li_scenario" id="scenario' . $scenario->getId() . '" data-scenario_id="' . $scenario->getId() . '" >' . $scenario->getHumanName(false, true) . '</a>';
+                                    echo '</li>';
                                 }
+                                echo '</ul>';
+                                echo '</li>';
                             }
                         }
-                        ?>            
-                    </select></li>
-                <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="Rechercher" style="width: 100%"/></li>
-
-                <?php
-                foreach (scenario::all(init('group')) as $scenario) {
-                    echo '<li class="cursor li_scenario" id="scenario' . $scenario->getId() . '" data-scenario_id="' . $scenario->getId() . '">';
-                    echo '<a>';
-                    echo $scenario->getHumanName();
-                    echo '<span class="pull-right">';
-                    echo $scenario->getIcon();
-                    echo '</span>';
-                    echo '</a>';
-                    echo '</li>';
-                }
-                ?>
-            </ul>
+                        ?>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="col-lg-10" id="div_editScenario" style="display: none; border-left: solid 1px #EEE; padding-left: 25px;">

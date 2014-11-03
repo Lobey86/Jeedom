@@ -17,7 +17,6 @@
 
 
 $('#div_tree').on('select_node.jstree', function (node, selected) {
-
     if (selected.node.a_attr.class == 'infoObject') {
         displayObject(selected.node.a_attr['data-object_id']);
     }
