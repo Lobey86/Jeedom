@@ -225,13 +225,13 @@ class history {
         }
         switch ($_period) {
             case 'day':
-                $sql = 'SELECT cmd_id,`value`,DATE_FORMAT(`datetime`,"%Y-%m-%d 00:00:00") as `datetime`';
+                $sql = 'SELECT cmd_id,MAX(`value`) as `value`,DATE_FORMAT(`datetime`,"%Y-%m-%d 00:00:00") as `datetime`';
                 break;
             case 'month':
-                $sql = 'SELECT cmd_id,`value`,DATE_FORMAT(`datetime`,"%Y-%m-01 00:00:00") as `datetime`';
+                $sql = 'SELECT cmd_id,MAX(`value`) as `value`,DATE_FORMAT(`datetime`,"%Y-%m-01 00:00:00") as `datetime`';
                 break;
             case 'year':
-                $sql = 'SELECT cmd_id,`value`,DATE_FORMAT(`datetime`,"%Y-01-01 00:00:00") as `datetime`';
+                $sql = 'SELECT cmd_id,MAX(`value`) as `value`,DATE_FORMAT(`datetime`,"%Y-01-01 00:00:00") as `datetime`';
                 break;
             default :
                 $sql = 'SELECT ' . DB::buildField(__CLASS__);
