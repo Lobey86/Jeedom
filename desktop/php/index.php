@@ -165,6 +165,9 @@ if (count($plugins_list) > 0) {
                                                 <ul class="dropdown-menu">
                                                     <li><a href="index.php?v=d&p=administration" tabindex="0"><i class="fa fa-wrench"></i> {{Configuration}}</a></li>
                                                     <li><a href="index.php?v=d&p=user"><i class="fa fa-users"></i> {{Utilisateurs}}</a></li>
+                                                    <?php if (config::byKey('jeedom::licence') > 9) { ?>
+                                                        <li><a href="index.php?v=d&p=rights"><i class="fa fa-graduation-cap"></i> {{Gestion des droits avancés}}</a></li>
+                                                    <?php } ?>
                                                     <li><a href="index.php?v=d&p=backup"><i class="fa fa-floppy-o"></i> {{Sauvegarde}}</a></li>
                                                     <li><a href="index.php?v=d&p=update"><i class="fa fa-refresh"></i> {{Centre de mise à jour}}</a></li>
                                                     <?php if (config::byKey('jeeNetwork::mode') == 'master') { ?>
