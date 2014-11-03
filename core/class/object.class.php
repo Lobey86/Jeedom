@@ -89,13 +89,11 @@ class object {
                         $eqLogic_return = utils::o2a($eqLogic);
                         $eqLogic_return['cmds'] = array();
                         foreach ($eqLogic->getCmd() as $cmd) {
-                            if ($cmd->getIsVisible() == 1) {
-                                $cmd_return = utils::o2a($cmd);
-                                if ($cmd->getType() == 'info') {
-                                    $cmd_return['state'] = $cmd->execCmd();
-                                }
-                                $eqLogic_return['cmds'][] = $cmd_return;
+                            $cmd_return = utils::o2a($cmd);
+                            if ($cmd->getType() == 'info') {
+                                $cmd_return['state'] = $cmd->execCmd();
                             }
+                            $eqLogic_return['cmds'][] = $cmd_return;
                         }
                         $object_return['eqLogics'][] = $eqLogic_return;
                     }
