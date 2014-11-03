@@ -79,12 +79,11 @@ jeedom.history.drawChart = function (_params) {
 
             if (init(_params.option.graphStep) == '') {
                 if (isset(data.result.cmd.display) && init(data.result.cmd.display.graphStep) != '') {
-                    _params.option.graphStep = data.result.cmd.display.graphStep;
+                    _params.option.graphStep = (data.result.cmd.display.graphStep == "0") ? false : true;
                 } else {
                     _params.option.graphStep = (data.result.cmd.subType == 'binary') ? true : false;
                 }
             }
-
             if (init(_params.option.graphType) == '') {
                 if (isset(data.result.cmd.display) && init(data.result.cmd.display.graphType) != '') {
                     _params.option.graphType = data.result.cmd.display.graphType;

@@ -18,7 +18,6 @@ sendVarToJS('id', $plan->getId());
         <legend>Général</legend>
         <input type="text"  class="planAttr form-control" data-l1key="id" style="display: none;"/>
         <input type="text"  class="planAttr form-control" data-l1key="link_type" style="display: none;"/>
-        <input type="text"  class="planAttr form-control" data-l1key="link_id" style="display: none;"/>
         <?php if ($plan->getLink_type() == 'eqLogic' || $plan->getLink_type() == 'scenario') { ?>
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Taille du widget}}</label>
@@ -125,6 +124,39 @@ sendVarToJS('id', $plan->getId());
                     <input class="planAttr form-control" data-l1key="display" data-l2key="name" />
                 </div>
             </div>
+
+            <?php if ($plan->getLink_type() == 'view') { ?>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">{{Lien}}</label>
+                    <div class="col-lg-2">
+                        <select class="form-control planAttr" data-l1key="link_id">
+                            <?php
+                            foreach (view::all() as $views) {
+                                echo '<option value="' . $views->getId() . '">' . $views->getName() . '</option>';
+                            }
+                            ?>   
+                        </select>
+                    </div>
+                </div>
+                <?php
+            }
+            if ($plan->getLink_type() == 'plan') {
+                ?>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">{{Lien}}</label>
+                    <div class="col-lg-2">
+                        <select class="form-control planAttr" data-l1key="link_id">
+                            <?php
+                            foreach (planHeader::all() as $planHeader_select) {
+                                if ($planHeader_select->getId() != $plan->getPlanHeader_id()) {
+                                    echo '<option value="' . $planHeader_select->getId() . '">' . $planHeader_select->getName() . '</option>';
+                                }
+                            }
+                            ?>   
+                        </select>
+                    </div>
+                </div>
+            <?php } ?>
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Icône}}</label>
                 <div class="col-lg-2">

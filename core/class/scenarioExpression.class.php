@@ -400,7 +400,7 @@ class scenarioExpression {
                 return;
             }
             $options = $this->getOptions();
-            if (is_array($options)) {
+            if (is_array($options) && $this->getExpression() != 'wait') {
                 foreach ($options as $key => $value) {
                     $options[$key] = str_replace('"', '', self::setTags($value, $scenario));
                 }
@@ -420,11 +420,12 @@ class scenarioExpression {
                     $result = false;
                     $occurence = 0;
                     $limit = (isset($options['timeout']) && is_numeric($options['timeout'])) ? $options['timeout'] : 7200;
-                    while ($result === false) {
+                    while ($result !== true) {
                         $expression = self::setTags($options['condition'], $scenario);
                         $result = $test->Evaluer($expression);
                         if ($occurence > $limit) {
-                            $result = true;
+                            $this->setLog($scenario, __('[Wait] Condition valide par dépassement de temps', __FILE__));
+                            return;
                         }
                         $occurence++;
                         sleep(1);
