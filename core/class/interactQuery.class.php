@@ -62,6 +62,7 @@ class interactQuery {
         if ($_enable) {
             $sql .= ' AND enable=1';
         }
+        $sql .= ' ORDER BY `query`s';
         return DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
     }
 
