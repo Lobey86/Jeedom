@@ -29,7 +29,7 @@ Bienvenue dans Jeedom, et merci d'avoir choisi cet outil pour votre habitat conn
 
 <legend>Etape 3 : créer vos objets</legend>
 <p>
-    Allez <a target="_blank" href='index.php?v=d&p=objet&noFirstUse=1'>ici</a>, puis cliquez sur "Ajouter un objet", donnez lui un nom et voilà votre premier objet est créé. 
+    Allez <a target="_blank" href='index.php?v=d&p=object&noFirstUse=1'>ici</a>, puis cliquez sur "Ajouter un objet", donnez lui un nom et voilà votre premier objet est créé. 
     Ici vous pouvez aussi créer toute une hiérarchie d'objets qui peuvent représenter votre habitat.
 </p>
 
